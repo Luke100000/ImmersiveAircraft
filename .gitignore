@@ -21,7 +21,6 @@ build
 eclipse
 run
 backup
-/common/src/main/resources/assets/immersive_airships/textures/models/armor/emerald
 
 # Files from Forge MDK
 forge*changelog.txt
@@ -33,6 +32,9 @@ forge*changelog.txt
 # Files from architectury
 .architectury-transformer
 /logs
-/common/src/main/resources/assets/immersive_armors/textures/*.psd
 /.vscode
 /curseforge
+
+*.kra
+*.kra~
+*.png~
