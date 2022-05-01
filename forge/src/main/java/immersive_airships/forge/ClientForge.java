@@ -1,6 +1,7 @@
 package immersive_airships.forge;
 
 import immersive_airships.Main;
+import immersive_airships.Renderer;
 import immersive_airships.forge.cobalt.registration.RegistrationImpl;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,5 +14,7 @@ public final class ClientForge {
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
         RegistrationImpl.bootstrap();
+
+        Renderer.bootstrap();
     }
 }

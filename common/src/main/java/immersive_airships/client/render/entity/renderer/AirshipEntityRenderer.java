@@ -12,13 +12,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
-public abstract class AirshipEntityRenderer extends EntityRenderer<AirshipEntity> {
+public abstract class AirshipEntityRenderer<T extends AirshipEntity> extends EntityRenderer<T> {
     public AirshipEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
     }
 
     @Override
-    public void render(AirshipEntity entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    public void render(T entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
         matrixStack.translate(0.0, 0.375, 0.0);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f - f));
@@ -32,9 +32,11 @@ public abstract class AirshipEntityRenderer extends EntityRenderer<AirshipEntity
         }
 
         Identifier identifier = getTexture(entity);
-        CompositeEntityModel<AirshipEntity> AirshipEntityModel = getModel(entity);
+        CompositeEntityModel<T> AirshipEntityModel = getModel(entity);
         matrixStack.scale(-1.0f, -1.0f, 1.0f);
+        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-entity.airshipPitch));
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0f));
+        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.yawVelocity * 5.0f));
         AirshipEntityModel.setAngles(entity, g, 0.0f, -0.1f, 0.0f, 0.0f);
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(AirshipEntityModel.getLayer(identifier));
         AirshipEntityModel.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
@@ -43,6 +45,6 @@ public abstract class AirshipEntityRenderer extends EntityRenderer<AirshipEntity
         super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
     }
 
-    abstract CompositeEntityModel<AirshipEntity> getModel(AirshipEntity entity);
+    abstract CompositeEntityModel<T> getModel(AirshipEntity entity);
 }
 

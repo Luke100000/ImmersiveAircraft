@@ -5,21 +5,21 @@ import immersive_airships.entity.AirshipEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.CompositeEntityModel;
 
-public class AirshipEntityModel extends CompositeEntityModel<AirshipEntity> {
-    private static final String BODY = "body";
-    private static final String LEFT_WING = "left_wing";
-    private static final String RIGHT_WING = "right_wing";
-    private static final String PROPELLER = "propeller";
-    private static final String PROPELLER_DISABLED = "propeller_disabled";
-    private static final String CONTROLLER = "controller";
+public class AirshipEntityModel<T extends AirshipEntity> extends CompositeEntityModel<T> {
+    static final String BODY = "body";
+    static final String LEFT_WING = "left_wing";
+    static final String RIGHT_WING = "right_wing";
+    static final String PROPELLER = "propeller";
+    static final String PROPELLER_DISABLED = "propeller_disabled";
+    static final String CONTROLLER = "controller";
 
-    private final ImmutableList<ModelPart> parts;
+    final ImmutableList<ModelPart> parts;
 
-    private final ModelPart leftWing;
-    private final ModelPart rightWing;
-    private final ModelPart propeller;
-    private final ModelPart propellerDisabled;
-    private final ModelPart controller;
+    final ModelPart leftWing;
+    final ModelPart rightWing;
+    final ModelPart propeller;
+    final ModelPart propellerDisabled;
+    final ModelPart controller;
 
     public AirshipEntityModel(ModelPart root) {
         this.parts = ImmutableList.of(
@@ -80,13 +80,8 @@ public class AirshipEntityModel extends CompositeEntityModel<AirshipEntity> {
     }
 
     @Override
-    public void setAngles(AirshipEntity airshipEntity, float f, float g, float h, float i, float j) {
-        float second = (float)((System.currentTimeMillis() % 1000000) / 1000D);
-        propeller.yaw = second * 16.0f;
-        leftWing.pitch = (float)Math.cos(second) * 0.1f;
-        rightWing.pitch = (float)Math.cos(second) * 0.1f;
-        controller.pitch = (float)Math.cos(second) * 0.1f;
-        controller.roll = (float)Math.cos(second * 1.7) * 0.1f;
+    public void setAngles(T airshipEntity, float f, float g, float h, float i, float j) {
+
     }
 
     public ImmutableList<ModelPart> getParts() {
