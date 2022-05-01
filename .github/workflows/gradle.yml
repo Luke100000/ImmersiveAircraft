@@ -1,0 +1,63 @@
+name: Java CI with Gradle
+
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+      - name: Fetch Tags
+        run: git fetch --unshallow --tags
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle - Forge
+        run: ./gradlew :forge:build
+      - name: Build with Gradle - Fabric
+        run: ./gradlew :fabric:build
+      - name: Upload Artifacts - Forge
+        uses: actions/upload-artifact@v2
+        with:
+          name: forge_artifacts
+          path: ./forge/build/libs/
+      - name: Upload Artifacts - Fabric
+        uses: actions/upload-artifact@v2
+        with:
+          name: fabric_artifacts
+          path: ./fabric/build/libs/
+      - name: Get tag
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+      - name: "Upload Fabric to CurseForge"
+        uses: itsmeow/curseforge-upload@v3
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        with:
+          file_path: "fabric/build/libs/immersive_airships-${{steps.tag.outputs.tag}}.jar"
+          display_name: "[Fabric 1.18.2] Immersive ImmersiveAirships - ${{steps.tag.outputs.tag}}"
+          game_endpoint: "minecraft"
+          relations: ""
+          game_versions: "Minecraft 1.18:1.18.2,Java 16,Fabric"
+          project_id: "580681"
+          token: "${{ secrets.CF_API_TOKEN }}"
+          changelog_type: "markdown"
+          changelog: "Full changelog can be found in the [GitHub Repo](https://github.com/Luke100000/ImmersiveAirships/blob/1.18.2/changelog.md)"
+          release_type: "release"
+      - name: "Upload Forge to CurseForge"
+        uses: itsmeow/curseforge-upload@v3
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        with:
+          file_path: "forge/build/libs/immersive_airships-${{steps.tag.outputs.tag}}.jar"
+          display_name: "[Forge 1.18.2] Immersive Armors - ${{steps.tag.outputs.tag}}"
+          game_endpoint: "minecraft"
+          game_versions: "Minecraft 1.18:1.18.2,Java 16,Forge"
+          project_id: "580681"
+          token: "${{ secrets.CF_API_TOKEN }}"
+          changelog_type: "markdown"
+          changelog: "Full changelog can be found in the [GitHub Repo](https://github.com/Luke100000/ImmersiveAirships/blob/1.18.2/changelog.md)"
+          release_type: "release"
