@@ -3,6 +3,7 @@ package immersive_airships.forge;
 import immersive_airships.Entities;
 import immersive_airships.Items;
 import immersive_airships.Main;
+import immersive_airships.Renderer;
 import immersive_airships.forge.cobalt.network.NetworkHandlerImpl;
 import immersive_airships.forge.cobalt.registration.RegistrationImpl;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,9 +21,10 @@ public final class CommonForge {
     }
 
     @SubscribeEvent
-    public static void onRegistryEvent(RegistryEvent event) {
+    public static void onRegistryEvent(RegistryEvent<?> event) {
         Items.bootstrap();
         Entities.bootstrap();
+        Renderer.bootstrap();
     }
 
     @SubscribeEvent

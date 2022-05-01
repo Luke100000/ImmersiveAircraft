@@ -10,9 +10,12 @@ import java.util.function.Supplier;
 import immersive_airships.cobalt.registration.Registration;
 import immersive_airships.cobalt.registration.Registration.ProfessionFactory;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.mixin.object.builder.VillagerProfessionAccessor;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
@@ -29,7 +32,12 @@ import net.minecraft.village.VillagerProfession;
 
 public class RegistrationImpl extends Registration.Impl {
     @Override
-    public <T> T register(Registry<? super T> registry, Identifier id, T obj) {
+    public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererFactory<T> constructor) {
+        EntityRendererRegistry.register(type, constructor);
+    }
+
+    @Override
+    public <T> T registerEntityRenderer(Registry<? super T> registry, Identifier id, T obj) {
         return Registry.register(registry, id, obj);
     }
 
@@ -69,6 +77,6 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public ProfessionFactory<VillagerProfession> profession() {
-        return (id, poi, sound, items, sites) -> register(Registry.VILLAGER_PROFESSION, id, VillagerProfessionAccessor.create(id.toString().replace(':', '.'), poi, ImmutableSet.copyOf(items), ImmutableSet.copyOf(sites), sound));
+        return (id, poi, sound, items, sites) -> registerEntityRenderer(Registry.VILLAGER_PROFESSION, id, VillagerProfessionAccessor.create(id.toString().replace(':', '.'), poi, ImmutableSet.copyOf(items), ImmutableSet.copyOf(sites), sound));
     }
 }

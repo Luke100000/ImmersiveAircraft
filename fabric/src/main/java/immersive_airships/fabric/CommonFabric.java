@@ -2,6 +2,7 @@ package immersive_airships.fabric;
 
 import immersive_airships.Entities;
 import immersive_airships.Items;
+import immersive_airships.Renderer;
 import immersive_airships.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_airships.fabric.cobalt.registration.RegistrationImpl;
 import immersive_airships.server.Command;
@@ -16,6 +17,7 @@ public final class CommonFabric implements ModInitializer {
 
         Items.bootstrap();
         Entities.bootstrap();
+        Renderer.bootstrap();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> Command.register(dispatcher));
     }
