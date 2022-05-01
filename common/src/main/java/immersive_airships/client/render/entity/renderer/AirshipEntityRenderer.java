@@ -10,7 +10,6 @@ import net.minecraft.client.render.entity.model.CompositeEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 
 public abstract class AirshipEntityRenderer extends EntityRenderer<AirshipEntity> {
@@ -30,9 +29,6 @@ public abstract class AirshipEntityRenderer extends EntityRenderer<AirshipEntity
         }
         if (h > 0.0f) {
             matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
-        }
-        if (!MathHelper.approximatelyEquals(entity.interpolateBubbleWobble(g), 0.0f)) {
-            matrixStack.multiply(new Quaternion(new Vec3f(1.0f, 0.0f, 1.0f), entity.interpolateBubbleWobble(g), true));
         }
 
         Identifier identifier = getTexture(entity);

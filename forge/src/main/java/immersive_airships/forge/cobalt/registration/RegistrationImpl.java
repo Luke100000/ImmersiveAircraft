@@ -58,7 +58,7 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererFactory<T> constructor) {
-        EntityRenderers.register(Entities.GYRODYNE, AirshipEntityRenderer::new);
+        EntityRenderers.register(type, constructor);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

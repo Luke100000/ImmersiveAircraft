@@ -20,12 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.c2s.play.BoatPaddleStateC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -47,10 +44,7 @@ public class AirshipEntity extends Entity {
     private static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Integer> BOAT_TYPE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Boolean> LEFT_PADDLE_MOVING = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Boolean> RIGHT_PADDLE_MOVING = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Integer> BUBBLE_WOBBLE_TICKS = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private final float[] paddlePhases = new float[2];
+
     private float ticksUnderwater;
     private float yawVelocity;
     private int field_7708;
@@ -68,11 +62,6 @@ public class AirshipEntity extends Entity {
     private Location location;
     private Location lastLocation;
     private double fallVelocity;
-    private boolean onBubbleColumnSurface;
-    private boolean bubbleColumnIsDrag;
-    private float bubbleWobbleStrength;
-    private float bubbleWobble;
-    private float lastBubbleWobble;
 
     public AirshipEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
@@ -95,9 +84,6 @@ public class AirshipEntity extends Entity {
         this.dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         this.dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0f);
         this.dataTracker.startTracking(BOAT_TYPE, Type.OAK.ordinal());
-        this.dataTracker.startTracking(LEFT_PADDLE_MOVING, false);
-        this.dataTracker.startTracking(RIGHT_PADDLE_MOVING, false);
-        this.dataTracker.startTracking(BUBBLE_WOBBLE_TICKS, 0);
     }
 
     @Override
@@ -153,13 +139,6 @@ public class AirshipEntity extends Entity {
 
     @Override
     public void onBubbleColumnSurfaceCollision(boolean drag) {
-        if (!this.world.isClient) {
-            this.onBubbleColumnSurface = true;
-            this.bubbleColumnIsDrag = drag;
-            if (this.getBubbleWobbleTicks() == 0) {
-                this.setBubbleWobbleTicks(60);
-            }
-        }
         this.world.addParticle(ParticleTypes.SPLASH, this.getX() + (double)this.random.nextFloat(), this.getY() + 0.7, this.getZ() + (double)this.random.nextFloat(), 0.0, 0.0, 0.0);
         if (this.random.nextInt(20) == 0) {
             this.world.playSound(this.getX(), this.getY(), this.getZ(), this.getSplashSound(), this.getSoundCategory(), 1.0f, 0.8f + 0.4f * this.random.nextFloat(), false);
@@ -252,34 +231,15 @@ public class AirshipEntity extends Entity {
         super.tick();
         this.method_7555();
         if (this.isLogicalSideForUpdatingMovement()) {
-            if (!(this.getFirstPassenger() instanceof PlayerEntity)) {
-                this.setPaddleMovings(false, false);
-            }
             this.updateVelocity();
             if (this.world.isClient) {
                 this.updatePaddles();
-                this.world.sendPacket(new BoatPaddleStateC2SPacket(this.isPaddleMoving(0), this.isPaddleMoving(1)));
             }
             this.move(MovementType.SELF, this.getVelocity());
         } else {
             this.setVelocity(Vec3d.ZERO);
         }
-        this.handleBubbleColumn();
-        for (int i = 0; i <= 1; ++i) {
-            if (this.isPaddleMoving(i)) {
-                SoundEvent soundEvent;
-                if (!this.isSilent() && (double)(this.paddlePhases[i] % ((float)Math.PI * 2)) <= 0.7853981852531433 && (double)((this.paddlePhases[i] + 0.3926991f) % ((float)Math.PI * 2)) >= 0.7853981852531433 && (soundEvent = this.getPaddleSoundEvent()) != null) {
-                    Vec3d vec3d = this.getRotationVec(1.0f);
-                    double d = i == 1 ? -vec3d.z : vec3d.z;
-                    double e = i == 1 ? vec3d.x : -vec3d.x;
-                    this.world.playSound(null, this.getX() + d, this.getY(), this.getZ() + e, soundEvent, this.getSoundCategory(), 1.0f, 0.8f + 0.4f * this.random.nextFloat());
-                    this.world.emitGameEvent(this.getPrimaryPassenger(), GameEvent.SPLASH, new BlockPos(this.getX() + d, this.getY(), this.getZ() + e));
-                }
-                this.paddlePhases[i] = this.paddlePhases[i] + 0.3926991f;
-                continue;
-            }
-            this.paddlePhases[i] = 0.0f;
-        }
+
         this.checkBlockCollision();
         List<Entity> list = this.world.getOtherEntities(this, this.getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
@@ -293,49 +253,6 @@ public class AirshipEntity extends Entity {
                 this.pushAwayFrom(entity);
             }
         }
-    }
-
-    private void handleBubbleColumn() {
-        if (this.world.isClient) {
-            int i = this.getBubbleWobbleTicks();
-            this.bubbleWobbleStrength = i > 0 ? (this.bubbleWobbleStrength += 0.05f) : (this.bubbleWobbleStrength -= 0.1f);
-            this.bubbleWobbleStrength = MathHelper.clamp(this.bubbleWobbleStrength, 0.0f, 1.0f);
-            this.lastBubbleWobble = this.bubbleWobble;
-            this.bubbleWobble = 10.0f * (float)Math.sin(0.5f * (float)this.world.getTime()) * this.bubbleWobbleStrength;
-        } else {
-            int i;
-            if (!this.onBubbleColumnSurface) {
-                this.setBubbleWobbleTicks(0);
-            }
-            if ((i = this.getBubbleWobbleTicks()) > 0) {
-                this.setBubbleWobbleTicks(--i);
-                int j = 60 - i - 1;
-                if (j > 0 && i == 0) {
-                    this.setBubbleWobbleTicks(0);
-                    Vec3d vec3d = this.getVelocity();
-                    if (this.bubbleColumnIsDrag) {
-                        this.setVelocity(vec3d.add(0.0, -0.7, 0.0));
-                        this.removeAllPassengers();
-                    } else {
-                        this.setVelocity(vec3d.x, this.hasPassengerType(entity -> entity instanceof PlayerEntity) ? 2.7 : 0.6, vec3d.z);
-                    }
-                }
-                this.onBubbleColumnSurface = false;
-            }
-        }
-    }
-
-    @Nullable
-    protected SoundEvent getPaddleSoundEvent() {
-        switch (this.checkLocation()) {
-            case IN_WATER, UNDER_WATER, UNDER_FLOWING_WATER -> {
-                return SoundEvents.ENTITY_BOAT_PADDLE_WATER;
-            }
-            case ON_LAND -> {
-                return SoundEvents.ENTITY_BOAT_PADDLE_LAND;
-            }
-        }
-        return null;
     }
 
     private void method_7555() {
@@ -355,18 +272,6 @@ public class AirshipEntity extends Entity {
         --this.field_7708;
         this.setPosition(d, e, f);
         this.setRotation(this.getYaw(), this.getPitch());
-    }
-
-    public void setPaddleMovings(boolean leftMoving, boolean rightMoving) {
-        this.dataTracker.set(LEFT_PADDLE_MOVING, leftMoving);
-        this.dataTracker.set(RIGHT_PADDLE_MOVING, rightMoving);
-    }
-
-    public float interpolatePaddlePhase(int paddle, float tickDelta) {
-        if (this.isPaddleMoving(paddle)) {
-            return MathHelper.clampedLerp(this.paddlePhases[paddle] - 0.3926991f, this.paddlePhases[paddle], tickDelta);
-        }
-        return 0.0f;
     }
 
     private Location checkLocation() {
@@ -559,7 +464,6 @@ public class AirshipEntity extends Entity {
             f -= 0.005f;
         }
         this.setVelocity(this.getVelocity().add(MathHelper.sin(-this.getYaw() * ((float)Math.PI / 180)) * f, 0.0, MathHelper.cos(this.getYaw() * ((float)Math.PI / 180)) * f));
-        this.setPaddleMovings(this.pressingRight && !this.pressingLeft || this.pressingForward, this.pressingLeft && !this.pressingRight || this.pressingForward);
     }
 
     @Override
@@ -688,10 +592,6 @@ public class AirshipEntity extends Entity {
         }
     }
 
-    public boolean isPaddleMoving(int paddle) {
-        return this.dataTracker.get(paddle == 0 ? LEFT_PADDLE_MOVING : RIGHT_PADDLE_MOVING) && this.getPrimaryPassenger() != null;
-    }
-
     public void setDamageWobbleStrength(float wobbleStrength) {
         this.dataTracker.set(DAMAGE_WOBBLE_STRENGTH, wobbleStrength);
     }
@@ -706,18 +606,6 @@ public class AirshipEntity extends Entity {
 
     public int getDamageWobbleTicks() {
         return this.dataTracker.get(DAMAGE_WOBBLE_TICKS);
-    }
-
-    private void setBubbleWobbleTicks(int wobbleTicks) {
-        this.dataTracker.set(BUBBLE_WOBBLE_TICKS, wobbleTicks);
-    }
-
-    private int getBubbleWobbleTicks() {
-        return this.dataTracker.get(BUBBLE_WOBBLE_TICKS);
-    }
-
-    public float interpolateBubbleWobble(float tickDelta) {
-        return MathHelper.lerp(tickDelta, this.lastBubbleWobble, this.bubbleWobble);
     }
 
     public void setDamageWobbleSide(int side) {
