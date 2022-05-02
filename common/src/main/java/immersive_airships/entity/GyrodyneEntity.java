@@ -2,6 +2,7 @@ package immersive_airships.entity;
 
 import immersive_airships.cobalt.network.NetworkHandler;
 import immersive_airships.network.c2s.EnginePowerMessage;
+import immersive_airships.util.Utils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -19,10 +20,14 @@ public class GyrodyneEntity extends AirshipEntity {
 
     private final static float YAW_SPEED = 0.5f;
     private final static float PITCH_SPEED = 0.5f;
-    private final static float BASE_SPEED = 0.1f;
-    private final static float ENGINE_SPEED = 0.3f;
-    private final static float GLIDE_FACTOR = 0.05f;
-    private final static float MAX_PITCH = 60;
+    private final static float PUSH_SPEED = 0.025f;
+    private final static float ENGINE_SPEED = 0.075f;
+    private final static float VERTICAL_SPEED = 0.015f;
+    private final static float MAX_PITCH = 10;
+    private final static float GRAVITY = -0.04f;
+    private final static float DRIFT_DRAG = 0.01f;
+    private final static float LIFT = 0.1f;
+    private final static float WIND = 0.001f;
 
     public GyrodyneEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
@@ -62,10 +67,10 @@ public class GyrodyneEntity extends AirshipEntity {
 
             // sounds
             if (engineTarget > 0.0f) {
-                int level = (int)(Math.pow(getEnginePower(), 1.5f) * 5);
+                int level = (int)(Math.pow(getEnginePower(), 1.5f) * 10);
                 if (oldLevel != level) {
                     oldLevel = level;
-                    playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5f, getEnginePower() + 0.5f);
+                    playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5f, getEnginePower() * 0.5f + 0.5f + (level % 2) * 0.5f);
                 }
             }
         }
@@ -83,27 +88,51 @@ public class GyrodyneEntity extends AirshipEntity {
         } else {
             float velocityDecay = 0.05f;
             float rotationDecay = 0.9f;
-            double gravity = -0.04 * (1.0f - getEnginePower());
-            if (location == Location.IN_WATER) {
-                gravity = (waterLevel - getY()) / (double)getHeight() * 0.06153846016296973;
-                velocityDecay = 0.9f;
-            } else if (location == Location.UNDER_FLOWING_WATER) {
-                gravity = -0.0001;
+            double gravity = getEnginePower() == 1.0f ? 0.0f : GRAVITY;
+            if (location == Location.IN_WATER || location == Location.UNDER_FLOWING_WATER) {
+                gravity = -0.01f;
                 velocityDecay = 0.9f;
             } else if (location == Location.UNDER_WATER) {
                 gravity = 0.01f;
                 velocityDecay = 0.45f;
             } else if (location == Location.IN_AIR) {
-                velocityDecay = 0.95f;
+                velocityDecay = 0.99f;
             } else if (location == Location.ON_LAND) {
                 velocityDecay = slipperiness * 0.5f + 0.5f;
                 rotationDecay = 0.8f;
             }
 
+            //friction
             Vec3d vec3d = getVelocity();
             setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
             yawVelocity *= rotationDecay;
             pitchVelocity *= rotationDecay;
+
+            // get direction
+            Vec3d direction = new Vec3d(
+                    MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
+                    0.0,
+                    MathHelper.cos(getYaw() * ((float)Math.PI / 180))).normalize();
+
+            Vec3d velocity = getVelocity().multiply(1.0, 0.0, 1.0);
+            double drag = Math.abs(direction.dotProduct(velocity.normalize()));
+
+            // convert power
+            velocity = velocity.normalize()
+                    .lerp(direction, LIFT)
+                    .multiply(velocity.length() * (drag * DRIFT_DRAG + (1.0 - DRIFT_DRAG)));
+            setVelocity(
+                    velocity.getX(),
+                    getVelocity().getY(),
+                    velocity.getZ()
+            );
+
+            // wind
+            if (location == Location.IN_AIR) {
+                float nx = (float)(Utils.cosNoise(age / 20.0) * WIND);
+                float ny = (float)(Utils.cosNoise(age / 21.0) * WIND);
+                setVelocity(getVelocity().add(nx, 0.0f, ny));
+            }
         }
     }
 
@@ -115,67 +144,62 @@ public class GyrodyneEntity extends AirshipEntity {
 
         // left-right
         if (pressingLeft) {
-            yawVelocity -= 1.0f;
+            yawVelocity -= YAW_SPEED;
         }
         if (pressingRight) {
-            yawVelocity += 1.0f;
+            yawVelocity += YAW_SPEED;
         }
-        setYaw(getYaw() + yawVelocity * YAW_SPEED);
+        setYaw(getYaw() + yawVelocity);
 
         // up-down
-        if (pressingUp) {
-            pitchVelocity += 1.0f;
+        if (location != Location.ON_LAND && pressingForward) {
+            pitchVelocity += PITCH_SPEED;
+        } else if (location != Location.ON_LAND && pressingBack) {
+            pitchVelocity -= PITCH_SPEED;
+        } else {
+            setPitch(getPitch() * 0.8f);
         }
-        if (pressingDown) {
-            pitchVelocity -= 1.0f;
-        }
-        airshipPitch = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, airshipPitch + pitchVelocity * PITCH_SPEED));
+        setPitch(Math.max(-MAX_PITCH, Math.min(MAX_PITCH, getPitch() + pitchVelocity)));
 
         // landing
         if (location == Location.ON_LAND) {
-            airshipPitch *= 0.9;
+            setPitch(getPitch() * 0.9f);
         }
 
-        // get direction
-        Vec3d direction = new Vec3d(
-                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
-                MathHelper.sin(airshipPitch * ((float)Math.PI / 180)),
-                MathHelper.cos(getYaw() * ((float)Math.PI / 180)));
-        direction = direction.normalize();
-
-        // perform interpolation and air drag
-        Vec3d velocity = getVelocity();
-        double dot = direction.dotProduct(velocity.normalize());
-        float reactionSpeed = 0.1f;
-
-        // speed
-        float speed = 0.0f;
-        if (pressingForward) {
-            speed += BASE_SPEED + ENGINE_SPEED * getEnginePower();
+        //engine
+        if (pressingUp) {
             setEngineTarget(1.0f);
         } else {
             setEngineTarget(0.0f);
         }
 
-        // either backwards or downwards
-        if (pressingBack) {
-            if (location == Location.ON_LAND) {
-                speed = -BASE_SPEED;
-            } else {
-                airshipPitch *= 0.9;
-                setVelocity(getVelocity().add(0, -BASE_SPEED, 0));
+        // speed
+        if (pressingUp) {
+            setVelocity(getVelocity().add(0.0f, getEnginePower() * VERTICAL_SPEED, 0.0f));
+        } else if (pressingDown) {
+            setVelocity(getVelocity().add(0.0f, -getEnginePower() * VERTICAL_SPEED, 0.0f));
+        }
+
+        // get pointing direction
+        Vec3d direction = new Vec3d(
+                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
+                0.0,
+                MathHelper.cos(getYaw() * ((float)Math.PI / 180))
+        ).normalize();
+
+        // speed
+        float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
+        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * ENGINE_SPEED) * sin;
+        if (location == Location.ON_LAND) {
+            if (pressingForward) {
+                thrust = PUSH_SPEED;
+            } else if (pressingBack) {
+                thrust = -PUSH_SPEED * 0.5f;
             }
         }
 
-        // glide
-        float slowdown = (float)(1.0f - getVelocity().normalize().getY() * GLIDE_FACTOR);
-
-        // fly
-        setVelocity(
-                velocity.multiply(dot * reactionSpeed + (1.0 - reactionSpeed))
-                        .lerp(direction.multiply(velocity.length() + speed), reactionSpeed)
-                        .multiply(slowdown)
-        );
+        // accelerate
+        setVelocity(getVelocity().add(direction.multiply(thrust)));
     }
 
     private void setEngineTarget(float v) {

@@ -2,7 +2,9 @@ package immersive_airships.client.render.entity.model;
 
 import com.google.common.collect.ImmutableList;
 import immersive_airships.entity.AirshipEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.model.CompositeEntityModel;
 
 public class AirshipEntityModel<T extends AirshipEntity> extends CompositeEntityModel<T> {
@@ -12,8 +14,10 @@ public class AirshipEntityModel<T extends AirshipEntity> extends CompositeEntity
     static final String PROPELLER = "propeller";
     static final String PROPELLER_DISABLED = "propeller_disabled";
     static final String CONTROLLER = "controller";
+    static final String AXIS = "axis";
 
     final ImmutableList<ModelPart> parts;
+    final ImmutableList<ModelPart> partsInner;
 
     final ModelPart leftWing;
     final ModelPart rightWing;
@@ -21,8 +25,19 @@ public class AirshipEntityModel<T extends AirshipEntity> extends CompositeEntity
     final ModelPart propellerDisabled;
     final ModelPart controller;
 
+    private boolean firstPerson;
+
     public AirshipEntityModel(ModelPart root) {
         this.parts = ImmutableList.of(
+                root.getChild(BODY),
+                root.getChild(LEFT_WING),
+                root.getChild(RIGHT_WING),
+                root.getChild(PROPELLER),
+                root.getChild(CONTROLLER),
+                root.getChild(AXIS)
+        );
+
+        this.partsInner = ImmutableList.of(
                 root.getChild(BODY),
                 root.getChild(LEFT_WING),
                 root.getChild(RIGHT_WING),
@@ -52,9 +67,12 @@ public class AirshipEntityModel<T extends AirshipEntity> extends CompositeEntity
                         .uv(28, 1).cuboid(34.0F, -2.0F, -2.0F, 6.0F, 6.0F, 4.0F)
                         .uv(69, 6).cuboid(36.5F, 0.5F, -5.0F, 1.0F, 1.0F, 10.0F)
                         .uv(105, 75).cuboid(-25.0F, 0.0F, -10.0F, 40.0F, 2.0F, 2.0F)
-                        .uv(105, 75).cuboid(-25.0F, 0.0F, 8.0F, 40.0F, 2.0F, 2.0F)
-                        .uv(0, 0).cuboid(-0.5F, -31.0F, -0.5F, 1.0F, 32.0F, 1.0F),
+                        .uv(105, 75).cuboid(-25.0F, 0.0F, 8.0F, 40.0F, 2.0F, 2.0F),
                 ModelTransform.of(0, 2f, 0, 0, 0, 0));
+
+        modelPartData.addChild(AXIS, ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-0.5F, -28.0F, -0.5F, 1.0F, 32.0F, 1.0F),
+                ModelTransform.of(0, -2f, 0, 0, 0, 0));
 
         modelPartData.addChild(PROPELLER, ModelPartBuilder.create()
                         .uv(0, 80).cuboid(-24, 0, -24, 48, 0, 48),
@@ -81,11 +99,13 @@ public class AirshipEntityModel<T extends AirshipEntity> extends CompositeEntity
 
     @Override
     public void setAngles(T airshipEntity, float f, float g, float h, float i, float j) {
-
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        firstPerson = player != null && player.getRootVehicle() == airshipEntity && !MinecraftClient.getInstance().gameRenderer.getCamera().isThirdPerson();
     }
 
+    @Override
     public ImmutableList<ModelPart> getParts() {
-        return this.parts;
+        return firstPerson ? this.partsInner : this.parts;
     }
 }
 

@@ -46,11 +46,13 @@ public abstract class AirshipEntity extends Entity {
     static final TrackedData<Integer> BOAT_TYPE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     float ticksUnderwater;
-    int field_7708;
+    int interpolationSteps;
 
     public float yawVelocity;
     public float pitchVelocity;
-    public float airshipPitch;
+
+    public float roll;
+    public float prevRoll;
 
     double x;
     double y;
@@ -68,7 +70,7 @@ public abstract class AirshipEntity extends Entity {
 
     double waterLevel;
     float slipperiness;
-    Location location;
+    public Location location;
     Location lastLocation;
     double fallVelocity;
 
@@ -207,7 +209,7 @@ public abstract class AirshipEntity extends Entity {
         this.z = z;
         boatYaw = yaw;
         boatPitch = pitch;
-        field_7708 = 10;
+        this.interpolationSteps = 10;
     }
 
     @Override
@@ -262,28 +264,37 @@ public abstract class AirshipEntity extends Entity {
                 pushAwayFrom(entity);
             }
         }
+
+        // rolling
+        prevRoll = roll;
+        if (location != Location.ON_LAND) {
+            roll = yawVelocity * 8.0f;
+        } else {
+            roll *= 0.9;
+        }
     }
 
     private void wobble() {
         if (isLogicalSideForUpdatingMovement()) {
-            field_7708 = 0;
+            interpolationSteps = 0;
             updateTrackedPosition(getX(), getY(), getZ());
         }
-        if (field_7708 <= 0) {
+        if (interpolationSteps <= 0) {
             return;
         }
         if (true) {
             return;
         }
-        double d = getX() + (x - getX()) / (double)field_7708;
-        double e = getY() + (y - getY()) / (double)field_7708;
-        double f = getZ() + (z - getZ()) / (double)field_7708;
+        double d = getX() + (x - getX()) / (double)interpolationSteps;
+        double e = getY() + (y - getY()) / (double)interpolationSteps;
+        double f = getZ() + (z - getZ()) / (double)interpolationSteps;
         double g = MathHelper.wrapDegrees(boatYaw - (double)getYaw());
-        setYaw(getYaw() + (float)g / (float)field_7708);
-        setPitch(getPitch() + (float)(boatPitch - (double)getPitch()) / (float)field_7708);
-        --field_7708;
+        setYaw(getYaw() + (float)g / (float)interpolationSteps);
+        setPitch(getPitch() + (float)(boatPitch - (double)getPitch()) / (float)interpolationSteps);
+        --interpolationSteps;
         setPosition(d, e, f);
         setRotation(getYaw(), getPitch());
+        //todo boat pitch might be the client side interpolated
     }
 
     private Location checkLocation() {
@@ -424,6 +435,7 @@ public abstract class AirshipEntity extends Entity {
         if (!hasPassenger(passenger)) {
             return;
         }
+
         float f = 0.0f;
         float g = (float)((isRemoved() ? (double)0.01f : getMountedHeightOffset()) + passenger.getHeightOffset());
         if (getPassengerList().size() > 1) {
@@ -433,10 +445,15 @@ public abstract class AirshipEntity extends Entity {
                 f += 0.2f;
             }
         }
+
         Vec3d vec3d = new Vec3d(f, 0.0, 0.0).rotateY(-getYaw() * ((float)Math.PI / 180) - 1.5707964f);
         passenger.setPosition(getX() + vec3d.x, getY() + (double)g, getZ() + vec3d.z);
-        passenger.setYaw(passenger.getYaw() + yawVelocity);
-        passenger.setHeadYaw(passenger.getHeadYaw() + yawVelocity);
+
+        passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
+        passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
+        passenger.setPitch(passenger.getPitch() + (getPitch() - prevPitch));
+        System.out.println((getPitch() - prevPitch));
+
         copyEntityData(passenger);
         if (passenger instanceof AnimalEntity && getPassengerList().size() > 1) {
             int j = passenger.getId() % 2 == 0 ? 90 : 270;
@@ -618,7 +635,15 @@ public abstract class AirshipEntity extends Entity {
     }
 
     public boolean canDismount() {
-        return location == Location.ON_LAND;
+        return location != Location.IN_AIR;
+    }
+
+    public float getRoll() {
+        return roll;
+    }
+
+    public float getRoll(float tickDelta) {
+        return MathHelper.lerp(tickDelta, prevRoll, getRoll());
     }
 
     public enum Type {
