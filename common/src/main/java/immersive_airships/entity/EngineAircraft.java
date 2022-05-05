@@ -38,7 +38,7 @@ public abstract class EngineAircraft extends AirshipEntity {
             }
 
             // start engine
-            if (engineTarget >= getEnginePower() || hasPassengers() && getEnginePower() == 1.0f) {
+            if (engineTarget >= getEnginePower()) {
                 setEnginePower(Math.min(1.0f, getEnginePower() + 0.01f));
             } else {
                 setEnginePower(Math.max(0.0f, getEnginePower() - 0.01f));
@@ -52,6 +52,38 @@ public abstract class EngineAircraft extends AirshipEntity {
                     playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5f, getEnginePower() * 0.5f + 0.5f + (level % 2) * 0.5f);
                 }
             }
+        }
+    }
+
+    @Override
+    void updateController() {
+        // left-right
+        if (pressingLeft) {
+            yawVelocity -= getProperties().getYawSpeed();
+        }
+        if (pressingRight) {
+            yawVelocity += getProperties().getYawSpeed();
+        }
+        setYaw(getYaw() + yawVelocity);
+
+        // up-down
+        if (location != Location.ON_LAND && pressingForward) {
+            pitchVelocity += getProperties().getPitchSpeed();
+        } else if (location != Location.ON_LAND && pressingBack) {
+            pitchVelocity -= getProperties().getPitchSpeed();
+        } else {
+            setPitch(getPitch() * 0.8f);
+        }
+        setPitch(Math.max(-getProperties().getMaxPitch(), Math.min(getProperties().getMaxPitch(), getPitch() + pitchVelocity)));
+    }
+
+    @Override
+    void updateVelocity() {
+        super.updateVelocity();
+
+        // landing
+        if (location == Location.ON_LAND) {
+            setPitch((getPitch() + 10f) * 0.9f - 10f);
         }
     }
 

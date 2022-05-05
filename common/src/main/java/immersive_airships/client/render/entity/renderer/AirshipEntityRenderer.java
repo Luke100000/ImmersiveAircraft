@@ -1,17 +1,26 @@
 package immersive_airships.client.render.entity.renderer;
 
+import com.mojang.datafixers.util.Pair;
+import immersive_airships.client.render.entity.model.BiplaneEntityModel;
 import immersive_airships.entity.AirshipEntity;
 import immersive_airships.util.Utils;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.CompositeEntityModel;
+import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class AirshipEntityRenderer<T extends AirshipEntity> extends EntityRenderer<T> {
     public AirshipEntityRenderer(EntityRendererFactory.Context context) {
@@ -45,6 +54,14 @@ public abstract class AirshipEntityRenderer<T extends AirshipEntity> extends Ent
         AirshipEntityModel.setAngles(entity, tickDelta, 0.0f, -0.1f, 0.0f, 0.0f);
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(AirshipEntityModel.getLayer(identifier));
         AirshipEntityModel.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
+
+        if (getModel(entity) instanceof BiplaneEntityModel model) {
+            List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
+            list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
+
+            BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, model.getBanner(), ModelLoader.BANNER_BASE, true, list);
+        }
+
         matrixStack.pop();
 
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);

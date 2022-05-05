@@ -1,6 +1,8 @@
 package immersive_airships.entity;
 
 import com.google.common.collect.Lists;
+import immersive_airships.entity.properties.AircraftProperties;
+import immersive_airships.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -45,7 +47,6 @@ public abstract class AirshipEntity extends Entity {
     static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.FLOAT);
     static final TrackedData<Integer> BOAT_TYPE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    float ticksUnderwater;
     int interpolationSteps;
 
     public float yawVelocity;
@@ -73,6 +74,9 @@ public abstract class AirshipEntity extends Entity {
     public Location location;
     Location lastLocation;
     double fallVelocity;
+    private double lastY;
+
+    abstract AircraftProperties getProperties();
 
     public AirshipEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
@@ -229,18 +233,17 @@ public abstract class AirshipEntity extends Entity {
 
         lastLocation = location;
         location = checkLocation();
-        ticksUnderwater = location == Location.UNDER_WATER || location == Location.UNDER_FLOWING_WATER ? ticksUnderwater + 1.0f : 0.0f;
-        if (!world.isClient && ticksUnderwater >= 60.0f) {
-            removeAllPassengers();
-        }
         if (getDamageWobbleTicks() > 0) {
             setDamageWobbleTicks(getDamageWobbleTicks() - 1);
         }
         if (getDamageWobbleStrength() > 0.0f) {
             setDamageWobbleStrength(getDamageWobbleStrength() - 1.0f);
         }
+
         super.tick();
-        wobble();
+
+        handleClientSync();
+
         if (isLogicalSideForUpdatingMovement()) {
             updateVelocity();
             if (world.isClient) {
@@ -268,13 +271,13 @@ public abstract class AirshipEntity extends Entity {
         // rolling
         prevRoll = roll;
         if (location != Location.ON_LAND) {
-            roll = yawVelocity * 8.0f;
+            roll = yawVelocity * getProperties().getRollFactor();
         } else {
             roll *= 0.9;
         }
     }
 
-    private void wobble() {
+    private void handleClientSync() {
         if (isLogicalSideForUpdatingMovement()) {
             interpolationSteps = 0;
             updateTrackedPosition(getX(), getY(), getZ());
@@ -282,19 +285,17 @@ public abstract class AirshipEntity extends Entity {
         if (interpolationSteps <= 0) {
             return;
         }
-        if (true) {
-            return;
-        }
-        double d = getX() + (x - getX()) / (double)interpolationSteps;
-        double e = getY() + (y - getY()) / (double)interpolationSteps;
-        double f = getZ() + (z - getZ()) / (double)interpolationSteps;
-        double g = MathHelper.wrapDegrees(boatYaw - (double)getYaw());
-        setYaw(getYaw() + (float)g / (float)interpolationSteps);
-        setPitch(getPitch() + (float)(boatPitch - (double)getPitch()) / (float)interpolationSteps);
-        --interpolationSteps;
-        setPosition(d, e, f);
+        double interpolatedX = getX() + (x - getX()) / (double)interpolationSteps;
+        double interpolatedY = getY() + (y - getY()) / (double)interpolationSteps;
+        double interpolatedZ = getZ() + (z - getZ()) / (double)interpolationSteps;
+        double interpolatedYaw = MathHelper.wrapDegrees(boatYaw - (double)getYaw());
+        setYaw(getYaw() + (float)interpolatedYaw / (float)interpolationSteps);
+        setPitch(getPitch() + (float)(boatPitch - (double)getPitch()) / (float)interpolationSteps); //todo
+
+        setPosition(interpolatedX, interpolatedY, interpolatedZ);
         setRotation(getYaw(), getPitch());
-        //todo boat pitch might be the client side interpolated
+
+        --interpolationSteps;
     }
 
     private Location checkLocation() {
@@ -426,7 +427,71 @@ public abstract class AirshipEntity extends Entity {
         return bl ? Location.UNDER_WATER : null;
     }
 
-    abstract void updateVelocity();
+    void updateVelocity() {
+        if (lastLocation == Location.IN_AIR && location != Location.IN_AIR && location != Location.ON_LAND) {
+            // impact on water surface
+            waterLevel = getBodyY(1.0);
+            setPosition(getX(), (double)(method_7544() - getHeight()) + 0.101, getZ());
+            setVelocity(getVelocity().multiply(1.0, 0.0, 1.0));
+            fallVelocity = 0.0;
+            location = Location.IN_WATER;
+        } else {
+            float velocityDecay = 0.05f;
+            float rotationDecay = 0.9f;
+            float gravity = getGravity();
+            if (location == Location.IN_WATER || location == Location.UNDER_FLOWING_WATER) {
+                gravity = -0.01f;
+                velocityDecay = 0.9f;
+            } else if (location == Location.UNDER_WATER) {
+                gravity = 0.01f;
+                velocityDecay = 0.45f;
+            } else if (location == Location.IN_AIR) {
+                velocityDecay = 0.99f;
+            } else if (location == Location.ON_LAND) {
+                float friction = getProperties().getWheelFriction();
+                velocityDecay = slipperiness * friction + (1.0f - friction);
+                rotationDecay = 0.8f;
+            }
+
+            // get direction
+            Vec3d direction = getDirection();
+
+            // glide
+            double diff = lastY - getY();
+            setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor())));
+            lastY = getY();
+
+            Vec3d velocity = getVelocity();
+            double drag = Math.abs(direction.dotProduct(velocity.normalize()));
+
+            // convert power
+            velocity = velocity.normalize()
+                    .lerp(direction, getProperties().getLift())
+                    .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag())));
+            setVelocity(
+                    velocity.getX(),
+                    velocity.getY(),
+                    velocity.getZ()
+            );
+
+            //friction
+            Vec3d vec3d = getVelocity();
+            setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
+            yawVelocity *= rotationDecay;
+            pitchVelocity *= rotationDecay;
+
+            // wind
+            if (location == Location.IN_AIR) {
+                float nx = (float)(Utils.cosNoise(age / 20.0) * getProperties().getWindSensitivity());
+                float ny = (float)(Utils.cosNoise(age / 21.0) * getProperties().getWindSensitivity());
+                setVelocity(getVelocity().add(nx, 0.0f, ny));
+            }
+        }
+    }
+
+    protected float getGravity() {
+        return -0.04f;
+    }
 
     abstract void updateController();
 
@@ -452,7 +517,9 @@ public abstract class AirshipEntity extends Entity {
         passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
         passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
         passenger.setPitch(passenger.getPitch() + (getPitch() - prevPitch));
+        System.out.println(passenger.getYaw() + (getYaw() - prevYaw));
         System.out.println((getPitch() - prevPitch));
+        System.out.println();
 
         copyEntityData(passenger);
         if (passenger instanceof AnimalEntity && getPassengerList().size() > 1) {
@@ -526,13 +593,10 @@ public abstract class AirshipEntity extends Entity {
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         }
-        if (ticksUnderwater < 60.0f) {
-            if (!world.isClient) {
-                return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
-            }
-            return ActionResult.SUCCESS;
+        if (!world.isClient) {
+            return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
         }
-        return ActionResult.PASS;
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -601,7 +665,11 @@ public abstract class AirshipEntity extends Entity {
 
     @Override
     protected boolean canAddPassenger(Entity passenger) {
-        return getPassengerList().size() < 2 && !isSubmergedIn(FluidTags.WATER);
+        return getPassengerList().size() < getPassengerSpace() && !isSubmergedIn(FluidTags.WATER);
+    }
+
+    int getPassengerSpace() {
+        return 1;
     }
 
     @Override
@@ -644,6 +712,14 @@ public abstract class AirshipEntity extends Entity {
 
     public float getRoll(float tickDelta) {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
+    }
+
+    public Vec3d getDirection() {
+        float cos = MathHelper.cos(-getPitch() * ((float)Math.PI / 180));
+        return new Vec3d(
+                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)) * cos,
+                MathHelper.sin(-getPitch() * ((float)Math.PI / 180)),
+                MathHelper.cos(getYaw() * ((float)Math.PI / 180)) * cos).normalize();
     }
 
     public enum Type {
