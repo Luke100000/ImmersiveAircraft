@@ -4,6 +4,7 @@
   "package": "immersive_airships.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "LivingEntityRendererMixin",
     "GameRendererMixin",
     "PlayerEntityMixin"
   ],

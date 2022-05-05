@@ -18,7 +18,7 @@ public interface Entities {
 
     EntityType<BiplaneEntity> BIPLANE = register("biplane", EntityType.Builder
             .create(BiplaneEntity::new, SpawnGroup.MISC)
-            .setDimensions(1.5f, 0.85f)
+            .setDimensions(1.75f, 0.85f)
             .makeFireImmune()
     );
 

@@ -78,11 +78,11 @@ public class BiplaneEntityModel<T extends BiplaneEntity> extends AirshipEntityMo
 
         modelPartData.addChild("banner1", ModelPartBuilder.create()
                         .uv(0, 0).cuboid(-6.0f, -12.0f, -0.5f, 12.0f, 22.0f, 1.0f),
-                ModelTransform.of(17.0f, -6.0f, 24.0f, (float)Math.PI / 2, 0, 0));
+                ModelTransform.of(15.0f, -6.0f, 24.0f, (float)Math.PI / 2, 0, 0));
 
         modelPartData.addChild("banner2", ModelPartBuilder.create()
                         .uv(0, 0).cuboid(-6.0f, -12.0f, -0.5f, 12.0f, 22.0f, 1.0f),
-                ModelTransform.of(17.0f, -6.0f, -24.0f, (float)Math.PI / 2, (float)Math.PI, 0));
+                ModelTransform.of(15.0f, -6.0f, -24.0f, (float)Math.PI / 2, (float)Math.PI, 0));
 
         return TexturedModelData.of(modelData, 64, 64);
     }

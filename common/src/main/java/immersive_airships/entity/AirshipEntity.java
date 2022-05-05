@@ -520,7 +520,7 @@ public abstract class AirshipEntity extends Entity {
 
                 position.add(0, passenger.getHeightOffset(), 0);
 
-                position = position.rotateZ(-getPitch() * ((float)Math.PI / 180));
+                position = position.rotateX(-getPitch() * ((float)Math.PI / 180));
                 position = position.rotateY(-getYaw() * ((float)Math.PI / 180));
                 passenger.setPosition(getPos().add(position));
 
