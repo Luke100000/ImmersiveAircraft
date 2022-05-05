@@ -1,7 +1,7 @@
 package immersive_airships.network.c2s;
 
 import immersive_airships.cobalt.network.Message;
-import immersive_airships.entity.GyrodyneEntity;
+import immersive_airships.entity.AirshipEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class EnginePowerMessage implements Message {
@@ -13,8 +13,8 @@ public class EnginePowerMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        if (e.getRootVehicle() instanceof GyrodyneEntity entity) {
-            entity.engineTarget = engineTarget;
+        if (e.getRootVehicle() instanceof AirshipEntity entity) {
+            entity.setEngineTarget(engineTarget);
         }
     }
 }

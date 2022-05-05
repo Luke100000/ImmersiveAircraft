@@ -1,21 +1,13 @@
 package immersive_airships.entity;
 
-import immersive_airships.cobalt.network.NetworkHandler;
-import immersive_airships.network.c2s.EnginePowerMessage;
 import immersive_airships.util.Utils;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class GyrodyneEntity extends AirshipEntity {
-    static final TrackedData<Float> ENGINE = DataTracker.registerData(GyrodyneEntity.class, TrackedDataHandlerRegistry.FLOAT);
-
-    public float engineTarget = 0.0f;
     private int oldLevel;
 
     private final static float YAW_SPEED = 0.5f;
@@ -31,21 +23,6 @@ public class GyrodyneEntity extends AirshipEntity {
 
     public GyrodyneEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
-    }
-
-    @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-
-        dataTracker.startTracking(ENGINE, 0.0f);
-    }
-
-    public float getEnginePower() {
-        return dataTracker.get(ENGINE);
-    }
-
-    public void setEnginePower(float power) {
-        dataTracker.set(ENGINE, power);
     }
 
     @Override
@@ -200,12 +177,5 @@ public class GyrodyneEntity extends AirshipEntity {
 
         // accelerate
         setVelocity(getVelocity().add(direction.multiply(thrust)));
-    }
-
-    private void setEngineTarget(float v) {
-        if (world.isClient && engineTarget != v) {
-            NetworkHandler.sendToServer(new EnginePowerMessage(v));
-        }
-        engineTarget = v;
     }
 }

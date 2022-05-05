@@ -38,3 +38,5 @@ forge*changelog.txt
 *.kra
 *.kra~
 *.png~
+/models/custom_model.java
+/models/custom_model_yarn.java
