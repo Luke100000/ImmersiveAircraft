@@ -6,12 +6,11 @@ import immersive_airships.client.render.entity.model.GyrodyneEntityModel;
 import immersive_airships.entity.AirshipEntity;
 import immersive_airships.entity.GyrodyneEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.CompositeEntityModel;
 import net.minecraft.util.Identifier;
 
 public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AirshipEntityRenderer<T> {
     private final Identifier texture;
-    private final CompositeEntityModel<T> model;
+    private final AirshipEntityModel<T> model;
 
     public GyrodyneEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
@@ -27,7 +26,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AirshipEnt
     }
 
     @Override
-    CompositeEntityModel<T> getModel(AirshipEntity entity) {
+    AirshipEntityModel<T> getModel(AirshipEntity entity) {
         return model;
     }
 }

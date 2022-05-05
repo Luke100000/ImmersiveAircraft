@@ -1,7 +1,7 @@
 package immersive_airships.client.render.entity.renderer;
 
 import com.mojang.datafixers.util.Pair;
-import immersive_airships.client.render.entity.model.BiplaneEntityModel;
+import immersive_airships.client.render.entity.model.AirshipEntityModel;
 import immersive_airships.entity.AirshipEntity;
 import immersive_airships.util.Utils;
 import net.minecraft.block.entity.BannerPattern;
@@ -55,18 +55,16 @@ public abstract class AirshipEntityRenderer<T extends AirshipEntity> extends Ent
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(AirshipEntityModel.getLayer(identifier));
         AirshipEntityModel.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
 
-        if (getModel(entity) instanceof BiplaneEntityModel model) {
-            List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
-            list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
+        List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
+        list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
 
-            BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, model.getBanner(), ModelLoader.BANNER_BASE, true, list);
-        }
+        getModel(entity).getBannerParts().forEach(part -> BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, part, ModelLoader.BANNER_BASE, false, list));
 
         matrixStack.pop();
 
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);
     }
 
-    abstract CompositeEntityModel<T> getModel(AirshipEntity entity);
+    abstract AirshipEntityModel<T> getModel(AirshipEntity entity);
 }
 

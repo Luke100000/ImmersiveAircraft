@@ -8,23 +8,27 @@ public class BiplaneEntityModel<T extends BiplaneEntity> extends AirshipEntityMo
     private final ModelPart propeller;
     private final ModelPart rudder;
     private final ModelPart stabilizer;
-    private final ModelPart banner;
 
     final ImmutableList<ModelPart> parts;
+    final ImmutableList<ModelPart> bannerParts;
 
-    public BiplaneEntityModel(ModelPart root) {
+    public BiplaneEntityModel(ModelPart root, ModelPart bannerPart) {
         super();
 
         propeller = root.getChild("propeller");
         rudder = root.getChild("rudder");
         stabilizer = root.getChild("stabilizer");
-        banner = root.getChild("banner");
 
         this.parts = ImmutableList.of(
                 root.getChild("body"),
                 root.getChild("propeller"),
                 root.getChild("rudder"),
                 root.getChild("stabilizer")
+        );
+
+        this.bannerParts = ImmutableList.of(
+                bannerPart.getChild("banner1"),
+                bannerPart.getChild("banner2")
         );
     }
 
@@ -34,17 +38,13 @@ public class BiplaneEntityModel<T extends BiplaneEntity> extends AirshipEntityMo
 
         propeller.pitch += entity.getEnginePower();
 
-        rudder.yaw = -entity.yawVelocity / 10.0f;
-        stabilizer.roll = -entity.pitchVelocity / 8.0f;
+        rudder.yaw = -entity.yawVelocity / 5.0f;
+        stabilizer.roll = -entity.pitchVelocity / 12.0f;
     }
 
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
-
-        modelPartData.addChild("banner", ModelPartBuilder.create()
-                .uv(0, 0).cuboid(-10.0f, -20.0f, -2.0f, 20.0f, 40.0f, 1.0f),
-                ModelTransform.pivot(0, -20, 0));
 
         ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create()
                 .uv(0, 98).cuboid(11.0F, -22.0F, -48.0F, 16.0F, 1.0F, 96.0F)
@@ -72,12 +72,28 @@ public class BiplaneEntityModel<T extends BiplaneEntity> extends AirshipEntityMo
         return TexturedModelData.of(modelData, 256, 256);
     }
 
+    public static TexturedModelData getBannerModelData() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+
+        modelPartData.addChild("banner1", ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-6.0f, -12.0f, -0.5f, 12.0f, 22.0f, 1.0f),
+                ModelTransform.of(19.0f, -6.0f, 24.0f, (float)Math.PI / 2, 0, 0));
+
+        modelPartData.addChild("banner2", ModelPartBuilder.create()
+                        .uv(0, 0).cuboid(-6.0f, -12.0f, -0.5f, 12.0f, 22.0f, 1.0f),
+                ModelTransform.of(19.0f, -6.0f, -24.0f, (float)Math.PI / 2, (float)Math.PI, 0));
+
+        return TexturedModelData.of(modelData, 64, 64);
+    }
+
     @Override
     public Iterable<ModelPart> getParts() {
         return parts;
     }
 
-    public ModelPart getBanner() {
-        return banner;
+    @Override
+    public Iterable<ModelPart> getBannerParts() {
+        return bannerParts;
     }
 }
