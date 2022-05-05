@@ -78,6 +78,16 @@ public abstract class AirshipEntity extends Entity {
 
     abstract AircraftProperties getProperties();
 
+    List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.0f, 0.0f)));
+
+    protected List<List<Vec3d>> getPassengerPositions() {
+        return PASSENGER_POSITIONS;
+    }
+
+    protected int getPassengerSpace() {
+        return getPassengerPositions().size();
+    }
+
     public AirshipEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
         intersectionChecked = true;
@@ -123,11 +133,6 @@ public abstract class AirshipEntity extends Entity {
     @Override
     protected Vec3d positionInPortal(Direction.Axis portalAxis, BlockLocating.Rectangle portalRect) {
         return LivingEntity.positionInPortal(super.positionInPortal(portalAxis, portalRect));
-    }
-
-    @Override
-    public double getMountedHeightOffset() {
-        return -0.1;
     }
 
     @Override
@@ -501,31 +506,34 @@ public abstract class AirshipEntity extends Entity {
             return;
         }
 
-        float f = 0.0f;
-        float g = (float)((isRemoved() ? (double)0.01f : getMountedHeightOffset()) + passenger.getHeightOffset());
-        if (getPassengerList().size() > 1) {
+        int size = getPassengerList().size() - 1;
+        List<List<Vec3d>> positions = getPassengerPositions();
+        if (size < positions.size()) {
             int i = getPassengerList().indexOf(passenger);
-            f = i == 0 ? 0.2f : -0.6f;
-            if (passenger instanceof AnimalEntity) {
-                f += 0.2f;
+            if (i >= 0 && i < positions.get(size).size()) {
+                Vec3d position = positions.get(size).get(i);
+
+                //animals are thicc
+                if (passenger instanceof AnimalEntity) {
+                    position.add(0.0f, 0.0f, 0.2f);
+                }
+
+                position.add(0, passenger.getHeightOffset(), 0);
+
+                position = position.rotateZ(-getPitch() * ((float)Math.PI / 180));
+                position = position.rotateY(-getYaw() * ((float)Math.PI / 180));
+                passenger.setPosition(getPos().add(position));
+
+                passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
+                passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
+
+                copyEntityData(passenger);
+                if (passenger instanceof AnimalEntity && size > 1) {
+                    int angle = passenger.getId() % 2 == 0 ? 90 : 270;
+                    passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)angle);
+                    passenger.setHeadYaw(passenger.getHeadYaw() + (float)angle);
+                }
             }
-        }
-
-        Vec3d vec3d = new Vec3d(f, 0.0, 0.0).rotateY(-getYaw() * ((float)Math.PI / 180) - 1.5707964f);
-        passenger.setPosition(getX() + vec3d.x, getY() + (double)g, getZ() + vec3d.z);
-
-        passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
-        passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
-        passenger.setPitch(passenger.getPitch() + (getPitch() - prevPitch));
-        System.out.println(passenger.getYaw() + (getYaw() - prevYaw));
-        System.out.println((getPitch() - prevPitch));
-        System.out.println();
-
-        copyEntityData(passenger);
-        if (passenger instanceof AnimalEntity && getPassengerList().size() > 1) {
-            int j = passenger.getId() % 2 == 0 ? 90 : 270;
-            passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
-            passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
         }
     }
 
@@ -666,10 +674,6 @@ public abstract class AirshipEntity extends Entity {
     @Override
     protected boolean canAddPassenger(Entity passenger) {
         return getPassengerList().size() < getPassengerSpace() && !isSubmergedIn(FluidTags.WATER);
-    }
-
-    int getPassengerSpace() {
-        return 1;
     }
 
     @Override

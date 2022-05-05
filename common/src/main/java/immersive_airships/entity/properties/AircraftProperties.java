@@ -5,7 +5,7 @@ import immersive_airships.entity.AirshipEntity;
 public class AircraftProperties {
     private final AirshipEntity airship;
 
-    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor;
+    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer;
 
     public AircraftProperties(AirshipEntity airship) {
         this.airship = airship;
@@ -116,6 +116,24 @@ public class AircraftProperties {
 
     public AircraftProperties setRollFactor(float rollFactor) {
         this.rollFactor = rollFactor;
+        return this;
+    }
+
+    public float getGroundPitch() {
+        return groundPitch;
+    }
+
+    public AircraftProperties setGroundPitch(float groundPitch) {
+        this.groundPitch = groundPitch;
+        return this;
+    }
+
+    public float getStabilizer() {
+        return stabilizer;
+    }
+
+    public AircraftProperties setStabilizer(float stabilizer) {
+        this.stabilizer = stabilizer;
         return this;
     }
 }

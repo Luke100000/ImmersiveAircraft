@@ -10,14 +10,15 @@ import net.minecraft.world.World;
 public abstract class AirplaneEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)
-            .setPitchSpeed(1.0f)
+            .setPitchSpeed(0.75f)
             .setEngineSpeed(0.0125f)
             .setGlideFactor(0.05f)
             .setMaxPitch(60)
             .setDriftDrag(0.01f)
             .setLift(0.15f)
             .setRollFactor(10.0f)
-            .setWheelFriction(0.25f);
+            .setGroundPitch(5.0f)
+            .setWheelFriction(0.1f);
 
     public AirplaneEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);

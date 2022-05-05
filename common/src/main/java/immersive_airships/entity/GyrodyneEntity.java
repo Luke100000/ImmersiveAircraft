@@ -6,19 +6,22 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class GyrodyneEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)
-            .setPitchSpeed(0.5f)
+            .setPitchSpeed(0.3f)
             .setPushSpeed(0.025f)
             .setEngineSpeed(0.1f)
             .setVerticalSpeed(0.025f)
-            .setGlideFactor(0.2f)
+            .setGlideFactor(0.025f)
             .setMaxPitch(10)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setWindSensitivity(0.001f)
             .setRollFactor(8.0f)
+            .setStabilizer(0.4f)
             .setWheelFriction(0.5f);
 
     public GyrodyneEntity(EntityType<? extends AirshipEntity> entityType, World world) {
@@ -30,9 +33,18 @@ public class GyrodyneEntity extends EngineAircraft {
         return properties;
     }
 
-    @Override
-    int getPassengerSpace() {
-        return 2;
+    List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
+            List.of(
+                    new Vec3d(0.0f, -0.4f, 0.2f)
+            ),
+            List.of(
+                    new Vec3d(0.0f, -0.4f, 0.2f),
+                    new Vec3d(0.0f, -0.4f, -0.6f)
+            )
+    );
+
+    protected List<List<Vec3d>> getPassengerPositions() {
+        return PASSENGER_POSITIONS;
     }
 
     @Override

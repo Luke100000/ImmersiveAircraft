@@ -72,7 +72,7 @@ public abstract class EngineAircraft extends AirshipEntity {
         } else if (location != Location.ON_LAND && pressingBack) {
             pitchVelocity -= getProperties().getPitchSpeed();
         } else {
-            setPitch(getPitch() * 0.8f);
+            setPitch(getPitch() * (1.0f - getProperties().getStabilizer()));
         }
         setPitch(Math.max(-getProperties().getMaxPitch(), Math.min(getProperties().getMaxPitch(), getPitch() + pitchVelocity)));
     }
@@ -83,7 +83,7 @@ public abstract class EngineAircraft extends AirshipEntity {
 
         // landing
         if (location == Location.ON_LAND) {
-            setPitch((getPitch() + 10f) * 0.9f - 10f);
+            setPitch((getPitch() + getProperties().getGroundPitch()) * 0.9f - getProperties().getGroundPitch());
         }
     }
 
