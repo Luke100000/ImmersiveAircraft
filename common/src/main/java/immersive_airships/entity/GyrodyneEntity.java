@@ -1,25 +1,24 @@
 package immersive_airships.entity;
 
+import immersive_airships.entity.properties.AircraftProperties;
 import immersive_airships.util.Utils;
 import net.minecraft.entity.EntityType;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class GyrodyneEntity extends AirshipEntity {
-    private int oldLevel;
-
-    private final static float YAW_SPEED = 0.5f;
-    private final static float PITCH_SPEED = 0.5f;
-    private final static float PUSH_SPEED = 0.025f;
-    private final static float ENGINE_SPEED = 0.075f;
-    private final static float VERTICAL_SPEED = 0.015f;
-    private final static float MAX_PITCH = 10;
-    private final static float GRAVITY = -0.04f;
-    private final static float DRIFT_DRAG = 0.01f;
-    private final static float LIFT = 0.1f;
-    private final static float WIND = 0.001f;
+public class GyrodyneEntity extends EngineAircraft {
+    private final AircraftProperties properties = new AircraftProperties(this)
+            .setYawSpeed(0.5f)
+            .setPitchSpeed(0.5f)
+            .setPushSpeed(0.025f)
+            .setEngineSpeed(0.1f)
+            .setVerticalSpeed(0.015f)
+            .setGlideFactor(0.075f)
+            .setMaxPitch(10)
+            .setDriftDrag(0.01f)
+            .setLift(0.1f)
+            .setWindSensitivity(0.001f);
 
     public GyrodyneEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
@@ -28,29 +27,6 @@ public class GyrodyneEntity extends AirshipEntity {
     @Override
     public void tick() {
         super.tick();
-
-        if (!world.isClient()) {
-            // shutdown
-            if (!hasPassengers()) {
-                engineTarget = 0.0f;
-            }
-
-            // start engine
-            if (engineTarget >= getEnginePower() || hasPassengers() && getEnginePower() == 1.0f) {
-                setEnginePower(Math.min(1.0f, getEnginePower() + 0.01f));
-            } else {
-                setEnginePower(Math.max(0.0f, getEnginePower() - 0.01f));
-            }
-
-            // sounds
-            if (engineTarget > 0.0f) {
-                int level = (int)(Math.pow(getEnginePower(), 1.5f) * 10);
-                if (oldLevel != level) {
-                    oldLevel = level;
-                    playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5f, getEnginePower() * 0.5f + 0.5f + (level % 2) * 0.5f);
-                }
-            }
-        }
     }
 
     @Override
@@ -65,7 +41,7 @@ public class GyrodyneEntity extends AirshipEntity {
         } else {
             float velocityDecay = 0.05f;
             float rotationDecay = 0.9f;
-            double gravity = getEnginePower() == 1.0f ? 0.0f : GRAVITY;
+            double gravity = getEnginePower() == 1.0f ? 0.0f : properties.getGravity();
             if (location == Location.IN_WATER || location == Location.UNDER_FLOWING_WATER) {
                 gravity = -0.01f;
                 velocityDecay = 0.9f;
@@ -96,8 +72,8 @@ public class GyrodyneEntity extends AirshipEntity {
 
             // convert power
             velocity = velocity.normalize()
-                    .lerp(direction, LIFT)
-                    .multiply(velocity.length() * (drag * DRIFT_DRAG + (1.0 - DRIFT_DRAG)));
+                    .lerp(direction, properties.getLift())
+                    .multiply(velocity.length() * (drag * properties.getDriftDrag() + (1.0 - properties.getDriftDrag())));
             setVelocity(
                     velocity.getX(),
                     getVelocity().getY(),
@@ -106,8 +82,8 @@ public class GyrodyneEntity extends AirshipEntity {
 
             // wind
             if (location == Location.IN_AIR) {
-                float nx = (float)(Utils.cosNoise(age / 20.0) * WIND);
-                float ny = (float)(Utils.cosNoise(age / 21.0) * WIND);
+                float nx = (float)(Utils.cosNoise(age / 20.0) * properties.getWindSensitivity());
+                float ny = (float)(Utils.cosNoise(age / 21.0) * properties.getWindSensitivity());
                 setVelocity(getVelocity().add(nx, 0.0f, ny));
             }
         }
@@ -121,22 +97,22 @@ public class GyrodyneEntity extends AirshipEntity {
 
         // left-right
         if (pressingLeft) {
-            yawVelocity -= YAW_SPEED;
+            yawVelocity -= properties.getYawSpeed();
         }
         if (pressingRight) {
-            yawVelocity += YAW_SPEED;
+            yawVelocity += properties.getYawSpeed();
         }
         setYaw(getYaw() + yawVelocity);
 
         // up-down
         if (location != Location.ON_LAND && pressingForward) {
-            pitchVelocity += PITCH_SPEED;
+            pitchVelocity += properties.getPitchSpeed();
         } else if (location != Location.ON_LAND && pressingBack) {
-            pitchVelocity -= PITCH_SPEED;
+            pitchVelocity -= properties.getPitchSpeed();
         } else {
             setPitch(getPitch() * 0.8f);
         }
-        setPitch(Math.max(-MAX_PITCH, Math.min(MAX_PITCH, getPitch() + pitchVelocity)));
+        setPitch(Math.max(-properties.getMaxPitch(), Math.min(properties.getMaxPitch(), getPitch() + pitchVelocity)));
 
         // landing
         if (location == Location.ON_LAND) {
@@ -152,9 +128,9 @@ public class GyrodyneEntity extends AirshipEntity {
 
         // speed
         if (pressingUp) {
-            setVelocity(getVelocity().add(0.0f, getEnginePower() * VERTICAL_SPEED, 0.0f));
+            setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed(), 0.0f));
         } else if (pressingDown) {
-            setVelocity(getVelocity().add(0.0f, -getEnginePower() * VERTICAL_SPEED, 0.0f));
+            setVelocity(getVelocity().add(0.0f, -getEnginePower() * properties.getVerticalSpeed(), 0.0f));
         }
 
         // get pointing direction
@@ -166,12 +142,12 @@ public class GyrodyneEntity extends AirshipEntity {
 
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * ENGINE_SPEED) * sin;
+        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * sin;
         if (location == Location.ON_LAND) {
             if (pressingForward) {
-                thrust = PUSH_SPEED;
+                thrust = properties.getPushSpeed();
             } else if (pressingBack) {
-                thrust = -PUSH_SPEED * 0.5f;
+                thrust = -properties.getPushSpeed() * 0.5f;
             }
         }
 

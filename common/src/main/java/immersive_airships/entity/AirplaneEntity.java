@@ -1,23 +1,21 @@
 package immersive_airships.entity;
 
+import immersive_airships.entity.properties.AircraftProperties;
 import net.minecraft.entity.EntityType;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public abstract class AirplaneEntity extends AirshipEntity {
-    private int oldLevel;
-
-    private final static float YAW_SPEED = 0.5f;
-    private final static float PITCH_SPEED = 0.75f;
-    private final static float PUSH_SPEED = 0.1f;
-    private final static float LANDING_SPEED = 0.05f;
-    private final static float ENGINE_SPEED = 0.2f;
-    private final static float GLIDE_FACTOR = 0.075f;
-    private final static float MAX_PITCH = 60;
-    private final static float DRIFT_DRAG = 0.1f;
-    private final static float LIFT = 0.01f;
+public abstract class AirplaneEntity extends EngineAircraft {
+    private final AircraftProperties properties = new AircraftProperties(this)
+            .setYawSpeed(0.5f)
+            .setPitchSpeed(0.75f)
+            .setPushSpeed(1.0f)
+            .setEngineSpeed(0.2f)
+            .setGlideFactor(0.075f)
+            .setMaxPitch(60)
+            .setDriftDrag(0.01f)
+            .setLift(0.1f);
 
     public AirplaneEntity(EntityType<? extends AirshipEntity> entityType, World world) {
         super(entityType, world);
@@ -26,29 +24,6 @@ public abstract class AirplaneEntity extends AirshipEntity {
     @Override
     public void tick() {
         super.tick();
-
-        if (!world.isClient()) {
-            // shutdown
-            if (!hasPassengers()) {
-                setEngineTarget(0.0f);
-            }
-
-            // start engine
-            if (engineTarget >= getEnginePower() || hasPassengers() && getEnginePower() == 1.0f) {
-                setEnginePower(Math.min(1.0f, getEnginePower() + 0.01f));
-            } else {
-                setEnginePower(Math.max(0.0f, getEnginePower() - 0.01f));
-            }
-
-            // sounds
-            if (engineTarget > 0.0f) {
-                int level = (int)(Math.pow(getEnginePower(), 1.5f) * 10);
-                if (oldLevel != level) {
-                    oldLevel = level;
-                    playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5f, getEnginePower() * 0.5f + 0.5f + (level % 2) * 0.5f);
-                }
-            }
-        }
     }
 
     @Override
@@ -95,21 +70,21 @@ public abstract class AirplaneEntity extends AirshipEntity {
 
         // left-right
         if (pressingLeft) {
-            yawVelocity -= YAW_SPEED;
+            yawVelocity -= properties.getYawSpeed();
         }
         if (pressingRight) {
-            yawVelocity += YAW_SPEED;
+            yawVelocity += properties.getYawSpeed();
         }
         setYaw(getYaw() + yawVelocity);
 
         // up-down
         if (pressingDown) {
-            pitchVelocity += PITCH_SPEED;
+            pitchVelocity += properties.getMaxPitch();
         }
         if (pressingUp) {
-            pitchVelocity -= PITCH_SPEED;
+            pitchVelocity -= properties.getPitchSpeed();
         }
-        setPitch(Math.max(-MAX_PITCH, Math.min(MAX_PITCH, getPitch() + pitchVelocity)));
+        setPitch(Math.max(-properties.getMaxPitch(), Math.min(properties.getMaxPitch(), getPitch() + pitchVelocity)));
 
         // landing
         if (location == Location.ON_LAND) {
@@ -123,27 +98,27 @@ public abstract class AirplaneEntity extends AirshipEntity {
                 MathHelper.cos(getYaw() * ((float)Math.PI / 180))).normalize();
 
         // glide
-        float glide = (float)(1.0f - getVelocity().normalize().getY() * GLIDE_FACTOR);
+        float glide = (float)(1.0f - getVelocity().normalize().getY() * properties.getGlideFactor());
         setVelocity(getVelocity().multiply(glide));
 
         // perform interpolation and air drag
         Vec3d velocity = getVelocity();
-        double drag = 1.0 - direction.dotProduct(velocity.normalize()) * DRIFT_DRAG;
+        double drag = 1.0 - direction.dotProduct(velocity.normalize()) * properties.getDriftDrag();
 
         // convert power
         setVelocity(
                 velocity.normalize()
-                        .lerp(direction, LIFT)
+                        .lerp(direction, properties.getLift())
                         .multiply(velocity.length() * drag)
         );
 
         // speed
-        float speed = ENGINE_SPEED * getEnginePower();
+        float speed = properties.getEngineSpeed() * getEnginePower();
         if (pressingForward) {
             if (location == Location.ON_LAND) {
-                speed *= PUSH_SPEED;
+                speed *= properties.getPushSpeed();
             }
-            speed += ENGINE_SPEED * getEnginePower();
+            speed += properties.getEngineSpeed() * getEnginePower();
             setEngineTarget(1.0f);
         } else {
             setEngineTarget(0.0f);
@@ -152,10 +127,9 @@ public abstract class AirplaneEntity extends AirshipEntity {
         // either backwards or downwards
         if (pressingBack) {
             if (location == Location.ON_LAND) {
-                speed = -PUSH_SPEED;
+                speed = -properties.getPushSpeed();
             } else {
                 setPitch(getPitch() * 0.9f);
-                setVelocity(getVelocity().add(0, -LANDING_SPEED, 0));
             }
         }
 

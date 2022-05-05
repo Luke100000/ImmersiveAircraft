@@ -1,8 +1,6 @@
 package immersive_airships.entity;
 
 import com.google.common.collect.Lists;
-import immersive_airships.cobalt.network.NetworkHandler;
-import immersive_airships.network.c2s.EnginePowerMessage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -46,10 +44,6 @@ public abstract class AirshipEntity extends Entity {
     static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.FLOAT);
     static final TrackedData<Integer> BOAT_TYPE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
-    static final TrackedData<Float> ENGINE = DataTracker.registerData(AirshipEntity.class, TrackedDataHandlerRegistry.FLOAT);
-
-    float engineTarget = 0.0f;
 
     float ticksUnderwater;
     int interpolationSteps;
@@ -101,15 +95,6 @@ public abstract class AirshipEntity extends Entity {
         dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0f);
         dataTracker.startTracking(BOAT_TYPE, Type.OAK.ordinal());
-        dataTracker.startTracking(ENGINE, 0.0f);
-    }
-
-    public float getEnginePower() {
-        return dataTracker.get(ENGINE);
-    }
-
-    public void setEnginePower(float power) {
-        dataTracker.set(ENGINE, power);
     }
 
     @Override
@@ -659,17 +644,6 @@ public abstract class AirshipEntity extends Entity {
 
     public float getRoll(float tickDelta) {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
-    }
-
-    public float getEngineTarget() {
-        return engineTarget;
-    }
-
-    public void setEngineTarget(float engineTarget) {
-        if (world.isClient && this.engineTarget != engineTarget) {
-            NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
-        }
-        this.engineTarget = engineTarget;
     }
 
     public enum Type {
