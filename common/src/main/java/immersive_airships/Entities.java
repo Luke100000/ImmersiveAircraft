@@ -28,6 +28,6 @@ public interface Entities {
 
     static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         Identifier id = new Identifier(Main.MOD_ID, name);
-        return Registration.registerEntityRenderer(Registry.ENTITY_TYPE, id, builder.build(id.toString()));
+        return Registration.register(Registry.ENTITY_TYPE, id, builder.build(id.toString()));
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.util.registry.Registry;
 
 public interface Items {
     static Item register(String name, Item item) {
-        return Registration.registerEntityRenderer(Registry.ITEM, Main.locate(name), item);
+        return Registration.register(Registry.ITEM, Main.locate(name), item);
     }
 
     static void bootstrap() {

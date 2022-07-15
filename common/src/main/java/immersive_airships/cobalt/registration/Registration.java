@@ -31,11 +31,11 @@ import java.util.function.Supplier;
 public class Registration {
     private static Impl INSTANCE;
 
-    public static <T> T registerEntityRenderer(Registry<? super T> registry, Identifier id, T obj) {
+    public static <T> T register(Registry<? super T> registry, Identifier id, T obj) {
         return INSTANCE.registerEntityRenderer(registry, id, obj);
     }
 
-    public static <T extends AirshipEntity> void registerEntityRenderer(EntityType<?> type, EntityRendererFactory<T> constructor) {
+    public static <T extends AirshipEntity> void register(EntityType<?> type, EntityRendererFactory<T> constructor) {
         //noinspection unchecked
         INSTANCE.registerEntityRenderer((EntityType<T>) type, constructor);
     }
