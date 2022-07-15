@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "immersive_airships",
+  "id": "immersive_aircraft",
   "version": "${version}",
-  "name": "Immersive Airships",
+  "name": "Immersive Aircraft",
   "description": "A bunch of rustic aircraft to travel, transport and explore!",
   "authors": [
     "Luke100000"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ImmersiveAirships",
-    "sources": "https://github.com/Luke100000/ImmersiveAirships",
-    "issues": "https://github.com/Luke100000/ImmersiveAirships/issues"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ImmersiveAircraft",
+    "sources": "https://github.com/Luke100000/ImmersiveAircraft",
+    "issues": "https://github.com/Luke100000/ImmersiveAircraft/issues"
   },
   "license": "GNU",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "immersive_airships.fabric.CommonFabric"
+      "immersive_aircraft.fabric.CommonFabric"
     ],
     "client": [
-      "immersive_airships.fabric.ClientFabric"
+      "immersive_aircraft.fabric.ClientFabric"
     ]
   },
   "mixins": [
-    "immersive_airships.mixin.json"
+    "immersive_aircraft.mixin.json"
   ],
   "depends": {
     "fabricloader": ">=0.11.3",

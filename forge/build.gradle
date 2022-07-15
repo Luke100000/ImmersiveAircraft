@@ -13,7 +13,7 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-        mixinConfig "immersive_airships.mixin.json"
+        mixinConfig "immersive_aircraft.mixin.json"
     }
 }
 
