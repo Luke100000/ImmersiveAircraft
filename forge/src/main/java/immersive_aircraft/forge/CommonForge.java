@@ -7,7 +7,6 @@ import immersive_aircraft.Messages;
 import immersive_aircraft.forge.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -25,10 +24,5 @@ public final class CommonForge {
         Items.bootstrap();
         Entities.bootstrap();
         Messages.bootstrap();
-    }
-
-    @SubscribeEvent
-    public static void onCreateEntityAttributes(EntityAttributeCreationEvent event) {
-        RegistrationImpl.ENTITY_ATTRIBUTES.forEach((type, attributes) -> event.put(type, attributes.get().build()));
     }
 }

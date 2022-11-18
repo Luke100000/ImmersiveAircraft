@@ -4,8 +4,10 @@ import immersive_aircraft.cobalt.registration.Registration;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
+import java.util.function.Supplier;
+
 public interface Items {
-    static Item register(String name, Item item) {
+    static Supplier<Item> register(String name, Supplier<Item> item) {
         return Registration.register(Registry.ITEM, Main.locate(name), item);
     }
 
