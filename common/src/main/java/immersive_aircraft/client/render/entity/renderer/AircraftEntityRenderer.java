@@ -1,37 +1,124 @@
 package immersive_aircraft.client.render.entity.renderer;
 
 import com.mojang.datafixers.util.Pair;
-import immersive_aircraft.client.render.entity.model.AircraftEntityModel;
 import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.resources.ObjectLoader;
 import immersive_aircraft.util.Utils;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.CompositeEntityModel;
-import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Matrix3f;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3f;
+import owens.oobjloader.Face;
+import owens.oobjloader.FaceVertex;
+import owens.oobjloader.Mesh;
 
+import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends EntityRenderer<T> {
+    static class Object<T extends AircraftEntity> {
+        Object(Identifier id, String object) {
+            this.id = id;
+            this.object = object;
+        }
+
+        public interface AnimationConsumer<T extends AircraftEntity> {
+            void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
+        }
+
+        public interface RenderConsumer<T extends AircraftEntity> {
+            void run(VertexConsumer vertexConsumer, T entity, MatrixStack matrixStack, int light);
+        }
+
+        private final Identifier id;
+        private final String object;
+        private Vec3f pivot = new Vec3f();
+
+        private AnimationConsumer<T> animationConsumer = null;
+        private RenderConsumer<T> renderConsumer = (vertexConsumer, entity, matrixStack, light) -> renderObject(getMesh(), matrixStack, vertexConsumer, light);
+
+        public Mesh getMesh() {
+            Mesh mesh = getFaces(id, object);
+            if (mesh == null) {
+                throw new RuntimeException(String.format("Mesh %s in %s does not exist!", id, object));
+            }
+
+            return mesh;
+        }
+
+        public Identifier getId() {
+            return id;
+        }
+
+        public String getObject() {
+            return object;
+        }
+
+        public Vec3f getPivot() {
+            return pivot;
+        }
+
+        public Object<T> setPivot(Vec3f pivot) {
+            this.pivot = pivot;
+            return this;
+        }
+
+        @Nullable
+        public AnimationConsumer<T> getAnimationConsumer() {
+            return animationConsumer;
+        }
+
+        public Object<T> setAnimationConsumer(AnimationConsumer<T> animationConsumer) {
+            this.animationConsumer = animationConsumer;
+            return this;
+        }
+
+        public RenderConsumer<T> getRenderConsumer() {
+            return renderConsumer;
+        }
+
+        public Object<T> setRenderConsumer(RenderConsumer<T> renderConsumer) {
+            this.renderConsumer = renderConsumer;
+            return this;
+        }
+    }
+
+    static class Model<T extends AircraftEntity> {
+        private final List<Object<T>> objects = new LinkedList<>();
+
+        public Model<T> add(Object<T> o) {
+            objects.add(o);
+            return this;
+        }
+
+        public List<Object<T>> getObjects() {
+            return objects;
+        }
+    }
+
     public AircraftEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
     }
 
+    abstract Model<T> getModel(AircraftEntity entity);
+    abstract Vec3f getPivot(AircraftEntity entity);
+
     @Override
-    public void render(T entity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    public void render(T entity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
         matrixStack.push();
-        matrixStack.translate(0.0, 0.375, 0.0);
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f - yaw));
+
+        //Wobble
         float h = (float)entity.getDamageWobbleTicks() - tickDelta;
         float j = entity.getDamageWobbleStrength() - tickDelta;
         if (j < 0.0f) {
@@ -45,26 +132,60 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 20.0)) * WIND;
         float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 21.0)) * WIND;
 
-        Identifier identifier = getTexture(entity);
-        CompositeEntityModel<T> AircraftEntityModel = getModel(entity);
-        matrixStack.scale(-1.0f, -1.0f, 1.0f);
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yaw));
         matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + ny));
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0f));
-        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getRoll(tickDelta) + nx));
-        AircraftEntityModel.setAngles(entity, tickDelta, 0.0f, -0.1f, 0.0f, 0.0f);
-        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(AircraftEntityModel.getLayer(identifier));
-        AircraftEntityModel.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
+        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + nx));
 
+        Vec3f pivot = getPivot(entity);
+        matrixStack.translate(pivot.getX(), pivot.getY(), pivot.getZ());
+
+        //Get vertex consumer
+        Identifier identifier = getTexture(entity);
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(identifier));
+
+        //Render parts
+        Model<T> model = getModel(entity);
+        for (Object<T> object : model.getObjects()) {
+            matrixStack.push();
+            if (object.getAnimationConsumer() != null) {
+                object.getAnimationConsumer().run(entity, yaw, tickDelta, matrixStack);
+            }
+            object.getRenderConsumer().run(vertexConsumer, entity, matrixStack, light);
+            matrixStack.pop();
+        }
+
+        //Todo move that into custom renderer
         List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
         list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
-
-        getModel(entity).getBannerParts().forEach(part -> BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, part, ModelLoader.BANNER_BASE, false, list));
+        //getModel(entity).getBannerParts().forEach(part -> BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, light, OverlayTexture.DEFAULT_UV, part, ModelLoader.BANNER_BASE, false, list));
 
         matrixStack.pop();
 
-        super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);
+        super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
     }
 
-    abstract AircraftEntityModel<T> getModel(AircraftEntity entity);
+
+    static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
+        for (Face face : mesh.faces) {
+            if (face.vertices.size() == 4) {
+                for (int i = 0; i < 4; i++) {
+                    for (FaceVertex v : face.vertices) {
+                        vertex(matrixStack, vertexConsumer, v.v.x, v.v.y, v.v.z, v.t.u, v.t.v, v.n.x, v.n.y, v.n.z, light);
+                    }
+                }
+            }
+        }
+    }
+
+    private static Mesh getFaces(Identifier id, String object) {
+        return ObjectLoader.objects.get(id).get(object);
+    }
+
+    private static void vertex(MatrixStack matrices, VertexConsumer vertexConsumer, float x, float y, float z, float u, float v, float normalX, float normalY, float normalZ, int light) {
+        MatrixStack.Entry entry = matrices.peek();
+        Matrix4f positionMatrix = entry.getPositionMatrix();
+        Matrix3f normalMatrix = entry.getNormalMatrix();
+        vertexConsumer.vertex(positionMatrix, x, y, z).color(255, 255, 255, 255).texture(u, v).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normalMatrix, normalX, normalY, normalZ).next();
+    }
 }
 
