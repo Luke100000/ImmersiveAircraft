@@ -20,10 +20,30 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             )
             .add(
                     new Object<T>(id, "propeller").setAnimationConsumer(
-                            (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.getEnginePower() * (entity.age + tickDelta)));
+                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                             }
                     )
+            )
+            .add(
+                    new Object<T>(id, "elevator").setAnimationConsumer(
+                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                                Vec3f pivot = object.getPivot();
+                                matrixStack.translate(-pivot.getX(), -pivot.getY(), -pivot.getZ());
+                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta) * 5.0f));
+                                matrixStack.translate(pivot.getX(), pivot.getY(), pivot.getZ());
+                            }
+                    ).setPivot(0.0f, -0.0625f, 2.5f)
+            )
+            .add(
+                    new Object<T>(id, "rudder").setAnimationConsumer(
+                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                                Vec3f pivot = object.getPivot();
+                                matrixStack.translate(-pivot.getX(), -pivot.getY(), -pivot.getZ());
+                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta) * 15.0f));
+                                matrixStack.translate(pivot.getX(), pivot.getY(), pivot.getZ());
+                            }
+                    ).setPivot(0.0f, -0.0625f, 2.5f)
             );
 
     public BiplaneEntityRenderer(EntityRendererFactory.Context context) {
@@ -49,6 +69,6 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
 
     @Override
     Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.5f, 0.05f);
+        return new Vec3f(0.0f, 0.4f, 0.05f);
     }
 }

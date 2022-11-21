@@ -34,7 +34,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
 
         public interface AnimationConsumer<T extends AircraftEntity> {
-            void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
+            void run(Object<T> object, T entity, float yaw, float tickDelta, MatrixStack matrixStack);
         }
 
         public interface RenderConsumer<T extends AircraftEntity> {
@@ -53,7 +53,6 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             if (mesh == null) {
                 throw new RuntimeException(String.format("Mesh %s in %s does not exist!", id, object));
             }
-
             return mesh;
         }
 
@@ -69,8 +68,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             return pivot;
         }
 
-        public Object<T> setPivot(Vec3f pivot) {
-            this.pivot = pivot;
+        public Object<T> setPivot(float x, float y, float z) {
+            this.pivot = new Vec3f(x, y, z);
             return this;
         }
 
@@ -112,6 +111,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     }
 
     abstract Model<T> getModel(AircraftEntity entity);
+
     abstract Vec3f getPivot(AircraftEntity entity);
 
     @Override
@@ -146,12 +146,14 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         //Render parts
         Model<T> model = getModel(entity);
         for (Object<T> object : model.getObjects()) {
-            matrixStack.push();
             if (object.getAnimationConsumer() != null) {
-                object.getAnimationConsumer().run(entity, yaw, tickDelta, matrixStack);
+                matrixStack.push();
+                object.getAnimationConsumer().run(object, entity, yaw, tickDelta, matrixStack);
             }
             object.getRenderConsumer().run(vertexConsumer, entity, matrixStack, light);
-            matrixStack.pop();
+            if (object.getAnimationConsumer() != null) {
+                matrixStack.pop();
+            }
         }
 
         //Todo move that into custom renderer
@@ -168,10 +170,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
         for (Face face : mesh.faces) {
             if (face.vertices.size() == 4) {
-                for (int i = 0; i < 4; i++) {
-                    for (FaceVertex v : face.vertices) {
-                        vertex(matrixStack, vertexConsumer, v.v.x, v.v.y, v.v.z, v.t.u, v.t.v, v.n.x, v.n.y, v.n.z, light);
-                    }
+                for (FaceVertex v : face.vertices) {
+                    vertex(matrixStack, vertexConsumer, v.v.x, v.v.y, v.v.z, v.t.u, v.t.v, v.n.x, v.n.y, v.n.z, light);
                 }
             }
         }

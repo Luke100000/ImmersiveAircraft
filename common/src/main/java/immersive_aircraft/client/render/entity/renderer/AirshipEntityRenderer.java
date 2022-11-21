@@ -3,14 +3,35 @@ package immersive_aircraft.client.render.entity.renderer;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
+import immersive_aircraft.util.Utils;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
+    private static final Identifier id = Main.locate("objects/airship.obj");
+
     private final Identifier texture;
 
-    private final Model<T> model = new Model<T>();
+    private final Model<T> model = new Model<T>()
+            .add(
+                    new Object<T>(id, "frame")
+            )
+            .add(
+                    new Object<T>(id, "controller").setAnimationConsumer(
+                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta)));
+                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta)));
+                            }
+                    )
+            )
+            .add(
+                    new Object<T>(id, "propeller").setAnimationConsumer(
+                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                            }
+                    )
+            );
 
     public AirshipEntityRenderer(EntityRendererFactory.Context context) {
         super(context);

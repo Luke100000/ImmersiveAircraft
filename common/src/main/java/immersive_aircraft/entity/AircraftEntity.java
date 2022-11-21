@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import com.google.common.collect.Lists;
 import immersive_aircraft.entity.properties.AircraftProperties;
+import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -68,6 +69,10 @@ public abstract class AircraftEntity extends Entity {
     boolean pressingBack;
     boolean pressingUp;
     boolean pressingDown;
+
+    public final InterpolatedFloat pressingInterpolatedX = new InterpolatedFloat();
+    public final InterpolatedFloat pressingInterpolatedY = new InterpolatedFloat();
+    public final InterpolatedFloat pressingInterpolatedZ = new InterpolatedFloat();
 
     double waterLevel;
     float slipperiness;
@@ -279,6 +284,13 @@ public abstract class AircraftEntity extends Entity {
             roll = yawVelocity * getProperties().getRollFactor();
         } else {
             roll *= 0.9;
+        }
+
+        // interpolate keys for visual feedback
+        if (world.isClient) {
+            pressingInterpolatedX.update((pressingLeft ? -1.0f : 0.0f) + (pressingRight ? 1.0f : 0.0f));
+            pressingInterpolatedY.update((pressingForward ? -1.0f : 0.0f) + (pressingBack ? 1.0f : 0.0f));
+            pressingInterpolatedZ.update((pressingDown ? -1.0f : 0.0f) + (pressingUp ? 1.0f : 0.0f));
         }
     }
 

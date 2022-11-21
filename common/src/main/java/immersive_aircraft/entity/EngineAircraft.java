@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
+import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -15,6 +16,8 @@ public abstract class EngineAircraft extends AircraftEntity {
     static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
 
     float engineTarget = 0.0f;
+
+    public final InterpolatedFloat engineRotation = new InterpolatedFloat();
 
     public EngineAircraft(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -31,7 +34,9 @@ public abstract class EngineAircraft extends AircraftEntity {
     public void tick() {
         super.tick();
 
-        if (!world.isClient()) {
+        if (world.isClient()) {
+            engineRotation.update((engineRotation.getValue() + getEnginePower()) % 1000);
+        } else {
             // shutdown
             if (!hasPassengers()) {
                 setEngineTarget(0.0f);
