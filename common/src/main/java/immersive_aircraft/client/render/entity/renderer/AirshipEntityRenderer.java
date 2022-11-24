@@ -3,7 +3,6 @@ package immersive_aircraft.client.render.entity.renderer;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
-import immersive_aircraft.util.Utils;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
@@ -17,6 +16,20 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object<T>(id, "frame")
             )
+            .add(
+                    new Object<T>(id, "sails")
+            )
+            /*
+            .add(
+                    new Object<T>(id, "sail")
+                            .setRenderConsumer(
+                                    (vertexConsumer, entity, matrixStack, light) -> {
+                                        Mesh mesh = getFaces(id, "sails");
+                                        renderSailObject(mesh, matrixStack, vertexConsumer, light, entity.world.getTime() % 24000 + MinecraftClient.getInstance().getTickDelta());
+                                    }
+                            )
+            )
+             */
             .add(
                     new Object<T>(id, "controller").setAnimationConsumer(
                             (object, entity, yaw, tickDelta, matrixStack) -> {

@@ -7,6 +7,9 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+/**
+ * Implements airplane like physics properties and accelerated towards
+ */
 public abstract class AirplaneEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)

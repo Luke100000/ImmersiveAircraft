@@ -63,21 +63,17 @@ public class GyrodyneEntity extends EngineAircraft {
 
         super.updateController();
 
-        // speed
+        // helicopter-like movement
         if (movementY != 0) {
             setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * movementY, 0.0f));
         }
 
-        // get pointing direction
-        Vec3d direction = new Vec3d(
-                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
-                0.0,
-                MathHelper.cos(getYaw() * ((float)Math.PI / 180))
-        ).normalize();
+        // get direction
+        Vec3d direction = getXYDirection();
 
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * sin;
+        float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
         if (location == Location.ON_LAND) {
             if (movementZ > 0) {
                 thrust = properties.getPushSpeed() * movementZ;

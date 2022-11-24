@@ -1,10 +1,8 @@
 package immersive_aircraft.client.render.entity.renderer;
 
-import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.ObjectLoader;
 import immersive_aircraft.util.Utils;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -12,7 +10,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
@@ -28,17 +25,17 @@ import java.util.List;
 
 public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends EntityRenderer<T> {
     static class Object<T extends AircraftEntity> {
-        Object(Identifier id, String object) {
-            this.id = id;
-            this.object = object;
-        }
-
         public interface AnimationConsumer<T extends AircraftEntity> {
             void run(Object<T> object, T entity, float yaw, float tickDelta, MatrixStack matrixStack);
         }
 
         public interface RenderConsumer<T extends AircraftEntity> {
             void run(VertexConsumer vertexConsumer, T entity, MatrixStack matrixStack, int light);
+        }
+
+        Object(Identifier id, String object) {
+            this.id = id;
+            this.object = object;
         }
 
         private final Identifier id;
@@ -157,15 +154,14 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
 
         //Todo move that into custom renderer
-        List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
-        list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
-        //getModel(entity).getBannerParts().forEach(part -> BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, light, OverlayTexture.DEFAULT_UV, part, ModelLoader.BANNER_BASE, false, list));
+        //List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
+        //list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
+        //BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, light, OverlayTexture.DEFAULT_UV, part, ModelLoader.BANNER_BASE, false, list)
 
         matrixStack.pop();
 
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
     }
-
 
     static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
         for (Face face : mesh.faces) {
@@ -177,7 +173,19 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    private static Mesh getFaces(Identifier id, String object) {
+    static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
+        for (Face face : mesh.faces) {
+            if (face.vertices.size() == 4) {
+                for (FaceVertex v : face.vertices) {
+                    double angle = v.v.x + v.v.z + v.v.y * 0.25 + time * 0.25;
+                    double scale = 0.05;
+                    vertex(matrixStack, vertexConsumer, (float)(v.v.x + Math.cos(angle) * scale + Math.cos(angle * 1.7) * scale), v.v.y, (float)(v.v.z + Math.sin(angle) * scale + Math.sin(angle * 1.7) * scale), v.t.u, v.t.v, v.n.x, v.n.y, v.n.z, light);
+                }
+            }
+        }
+    }
+
+    static Mesh getFaces(Identifier id, String object) {
         return ObjectLoader.objects.get(id).get(object);
     }
 

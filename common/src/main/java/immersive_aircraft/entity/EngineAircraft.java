@@ -10,6 +10,9 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 
+/**
+ * Simulated engine behavior
+ */
 public abstract class EngineAircraft extends AircraftEntity {
     private int oldLevel;
 
@@ -66,7 +69,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         yawVelocity += getProperties().getYawSpeed() * movementX;
         setYaw(getYaw() + yawVelocity);
 
-        // up-down
+        // forwards-backwards
         if (location != Location.ON_LAND && movementZ != 0) {
             pitchVelocity += getProperties().getPitchSpeed() * movementZ;
         } else {
