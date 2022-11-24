@@ -4,9 +4,7 @@ import com.google.common.collect.Lists;
 import immersive_aircraft.entity.properties.AircraftProperties;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.LilyPadBlock;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.*;
@@ -46,7 +44,6 @@ public abstract class AircraftEntity extends Entity {
     static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(AircraftEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(AircraftEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(AircraftEntity.class, TrackedDataHandlerRegistry.FLOAT);
-    static final TrackedData<Integer> BOAT_TYPE = DataTracker.registerData(AircraftEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     int interpolationSteps;
 
@@ -63,12 +60,9 @@ public abstract class AircraftEntity extends Entity {
     double boatYaw;
     double boatPitch;
 
-    boolean pressingLeft;
-    boolean pressingRight;
-    boolean pressingForward;
-    boolean pressingBack;
-    boolean pressingUp;
-    boolean pressingDown;
+    float movementX;
+    float movementY;
+    float movementZ;
 
     public final InterpolatedFloat pressingInterpolatedX = new InterpolatedFloat();
     public final InterpolatedFloat pressingInterpolatedY = new InterpolatedFloat();
@@ -113,7 +107,6 @@ public abstract class AircraftEntity extends Entity {
         dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0f);
-        dataTracker.startTracking(BOAT_TYPE, Type.OAK.ordinal());
     }
 
     @Override
@@ -183,24 +176,6 @@ public abstract class AircraftEntity extends Entity {
     }
 
     public Item asItem() {
-        switch (getBoatType()) {
-            default: {
-                return Items.OAK_BOAT;
-            }
-            case SPRUCE: {
-                return Items.SPRUCE_BOAT;
-            }
-            case BIRCH: {
-                return Items.BIRCH_BOAT;
-            }
-            case JUNGLE: {
-                return Items.JUNGLE_BOAT;
-            }
-            case ACACIA: {
-                return Items.ACACIA_BOAT;
-            }
-            case DARK_OAK:
-        }
         return Items.DARK_OAK_BOAT;
     }
 
@@ -231,18 +206,29 @@ public abstract class AircraftEntity extends Entity {
         return getHorizontalFacing().rotateYClockwise();
     }
 
+
+    private static float getMovementMultiplier(boolean positive, boolean negative) {
+        if (positive == negative) {
+            return 0.0f;
+        }
+        return positive ? 1.0f : -1.0f;
+    }
+
     @Override
     public void tick() {
         // pilot
         if (world.isClient() && getPassengerList().size() > 0) {
             Entity entity = getPassengerList().get(0);
             if (entity instanceof ClientPlayerEntity player) {
-                setInputs(player.input.pressingLeft, player.input.pressingRight, player.input.pressingForward, player.input.pressingBack, player.input.jumping, player.input.sneaking);
+                setInputs(player.input.movementSideways, getMovementMultiplier(player.input.jumping, player.input.sneaking), player.input.movementForward);
             }
         }
 
+        // update location
         lastLocation = location;
         location = checkLocation();
+
+        // wobble
         if (getDamageWobbleTicks() > 0) {
             setDamageWobbleTicks(getDamageWobbleTicks() - 1);
         }
@@ -252,8 +238,10 @@ public abstract class AircraftEntity extends Entity {
 
         super.tick();
 
+        // interpolate
         handleClientSync();
 
+        // if its the right side, update the velocity
         if (isLogicalSideForUpdatingMovement()) {
             updateVelocity();
             if (world.isClient) {
@@ -278,7 +266,7 @@ public abstract class AircraftEntity extends Entity {
             }
         }
 
-        // rolling
+        // rolling interpolation
         prevRoll = roll;
         if (location != Location.ON_LAND) {
             roll = yawVelocity * getProperties().getRollFactor();
@@ -288,9 +276,9 @@ public abstract class AircraftEntity extends Entity {
 
         // interpolate keys for visual feedback
         if (world.isClient) {
-            pressingInterpolatedX.update((pressingLeft ? -1.0f : 0.0f) + (pressingRight ? 1.0f : 0.0f));
-            pressingInterpolatedY.update((pressingForward ? -1.0f : 0.0f) + (pressingBack ? 1.0f : 0.0f));
-            pressingInterpolatedZ.update((pressingDown ? -1.0f : 0.0f) + (pressingUp ? 1.0f : 0.0f));
+            pressingInterpolatedX.update(movementX);
+            pressingInterpolatedY.update(movementY);
+            pressingInterpolatedZ.update(movementZ);
         }
     }
 
@@ -491,7 +479,8 @@ public abstract class AircraftEntity extends Entity {
                     velocity.getZ()
             );
 
-            //friction
+            // friction
+            // todo property
             Vec3d vec3d = getVelocity();
             setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
             yawVelocity *= rotationDecay;
@@ -593,14 +582,12 @@ public abstract class AircraftEntity extends Entity {
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putString("Type", getBoatType().getName());
+
     }
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        if (nbt.contains("Type", 8)) {
-            setBoatType(Type.getType(nbt.getString("Type")));
-        }
+
     }
 
     @Override
@@ -632,18 +619,6 @@ public abstract class AircraftEntity extends Entity {
                     return;
                 }
                 handleFallDamage(fallDistance, 1.0f, DamageSource.FALL);
-                if (!world.isClient && !isRemoved()) {
-                    kill();
-                    if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                        int i;
-                        for (i = 0; i < 3; ++i) {
-                            dropItem(getBoatType().getBaseBlock());
-                        }
-                        for (i = 0; i < 2; ++i) {
-                            dropItem(Items.STICK);
-                        }
-                    }
-                }
             }
             onLanding();
         } else if (!world.getFluidState(getBlockPos().down()).isIn(FluidTags.WATER) && heightDifference < 0.0) {
@@ -675,14 +650,6 @@ public abstract class AircraftEntity extends Entity {
         return dataTracker.get(DAMAGE_WOBBLE_SIDE);
     }
 
-    public void setBoatType(Type type) {
-        dataTracker.set(BOAT_TYPE, type.ordinal());
-    }
-
-    public Type getBoatType() {
-        return Type.getType(dataTracker.get(BOAT_TYPE));
-    }
-
     @Override
     protected boolean canAddPassenger(Entity passenger) {
         return getPassengerList().size() < getPassengerSpace() && !isSubmergedIn(FluidTags.WATER);
@@ -694,13 +661,10 @@ public abstract class AircraftEntity extends Entity {
         return getFirstPassenger();
     }
 
-    public void setInputs(boolean pressingLeft, boolean pressingRight, boolean pressingForward, boolean pressingBack, boolean pressingUp, boolean pressingDown) {
-        this.pressingLeft = pressingLeft;
-        this.pressingRight = pressingRight;
-        this.pressingForward = pressingForward;
-        this.pressingBack = pressingBack;
-        this.pressingUp = pressingUp;
-        this.pressingDown = pressingDown;
+    public void setInputs(float x, float y, float z) {
+        this.movementX = x;
+        this.movementY = y;
+        this.movementZ = z;
     }
 
     @Override
@@ -736,52 +700,6 @@ public abstract class AircraftEntity extends Entity {
                 MathHelper.sin(-getYaw() * ((float)Math.PI / 180)) * cos,
                 MathHelper.sin(-getPitch() * ((float)Math.PI / 180)),
                 MathHelper.cos(getYaw() * ((float)Math.PI / 180)) * cos).normalize();
-    }
-
-    public enum Type {
-        OAK(Blocks.OAK_PLANKS, "oak"),
-        SPRUCE(Blocks.SPRUCE_PLANKS, "spruce"),
-        BIRCH(Blocks.BIRCH_PLANKS, "birch"),
-        JUNGLE(Blocks.JUNGLE_PLANKS, "jungle"),
-        ACACIA(Blocks.ACACIA_PLANKS, "acacia"),
-        DARK_OAK(Blocks.DARK_OAK_PLANKS, "dark_oak");
-
-        private final String name;
-        private final Block baseBlock;
-
-        Type(Block baseBlock, String name) {
-            this.name = name;
-            this.baseBlock = baseBlock;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Block getBaseBlock() {
-            return baseBlock;
-        }
-
-        public String toString() {
-            return name;
-        }
-
-        public static Type getType(int type) {
-            Type[] types = Type.values();
-            if (type < 0 || type >= types.length) {
-                type = 0;
-            }
-            return types[type];
-        }
-
-        public static Type getType(String name) {
-            Type[] types = Type.values();
-            for (Type type : types) {
-                if (!type.getName().equals(name)) continue;
-                return type;
-            }
-            return types[0];
-        }
     }
 
     public enum Location {

@@ -5,7 +5,7 @@ import immersive_aircraft.entity.AircraftEntity;
 public class AircraftProperties {
     private final AircraftEntity aircraft;
 
-    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer;
+    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer, brakeFactor;
 
     public AircraftProperties(AircraftEntity aircraft) {
         this.aircraft = aircraft;
@@ -15,6 +15,7 @@ public class AircraftProperties {
         return yawSpeed;
     }
 
+    // Speed of rotation
     public AircraftProperties setYawSpeed(float yawSpeed) {
         this.yawSpeed = yawSpeed;
         return this;
@@ -24,6 +25,7 @@ public class AircraftProperties {
         return pitchSpeed;
     }
 
+    // Speed of up and down movement
     public AircraftProperties setPitchSpeed(float pitchSpeed) {
         this.pitchSpeed = pitchSpeed;
         return this;
@@ -134,6 +136,15 @@ public class AircraftProperties {
 
     public AircraftProperties setStabilizer(float stabilizer) {
         this.stabilizer = stabilizer;
+        return this;
+    }
+
+    public float getBrakeFactor() {
+        return brakeFactor;
+    }
+
+    public AircraftProperties setBrakeFactor(float brakeFactor) {
+        this.brakeFactor = brakeFactor;
         return this;
     }
 }

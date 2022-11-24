@@ -28,7 +28,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object<T>(id, "propeller").setAnimationConsumer(
                             (object, entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                             }
                     )
             );

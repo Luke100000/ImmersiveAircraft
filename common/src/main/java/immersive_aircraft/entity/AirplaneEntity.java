@@ -18,7 +18,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setLift(0.15f)
             .setRollFactor(10.0f)
             .setGroundPitch(5.0f)
-            .setWheelFriction(0.1f);
+            .setWheelFriction(0.1f)
+            .setBrakeFactor(0.975f);
 
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -48,14 +49,13 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
         super.updateController();
 
-        //engine
-        if (pressingUp) {
-            setEngineTarget(Math.min(1.0f, getEngineTarget() + 0.1f));
+        // engine control
+        if (movementY != 0) {
+            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
             updateEnginePowerTooltip();
-        } else if (pressingDown) {
-            setEngineTarget(Math.max(0.0f, getEngineTarget() - 0.1f));
-            updateEnginePowerTooltip();
-            setVelocity(getVelocity().multiply(0.975)); //todo
+            if (movementY < 0) {
+                setVelocity(getVelocity().multiply(getProperties().getBrakeFactor()));
+            }
         }
 
         // get direction

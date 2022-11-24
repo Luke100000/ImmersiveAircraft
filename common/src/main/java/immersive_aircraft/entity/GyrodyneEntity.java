@@ -55,23 +55,17 @@ public class GyrodyneEntity extends EngineAircraft {
     @Override
     void updateController() {
         if (!hasPassengers()) {
+            setEngineTarget(0.0f);
             return;
+        } else {
+            setEngineTarget(1.0f);
         }
 
         super.updateController();
 
-        //engine
-        if (pressingUp) {
-            setEngineTarget(1.0f);
-        } else if (pressingDown && location != Location.IN_AIR) {
-            setEngineTarget(0.0f);
-        }
-
         // speed
-        if (pressingUp) {
-            setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed(), 0.0f));
-        } else if (pressingDown) {
-            setVelocity(getVelocity().add(0.0f, -getEnginePower() * properties.getVerticalSpeed(), 0.0f));
+        if (movementY != 0) {
+            setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * movementY, 0.0f));
         }
 
         // get pointing direction
@@ -85,10 +79,10 @@ public class GyrodyneEntity extends EngineAircraft {
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * sin;
         if (location == Location.ON_LAND) {
-            if (pressingForward) {
-                thrust = properties.getPushSpeed();
-            } else if (pressingBack) {
-                thrust = -properties.getPushSpeed() * 0.5f;
+            if (movementZ > 0) {
+                thrust = properties.getPushSpeed() * movementZ;
+            } else if (movementZ < 0) {
+                thrust = properties.getPushSpeed() * movementZ * 0.5f;
             }
         }
 

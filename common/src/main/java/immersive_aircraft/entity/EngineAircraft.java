@@ -63,19 +63,12 @@ public abstract class EngineAircraft extends AircraftEntity {
     @Override
     void updateController() {
         // left-right
-        if (pressingLeft) {
-            yawVelocity -= getProperties().getYawSpeed();
-        }
-        if (pressingRight) {
-            yawVelocity += getProperties().getYawSpeed();
-        }
+        yawVelocity += getProperties().getYawSpeed() * movementX;
         setYaw(getYaw() + yawVelocity);
 
         // up-down
-        if (location != Location.ON_LAND && pressingForward) {
-            pitchVelocity += getProperties().getPitchSpeed();
-        } else if (location != Location.ON_LAND && pressingBack) {
-            pitchVelocity -= getProperties().getPitchSpeed();
+        if (location != Location.ON_LAND && movementZ != 0) {
+            pitchVelocity += getProperties().getPitchSpeed() * movementZ;
         } else {
             setPitch(getPitch() * (1.0f - getProperties().getStabilizer()));
         }
