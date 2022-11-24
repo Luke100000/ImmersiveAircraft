@@ -41,7 +41,9 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object<T>(id, "propeller").setAnimationConsumer(
                             (object, entity, yaw, tickDelta, matrixStack) -> {
+                                matrixStack.translate(0.0f, 0.275f, 0.0f);
                                 matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.translate(0.0f, -0.275f, 0.0f);
                             }
                     )
             );
@@ -65,6 +67,6 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
 
     @Override
     Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.5f, 0.05f);
+        return new Vec3f(0.0f, 0.2f, 0.0f);
     }
 }

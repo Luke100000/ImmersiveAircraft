@@ -17,8 +17,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     private int oldLevel;
 
     static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
-
-    float engineTarget = 0.0f;
+    static final TrackedData<Float> ENGINE_TARGET = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
 
@@ -31,6 +30,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.initDataTracker();
 
         dataTracker.startTracking(ENGINE, 0.0f);
+        dataTracker.startTracking(ENGINE_TARGET, 0.0f);
     }
 
     @Override
@@ -46,14 +46,14 @@ public abstract class EngineAircraft extends AircraftEntity {
             }
 
             // start engine
-            if (engineTarget >= getEnginePower()) {
+            if (getEngineTarget() >= getEnginePower()) {
                 setEnginePower(Math.min(1.0f, getEnginePower() + 0.01f));
             } else {
                 setEnginePower(Math.max(0.0f, getEnginePower() - 0.01f));
             }
 
             // sounds
-            if (engineTarget > 0.0f) {
+            if (getEngineTarget() > 0.0f) {
                 int level = (int)(Math.pow(getEnginePower(), 1.5f) * 10);
                 if (oldLevel != level) {
                     oldLevel = level;
@@ -66,7 +66,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     @Override
     void updateController() {
         // left-right
-        yawVelocity += getProperties().getYawSpeed() * movementX;
+        yawVelocity -= getProperties().getYawSpeed() * movementX;
         setYaw(getYaw() + yawVelocity);
 
         // forwards-backwards
@@ -97,13 +97,15 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     public float getEngineTarget() {
-        return engineTarget;
+        return dataTracker.get(ENGINE_TARGET);
     }
 
     public void setEngineTarget(float engineTarget) {
-        if (world.isClient && this.engineTarget != engineTarget) {
-            NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
+        if (world.isClient) {
+            if (getEngineTarget() != engineTarget) {
+                NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
+            }
         }
-        this.engineTarget = engineTarget;
+        dataTracker.set(ENGINE_TARGET, engineTarget);
     }
 }

@@ -11,12 +11,12 @@ import java.util.List;
 public class AirshipEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)
-            .setEngineSpeed(0.1f)
+            .setEngineSpeed(0.0025f)
             .setVerticalSpeed(0.025f)
             .setGlideFactor(0.025f)
             .setDriftDrag(0.01f)
-            .setWindSensitivity(0.001f)
-            .setRollFactor(1.0f) //todo
+            .setWindSensitivity(0.00025f)
+            .setRollFactor(1.0f)
             .setWheelFriction(0.5f);
 
     public AirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
@@ -71,7 +71,7 @@ public class AirshipEntity extends EngineAircraft {
         ).normalize();
 
         // accelerate
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed());
+        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * movementZ;
         setVelocity(getVelocity().add(direction.multiply(thrust)));
     }
 }
