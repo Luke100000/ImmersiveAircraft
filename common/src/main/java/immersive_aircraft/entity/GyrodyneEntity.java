@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class GyrodyneEntity extends EngineAircraft {
+public class GyrodyneEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)
             .setPitchSpeed(0.3f)
@@ -53,23 +53,7 @@ public class GyrodyneEntity extends EngineAircraft {
     }
 
     @Override
-    public Vec3d getDirection() {
-        return new Vec3d(
-                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
-                0.0,
-                MathHelper.cos(getYaw() * ((float)Math.PI / 180))
-        ).normalize();
-    }
-
-    @Override
     void updateController() {
-        if (!hasPassengers()) {
-            setEngineTarget(0.0f);
-            return;
-        } else {
-            setEngineTarget(1.0f);
-        }
-
         super.updateController();
 
         // helicopter-like movement

@@ -2,13 +2,12 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.properties.AircraftProperties;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class AirshipEntity extends EngineAircraft {
+public class AirshipEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)
             .setEngineSpeed(0.005f)
@@ -50,13 +49,6 @@ public class AirshipEntity extends EngineAircraft {
 
     @Override
     void updateController() {
-        if (!hasPassengers()) {
-            setEngineTarget(0.0f);
-            return;
-        } else {
-            setEngineTarget(1.0f);
-        }
-
         super.updateController();
 
         // speed
@@ -66,11 +58,7 @@ public class AirshipEntity extends EngineAircraft {
 
         // get pointing direction
         //code duplication, xy direction, common subclass called helicopter?
-        Vec3d direction = new Vec3d(
-                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
-                0.0,
-                MathHelper.cos(getYaw() * ((float)Math.PI / 180))
-        ).normalize();
+        Vec3d direction = getDirection();
 
         // accelerate
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * movementZ;
