@@ -39,8 +39,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                                 float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 18.0)) * WIND;
                                 float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 19.0)) * WIND;
 
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + ny));
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + nx));
+                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(ny));
+                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(nx));
                             }
                     )
             )

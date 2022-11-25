@@ -29,7 +29,7 @@ public class GyrodyneEntity extends EngineAircraft {
     }
 
     @Override
-    AircraftProperties getProperties() {
+    public AircraftProperties getProperties() {
         return properties;
     }
 
@@ -53,6 +53,15 @@ public class GyrodyneEntity extends EngineAircraft {
     }
 
     @Override
+    public Vec3d getDirection() {
+        return new Vec3d(
+                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
+                0.0,
+                MathHelper.cos(getYaw() * ((float)Math.PI / 180))
+        ).normalize();
+    }
+
+    @Override
     void updateController() {
         if (!hasPassengers()) {
             setEngineTarget(0.0f);
@@ -69,7 +78,7 @@ public class GyrodyneEntity extends EngineAircraft {
         }
 
         // get direction
-        Vec3d direction = getXYDirection();
+        Vec3d direction = getDirection();
 
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));

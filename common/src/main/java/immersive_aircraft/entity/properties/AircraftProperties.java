@@ -5,7 +5,7 @@ import immersive_aircraft.entity.AircraftEntity;
 public class AircraftProperties {
     private final AircraftEntity aircraft;
 
-    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer, brakeFactor;
+    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer, brakeFactor, mass;
 
     public AircraftProperties(AircraftEntity aircraft) {
         this.aircraft = aircraft;
@@ -145,6 +145,15 @@ public class AircraftProperties {
 
     public AircraftProperties setBrakeFactor(float brakeFactor) {
         this.brakeFactor = brakeFactor;
+        return this;
+    }
+
+    public float getMass() {
+        return mass;
+    }
+
+    public AircraftProperties setMass(float mass) {
+        this.mass = mass;
         return this;
     }
 }

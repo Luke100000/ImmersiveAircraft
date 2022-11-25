@@ -11,11 +11,12 @@ import java.util.List;
 public class AirshipEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(0.5f)
-            .setEngineSpeed(0.0025f)
-            .setVerticalSpeed(0.025f)
+            .setEngineSpeed(0.005f)
+            .setVerticalSpeed(0.005f)
             .setGlideFactor(0.025f)
             .setDriftDrag(0.01f)
-            .setWindSensitivity(0.00025f)
+            .setLift(0.1f)
+            .setWindSensitivity(0.0025f)
             .setRollFactor(1.0f)
             .setWheelFriction(0.5f);
 
@@ -24,13 +25,13 @@ public class AirshipEntity extends EngineAircraft {
     }
 
     @Override
-    AircraftProperties getProperties() {
+    public AircraftProperties getProperties() {
         return properties;
     }
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.4f, 0.2f)
+                    new Vec3d(0.0f, -0.4f, 0.0f)
             ),
             List.of(
                     new Vec3d(0.0f, -0.4f, 0.2f),
@@ -64,6 +65,7 @@ public class AirshipEntity extends EngineAircraft {
         }
 
         // get pointing direction
+        //code duplication, xy direction, common subclass called helicopter?
         Vec3d direction = new Vec3d(
                 MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
                 0.0,

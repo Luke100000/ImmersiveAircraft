@@ -613,14 +613,6 @@ public abstract class VehicleEntity extends Entity {
                 MathHelper.cos(getYaw() * ((float)Math.PI / 180)) * cos).normalize();
     }
 
-    public Vec3d getXYDirection() {
-        return new Vec3d(
-                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)),
-                0.0,
-                MathHelper.cos(getYaw() * ((float)Math.PI / 180))
-        ).normalize();
-    }
-
     public enum Location {
         IN_WATER,
         UNDER_WATER,

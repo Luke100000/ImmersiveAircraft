@@ -33,7 +33,7 @@ public abstract class AircraftEntity extends VehicleEntity {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
     }
 
-    abstract AircraftProperties getProperties();
+    public abstract AircraftProperties getProperties();
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.0f, 0.0f)));
 
@@ -113,8 +113,8 @@ public abstract class AircraftEntity extends VehicleEntity {
 
             // wind
             if (location == Location.IN_AIR) {
-                float nx = (float)(Utils.cosNoise(age / 20.0) * getProperties().getWindSensitivity());
-                float ny = (float)(Utils.cosNoise(age / 21.0) * getProperties().getWindSensitivity());
+                float nx = (float)(Utils.cosNoise(age / 20.0 * getProperties().getMass()) * getProperties().getWindSensitivity());
+                float ny = (float)(Utils.cosNoise(age / 21.0 * getProperties().getMass()) * getProperties().getWindSensitivity());
                 setVelocity(getVelocity().add(nx, 0.0f, ny));
             }
         }

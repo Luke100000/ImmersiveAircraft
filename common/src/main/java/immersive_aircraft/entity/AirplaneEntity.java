@@ -22,14 +22,15 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setRollFactor(10.0f)
             .setGroundPitch(5.0f)
             .setWheelFriction(0.1f)
-            .setBrakeFactor(0.975f);
+            .setBrakeFactor(0.975f)
+            .setMass(15.0f);
 
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
-    AircraftProperties getProperties() {
+    public AircraftProperties getProperties() {
         return properties;
     }
 

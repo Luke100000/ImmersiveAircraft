@@ -125,7 +125,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
         }
 
-        float WIND = entity.location == AircraftEntity.Location.IN_AIR ? 0.5f : 0.0f;
+        float WIND = entity.location == AircraftEntity.Location.IN_AIR ? entity.getProperties().getWindSensitivity() * 10.0f : 0.0f;
         float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 20.0)) * WIND;
         float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 21.0)) * WIND;
 
