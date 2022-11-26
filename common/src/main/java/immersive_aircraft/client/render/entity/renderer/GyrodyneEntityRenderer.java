@@ -13,28 +13,28 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
 
     private final Identifier texture;
 
-    private final Model<T> model = new Model<T>()
+    private final Model model = new Model()
             .add(
-                    new Object<T>(id, "frame")
+                    new Object(id, "frame")
             )
             .add(
-                    new Object<T>(id, "controller").setAnimationConsumer(
-                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                    new Object(id, "controller").setAnimationConsumer(
+                            (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta)));
                                 matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta)));
                             }
                     )
             )
             .add(
-                    new Object<T>(id, "controller_2").setAnimationConsumer(
-                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                    new Object(id, "controller_2").setAnimationConsumer(
+                            (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedZ.getSmooth(tickDelta)));
                             }
                     )
             )
             .add(
-                    new Object<T>(id, "wings").setAnimationConsumer(
-                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                    new Object(id, "wings").setAnimationConsumer(
+                            ( entity, yaw, tickDelta, matrixStack) -> {
                                 float WIND = entity.location == AircraftEntity.Location.IN_AIR ? 1.0f : 0.0f;
                                 float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 18.0)) * WIND;
                                 float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 19.0)) * WIND;
@@ -45,8 +45,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     )
             )
             .add(
-                    new Object<T>(id, "propeller").setAnimationConsumer(
-                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                    new Object(id, "propeller").setAnimationConsumer(
+                            ( entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                             }
                     )
@@ -64,7 +64,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     }
 
     @Override
-    Model<T> getModel(AircraftEntity entity) {
+    Model getModel(AircraftEntity entity) {
         return model;
     }
 

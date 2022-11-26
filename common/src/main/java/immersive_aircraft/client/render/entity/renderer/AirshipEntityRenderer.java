@@ -12,16 +12,16 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
 
     private final Identifier texture = Main.locate("textures/entity/airship.png");
 
-    private final Model<T> model = new Model<T>()
+    private final Model model = new Model()
             .add(
-                    new Object<>(id, "frame")
+                    new Object(id, "frame")
             )
             .add(
-                    new Object<>(id, "sails")
+                    new Object(id, "sails")
             )
             /*
             .add(
-                    new Object<T>(id, "sail")
+                    new Object<T>(id, "sails")
                             .setRenderConsumer(
                                     (vertexConsumer, entity, matrixStack, light) -> {
                                         Mesh mesh = getFaces(id, "sails");
@@ -31,16 +31,16 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             )
              */
             .add(
-                    new Object<T>(id, "controller").setAnimationConsumer(
-                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                    new Object(id, "controller").setAnimationConsumer(
+                            (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta)));
                                 matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta)));
                             }
                     )
             )
             .add(
-                    new Object<T>(id, "propeller").setAnimationConsumer(
-                            (object, entity, yaw, tickDelta, matrixStack) -> {
+                    new Object(id, "propeller").setAnimationConsumer(
+                            (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.25f, 0.0f);
                                 matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                 matrixStack.translate(0.0f, -0.25f, 0.0f);
@@ -59,7 +59,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     }
 
     @Override
-    Model<T> getModel(AircraftEntity entity) {
+    Model getModel(AircraftEntity entity) {
         return model;
     }
 

@@ -47,14 +47,15 @@ public class BiplaneEntity extends AirplaneEntity {
             trail(transform, 1, 3.75f, 0.25f, 0.6f);
 
             // Smoke
-            if (getEnginePower() > 0.0) {
+            float power = getEnginePower();
+            if (power > 0.0) {
                 if (age % 4 == 0) {
                     Vector4f p = transformPosition(transform, -0.325f, 0.5f, 0.8f);
-                    Vec3f vel = transformVector(normalTransform, -0.2f, 0.0f, 1.0f);
+                    Vec3f vel = transformVector(normalTransform, -0.2f, 0.0f, power);
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
                 } else if (age % 4 == 2) {
                     Vector4f p = transformPosition(transform, 0.325f, 0.5f, 0.8f);
-                    Vec3f vel = transformVector(normalTransform, 0.2f, 0.0f, 1.0f);
+                    Vec3f vel = transformVector(normalTransform, 0.2f, 0.0f, power);
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
                 }
 

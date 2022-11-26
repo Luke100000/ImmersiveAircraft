@@ -37,7 +37,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected float getGravity() {
-        return (1.0f - getEnginePower()) * super.getGravity(); //todo meh, should be speed dependent
+        float length = (float)getVelocity().length();
+        return (1.0f - length) * super.getGravity();
     }
 
     private void updateEnginePowerTooltip() {
