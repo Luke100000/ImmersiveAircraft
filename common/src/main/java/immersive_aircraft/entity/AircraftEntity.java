@@ -1,5 +1,6 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.client.render.entity.renderer.Trail;
 import immersive_aircraft.entity.properties.AircraftProperties;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
@@ -7,6 +8,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,6 +33,12 @@ public abstract class AircraftEntity extends VehicleEntity {
 
     public float getRoll(float tickDelta) {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
+    }
+
+    private static final List<Trail> TRAILS = Collections.emptyList();
+
+    public List<Trail> getTrails() {
+        return TRAILS;
     }
 
     public abstract AircraftProperties getProperties();

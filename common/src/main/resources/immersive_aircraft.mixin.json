@@ -4,11 +4,9 @@
   "package": "immersive_aircraft.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "LivingEntityRendererMixin",
     "GameRendererMixin",
+    "LivingEntityRendererMixin",
     "PlayerEntityMixin"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

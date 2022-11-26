@@ -52,6 +52,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
         super(context);
         this.shadowRadius = 0.8f;
 
+        //todo static
         texture = Main.locate("textures/entity/airship.png");
     }
 

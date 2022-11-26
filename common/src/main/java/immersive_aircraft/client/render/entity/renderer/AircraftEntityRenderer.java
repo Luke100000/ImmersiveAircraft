@@ -111,8 +111,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     abstract Vec3f getPivot(AircraftEntity entity);
 
+
     @Override
     public void render(T entity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
+        MatrixStack.Entry peek = matrixStack.peek();
+
         matrixStack.push();
 
         //Wobble
@@ -157,6 +160,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         //List<Pair<BannerPattern, DyeColor>> list = new LinkedList<>();
         //list.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
         //BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, light, OverlayTexture.DEFAULT_UV, part, ModelLoader.BANNER_BASE, false, list)
+
+        // render trails
+        entity.getTrails().forEach(t -> t.render(vertexConsumerProvider, peek));
 
         matrixStack.pop();
 
