@@ -10,14 +10,14 @@ import net.minecraft.util.math.Vec3f;
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/airship.obj");
 
-    private final Identifier texture;
+    private final Identifier texture = Main.locate("textures/entity/airship.png");
 
     private final Model<T> model = new Model<T>()
             .add(
-                    new Object<T>(id, "frame")
+                    new Object<>(id, "frame")
             )
             .add(
-                    new Object<T>(id, "sails")
+                    new Object<>(id, "sails")
             )
             /*
             .add(
@@ -51,9 +51,6 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     public AirshipEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
-
-        //todo static
-        texture = Main.locate("textures/entity/airship.png");
     }
 
     @Override

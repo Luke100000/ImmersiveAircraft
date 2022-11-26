@@ -21,7 +21,9 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             .add(
                     new Object<T>(id, "propeller").setAnimationConsumer(
                             (object, entity, yaw, tickDelta, matrixStack) -> {
+                                matrixStack.translate(0.0f, 0.25f, 0.0f);
                                 matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.translate(0.0f, -0.25f, 0.0f);
                             }
                     )
             )

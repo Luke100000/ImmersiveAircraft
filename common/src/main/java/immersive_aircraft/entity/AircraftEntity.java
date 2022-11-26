@@ -4,8 +4,7 @@ import immersive_aircraft.client.render.entity.renderer.Trail;
 import immersive_aircraft.entity.properties.AircraftProperties;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import java.util.Collections;
@@ -126,6 +125,34 @@ public abstract class AircraftEntity extends VehicleEntity {
                 setVelocity(getVelocity().add(nx, 0.0f, ny));
             }
         }
+    }
+
+    protected Vector4f transformPosition(Matrix4f transform, float x, float y, float z) {
+        Vector4f p0 = new Vector4f(x, y, z, 1);
+        p0.transform(transform);
+        return p0;
+    }
+
+    protected Vec3f transformVector(Matrix3f transform, float x, float y, float z) {
+        Vec3f p0 = new Vec3f(x, y, z);
+        p0.transform(transform);
+        return p0;
+    }
+
+    protected Matrix4f getVehicleTransform() {
+        Matrix4f transform = Matrix4f.translate((float)getX(), (float)getY(), (float)getZ());
+        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
+        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
+        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        return transform;
+    }
+
+    protected Matrix3f getVehicleNormalTransform() {
+        Matrix3f transform = Matrix3f.scale(1.0f, 1.0f, 1.0f);
+        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
+        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
+        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        return transform;
     }
 }
 

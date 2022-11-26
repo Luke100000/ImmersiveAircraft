@@ -2,10 +2,9 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.client.render.entity.renderer.Trail;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.Vector4f;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -15,11 +14,7 @@ public class BiplaneEntity extends AirplaneEntity {
         super(entityType, world);
     }
 
-    List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
-            List.of(
-                    new Vec3d(0.0f, -0.35f, -0.4f)
-            )
-    );
+    List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, -0.35f, -0.4f)));
 
     private final List<Trail> trails = List.of(new Trail(40), new Trail(40));
 
@@ -32,25 +27,42 @@ public class BiplaneEntity extends AirplaneEntity {
     }
 
     private void trail(Matrix4f transform, int index, float x, float y, float z) {
-        Vector4f p0 = new Vector4f(x, y - 0.1f, z, 1);
-        p0.transform(transform);
+        Vector4f p0 = transformPosition(transform, x, y - 0.15f, z);
+        Vector4f p1 = transformPosition(transform, x, y + 0.15f, z);
 
-        Vector4f p1 = new Vector4f(x, y + 0.1f, z, 1);
-        p1.transform(transform);
-
-        trails.get(index).add(p0, p1);
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(getVelocity().length() * (0.75f + (yawVelocity * x) * 0.025f) - 0.25f)));
+        trails.get(index).add(p0, p1, trailStrength);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        Matrix4f transform = Matrix4f.translate((float)getX(), (float)getY(), (float)getZ());
-        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
-        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
-        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        if (world.isClient) {
+            Matrix4f transform = getVehicleTransform();
+            Matrix3f normalTransform = getVehicleNormalTransform();
 
-        trail(transform, 0, -3.75f, 0.25f, 0.6f);
-        trail(transform, 1, 3.75f, 0.25f, 0.6f);
+            // Trails
+            trail(transform, 0, -3.75f, 0.25f, 0.6f);
+            trail(transform, 1, 3.75f, 0.25f, 0.6f);
+
+            // Smoke
+            if (getEnginePower() > 0.0) {
+                if (age % 4 == 0) {
+                    Vector4f p = transformPosition(transform, -0.325f, 0.5f, 0.8f);
+                    Vec3f vel = transformVector(normalTransform, -0.2f, 0.0f, 1.0f);
+                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
+                } else if (age % 4 == 2) {
+                    Vector4f p = transformPosition(transform, 0.325f, 0.5f, 0.8f);
+                    Vec3f vel = transformVector(normalTransform, 0.2f, 0.0f, 1.0f);
+                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
+                }
+
+                // Engine sounds
+                if (age % 4 == 0) {
+                    world.playSound(getX(), getY(), getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, getSoundCategory(), 0.25f, 3f, false);
+                }
+            }
+        }
     }
 }

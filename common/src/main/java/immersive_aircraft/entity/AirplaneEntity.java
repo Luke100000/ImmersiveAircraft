@@ -23,6 +23,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setGroundPitch(5.0f)
             .setWheelFriction(0.1f)
             .setBrakeFactor(0.975f)
+            .setWindSensitivity(0.1f)
             .setMass(15.0f);
 
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
@@ -36,7 +37,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected float getGravity() {
-        return (1.0f - getEnginePower()) * super.getGravity();
+        return (1.0f - getEnginePower()) * super.getGravity(); //todo meh, should be speed dependent
     }
 
     private void updateEnginePowerTooltip() {
