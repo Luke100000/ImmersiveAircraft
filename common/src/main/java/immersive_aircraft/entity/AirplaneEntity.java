@@ -21,7 +21,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setLift(0.15f)
             .setRollFactor(10.0f)
             .setGroundPitch(5.0f)
-            .setWheelFriction(0.1f)
+            .setWheelFriction(0.05f)
             .setBrakeFactor(0.975f)
             .setWindSensitivity(0.1f)
             .setMass(15.0f);

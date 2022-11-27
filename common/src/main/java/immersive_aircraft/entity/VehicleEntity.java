@@ -79,6 +79,7 @@ public abstract class VehicleEntity extends Entity {
     public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
         intersectionChecked = true;
+        stepHeight = 0.55f;
     }
 
     @Override
