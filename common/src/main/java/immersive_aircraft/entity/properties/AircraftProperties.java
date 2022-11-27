@@ -5,7 +5,7 @@ import immersive_aircraft.entity.AircraftEntity;
 public class AircraftProperties {
     private final AircraftEntity aircraft;
 
-    private float yawSpeed, pitchSpeed, pushSpeed, engineSpeed, glideFactor, maxPitch, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer, brakeFactor, mass;
+    private float yawSpeed, pitchSpeed, engineSpeed, glideFactor, driftDrag, lift, verticalSpeed, windSensitivity, wheelFriction, rollFactor, groundPitch, stabilizer, brakeFactor, mass;
 
     public AircraftProperties(AircraftEntity aircraft) {
         this.aircraft = aircraft;
@@ -31,15 +31,6 @@ public class AircraftProperties {
         return this;
     }
 
-    public float getPushSpeed() {
-        return pushSpeed;
-    }
-
-    public AircraftProperties setPushSpeed(float pushSpeed) {
-        this.pushSpeed = pushSpeed;
-        return this;
-    }
-
     public float getEngineSpeed() {
         return engineSpeed;
     }
@@ -58,19 +49,11 @@ public class AircraftProperties {
         return this;
     }
 
-    public float getMaxPitch() {
-        return maxPitch;
-    }
-
-    public AircraftProperties setMaxPitch(float maxPitch) {
-        this.maxPitch = maxPitch;
-        return this;
-    }
-
     public float getDriftDrag() {
         return driftDrag;
     }
 
+    // How much energy is lost by drift drag
     public AircraftProperties setDriftDrag(float driftDrag) {
         this.driftDrag = driftDrag;
         return this;
@@ -80,6 +63,7 @@ public class AircraftProperties {
         return lift;
     }
 
+    // How strong the existing velocity can be transformed into the new direction
     public AircraftProperties setLift(float lift) {
         this.lift = lift;
         return this;

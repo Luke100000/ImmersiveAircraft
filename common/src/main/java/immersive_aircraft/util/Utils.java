@@ -9,7 +9,7 @@ public class Utils {
         double value = 0.0f;
         for (int i = 0; i < layers; i++) {
             value += Math.cos(time);
-            time *= 1.7;
+            time *= 1.3;
         }
         return value;
     }

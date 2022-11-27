@@ -30,7 +30,7 @@ public class BiplaneEntity extends AirplaneEntity {
         Vector4f p0 = transformPosition(transform, x, y - 0.15f, z);
         Vector4f p1 = transformPosition(transform, x, y + 0.15f, z);
 
-        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(getVelocity().length() * (0.75f + (yawVelocity * x) * 0.025f) - 0.25f)));
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(getVelocity().length() * (0.75f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
         trails.get(index).add(p0, p1, trailStrength);
     }
 

@@ -9,20 +9,21 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
+    private final static float PUSH_SPEED = 0.1f;
+
     private final AircraftProperties properties = new AircraftProperties(this)
-            .setYawSpeed(0.5f)
+            .setYawSpeed(5.0f)
             .setPitchSpeed(0.3f)
-            .setPushSpeed(0.025f)
             .setEngineSpeed(0.1f)
             .setVerticalSpeed(0.025f)
             .setGlideFactor(0.025f)
-            .setMaxPitch(10)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
-            .setWindSensitivity(0.001f)
             .setRollFactor(8.0f)
             .setStabilizer(0.4f)
-            .setWheelFriction(0.5f);
+            .setWheelFriction(0.5f)
+            .setWindSensitivity(0.005f)
+            .setMass(5.0f);
 
     public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -54,12 +55,11 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     void updateController() {
+        // todo engine needs to be started by pushing, once reaching 1 the engine stays on
         super.updateController();
 
-        // helicopter-like movement
-        if (movementY != 0) {
-            setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * movementY, 0.0f));
-        }
+        // up and down
+        setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get direction
         Vec3d direction = getDirection();
@@ -68,11 +68,7 @@ public class GyrodyneEntity extends Rotorcraft {
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
         if (location == Location.ON_LAND) {
-            if (movementZ > 0) {
-                thrust = properties.getPushSpeed() * movementZ;
-            } else if (movementZ < 0) {
-                thrust = properties.getPushSpeed() * movementZ * 0.5f;
-            }
+            thrust = PUSH_SPEED * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f);
         }
 
         // accelerate

@@ -9,15 +9,16 @@ import java.util.List;
 
 public class AirshipEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
-            .setYawSpeed(0.5f)
-            .setEngineSpeed(0.005f)
-            .setVerticalSpeed(0.005f)
-            .setGlideFactor(0.025f)
+            .setYawSpeed(5.0f)
+            .setEngineSpeed(0.025f)
+            .setVerticalSpeed(0.025f)
+            .setGlideFactor(0.0f)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
+            .setRollFactor(5.0f)
+            .setWheelFriction(0.5f)
             .setWindSensitivity(0.0025f)
-            .setRollFactor(1.0f)
-            .setWheelFriction(0.5f);
+            .setMass(10.0f);
 
     public AirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -51,17 +52,14 @@ public class AirshipEntity extends Rotorcraft {
     void updateController() {
         super.updateController();
 
-        // speed
-        if (movementY != 0) {
-            setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * movementY, 0.0f));
-        }
+        // up and down
+        setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get pointing direction
-        //code duplication, xy direction, common subclass called helicopter?
         Vec3d direction = getDirection();
 
         // accelerate
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * movementZ;
+        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         setVelocity(getVelocity().add(direction.multiply(thrust)));
     }
 }

@@ -14,9 +14,6 @@ import java.util.List;
  * Abstract aircraft, which performs basic physics and rolling
  */
 public abstract class AircraftEntity extends VehicleEntity {
-    public float yawVelocity;
-    public float pitchVelocity;
-
     private double lastY;
 
     public float roll;
@@ -53,7 +50,7 @@ public abstract class AircraftEntity extends VehicleEntity {
         // rolling interpolation
         prevRoll = roll;
         if (location != Location.ON_LAND) {
-            roll = yawVelocity * getProperties().getRollFactor();
+            roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
         } else {
             roll *= 0.9;
         }
@@ -72,7 +69,7 @@ public abstract class AircraftEntity extends VehicleEntity {
             location = Location.IN_WATER;
         } else {
             float velocityDecay = 0.05f;
-            float rotationDecay = 0.9f;
+            float rotationDecay = 0.99f;
             float gravity = getGravity();
             if (location == Location.IN_WATER || location == Location.UNDER_FLOWING_WATER) {
                 gravity = -0.01f;
@@ -85,7 +82,7 @@ public abstract class AircraftEntity extends VehicleEntity {
             } else if (location == Location.ON_LAND) {
                 float friction = getProperties().getWheelFriction();
                 velocityDecay = slipperiness * friction + (1.0f - friction);
-                rotationDecay = 0.8f;
+                rotationDecay = 1.0f - getProperties().getWheelFriction();
             }
 
             // get direction
@@ -115,14 +112,15 @@ public abstract class AircraftEntity extends VehicleEntity {
             // todo property
             Vec3d vec3d = getVelocity();
             setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
-            yawVelocity *= rotationDecay;
-            pitchVelocity *= rotationDecay;
+            pressingInterpolatedX.decay(0.0f, 1.0f - rotationDecay);
+            pressingInterpolatedZ.decay(0.0f, 1.0f - rotationDecay);
 
             // wind
             if (location == Location.IN_AIR) {
-                float nx = (float)(Utils.cosNoise(age / 20.0 * getProperties().getMass()) * getProperties().getWindSensitivity());
-                float ny = (float)(Utils.cosNoise(age / 21.0 * getProperties().getMass()) * getProperties().getWindSensitivity());
-                setVelocity(getVelocity().add(nx, 0.0f, ny));
+                double speed = vec3d.length();
+                float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * (1.0 + speed * 3.0)) * getProperties().getWindSensitivity());
+                float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * (1.0 + speed * 3.0)) * getProperties().getWindSensitivity());
+                setVelocity(getVelocity().add(nx, 0.0f, nz));
             }
         }
     }

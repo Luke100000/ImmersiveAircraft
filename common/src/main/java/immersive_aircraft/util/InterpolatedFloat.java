@@ -21,7 +21,11 @@ public class InterpolatedFloat {
         value = n;
 
         lastSmooth = valueSmooth;
-        valueSmooth = valueSmooth * (1.0f - steps) + n * steps;
+        decay(n, steps);
+    }
+
+    public void decay(float towards, float decay) {
+        valueSmooth = valueSmooth * (1.0f - decay) + towards * decay;
     }
 
     public float get(float tickDelta) {
@@ -30,6 +34,10 @@ public class InterpolatedFloat {
 
     public float getSmooth(float tickDelta) {
         return lastSmooth + tickDelta * (valueSmooth - lastSmooth);
+    }
+
+    public float getSmooth() {
+        return valueSmooth;
     }
 
     public float getValue() {

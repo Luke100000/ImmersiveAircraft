@@ -12,18 +12,17 @@ import net.minecraft.world.World;
  */
 public abstract class AirplaneEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
-            .setYawSpeed(0.5f)
-            .setPitchSpeed(0.75f)
+            .setYawSpeed(5.0f)
+            .setPitchSpeed(5.0f)
             .setEngineSpeed(0.0125f)
             .setGlideFactor(0.05f)
-            .setMaxPitch(60)
             .setDriftDrag(0.01f)
             .setLift(0.15f)
-            .setRollFactor(10.0f)
-            .setGroundPitch(5.0f)
+            .setRollFactor(45.0f)
+            .setGroundPitch(4.0f)
             .setWheelFriction(0.05f)
             .setBrakeFactor(0.975f)
-            .setWindSensitivity(0.1f)
+            .setWindSensitivity(0.01f)
             .setMass(15.0f);
 
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
@@ -37,8 +36,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected float getGravity() {
-        float length = (float)getVelocity().length();
-        return (1.0f - length) * super.getGravity();
+        float speed = (float)getVelocity().length();
+        return Math.max(0.0f, 1.0f - speed * 1.75f) * super.getGravity();
     }
 
     private void updateEnginePowerTooltip() {

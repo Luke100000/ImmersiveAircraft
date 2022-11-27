@@ -60,9 +60,9 @@ public abstract class VehicleEntity extends Entity {
     float movementY;
     float movementZ;
 
-    public final InterpolatedFloat pressingInterpolatedX = new InterpolatedFloat();
-    public final InterpolatedFloat pressingInterpolatedY = new InterpolatedFloat();
-    public final InterpolatedFloat pressingInterpolatedZ = new InterpolatedFloat();
+    public final InterpolatedFloat pressingInterpolatedX;
+    public final InterpolatedFloat pressingInterpolatedY;
+    public final InterpolatedFloat pressingInterpolatedZ;
 
     double waterLevel;
     float slipperiness;
@@ -76,10 +76,26 @@ public abstract class VehicleEntity extends Entity {
         return getPassengerPositions().size();
     }
 
+    @Override
+    public void setPitch(float pitch) {
+        float loops = (float)(Math.floor((pitch + 180f) / 360f) * 360f);
+        pitch -= loops;
+        prevPitch -= loops;
+        super.setPitch(pitch);
+    }
+
     public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
         intersectionChecked = true;
         stepHeight = 0.55f;
+
+        pressingInterpolatedX = new InterpolatedFloat(getInputInterpolationSteps());
+        pressingInterpolatedY = new InterpolatedFloat(getInputInterpolationSteps());
+        pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
+    }
+
+    private float getInputInterpolationSteps() {
+        return 10;
     }
 
     @Override
@@ -277,7 +293,7 @@ public abstract class VehicleEntity extends Entity {
         double interpolatedZ = getZ() + (z - getZ()) / (double)interpolationSteps;
         double interpolatedYaw = MathHelper.wrapDegrees(clientYaw - (double)getYaw());
         setYaw(getYaw() + (float)interpolatedYaw / (float)interpolationSteps);
-        setPitch(getPitch() + (float)(clientPitch - (double)getPitch()) / (float)interpolationSteps); //todo
+        setPitch(getPitch() + (float)(clientPitch - (double)getPitch()) / (float)interpolationSteps);
 
         setPosition(interpolatedX, interpolatedY, interpolatedZ);
         setRotation(getYaw(), getPitch());
@@ -627,5 +643,13 @@ public abstract class VehicleEntity extends Entity {
         UNDER_FLOWING_WATER,
         ON_LAND,
         IN_AIR
+    }
+
+    @Override
+    public void setVelocity(Vec3d velocity) {
+        if (Double.isNaN(velocity.x)) {
+            System.out.println("a");
+        }
+        super.setVelocity(velocity);
     }
 }
