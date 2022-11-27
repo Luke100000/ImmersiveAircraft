@@ -15,6 +15,7 @@ public class FaceVertex {
     public VertexPosition v = null;
     public VertexTexture t = null;
     public VertexNormal n = null;
+    public VertexColor c = null;
 
     public String toString() {
         return v + "|" + n + "|" + t;

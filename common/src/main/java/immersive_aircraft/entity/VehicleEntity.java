@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LilyPadBlock;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -612,6 +613,12 @@ public abstract class VehicleEntity extends Entity {
                 MathHelper.sin(-getPitch() * ((float)Math.PI / 180)),
                 MathHelper.cos(getYaw() * ((float)Math.PI / 180)) * cos).normalize();
     }
+
+    public boolean isWithinParticleRange() {
+        return MinecraftClient.getInstance().gameRenderer.getCamera().getPos().squaredDistanceTo(getPos()) < 1024;
+    }
+
+    protected final static Vector4f ZERO_VEC4 = new Vector4f();
 
     public enum Location {
         IN_WATER,

@@ -25,6 +25,7 @@ public class Builder {
 
     // these accumulate each type of vertex as they are parsed, so they can then be referenced via index.
     public final ArrayList<VertexPosition> verticesG = new ArrayList<>();
+    public final ArrayList<VertexColor> verticesC = new ArrayList<>();
     public final ArrayList<VertexTexture> verticesT = new ArrayList<>();
     public final ArrayList<VertexNormal> verticesN = new ArrayList<>();
     final HashMap<String, FaceVertex> faceVertexMap = new HashMap<>();
@@ -73,8 +74,9 @@ public class Builder {
     }
 
     private void processVertex(String line) {
-        float[] values = StringUtils.parseFloatList(3, line, OBJ_VERTEX.length());
+        float[] values = StringUtils.parseFloatList(7, line, OBJ_VERTEX.length());
         addVertexGeometric(values[0], values[1], values[2]);
+        addVertexColor(values[3], values[4], values[5], values[6]);
     }
 
     private void processVertexTexture(String line) {
@@ -98,6 +100,10 @@ public class Builder {
 
     public void addVertexGeometric(float x, float y, float z) {
         verticesG.add(new VertexPosition(x, y, z));
+    }
+
+    public void addVertexColor(float r, float g, float b, float a) {
+        verticesC.add(new VertexColor(r, g, b, a));
     }
 
     public void addVertexTexture(float u, float v) {
@@ -132,6 +138,7 @@ public class Builder {
                 // Note: vertex indices are 1-indexed, i.e. they start at
                 // one, so we offset by -1 for the 0-indexed array lists.
                 fv.v = verticesG.get(vertexIndex - 1);
+                fv.c = verticesC.get(vertexIndex - 1);
             } else {
                 log.log(SEVERE, "Index for geometric vertex=" + vertexIndex + " is out of the current range of geometric vertex values 1 to " + verticesG.size() + ", ignoring");
             }

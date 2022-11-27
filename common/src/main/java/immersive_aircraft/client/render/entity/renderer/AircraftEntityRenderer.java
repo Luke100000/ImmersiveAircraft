@@ -42,7 +42,6 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
         private final Identifier id;
         private final String object;
-        private Vec3f pivot = new Vec3f();
 
         private AnimationConsumer<T> animationConsumer = null;
         private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light) -> {
@@ -178,6 +177,10 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
+    static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
+        renderSailObject(mesh, matrixStack, vertexConsumer, light, time, 1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
     static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
         Matrix4f positionMatrix = entry.getPositionMatrix();
@@ -187,8 +190,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 for (FaceVertex v : face.vertices) {
                     double angle = v.v.x + v.v.z + v.v.y * 0.25 + time * 0.25;
                     double scale = 0.05;
-                    float x = (float)(v.v.x + Math.cos(angle) * scale + Math.cos(angle * 1.7) * scale);
-                    float z = (float)(v.v.z + Math.sin(angle) * scale + Math.sin(angle * 1.7) * scale);
+                    float x = (float)(v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
+                    float z = (float)(v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
                     vertexConsumer
                             .vertex(positionMatrix, x, v.v.y, z)
                             .color(r, g, b, a).texture(v.t.u, v.t.v)

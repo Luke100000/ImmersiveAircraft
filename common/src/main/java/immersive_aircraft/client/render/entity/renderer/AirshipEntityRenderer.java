@@ -3,9 +3,13 @@ package immersive_aircraft.client.render.entity.renderer;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
+import owens.oobjloader.Mesh;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/airship.obj");
@@ -18,18 +22,21 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             )
             .add(
                     new Object(id, "sails")
-            )
-            /*
-            .add(
-                    new Object<T>(id, "sails")
                             .setRenderConsumer(
-                                    (vertexConsumer, entity, matrixStack, light) -> {
-                                        Mesh mesh = getFaces(id, "sails");
-                                        renderSailObject(mesh, matrixStack, vertexConsumer, light, entity.world.getTime() % 24000 + MinecraftClient.getInstance().getTickDelta());
+                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                        Identifier identifier = getTexture(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        if (entity.isWithinParticleRange()) {
+                                            Mesh mesh = getFaces(id, "sails_animated");
+                                            float time = entity.world.getTime() % 24000 + MinecraftClient.getInstance().getTickDelta();
+                                            renderSailObject(mesh, matrixStack, vertexConsumer, light, time);
+                                        } else {
+                                            Mesh mesh = getFaces(id, "sails");
+                                            renderObject(mesh, matrixStack, vertexConsumer, light);
+                                        }
                                     }
                             )
             )
-             */
             .add(
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {

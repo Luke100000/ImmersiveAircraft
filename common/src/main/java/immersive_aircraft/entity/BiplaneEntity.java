@@ -39,30 +39,35 @@ public class BiplaneEntity extends AirplaneEntity {
         super.tick();
 
         if (world.isClient) {
-            Matrix4f transform = getVehicleTransform();
-            Matrix3f normalTransform = getVehicleNormalTransform();
+            if (isWithinParticleRange()) {
+                Matrix4f transform = getVehicleTransform();
+                Matrix3f normalTransform = getVehicleNormalTransform();
 
-            // Trails
-            trail(transform, 0, -3.75f, 0.25f, 0.6f);
-            trail(transform, 1, 3.75f, 0.25f, 0.6f);
+                // Trails
+                trail(transform, 0, -3.75f, 0.25f, 0.6f);
+                trail(transform, 1, 3.75f, 0.25f, 0.6f);
 
-            // Smoke
-            float power = getEnginePower();
-            if (power > 0.0) {
-                if (age % 4 == 0) {
-                    Vector4f p = transformPosition(transform, -0.325f, 0.5f, 0.8f);
-                    Vec3f vel = transformVector(normalTransform, -0.2f, 0.0f, power);
-                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
-                } else if (age % 4 == 2) {
-                    Vector4f p = transformPosition(transform, 0.325f, 0.5f, 0.8f);
-                    Vec3f vel = transformVector(normalTransform, 0.2f, 0.0f, power);
-                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
+                // Smoke
+                float power = getEnginePower();
+                if (power > 0.0) {
+                    if (age % 4 == 0) {
+                        Vector4f p = transformPosition(transform, -0.325f, 0.5f, 0.8f);
+                        Vec3f vel = transformVector(normalTransform, -0.2f, 0.0f, power);
+                        world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
+                    } else if (age % 4 == 2) {
+                        Vector4f p = transformPosition(transform, 0.325f, 0.5f, 0.8f);
+                        Vec3f vel = transformVector(normalTransform, 0.2f, 0.0f, power);
+                        world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX(), vel.getY(), vel.getZ());
+                    }
+
+                    // Engine sounds
+                    if (age % 4 == 0) {
+                        world.playSound(getX(), getY(), getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, getSoundCategory(), 0.25f, 3f, false);
+                    }
                 }
-
-                // Engine sounds
-                if (age % 4 == 0) {
-                    world.playSound(getX(), getY(), getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, getSoundCategory(), 0.25f, 3f, false);
-                }
+            } else {
+                trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
+                trails.get(1).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
     }
