@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "CFC",
+    "CIC"
+  ],
+  "key": {
+    "F": [
+      {
+        "item": "minecraft:blast_furnace"
+      }
+    ],
+    "C": [
+      {
+        "item": "minecraft:cobblestone"
+      }
+    ],
+    "I": [
+      {
+        "item": "immersive_aircraft:boiler"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:engine"
+  }
+}

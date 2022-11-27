@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCS",
+    "CCS",
+    "CCS"
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "minecraft:string"
+      }
+    ],
+    "C": [
+      {
+        "tag": "minecraft:wool_carpets"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:sail"
+  }
+}

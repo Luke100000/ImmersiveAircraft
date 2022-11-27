@@ -7,6 +7,6 @@ import net.minecraft.util.Identifier;
 public class ItemGroups {
     public static final ItemGroup GROUP = Registration.ObjectBuilders.ItemGroups.create(
             new Identifier(Main.MOD_ID, Main.MOD_ID + "_tab"),
-            () -> Items.AIRSHIP.get().getDefaultStack()
+            () -> Items.BIPLANE.get().getDefaultStack()
     );
 }

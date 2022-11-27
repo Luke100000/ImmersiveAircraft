@@ -40,5 +40,6 @@ forge*changelog.txt
 *.blend1
 *.mtl
 *.png~
+*.aup3
 /models/custom_model.java
 /models/custom_model_yarn.java

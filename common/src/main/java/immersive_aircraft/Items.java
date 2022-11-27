@@ -15,6 +15,7 @@ public interface Items {
     Supplier<Item> ENGINE = register("engine", () -> new Item(baseProps().maxCount(8)));
     Supplier<Item> SAIL = register("sail", () -> new Item(baseProps().maxCount(8)));
     Supplier<Item> PROPELLER = register("propeller", () -> new Item(baseProps().maxCount(8)));
+    Supplier<Item> BOILER = register("boiler", () -> new Item(baseProps().maxCount(8)));
 
     Supplier<Item> AIRSHIP = register("airship", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new AirshipEntity(Entities.AIRSHIP.get(), world)));
     Supplier<Item> BIPLANE = register("biplane", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new BiplaneEntity(Entities.BIPLANE.get(), world)));
