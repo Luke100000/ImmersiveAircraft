@@ -623,14 +623,6 @@ public abstract class VehicleEntity extends Entity {
         return location != Location.IN_AIR;
     }
 
-    public Vec3d getDirection() {
-        float cos = MathHelper.cos(-getPitch() * ((float)Math.PI / 180));
-        return new Vec3d(
-                MathHelper.sin(-getYaw() * ((float)Math.PI / 180)) * cos,
-                MathHelper.sin(-getPitch() * ((float)Math.PI / 180)),
-                MathHelper.cos(getYaw() * ((float)Math.PI / 180)) * cos).normalize();
-    }
-
     public boolean isWithinParticleRange() {
         return MinecraftClient.getInstance().gameRenderer.getCamera().getPos().squaredDistanceTo(getPos()) < 1024;
     }
@@ -643,13 +635,5 @@ public abstract class VehicleEntity extends Entity {
         UNDER_FLOWING_WATER,
         ON_LAND,
         IN_AIR
-    }
-
-    @Override
-    public void setVelocity(Vec3d velocity) {
-        if (Double.isNaN(velocity.x)) {
-            System.out.println("a");
-        }
-        super.setVelocity(velocity);
     }
 }

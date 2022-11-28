@@ -16,7 +16,6 @@ public class GyrodyneEntity extends Rotorcraft {
             .setPitchSpeed(3.0f)
             .setEngineSpeed(0.05f)
             .setVerticalSpeed(0.05f)
-            .setGlideFactor(0.025f)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(30.0f)
@@ -63,7 +62,8 @@ public class GyrodyneEntity extends Rotorcraft {
         }
 
         // up and down
-        setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
+        float power = getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth();
+        setVelocity(getVelocity().add(getTopDirection().multiply(power)));
 
         // get direction
         Vec3d direction = getDirection();

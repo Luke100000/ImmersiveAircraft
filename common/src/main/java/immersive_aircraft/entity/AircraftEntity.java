@@ -91,7 +91,7 @@ public abstract class AircraftEntity extends VehicleEntity {
             // glide
             double diff = lastY - getY();
             if (diff > 0.0) {
-                setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * getPitch() / 45.0f)));
+                setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.getY())))));
             }
             lastY = getY();
 
@@ -117,10 +117,13 @@ public abstract class AircraftEntity extends VehicleEntity {
 
             // wind
             if (location == Location.IN_AIR) {
-                double speed = vec3d.length();
-                float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * (1.0 + speed * 3.0)) * getProperties().getWindSensitivity());
-                float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * (1.0 + speed * 3.0)) * getProperties().getWindSensitivity());
-                setVelocity(getVelocity().add(nx, 0.0f, nz));
+                boolean thundering = world.getLevelProperties().isThundering();
+                boolean raining = world.getLevelProperties().isRaining();
+                float strength = (float)((1.0f + vec3d.length() * 3.0f) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
+                float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
+                float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
+                setPitch(getPitch() + nx);
+                setYaw(getYaw() + nz);
             }
         }
     }
@@ -129,6 +132,10 @@ public abstract class AircraftEntity extends VehicleEntity {
         Vector4f p0 = new Vector4f(x, y, z, 1);
         p0.transform(transform);
         return p0;
+    }
+
+    protected Vec3f transformVector(float x, float y, float z) {
+        return transformVector(getVehicleNormalTransform(), x, y, z);
     }
 
     protected Vec3f transformVector(Matrix3f transform, float x, float y, float z) {
@@ -151,6 +158,16 @@ public abstract class AircraftEntity extends VehicleEntity {
         transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
         transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
         return transform;
+    }
+
+    public Vec3d getDirection() {
+        Vec3f f = transformVector(0.0f, 0.0f, 1.0f);
+        return new Vec3d(f.getX(), f.getY(), f.getZ());
+    }
+
+    public Vec3d getTopDirection() {
+        Vec3f f = transformVector(0.0f, 1.0f, 0.0f);
+        return new Vec3d(f.getX(), f.getY(), f.getZ());
     }
 }
 

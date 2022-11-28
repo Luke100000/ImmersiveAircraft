@@ -10,7 +10,7 @@ import java.util.List;
 public class AirshipEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
-            .setEngineSpeed(0.025f)
+            .setEngineSpeed(0.015f)
             .setVerticalSpeed(0.025f)
             .setGlideFactor(0.0f)
             .setDriftDrag(0.01f)
@@ -45,7 +45,7 @@ public class AirshipEntity extends Rotorcraft {
 
     @Override
     protected float getGravity() {
-        return getEnginePower() == 1.0f ? 0.0f : super.getGravity();
+        return (1.0f - getEnginePower()) * super.getGravity();
     }
 
     @Override

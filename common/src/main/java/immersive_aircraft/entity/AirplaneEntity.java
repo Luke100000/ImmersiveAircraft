@@ -36,7 +36,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected float getGravity() {
-        float speed = (float)getVelocity().length();
+        Vec3d direction = getDirection();
+        float speed = (float)((float)getVelocity().length() * (1.0f - Math.abs(direction.getY())));
         return Math.max(0.0f, 1.0f - speed * 1.75f) * super.getGravity();
     }
 
