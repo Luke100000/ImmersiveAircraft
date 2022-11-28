@@ -79,7 +79,7 @@ public abstract class AircraftEntity extends VehicleEntity {
 
             // glide
             double diff = lastY - getY();
-            if (diff > 0.0) {
+            if (lastY != 0.0) {
                 setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.getY())))));
             }
             lastY = getY();

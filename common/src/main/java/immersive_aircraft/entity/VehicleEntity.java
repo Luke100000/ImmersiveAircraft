@@ -455,6 +455,8 @@ public abstract class VehicleEntity extends Entity {
             return;
         }
 
+        Matrix4f transform = getVehicleTransform();
+
         int size = getPassengerList().size() - 1;
         List<List<Vec3d>> positions = getPassengerPositions();
         if (size < positions.size()) {
@@ -467,11 +469,11 @@ public abstract class VehicleEntity extends Entity {
                     position.add(0.0f, 0.0f, 0.2f);
                 }
 
-                position.add(0, passenger.getHeightOffset(), 0);
+                position = position.add(0, -passenger.getHeightOffset(), 0);
 
-                position = position.rotateX(-getPitch() * ((float)Math.PI / 180));
-                position = position.rotateY(-getYaw() * ((float)Math.PI / 180));
-                passenger.setPosition(getPos().add(position));
+                Vector4f worldPosition = transformPosition(transform, (float)position.x, (float)position.y, (float)position.z);
+
+                passenger.setPosition(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 
                 passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
                 passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
@@ -637,8 +639,6 @@ public abstract class VehicleEntity extends Entity {
     public boolean isWithinParticleRange() {
         return MinecraftClient.getInstance().gameRenderer.getCamera().getPos().squaredDistanceTo(getPos()) < 1024;
     }
-
-
 
     protected Vector4f transformPosition(Matrix4f transform, float x, float y, float z) {
         Vector4f p0 = new Vector4f(x, y, z, 1);

@@ -16,10 +16,8 @@ public class LivingEntityRendererMixin<T extends LivingEntity> {
     @Inject(method = "setupTransforms", at = @At("TAIL"))
     public <E extends Entity> void render(T entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo ci) {
         if (entity.getRootVehicle() != entity && entity.getRootVehicle() instanceof AircraftEntity aircraft) {
-            matrices.translate(0, -entity.getHeightOffset(), 0);
             matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-aircraft.getPitch(tickDelta)));
             matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-aircraft.getRoll(tickDelta)));
-            matrices.translate(0, entity.getHeightOffset(), 0);
         }
     }
 }
