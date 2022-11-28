@@ -1,34 +1,23 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Abstract aircraft, which performs basic physics and rolling
+ * Abstract aircraft, which performs basic physics
  */
 public abstract class AircraftEntity extends VehicleEntity {
     private double lastY;
 
-    public float roll;
-    public float prevRoll;
-
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
-    }
-
-    public float getRoll() {
-        return roll;
-    }
-
-    public float getRoll(float tickDelta) {
-        return MathHelper.lerp(tickDelta, prevRoll, getRoll());
     }
 
     private static final List<Trail> TRAILS = Collections.emptyList();
@@ -125,48 +114,6 @@ public abstract class AircraftEntity extends VehicleEntity {
                 setYaw(getYaw() + nz);
             }
         }
-    }
-
-    protected Vector4f transformPosition(Matrix4f transform, float x, float y, float z) {
-        Vector4f p0 = new Vector4f(x, y, z, 1);
-        p0.transform(transform);
-        return p0;
-    }
-
-    protected Vec3f transformVector(float x, float y, float z) {
-        return transformVector(getVehicleNormalTransform(), x, y, z);
-    }
-
-    protected Vec3f transformVector(Matrix3f transform, float x, float y, float z) {
-        Vec3f p0 = new Vec3f(x, y, z);
-        p0.transform(transform);
-        return p0;
-    }
-
-    protected Matrix4f getVehicleTransform() {
-        Matrix4f transform = Matrix4f.translate((float)getX(), (float)getY(), (float)getZ());
-        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
-        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
-        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
-        return transform;
-    }
-
-    protected Matrix3f getVehicleNormalTransform() {
-        Matrix3f transform = Matrix3f.scale(1.0f, 1.0f, 1.0f);
-        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
-        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
-        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
-        return transform;
-    }
-
-    public Vec3d getDirection() {
-        Vec3f f = transformVector(0.0f, 0.0f, 1.0f);
-        return new Vec3d(f.getX(), f.getY(), f.getZ());
-    }
-
-    public Vec3d getTopDirection() {
-        Vec3f f = transformVector(0.0f, 1.0f, 0.0f);
-        return new Vec3d(f.getX(), f.getY(), f.getZ());
     }
 }
 

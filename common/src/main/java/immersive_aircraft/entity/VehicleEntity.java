@@ -70,6 +70,17 @@ public abstract class VehicleEntity extends Entity {
     Location lastLocation;
     double fallVelocity;
 
+    public float roll;
+    public float prevRoll;
+
+    public float getRoll() {
+        return roll;
+    }
+
+    public float getRoll(float tickDelta) {
+        return MathHelper.lerp(tickDelta, prevRoll, getRoll());
+    }
+
     abstract protected List<List<Vec3d>> getPassengerPositions();
 
     protected int getPassengerSpace() {
@@ -625,6 +636,50 @@ public abstract class VehicleEntity extends Entity {
 
     public boolean isWithinParticleRange() {
         return MinecraftClient.getInstance().gameRenderer.getCamera().getPos().squaredDistanceTo(getPos()) < 1024;
+    }
+
+
+
+    protected Vector4f transformPosition(Matrix4f transform, float x, float y, float z) {
+        Vector4f p0 = new Vector4f(x, y, z, 1);
+        p0.transform(transform);
+        return p0;
+    }
+
+    protected Vec3f transformVector(float x, float y, float z) {
+        return transformVector(getVehicleNormalTransform(), x, y, z);
+    }
+
+    protected Vec3f transformVector(Matrix3f transform, float x, float y, float z) {
+        Vec3f p0 = new Vec3f(x, y, z);
+        p0.transform(transform);
+        return p0;
+    }
+
+    protected Matrix4f getVehicleTransform() {
+        Matrix4f transform = Matrix4f.translate((float)getX(), (float)getY(), (float)getZ());
+        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
+        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
+        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        return transform;
+    }
+
+    protected Matrix3f getVehicleNormalTransform() {
+        Matrix3f transform = Matrix3f.scale(1.0f, 1.0f, 1.0f);
+        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
+        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
+        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        return transform;
+    }
+
+    public Vec3d getDirection() {
+        Vec3f f = transformVector(0.0f, 0.0f, 1.0f);
+        return new Vec3d(f.getX(), f.getY(), f.getZ());
+    }
+
+    public Vec3d getTopDirection() {
+        Vec3f f = transformVector(0.0f, 1.0f, 0.0f);
+        return new Vec3d(f.getX(), f.getY(), f.getZ());
     }
 
     protected final static Vector4f ZERO_VEC4 = new Vector4f();
