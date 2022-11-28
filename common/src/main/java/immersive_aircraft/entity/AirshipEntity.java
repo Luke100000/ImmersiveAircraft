@@ -52,6 +52,8 @@ public class AirshipEntity extends Rotorcraft {
     void updateController() {
         super.updateController();
 
+        setEngineTarget(1.0f);
+
         // up and down
         setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 

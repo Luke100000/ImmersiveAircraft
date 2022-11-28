@@ -43,4 +43,8 @@ public class InterpolatedFloat {
     public float getValue() {
         return value;
     }
+
+    public float getDiff() {
+        return value - last;
+    }
 }

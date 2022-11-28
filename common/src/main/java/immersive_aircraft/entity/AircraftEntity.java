@@ -89,9 +89,9 @@ public abstract class AircraftEntity extends VehicleEntity {
             Vec3d direction = getDirection();
 
             // glide
-            if (lastY != 0) {
-                double diff = lastY - getY();
-                setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor())));
+            double diff = lastY - getY();
+            if (diff > 0.0) {
+                setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * getPitch() / 45.0f)));
             }
             lastY = getY();
 

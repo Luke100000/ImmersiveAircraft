@@ -9,19 +9,19 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
-    private final static float PUSH_SPEED = 0.1f;
+    private final static float PUSH_SPEED = 0.05f;
 
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
-            .setPitchSpeed(0.3f)
-            .setEngineSpeed(0.1f)
-            .setVerticalSpeed(0.025f)
+            .setPitchSpeed(3.0f)
+            .setEngineSpeed(0.05f)
+            .setVerticalSpeed(0.05f)
             .setGlideFactor(0.025f)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
-            .setRollFactor(8.0f)
-            .setStabilizer(0.4f)
-            .setWheelFriction(0.5f)
+            .setRollFactor(30.0f)
+            .setStabilizer(0.1f)
+            .setWheelFriction(0.2f)
             .setWindSensitivity(0.005f)
             .setMass(5.0f);
 
@@ -50,13 +50,17 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     protected float getGravity() {
-        return getEnginePower() == 1.0f ? 0.0f : super.getGravity();
+        return (1.0f - getEnginePower()) * super.getGravity();
     }
 
     @Override
     void updateController() {
-        // todo engine needs to be started by pushing, once reaching 1 the engine stays on
         super.updateController();
+
+        // launch that engine
+        if (getEngineTarget() < 1.0f) {
+            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + pressingInterpolatedZ.getValue() * 0.02f)));
+        }
 
         // up and down
         setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));

@@ -18,16 +18,4 @@ abstract public class Rotorcraft extends EngineAircraft {
                 MathHelper.cos(getYaw() * ((float)Math.PI / 180))
         ).normalize();
     }
-
-    @Override
-    void updateController() {
-        if (!hasPassengers()) {
-            setEngineTarget(0.0f);
-            return;
-        } else {
-            setEngineTarget(1.0f);
-        }
-
-        super.updateController();
-    }
 }

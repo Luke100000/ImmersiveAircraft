@@ -17,9 +17,10 @@ public abstract class EngineAircraft extends AircraftEntity {
     private int oldLevel;
 
     static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
-    static final TrackedData<Float> ENGINE_TARGET = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
+    public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
+    public float engineSpinupStrength = 0.0f;
 
     public EngineAircraft(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -30,12 +31,17 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.initDataTracker();
 
         dataTracker.startTracking(ENGINE, 0.0f);
-        dataTracker.startTracking(ENGINE_TARGET, 0.0f);
     }
 
     @Override
     public void tick() {
         super.tick();
+
+        // spin up the engine
+        enginePower.update(getEngineTarget());
+
+        // simulate spinup
+        engineSpinupStrength = Math.max(0.0f, engineSpinupStrength + enginePower.getDiff() - 0.01f);
 
         if (world.isClient()) {
             engineRotation.update((engineRotation.getValue() + getEnginePower()) % 1000);
@@ -43,13 +49,6 @@ public abstract class EngineAircraft extends AircraftEntity {
             // shutdown
             if (!hasPassengers()) {
                 setEngineTarget(0.0f);
-            }
-
-            // start engine
-            if (getEngineTarget() >= getEnginePower()) {
-                setEnginePower(Math.min(1.0f, getEnginePower() + 0.01f));
-            } else {
-                setEnginePower(Math.max(0.0f, getEnginePower() - 0.01f));
             }
 
             // sounds
@@ -86,15 +85,11 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     public float getEnginePower() {
-        return dataTracker.get(ENGINE);
-    }
-
-    public void setEnginePower(float power) {
-        dataTracker.set(ENGINE, power);
+        return enginePower.getSmooth();
     }
 
     public float getEngineTarget() {
-        return dataTracker.get(ENGINE_TARGET);
+        return dataTracker.get(ENGINE);
     }
 
     public void setEngineTarget(float engineTarget) {
@@ -103,6 +98,6 @@ public abstract class EngineAircraft extends AircraftEntity {
                 NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
             }
         }
-        dataTracker.set(ENGINE_TARGET, engineTarget);
+        dataTracker.set(ENGINE, engineTarget);
     }
 }
