@@ -1,6 +1,6 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.client.render.entity.renderer.Trail;
+import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;

@@ -1,7 +1,7 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.client.render.entity.renderer.Trail;
-import immersive_aircraft.entity.properties.AircraftProperties;
+import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.*;
@@ -109,7 +109,6 @@ public abstract class AircraftEntity extends VehicleEntity {
             );
 
             // friction
-            // todo property
             Vec3d vec3d = getVelocity();
             setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
             pressingInterpolatedX.decay(0.0f, 1.0f - rotationDecay);

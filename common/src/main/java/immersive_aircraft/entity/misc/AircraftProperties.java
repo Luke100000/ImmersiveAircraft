@@ -1,4 +1,4 @@
-package immersive_aircraft.entity.properties;
+package immersive_aircraft.entity.misc;
 
 import immersive_aircraft.entity.AircraftEntity;
 

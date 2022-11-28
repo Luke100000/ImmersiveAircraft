@@ -1,4 +1,4 @@
-package immersive_aircraft.client.render.entity.renderer;
+package immersive_aircraft.entity.misc;
 
 import immersive_aircraft.Main;
 import net.minecraft.client.MinecraftClient;

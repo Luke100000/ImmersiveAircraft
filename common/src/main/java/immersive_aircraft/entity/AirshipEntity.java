@@ -1,6 +1,6 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.entity.properties.AircraftProperties;
+import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
