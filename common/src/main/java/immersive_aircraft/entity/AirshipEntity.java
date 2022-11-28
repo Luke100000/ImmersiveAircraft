@@ -1,8 +1,14 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vector4f;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -39,6 +45,20 @@ public class AirshipEntity extends Rotorcraft {
             )
     );
 
+    private final List<Trail> trails = List.of(new Trail(15));
+
+    public List<Trail> getTrails() {
+        return trails;
+    }
+
+    private void trail(Matrix4f transform, float y) {
+        Vector4f p0 = transformPosition(transform, (float)0.0 - 0.15f, y, (float)0.0);
+        Vector4f p1 = transformPosition(transform, (float)0.0 + 0.15f, y, (float)0.0);
+
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(getVelocity().length() - 0.05f)));
+        trails.get(0).add(p0, p1, trailStrength);
+    }
+
     protected List<List<Vec3d>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
@@ -63,5 +83,37 @@ public class AirshipEntity extends Rotorcraft {
         // accelerate
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         setVelocity(getVelocity().add(direction.multiply(thrust)));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (world.isClient) {
+            if (isWithinParticleRange()) {
+                Matrix4f transform = getVehicleTransform();
+
+                // Trails
+                Matrix4f tr = transform.copy();
+                tr.multiplyByTranslation(0.0f, 0.45f, -1.2f);
+                tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
+                trail(tr, 0.0f);
+
+                // Smoke
+                float power = getEnginePower();
+                if (power > 0.0) {
+                    Vector4f p = transformPosition(transform, -0.2f, 1.1f, -0.9f);
+                    Vec3d velocity = getVelocity();
+                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
+
+                    // Engine sounds
+                    if (age % 4 == 0) {
+                        world.playSound(getX(), getY(), getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, getSoundCategory(), 0.25f, 3f, false);
+                    }
+                }
+            } else {
+                trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
+            }
+        }
     }
 }

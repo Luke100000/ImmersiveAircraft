@@ -16,14 +16,14 @@ public class BiplaneEntity extends AirplaneEntity {
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, -0.35f, -0.4f)));
 
+    protected List<List<Vec3d>> getPassengerPositions() {
+        return PASSENGER_POSITIONS;
+    }
+
     private final List<Trail> trails = List.of(new Trail(40), new Trail(40));
 
     public List<Trail> getTrails() {
         return trails;
-    }
-
-    protected List<List<Vec3d>> getPassengerPositions() {
-        return PASSENGER_POSITIONS;
     }
 
     private void trail(Matrix4f transform, int index, float x, float y, float z) {
