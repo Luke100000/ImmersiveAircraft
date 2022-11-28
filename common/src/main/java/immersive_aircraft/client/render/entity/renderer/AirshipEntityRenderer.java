@@ -46,13 +46,22 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                     )
             )
             .add(
-                    new Object(id, "propeller").setAnimationConsumer(
-                            (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.translate(0.0f, 0.25f, 0.0f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
-                                matrixStack.translate(0.0f, -0.25f, 0.0f);
-                            }
-                    )
+                    new Object(id, "propeller")
+                            .setAnimationConsumer(
+                                    (entity, yaw, tickDelta, matrixStack) -> {
+                                        matrixStack.translate(0.0f, 0.25f, 0.0f);
+                                        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                        matrixStack.translate(0.0f, -0.25f, 0.0f);
+                                    }
+                            )
+                            .setRenderConsumer(
+                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                        Identifier identifier = getTexture(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        Mesh mesh = getFaces(id, "propeller");
+                                        renderObject(mesh, matrixStack, vertexConsumer, light);
+                                    }
+                            )
             );
 
     public AirshipEntityRenderer(EntityRendererFactory.Context context) {
