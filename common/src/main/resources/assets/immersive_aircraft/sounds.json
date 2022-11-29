@@ -1,0 +1,22 @@
+{
+  "engine_start": {
+    "sounds": [
+      "immersive_aircraft:engine_start"
+    ]
+  },
+  "propeller": {
+    "sounds": [
+      "immersive_aircraft:propeller"
+    ]
+  },
+  "propeller_small": {
+    "sounds": [
+      "immersive_aircraft:propeller_small"
+    ]
+  },
+  "woosh": {
+    "sounds": [
+      "immersive_aircraft:woosh"
+    ]
+  }
+}

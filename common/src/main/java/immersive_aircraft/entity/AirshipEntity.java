@@ -1,9 +1,11 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
@@ -30,6 +32,10 @@ public class AirshipEntity extends Rotorcraft {
         super(entityType, world);
     }
 
+    SoundEvent getEngineSound() {
+        return Sounds.PROPELLER_SMALL.get();
+    }
+
     @Override
     public AircraftProperties getProperties() {
         return properties;
@@ -37,11 +43,11 @@ public class AirshipEntity extends Rotorcraft {
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.4f, 0.0f)
+                    new Vec3d(0.0f, -0.6f, 0.0f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.4f, 0.2f),
-                    new Vec3d(0.0f, -0.4f, -0.6f)
+                    new Vec3d(0.0f, -0.6f, 0.2f),
+                    new Vec3d(0.0f, -0.6f, -0.6f)
             )
     );
 
@@ -105,11 +111,6 @@ public class AirshipEntity extends Rotorcraft {
                     Vector4f p = transformPosition(transform, -0.2f, 1.1f, -0.9f);
                     Vec3d velocity = getVelocity();
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
-
-                    // Engine sounds
-                    if (age % 4 == 0) {
-                        world.playSound(getX(), getY(), getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, getSoundCategory(), 0.25f, 3f, false);
-                    }
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

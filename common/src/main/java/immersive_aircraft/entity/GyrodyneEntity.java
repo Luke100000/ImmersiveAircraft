@@ -1,7 +1,9 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.entity.EntityType;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -28,6 +30,14 @@ public class GyrodyneEntity extends Rotorcraft {
         super(entityType, world);
     }
 
+    SoundEvent getEngineStartSound() {
+        return Sounds.WOOSH.get();
+    }
+
+    SoundEvent getEngineSound() {
+        return Sounds.WOOSH.get();
+    }
+
     @Override
     public AircraftProperties getProperties() {
         return properties;
@@ -35,11 +45,11 @@ public class GyrodyneEntity extends Rotorcraft {
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.4f, 0.2f)
+                    new Vec3d(0.0f, -0.6f, 0.2f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.4f, 0.2f),
-                    new Vec3d(0.0f, -0.4f, -0.6f)
+                    new Vec3d(0.0f, -0.6f, 0.2f),
+                    new Vec3d(0.0f, -0.6f, -0.6f)
             )
     );
 

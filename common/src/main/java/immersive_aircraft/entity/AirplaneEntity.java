@@ -1,5 +1,6 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
@@ -57,7 +58,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
         // engine control
         if (movementY != 0) {
-            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
+            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY * 4.0f)));
             updateEnginePowerTooltip();
             if (movementY < 0) {
                 setVelocity(getVelocity().multiply(getProperties().getBrakeFactor()));

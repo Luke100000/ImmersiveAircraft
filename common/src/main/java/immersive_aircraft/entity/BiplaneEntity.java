@@ -3,7 +3,6 @@ package immersive_aircraft.entity;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
@@ -54,11 +53,6 @@ public class BiplaneEntity extends AirplaneEntity {
                     Vec3f vel = transformVector(normalTransform, 0.2f * (age % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
                     Vec3d velocity = getVelocity();
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX() + velocity.x, vel.getY() + velocity.y, vel.getZ() + velocity.z);
-
-                    // Engine sounds
-                    if (age % 4 == 0) {
-                        world.playSound(getX(), getY(), getZ(), SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON, getSoundCategory(), 0.25f, 3f, false);
-                    }
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

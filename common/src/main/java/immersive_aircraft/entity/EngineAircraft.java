@@ -1,5 +1,6 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.util.InterpolatedFloat;
@@ -7,23 +8,30 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
 /**
  * Simulated engine behavior
  */
 public abstract class EngineAircraft extends AircraftEntity {
-    private int oldLevel;
-
     static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
     public float engineSpinupStrength = 0.0f;
+    public float engineSound = 0.0f;
 
     public EngineAircraft(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    SoundEvent getEngineStartSound() {
+        return Sounds.ENGINE_START.get();
+    }
+
+    SoundEvent getEngineSound() {
+        return Sounds.PROPELLER.get();
     }
 
     @Override
@@ -50,14 +58,14 @@ public abstract class EngineAircraft extends AircraftEntity {
             if (!hasPassengers()) {
                 setEngineTarget(0.0f);
             }
+        }
 
-            // sounds
-            if (getEngineTarget() > 0.0f) {
-                int level = (int)(Math.pow(getEnginePower(), 1.5f) * 10);
-                if (oldLevel != level) {
-                    oldLevel = level;
-                    playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5f, getEnginePower() * 0.5f + 0.5f + (level % 2) * 0.5f);
-                }
+        // Engine sounds
+        if (world.isClient) {
+            engineSound += getEnginePower() * 0.25f;
+            if (engineSound > 1.0f) {
+                engineSound--;
+                world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinupStrength), 1.0f, false);
             }
         }
     }
@@ -96,6 +104,10 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (world.isClient) {
             if (getEngineTarget() != engineTarget) {
                 NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
+            }
+
+            if (getEngineTarget() == 0.0 && engineTarget > 0) {
+                world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, 1.0f, false);
             }
         }
         dataTracker.set(ENGINE, engineTarget);
