@@ -4,6 +4,9 @@ on: [ push ]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MODRINTH_TOKEN: ${{ secrets.MR_API_TOKEN }}
+      CURSEFORGE_TOKEN: ${{ secrets.CF_API_TOKEN }}
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout Commit
@@ -34,30 +37,52 @@ jobs:
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         id: tag
         uses: dawidd6/action-get-tag@v1
-      - name: "Upload Fabric to CurseForge"
-        uses: itsmeow/curseforge-upload@v3
+      - uses: jungwinter/split@v2
+        id: split
+        with:
+          separator: "+"
+          msg: ${{steps.tag.outputs.tag}}
+      - name: "Upload Fabric"
+        uses: Kir-Antipov/mc-publish@v3.1
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         with:
-          file_path: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar"
-          display_name: "[Fabric 1.18.2] Immersive ImmersiveAircraft - ${{steps.tag.outputs.tag}}"
-          game_endpoint: "minecraft"
-          relations: ""
-          game_versions: "Minecraft 1.18:1.18.2,Java 16,Fabric"
-          project_id: "580681"
-          token: "${{ secrets.CF_API_TOKEN }}"
-          changelog_type: "markdown"
-          changelog: "Full changelog can be found in the [GitHub Repo](https://github.com/Luke100000/ImmersiveAircraft/blob/1.18.2/changelog.md)"
-          release_type: "release"
-      - name: "Upload Forge to CurseForge"
-        uses: itsmeow/curseforge-upload@v3
+          modrinth-id: x3HZvrj6
+          modrinth-token: ${{ env.MODRINTH_TOKEN }}
+          curseforge-id: 666014
+          curseforge-token: ${{ env.CURSEFORGE_TOKEN }}
+
+          name: "[Fabric ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
+          changelog-file: changelog.md
+          version-type: release
+          files: "fabric/build/libs/immersive_armors-${{steps.tag.outputs.tag}}.jar"
+          loaders: |
+            fabric
+          game-versions: |
+            ${{steps.split.outputs._1}}
+          java: |
+            Java 17
+          dependencies: |
+            fabric-api | recommends | *
+
+          fail-mode: skip
+      - name: "Upload Forge"
+        uses: Kir-Antipov/mc-publish@v3.1
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         with:
-          file_path: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar"
-          display_name: "[Forge 1.18.2] Immersive Armors - ${{steps.tag.outputs.tag}}"
-          game_endpoint: "minecraft"
-          game_versions: "Minecraft 1.18:1.18.2,Java 16,Forge"
-          project_id: "580681"
-          token: "${{ secrets.CF_API_TOKEN }}"
-          changelog_type: "markdown"
-          changelog: "Full changelog can be found in the [GitHub Repo](https://github.com/Luke100000/ImmersiveAircraft/blob/1.18.2/changelog.md)"
-          release_type: "release"
+          modrinth-id: x3HZvrj6
+          modrinth-token: ${{ env.MODRINTH_TOKEN }}
+          curseforge-id: 666014
+          curseforge-token: ${{ env.CURSEFORGE_TOKEN }}
+
+          name: "[Forge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
+          changelog-file: changelog.md
+          version-type: release
+          files: "forge/build/libs/immersive_armors-${{steps.tag.outputs.tag}}.jar"
+          loaders: |
+            forge
+          game-versions: |
+            ${{steps.split.outputs._1}}
+          java: |
+            Java 17
+
+          fail-mode: skip

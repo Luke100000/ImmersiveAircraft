@@ -10,7 +10,7 @@ displayName = "Immersive Aircraft"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ImmersiveAircraft"
 authors = "Luke100000"
 description = '''
-    A bunch of rustic aircraft to travel, transport and explore!
+    A bunch of rustic aircraft to travel, transport, and explore!
     '''
 logoFile = "logoFile.png"
 itemIcon = "immersive_aircraft:aircraft"
