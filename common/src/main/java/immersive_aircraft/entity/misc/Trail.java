@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.misc;
 
+import immersive_aircraft.Config;
 import immersive_aircraft.Main;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -34,6 +35,10 @@ public class Trail {
     }
 
     public void add(Vector4f first, Vector4f second, float alpha) {
+        if (!Config.getInstance().enableTrails) {
+            return;
+        }
+
         if (alpha <= 0.0) {
             nullEntries++;
         } else {
@@ -62,7 +67,7 @@ public class Trail {
     }
 
     public void render(VertexConsumerProvider vertexConsumerProvider, MatrixStack.Entry matrices) {
-        if (nullEntries >= size) {
+        if (nullEntries >= size || entries == 0) {
             return;
         }
 

@@ -1,5 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import immersive_aircraft.Config;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
@@ -26,7 +27,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                                     (vertexConsumerProvider, entity, matrixStack, light) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
-                                        if (entity.isWithinParticleRange()) {
+                                        if (entity.isWithinParticleRange() && Config.getInstance().enableAnimatedSails) {
                                             Mesh mesh = getFaces(id, "sails_animated");
                                             float time = entity.world.getTime() % 24000 + MinecraftClient.getInstance().getTickDelta();
                                             renderSailObject(mesh, matrixStack, vertexConsumer, light, time);

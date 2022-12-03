@@ -8,7 +8,6 @@
 
 todo
 rezepte fehlen
-config
 fix seat height
 teste forge
 teste multiplayer

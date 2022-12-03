@@ -17,6 +17,9 @@ public final class Config implements Serializable {
 
     public static final int VERSION = 1;
 
+    public boolean enableTrails = true;
+    public boolean enableAnimatedSails = true;
+
     public int version = 0;
 
     public static File getConfigFile() {
