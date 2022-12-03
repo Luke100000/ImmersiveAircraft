@@ -1,7 +1,7 @@
 package immersive_aircraft.entity.misc;
 
 public class AircraftProperties {
-    private float yawSpeed, pitchSpeed, engineSpeed, glideFactor, driftDrag, lift, verticalSpeed, windSensitivity, rollFactor, groundPitch, brakeFactor, mass;
+    private float yawSpeed, pitchSpeed, engineSpeed, glideFactor, driftDrag, lift, verticalSpeed, windSensitivity, rollFactor, groundPitch, mass;
 
     public float getYawSpeed() {
         return yawSpeed;
@@ -94,15 +94,6 @@ public class AircraftProperties {
 
     public AircraftProperties setGroundPitch(float groundPitch) {
         this.groundPitch = groundPitch;
-        return this;
-    }
-
-    public float getBrakeFactor() {
-        return brakeFactor;
-    }
-
-    public AircraftProperties setBrakeFactor(float brakeFactor) {
-        this.brakeFactor = brakeFactor;
         return this;
     }
 

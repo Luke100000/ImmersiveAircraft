@@ -20,7 +20,6 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setLift(0.15f)
             .setRollFactor(45.0f)
             .setGroundPitch(4.0f)
-            .setBrakeFactor(0.95f)
             .setWindSensitivity(0.01f)
             .setMass(15.0f);
 
@@ -51,6 +50,10 @@ public abstract class AirplaneEntity extends EngineAircraft {
         }
     }
 
+    float getBrakeFactor() {
+        return 0.95f;
+    }
+
     @Override
     void updateController() {
         if (!hasPassengers()) {
@@ -64,7 +67,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
             updateEnginePowerTooltip();
             if (movementY < 0) {
-                setVelocity(getVelocity().multiply(getProperties().getBrakeFactor()));
+                setVelocity(getVelocity().multiply(getBrakeFactor()));
             }
         }
 
