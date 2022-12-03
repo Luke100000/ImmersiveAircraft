@@ -17,9 +17,9 @@ public final class Config implements Serializable {
 
     public static final int VERSION = 1;
 
-    public boolean enableTrails = true;
-    public boolean enableAnimatedSails = true;
-    public float renderDistance = 192.0f;
+    public final boolean enableTrails = true;
+    public final boolean enableAnimatedSails = true;
+    public final float renderDistance = 192.0f;
 
     public int version = 0;
 

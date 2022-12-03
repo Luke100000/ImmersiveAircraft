@@ -67,7 +67,7 @@ public class AirshipEntity extends Rotorcraft {
         return Items.AIRSHIP.get();
     }
 
-    List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
+    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
                     new Vec3d(0.0f, -0.8f, 0.0f)
             ),

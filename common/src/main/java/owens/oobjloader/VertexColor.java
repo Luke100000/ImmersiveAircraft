@@ -1,10 +1,10 @@
 package owens.oobjloader;
 
 public class VertexColor {
-    public float r;
-    public float g;
-    public float b;
-    public float a;
+    public final float r;
+    public final float g;
+    public final float b;
+    public final float a;
 
     public VertexColor(float r, float g, float b, float a) {
         this.r = r;

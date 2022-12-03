@@ -10,8 +10,8 @@ package owens.oobjloader;
 // at http://unlicense.org/ .  See the file UNLICENSE in the repo.
 
 public class VertexTexture {
-    public float u;
-    public float v;
+    public final float u;
+    public final float v;
 
     VertexTexture(float u, float v) {
         this.u = u;
