@@ -48,7 +48,7 @@ public class BiplaneEntity extends AirplaneEntity {
 
                 // Smoke
                 float power = getEnginePower();
-                if (power > 0.0) {
+                if (power > 0.05) {
                     Vector4f p = transformPosition(transform, 0.325f * (age % 4 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
                     Vec3f vel = transformVector(normalTransform, 0.2f * (age % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
                     Vec3d velocity = getVelocity();

@@ -20,7 +20,7 @@ public abstract class PlayerEntityMixin extends Entity {
 
     @Inject(method = "shouldDismount", at = @At("HEAD"), cancellable = true)
     void shouldDismountInjection(CallbackInfoReturnable<Boolean> cir) {
-        if (getRootVehicle() instanceof AircraftEntity) {
+        if (this.getRootVehicle() instanceof AircraftEntity) {
             cir.setReturnValue(false);
         }
     }

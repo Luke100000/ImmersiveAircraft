@@ -238,7 +238,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         if (!entity.shouldRender(x, y, z)) {
             return false;
         }
-        Box box = entity.getVisibilityBoundingBox().expand(2.0);
+        Box box = entity.getVisibilityBoundingBox().expand(2.5);
         return frustum.isVisible(box);
     }
 }

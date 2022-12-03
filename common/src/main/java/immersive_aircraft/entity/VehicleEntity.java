@@ -488,28 +488,39 @@ public abstract class VehicleEntity extends Entity {
         }
     }
 
+    private Vec3d getDismountOffset(double vehicleWidth, double passengerWidth) {
+        double d = (vehicleWidth + passengerWidth + (double)1.0E-5f) / 2.0;
+        float yaw = getYaw() + 90.0f;
+        float f = -MathHelper.sin(yaw * ((float)Math.PI / 180));
+        float g = MathHelper.cos(yaw * ((float)Math.PI / 180));
+        float h = Math.max(Math.abs(f), Math.abs(g));
+        return new Vec3d((double)f * d / (double)h, 0.0, (double)g * d / (double)h);
+    }
+
     @Override
     public Vec3d updatePassengerForDismount(LivingEntity passenger) {
-        double e;
-        Vec3d vec3d = AircraftEntity.getPassengerDismountOffset(getWidth() * MathHelper.SQUARE_ROOT_OF_TWO, passenger.getWidth(), passenger.getYaw());
-        double d = getX() + vec3d.x;
-        BlockPos blockPos = new BlockPos(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
-        BlockPos blockPos2 = blockPos.down();
-        if (!world.isWater(blockPos2)) {
-            double g;
-            ArrayList<Vec3d> list = Lists.newArrayList();
-            double f = world.getDismountHeight(blockPos);
-            if (Dismounting.canDismountInBlock(f)) {
-                list.add(new Vec3d(d, (double)blockPos.getY() + f, e));
-            }
-            if (Dismounting.canDismountInBlock(g = world.getDismountHeight(blockPos2))) {
-                list.add(new Vec3d(d, (double)blockPos2.getY() + g, e));
-            }
-            for (EntityPose entityPose : passenger.getPoses()) {
-                for (Vec3d vec3d2 : list) {
-                    if (!Dismounting.canPlaceEntityAt(world, vec3d2, passenger, entityPose)) continue;
-                    passenger.setPose(entityPose);
-                    return vec3d2;
+        if (getVelocity().lengthSquared() < 0.1f) {
+            double e;
+            Vec3d vec3d = getDismountOffset(getWidth() * MathHelper.SQUARE_ROOT_OF_TWO, passenger.getWidth());
+            double d = getX() + vec3d.x;
+            BlockPos blockPos = new BlockPos(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
+            BlockPos blockPos2 = blockPos.down();
+            if (!world.isWater(blockPos2)) {
+                double g;
+                ArrayList<Vec3d> list = Lists.newArrayList();
+                double f = world.getDismountHeight(blockPos);
+                if (Dismounting.canDismountInBlock(f)) {
+                    list.add(new Vec3d(d, (double)blockPos.getY() + f, e));
+                }
+                if (Dismounting.canDismountInBlock(g = world.getDismountHeight(blockPos2))) {
+                    list.add(new Vec3d(d, (double)blockPos2.getY() + g, e));
+                }
+                for (EntityPose entityPose : passenger.getPoses()) {
+                    for (Vec3d vec3d2 : list) {
+                        if (!Dismounting.canPlaceEntityAt(world, vec3d2, passenger, entityPose)) continue;
+                        passenger.setPose(entityPose);
+                        return vec3d2;
+                    }
                 }
             }
         }

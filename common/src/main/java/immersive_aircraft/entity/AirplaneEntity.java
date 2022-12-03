@@ -1,10 +1,9 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -44,7 +43,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     private void updateEnginePowerTooltip() {
         if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
-            player.sendMessage(new LiteralText(String.valueOf(getEnginePower())), true);
+            player.sendMessage(new TranslatableText("immersive_aircraft.engine_target", (int)(getEnginePower() * 100.f + 0.5f)), true);
         }
     }
 
@@ -58,7 +57,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
         // engine control
         if (movementY != 0) {
-            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY * 4.0f)));
+            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY * 8.0f)));
             updateEnginePowerTooltip();
             if (movementY < 0) {
                 setVelocity(getVelocity().multiply(getProperties().getBrakeFactor()));

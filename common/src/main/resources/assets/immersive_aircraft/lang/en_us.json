@@ -9,5 +9,7 @@
 
   "item.immersive_aircraft.airship": "Airship",
   "item.immersive_aircraft.biplane": "Biplane",
-  "item.immersive_aircraft.gyrodyne": "Gyrodyne"
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+
+  "immersive_aircraft.engine_target": "Engine %d%%"
 }

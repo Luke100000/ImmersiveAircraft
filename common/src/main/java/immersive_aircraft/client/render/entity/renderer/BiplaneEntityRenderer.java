@@ -3,18 +3,11 @@ package immersive_aircraft.client.render.entity.renderer;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3f;
-import owens.oobjloader.Mesh;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/biplane.obj");
@@ -25,6 +18,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             .add(
                     new Object(id, "frame")
             )
+            /*
             .add(
                     new Object(id, "banners").setRenderConsumer(
                             (vertexConsumerProvider, entity, matrixStack, light) -> {
@@ -35,6 +29,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                             }
                     )
             )
+             */
             .add(
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {

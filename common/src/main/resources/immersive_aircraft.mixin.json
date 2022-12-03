@@ -12,6 +12,8 @@
     "defaultRequire": 1
   },
   "client": [
+    "ClientPlayNetworkHandlerMixin",
+    "MinecraftClientMixin",
     "PlayerEntityRendererMixin"
   ]
 }
