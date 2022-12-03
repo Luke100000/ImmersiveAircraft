@@ -1,5 +1,15 @@
 # 0.1.0
 
-# TODO
+* Initial release
+* Added hull, engine, sail, propeller and boiler item
+* Added airship, biplane and gyrodyne aircraft
 
-* Mouse movement
+
+
+todo
+rezepte fehlen
+config
+fix seat height
+teste forge
+teste multiplayer
+teste restart, reenter, shutdown

@@ -38,10 +38,10 @@ public abstract class AircraftEntity extends VehicleEntity {
     public void tick() {
         // rolling interpolation
         prevRoll = roll;
-        if (location != Location.ON_LAND) {
-            roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
-        } else {
+        if (onGround) {
             roll *= 0.9;
+        } else {
+            roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
         }
 
         super.tick();
@@ -49,70 +49,58 @@ public abstract class AircraftEntity extends VehicleEntity {
 
     @Override
     void updateVelocity() {
-        if (lastLocation == Location.IN_AIR && location != Location.IN_AIR && location != Location.ON_LAND) {
-            // impact on water surface
-            waterLevel = getBodyY(1.0);
-            setPosition(getX(), (double)(method_7544() - getHeight()) + 0.101, getZ());
-            setVelocity(getVelocity().multiply(1.0, 0.0, 1.0));
-            fallVelocity = 0.0;
-            location = Location.IN_WATER;
+        float velocityDecay;
+        float rotationDecay = 0.99f;
+        float gravity = getGravity();
+        if (touchingWater) {
+            gravity *= 0.25f;
+            velocityDecay = 0.9f;
+        } else if (!onGround) {
+            velocityDecay = 0.99f;
         } else {
-            float velocityDecay = 0.05f;
-            float rotationDecay = 0.99f;
-            float gravity = getGravity();
-            if (location == Location.IN_WATER || location == Location.UNDER_FLOWING_WATER) {
-                gravity = -0.01f;
-                velocityDecay = 0.9f;
-            } else if (location == Location.UNDER_WATER) {
-                gravity = 0.01f;
-                velocityDecay = 0.45f;
-            } else if (location == Location.IN_AIR) {
-                velocityDecay = 0.99f;
-            } else if (location == Location.ON_LAND) {
-                float friction = getProperties().getWheelFriction();
-                velocityDecay = slipperiness * friction + (1.0f - friction);
-                rotationDecay = 1.0f - getProperties().getWheelFriction();
-            }
+            float friction = getProperties().getWheelFriction();
+            velocityDecay = 1.0f - friction;
+            rotationDecay = 1.0f - getProperties().getWheelFriction();
+        }
 
-            // get direction
-            Vec3d direction = getDirection();
+        // get direction
+        Vec3d direction = getDirection();
 
-            // glide
-            double diff = lastY - getY();
-            if (lastY != 0.0) {
-                setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.getY())))));
-            }
-            lastY = getY();
+        // glide
+        double diff = lastY - getY();
+        if (lastY != 0.0) {
+            setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.getY())))));
+        }
+        lastY = getY();
 
-            Vec3d velocity = getVelocity();
-            double drag = Math.abs(direction.dotProduct(velocity.normalize()));
+        Vec3d velocity = getVelocity();
+        double drag = Math.abs(direction.dotProduct(velocity.normalize()));
 
-            // convert power
-            velocity = velocity.normalize()
-                    .lerp(direction, getProperties().getLift())
-                    .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag())));
-            setVelocity(
-                    velocity.getX(),
-                    velocity.getY(),
-                    velocity.getZ()
-            );
+        // convert power
+        velocity = velocity.normalize()
+                .lerp(direction, getProperties().getLift())
+                .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag())));
+        setVelocity(
+                velocity.getX(),
+                velocity.getY(),
+                velocity.getZ()
+        );
 
-            // friction
-            Vec3d vec3d = getVelocity();
-            setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
-            pressingInterpolatedX.decay(0.0f, 1.0f - rotationDecay);
-            pressingInterpolatedZ.decay(0.0f, 1.0f - rotationDecay);
+        // friction
+        Vec3d vec3d = getVelocity();
+        setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
+        pressingInterpolatedX.decay(0.0f, 1.0f - rotationDecay);
+        pressingInterpolatedZ.decay(0.0f, 1.0f - rotationDecay);
 
-            // wind
-            if (location == Location.IN_AIR) {
-                boolean thundering = world.getLevelProperties().isThundering();
-                boolean raining = world.getLevelProperties().isRaining();
-                float strength = (float)((1.0f + vec3d.length() * 3.0f) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
-                float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
-                float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
-                setPitch(getPitch() + nx);
-                setYaw(getYaw() + nz);
-            }
+        // wind
+        if (!onGround) {
+            boolean thundering = world.getLevelProperties().isThundering();
+            boolean raining = world.getLevelProperties().isRaining();
+            float strength = (float)((1.0f + vec3d.length() * 3.0f) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
+            float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
+            float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
+            setPitch(getPitch() + nx);
+            setYaw(getYaw() + nz);
         }
     }
 }

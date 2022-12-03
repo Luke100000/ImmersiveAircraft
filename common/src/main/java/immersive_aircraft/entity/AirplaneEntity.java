@@ -14,7 +14,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setPitchSpeed(4.0f)
-            .setEngineSpeed(0.015f)
+            .setEngineSpeed(0.0175f)
             .setGlideFactor(0.05f)
             .setDriftDrag(0.01f)
             .setLift(0.15f)

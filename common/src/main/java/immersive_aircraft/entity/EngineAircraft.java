@@ -46,7 +46,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.tick();
 
         // spin up the engine
-        enginePower.update(getEngineTarget());
+        enginePower.update(getEngineTarget() * (touchingWater ? 0.1f : 1.0f));
 
         // simulate spinup
         engineSpinupStrength = Math.max(0.0f, engineSpinupStrength + enginePower.getDiff() - 0.01f);
@@ -76,7 +76,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         setYaw(getYaw() - getProperties().getYawSpeed() * pressingInterpolatedX.getSmooth());
 
         // forwards-backwards
-        if (location != Location.ON_LAND) {
+        if (!onGround) {
             setPitch(getPitch() + getProperties().getPitchSpeed() * pressingInterpolatedZ.getSmooth());
         }
         setPitch(getPitch() * (1.0f - getProperties().getStabilizer()));
@@ -87,7 +87,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.updateVelocity();
 
         // landing
-        if (location == Location.ON_LAND) {
+        if (onGround) {
             setPitch((getPitch() + getProperties().getGroundPitch()) * 0.9f - getProperties().getGroundPitch());
         }
     }

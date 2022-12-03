@@ -45,11 +45,11 @@ public class GyrodyneEntity extends Rotorcraft {
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.6f, 0.2f)
+                    new Vec3d(0.0f, -0.8f, 0.3f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.6f, 0.2f),
-                    new Vec3d(0.0f, -0.6f, -0.6f)
+                    new Vec3d(0.0f, -0.8f, 0.3f),
+                    new Vec3d(0.0f, -0.8f, -0.6f)
             )
     );
 
@@ -81,7 +81,7 @@ public class GyrodyneEntity extends Rotorcraft {
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
-        if (location == Location.ON_LAND) {
+        if (onGround) {
             thrust = PUSH_SPEED * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f);
         }
 

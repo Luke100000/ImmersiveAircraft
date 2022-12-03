@@ -18,12 +18,13 @@ public class MinecraftClientMixin {
     @Nullable
     public ClientPlayerEntity player;
 
-    @Shadow private int itemUseCooldown;
+    @Shadow
+    private int itemUseCooldown;
 
     @Inject(method = "doItemUse()V", at = @At("HEAD"), cancellable = true)
     private void injectDoItemUse(CallbackInfo ci) {
-        if (player != null && player.getRootVehicle() instanceof AircraftEntity) {
-            NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.USE));
+        if (player != null && player.getRootVehicle() instanceof AircraftEntity aircraft) {
+            NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.USE, aircraft.getVelocity()));
             this.itemUseCooldown = 4;
             ci.cancel();
         }

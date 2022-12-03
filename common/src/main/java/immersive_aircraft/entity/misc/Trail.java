@@ -53,7 +53,7 @@ public class Trail {
             return;
         }
 
-        VertexConsumer lineVertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucent(identifier));
+        VertexConsumer lineVertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityAlpha(identifier));
         int light = 15728640;
 
         Vec3d pos = MinecraftClient.getInstance().gameRenderer.getCamera().getPos();

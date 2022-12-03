@@ -3,7 +3,6 @@ package immersive_aircraft.entity;
 import com.google.common.collect.Lists;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.LilyPadBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.*;
@@ -26,10 +25,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.*;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -64,10 +60,6 @@ public abstract class VehicleEntity extends Entity {
     public final InterpolatedFloat pressingInterpolatedY;
     public final InterpolatedFloat pressingInterpolatedZ;
 
-    double waterLevel;
-    float slipperiness;
-    public Location location;
-    Location lastLocation;
     double fallVelocity;
 
     public float roll;
@@ -241,10 +233,6 @@ public abstract class VehicleEntity extends Entity {
             }
         }
 
-        // update location
-        lastLocation = location;
-        location = checkLocation();
-
         // wobble
         if (getDamageWobbleTicks() > 0) {
             setDamageWobbleTicks(getDamageWobbleTicks() - 1);
@@ -312,22 +300,6 @@ public abstract class VehicleEntity extends Entity {
         --interpolationSteps;
     }
 
-    private Location checkLocation() {
-        Location location = getUnderWaterLocation();
-        if (location != null) {
-            waterLevel = getBoundingBox().maxY;
-            return location;
-        }
-        if (checkBoatInWater()) {
-            return Location.IN_WATER;
-        }
-        slipperiness = getSlipperiness();
-        if (slipperiness > 0.0f) {
-            return Location.ON_LAND;
-        }
-        return Location.IN_AIR;
-    }
-
     public float method_7544() {
         Box box = getBoundingBox();
         int i = MathHelper.floor(box.minX);
@@ -354,91 +326,6 @@ public abstract class VehicleEntity extends Entity {
             return (float)mutable.getY() + f;
         }
         return l + 1;
-    }
-
-    public float getSlipperiness() {
-        Box box = getBoundingBox();
-        Box box2 = new Box(box.minX, box.minY - 0.001, box.minZ, box.maxX, box.minY, box.maxZ);
-        int i = MathHelper.floor(box2.minX) - 1;
-        int j = MathHelper.ceil(box2.maxX) + 1;
-        int k = MathHelper.floor(box2.minY) - 1;
-        int l = MathHelper.ceil(box2.maxY) + 1;
-        int m = MathHelper.floor(box2.minZ) - 1;
-        int n = MathHelper.ceil(box2.maxZ) + 1;
-        VoxelShape voxelShape = VoxelShapes.cuboid(box2);
-        float f = 0.0f;
-        int o = 0;
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-        for (int p = i; p < j; ++p) {
-            for (int q = m; q < n; ++q) {
-                int r = (p == i || p == j - 1 ? 1 : 0) + (q == m || q == n - 1 ? 1 : 0);
-                if (r == 2) continue;
-                for (int s = k; s < l; ++s) {
-                    if (r > 0 && (s == k || s == l - 1)) continue;
-                    mutable.set(p, s, q);
-                    BlockState blockState = world.getBlockState(mutable);
-                    if (blockState.getBlock() instanceof LilyPadBlock || !VoxelShapes.matchesAnywhere(blockState.getCollisionShape(world, mutable).offset(p, s, q), voxelShape, BooleanBiFunction.AND)) continue;
-                    f += blockState.getBlock().getSlipperiness();
-                    ++o;
-                }
-            }
-        }
-        return f / (float)o;
-    }
-
-    private boolean checkBoatInWater() {
-        Box box = getBoundingBox();
-        int i = MathHelper.floor(box.minX);
-        int j = MathHelper.ceil(box.maxX);
-        int k = MathHelper.floor(box.minY);
-        int l = MathHelper.ceil(box.minY + 0.001);
-        int m = MathHelper.floor(box.minZ);
-        int n = MathHelper.ceil(box.maxZ);
-        boolean bl = false;
-        waterLevel = -1.7976931348623157E308;
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-        for (int o = i; o < j; ++o) {
-            for (int p = k; p < l; ++p) {
-                for (int q = m; q < n; ++q) {
-                    mutable.set(o, p, q);
-                    FluidState fluidState = world.getFluidState(mutable);
-                    if (!fluidState.isIn(FluidTags.WATER)) continue;
-                    float f = (float)p + fluidState.getHeight(world, mutable);
-                    waterLevel = Math.max(f, waterLevel);
-                    bl |= box.minY < (double)f;
-                }
-            }
-        }
-        return bl;
-    }
-
-    @Nullable
-    private Location getUnderWaterLocation() {
-        Box box = getBoundingBox();
-        double d = box.maxY + 0.001;
-        int i = MathHelper.floor(box.minX);
-        int j = MathHelper.ceil(box.maxX);
-        int k = MathHelper.floor(box.maxY);
-        int l = MathHelper.ceil(d);
-        int m = MathHelper.floor(box.minZ);
-        int n = MathHelper.ceil(box.maxZ);
-        boolean bl = false;
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-        for (int o = i; o < j; ++o) {
-            for (int p = k; p < l; ++p) {
-                for (int q = m; q < n; ++q) {
-                    mutable.set(o, p, q);
-                    FluidState fluidState = world.getFluidState(mutable);
-                    if (!fluidState.isIn(FluidTags.WATER) || !(d < (double)((float)mutable.getY() + fluidState.getHeight(world, mutable)))) continue;
-                    if (fluidState.isStill()) {
-                        bl = true;
-                        continue;
-                    }
-                    return Location.UNDER_FLOWING_WATER;
-                }
-            }
-        }
-        return bl ? Location.UNDER_WATER : null;
     }
 
     abstract void updateVelocity();
@@ -568,23 +455,26 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
-        fallVelocity = getVelocity().y;
-        if (hasVehicle()) {
-            return;
-        }
-        if (onGround) {
-            if (fallDistance > 3.0f) {
-                if (location != Location.ON_LAND) {
-                    onLanding();
-                    return;
+    public void move(MovementType movementType, Vec3d movement) {
+        Vec3d prediction = getPos().add(movement);
+        super.move(movementType, movement);
+
+        if (verticalCollision || horizontalCollision) {
+            float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
+            if (collision > 0.0001f) {
+                float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
+                if (repeat > 0.0f) {
+                    setDamageWobbleSide(-getDamageWobbleSide());
+                    setDamageWobbleTicks(10);
+                    setDamageWobbleStrength(getDamageWobbleStrength() + collision * 50 * repeat * repeat);
                 }
-                handleFallDamage(fallDistance, 1.0f, DamageSource.FALL);
             }
-            onLanding();
-        } else if (!world.getFluidState(getBlockPos().down()).isIn(FluidTags.WATER) && heightDifference < 0.0) {
-            fallDistance -= (float)heightDifference;
         }
+    }
+
+    @Override
+    protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+
     }
 
     public void setDamageWobbleStrength(float wobbleStrength) {
@@ -634,17 +524,8 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public boolean isSubmergedInWater() {
-        return location == Location.UNDER_WATER || location == Location.UNDER_FLOWING_WATER;
-    }
-
-    @Override
     public ItemStack getPickBlockStack() {
         return new ItemStack(asItem());
-    }
-
-    public boolean canDismount() {
-        return location != Location.IN_AIR;
     }
 
     public boolean isWithinParticleRange() {
@@ -694,12 +575,4 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected final static Vector4f ZERO_VEC4 = new Vector4f();
-
-    public enum Location {
-        IN_WATER,
-        UNDER_WATER,
-        UNDER_FLOWING_WATER,
-        ON_LAND,
-        IN_AIR
-    }
 }
