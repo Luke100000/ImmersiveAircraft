@@ -7,8 +7,6 @@
 
 
 todo
-rezepte fehlen
-fix seat height
 teste forge
 teste multiplayer
 teste restart, reenter, shutdown

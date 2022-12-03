@@ -1,9 +1,11 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
@@ -13,17 +15,16 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
-    private final static float PUSH_SPEED = 0.15f;
+    private final static float PUSH_SPEED = 0.25f;
 
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setPitchSpeed(5.0f)
-            .setEngineSpeed(0.045f)
-            .setVerticalSpeed(0.05f)
+            .setEngineSpeed(0.3f)
+            .setVerticalSpeed(0.04f)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(30.0f)
-            .setWheelFriction(0.2f)
             .setWindSensitivity(0.025f)
             .setMass(8.0f);
 
@@ -41,12 +42,32 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     float getStabilizer() {
-        return 0.25f;
+        return 0.3f;
     }
 
     @Override
     public AircraftProperties getProperties() {
         return properties;
+    }
+
+    @Override
+    float getGroundVelocityDecay() {
+        return 0.85f;
+    }
+
+    @Override
+    float getHorizontalVelocityDelay() {
+        return 0.925f;
+    }
+
+    @Override
+    float getVerticalVelocityDelay() {
+        return 0.9f;
+    }
+
+    @Override
+    public Item asItem() {
+        return Items.GYRODYNE.get();
     }
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
@@ -86,7 +107,7 @@ public class GyrodyneEntity extends Rotorcraft {
             if (getEngineTarget() == 1.0) {
                 if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
                     player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target_reached"), true);
-                    setVelocity(getVelocity().add(0, 0.4f, 0));
+                    setVelocity(getVelocity().add(0, 0.25f, 0));
                 }
             }
         }

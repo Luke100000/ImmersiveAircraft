@@ -1,9 +1,12 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Config;
+import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Matrix4f;
@@ -17,13 +20,12 @@ import java.util.List;
 public class AirshipEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
-            .setEngineSpeed(0.0125f)
+            .setEngineSpeed(0.02f)
             .setVerticalSpeed(0.025f)
             .setGlideFactor(0.0f)
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(5.0f)
-            .setWheelFriction(0.5f)
             .setWindSensitivity(0.05f)
             .setMass(12.0f);
 
@@ -38,6 +40,31 @@ public class AirshipEntity extends Rotorcraft {
     @Override
     public AircraftProperties getProperties() {
         return properties;
+    }
+
+    @Override
+    float getGroundVelocityDecay() {
+        return 0.5f;
+    }
+
+    @Override
+    float getHorizontalVelocityDelay() {
+        return 0.97f;
+    }
+
+    @Override
+    float getVerticalVelocityDelay() {
+        return 0.925f;
+    }
+
+    @Override
+    float getStabilizer() {
+        return 0.1f;
+    }
+
+    @Override
+    public Item asItem() {
+        return Items.AIRSHIP.get();
     }
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
@@ -118,7 +145,7 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     public boolean shouldRender(double distance) {
-        double d = 2.5 * 64.0 * getRenderDistanceMultiplier();
+        double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
         return distance < d * d;
     }
 }

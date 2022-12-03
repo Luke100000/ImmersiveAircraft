@@ -153,7 +153,6 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
-        scheduleVelocityUpdate();
         emitGameEvent(GameEvent.ENTITY_DAMAGED, source.getAttacker());
         if (getDamageWobbleStrength() > 40.0f) {
             if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
@@ -253,8 +252,6 @@ public abstract class VehicleEntity extends Entity {
                 updateController();
             }
             move(MovementType.SELF, getVelocity());
-        } else {
-            setVelocity(Vec3d.ZERO);
         }
 
         checkBlockCollision();

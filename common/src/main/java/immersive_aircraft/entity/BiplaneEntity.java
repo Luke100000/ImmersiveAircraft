@@ -1,7 +1,9 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
@@ -31,6 +33,11 @@ public class BiplaneEntity extends AirplaneEntity {
 
         float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(Math.sqrt(getVelocity().length()) * (0.5f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
         trails.get(index).add(p0, p1, trailStrength);
+    }
+
+    @Override
+    public Item asItem() {
+        return Items.BIPLANE.get();
     }
 
     @Override

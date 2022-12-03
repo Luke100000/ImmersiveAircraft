@@ -47,20 +47,39 @@ public abstract class AircraftEntity extends VehicleEntity {
         super.tick();
     }
 
+    void convertPower(Vec3d direction) {
+        Vec3d velocity = getVelocity();
+        double drag = Math.abs(direction.dotProduct(velocity.normalize()));
+        setVelocity(velocity.normalize()
+                .lerp(direction, getProperties().getLift())
+                .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag()))));
+    }
+
+    float getHorizontalVelocityDelay() {
+        return 0.98f;
+    }
+
+    float getVerticalVelocityDelay() {
+        return 0.98f;
+    }
+
+    float getGroundVelocityDecay() {
+        return 0.95f;
+    }
+
+    float getRotationDecay() {
+        return 0.98f;
+    }
+
     @Override
     void updateVelocity() {
-        float velocityDecay;
-        float rotationDecay = 0.99f;
+        float decay = 1.0f;
         float gravity = getGravity();
         if (touchingWater) {
             gravity *= 0.25f;
-            velocityDecay = 0.9f;
-        } else if (!onGround) {
-            velocityDecay = 0.99f;
-        } else {
-            float friction = getProperties().getWheelFriction();
-            velocityDecay = 1.0f - friction;
-            rotationDecay = 1.0f - getProperties().getWheelFriction();
+            decay = 0.9f;
+        } else if (onGround) {
+            decay = getGroundVelocityDecay();
         }
 
         // get direction
@@ -73,24 +92,14 @@ public abstract class AircraftEntity extends VehicleEntity {
         }
         lastY = getY();
 
-        Vec3d velocity = getVelocity();
-        double drag = Math.abs(direction.dotProduct(velocity.normalize()));
-
         // convert power
-        velocity = velocity.normalize()
-                .lerp(direction, getProperties().getLift())
-                .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag())));
-        setVelocity(
-                velocity.getX(),
-                velocity.getY(),
-                velocity.getZ()
-        );
+        convertPower(direction);
 
         // friction
         Vec3d vec3d = getVelocity();
-        setVelocity(vec3d.x * velocityDecay, vec3d.y * velocityDecay + gravity, vec3d.z * velocityDecay);
-        pressingInterpolatedX.decay(0.0f, 1.0f - rotationDecay);
-        pressingInterpolatedZ.decay(0.0f, 1.0f - rotationDecay);
+        setVelocity(vec3d.x * decay * getHorizontalVelocityDelay(), vec3d.y * decay * getVerticalVelocityDelay() + gravity, vec3d.z * decay * getHorizontalVelocityDelay());
+        pressingInterpolatedX.decay(0.0f, 1.0f - decay * getRotationDecay());
+        pressingInterpolatedZ.decay(0.0f, 1.0f - decay * getRotationDecay());
 
         // wind
         if (!onGround) {

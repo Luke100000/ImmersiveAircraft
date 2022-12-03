@@ -14,14 +14,13 @@ public abstract class AirplaneEntity extends EngineAircraft {
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setPitchSpeed(4.0f)
-            .setEngineSpeed(0.0175f)
+            .setEngineSpeed(0.0225f)
             .setGlideFactor(0.05f)
             .setDriftDrag(0.01f)
             .setLift(0.15f)
             .setRollFactor(45.0f)
             .setGroundPitch(4.0f)
-            .setWheelFriction(0.035f)
-            .setBrakeFactor(0.975f)
+            .setBrakeFactor(0.95f)
             .setWindSensitivity(0.01f)
             .setMass(15.0f);
 
@@ -35,10 +34,15 @@ public abstract class AirplaneEntity extends EngineAircraft {
     }
 
     @Override
+    float getGroundVelocityDecay() {
+        return 0.975f;
+    }
+
+    @Override
     protected float getGravity() {
         Vec3d direction = getDirection();
         float speed = (float)((float)getVelocity().length() * (1.0f - Math.abs(direction.getY())));
-        return Math.max(0.0f, 1.0f - speed * 1.75f) * super.getGravity();
+        return Math.max(0.0f, 1.0f - speed * 2.0f) * super.getGravity();
     }
 
     private void updateEnginePowerTooltip() {

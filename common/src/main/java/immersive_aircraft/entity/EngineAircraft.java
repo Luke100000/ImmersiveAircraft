@@ -45,17 +45,12 @@ public abstract class EngineAircraft extends AircraftEntity {
         dataTracker.startTracking(ENGINE, 0.0f);
     }
 
-    // Max speed before the engine looses full effectivity
-    protected float getMaxSpeed() {
-        return 5.0f;
-    }
-
     @Override
     public void tick() {
         super.tick();
 
         // spin up the engine
-        enginePower.update((float)(getEngineTarget() * (touchingWater ? 0.1f : 1.0f) * (1.0f - getVelocity().length() / getMaxSpeed())));
+        enginePower.update(getEngineTarget() * (touchingWater ? 0.1f : 1.0f));
 
         // simulate spinup
         engineSpinupStrength = Math.max(0.0f, engineSpinupStrength + enginePower.getDiff() - 0.01f);

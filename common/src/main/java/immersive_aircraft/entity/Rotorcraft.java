@@ -18,4 +18,18 @@ abstract public class Rotorcraft extends EngineAircraft {
                 MathHelper.cos(getYaw() * ((float)Math.PI / 180))
         ).normalize();
     }
+
+    @Override
+    void convertPower(Vec3d direction) {
+        Vec3d velocity = getVelocity().multiply(1.0f, 0.0f, 1.0f);
+        double drag = Math.abs(direction.dotProduct(velocity.normalize()));
+        Vec3d newVelocity = velocity.normalize()
+                .lerp(direction, getProperties().getLift())
+                .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag())));
+        setVelocity(
+                newVelocity.x,
+                getVelocity().y,
+                newVelocity.z
+        );
+    }
 }
