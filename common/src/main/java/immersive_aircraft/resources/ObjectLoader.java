@@ -5,8 +5,8 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.SinglePreparationResourceReloader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
-import owens.oobjloader.Builder;
-import owens.oobjloader.Mesh;
+import immersive_aircraft.util.obj.oobjloader.Builder;
+import immersive_aircraft.util.obj.oobjloader.Mesh;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -43,3 +43,4 @@ forge*changelog.txt
 *.aup3
 /models/custom_model.java
 /models/custom_model_yarn.java
+/page/

@@ -1,4 +1,4 @@
-package owens.oobjloader;
+package immersive_aircraft.util.obj.oobjloader;
 
 // This code was written by myself, Sean R. Owens, sean at guild dot net,
 // and is released to the public domain. Share and enjoy. Since some
@@ -9,18 +9,16 @@ package owens.oobjloader;
 // In addition this code may also be used under the "unlicense" described
 // at http://unlicense.org/ .  See the file UNLICENSE in the repo.
 
-public class VertexPosition {
-    public final float x;
-    public final float y;
-    public final float z;
+public class VertexTexture {
+    public final float u;
+    public final float v;
 
-    public VertexPosition(float x, float y, float z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    VertexTexture(float u, float v) {
+        this.u = u;
+        this.v = v;
     }
 
     public String toString() {
-        return x + "," + y + "," + z;
+        return u + "," + v;
     }
 }

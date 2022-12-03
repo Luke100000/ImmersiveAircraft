@@ -14,9 +14,9 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.*;
-import owens.oobjloader.Face;
-import owens.oobjloader.FaceVertex;
-import owens.oobjloader.Mesh;
+import immersive_aircraft.util.obj.oobjloader.Face;
+import immersive_aircraft.util.obj.oobjloader.FaceVertex;
+import immersive_aircraft.util.obj.oobjloader.Mesh;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package owens.oobjloader;
+package immersive_aircraft.util.obj.oobjloader;
 
 import java.util.ArrayList;
 
