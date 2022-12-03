@@ -2,14 +2,14 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "immersive_armors:boiler",
-      "immersive_armors:engine",
-      "immersive_armors:hull",
-      "immersive_armors:propeller",
-      "immersive_armors:sail",
-      "immersive_armors:airship",
-      "immersive_armors:biplane",
-      "immersive_armors:gyrodyne"
+      "immersive_aircraft:boiler",
+      "immersive_aircraft:engine",
+      "immersive_aircraft:hull",
+      "immersive_aircraft:propeller",
+      "immersive_aircraft:sail",
+      "immersive_aircraft:airship",
+      "immersive_aircraft:biplane",
+      "immersive_aircraft:gyrodyne"
     ]
   },
   "criteria": {

@@ -54,7 +54,7 @@ jobs:
           name: "[Fabric ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
           version-type: release
-          files: "fabric/build/libs/immersive_armors-${{steps.tag.outputs.tag}}.jar"
+          files: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar"
           loaders: |
             fabric
           game-versions: |
@@ -77,7 +77,7 @@ jobs:
           name: "[Forge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
           version-type: release
-          files: "forge/build/libs/immersive_armors-${{steps.tag.outputs.tag}}.jar"
+          files: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar"
           loaders: |
             forge
           game-versions: |
