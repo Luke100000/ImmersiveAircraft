@@ -13,10 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.*;
 import owens.oobjloader.Face;
 import owens.oobjloader.FaceVertex;
 import owens.oobjloader.Mesh;
@@ -234,6 +231,15 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     static Mesh getFaces(Identifier id, String object) {
         return ObjectLoader.objects.get(id).get(object);
+    }
+
+    @Override
+    public boolean shouldRender(T entity, Frustum frustum, double x, double y, double z) {
+        if (!entity.shouldRender(x, y, z)) {
+            return false;
+        }
+        Box box = entity.getVisibilityBoundingBox().expand(2.0);
+        return frustum.isVisible(box);
     }
 }
 

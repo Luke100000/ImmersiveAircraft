@@ -6,7 +6,6 @@ import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
@@ -43,11 +42,11 @@ public class AirshipEntity extends Rotorcraft {
 
     List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.6f, 0.0f)
+                    new Vec3d(0.0f, -0.8f, 0.0f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.6f, 0.2f),
-                    new Vec3d(0.0f, -0.6f, -0.6f)
+                    new Vec3d(0.0f, -0.8f, 0.2f),
+                    new Vec3d(0.0f, -0.8f, -0.6f)
             )
     );
 
@@ -116,5 +115,10 @@ public class AirshipEntity extends Rotorcraft {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
+    }
+
+    public boolean shouldRender(double distance) {
+        double d = 2.5 * 64.0 * getRenderDistanceMultiplier();
+        return distance < d * d;
     }
 }

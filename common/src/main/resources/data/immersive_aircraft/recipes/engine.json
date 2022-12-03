@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " C ",
-    "CFC",
+    "PFP",
     "CIC"
   ],
   "key": {
@@ -19,6 +19,11 @@
     "I": [
       {
         "item": "immersive_aircraft:boiler"
+      }
+    ],
+    "P": [
+      {
+        "item": "minecraft:piston"
       }
     ]
   },

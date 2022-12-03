@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public interface Entities {
     Supplier<EntityType<GyrodyneEntity>> GYRODYNE = register("gyrodyne", EntityType.Builder
             .create(GyrodyneEntity::new, SpawnGroup.MISC)
-            .setDimensions(1.25f, 1.0f)
+            .setDimensions(1.25f, 0.6f)
             .makeFireImmune()
     );
 
@@ -27,7 +27,7 @@ public interface Entities {
 
     Supplier<EntityType<AirshipEntity>> AIRSHIP = register("airship", EntityType.Builder
             .create(AirshipEntity::new, SpawnGroup.MISC)
-            .setDimensions(1.75f, 1.5f)
+            .setDimensions(1.5f, 2.5f)
             .makeFireImmune()
     );
 
