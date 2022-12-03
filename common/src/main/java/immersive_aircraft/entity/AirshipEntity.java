@@ -73,7 +73,7 @@ public class AirshipEntity extends Rotorcraft {
             ),
             List.of(
                     new Vec3d(0.0f, -0.8f, 0.2f),
-                    new Vec3d(0.0f, -0.8f, -0.6f)
+                    new Vec3d(0.0f, -0.8f, -0.5f)
             )
     );
 

@@ -3,10 +3,3 @@
 * Initial release
 * Added hull, engine, sail, propeller and boiler item
 * Added airship, biplane and gyrodyne aircraft
-
-
-
-todo
-teste forge
-teste multiplayer
-teste restart, reenter, shutdown
