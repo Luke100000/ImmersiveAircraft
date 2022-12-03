@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class AirshipEntity extends Rotorcraft {
-    private final AircraftProperties properties = new AircraftProperties(this)
+    private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setEngineSpeed(0.0125f)
             .setVerticalSpeed(0.025f)
@@ -24,8 +24,8 @@ public class AirshipEntity extends Rotorcraft {
             .setLift(0.1f)
             .setRollFactor(5.0f)
             .setWheelFriction(0.5f)
-            .setWindSensitivity(0.0025f)
-            .setMass(10.0f);
+            .setWindSensitivity(0.05f)
+            .setMass(12.0f);
 
     public AirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -50,7 +50,7 @@ public class AirshipEntity extends Rotorcraft {
             )
     );
 
-    private final List<Trail> trails = List.of(new Trail(15));
+    private final List<Trail> trails = List.of(new Trail(15, 0.5f));
 
     public List<Trail> getTrails() {
         return trails;

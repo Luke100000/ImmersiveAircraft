@@ -34,6 +34,10 @@ public abstract class EngineAircraft extends AircraftEntity {
         return Sounds.PROPELLER.get();
     }
 
+    float getStabilizer() {
+        return 0.0f;
+    }
+
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
@@ -41,12 +45,17 @@ public abstract class EngineAircraft extends AircraftEntity {
         dataTracker.startTracking(ENGINE, 0.0f);
     }
 
+    // Max speed before the engine looses full effectivity
+    protected float getMaxSpeed() {
+        return 5.0f;
+    }
+
     @Override
     public void tick() {
         super.tick();
 
         // spin up the engine
-        enginePower.update(getEngineTarget() * (touchingWater ? 0.1f : 1.0f));
+        enginePower.update((float)(getEngineTarget() * (touchingWater ? 0.1f : 1.0f) * (1.0f - getVelocity().length() / getMaxSpeed())));
 
         // simulate spinup
         engineSpinupStrength = Math.max(0.0f, engineSpinupStrength + enginePower.getDiff() - 0.01f);
@@ -65,7 +74,7 @@ public abstract class EngineAircraft extends AircraftEntity {
             engineSound += getEnginePower() * 0.25f;
             if (engineSound > 1.0f) {
                 engineSound--;
-                world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinupStrength), 1.0f, false);
+                world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinupStrength), random.nextFloat() * 0.1f + 0.95f, false);
             }
         }
     }
@@ -79,7 +88,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (!onGround) {
             setPitch(getPitch() + getProperties().getPitchSpeed() * pressingInterpolatedZ.getSmooth());
         }
-        setPitch(getPitch() * (1.0f - getProperties().getStabilizer()));
+        setPitch(getPitch() * (1.0f - getStabilizer()));
     }
 
     @Override

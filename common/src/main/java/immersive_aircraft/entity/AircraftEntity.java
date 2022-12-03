@@ -68,7 +68,7 @@ public abstract class AircraftEntity extends VehicleEntity {
 
         // glide
         double diff = lastY - getY();
-        if (lastY != 0.0) {
+        if (lastY != 0.0 && getProperties().getGlideFactor() > 0) {
             setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.getY())))));
         }
         lastY = getY();
@@ -96,7 +96,7 @@ public abstract class AircraftEntity extends VehicleEntity {
         if (!onGround) {
             boolean thundering = world.getLevelProperties().isThundering();
             boolean raining = world.getLevelProperties().isRaining();
-            float strength = (float)((1.0f + vec3d.length() * 3.0f) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
+            float strength = (float)((1.0f + vec3d.length()) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
             float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
             float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
             setPitch(getPitch() + nx);

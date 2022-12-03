@@ -11,7 +11,7 @@ import net.minecraft.world.World;
  * Implements airplane like physics properties and accelerated towards
  */
 public abstract class AirplaneEntity extends EngineAircraft {
-    private final AircraftProperties properties = new AircraftProperties(this)
+    private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setPitchSpeed(4.0f)
             .setEngineSpeed(0.0175f)
@@ -20,7 +20,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setLift(0.15f)
             .setRollFactor(45.0f)
             .setGroundPitch(4.0f)
-            .setWheelFriction(0.05f)
+            .setWheelFriction(0.035f)
             .setBrakeFactor(0.975f)
             .setWindSensitivity(0.01f)
             .setMass(15.0f);
@@ -43,7 +43,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     private void updateEnginePowerTooltip() {
         if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
-            player.sendMessage(new TranslatableText("immersive_aircraft.engine_target", (int)(getEnginePower() * 100.f + 0.5f)), true);
+            player.sendMessage(new TranslatableText("immersive_aircraft.engine_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
 
@@ -57,7 +57,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
         // engine control
         if (movementY != 0) {
-            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY * 8.0f)));
+            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
             updateEnginePowerTooltip();
             if (movementY < 0) {
                 setVelocity(getVelocity().multiply(getProperties().getBrakeFactor()));
