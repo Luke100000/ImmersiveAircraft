@@ -6,7 +6,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 
 import static net.minecraft.util.Formatting.*;
@@ -40,15 +40,14 @@ public class Command {
     }
 
     private static void success(String message, CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendFeedback(new LiteralText(message).formatted(GREEN), true);
+        ctx.getSource().sendFeedback(Text.literal(message).formatted(GREEN), true);
     }
 
     private static void fail(String message, CommandContext<ServerCommandSource> ctx) {
-        ctx.getSource().sendError(new LiteralText(message).formatted(RED));
+        ctx.getSource().sendError(Text.literal(message).formatted(RED));
     }
 
-
     private static void sendMessage(Entity commandSender, String message) {
-        commandSender.sendSystemMessage(new LiteralText(message), Util.NIL_UUID);
+        commandSender.sendMessage(Text.literal(message));
     }
 }

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[35,)"
+loaderVersion = "[43,)"
 issueTrackerURL = "https://github.com/Luke100000/ImmersiveAircraft/issues"
 license = "GNU"
 
@@ -18,12 +18,12 @@ itemIcon = "immersive_aircraft:aircraft"
 [[dependencies.immersive_aircraft]]
 modId = "forge"
 mandatory = true
-versionRange = "[36,)"
+versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.immersive_aircraft]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.2]"
+versionRange = "[1.19.2]"
 ordering = "NONE"
 side = "BOTH"

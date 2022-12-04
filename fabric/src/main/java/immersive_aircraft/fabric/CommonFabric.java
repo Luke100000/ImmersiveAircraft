@@ -8,7 +8,7 @@ import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
 import immersive_aircraft.server.Command;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 public final class CommonFabric implements ModInitializer {
     @Override
@@ -21,7 +21,7 @@ public final class CommonFabric implements ModInitializer {
         Entities.bootstrap();
         Messages.bootstrap();
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> Command.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> Command.register(dispatcher));
     }
 }
 

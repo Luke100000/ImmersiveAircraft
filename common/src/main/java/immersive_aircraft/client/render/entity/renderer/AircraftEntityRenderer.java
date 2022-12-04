@@ -17,6 +17,7 @@ import net.minecraft.util.math.*;
 import immersive_aircraft.util.obj.oobjloader.Face;
 import immersive_aircraft.util.obj.oobjloader.FaceVertex;
 import immersive_aircraft.util.obj.oobjloader.Mesh;
+import net.minecraft.util.registry.RegistryKey;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;
@@ -201,11 +202,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns) {
+    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryKey<BannerPattern>, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-            Pair<BannerPattern, DyeColor> pair = patterns.get(i);
+            Pair<RegistryKey<BannerPattern>, DyeColor> pair = patterns.get(i);
             float[] fs = pair.getRight().getColorComponents();
-            BannerPattern bannerPattern = pair.getLeft();
+            RegistryKey<BannerPattern> bannerPattern = pair.getLeft();
             SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
             VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
             Sprite sprite = spriteIdentifier.getSprite();

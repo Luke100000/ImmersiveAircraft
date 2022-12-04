@@ -6,7 +6,7 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityPassengersSetS2CPacket;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,7 +38,7 @@ public class ClientPlayNetworkHandlerMixin {
                 this.client.player.prevYaw = entity.getYaw();
                 this.client.player.setYaw(entity.getYaw());
                 this.client.player.setHeadYaw(entity.getYaw());
-                this.client.inGameHud.setOverlayMessage(new TranslatableText("mount.onboard", this.client.options.useKey.getBoundKeyLocalizedText()), false);
+                this.client.inGameHud.setOverlayMessage(Text.translatable("mount.onboard", this.client.options.useKey.getBoundKeyLocalizedText()), false);
             }
         }
     }

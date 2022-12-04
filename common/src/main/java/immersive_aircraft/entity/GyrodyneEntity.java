@@ -7,7 +7,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -91,7 +91,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     private void updateEnginePowerTooltip() {
         if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
-            player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
+            player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
 
@@ -106,7 +106,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
             if (getEngineTarget() == 1.0) {
                 if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
-                    player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target_reached"), true);
+                    player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
                     setVelocity(getVelocity().add(0, 0.25f, 0));
                 }
             }

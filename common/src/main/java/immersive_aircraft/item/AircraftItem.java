@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class AircraftItem extends Item {
-    private static final Predicate<Entity> RIDERS = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::collides);
+    private static final Predicate<Entity> RIDERS = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::canHit);
 
     public interface AircraftConstructor {
         AircraftEntity create(World world);
