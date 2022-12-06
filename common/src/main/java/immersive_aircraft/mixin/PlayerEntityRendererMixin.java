@@ -1,5 +1,6 @@
 package immersive_aircraft.mixin;
 
+import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -18,7 +19,9 @@ abstract public class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 
     @Inject(method = "setModelPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)V", at = @At("TAIL"))
     private void setModelPose(AbstractClientPlayerEntity player, CallbackInfo ci) {
-        PlayerEntityModel<AbstractClientPlayerEntity> playerEntityModel = this.getModel();
-        playerEntityModel.sneaking = false;
+        if (player.getRootVehicle() instanceof VehicleEntity) {
+            PlayerEntityModel<AbstractClientPlayerEntity> playerEntityModel = this.getModel();
+            playerEntityModel.sneaking = false;
+        }
     }
 }
