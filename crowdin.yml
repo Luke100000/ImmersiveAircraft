@@ -1,3 +1,5 @@
 files:
   - source: /common/src/main/resources/assets/**/lang/en_us.json
     translation: /common/src/main/resources/assets/**/lang/%locale_with_underscore%.json
+    translation_replace:
+      zh_TW: carl
