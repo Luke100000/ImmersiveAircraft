@@ -9,6 +9,6 @@
   "item.immersive_aircraft.biplane": "Биплан",
   "item.immersive_aircraft.gyrodyne": "Гиродин",
   "immersive_aircraft.engine_target": "Мотор %d%%",
-  "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
+  "immersive_aircraft.gyrodyne_target": "Көс %d%%, баҫырға дауам итегеҙ!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
 }
