@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Pesawat Terbang Imersif",
+  "item.immersive_aircraft.hull": "Hull",
+  "item.immersive_aircraft.engine": "Mesin",
+  "item.immersive_aircraft.sail": "Berlayar",
+  "item.immersive_aircraft.propeller": "Baling-baling",
+  "item.immersive_aircraft.boiler": "Ketel",
+  "item.immersive_aircraft.airship": "Kapal Udara",
+  "item.immersive_aircraft.biplane": "Biplane",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Mesin %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Kekuatan, terus dorong!",
+  "immersive_aircraft.gyrodyne_target_reached": "Kecepatan rotor minimum tercapai, siap untuk lepas landas!"
+}

@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Potopno letalo",
+  "item.immersive_aircraft.hull": "Trup",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Jadro",
+  "item.immersive_aircraft.propeller": "Propeler",
+  "item.immersive_aircraft.boiler": "Kotel",
+  "item.immersive_aircraft.airship": "Zračna ladja",
+  "item.immersive_aircraft.biplane": "Dvoletno letalo",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Moč, vztrajajte!",
+  "immersive_aircraft.gyrodyne_target_reached": "Najmanjša hitrost rotorja je dosežena, pripravljen za vzlet!"
+}

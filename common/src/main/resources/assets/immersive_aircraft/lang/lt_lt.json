@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Įtraukiantis orlaivis",
+  "item.immersive_aircraft.hull": "Korpusas",
+  "item.immersive_aircraft.engine": "Variklis",
+  "item.immersive_aircraft.sail": "Burės",
+  "item.immersive_aircraft.propeller": "Propeleris",
+  "item.immersive_aircraft.boiler": "Katilas",
+  "item.immersive_aircraft.airship": "Dirižablis",
+  "item.immersive_aircraft.biplane": "Dvigubas lėktuvas",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Variklis %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Galia, stumkite toliau!",
+  "immersive_aircraft.gyrodyne_target_reached": "Pasiektas minimalus rotoriaus greitis, pasirengta kilimui!"
+}

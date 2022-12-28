@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Sürükleyici Uçaklar",
+  "item.immersive_aircraft.hull": "Gövde",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Yelken",
+  "item.immersive_aircraft.propeller": "Pervane",
+  "item.immersive_aircraft.boiler": "Kazan",
+  "item.immersive_aircraft.airship": "Hava Gemisi",
+  "item.immersive_aircraft.biplane": "Çift Kanatlı",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%%",
+  "immersive_aircraft.gyrodyne_target": "%dGüç, itmeye devam et!",
+  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor hızına ulaşıldı, kalkışa hazır!"
+}

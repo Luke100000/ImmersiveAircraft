@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersiivinen ilma-alus",
+  "item.immersive_aircraft.hull": "Runko",
+  "item.immersive_aircraft.engine": "Moottori",
+  "item.immersive_aircraft.sail": "Purje",
+  "item.immersive_aircraft.propeller": "Potkuri",
+  "item.immersive_aircraft.boiler": "Kattila",
+  "item.immersive_aircraft.airship": "Ilmalaiva",
+  "item.immersive_aircraft.biplane": "Kaksitaso",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Moottori %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Voimaa, jatka ponnistelua!",
+  "immersive_aircraft.gyrodyne_target_reached": "Roottorin vähimmäisnopeus saavutettu, valmiina lentoonlähtöön!"
+}

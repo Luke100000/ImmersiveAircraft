@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersiivne õhusõiduk",
+  "item.immersive_aircraft.hull": "Kere",
+  "item.immersive_aircraft.engine": "Mootor",
+  "item.immersive_aircraft.sail": "Purje",
+  "item.immersive_aircraft.propeller": "Propeller",
+  "item.immersive_aircraft.boiler": "Katel",
+  "item.immersive_aircraft.airship": "Õhulaev",
+  "item.immersive_aircraft.biplane": "Kaheplaaniline",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Mootor %d%%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Power, jätkake pingutamist!",
+  "immersive_aircraft.gyrodyne_target_reached": "Minimaalne rootori kiirus on saavutatud, valmis startimiseks!"
+}

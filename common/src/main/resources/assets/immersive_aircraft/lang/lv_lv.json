@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Iedvesmojoši gaisa kuģi",
+  "item.immersive_aircraft.hull": "Korpuss",
+  "item.immersive_aircraft.engine": "Dzinējs",
+  "item.immersive_aircraft.sail": "Buru",
+  "item.immersive_aircraft.propeller": "Propelleris",
+  "item.immersive_aircraft.boiler": "Katls",
+  "item.immersive_aircraft.airship": "Dirižablis",
+  "item.immersive_aircraft.biplane": "Biplane",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Dzinējs %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Jauda, turpini spiest!",
+  "immersive_aircraft.gyrodyne_target_reached": "Sasniegts minimālais rotora ātrums, gatavs pacelšanai!"
+}

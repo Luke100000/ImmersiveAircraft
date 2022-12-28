@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Fördjupande flygplan",
+  "item.immersive_aircraft.hull": "Skrov",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Segla",
+  "item.immersive_aircraft.propeller": "Propeller",
+  "item.immersive_aircraft.boiler": "Panna",
+  "item.immersive_aircraft.airship": "Luftskepp",
+  "item.immersive_aircraft.biplane": "Biplane",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Power, fortsätt att driva på!",
+  "immersive_aircraft.gyrodyne_target_reached": "Minsta rotorhastighet uppnådd, redo för start!"
+}

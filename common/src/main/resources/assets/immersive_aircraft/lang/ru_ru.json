@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Захватывающая Авиация",
+  "item.immersive_aircraft.hull": "Корпус",
+  "item.immersive_aircraft.engine": "Двигатель",
+  "item.immersive_aircraft.sail": "Парус",
+  "item.immersive_aircraft.propeller": "Пропеллер",
+  "item.immersive_aircraft.boiler": "Бойлер",
+  "item.immersive_aircraft.airship": "Дирижабль",
+  "item.immersive_aircraft.biplane": "Кукурузник",
+  "item.immersive_aircraft.gyrodyne": "Вертолёт",
+  "immersive_aircraft.engine_target": "Двигатель %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Энергии, продолжайте толкать!",
+  "immersive_aircraft.gyrodyne_target_reached": "Достигнута минимальная скорость вращения ротора, готов к взлёту!"
+}

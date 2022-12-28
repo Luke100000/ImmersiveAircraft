@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Aeronave imersive",
+  "item.immersive_aircraft.hull": "Hull",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Sail",
+  "item.immersive_aircraft.propeller": "Elice",
+  "item.immersive_aircraft.boiler": "Cazan",
+  "item.immersive_aircraft.airship": "Aeronava",
+  "item.immersive_aircraft.biplane": "Biplan",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Putere, continuă să împingi!",
+  "immersive_aircraft.gyrodyne_target_reached": "Viteza minimă a rotorului a fost atinsă, gata de decolare!"
+}
