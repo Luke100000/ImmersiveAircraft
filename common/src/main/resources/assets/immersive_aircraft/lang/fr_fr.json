@@ -1,14 +1,14 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Aircraft",
-  "item.immersive_aircraft.hull": "Hull",
-  "item.immersive_aircraft.engine": "Engine",
-  "item.immersive_aircraft.sail": "Sail",
-  "item.immersive_aircraft.propeller": "Propeller",
-  "item.immersive_aircraft.boiler": "Boiler",
-  "item.immersive_aircraft.airship": "Airship",
-  "item.immersive_aircraft.biplane": "Biplane",
-  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
-  "immersive_aircraft.engine_target": "Engine %d%%",
-  "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
-  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
+  "item.immersive_aircraft.hull": "Carlingue",
+  "item.immersive_aircraft.engine": "Moteur",
+  "item.immersive_aircraft.sail": "Voile",
+  "item.immersive_aircraft.propeller": "Hélice",
+  "item.immersive_aircraft.boiler": "Chaudière",
+  "item.immersive_aircraft.airship": "Dirigeable",
+  "item.immersive_aircraft.biplane": "Biplan",
+  "item.immersive_aircraft.gyrodyne": "Gyroptère",
+  "immersive_aircraft.engine_target": "Moteur à %d%%",
+  "immersive_aircraft.gyrodyne_target": "Puissance à %d%%, continue de pousser !",
+  "immersive_aircraft.gyrodyne_target_reached": "Vitesse minimale du rotor atteinte, paré au décollage !"
 }
