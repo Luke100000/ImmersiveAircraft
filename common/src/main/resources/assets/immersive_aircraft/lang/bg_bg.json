@@ -1,14 +1,14 @@
 {
-  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Aircraft",
-  "item.immersive_aircraft.hull": "Hull",
-  "item.immersive_aircraft.engine": "Engine",
-  "item.immersive_aircraft.sail": "Sail",
-  "item.immersive_aircraft.propeller": "Propeller",
-  "item.immersive_aircraft.boiler": "Boiler",
-  "item.immersive_aircraft.airship": "Airship",
-  "item.immersive_aircraft.biplane": "Biplane",
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Потапящ самолет",
+  "item.immersive_aircraft.hull": "Корпус",
+  "item.immersive_aircraft.engine": "Двигател",
+  "item.immersive_aircraft.sail": "Платна",
+  "item.immersive_aircraft.propeller": "Витло",
+  "item.immersive_aircraft.boiler": "Котел",
+  "item.immersive_aircraft.airship": "Дирижабъл",
+  "item.immersive_aircraft.biplane": "Двуплощник",
   "item.immersive_aircraft.gyrodyne": "Gyrodyne",
-  "immersive_aircraft.engine_target": "Engine %d%%",
-  "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
-  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
+  "immersive_aircraft.engine_target": "Двигател %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Мощност, продължавайте да натискате!",
+  "immersive_aircraft.gyrodyne_target_reached": "Минималната скорост на ротора е достигната, готовност за излитане!"
 }
