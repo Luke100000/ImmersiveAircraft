@@ -1,14 +1,14 @@
 {
-  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Aircraft",
-  "item.immersive_aircraft.hull": "Hull",
-  "item.immersive_aircraft.engine": "Engine",
-  "item.immersive_aircraft.sail": "Sail",
-  "item.immersive_aircraft.propeller": "Propeller",
-  "item.immersive_aircraft.boiler": "Boiler",
-  "item.immersive_aircraft.airship": "Airship",
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Iedvesmojoši gaisa kuģi",
+  "item.immersive_aircraft.hull": "Korpuss",
+  "item.immersive_aircraft.engine": "Dzinējs",
+  "item.immersive_aircraft.sail": "Buru",
+  "item.immersive_aircraft.propeller": "Propelleris",
+  "item.immersive_aircraft.boiler": "Katls",
+  "item.immersive_aircraft.airship": "Dirižablis",
   "item.immersive_aircraft.biplane": "Biplane",
   "item.immersive_aircraft.gyrodyne": "Gyrodyne",
-  "immersive_aircraft.engine_target": "Engine %d%%",
-  "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
-  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
+  "immersive_aircraft.engine_target": "Dzinējs %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Jauda, turpini spiest!",
+  "immersive_aircraft.gyrodyne_target_reached": "Sasniegts minimālais rotora ātrums, gatavs pacelšanai!"
 }
