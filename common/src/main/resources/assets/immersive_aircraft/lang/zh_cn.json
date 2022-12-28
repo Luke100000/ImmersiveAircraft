@@ -1,0 +1,14 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "沉浸式飞机",
+  "item.immersive_aircraft.hull": "壳",
+  "item.immersive_aircraft.engine": "发动机",
+  "item.immersive_aircraft.sail": "帆船",
+  "item.immersive_aircraft.propeller": "螺旋桨",
+  "item.immersive_aircraft.boiler": "锅炉",
+  "item.immersive_aircraft.airship": "飞艇",
+  "item.immersive_aircraft.biplane": "双翼机",
+  "item.immersive_aircraft.gyrodyne": "吉罗迪恩",
+  "immersive_aircraft.engine_target": "发动机 %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d％的力量，继续推动",
+  "immersive_aircraft.gyrodyne_target_reached": "达到最低的旋翼速度，准备起飞!"
+}
