@@ -1,14 +1,14 @@
 {
-  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Aircraft",
-  "item.immersive_aircraft.hull": "Hull",
-  "item.immersive_aircraft.engine": "Engine",
-  "item.immersive_aircraft.sail": "Sail",
-  "item.immersive_aircraft.propeller": "Propeller",
-  "item.immersive_aircraft.boiler": "Boiler",
-  "item.immersive_aircraft.airship": "Airship",
-  "item.immersive_aircraft.biplane": "Biplane",
-  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
-  "immersive_aircraft.engine_target": "Engine %d%%",
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "イマーシブ・エアクラフト",
+  "item.immersive_aircraft.hull": "船体",
+  "item.immersive_aircraft.engine": "エンジン",
+  "item.immersive_aircraft.sail": "セイル",
+  "item.immersive_aircraft.propeller": "プロペラ",
+  "item.immersive_aircraft.boiler": "ボイラー",
+  "item.immersive_aircraft.airship": "飛行船",
+  "item.immersive_aircraft.biplane": "複葉機",
+  "item.immersive_aircraft.gyrodyne": "ジャイロダイン",
+  "immersive_aircraft.engine_target": "エンジン %d%%。",
   "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
-  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
+  "immersive_aircraft.gyrodyne_target_reached": "最小ロータースピードに到達、離陸準備完了"
 }
