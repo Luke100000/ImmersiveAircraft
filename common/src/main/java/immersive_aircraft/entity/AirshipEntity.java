@@ -69,11 +69,11 @@ public class AirshipEntity extends Rotorcraft {
 
     final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.8f, 0.0f)
+                    new Vec3d(0.0f, -0.1f, 0.0f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.8f, 0.2f),
-                    new Vec3d(0.0f, -0.8f, -0.5f)
+                    new Vec3d(0.0f, -0.1f, 0.4f),
+                    new Vec3d(0.0f, -0.1f, -0.3f)
             )
     );
 

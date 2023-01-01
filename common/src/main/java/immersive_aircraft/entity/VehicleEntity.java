@@ -353,7 +353,7 @@ public abstract class VehicleEntity extends Entity {
                     position.add(0.0f, 0.0f, 0.2f);
                 }
 
-                position = position.add(0, -passenger.getHeightOffset(), 0);
+                position = position.add(0, passenger.getHeightOffset(), 0);
 
                 Vector4f worldPosition = transformPosition(transform, (float)position.x, (float)position.y, (float)position.z);
 
