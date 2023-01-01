@@ -14,7 +14,6 @@
   "item.immersive_aircraft.biplane": "Biplane",
   "item.immersive_aircraft.gyrodyne": "Gyrodyne",
 
-  "immersive_aircraft.engine_target": "Engine %d%%",
   "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
 }

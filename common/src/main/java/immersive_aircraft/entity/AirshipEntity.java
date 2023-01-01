@@ -132,8 +132,7 @@ public class AirshipEntity extends Rotorcraft {
                 trail(tr, 0.0f);
 
                 // Smoke
-                float power = getEnginePower();
-                if (power > 0.0 && age % 2 == 0) {
+                if (enginePower.getValue() > 0.0 && age % 2 == 0) {
                     Vector4f p = transformPosition(transform, (random.nextFloat() - 0.5f) * 0.4f, 0.8f, -0.8f);
                     Vec3d velocity = getVelocity();
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);

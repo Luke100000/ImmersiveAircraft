@@ -17,6 +17,11 @@ import java.util.List;
 public class GyrodyneEntity extends Rotorcraft {
     private final static float PUSH_SPEED = 0.25f;
 
+    @Override
+    public GUI_STYLE getGuiStyle() {
+        return GUI_STYLE.NONE;
+    }
+
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setPitchSpeed(5.0f)
