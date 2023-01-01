@@ -13,7 +13,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -59,8 +58,6 @@ public abstract class VehicleEntity extends Entity {
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
     public final InterpolatedFloat pressingInterpolatedZ;
-
-    double fallVelocity;
 
     public float roll;
     public float prevRoll;
@@ -295,34 +292,6 @@ public abstract class VehicleEntity extends Entity {
         setRotation(getYaw(), getPitch());
 
         --interpolationSteps;
-    }
-
-    public float method_7544() {
-        Box box = getBoundingBox();
-        int i = MathHelper.floor(box.minX);
-        int j = MathHelper.ceil(box.maxX);
-        int k = MathHelper.floor(box.maxY);
-        int l = MathHelper.ceil(box.maxY - fallVelocity);
-        int m = MathHelper.floor(box.minZ);
-        int n = MathHelper.ceil(box.maxZ);
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-        block0:
-        for (int o = k; o < l; ++o) {
-            float f = 0.0f;
-            for (int p = i; p < j; ++p) {
-                for (int q = m; q < n; ++q) {
-                    mutable.set(p, o, q);
-                    FluidState fluidState = world.getFluidState(mutable);
-                    if (fluidState.isIn(FluidTags.WATER)) {
-                        f = Math.max(f, fluidState.getHeight(world, mutable));
-                    }
-                    if (f >= 1.0f) continue block0;
-                }
-            }
-            if (!(f < 1.0f)) continue;
-            return (float)mutable.getY() + f;
-        }
-        return l + 1;
     }
 
     abstract void updateVelocity();
