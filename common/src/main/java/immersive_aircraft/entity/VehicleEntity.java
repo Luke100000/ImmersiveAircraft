@@ -154,7 +154,7 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
         emitGameEvent(GameEvent.ENTITY_DAMAGED, source.getAttacker());
-        if (getDamageWobbleStrength() > 40.0f) {
+        if (getDamageWobbleStrength() > 60.0f) {
             if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                 dropItem(asItem());
             }
