@@ -1,6 +1,7 @@
 package immersive_aircraft.entity;
 
 import com.google.common.collect.Lists;
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -224,8 +225,19 @@ public abstract class VehicleEntity extends Entity {
         // pilot
         if (world.isClient() && getPassengerList().size() > 0) {
             Entity entity = getPassengerList().get(0);
-            if (entity instanceof ClientPlayerEntity player) {
-                setInputs(player.input.movementSideways, getMovementMultiplier(player.input.jumping, player.input.sneaking), player.input.movementForward);
+            if (entity instanceof ClientPlayerEntity) {
+                setInputs(getMovementMultiplier(
+                                KeyBindings.left.isPressed(),
+                                KeyBindings.right.isPressed()
+                        ), getMovementMultiplier(
+                                KeyBindings.up.isPressed(),
+                                KeyBindings.down.isPressed()
+                        ),
+                        getMovementMultiplier(
+                                KeyBindings.forward.isPressed(),
+                                KeyBindings.backward.isPressed()
+                        )
+                );
             }
         }
 

@@ -6,10 +6,10 @@
 * Enhanced recipes
 * Fixed non player mount positions
 * Made all vehicles more durable
+* Added keybindings
 
 * TODO Added inventory
 * TODO Added fuel
-* TODO Added keybindings
 
 # 0.1.1
 
