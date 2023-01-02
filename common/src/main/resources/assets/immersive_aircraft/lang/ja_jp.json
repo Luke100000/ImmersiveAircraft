@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "イマーシブ・エアクラフト",
+  "entity.immersive_aircraft.airship": "飛行船",
+  "entity.immersive_aircraft.biplane": "複葉機",
+  "entity.immersive_aircraft.gyrodyne": "ジャイロダイン",
   "item.immersive_aircraft.hull": "船体",
   "item.immersive_aircraft.engine": "エンジン",
   "item.immersive_aircraft.sail": "セイル",
