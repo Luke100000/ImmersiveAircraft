@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Velivoli immersivi",
+  "entity.immersive_aircraft.airship": "Dirigibile",
+  "entity.immersive_aircraft.biplane": "Biplano",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Scafo",
   "item.immersive_aircraft.engine": "Motore",
   "item.immersive_aircraft.sail": "Vela",
