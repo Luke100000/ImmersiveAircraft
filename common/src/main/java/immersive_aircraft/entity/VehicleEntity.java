@@ -2,6 +2,8 @@ package immersive_aircraft.entity;
 
 import com.google.common.collect.Lists;
 import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -212,12 +214,15 @@ public abstract class VehicleEntity extends Entity {
         return getHorizontalFacing().rotateYClockwise();
     }
 
-
     private static float getMovementMultiplier(boolean positive, boolean negative) {
         if (positive == negative) {
             return 0.0f;
         }
         return positive ? 1.0f : -1.0f;
+    }
+
+    boolean useAirplaneControls() {
+        return false;
     }
 
     @Override
@@ -226,6 +231,12 @@ public abstract class VehicleEntity extends Entity {
         if (world.isClient() && getPassengerList().size() > 0) {
             Entity entity = getPassengerList().get(0);
             if (entity instanceof ClientPlayerEntity) {
+                //events
+                if (KeyBindings.dismount.wasPressed()) {
+                    NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+                }
+
+                //controls
                 setInputs(getMovementMultiplier(
                                 KeyBindings.left.isPressed(),
                                 KeyBindings.right.isPressed()
@@ -234,8 +245,8 @@ public abstract class VehicleEntity extends Entity {
                                 KeyBindings.down.isPressed()
                         ),
                         getMovementMultiplier(
-                                KeyBindings.forward.isPressed(),
-                                KeyBindings.backward.isPressed()
+                                useAirplaneControls() ? KeyBindings.pull.isPressed() : KeyBindings.forward.isPressed(),
+                                useAirplaneControls() ? KeyBindings.push.isPressed() : KeyBindings.backward.isPressed()
                         )
                 );
             }

@@ -29,6 +29,7 @@ public final class ClientForge {
         Renderer.bootstrap();
     }
 
+    @SubscribeEvent
     private void clientSetup(final FMLClientSetupEvent event) {
         KeyBindings.list.forEach(ClientRegistry::registerKeyBinding);
     }

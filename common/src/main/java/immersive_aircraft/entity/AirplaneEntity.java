@@ -26,6 +26,11 @@ public abstract class AirplaneEntity extends EngineAircraft {
     }
 
     @Override
+    boolean useAirplaneControls() {
+        return true;
+    }
+
+    @Override
     public AircraftProperties getProperties() {
         return properties;
     }
