@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Samoloty do zwiedzania",
+  "entity.immersive_aircraft.airship": "Sterowiec",
+  "entity.immersive_aircraft.biplane": "Dwupłatowiec",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Kadłub",
   "item.immersive_aircraft.engine": "Silnik",
   "item.immersive_aircraft.sail": "Żagiel",
