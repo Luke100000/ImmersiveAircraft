@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Pesawat Terbang Imersif",
+  "entity.immersive_aircraft.airship": "Kapal Udara",
+  "entity.immersive_aircraft.biplane": "Biplane",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Hull",
   "item.immersive_aircraft.engine": "Mesin",
   "item.immersive_aircraft.sail": "Berlayar",
