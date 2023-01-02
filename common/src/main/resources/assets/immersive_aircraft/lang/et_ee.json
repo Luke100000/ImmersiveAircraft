@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersiivne õhusõiduk",
+  "entity.immersive_aircraft.airship": "Õhulaev",
+  "entity.immersive_aircraft.biplane": "Kaheplaaniline",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Kere",
   "item.immersive_aircraft.engine": "Mootor",
   "item.immersive_aircraft.sail": "Purje",
