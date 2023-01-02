@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Захватывающая Авиация",
+  "entity.immersive_aircraft.airship": "Дирижабль",
+  "entity.immersive_aircraft.biplane": "Кукурузник",
+  "entity.immersive_aircraft.gyrodyne": "Вертолёт",
   "item.immersive_aircraft.hull": "Корпус",
   "item.immersive_aircraft.engine": "Двигатель",
   "item.immersive_aircraft.sail": "Парус",
