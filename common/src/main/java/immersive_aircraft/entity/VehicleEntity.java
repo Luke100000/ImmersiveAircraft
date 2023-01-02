@@ -245,8 +245,8 @@ public abstract class VehicleEntity extends Entity {
                                 KeyBindings.down.isPressed()
                         ),
                         getMovementMultiplier(
-                                useAirplaneControls() ? KeyBindings.pull.isPressed() : KeyBindings.forward.isPressed(),
-                                useAirplaneControls() ? KeyBindings.push.isPressed() : KeyBindings.backward.isPressed()
+                                useAirplaneControls() ? KeyBindings.push.isPressed() : KeyBindings.forward.isPressed(),
+                                useAirplaneControls() ? KeyBindings.pull.isPressed() : KeyBindings.backward.isPressed()
                         )
                 );
             }

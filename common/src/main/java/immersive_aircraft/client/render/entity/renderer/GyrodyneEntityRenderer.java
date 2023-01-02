@@ -51,7 +51,9 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
             .add(
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
+                                matrixStack.translate(1.0 / 32.0, 0.0, 1.0 / 32.0);
                                 matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.translate(-1.0 / 32.0, 0.0, -1.0 / 32.0);
                             }
                     )
             );
