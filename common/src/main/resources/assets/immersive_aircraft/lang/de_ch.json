@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Flugzeuge",
+  "entity.immersive_aircraft.airship": "Luftschiff",
+  "entity.immersive_aircraft.biplane": "Doppeldecker",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.hull": "Rumpf",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Segel",
+  "item.immersive_aircraft.propeller": "Propeller",
+  "item.immersive_aircraft.boiler": "Kessel",
+  "item.immersive_aircraft.airship": "Luftschiff",
+  "item.immersive_aircraft.biplane": "Doppeldecker",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Power, mach weiter!",
+  "immersive_aircraft.gyrodyne_target_reached": "Minimale Rotordrehzahl erreicht, bereit zum Abheben!"
+}

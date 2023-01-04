@@ -41,8 +41,8 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta)));
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta)));
+                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
                             }
                     )
             )
@@ -50,9 +50,9 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                     new Object(id, "propeller")
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
-                                        matrixStack.translate(0.0f, 0.25f, 0.0f);
-                                        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
-                                        matrixStack.translate(0.0f, -0.25f, 0.0f);
+                                        matrixStack.translate(0.0f, 0.1875f, 0.0f);
+                                        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                        matrixStack.translate(0.0f, -0.1875f, 0.0f);
                                     }
                             )
                             .setRenderConsumer(

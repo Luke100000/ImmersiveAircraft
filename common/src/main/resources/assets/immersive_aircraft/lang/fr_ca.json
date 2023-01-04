@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Avion immersif",
+  "entity.immersive_aircraft.airship": "Dirigeable",
+  "entity.immersive_aircraft.biplane": "Biplane",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.hull": "Coque",
+  "item.immersive_aircraft.engine": "Moteur",
+  "item.immersive_aircraft.sail": "Voile",
+  "item.immersive_aircraft.propeller": "Hélice",
+  "item.immersive_aircraft.boiler": "Chaudière",
+  "item.immersive_aircraft.airship": "Dirigeable",
+  "item.immersive_aircraft.biplane": "Biplane",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Moteur %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Puissance, continue à pousser !",
+  "immersive_aircraft.gyrodyne_target_reached": "Vitesse minimale du rotor atteinte, prêt pour le décollage !"
+}

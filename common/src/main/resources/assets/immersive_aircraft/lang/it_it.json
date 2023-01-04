@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Velivoli immersivi",
+  "entity.immersive_aircraft.airship": "Dirigibile",
+  "entity.immersive_aircraft.biplane": "Biplano",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.hull": "Scafo",
+  "item.immersive_aircraft.engine": "Motore",
+  "item.immersive_aircraft.sail": "Vela",
+  "item.immersive_aircraft.propeller": "Elica",
+  "item.immersive_aircraft.boiler": "Caldaia",
+  "item.immersive_aircraft.airship": "Dirigibile",
+  "item.immersive_aircraft.biplane": "Biplano",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motore %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Potenza, continua a spingere!",
+  "immersive_aircraft.gyrodyne_target_reached": "Velocità minima del rotore raggiunta, pronto al decollo!"
+}

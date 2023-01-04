@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "イマーシブ・エアクラフト",
+  "entity.immersive_aircraft.airship": "飛行船",
+  "entity.immersive_aircraft.biplane": "複葉機",
+  "entity.immersive_aircraft.gyrodyne": "ジャイロダイン",
+  "item.immersive_aircraft.hull": "船体",
+  "item.immersive_aircraft.engine": "エンジン",
+  "item.immersive_aircraft.sail": "セイル",
+  "item.immersive_aircraft.propeller": "プロペラ",
+  "item.immersive_aircraft.boiler": "ボイラー",
+  "item.immersive_aircraft.airship": "飛行船",
+  "item.immersive_aircraft.biplane": "複葉機",
+  "item.immersive_aircraft.gyrodyne": "ジャイロダイン",
+  "immersive_aircraft.engine_target": "エンジン %d%%。",
+  "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
+  "immersive_aircraft.gyrodyne_target_reached": "最小ロータースピードに到達、離陸準備完了"
+}

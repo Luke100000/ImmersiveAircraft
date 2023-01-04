@@ -17,6 +17,11 @@ import java.util.List;
 public class GyrodyneEntity extends Rotorcraft {
     private final static float PUSH_SPEED = 0.25f;
 
+    @Override
+    public GUI_STYLE getGuiStyle() {
+        return GUI_STYLE.NONE;
+    }
+
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setPitchSpeed(5.0f)
@@ -72,11 +77,11 @@ public class GyrodyneEntity extends Rotorcraft {
 
     final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.8f, 0.3f)
+                    new Vec3d(0.0f, -0.1f, 0.3f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.8f, 0.3f),
-                    new Vec3d(0.0f, -0.8f, -0.6f)
+                    new Vec3d(0.0f, -0.1f, 0.3f),
+                    new Vec3d(0.0f, -0.1f, -0.6f)
             )
     );
 

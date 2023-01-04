@@ -22,6 +22,15 @@ public abstract class EngineAircraft extends AircraftEntity {
     public float engineSpinupStrength = 0.0f;
     public float engineSound = 0.0f;
 
+    public enum GUI_STYLE {
+        NONE,
+        ENGINE
+    }
+
+    public GUI_STYLE getGuiStyle() {
+        return GUI_STYLE.ENGINE;
+    }
+
     public EngineAircraft(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
     }

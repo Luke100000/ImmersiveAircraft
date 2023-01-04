@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Иммерсивный самолет",
+  "entity.immersive_aircraft.airship": "Дирижабль",
+  "entity.immersive_aircraft.biplane": "Биплан",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.hull": "Корпус",
+  "item.immersive_aircraft.engine": "Двигатель",
+  "item.immersive_aircraft.sail": "Парус",
+  "item.immersive_aircraft.propeller": "Пропеллер",
+  "item.immersive_aircraft.boiler": "Котел",
+  "item.immersive_aircraft.airship": "Дирижабль",
+  "item.immersive_aircraft.biplane": "Биплан",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Двигатель %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Сила, продолжай толкать!",
+  "immersive_aircraft.gyrodyne_target_reached": "Минимальная скорость вращения ротора достигнута, готов к взлету!"
+}

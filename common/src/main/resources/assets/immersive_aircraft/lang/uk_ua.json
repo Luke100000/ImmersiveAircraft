@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Підводний літак",
+  "entity.immersive_aircraft.airship": "Дирижабль",
+  "entity.immersive_aircraft.biplane": "Біплан",
+  "entity.immersive_aircraft.gyrodyne": "Гіродин",
+  "item.immersive_aircraft.hull": "Корпус",
+  "item.immersive_aircraft.engine": "Двигун",
+  "item.immersive_aircraft.sail": "Вітрило",
+  "item.immersive_aircraft.propeller": "Пропелер",
+  "item.immersive_aircraft.boiler": "Котел",
+  "item.immersive_aircraft.airship": "Дирижабль",
+  "item.immersive_aircraft.biplane": "Біплан",
+  "item.immersive_aircraft.gyrodyne": "Гіродин",
+  "immersive_aircraft.engine_target": "Движок %d%%",
+  "immersive_aircraft.gyrodyne_target": "%dСила, продовжуй штовхати!",
+  "immersive_aircraft.gyrodyne_target_reached": "Мінімальна частота обертання ротора досягнута, до зльоту готовий!"
+}

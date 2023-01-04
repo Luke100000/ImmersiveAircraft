@@ -1,5 +1,6 @@
 package immersive_aircraft.mixin;
 
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -38,7 +39,7 @@ public class ClientPlayNetworkHandlerMixin {
                 this.client.player.prevYaw = entity.getYaw();
                 this.client.player.setYaw(entity.getYaw());
                 this.client.player.setHeadYaw(entity.getYaw());
-                this.client.inGameHud.setOverlayMessage(Text.translatable("mount.onboard", this.client.options.useKey.getBoundKeyLocalizedText()), false);
+                this.client.inGameHud.setOverlayMessage(Text.translatable("mount.onboard", KeyBindings.dismount.getBoundKeyLocalizedText()), false);
             }
         }
     }

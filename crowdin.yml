@@ -17,26 +17,26 @@ files:
       cs_CZ: cs_cz
       cy_GB: cy_gb
       da_DK: da_dk
-      de_AT: de_de
-      de_CH: de_de
+      de_AT: de_at
+      de_CH: de_ch
       de_DE: de_de
       el_GR: el_gr
-      en_AU: en_us
-      en_CA: en_us
-      en_GB: en_us
-      en_NZ: en_us
-      en_PT: en_us
-      en_UD: en_us
+      en_AU: en_au
+      en_CA: en_ca
+      en_GB: en_gb
+      en_NZ: en_nz
+      en_PT: en_pt
+      en_UD: en_ud
       en_us: en_us
       enp: enp
       enws: enws
       eo_UY: eo_uy
-      es_AR: es_ve
-      es_CL: es_ve
-      es_EC: es_ve
-      es_ES: es_ve
-      es_MX: es_ve
-      es_UY: es_ve
+      es_AR: es_ar
+      es_CL: es_cl
+      es_EC: es_ec
+      es_ES: es_es
+      es_MX: es_mx
+      es_UY: es_uy
       es_VE: es_ve
       esan: esan
       et_EE: et_ee
@@ -45,7 +45,7 @@ files:
       fi_FI: fi_fi
       fil_PH: fil_ph
       fo_FO: fo_fo
-      fr_CA: fr_fr
+      fr_CA: fr_ca
       fr_FR: fr_fr
       fra_DE: fra_de
       fur_IT: fur_it
@@ -86,12 +86,12 @@ files:
       mt_MT: mt_mt
       nb_NO: no_no
       nds_DE: nds_de
-      nl_BE: nl_nl
+      nl_BE: nl_be
       nl_NL: nl_nl
       nn_NO: nn_no
       oc_FR: oc_fr
       pl_PL: pl_pl
-      pt_BR: pt_pt
+      pt_BR: pt_br
       pt_PT: pt_pt
       qya_AA: qya_aa
       ro_RO: ro_ro
@@ -120,6 +120,6 @@ files:
       vi_VN: vi_vn
       yi_DE: yi_de
       yo_NG: yo_ng
-      zh_CN: zh_tw
-      zh_HK: zh_tw
+      zh_CN: zh_cn
+      zh_HK: zh_hk
       zh_TW: zh_tw

@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive fly",
+  "entity.immersive_aircraft.airship": "Luftskib",
+  "entity.immersive_aircraft.biplane": "Biplane",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.hull": "Skrog",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Sejl",
+  "item.immersive_aircraft.propeller": "Propeller",
+  "item.immersive_aircraft.boiler": "Kedel",
+  "item.immersive_aircraft.airship": "Luftskib",
+  "item.immersive_aircraft.biplane": "Biplane",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%% %%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Power, bliv ved med at presse på!",
+  "immersive_aircraft.gyrodyne_target_reached": "Mindste rotorhastighed er nået, klar til start!"
+}

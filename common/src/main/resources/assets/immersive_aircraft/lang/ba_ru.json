@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Мауыҡтырғыс Осаҡ",
+  "entity.immersive_aircraft.airship": "Дирижабль",
+  "entity.immersive_aircraft.biplane": "Биплан",
+  "entity.immersive_aircraft.gyrodyne": "Гиродин",
+  "item.immersive_aircraft.hull": "Корпус",
+  "item.immersive_aircraft.engine": "Мотор",
+  "item.immersive_aircraft.sail": "Елкән",
+  "item.immersive_aircraft.propeller": "Пропеллер",
+  "item.immersive_aircraft.boiler": "Бойлер",
+  "item.immersive_aircraft.airship": "Дирижабль",
+  "item.immersive_aircraft.biplane": "Биплан",
+  "item.immersive_aircraft.gyrodyne": "Гиродин",
+  "immersive_aircraft.engine_target": "Мотор %d%%",
+  "immersive_aircraft.gyrodyne_target": "Көс %d%%, баҫырға дауам итегеҙ!",
+  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
+}

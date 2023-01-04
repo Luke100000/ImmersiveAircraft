@@ -33,9 +33,9 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             .add(
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.translate(0.0f, 0.25f, 0.0f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
-                                matrixStack.translate(0.0f, -0.25f, 0.0f);
+                                matrixStack.translate(0.0f, 0.3125f, 0.0f);
+                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.translate(0.0f, -0.3125f, 0.0f);
                             }
                     )
             )
@@ -43,7 +43,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "elevator").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta) * 5.0f));
+                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-entity.pressingInterpolatedZ.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )
@@ -52,7 +52,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "rudder").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta) * 15.0f));
+                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )

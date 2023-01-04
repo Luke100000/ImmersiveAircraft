@@ -15,7 +15,7 @@ public class BiplaneEntity extends AirplaneEntity {
         super(entityType, world);
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, -0.65f, -0.6f)));
+    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.05f, -0.6f)));
 
     protected List<List<Vec3d>> getPassengerPositions() {
         return PASSENGER_POSITIONS;

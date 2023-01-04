@@ -21,7 +21,7 @@ public class CommandMessage implements Message {
     @Override
     public void receive(PlayerEntity e) {
         if (e.getRootVehicle() instanceof AircraftEntity aircraft) {
-            if (key == Key.USE) {
+            if (key == Key.DISMOUNT) {
                 e.stopRiding();
                 aircraft.setVelocity(fx, fy, fz);
             }
@@ -29,6 +29,6 @@ public class CommandMessage implements Message {
     }
 
     public enum Key {
-        USE
+        DISMOUNT
     }
 }

@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " H ",
-    "HHE",
+    "HEP",
     " H "
   ],
   "key": {
@@ -14,6 +14,11 @@
     "E": [
       {
         "item": "immersive_aircraft:engine"
+      }
+    ],
+    "P": [
+      {
+        "item": "immersive_aircraft:propeller"
       }
     ]
   },

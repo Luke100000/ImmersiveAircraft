@@ -69,11 +69,11 @@ public class AirshipEntity extends Rotorcraft {
 
     final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.8f, 0.0f)
+                    new Vec3d(0.0f, -0.1f, 0.0f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.8f, 0.2f),
-                    new Vec3d(0.0f, -0.8f, -0.5f)
+                    new Vec3d(0.0f, -0.1f, 0.4f),
+                    new Vec3d(0.0f, -0.1f, -0.3f)
             )
     );
 
@@ -127,14 +127,13 @@ public class AirshipEntity extends Rotorcraft {
 
                 // Trails
                 Matrix4f tr = transform.copy();
-                tr.multiplyByTranslation(0.0f, 0.45f, -1.2f);
+                tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
                 tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
                 trail(tr, 0.0f);
 
                 // Smoke
-                float power = getEnginePower();
-                if (power > 0.0) {
-                    Vector4f p = transformPosition(transform, -0.2f, 1.1f, -0.9f);
+                if (enginePower.getValue() > 0.0 && age % 2 == 0) {
+                    Vector4f p = transformPosition(transform, (random.nextFloat() - 0.5f) * 0.4f, 0.8f, -0.8f);
                     Vec3d velocity = getVelocity();
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
                 }

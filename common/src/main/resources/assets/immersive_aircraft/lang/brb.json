@@ -1,0 +1,17 @@
+{
+  "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersieve vliegtuigen",
+  "entity.immersive_aircraft.airship": "Luchtschip",
+  "entity.immersive_aircraft.biplane": "Tweedekker",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.hull": "Romp",
+  "item.immersive_aircraft.engine": "Motor",
+  "item.immersive_aircraft.sail": "Zeil",
+  "item.immersive_aircraft.propeller": "Schroef",
+  "item.immersive_aircraft.boiler": "Ketel",
+  "item.immersive_aircraft.airship": "Luchtschip",
+  "item.immersive_aircraft.biplane": "Tweedekker",
+  "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "immersive_aircraft.engine_target": "Motor %d%%",
+  "immersive_aircraft.gyrodyne_target": "%d%% Kracht, doorzetten!",
+  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotorsnelheid bereikt, klaar om op te stijgen!"
+}
