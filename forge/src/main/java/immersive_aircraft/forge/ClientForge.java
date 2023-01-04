@@ -8,7 +8,7 @@ import immersive_aircraft.resources.ObjectLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.ReloadableResourceManagerImpl;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -27,7 +27,10 @@ public final class ClientForge {
         RegistrationImpl.bootstrap();
 
         Renderer.bootstrap();
+    }
 
-        KeyBindings.list.forEach(ClientRegistry::registerKeyBinding);
+    @SubscribeEvent
+    public static void onKeyRegister(RegisterKeyMappingsEvent event) {
+        KeyBindings.list.forEach(event::register);
     }
 }

@@ -9,11 +9,13 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.Vector4f;
 import net.minecraft.world.World;
+import org.joml.Matrix4f;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
@@ -67,13 +69,13 @@ public class AirshipEntity extends Rotorcraft {
         return Items.AIRSHIP.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
+    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.1f, 0.0f)
+                    new Vector3f(0.0f, -0.1f, 0.0f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.1f, 0.4f),
-                    new Vec3d(0.0f, -0.1f, -0.3f)
+                    new Vector3f(0.0f, -0.1f, 0.4f),
+                    new Vector3f(0.0f, -0.1f, -0.3f)
             )
     );
 
@@ -91,7 +93,7 @@ public class AirshipEntity extends Rotorcraft {
         trails.get(0).add(p0, p1, trailStrength);
     }
 
-    protected List<List<Vec3d>> getPassengerPositions() {
+    protected List<List<Vector3f>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
@@ -110,11 +112,12 @@ public class AirshipEntity extends Rotorcraft {
         setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get pointing direction
-        Vec3d direction = getDirection();
+        Vector3f direction = getDirection();
 
         // accelerate
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        Vector3f f = direction.mul(thrust);
+        setVelocity(getVelocity().add(f.x, f.y, f.z));
     }
 
     @Override
@@ -126,16 +129,16 @@ public class AirshipEntity extends Rotorcraft {
                 Matrix4f transform = getVehicleTransform();
 
                 // Trails
-                Matrix4f tr = transform.copy();
-                tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
-                tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
+                Matrix4f tr = new Matrix4f(transform);
+                tr.translate(0.0f, 0.4f, -1.2f);
+                tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 50.0f));
                 trail(tr, 0.0f);
 
                 // Smoke
                 if (enginePower.getValue() > 0.0 && age % 2 == 0) {
                     Vector4f p = transformPosition(transform, (random.nextFloat() - 0.5f) * 0.4f, 0.8f, -0.8f);
                     Vec3d velocity = getVelocity();
-                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
+                    world.addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, velocity.x, velocity.y, velocity.z);
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

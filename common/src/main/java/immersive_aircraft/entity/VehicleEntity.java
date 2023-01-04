@@ -21,10 +21,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
@@ -33,6 +34,10 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +78,7 @@ public abstract class VehicleEntity extends Entity {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
     }
 
-    abstract protected List<List<Vec3d>> getPassengerPositions();
+    abstract protected List<List<Vector3f>> getPassengerPositions();
 
     protected int getPassengerSpace() {
         return getPassengerPositions().size();
@@ -338,22 +343,22 @@ public abstract class VehicleEntity extends Entity {
         Matrix4f transform = getVehicleTransform();
 
         int size = getPassengerList().size() - 1;
-        List<List<Vec3d>> positions = getPassengerPositions();
+        List<List<Vector3f>> positions = getPassengerPositions();
         if (size < positions.size()) {
             int i = getPassengerList().indexOf(passenger);
             if (i >= 0 && i < positions.get(size).size()) {
-                Vec3d position = positions.get(size).get(i);
+                Vector3f position = new Vector3f(positions.get(size).get(i));
 
                 //animals are thicc
                 if (passenger instanceof AnimalEntity) {
                     position.add(0.0f, 0.0f, 0.2f);
                 }
 
-                position = position.add(0, passenger.getHeightOffset(), 0);
+                position = position.add(0, (float)passenger.getHeightOffset(), 0);
 
-                Vector4f worldPosition = transformPosition(transform, (float)position.x, (float)position.y, (float)position.z);
+                Vector4f worldPosition = transformPosition(transform, position.x, position.y, position.z);
 
-                passenger.setPosition(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
+                passenger.setPosition(worldPosition.x, worldPosition.y, worldPosition.z);
 
                 passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
                 passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
@@ -515,7 +520,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public Packet<?> createSpawnPacket() {
+    public Packet<ClientPlayPacketListener> createSpawnPacket() {
         return new EntitySpawnS2CPacket(this);
     }
 
@@ -529,45 +534,40 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected Vector4f transformPosition(Matrix4f transform, float x, float y, float z) {
-        Vector4f p0 = new Vector4f(x, y, z, 1);
-        p0.transform(transform);
-        return p0;
+        return transform.transform(new Vector4f(x, y, z, 1));
     }
 
-    protected Vec3f transformVector(float x, float y, float z) {
+    protected Vector3f transformVector(float x, float y, float z) {
         return transformVector(getVehicleNormalTransform(), x, y, z);
     }
 
-    protected Vec3f transformVector(Matrix3f transform, float x, float y, float z) {
-        Vec3f p0 = new Vec3f(x, y, z);
-        p0.transform(transform);
-        return p0;
+    protected Vector3f transformVector(Matrix3f transform, float x, float y, float z) {
+        return transform.transform(new Vector3f(x, y, z));
     }
 
     protected Matrix4f getVehicleTransform() {
-        Matrix4f transform = Matrix4f.translate((float)getX(), (float)getY(), (float)getZ());
-        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
-        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
-        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        Matrix4f transform = new Matrix4f();
+        transform.translate((float)getX(), (float)getY(), (float)getZ());
+        transform.rotate(RotationAxis.POSITIVE_Y.rotationDegrees(-getYaw()));
+        transform.rotate(RotationAxis.POSITIVE_X.rotationDegrees(getPitch()));
+        transform.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(getRoll()));
         return transform;
     }
 
     protected Matrix3f getVehicleNormalTransform() {
-        Matrix3f transform = Matrix3f.scale(1.0f, 1.0f, 1.0f);
-        transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
-        transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
-        transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));
+        Matrix3f transform = new Matrix3f();
+        transform.rotate(RotationAxis.POSITIVE_Y.rotationDegrees(-getYaw()));
+        transform.rotate(RotationAxis.POSITIVE_X.rotationDegrees(getPitch()));
+        transform.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(getRoll()));
         return transform;
     }
 
-    public Vec3d getDirection() {
-        Vec3f f = transformVector(0.0f, 0.0f, 1.0f);
-        return new Vec3d(f.getX(), f.getY(), f.getZ());
+    public Vector3f getDirection() {
+        return transformVector(0.0f, 0.0f, 1.0f);
     }
 
-    public Vec3d getTopDirection() {
-        Vec3f f = transformVector(0.0f, 1.0f, 0.0f);
-        return new Vec3d(f.getX(), f.getY(), f.getZ());
+    public Vector3f getTopDirection() {
+        return transformVector(0.0f, 1.0f, 0.0f);
     }
 
     protected final static Vector4f ZERO_VEC4 = new Vector4f();

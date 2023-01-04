@@ -2,8 +2,8 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 /**
  * Implements airplane like physics properties and accelerated towards
@@ -42,8 +42,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected float getGravity() {
-        Vec3d direction = getDirection();
-        float speed = (float)((float)getVelocity().length() * (1.0f - Math.abs(direction.getY())));
+        Vector3f direction = getDirection();
+        float speed = (float)getVelocity().length() * (1.0f - Math.abs(direction.y));
         return Math.max(0.0f, 1.0f - speed * 2.0f) * super.getGravity();
     }
 
@@ -68,12 +68,12 @@ public abstract class AirplaneEntity extends EngineAircraft {
         }
 
         // get direction
-        Vec3d direction = getDirection();
+        Vector3f direction = getDirection();
 
         // speed
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed());
 
         // accelerate
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        setVelocity(getVelocity().add(toVec3d(direction.mul(thrust))));
     }
 }

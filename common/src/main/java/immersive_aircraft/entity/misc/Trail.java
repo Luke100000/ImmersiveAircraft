@@ -9,10 +9,10 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.Vector4f;
+import org.joml.Matrix3f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class Trail {
     private static final Identifier identifier = Main.locate("textures/entity/trail.png");
@@ -47,12 +47,12 @@ public class Trail {
 
         if (nullEntries < size) {
             int i = lastIndex * 7;
-            buffer[i] = first.getX();
-            buffer[i + 1] = first.getY();
-            buffer[i + 2] = first.getZ();
-            buffer[i + 3] = second.getX();
-            buffer[i + 4] = second.getY();
-            buffer[i + 5] = second.getZ();
+            buffer[i] = first.x;
+            buffer[i + 1] = first.y;
+            buffer[i + 2] = first.z;
+            buffer[i + 3] = second.x;
+            buffer[i + 4] = second.y;
+            buffer[i + 5] = second.z;
             buffer[i + 6] = alpha;
         }
 
@@ -61,9 +61,9 @@ public class Trail {
     }
 
     private void vertex(VertexConsumer lineVertexConsumer, Matrix3f matrix, float u, float v, int index, Vec3d pos, float a, int light) {
-        Vec3f p = new Vec3f((float)(buffer[index] - pos.x), (float)(buffer[index + 1] - pos.y), (float)(buffer[index + 2] - pos.z));
-        p.transform(matrix);
-        lineVertexConsumer.vertex(p.getX(), p.getY(), p.getZ(), gray, gray, gray, a, u, v, OverlayTexture.DEFAULT_UV, light, 1, 0, 0);
+        Vector3f p = new Vector3f((float)(buffer[index] - pos.x), (float)(buffer[index + 1] - pos.y), (float)(buffer[index + 2] - pos.z));
+        matrix.transform(p);
+        lineVertexConsumer.vertex(p.x, p.y, p.z, gray, gray, gray, a, u, v, OverlayTexture.DEFAULT_UV, light, 1, 0, 0);
     }
 
     public void render(VertexConsumerProvider vertexConsumerProvider, MatrixStack.Entry matrices) {

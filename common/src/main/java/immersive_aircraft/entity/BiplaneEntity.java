@@ -5,8 +5,12 @@ import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
@@ -15,9 +19,9 @@ public class BiplaneEntity extends AirplaneEntity {
         super(entityType, world);
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.05f, -0.6f)));
+    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(List.of(new Vector3f(0.0f, 0.05f, -0.6f)));
 
-    protected List<List<Vec3d>> getPassengerPositions() {
+    protected List<List<Vector3f>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
@@ -57,9 +61,9 @@ public class BiplaneEntity extends AirplaneEntity {
                 float power = getEnginePower();
                 if (power > 0.05) {
                     Vector4f p = transformPosition(transform, 0.325f * (age % 4 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
-                    Vec3f vel = transformVector(normalTransform, 0.2f * (age % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
+                    Vector3f vel = transformVector(normalTransform, 0.2f * (age % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
                     Vec3d velocity = getVelocity();
-                    world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), vel.getX() + velocity.x, vel.getY() + velocity.y, vel.getZ() + velocity.z);
+                    world.addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

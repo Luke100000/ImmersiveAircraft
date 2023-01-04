@@ -5,10 +5,8 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistry;
@@ -42,16 +40,6 @@ public class RegistrationImpl extends Registration.Impl {
     public <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj) {
         DeferredRegister reg = getRepo(id.getNamespace()).get(registry);
         return reg.register(id.getPath(), obj);
-    }
-
-    @Override
-    public ItemGroup itemGroup(Identifier id, Supplier<ItemStack> icon) {
-        return new ItemGroup(ItemGroup.getGroupCountSafe(), String.format("%s.%s", id.getNamespace(), id.getPath())) {
-            @Override
-            public ItemStack createIcon() {
-                return icon.get();
-            }
-        };
     }
 
     static class RegistryRepo {

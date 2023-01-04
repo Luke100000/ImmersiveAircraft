@@ -6,6 +6,7 @@ import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * Abstract aircraft, which performs basic physics
  */
 public abstract class AircraftEntity extends VehicleEntity {
-    private double lastY;
+    private float lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -28,9 +29,9 @@ public abstract class AircraftEntity extends VehicleEntity {
 
     public abstract AircraftProperties getProperties();
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.0f, 0.0f)));
+    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(List.of(new Vector3f(0.0f, 0.0f, 0.0f)));
 
-    protected List<List<Vec3d>> getPassengerPositions() {
+    protected List<List<Vector3f>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
@@ -83,17 +84,17 @@ public abstract class AircraftEntity extends VehicleEntity {
         }
 
         // get direction
-        Vec3d direction = getDirection();
+        Vector3f direction = getDirection();
 
         // glide
-        double diff = lastY - getY();
+        float diff = (float)(lastY - getY());
         if (lastY != 0.0 && getProperties().getGlideFactor() > 0) {
-            setVelocity(getVelocity().add(direction.multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.getY())))));
+            setVelocity(getVelocity().add(toVec3d(direction).multiply(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.y)))));
         }
-        lastY = getY();
+        lastY = (float)getY();
 
         // convert power
-        convertPower(direction);
+        convertPower(toVec3d(direction));
 
         // friction
         Vec3d vec3d = getVelocity();
@@ -111,6 +112,10 @@ public abstract class AircraftEntity extends VehicleEntity {
             setPitch(getPitch() + nx);
             setYaw(getYaw() + nz);
         }
+    }
+
+    public Vec3d toVec3d(Vector3f v) {
+        return new Vec3d(v.x, v.y, v.z);
     }
 }
 

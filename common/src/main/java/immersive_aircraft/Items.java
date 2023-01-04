@@ -6,11 +6,16 @@ import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.item.AircraftItem;
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public interface Items {
+    List<Supplier<Item>> items = new LinkedList<>();
+
     Supplier<Item> HULL = register("hull", () -> new Item(baseProps().maxCount(8)));
     Supplier<Item> ENGINE = register("engine", () -> new Item(baseProps().maxCount(8)));
     Supplier<Item> SAIL = register("sail", () -> new Item(baseProps().maxCount(8)));
@@ -22,13 +27,19 @@ public interface Items {
     Supplier<Item> GYRODYNE = register("gyrodyne", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new GyrodyneEntity(Entities.GYRODYNE.get(), world)));
 
     static Supplier<Item> register(String name, Supplier<Item> item) {
-        return Registration.register(Registry.ITEM, Main.locate(name), item);
+        Supplier<Item> register = Registration.register(Registries.ITEM, Main.locate(name), item);
+        items.add(register);
+        return register;
     }
 
     static void bootstrap() {
     }
 
     static Item.Settings baseProps() {
-        return new Item.Settings().group(ItemGroups.GROUP);
+        return new Item.Settings();
+    }
+
+    static List<ItemStack> getSortedItems() {
+        return items.stream().map(i -> i.get().getDefaultStack()).toList();
     }
 }

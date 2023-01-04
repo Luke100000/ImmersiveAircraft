@@ -7,8 +7,8 @@ import immersive_aircraft.entity.GyrodyneEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.function.Supplier;
 
@@ -37,6 +37,6 @@ public interface Entities {
 
     static <T extends Entity> Supplier<EntityType<T>> register(String name, EntityType.Builder<T> builder) {
         Identifier id = new Identifier(Main.MOD_ID, name);
-        return Registration.register(Registry.ENTITY_TYPE, id, () -> builder.build(id.toString()));
+        return Registration.register(Registries.ENTITY_TYPE, id, () -> builder.build(id.toString()));
     }
 }

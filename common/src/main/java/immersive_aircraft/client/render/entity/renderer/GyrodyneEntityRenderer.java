@@ -6,7 +6,8 @@ import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Vector3f;
 
 public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/gyrodyne.obj");
@@ -21,8 +22,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0, -0.125, 0.84f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 25.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 25.0f));
                                 matrixStack.translate(0, 0.125, -0.84f);
                             }
                     )
@@ -31,7 +32,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "controller_2").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0, -0.125, 0.84f);
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedY.getSmooth(tickDelta) * 20.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedY.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.translate(0, 0.125, -0.84f);
                             }
                     )
@@ -43,8 +44,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                                 float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 18.0)) * WIND;
                                 float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 19.0)) * WIND;
 
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(ny));
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(nx));
+                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(ny));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(nx));
                             }
                     )
             )
@@ -52,7 +53,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(1.0 / 32.0, 0.0, -1.0 / 32.0);
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                 matrixStack.translate(-1.0 / 32.0, 0.0, 1.0 / 32.0);
                             }
                     )
@@ -75,7 +76,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.2f, 0.05f);
+    Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.2f, 0.05f);
     }
 }

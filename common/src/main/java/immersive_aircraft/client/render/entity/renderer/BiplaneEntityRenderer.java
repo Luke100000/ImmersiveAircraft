@@ -7,7 +7,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Vector3f;
 
 public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/biplane.obj");
@@ -34,7 +35,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.3125f, 0.0f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                 matrixStack.translate(0.0f, -0.3125f, 0.0f);
                             }
                     )
@@ -43,7 +44,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "elevator").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-entity.pressingInterpolatedZ.getSmooth(tickDelta) * 20.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-entity.pressingInterpolatedZ.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )
@@ -52,7 +53,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "rudder").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )
@@ -80,7 +81,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.4f, 0.05f);
+    Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.4f, 0.05f);
     }
 }

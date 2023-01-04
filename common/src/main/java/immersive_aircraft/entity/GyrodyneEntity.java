@@ -9,8 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -75,17 +75,17 @@ public class GyrodyneEntity extends Rotorcraft {
         return Items.GYRODYNE.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
+    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.1f, 0.3f)
+                    new Vector3f(0.0f, -0.1f, 0.3f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.1f, 0.3f),
-                    new Vec3d(0.0f, -0.1f, -0.6f)
+                    new Vector3f(0.0f, -0.1f, 0.3f),
+                    new Vector3f(0.0f, -0.1f, -0.6f)
             )
     );
 
-    protected List<List<Vec3d>> getPassengerPositions() {
+    protected List<List<Vector3f>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
@@ -119,10 +119,11 @@ public class GyrodyneEntity extends Rotorcraft {
 
         // up and down
         float power = getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth();
-        setVelocity(getVelocity().add(getTopDirection().multiply(power)));
+        Vector3f f = getTopDirection().mul(power);
+        setVelocity(getVelocity().add(f.x, f.y, f.z));
 
         // get direction
-        Vec3d direction = getDirection();
+        Vector3f direction = getDirection();
 
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
@@ -132,6 +133,7 @@ public class GyrodyneEntity extends Rotorcraft {
         }
 
         // accelerate
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        Vector3f f2 = direction.mul(thrust);
+        setVelocity(getVelocity().add(f2.x, f2.y, f2.z));
     }
 }

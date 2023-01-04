@@ -10,6 +10,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -17,7 +18,9 @@ import net.minecraft.util.math.*;
 import immersive_aircraft.util.obj.oobjloader.Face;
 import immersive_aircraft.util.obj.oobjloader.FaceVertex;
 import immersive_aircraft.util.obj.oobjloader.Mesh;
-import net.minecraft.util.registry.RegistryKey;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;
@@ -100,7 +103,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     abstract Model getModel(AircraftEntity entity);
 
-    abstract Vec3f getPivot(AircraftEntity entity);
+    abstract Vector3f getPivot(AircraftEntity entity);
 
 
     @Override
@@ -116,19 +119,19 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
+            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
         }
 
         float WIND = entity.isOnGround() ? 0.0f : entity.getProperties().getWindSensitivity() * 10.0f;
         float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 20.0)) * WIND;
         float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 21.0)) * WIND;
 
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yaw));
-        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + ny));
-        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + nx));
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yaw));
+        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch(tickDelta) + ny));
+        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entity.getRoll(tickDelta) + nx));
 
-        Vec3f pivot = getPivot(entity);
-        matrixStack.translate(pivot.getX(), pivot.getY(), pivot.getZ());
+        Vector3f pivot = getPivot(entity);
+        matrixStack.translate(pivot.x, pivot.y, pivot.z);
 
         //Render parts
         Model model = getModel(entity);
