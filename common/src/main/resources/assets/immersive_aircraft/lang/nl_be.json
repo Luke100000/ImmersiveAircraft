@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersieve vliegtuigen",
+  "entity.immersive_aircraft.airship": "Luchtschip",
+  "entity.immersive_aircraft.biplane": "Tweedekker",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Romp",
   "item.immersive_aircraft.engine": "Motor",
   "item.immersive_aircraft.sail": "Zeil",

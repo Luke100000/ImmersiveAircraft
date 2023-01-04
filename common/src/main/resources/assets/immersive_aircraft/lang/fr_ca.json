@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Avion immersif",
+  "entity.immersive_aircraft.airship": "Dirigeable",
+  "entity.immersive_aircraft.biplane": "Biplane",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Coque",
   "item.immersive_aircraft.engine": "Moteur",
   "item.immersive_aircraft.sail": "Voile",

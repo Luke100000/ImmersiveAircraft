@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersiivinen ilma-alus",
+  "entity.immersive_aircraft.airship": "Ilmalaiva",
+  "entity.immersive_aircraft.biplane": "Kaksitaso",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Runko",
   "item.immersive_aircraft.engine": "Moottori",
   "item.immersive_aircraft.sail": "Purje",

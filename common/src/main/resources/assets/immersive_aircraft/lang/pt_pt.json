@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Aeronaves imersivas",
+  "entity.immersive_aircraft.airship": "Aeronave",
+  "entity.immersive_aircraft.biplane": "Biplano",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Casco",
   "item.immersive_aircraft.engine": "Motor",
   "item.immersive_aircraft.sail": "Velejar",

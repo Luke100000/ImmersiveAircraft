@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Підводний літак",
+  "entity.immersive_aircraft.airship": "Дирижабль",
+  "entity.immersive_aircraft.biplane": "Біплан",
+  "entity.immersive_aircraft.gyrodyne": "Гіродин",
   "item.immersive_aircraft.hull": "Корпус",
   "item.immersive_aircraft.engine": "Двигун",
   "item.immersive_aircraft.sail": "Вітрило",

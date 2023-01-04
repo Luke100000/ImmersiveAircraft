@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Įtraukiantis orlaivis",
+  "entity.immersive_aircraft.airship": "Dirižablis",
+  "entity.immersive_aircraft.biplane": "Dvigubas lėktuvas",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Korpusas",
   "item.immersive_aircraft.engine": "Variklis",
   "item.immersive_aircraft.sail": "Burės",

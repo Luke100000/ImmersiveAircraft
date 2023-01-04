@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Potopno letalo",
+  "entity.immersive_aircraft.airship": "Zračna ladja",
+  "entity.immersive_aircraft.biplane": "Dvoletno letalo",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Trup",
   "item.immersive_aircraft.engine": "Motor",
   "item.immersive_aircraft.sail": "Jadro",

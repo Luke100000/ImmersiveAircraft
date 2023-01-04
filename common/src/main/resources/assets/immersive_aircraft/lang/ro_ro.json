@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Aeronave imersive",
+  "entity.immersive_aircraft.airship": "Aeronava",
+  "entity.immersive_aircraft.biplane": "Biplan",
+  "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.hull": "Hull",
   "item.immersive_aircraft.engine": "Motor",
   "item.immersive_aircraft.sail": "Sail",

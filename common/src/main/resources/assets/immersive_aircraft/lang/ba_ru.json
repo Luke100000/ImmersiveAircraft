@@ -1,5 +1,8 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Мауыҡтырғыс Осаҡ",
+  "entity.immersive_aircraft.airship": "Дирижабль",
+  "entity.immersive_aircraft.biplane": "Биплан",
+  "entity.immersive_aircraft.gyrodyne": "Гиродин",
   "item.immersive_aircraft.hull": "Корпус",
   "item.immersive_aircraft.engine": "Мотор",
   "item.immersive_aircraft.sail": "Елкән",
