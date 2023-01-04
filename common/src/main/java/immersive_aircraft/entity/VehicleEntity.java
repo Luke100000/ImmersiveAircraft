@@ -150,6 +150,9 @@ public abstract class VehicleEntity extends Entity {
         if (world.isClient || isRemoved()) {
             return true;
         }
+        if (source.getAttacker() != null && hasPassenger(source.getAttacker())) {
+            return false;
+        }
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
@@ -274,13 +277,14 @@ public abstract class VehicleEntity extends Entity {
             move(MovementType.SELF, getVelocity());
         }
 
+        // auto enter
         checkBlockCollision();
         List<Entity> list = world.getOtherEntities(this, getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
             boolean bl = !world.isClient && !(getPrimaryPassenger() instanceof PlayerEntity);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
-                if (bl && getPassengerList().size() < 2 && !entity.hasVehicle() && entity.getWidth() < getWidth() && entity instanceof LivingEntity && !(entity instanceof WaterCreatureEntity) && !(entity instanceof PlayerEntity)) {
+                if (bl && getPassengerList().size() < (getPassengerSpace() - 1) && !entity.hasVehicle() && entity.getWidth() < getWidth() && entity instanceof LivingEntity && !(entity instanceof WaterCreatureEntity) && !(entity instanceof PlayerEntity)) {
                     entity.startRiding(this);
                     continue;
                 }
@@ -439,6 +443,9 @@ public abstract class VehicleEntity extends Entity {
         }
         if (!world.isClient) {
             return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
+        }
+        if (hasPassenger(player)) {
+            return ActionResult.PASS;
         }
         return ActionResult.SUCCESS;
     }
