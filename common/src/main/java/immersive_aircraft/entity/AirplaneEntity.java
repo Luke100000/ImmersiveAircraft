@@ -2,7 +2,6 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.entity.EntityType;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -46,12 +45,6 @@ public abstract class AirplaneEntity extends EngineAircraft {
         Vec3d direction = getDirection();
         float speed = (float)((float)getVelocity().length() * (1.0f - Math.abs(direction.getY())));
         return Math.max(0.0f, 1.0f - speed * 2.0f) * super.getGravity();
-    }
-
-    private void updateEnginePowerTooltip() {
-        if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
-            player.sendMessage(new TranslatableText("immersive_aircraft.engine_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
-        }
     }
 
     float getBrakeFactor() {
