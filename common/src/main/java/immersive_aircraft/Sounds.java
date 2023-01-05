@@ -2,7 +2,6 @@ package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
@@ -15,7 +14,6 @@ public interface Sounds {
     Supplier<SoundEvent> WOOSH = register("woosh");
 
     static void bootstrap() {
-
     }
 
     static Supplier<SoundEvent> register(String name) {

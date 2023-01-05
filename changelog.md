@@ -1,3 +1,7 @@
+# 0.2.1
+
+* Fixed Forge on 1.19.x
+
 # 0.2.0
 
 * Added keybindings
