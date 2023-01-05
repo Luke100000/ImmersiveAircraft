@@ -42,6 +42,10 @@ jobs:
         with:
           separator: "+"
           msg: ${{steps.tag.outputs.tag}}
+      - name: "Rename Fabric files"
+        run: mv "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
+      - name: "Rename Forge files"
+        run: mv "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
       - name: "Upload Fabric"
         uses: Kir-Antipov/mc-publish@v3.1
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
@@ -54,7 +58,7 @@ jobs:
           name: "[Fabric ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
           version-type: release
-          files: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar"
+          files: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
           loaders: |
             fabric
           game-versions: |
@@ -77,7 +81,7 @@ jobs:
           name: "[Forge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
           version-type: release
-          files: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar"
+          files: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
           loaders: |
             forge
           game-versions: |
