@@ -1,14 +1,13 @@
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+    common(rootProject.platforms.split(","))
 }
 
 loom {
-    //noinspection GroovyAssignabilityCheck
-    accessWidenerPath = file("src/main/resources/immersive_aircraft.accesswidener")
+    accessWidenerPath = file("src/main/resources/immersive_aircraft.accessWidener")
 }
 
 dependencies {
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
+    // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 }

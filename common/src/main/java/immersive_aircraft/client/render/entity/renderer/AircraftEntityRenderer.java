@@ -18,7 +18,6 @@ import immersive_aircraft.util.obj.oobjloader.Face;
 import immersive_aircraft.util.obj.oobjloader.FaceVertex;
 import immersive_aircraft.util.obj.oobjloader.Mesh;
 
-import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -60,7 +59,6 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             return id;
         }
 
-        @Nullable
         public AnimationConsumer<T> getAnimationConsumer() {
             return animationConsumer;
         }

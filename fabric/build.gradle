@@ -19,11 +19,14 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+repositories {
+    maven { url "https://maven.terraformersmc.com/releases/" }
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") { transitive false }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -38,8 +41,6 @@ processResources {
 }
 
 shadowJar {
-    exclude "architectury.common.json"
-
     configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
 }
@@ -56,9 +57,15 @@ jar {
 }
 
 sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
+    afterEvaluate {
+        [":common"].forEach {
+            def depSources = project(it).sourcesJar
+            dependsOn depSources
+            from(depSources.archiveFile.map { zipTree(it) }) {
+                exclude "immersive_aircraft.accessWidener"
+            }
+        }
+    }
 }
 
 components.java {
