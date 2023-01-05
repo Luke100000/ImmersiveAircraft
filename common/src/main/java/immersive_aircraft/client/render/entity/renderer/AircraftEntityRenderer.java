@@ -22,7 +22,6 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,7 +63,6 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             return id;
         }
 
-        @Nullable
         public AnimationConsumer<T> getAnimationConsumer() {
             return animationConsumer;
         }
