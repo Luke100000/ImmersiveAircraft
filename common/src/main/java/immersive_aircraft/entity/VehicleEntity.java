@@ -97,7 +97,7 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
     }
 
-    private float getInputInterpolationSteps() {
+    float getInputInterpolationSteps() {
         return 10;
     }
 

@@ -1,5 +1,6 @@
 # 0.3.0
 
+* Added Quadrocopter
 * Fixed non-pilot dismounting #17
 * Switched to less intrusive multi keybindings injection to restore mod compatibility
 * Fixed controller animation of airship
