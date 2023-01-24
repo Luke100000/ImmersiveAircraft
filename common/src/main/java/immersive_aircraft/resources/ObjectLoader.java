@@ -1,8 +1,8 @@
 package immersive_aircraft.resources;
 
 import immersive_aircraft.Main;
-import immersive_aircraft.util.obj.oobjloader.Builder;
-import immersive_aircraft.util.obj.oobjloader.Mesh;
+import immersive_aircraft.util.obj.Builder;
+import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.SinglePreparationResourceReloader;
