@@ -2,6 +2,8 @@
 
 * Fixed non-pilot dismounting #17
 * Switched to less intrusive multi keybindings injection to restore mod compatibility
+* Fixed controller animation of airship
+* Added support for modmenu and cloth config
 
 # 0.2.0
 

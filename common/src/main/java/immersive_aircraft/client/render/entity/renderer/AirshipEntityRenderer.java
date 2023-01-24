@@ -1,6 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
-import immersive_aircraft.Config;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
@@ -41,8 +41,10 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.translate(0, -0.125, 0.78125f);
+                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.translate(0, 0.125, -0.78125f - 2.0f / 16.0f);
                             }
                     )
             )
