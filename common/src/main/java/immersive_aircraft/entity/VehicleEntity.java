@@ -232,14 +232,17 @@ public abstract class VehicleEntity extends Entity {
     public void tick() {
         // pilot
         if (world.isClient() && getPassengerList().size() > 0) {
-            Entity entity = getPassengerList().get(0);
-            if (entity instanceof ClientPlayerEntity) {
-                //events
-                if (KeyBindings.dismount.wasPressed()) {
-                    NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+            for (Entity entity : getPassengerList()) {
+                if (entity instanceof ClientPlayerEntity) {
+                    if (KeyBindings.dismount.wasPressed()) {
+                        NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+                    }
                 }
+            }
 
-                //controls
+            //controls
+            Entity pilot = getPassengerList().get(0);
+            if (pilot instanceof ClientPlayerEntity) {
                 setInputs(getMovementMultiplier(
                                 KeyBindings.left.isPressed(),
                                 KeyBindings.right.isPressed()
