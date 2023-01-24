@@ -1,4 +1,4 @@
-package immersive_aircraft.util.obj.oobjloader;
+package immersive_aircraft.util.obj;
 
 import java.util.ArrayList;
 

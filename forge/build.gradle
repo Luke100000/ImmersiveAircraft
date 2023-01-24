@@ -2,19 +2,19 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-architectury {
-    platformSetupLoomIde()
-    forge()
-}
-
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
     forge {
-        convertAccessWideners = true
+        mixinConfig "immersive_aircraft.mixins.json"
+
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-        mixinConfig "immersive_aircraft.mixin.json"
     }
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
 }
 
 configurations {
@@ -26,36 +26,25 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
 processResources {
-    inputs.property "META-INF/mods.toml", project.version
-
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
+    inputs.property "META-INF/mods.toml", project.version
 }
 
 shadowJar {
     exclude "fabric.mod.json"
+    exclude "immersive_aircraft.accessWidener"
 
     configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
-
-    // Replace classes with forge's version
-    exclude "dev/architectury/core/block/ArchitecturyLiquidBlock.class"
-    exclude "dev/architectury/core/fluid/ArchitecturyFlowingFluid.class"
-    exclude 'dev/architectury/core/fluid/ArchitecturyFlowingFluid$Source.class'
-    exclude 'dev/architectury/core/fluid/ArchitecturyFlowingFluid$Flowing.class'
-    exclude 'dev/architectury/core/item/ArchitecturyBucketItem.class'
-    exclude 'dev/architectury/core/item/ArchitecturyMobBucketItem.class'
-    relocate "dev.architectury.core.block.forge.imitator", "dev.architectury.core.block"
-    relocate "dev.architectury.core.fluid.forge.imitator", "dev.architectury.core.fluid"
-    relocate "dev.architectury.core.item.forge.imitator", "dev.architectury.core.item"
 }
 
 remapJar {
@@ -83,5 +72,16 @@ sourcesJar {
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
+    }
+}
+
+// Update mods.toml with the new versions automatically
+// Not using processResources because it is easier to do this manually, and see it reflected immediately
+afterEvaluate {
+    file("src/main/resources/META-INF/mods.toml").withOutputStream {
+        it << file("mods.toml").text
+                .replaceAll("@LOADER_MAJOR@", rootProject.forge_version.split("\\.")[0])
+                .replaceAll("@MINECRAFT_VERSION@", rootProject.architectury.minecraft)
+                .replaceAll("@FORGE_VERSION@", rootProject.forge_version)
     }
 }
