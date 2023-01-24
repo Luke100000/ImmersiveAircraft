@@ -1,6 +1,7 @@
 # 0.3.0
 
 * Fixed non-pilot dismounting #17
+* Switched to less intrusive multi keybindings injection to restore mod compatibility
 
 # 0.2.0
 
