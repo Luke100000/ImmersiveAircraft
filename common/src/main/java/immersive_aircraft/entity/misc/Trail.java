@@ -1,7 +1,7 @@
 package immersive_aircraft.entity.misc;
 
-import immersive_aircraft.Config;
 import immersive_aircraft.Main;
+import immersive_aircraft.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;

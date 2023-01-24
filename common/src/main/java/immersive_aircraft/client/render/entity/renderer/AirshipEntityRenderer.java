@@ -1,6 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
-import immersive_aircraft.Config;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;

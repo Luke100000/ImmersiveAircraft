@@ -21,6 +21,9 @@
     ],
     "client": [
       "immersive_aircraft.fabric.ClientFabric"
+    ],
+    "modmenu": [
+      "immersive_aircraft.config.ModMenuIntegration"
     ]
   },
   "mixins": [
