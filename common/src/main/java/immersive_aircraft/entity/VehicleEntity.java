@@ -143,15 +143,17 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
+    public boolean handleAttack(Entity attacker) {
+        return hasPassenger(attacker) || super.handleAttack(attacker);
+    }
+
+    @Override
     public boolean damage(DamageSource source, float amount) {
         if (isInvulnerableTo(source)) {
             return false;
         }
         if (world.isClient || isRemoved()) {
             return true;
-        }
-        if (source.getAttacker() != null && hasPassenger(source.getAttacker())) {
-            return false;
         }
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
