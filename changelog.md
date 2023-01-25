@@ -10,6 +10,7 @@
 * Fixed the Biplane phantom push when leaving
 * Fixed first person camera offset
 * Vehicles can have a separate camera perspective, and is third person by default (configurable)
+* Creative mode destroys airplanes immediately
 
 # 0.2.0
 
