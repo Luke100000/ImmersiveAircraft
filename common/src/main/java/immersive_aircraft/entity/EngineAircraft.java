@@ -19,7 +19,7 @@ public abstract class EngineAircraft extends AircraftEntity {
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
-    public float engineSpinupStrength = 0.0f;
+    public float engineSpinUpStrength = 0.0f;
     public float engineSound = 0.0f;
 
     public enum GUI_STYLE {
@@ -43,6 +43,10 @@ public abstract class EngineAircraft extends AircraftEntity {
         return Sounds.PROPELLER.get();
     }
 
+    float getEnginePitch() {
+        return 1.0f;
+    }
+
     float getStabilizer() {
         return 0.0f;
     }
@@ -61,8 +65,8 @@ public abstract class EngineAircraft extends AircraftEntity {
         // spin up the engine
         enginePower.update(getEngineTarget() * (touchingWater ? 0.1f : 1.0f));
 
-        // simulate spinup
-        engineSpinupStrength = Math.max(0.0f, engineSpinupStrength + enginePower.getDiff() - 0.01f);
+        // simulate spin up
+        engineSpinUpStrength = Math.max(0.0f, engineSpinUpStrength + enginePower.getDiff() - 0.01f);
 
         if (world.isClient()) {
             engineRotation.update((engineRotation.getValue() + getEnginePower()) % 1000);
@@ -78,7 +82,7 @@ public abstract class EngineAircraft extends AircraftEntity {
             engineSound += getEnginePower() * 0.25f;
             if (engineSound > 1.0f) {
                 engineSound--;
-                world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinupStrength), random.nextFloat() * 0.1f + 0.95f, false);
+                world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
             }
         }
     }
@@ -120,7 +124,7 @@ public abstract class EngineAircraft extends AircraftEntity {
             }
 
             if (getEngineTarget() == 0.0 && engineTarget > 0) {
-                world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, 1.0f, false);
+                world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, getEnginePitch(), false);
             }
         }
         dataTracker.set(ENGINE, engineTarget);

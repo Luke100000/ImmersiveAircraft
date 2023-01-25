@@ -143,6 +143,7 @@ public class AirshipEntity extends Rotorcraft {
         }
     }
 
+    @Override
     public boolean shouldRender(double distance) {
         double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
         return distance < d * d;

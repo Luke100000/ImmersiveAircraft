@@ -112,5 +112,9 @@ public abstract class AircraftEntity extends VehicleEntity {
             setYaw(getYaw() + nz);
         }
     }
+
+    public void chill() {
+        lastY = 0.0;
+    }
 }
 
