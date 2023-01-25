@@ -4,13 +4,14 @@ import immersive_aircraft.config.Config;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
+import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
-import immersive_aircraft.util.obj.oobjloader.Mesh;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Vector3f;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/airship.obj");

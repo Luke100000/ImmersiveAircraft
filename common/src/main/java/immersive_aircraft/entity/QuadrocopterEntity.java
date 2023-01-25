@@ -6,8 +6,8 @@ import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -72,13 +72,13 @@ public class QuadrocopterEntity extends Rotorcraft {
         return Items.QUADROCOPTER.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
+    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, 0.275f, -0.1f)
+                    new Vector3f(0.0f, 0.275f, -0.1f)
             )
     );
 
-    protected List<List<Vec3d>> getPassengerPositions() {
+    protected List<List<Vector3f>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
@@ -97,10 +97,11 @@ public class QuadrocopterEntity extends Rotorcraft {
         setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get pointing direction
-        Vec3d direction = getDirection();
+        Vector3f direction = getDirection();
 
         // accelerate
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        Vector3f f2 = direction.mul(thrust);
+        setVelocity(getVelocity().add(f2.x, f2.y, f2.z));
     }
 }

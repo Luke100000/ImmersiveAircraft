@@ -119,7 +119,7 @@ public abstract class AircraftEntity extends VehicleEntity {
     }
 
     public void chill() {
-        lastY = 0.0;
+        lastY = 0.0f;
     }
 }
 

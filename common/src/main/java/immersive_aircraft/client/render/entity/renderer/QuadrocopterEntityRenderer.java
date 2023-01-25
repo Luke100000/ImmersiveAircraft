@@ -8,7 +8,8 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Vector3f;
 
 import java.util.Random;
 
@@ -54,7 +55,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(propeller[0], propeller[1], propeller[2]);
-                                        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.engineRotation.getSmooth(tickDelta) * propeller[0] * propeller[2] * 200.0f));
+                                        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.engineRotation.getSmooth(tickDelta) * propeller[0] * propeller[2] * 200.0f));
                                     }
                             )
                             .setRenderConsumer(
@@ -85,7 +86,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.0f, 0.0f);
+    Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.0f, 0.0f);
     }
 }
