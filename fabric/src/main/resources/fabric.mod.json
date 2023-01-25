@@ -8,7 +8,7 @@
     "Luke100000"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ImmersiveAircraft",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/immersive-aircraft",
     "sources": "https://github.com/Luke100000/ImmersiveAircraft",
     "issues": "https://github.com/Luke100000/ImmersiveAircraft/issues"
   },
@@ -21,10 +21,13 @@
     ],
     "client": [
       "immersive_aircraft.fabric.ClientFabric"
+    ],
+    "modmenu": [
+      "immersive_aircraft.config.ModMenuIntegration"
     ]
   },
   "mixins": [
-    "immersive_aircraft.mixin.json"
+    "immersive_aircraft.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.11.3",

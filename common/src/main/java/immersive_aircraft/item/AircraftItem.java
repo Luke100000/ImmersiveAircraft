@@ -1,12 +1,16 @@
 package immersive_aircraft.item;
 
 import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.util.FlowingText;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -17,6 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -33,6 +38,13 @@ public class AircraftItem extends Item {
     public AircraftItem(Settings settings, AircraftConstructor constructor) {
         super(settings);
         this.constructor = constructor;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+
+        tooltip.addAll(FlowingText.wrap(Text.translatable(getTranslationKey() + ".description").formatted(Formatting.ITALIC).formatted(Formatting.GRAY), 180));
     }
 
     @Override

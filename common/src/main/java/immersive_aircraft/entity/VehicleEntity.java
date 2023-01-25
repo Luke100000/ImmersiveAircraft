@@ -3,6 +3,7 @@ package immersive_aircraft.entity;
 import com.google.common.collect.Lists;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
@@ -102,7 +103,7 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
     }
 
-    private float getInputInterpolationSteps() {
+    float getInputInterpolationSteps() {
         return 10;
     }
 
@@ -148,6 +149,11 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
+    public boolean handleAttack(Entity attacker) {
+        return hasPassenger(attacker) || super.handleAttack(attacker);
+    }
+
+    @Override
     public boolean damage(DamageSource source, float amount) {
         if (isInvulnerableTo(source)) {
             return false;
@@ -155,14 +161,12 @@ public abstract class VehicleEntity extends Entity {
         if (world.isClient || isRemoved()) {
             return true;
         }
-        if (source.getAttacker() != null && hasPassenger(source.getAttacker())) {
-            return false;
-        }
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
         emitGameEvent(GameEvent.ENTITY_DAMAGE, source.getAttacker());
-        if (getDamageWobbleStrength() > 60.0f) {
+        boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).getAbilities().creativeMode;
+        if (bl || getDamageWobbleStrength() > 60.0f) {
             if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                 dropItem(asItem());
             }
@@ -237,14 +241,17 @@ public abstract class VehicleEntity extends Entity {
     public void tick() {
         // pilot
         if (world.isClient() && getPassengerList().size() > 0) {
-            Entity entity = getPassengerList().get(0);
-            if (entity instanceof ClientPlayerEntity) {
-                //events
-                if (KeyBindings.dismount.wasPressed()) {
-                    NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+            for (Entity entity : getPassengerList()) {
+                if (entity instanceof ClientPlayerEntity) {
+                    if (KeyBindings.dismount.wasPressed()) {
+                        NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+                    }
                 }
+            }
 
-                //controls
+            //controls
+            Entity pilot = getPassengerList().get(0);
+            if (pilot instanceof ClientPlayerEntity) {
                 setInputs(getMovementMultiplier(
                                 KeyBindings.left.isPressed(),
                                 KeyBindings.right.isPressed()
@@ -571,4 +578,10 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected final static Vector4f ZERO_VEC4 = new Vector4f();
+
+    @Override
+    public boolean shouldRender(double distance) {
+        double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
+        return distance < d * d;
+    }
 }

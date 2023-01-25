@@ -1,13 +1,23 @@
-architectury {
-    common(rootProject.platforms.split(","))
-}
-
 loom {
     accessWidenerPath = file("src/main/resources/immersive_aircraft.accessWidener")
+}
+
+repositories {
+    maven { url "https://maven.terraformersmc.com/releases/" }
 }
 
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+
+    modApi "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+}
+
+architectury {
+    common(true)
 }

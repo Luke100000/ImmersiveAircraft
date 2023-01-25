@@ -23,6 +23,7 @@ public class CommandMessage implements Message {
         if (e.getRootVehicle() instanceof AircraftEntity aircraft) {
             if (key == Key.DISMOUNT) {
                 e.stopRiding();
+                aircraft.chill();
                 aircraft.setVelocity(fx, fy, fz);
             }
         }

@@ -117,5 +117,9 @@ public abstract class AircraftEntity extends VehicleEntity {
     public Vec3d toVec3d(Vector3f v) {
         return new Vec3d(v.x, v.y, v.z);
     }
+
+    public void chill() {
+        lastY = 0.0;
+    }
 }
 

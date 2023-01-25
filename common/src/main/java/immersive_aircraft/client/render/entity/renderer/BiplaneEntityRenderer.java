@@ -53,7 +53,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "rudder").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )

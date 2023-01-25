@@ -11,6 +11,7 @@ public interface Sounds {
     Supplier<SoundEvent> ENGINE_START = register("engine_start");
     Supplier<SoundEvent> PROPELLER = register("propeller");
     Supplier<SoundEvent> PROPELLER_SMALL = register("propeller_small");
+    Supplier<SoundEvent> PROPELLER_TINY = register("propeller_tiny");
     Supplier<SoundEvent> WOOSH = register("woosh");
 
     static void bootstrap() {

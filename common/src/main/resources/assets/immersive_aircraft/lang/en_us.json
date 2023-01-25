@@ -14,6 +14,7 @@
   "entity.immersive_aircraft.airship": "Airship",
   "entity.immersive_aircraft.biplane": "Biplane",
   "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "entity.immersive_aircraft.quadrocopter": "Quadrocopter",
 
   "item.immersive_aircraft.hull": "Hull",
   "item.immersive_aircraft.engine": "Engine",
@@ -23,7 +24,20 @@
   "item.immersive_aircraft.airship": "Airship",
   "item.immersive_aircraft.biplane": "Biplane",
   "item.immersive_aircraft.gyrodyne": "Gyrodyne",
+  "item.immersive_aircraft.quadrocopter": "Quadrocopter",
+
+  "item.immersive_aircraft.airship.description": "Slow but easy to maneuver.",
+  "item.immersive_aircraft.biplane.description": "Fast and rather reliably. Make sure your runway is long enough.",
+  "item.immersive_aircraft.gyrodyne.description": "Muscle-powered copter. Give it a good push and off it flies!",
+  "item.immersive_aircraft.quadrocopter.description": "Perfect for building, and that's about it.",
 
   "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
-  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!"
+  "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!",
+
+  "option.immersive_aircraft.general": "General Options",
+  "option.immersive_aircraft.separateCamera": "Use a separate camera in aircraft.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Defaults to third person camera in aircraft.",
+  "option.immersive_aircraft.enableTrails": "Fancy steam trails.",
+  "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
+  "option.immersive_aircraft.renderDistance": "Render distance in blocks."
 }

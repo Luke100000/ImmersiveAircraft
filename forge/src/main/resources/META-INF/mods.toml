@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[44,)"
+loaderVersion = "[43,)"
 issueTrackerURL = "https://github.com/Luke100000/ImmersiveAircraft/issues"
 license = "GNU"
 
@@ -7,22 +7,22 @@ license = "GNU"
 modId = "immersive_aircraft"
 version = "${version}"
 displayName = "Immersive Aircraft"
-displayURL = "https://www.curseforge.com/minecraft/mc-mods/ImmersiveAircraft"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/immersive-aircraft"
 authors = "Luke100000"
 description = "A bunch of rustic aircraft to travel, transport, and explore!"
 logoFile = "logoFile.png"
-itemIcon = "immersive_aircraft:aircraft"
+itemIcon = "immersive_aircraft:biplane"
 
 [[dependencies.immersive_aircraft]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.3,)"
+versionRange = "[1.19.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.immersive_aircraft]]
 modId = "forge"
 mandatory = true
-versionRange = "[44.0.0,)"
+versionRange = "[43.2.0,)"
 ordering = "NONE"
 side = "BOTH"

@@ -1,6 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
-import immersive_aircraft.Config;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
@@ -9,9 +9,8 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 import immersive_aircraft.util.obj.oobjloader.Mesh;
-import net.minecraft.util.math.RotationAxis;
-import org.joml.Vector3f;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/airship.obj");
@@ -42,8 +41,10 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.translate(0, -0.125, 0.78125f);
+                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.translate(0, 0.125, -0.78125f - 2.0f / 16.0f);
                             }
                     )
             )
