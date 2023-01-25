@@ -34,7 +34,7 @@ public interface Entities {
 
     Supplier<EntityType<QuadrocopterEntity>> QUADROCOPTER = register("quadrocopter", EntityType.Builder
             .create(QuadrocopterEntity::new, SpawnGroup.MISC)
-            .setDimensions(1.0f, 0.25f)
+            .setDimensions(1.5f, 0.5f)
             .makeFireImmune()
     );
 
