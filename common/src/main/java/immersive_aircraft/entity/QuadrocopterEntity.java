@@ -2,7 +2,6 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
-import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -103,11 +102,5 @@ public class QuadrocopterEntity extends Rotorcraft {
         // accelerate
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         setVelocity(getVelocity().add(direction.multiply(thrust)));
-    }
-
-    @Override
-    public boolean shouldRender(double distance) {
-        double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
-        return distance < d * d;
     }
 }

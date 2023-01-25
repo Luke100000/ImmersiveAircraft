@@ -1,6 +1,5 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.config.Config;
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
@@ -141,11 +140,5 @@ public class AirshipEntity extends Rotorcraft {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
-    }
-
-    @Override
-    public boolean shouldRender(double distance) {
-        double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
-        return distance < d * d;
     }
 }

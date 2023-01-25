@@ -3,6 +3,7 @@ package immersive_aircraft.entity;
 import com.google.common.collect.Lists;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
@@ -576,4 +577,10 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected final static Vector4f ZERO_VEC4 = new Vector4f();
+
+    @Override
+    public boolean shouldRender(double distance) {
+        double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
+        return distance < d * d;
+    }
 }
