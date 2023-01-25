@@ -4,6 +4,7 @@ import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.AirshipEntity;
 import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.GyrodyneEntity;
+import immersive_aircraft.entity.QuadrocopterEntity;
 import immersive_aircraft.item.AircraftItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -20,7 +21,7 @@ public interface Items {
     Supplier<Item> AIRSHIP = register("airship", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new AirshipEntity(Entities.AIRSHIP.get(), world)));
     Supplier<Item> BIPLANE = register("biplane", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new BiplaneEntity(Entities.BIPLANE.get(), world)));
     Supplier<Item> GYRODYNE = register("gyrodyne", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new GyrodyneEntity(Entities.GYRODYNE.get(), world)));
-    Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new GyrodyneEntity(Entities.QUADROCOPTER.get(), world)));
+    Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new QuadrocopterEntity(Entities.QUADROCOPTER.get(), world)));
 
     static Supplier<Item> register(String name, Supplier<Item> item) {
         return Registration.register(Registry.ITEM, Main.locate(name), item);
