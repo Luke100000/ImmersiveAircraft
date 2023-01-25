@@ -1,13 +1,14 @@
 # 0.3.0
 
 * Added Quadrocopter
-* Fixed non-pilot dismounting #17
+* Fixed non-pilot dismounting
 * Switched to less intrusive multi keybindings injection to restore mod compatibility
 * Fixed controller animation of airship
 * Added support for modmenu and cloth config
 * Added item tooltip description
 * You can no longer apply knockback to your vehicle
 * Fixed the Biplane phantom push when leaving
+* Fixed first person camera offset
 
 # 0.2.0
 

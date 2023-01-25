@@ -5,6 +5,7 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,10 +24,27 @@ public class GameRendererMixin {
     public void renderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
         Entity entity = camera.getFocusedEntity();
         if (!camera.isThirdPerson() && entity != null && entity.getRootVehicle() instanceof AircraftEntity aircraft) {
-            matrices.translate(0.0f, -entity.getStandingEyeHeight(), 0.0f);
+            // rotate camera
             matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(aircraft.getRoll(tickDelta)));
             matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(aircraft.getPitch(tickDelta)));
-            matrices.translate(0.0f, entity.getStandingEyeHeight(), 0.0f);
+
+            // fetch eye offset
+            float eye = entity.getStandingEyeHeight();
+
+            // transform eye offset to match aircraft rotation
+            Vec3f offset = new Vec3f(0, -eye, 0);
+            Quaternion quaternion = Vec3f.POSITIVE_X.getDegreesQuaternion(0.0f);
+            quaternion.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-aircraft.getYaw(tickDelta)));
+            quaternion.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(aircraft.getPitch(tickDelta)));
+            quaternion.hamiltonProduct(Vec3f.POSITIVE_Z.getDegreesQuaternion(aircraft.getRoll(tickDelta)));
+            offset.rotate(quaternion);
+
+            // apply camera offset
+            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0f));
+            matrices.translate(offset.getX(), offset.getY() + eye, offset.getZ());
+            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw() - 180.0f));
+            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-camera.getPitch()));
         }
     }
 }
