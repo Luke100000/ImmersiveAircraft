@@ -15,7 +15,7 @@ import java.util.List;
 public class QuadrocopterEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
-            .setPitchSpeed(2.5f)
+            .setPitchSpeed(1.5f)
             .setEngineSpeed(0.0325f)
             .setVerticalSpeed(0.0325f)
             .setGlideFactor(0.0f)
@@ -75,7 +75,7 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, 0.25f, 0.0f)
+                    new Vec3d(0.0f, 0.275f, -0.1f)
             )
     );
 
