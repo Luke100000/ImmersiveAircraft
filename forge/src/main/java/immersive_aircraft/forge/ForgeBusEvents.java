@@ -18,5 +18,7 @@ public class ForgeBusEvents {
             ClientMain.postLoad();
             firstLoad = false;
         }
+
+        ClientMain.tick();
     }
 }

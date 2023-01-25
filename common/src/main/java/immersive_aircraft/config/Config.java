@@ -10,8 +10,11 @@ public final class Config extends JsonConfig {
         return INSTANCE;
     }
 
-    @SuppressWarnings("unused")
-    public String _documentation = "https://github.com/Luke100000/ImmersiveArmors/blob/HEAD/config.md";
+    @BooleanConfigEntry(true)
+    public boolean separateCamera = true;
+
+    @BooleanConfigEntry(true)
+    public boolean useThirdPersonByDefault = true;
 
     @BooleanConfigEntry(true)
     public boolean enableTrails = true;

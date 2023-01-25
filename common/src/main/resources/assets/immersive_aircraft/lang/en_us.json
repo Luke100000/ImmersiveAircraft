@@ -35,6 +35,8 @@
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!",
 
   "option.immersive_aircraft.general": "General Options",
+  "option.immersive_aircraft.separateCamera": "Use a separate camera in aircraft.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Defaults to third person camera in aircraft.",
   "option.immersive_aircraft.enableTrails": "Fancy steam trails.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
   "option.immersive_aircraft.renderDistance": "Render distance in blocks."
