@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -45,7 +44,7 @@ public class AircraftItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
-        tooltip.addAll(FlowingText.wrap(new TranslatableText(getTranslationKey() + ".description").formatted(Formatting.ITALIC).formatted(Formatting.GRAY), 180));
+        tooltip.addAll(FlowingText.wrap(Text.translatable(getTranslationKey() + ".description").formatted(Formatting.ITALIC).formatted(Formatting.GRAY), 180));
     }
 
     @Override
