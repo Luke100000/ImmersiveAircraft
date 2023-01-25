@@ -5,6 +5,8 @@
 * Switched to less intrusive multi keybindings injection to restore mod compatibility
 * Fixed controller animation of airship
 * Added support for modmenu and cloth config
+* Added item tooltip description
+* You can no longer apply knockback to your vehicle
 
 # 0.2.0
 
