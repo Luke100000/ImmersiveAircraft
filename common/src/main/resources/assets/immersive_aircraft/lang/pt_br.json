@@ -21,7 +21,7 @@
   "item.immersive_aircraft.airship": "Dirigível",
   "item.immersive_aircraft.biplane": "Avião Biplano",
   "item.immersive_aircraft.gyrodyne": "Girodino",
-  "item.immersive_aircraft.quadrocopter": "Quadrocopter",
+  "item.immersive_aircraft.quadrocopter": "Quadricóptero",
   "item.immersive_aircraft.airship.description": "Os dirigíveis podem não ser o veículo mais rápido, mas são certamente fáceis de manobrar.",
   "item.immersive_aircraft.biplane.description": "Este biplano rústico e de confiança vai levá-lo a qualquer lugar de forma rápida e bastante fiável. Assegure-se de que a sua pista é suficientemente longa.",
   "item.immersive_aircraft.gyrodyne.description": "Quem precisa de um motor se se pode alimentar a aeronave com músculos puros? Dêem-lhe um bom empurrão e saiam voando!",
@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% De força, continue empurrando!",
   "immersive_aircraft.gyrodyne_target_reached": "Velocidade mínima de rotor atingida, pronto para decolagem!",
   "option.immersive_aircraft.general": "Opções Gerais",
+  "option.immersive_aircraft.separateCamera": "Utilizar uma câmara fotográfica separada nos aviões.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "O defeito é a câmara de terceira pessoa em aviões.",
   "option.immersive_aircraft.enableTrails": "Pistas de vapor extravagantes.",
   "option.immersive_aircraft.enableAnimatedSails": "Velas ondulantes.",
   "option.immersive_aircraft.renderDistance": "Distância de entrega em blocos."
