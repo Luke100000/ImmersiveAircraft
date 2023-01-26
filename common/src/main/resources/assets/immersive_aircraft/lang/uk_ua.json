@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%dСила, продовжуй штовхати!",
   "immersive_aircraft.gyrodyne_target_reached": "Мінімальна частота обертання ротора досягнута, до зльоту готовий!",
   "option.immersive_aircraft.general": "Загальні параметри",
+  "option.immersive_aircraft.separateCamera": "Використовуйте окрему камеру в літаках.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "За замовчуванням - камера від третьої особи в літаку.",
   "option.immersive_aircraft.enableTrails": "Вигадливі парові стежки.",
   "option.immersive_aircraft.enableAnimatedSails": "Хвилясті хвилясті вітрила.",
   "option.immersive_aircraft.renderDistance": "Відображати відстань у блоках."
