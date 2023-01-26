@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%dGüç, itmeye devam et!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor hızına ulaşıldı, kalkışa hazır!",
   "option.immersive_aircraft.general": "Genel Seçenekler",
+  "option.immersive_aircraft.separateCamera": "Uçakta ayrı bir kamera kullanın.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Uçakta varsayılan olarak üçüncü şahıs kamerası kullanılır.",
   "option.immersive_aircraft.enableTrails": "Süslü buhar yolları.",
   "option.immersive_aircraft.enableAnimatedSails": "Dalgalı yelkenler.",
   "option.immersive_aircraft.renderDistance": "Mesafeyi bloklar halinde oluşturun."
