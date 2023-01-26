@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Power, mach weiter!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimale Rotordrehzahl erreicht, bereit zum Abheben!",
   "option.immersive_aircraft.general": "Allgemeine Optionen",
+  "option.immersive_aircraft.separateCamera": "Verwende eine separate Kamera im Flugzeug.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Standardmäßig ist die Kamera im Flugzeug in der dritten Person.",
   "option.immersive_aircraft.enableTrails": "Schicke Dampfpfade.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
   "option.immersive_aircraft.renderDistance": "Renderabstand in Blöcken."
