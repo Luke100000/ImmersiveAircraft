@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Мощност, продължавайте да натискате!",
   "immersive_aircraft.gyrodyne_target_reached": "Минималната скорост на ротора е достигната, готовност за излитане!",
   "option.immersive_aircraft.general": "Общи опции",
+  "option.immersive_aircraft.separateCamera": "Използвайте отделна камера в самолета.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "По подразбиране се използва камера от трето лице в самолета.",
   "option.immersive_aircraft.enableTrails": "Измислени парна пътека.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
   "option.immersive_aircraft.renderDistance": "Разстояние на визуализация в блокове."
