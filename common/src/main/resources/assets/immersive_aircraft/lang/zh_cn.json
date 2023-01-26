@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d％的力量，继续推动",
   "immersive_aircraft.gyrodyne_target_reached": "达到最低的旋翼速度，准备起飞!",
   "option.immersive_aircraft.general": "一般选项",
+  "option.immersive_aircraft.separateCamera": "在飞机上使用单独的摄像机。",
+  "option.immersive_aircraft.useThirdPersonByDefault": "默认为飞机上的第三人称摄像机。",
   "option.immersive_aircraft.enableTrails": "花式蒸汽小道。",
   "option.immersive_aircraft.enableAnimatedSails": "波涛汹涌的风帆。",
   "option.immersive_aircraft.renderDistance": "以块为单位的渲染距离。"
