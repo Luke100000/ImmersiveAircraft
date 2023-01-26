@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d% Potência, continue a empurrar!",
   "immersive_aircraft.gyrodyne_target_reached": "Velocidade mínima do rotor alcançada, pronto para a descolagem!",
   "option.immersive_aircraft.general": "Opções Gerais",
+  "option.immersive_aircraft.separateCamera": "Utilizar uma câmara fotográfica separada nos aviões.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "O defeito é a câmara de terceira pessoa em aviões.",
   "option.immersive_aircraft.enableTrails": "Pistas de vapor extravagantes.",
   "option.immersive_aircraft.enableAnimatedSails": "Velas ondulantes.",
   "option.immersive_aircraft.renderDistance": "Distância de entrega em blocos."
