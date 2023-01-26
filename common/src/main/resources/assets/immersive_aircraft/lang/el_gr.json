@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Δύναμη, συνέχισε να σπρώχνεις!",
   "immersive_aircraft.gyrodyne_target_reached": "Ελάχιστη ταχύτητα στροφείου επιτυγχάνεται, έτοιμοι για απογείωση!",
   "option.immersive_aircraft.general": "Γενικές επιλογές",
+  "option.immersive_aircraft.separateCamera": "Χρησιμοποιήστε ξεχωριστή κάμερα στο αεροσκάφος.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Προεπιλογή κάμερας τρίτου προσώπου στο αεροσκάφος.",
   "option.immersive_aircraft.enableTrails": "Φανταχτερά μονοπάτια ατμού.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
   "option.immersive_aircraft.renderDistance": "Απόσταση απόδοσης σε μπλοκ."
