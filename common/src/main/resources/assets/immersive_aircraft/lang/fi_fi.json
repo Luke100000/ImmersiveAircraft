@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Voimaa, jatka ponnistelua!",
   "immersive_aircraft.gyrodyne_target_reached": "Roottorin vähimmäisnopeus saavutettu, valmiina lentoonlähtöön!",
   "option.immersive_aircraft.general": "Yleiset vaihtoehdot",
+  "option.immersive_aircraft.separateCamera": "Käytä lentokoneessa erillistä kameraa.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Oletusasetuksena kolmannen persoonan kamera lentokoneessa.",
   "option.immersive_aircraft.enableTrails": "Hienoja höyrypolkuja.",
   "option.immersive_aircraft.enableAnimatedSails": "Aaltoileva aaltoileva Purjeet.",
   "option.immersive_aircraft.renderDistance": "Renderöintietäisyys lohkoina."
