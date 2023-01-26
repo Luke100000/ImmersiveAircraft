@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Síla, tlačte na pilu!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimální rychlost rotoru dosažena, připraveno ke vzletu!",
   "option.immersive_aircraft.general": "Obecné možnosti",
+  "option.immersive_aircraft.separateCamera": "V letadle použijte samostatnou kameru.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Výchozí nastavení je kamera třetí osoby v letadle.",
   "option.immersive_aircraft.enableTrails": "Fantastické parní stezky.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Plachty.",
   "option.immersive_aircraft.renderDistance": "Vzdálenost vykreslování v blocích."
