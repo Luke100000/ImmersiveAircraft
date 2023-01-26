@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Power, jätkake pingutamist!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimaalne rootori kiirus on saavutatud, valmis startimiseks!",
   "option.immersive_aircraft.general": "Üldised valikud",
+  "option.immersive_aircraft.separateCamera": "Kasutage õhusõidukis eraldi kaamerat.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Standardselt on õhusõidukis kolmanda isiku kaamera.",
   "option.immersive_aircraft.enableTrails": "Fancy aururajad.",
   "option.immersive_aircraft.enableAnimatedSails": "Lainelainelised purjed.",
   "option.immersive_aircraft.renderDistance": "Renderdamise kaugus plokkidena."
