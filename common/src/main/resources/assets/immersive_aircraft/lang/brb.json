@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Kracht, doorzetten!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotorsnelheid bereikt, klaar om op te stijgen!",
   "option.immersive_aircraft.general": "Algemene opties",
+  "option.immersive_aircraft.separateCamera": "Gebruik een aparte camera in vliegtuigen.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Staat standaard op derde persoon camera in vliegtuig.",
   "option.immersive_aircraft.enableTrails": "Zin in stoomsporen.",
   "option.immersive_aircraft.enableAnimatedSails": "Golvende golvende zeilen.",
   "option.immersive_aircraft.renderDistance": "Render afstand in blokken."
