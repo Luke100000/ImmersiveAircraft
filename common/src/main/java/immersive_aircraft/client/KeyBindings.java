@@ -1,30 +1,44 @@
 package immersive_aircraft.client;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class KeyBindings {
     public static List<KeyBinding> list = new LinkedList<>();
 
-    public static KeyBinding left = newKey("left", GLFW.GLFW_KEY_A);
-    public static KeyBinding right = newKey("right", GLFW.GLFW_KEY_D);
-    public static KeyBinding forward = newKey("forward", GLFW.GLFW_KEY_W);
-    public static KeyBinding backward = newKey("backward", GLFW.GLFW_KEY_S);
-    public static KeyBinding up = newKey("up", GLFW.GLFW_KEY_SPACE);
-    public static KeyBinding down = newKey("down", GLFW.GLFW_KEY_LEFT_SHIFT);
-    public static KeyBinding pull = newKey("pull", GLFW.GLFW_KEY_S);
-    public static KeyBinding push = newKey("push", GLFW.GLFW_KEY_W);
+    public static KeyBinding left = newFallbackKey("left", () -> MinecraftClient.getInstance().options.leftKey);
+    public static KeyBinding right = newFallbackKey("right", () -> MinecraftClient.getInstance().options.rightKey);
+    public static KeyBinding forward = newFallbackKey("forward", () -> MinecraftClient.getInstance().options.forwardKey);
+    public static KeyBinding backward = newFallbackKey("backward", () -> MinecraftClient.getInstance().options.backKey);
+    public static KeyBinding up = newFallbackKey("up", () -> MinecraftClient.getInstance().options.jumpKey);
+    public static KeyBinding down = newFallbackKey("down", () -> MinecraftClient.getInstance().options.sneakKey);
+    public static KeyBinding pull = newFallbackKey("pull", () -> MinecraftClient.getInstance().options.backKey);
+    public static KeyBinding push = newFallbackKey("push", () -> MinecraftClient.getInstance().options.forwardKey);
+
     public static KeyBinding dismount = newKey("dismount", GLFW.GLFW_KEY_R);
 
-    private static KeyBinding newKey(String name, int defaultKey) {
-        KeyBinding key = new MultiKeyBinding(
+    private static KeyBinding newFallbackKey(String name, Supplier<KeyBinding> fallback) {
+        KeyBinding key = new FallbackKeyBinding(
                 "key.immersive_aircraft." + name,
                 InputUtil.Type.KEYSYM,
-                defaultKey,
+                fallback,
+                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
+        );
+        list.add(key);
+        return key;
+    }
+
+    private static KeyBinding newKey(String name, int code) {
+        KeyBinding key = new KeyBinding(
+                "key.immersive_aircraft." + name,
+                InputUtil.Type.KEYSYM,
+                code,
                 "itemGroup.immersive_aircraft.immersive_aircraft_tab"
         );
         list.add(key);

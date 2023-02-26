@@ -1,3 +1,7 @@
+# 0.3.1
+
+* Used even less aggressive keybinding method
+
 # 0.3.0
 
 * Added Quadrocopter
