@@ -12,14 +12,14 @@ import java.util.function.Supplier;
 public class KeyBindings {
     public static List<KeyBinding> list = new LinkedList<>();
 
-    public static KeyBinding left = newFallbackKey("left", () -> MinecraftClient.getInstance().options.leftKey);
-    public static KeyBinding right = newFallbackKey("right", () -> MinecraftClient.getInstance().options.rightKey);
-    public static KeyBinding forward = newFallbackKey("forward", () -> MinecraftClient.getInstance().options.forwardKey);
-    public static KeyBinding backward = newFallbackKey("backward", () -> MinecraftClient.getInstance().options.backKey);
-    public static KeyBinding up = newFallbackKey("up", () -> MinecraftClient.getInstance().options.jumpKey);
-    public static KeyBinding down = newFallbackKey("down", () -> MinecraftClient.getInstance().options.sneakKey);
-    public static KeyBinding pull = newFallbackKey("pull", () -> MinecraftClient.getInstance().options.backKey);
-    public static KeyBinding push = newFallbackKey("push", () -> MinecraftClient.getInstance().options.forwardKey);
+    public static KeyBinding left = newFallbackKey("left", () -> MinecraftClient.getInstance().options.keyLeft);
+    public static KeyBinding right = newFallbackKey("right", () -> MinecraftClient.getInstance().options.keyRight);
+    public static KeyBinding forward = newFallbackKey("forward", () -> MinecraftClient.getInstance().options.keyForward);
+    public static KeyBinding backward = newFallbackKey("backward", () -> MinecraftClient.getInstance().options.keyBack);
+    public static KeyBinding up = newFallbackKey("up", () -> MinecraftClient.getInstance().options.keyJump);
+    public static KeyBinding down = newFallbackKey("down", () -> MinecraftClient.getInstance().options.keySneak);
+    public static KeyBinding pull = newFallbackKey("pull", () -> MinecraftClient.getInstance().options.keyBack);
+    public static KeyBinding push = newFallbackKey("push", () -> MinecraftClient.getInstance().options.keyForward);
 
     public static KeyBinding dismount = newKey("dismount", GLFW.GLFW_KEY_R);
 

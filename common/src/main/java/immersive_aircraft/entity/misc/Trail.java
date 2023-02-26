@@ -1,7 +1,7 @@
 package immersive_aircraft.entity.misc;
 
+import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.config.Config;
-import net.minecraft.util.math.Vector4f;
 
 public class Trail {
     public final float[] buffer;

@@ -16,12 +16,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -60,7 +58,7 @@ public class AircraftItem extends Item {
         Vec3d vec3d = user.getRotationVec(1.0f);
         List<Entity> list = world.getOtherEntities(user, user.getBoundingBox().stretch(vec3d.multiply(5.0)).expand(1.0), RIDERS);
         if (!list.isEmpty()) {
-            Vec3d vec3d2 = user.getEyePos();
+            Vec3d vec3d2 = user.getCameraPosVec(1.0F);
             for (Entity entity : list) {
                 Box box = entity.getBoundingBox().expand(entity.getTargetingMargin());
                 if (!box.contains(vec3d2)) continue;
@@ -73,16 +71,15 @@ public class AircraftItem extends Item {
             AircraftEntity entity = constructor.create(world);
 
             entity.setPosition(hitResult.getPos().x, hitResult.getPos().y, hitResult.getPos().z);
-            entity.setYaw(user.getYaw());
+            entity.yaw = user.yaw;
 
-            if (!world.isSpaceEmpty(entity, entity.getBoundingBox())) {
+            if (!world.isSpaceEmpty(entity, entity.getBoundingBox().expand(-0.1))) {
                 return TypedActionResult.fail(itemStack);
             }
 
             if (!world.isClient) {
                 world.spawnEntity(entity);
-                world.emitGameEvent(user, GameEvent.ENTITY_PLACE, new BlockPos(hitResult.getPos()));
-                if (!user.getAbilities().creativeMode) {
+                if (!user.abilities.creativeMode) {
                     itemStack.decrement(1);
                 }
             }

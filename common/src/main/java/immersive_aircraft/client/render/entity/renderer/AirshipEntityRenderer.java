@@ -7,7 +7,7 @@ import immersive_aircraft.entity.AirshipEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
 import immersive_aircraft.util.obj.Mesh;
@@ -67,8 +67,8 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                             )
             );
 
-    public AirshipEntityRenderer(EntityRendererFactory.Context context) {
-        super(context);
+    public AirshipEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+        super(entityRenderDispatcher);
         this.shadowRadius = 0.8f;
     }
 

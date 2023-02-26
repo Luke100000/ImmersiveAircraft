@@ -4,7 +4,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
@@ -58,8 +58,8 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     )
             );
 
-    public BiplaneEntityRenderer(EntityRendererFactory.Context context) {
-        super(context);
+    public BiplaneEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+        super(entityRenderDispatcher);
         this.shadowRadius = 0.8f;
         texture = Main.locate("textures/entity/biplane.png");
     }

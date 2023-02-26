@@ -2,16 +2,16 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
+import immersive_aircraft.compat.Matrix4f;
+import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.math.Vector4f;
+import immersive_aircraft.compat.Vec3f;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -126,7 +126,7 @@ public class AirshipEntity extends Rotorcraft {
 
                 // Trails
                 Matrix4f tr = transform.copy();
-                tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
+                tr.multiply(Matrix4f.translate(0.0f, 0.4f, -1.2f));
                 tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
                 trail(tr, 0.0f);
 

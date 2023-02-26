@@ -1,6 +1,10 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
+import immersive_aircraft.compat.Matrix3f;
+import immersive_aircraft.compat.Matrix4f;
+import immersive_aircraft.compat.Vec3f;
+import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;

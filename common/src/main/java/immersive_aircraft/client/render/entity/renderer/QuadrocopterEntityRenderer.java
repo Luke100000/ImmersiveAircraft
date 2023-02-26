@@ -6,7 +6,7 @@ import immersive_aircraft.entity.QuadrocopterEntity;
 import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
 
@@ -69,8 +69,8 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
         }
     }
 
-    public QuadrocopterEntityRenderer(EntityRendererFactory.Context context) {
-        super(context);
+    public QuadrocopterEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+        super(entityRenderDispatcher);
         this.shadowRadius = 0.8f;
     }
 

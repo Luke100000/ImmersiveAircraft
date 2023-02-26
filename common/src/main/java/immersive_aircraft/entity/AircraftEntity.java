@@ -50,8 +50,8 @@ public abstract class AircraftEntity extends VehicleEntity {
     void convertPower(Vec3d direction) {
         Vec3d velocity = getVelocity();
         double drag = Math.abs(direction.dotProduct(velocity.normalize()));
-        setVelocity(velocity.normalize()
-                .lerp(direction, getProperties().getLift())
+        setVelocity((velocity.normalize().multiply((1.0 - getProperties().getLift())))
+                .add(direction.multiply(getProperties().getLift()))
                 .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag()))));
     }
 

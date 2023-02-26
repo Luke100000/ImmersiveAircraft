@@ -3,6 +3,10 @@ package immersive_aircraft.entity;
 import com.google.common.collect.Lists;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.compat.Matrix3f;
+import immersive_aircraft.compat.Matrix4f;
+import immersive_aircraft.compat.Vec3f;
+import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
@@ -18,7 +22,6 @@ import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
@@ -28,11 +31,13 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.*;
-import net.minecraft.world.BlockLocating;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.PortalUtil;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -80,17 +85,15 @@ public abstract class VehicleEntity extends Entity {
         return getPassengerPositions().size();
     }
 
-    @Override
     public void setPitch(float pitch) {
         float loops = (float)(Math.floor((pitch + 180f) / 360f) * 360f);
         pitch -= loops;
         prevPitch -= loops;
-        super.setPitch(pitch);
+        this.pitch = pitch;
     }
 
     public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
-        intersectionChecked = true;
         stepHeight = 0.55f;
 
         pressingInterpolatedX = new InterpolatedFloat(getInputInterpolationSteps());
@@ -105,11 +108,6 @@ public abstract class VehicleEntity extends Entity {
     @Override
     protected float getEyeHeight(EntityPose pose, EntityDimensions dimensions) {
         return dimensions.height;
-    }
-
-    @Override
-    protected Entity.MoveEffect getMoveEffect() {
-        return Entity.MoveEffect.NONE;
     }
 
     @Override
@@ -139,8 +137,8 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected Vec3d positionInPortal(Direction.Axis portalAxis, BlockLocating.Rectangle portalRect) {
-        return LivingEntity.positionInPortal(super.positionInPortal(portalAxis, portalRect));
+    protected Vec3d method_30633(Direction.Axis axis, PortalUtil.Rectangle rectangle) {
+        return LivingEntity.method_31079(super.method_30633(axis, rectangle));
     }
 
     @Override
@@ -159,13 +157,12 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
-        emitGameEvent(GameEvent.ENTITY_DAMAGED, source.getAttacker());
-        boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).getAbilities().creativeMode;
+        boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).abilities.creativeMode;
         if (bl || getDamageWobbleStrength() > 60.0f) {
             if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                 dropItem(asItem());
             }
-            discard();
+            remove();
         }
         return true;
     }
@@ -176,7 +173,7 @@ public abstract class VehicleEntity extends Entity {
         if (random.nextInt(20) == 0) {
             world.playSound(getX(), getY(), getZ(), getSplashSound(), getSoundCategory(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
         }
-        emitGameEvent(GameEvent.SPLASH, getPrimaryPassenger());
+        this.world.addParticle(ParticleTypes.SPLASH, this.getX() + (double)this.random.nextFloat(), this.getY() + 0.7, this.getZ() + (double)this.random.nextFloat(), 0.0, 0.0, 0.0);
     }
 
     @Override
@@ -318,7 +315,7 @@ public abstract class VehicleEntity extends Entity {
         double interpolatedX = getX() + (x - getX()) / (double)interpolationSteps;
         double interpolatedY = getY() + (y - getY()) / (double)interpolationSteps;
         double interpolatedZ = getZ() + (z - getZ()) / (double)interpolationSteps;
-        double interpolatedYaw = MathHelper.wrapDegrees(clientYaw - (double)getYaw());
+        double interpolatedYaw = MathHelper.wrapDegrees(clientYaw - getYaw());
         setYaw(getYaw() + (float)interpolatedYaw / (float)interpolationSteps);
         setPitch(getPitch() + (float)(clientPitch - (double)getPitch()) / (float)interpolationSteps);
 
@@ -362,12 +359,12 @@ public abstract class VehicleEntity extends Entity {
 
                 passenger.setPosition(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 
-                passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
+                passenger.yaw = passenger.yaw + (getYaw() - prevYaw);
                 passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
 
                 copyEntityData(passenger);
                 if (passenger instanceof AnimalEntity && size > 1) {
-                    int angle = passenger.getId() % 2 == 0 ? 90 : 270;
+                    int angle = passenger.getEntityId() % 2 == 0 ? 90 : 270;
                     passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)angle);
                     passenger.setHeadYaw(passenger.getHeadYaw() + (float)angle);
                 }
@@ -404,7 +401,8 @@ public abstract class VehicleEntity extends Entity {
                 }
                 for (EntityPose entityPose : passenger.getPoses()) {
                     for (Vec3d vec3d2 : list) {
-                        if (!Dismounting.canPlaceEntityAt(world, vec3d2, passenger, entityPose)) continue;
+                        Vec3d vec3d3 = Dismounting.findDismountPos(this.world, d, g, e, passenger, entityPose);
+                        if (vec3d3 == null) continue;
                         passenger.setPose(entityPose);
                         return vec3d2;
                     }
@@ -416,11 +414,11 @@ public abstract class VehicleEntity extends Entity {
 
     protected void copyEntityData(Entity entity) {
         entity.setBodyYaw(getYaw());
-        float f = MathHelper.wrapDegrees(entity.getYaw() - getYaw());
+        float f = MathHelper.wrapDegrees(entity.yaw - getYaw());
         float g = MathHelper.clamp(f, -105.0f, 105.0f);
         entity.prevYaw += g - f;
-        entity.setYaw(entity.getYaw() + g - f);
-        entity.setHeadYaw(entity.getYaw());
+        entity.yaw = entity.yaw + g - f;
+        entity.setHeadYaw(entity.yaw);
     }
 
     @Override
@@ -526,11 +524,6 @@ public abstract class VehicleEntity extends Entity {
         return new EntitySpawnS2CPacket(this);
     }
 
-    @Override
-    public ItemStack getPickBlockStack() {
-        return new ItemStack(asItem());
-    }
-
     public boolean isWithinParticleRange() {
         return MinecraftClient.getInstance().gameRenderer.getCamera().getPos().squaredDistanceTo(getPos()) < 1024;
     }
@@ -583,5 +576,29 @@ public abstract class VehicleEntity extends Entity {
     public boolean shouldRender(double distance) {
         double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
         return distance < d * d;
+    }
+
+    // Start of compat
+
+    public float getYaw() {
+        return yaw;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setYaw(float yaw) {
+        this.yaw = yaw;
+    }
+
+    public float getPitch() {
+        return pitch;
+    }
+
+    @Nullable
+    public Entity getFirstPassenger() {
+        List<Entity> list = this.getPassengerList();
+        return list.isEmpty() ? null : list.get(0);
     }
 }

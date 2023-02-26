@@ -4,7 +4,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.util.Utils;
-import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
 
@@ -58,8 +58,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     )
             );
 
-    public GyrodyneEntityRenderer(EntityRendererFactory.Context context) {
-        super(context);
+    public GyrodyneEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+        super(entityRenderDispatcher);
         this.shadowRadius = 0.8f;
         texture = Main.locate("textures/entity/gyrodyne.png");
     }

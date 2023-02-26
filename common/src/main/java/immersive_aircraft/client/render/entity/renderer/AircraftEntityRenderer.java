@@ -5,8 +5,8 @@ import immersive_aircraft.resources.ObjectLoader;
 import immersive_aircraft.util.Utils;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
@@ -91,8 +91,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    public AircraftEntityRenderer(EntityRendererFactory.Context context) {
-        super(context);
+    public AircraftEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+        super(entityRenderDispatcher);
     }
 
     abstract Model getModel(AircraftEntity entity);
@@ -154,8 +154,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
-        Matrix4f positionMatrix = entry.getPositionMatrix();
-        Matrix3f normalMatrix = entry.getNormalMatrix();
+        Matrix4f positionMatrix = entry.getModel();
+        Matrix3f normalMatrix = entry.getNormal();
         for (Face face : mesh.faces) {
             if (face.vertices.size() == 4) {
                 for (FaceVertex v : face.vertices) {
@@ -178,8 +178,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
-        Matrix4f positionMatrix = entry.getPositionMatrix();
-        Matrix3f normalMatrix = entry.getNormalMatrix();
+        Matrix4f positionMatrix = entry.getModel();
+        Matrix3f normalMatrix = entry.getNormal();
         for (Face face : mesh.faces) {
             if (face.vertices.size() == 4) {
                 for (FaceVertex v : face.vertices) {
@@ -204,12 +204,12 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             Pair<BannerPattern, DyeColor> pair = patterns.get(i);
             float[] fs = pair.getRight().getColorComponents();
             BannerPattern bannerPattern = pair.getLeft();
-            SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
+            SpriteIdentifier spriteIdentifier = new SpriteIdentifier(isBanner ? TexturedRenderLayers.BANNER_PATTERNS_ATLAS_TEXTURE : TexturedRenderLayers.SHIELD_PATTERNS_ATLAS_TEXTURE, bannerPattern.getSpriteId(isBanner));
             VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
             Sprite sprite = spriteIdentifier.getSprite();
             MatrixStack.Entry entry = matrixStack.peek();
-            Matrix4f positionMatrix = entry.getPositionMatrix();
-            Matrix3f normalMatrix = entry.getNormalMatrix();
+            Matrix4f positionMatrix = entry.getModel();
+            Matrix3f normalMatrix = entry.getNormal();
             for (Face face : mesh.faces) {
                 if (face.vertices.size() == 4) {
                     for (FaceVertex v : face.vertices) {

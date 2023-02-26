@@ -5,9 +5,9 @@ import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     private final String PROTOCOL_VERSION = "1";

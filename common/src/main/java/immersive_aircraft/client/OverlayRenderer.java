@@ -61,11 +61,11 @@ public class OverlayRenderer {
                 y += 7;
             }
 
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            RenderSystem.setShaderTexture(0, TEXTURE);
+            RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+            client.getTextureManager().bindTexture(TEXTURE);
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
 
-            RenderSystem.setShaderTexture(0, TEXTURE2);
+            client.getTextureManager().bindTexture(TEXTURE2);
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
         }
     }

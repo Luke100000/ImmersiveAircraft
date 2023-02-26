@@ -25,7 +25,7 @@ public class TrailRenderer {
         int light = 15728640;
 
         Vec3d pos = MinecraftClient.getInstance().gameRenderer.getCamera().getPos();
-        Matrix3f matrix = matrices.getNormalMatrix();
+        Matrix3f matrix = matrices.getNormal();
 
         //todo a custom vertex indexing methode would be beneficial here
         for (int i = 1; i < Math.min(trail.entries, trail.size); i++) {
