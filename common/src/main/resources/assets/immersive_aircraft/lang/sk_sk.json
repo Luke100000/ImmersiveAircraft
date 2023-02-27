@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Power, pokračuj v tlaku!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimálna rýchlosť rotora dosiahnutá, pripravený na vzlet!",
   "option.immersive_aircraft.general": "Všeobecné možnosti",
+  "option.immersive_aircraft.separateCamera": "Používajte samostatnú kameru v lietadle.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Predvolené nastavenie kamery tretej osoby v lietadle.",
   "option.immersive_aircraft.enableTrails": "Fantastické parné trasy.",
   "option.immersive_aircraft.enableAnimatedSails": "Vlnivé vlnivé plachty.",
   "option.immersive_aircraft.renderDistance": "Vzdialenosť vykresľovania v blokoch."

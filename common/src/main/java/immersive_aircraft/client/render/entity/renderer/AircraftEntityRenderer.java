@@ -145,7 +145,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
 
         // render trails
-        entity.getTrails().forEach(t -> t.render(vertexConsumerProvider, peek));
+        entity.getTrails().forEach(t -> TrailRenderer.render(t, vertexConsumerProvider, peek));
 
         matrixStack.pop();
 

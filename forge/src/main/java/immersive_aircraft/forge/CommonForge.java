@@ -14,11 +14,11 @@ public final class CommonForge {
     public CommonForge() {
         RegistrationImpl.bootstrap();
         new NetworkHandlerImpl();
+        Messages.loadMessages();
 
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();
-        Messages.bootstrap();
     }
 
     @SubscribeEvent

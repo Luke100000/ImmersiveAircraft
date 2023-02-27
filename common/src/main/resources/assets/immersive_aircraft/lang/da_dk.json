@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Power, bliv ved med at presse på!",
   "immersive_aircraft.gyrodyne_target_reached": "Mindste rotorhastighed er nået, klar til start!",
   "option.immersive_aircraft.general": "Generelle indstillinger",
+  "option.immersive_aircraft.separateCamera": "Brug et separat kamera i flyet.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Standardindstillingen er tredjepersonskamera i fly.",
   "option.immersive_aircraft.enableTrails": "Flotte dampbaner.",
   "option.immersive_aircraft.enableAnimatedSails": "Bølgende bølgende sejl.",
   "option.immersive_aircraft.renderDistance": "Renderafstand i blokke."
