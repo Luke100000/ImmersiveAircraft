@@ -1,3 +1,7 @@
+# 0.3.2
+
+* 1.16.5 now uses the right Java version
+
 # 0.3.1
 
 * Used even less aggressive keybinding method

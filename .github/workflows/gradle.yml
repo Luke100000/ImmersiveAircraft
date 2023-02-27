@@ -64,7 +64,7 @@ jobs:
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 17
+            Java 8
           dependencies: |
             fabric-api | recommends | *
 
@@ -87,6 +87,6 @@ jobs:
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 17
+            Java 8
 
           fail-mode: skip

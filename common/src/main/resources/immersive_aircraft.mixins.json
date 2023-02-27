@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.7",
   "package": "immersive_aircraft.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_8",
   "mixins": [
     "PlayerEntityMixin",
     "ServerPlayNetworkHandlerMixin"
