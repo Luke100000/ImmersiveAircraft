@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Энергии, продолжайте толкать!",
   "immersive_aircraft.gyrodyne_target_reached": "Достигнута минимальная скорость вращения ротора, готов к взлёту!",
   "option.immersive_aircraft.general": "Общие параметры",
+  "option.immersive_aircraft.separateCamera": "Используй отдельную камеру в самолетах.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "По умолчанию в самолете установлена камера от третьего лица.",
   "option.immersive_aircraft.enableTrails": "Модные паровые дорожки.",
   "option.immersive_aircraft.enableAnimatedSails": "Волнообразные волнообразные паруса.",
   "option.immersive_aircraft.renderDistance": "Рендерируй расстояние в блоках."

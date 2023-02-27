@@ -14,6 +14,7 @@ public final class CommonForge {
     public CommonForge() {
         RegistrationImpl.bootstrap();
         new NetworkHandlerImpl();
+        Messages.loadMessages();
     }
 
     @SubscribeEvent
@@ -21,6 +22,5 @@ public final class CommonForge {
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();
-        Messages.bootstrap();
     }
 }

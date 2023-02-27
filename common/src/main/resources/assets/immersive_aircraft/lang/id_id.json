@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Kekuatan, terus dorong!",
   "immersive_aircraft.gyrodyne_target_reached": "Kecepatan rotor minimum tercapai, siap untuk lepas landas!",
   "option.immersive_aircraft.general": "Opsi Umum",
+  "option.immersive_aircraft.separateCamera": "Gunakan kamera terpisah di pesawat terbang.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Default ke kamera orang ketiga di pesawat.",
   "option.immersive_aircraft.enableTrails": "Jalur uap yang mewah.",
   "option.immersive_aircraft.enableAnimatedSails": "Layar yang berombak bergelombang.",
   "option.immersive_aircraft.renderDistance": "Merender jarak dalam blok."

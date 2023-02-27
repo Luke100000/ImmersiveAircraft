@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Moc, nie przestawaj naciskać!",
   "immersive_aircraft.gyrodyne_target_reached": "Osiągnięto minimalną prędkość wirnika, gotowy do startu!",
   "option.immersive_aircraft.general": "Opcje ogólne",
+  "option.immersive_aircraft.separateCamera": "Użyj osobnej kamery w samolocie.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Domyślnie kamera z trzeciej osoby w samolocie.",
   "option.immersive_aircraft.enableTrails": "Fantazyjne szlaki parowe.",
   "option.immersive_aircraft.enableAnimatedSails": "Żagle z falami.",
   "option.immersive_aircraft.renderDistance": "Renderuj odległość w blokach."

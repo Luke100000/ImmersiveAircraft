@@ -14,8 +14,6 @@
     "ClientPlayNetworkHandlerMixin",
     "GameRendererMixin",
     "InGameHudMixin",
-    "KeyBindingAccessorMixin",
-    "KeyBindingMixin",
     "LivingEntityRendererMixin",
     "PlayerEntityRendererMixin"
   ]

@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "Puissance à %d%%, continue de pousser !",
   "immersive_aircraft.gyrodyne_target_reached": "Vitesse minimale du rotor atteinte, paré au décollage !",
   "option.immersive_aircraft.general": "Options générales",
+  "option.immersive_aircraft.separateCamera": "Utilise une caméra séparée dans les avions.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "La caméra par défaut est celle de la troisième personne dans l'avion.",
   "option.immersive_aircraft.enableTrails": "Des sentiers de vapeur fantaisistes.",
   "option.immersive_aircraft.enableAnimatedSails": "Des voiles ondulantes.",
   "option.immersive_aircraft.renderDistance": "Rendre la distance en blocs."

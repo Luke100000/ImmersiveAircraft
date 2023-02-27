@@ -29,6 +29,8 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Galia, stumkite toliau!",
   "immersive_aircraft.gyrodyne_target_reached": "Pasiektas minimalus rotoriaus greitis, pasirengta kilimui!",
   "option.immersive_aircraft.general": "Bendrosios parinktys",
+  "option.immersive_aircraft.separateCamera": "Naudokite atskirą orlaivio kamerą.",
+  "option.immersive_aircraft.useThirdPersonByDefault": "Numatytasis nustatymas - trečiojo asmens kamera orlaivyje.",
   "option.immersive_aircraft.enableTrails": "Išgalvoti garo takai.",
   "option.immersive_aircraft.enableAnimatedSails": "Banguotos banguotos burės.",
   "option.immersive_aircraft.renderDistance": "Atvaizdavimo atstumas blokais."
