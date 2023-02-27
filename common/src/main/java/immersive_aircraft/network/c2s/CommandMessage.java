@@ -20,8 +20,9 @@ public class CommandMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        if (e.getRootVehicle() instanceof AircraftEntity aircraft) {
+        if (e.getRootVehicle() instanceof AircraftEntity) {
             if (key == Key.DISMOUNT) {
+                AircraftEntity aircraft = (AircraftEntity) e.getRootVehicle();
                 e.stopRiding();
                 aircraft.chill();
                 aircraft.setVelocity(fx, fy, fz);

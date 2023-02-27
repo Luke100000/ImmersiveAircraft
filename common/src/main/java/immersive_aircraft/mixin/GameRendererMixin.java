@@ -23,7 +23,9 @@ public class GameRendererMixin {
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;update(Lnet/minecraft/world/BlockView;Lnet/minecraft/entity/Entity;ZZF)V"))
     public void renderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
         Entity entity = camera.getFocusedEntity();
-        if (!camera.isThirdPerson() && entity != null && entity.getRootVehicle() instanceof AircraftEntity aircraft) {
+        if (!camera.isThirdPerson() && entity != null && entity.getRootVehicle() instanceof AircraftEntity) {
+            AircraftEntity aircraft = (AircraftEntity) entity.getRootVehicle();
+
             // rotate camera
             matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(aircraft.getRoll(tickDelta)));
             matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(aircraft.getPitch(tickDelta)));

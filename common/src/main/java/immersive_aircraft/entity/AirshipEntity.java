@@ -14,6 +14,8 @@ import net.minecraft.util.math.Vec3d;
 import immersive_aircraft.compat.Vec3f;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class AirshipEntity extends Rotorcraft {
@@ -66,17 +68,17 @@ public class AirshipEntity extends Rotorcraft {
         return Items.AIRSHIP.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
-            List.of(
+    final List<List<Vec3d>> PASSENGER_POSITIONS = Arrays.asList(
+            Collections.singletonList(
                     new Vec3d(0.0f, -0.1f, 0.0f)
             ),
-            List.of(
+            Arrays.asList(
                     new Vec3d(0.0f, -0.1f, 0.4f),
                     new Vec3d(0.0f, -0.1f, -0.3f)
             )
     );
 
-    private final List<Trail> trails = List.of(new Trail(15, 0.5f));
+    private final List<Trail> trails = Collections.singletonList(new Trail(15, 0.5f));
 
     public List<Trail> getTrails() {
         return trails;

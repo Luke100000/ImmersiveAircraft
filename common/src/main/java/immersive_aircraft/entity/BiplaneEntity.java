@@ -12,6 +12,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BiplaneEntity extends AirplaneEntity {
@@ -19,13 +21,13 @@ public class BiplaneEntity extends AirplaneEntity {
         super(entityType, world);
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.05f, -0.6f)));
+    final List<List<Vec3d>> PASSENGER_POSITIONS = Collections.singletonList(Collections.singletonList(new Vec3d(0.0f, 0.05f, -0.6f)));
 
     protected List<List<Vec3d>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
-    private final List<Trail> trails = List.of(new Trail(40), new Trail(40));
+    private final List<Trail> trails = Arrays.asList(new Trail(40), new Trail(40));
 
     public List<Trail> getTrails() {
         return trails;

@@ -12,6 +12,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
@@ -75,11 +77,11 @@ public class GyrodyneEntity extends Rotorcraft {
         return Items.GYRODYNE.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
-            List.of(
+    final List<List<Vec3d>> PASSENGER_POSITIONS = Arrays.asList(
+            Collections.singletonList(
                     new Vec3d(0.0f, -0.1f, 0.3f)
             ),
-            List.of(
+            Arrays.asList(
                     new Vec3d(0.0f, -0.1f, 0.3f),
                     new Vec3d(0.0f, -0.1f, -0.6f)
             )
@@ -95,7 +97,8 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     private void updateEnginePowerTooltip() {
-        if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
+        if (getPrimaryPassenger() instanceof ClientPlayerEntity) {
+            ClientPlayerEntity player = (ClientPlayerEntity) getPrimaryPassenger();
             player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
@@ -110,7 +113,8 @@ public class GyrodyneEntity extends Rotorcraft {
             updateEnginePowerTooltip();
 
             if (getEngineTarget() == 1.0) {
-                if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
+                if (getPrimaryPassenger() instanceof ClientPlayerEntity) {
+                    ClientPlayerEntity player = (ClientPlayerEntity) getPrimaryPassenger();
                     player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target_reached"), true);
                     setVelocity(getVelocity().add(0, 0.25f, 0));
                 }

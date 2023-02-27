@@ -22,15 +22,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends EntityRenderer<T> {
+    public interface AnimationConsumer<T> {
+        void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
+    }
+
+    public interface RenderConsumer<T> {
+        void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light);
+    }
+
     class Object {
-        public interface AnimationConsumer<T> {
-            void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
-        }
-
-        public interface RenderConsumer<T> {
-            void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light);
-        }
-
         Object(Identifier id, String object) {
             this.id = id;
             this.object = object;
@@ -39,8 +39,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         private final Identifier id;
         private final String object;
 
-        private AnimationConsumer<T> animationConsumer = null;
-        private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light) -> {
+        private AircraftEntityRenderer.AnimationConsumer<T> animationConsumer = null;
+        private AircraftEntityRenderer.RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light) -> {
             //Get vertex consumer
             Identifier identifier = getTexture(entity);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(identifier));
@@ -59,20 +59,20 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             return id;
         }
 
-        public AnimationConsumer<T> getAnimationConsumer() {
+        public AircraftEntityRenderer.AnimationConsumer<T> getAnimationConsumer() {
             return animationConsumer;
         }
 
-        public Object setAnimationConsumer(AnimationConsumer<T> animationConsumer) {
+        public Object setAnimationConsumer(AircraftEntityRenderer.AnimationConsumer<T> animationConsumer) {
             this.animationConsumer = animationConsumer;
             return this;
         }
 
-        public RenderConsumer<T> getRenderConsumer() {
+        public AircraftEntityRenderer.RenderConsumer<T> getRenderConsumer() {
             return renderConsumer;
         }
 
-        public Object setRenderConsumer(RenderConsumer<T> renderConsumer) {
+        public Object setRenderConsumer(AircraftEntityRenderer.RenderConsumer<T> renderConsumer) {
             this.renderConsumer = renderConsumer;
             return this;
         }

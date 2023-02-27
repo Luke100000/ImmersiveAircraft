@@ -18,7 +18,8 @@ public class OverlayRenderer {
     public static void renderOverlay(MatrixStack matrices, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (!client.options.hudHidden && client.interactionManager != null) {
-            if (client.player != null && client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
+            if (client.player != null && client.player.getRootVehicle() instanceof EngineAircraft) {
+                EngineAircraft aircraft = (EngineAircraft)client.player.getRootVehicle();
                 renderAircraftGui(client, matrices, tickDelta, aircraft);
             }
         }

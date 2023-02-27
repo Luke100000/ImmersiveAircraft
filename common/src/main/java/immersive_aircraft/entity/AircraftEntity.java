@@ -28,7 +28,7 @@ public abstract class AircraftEntity extends VehicleEntity {
 
     public abstract AircraftProperties getProperties();
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.0f, 0.0f)));
+    final List<List<Vec3d>> PASSENGER_POSITIONS = Collections.singletonList(Collections.singletonList(new Vec3d(0.0f, 0.0f, 0.0f)));
 
     protected List<List<Vec3d>> getPassengerPositions() {
         return PASSENGER_POSITIONS;

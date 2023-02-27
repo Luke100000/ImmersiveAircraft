@@ -9,6 +9,8 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class QuadrocopterEntity extends Rotorcraft {
@@ -72,8 +74,8 @@ public class QuadrocopterEntity extends Rotorcraft {
         return Items.QUADROCOPTER.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
-            List.of(
+    final List<List<Vec3d>> PASSENGER_POSITIONS = Collections.singletonList(
+            Collections.singletonList(
                     new Vec3d(0.0f, 0.275f, -0.1f)
             )
     );

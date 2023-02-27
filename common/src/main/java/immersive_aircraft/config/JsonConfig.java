@@ -14,7 +14,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public class JsonConfig implements Serializable {
-    @Serial
     private static final long serialVersionUID = 9132405079466337851L;
 
     public static final Logger LOGGER = LogManager.getLogger();
@@ -29,11 +28,14 @@ public class JsonConfig implements Serializable {
         for (Field field : Config.class.getDeclaredFields()) {
             for (Annotation annotation : field.getAnnotations()) {
                 try {
-                    if (annotation instanceof IntegerConfigEntry entry) {
+                    if (annotation instanceof IntegerConfigEntry) {
+                        IntegerConfigEntry entry = (IntegerConfigEntry)annotation;
                         field.setInt(this, entry.value());
-                    } else if (annotation instanceof FloatConfigEntry entry) {
+                    } else if (annotation instanceof FloatConfigEntry) {
+                        FloatConfigEntry entry = (FloatConfigEntry)annotation;
                         field.setFloat(this, entry.value());
-                    } else if (annotation instanceof BooleanConfigEntry entry) {
+                    } else if (annotation instanceof BooleanConfigEntry) {
+                        BooleanConfigEntry entry = (BooleanConfigEntry)annotation;
                         field.setBoolean(this, entry.value());
                     }
                 } catch (IllegalAccessException e) {

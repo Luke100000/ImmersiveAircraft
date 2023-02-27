@@ -13,7 +13,8 @@ public class EnginePowerMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        if (e.getRootVehicle() instanceof EngineAircraft entity) {
+        if (e.getRootVehicle() instanceof EngineAircraft) {
+            EngineAircraft entity = (EngineAircraft) e.getRootVehicle();
             entity.setEngineTarget(engineTarget);
         }
     }
