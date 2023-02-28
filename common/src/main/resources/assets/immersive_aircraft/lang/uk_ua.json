@@ -25,7 +25,7 @@
   "item.immersive_aircraft.airship.description": "Дирижаблі точно не найшвидший вид транспорту, але ними легко керувати.",
   "item.immersive_aircraft.biplane.description": "Цей перевірений часом сільський біплан швидко і надійно доставить Вас куди треба. Переконайтеся, що злітна смуга достатньо довга.",
   "item.immersive_aircraft.gyrodyne.description": "Навіщо треба цілий двигун, якщо можна запустити літак своїми силами? Гарненько штовхніть - і він полетить!",
-  "item.immersive_aircraft.quadrocopter.description": "Шедевр інженерної думки! 4 двигуни, прив'язані до бамбука. Ідеально для будівництва, на цьому і все.",
+  "item.immersive_aircraft.quadrocopter.description": "Шедевр інженерної думки! 4 двигуни, прив'язані до бамбука. Ідеально для будівництва, та і все.",
   "immersive_aircraft.gyrodyne_target": "%d%% потужність, не зупиняйтесь!",
   "immersive_aircraft.gyrodyne_target_reached": "Необхідні оберти досягнуті, до зльоту готовий!",
   "option.immersive_aircraft.general": "Загальні налаштування",
