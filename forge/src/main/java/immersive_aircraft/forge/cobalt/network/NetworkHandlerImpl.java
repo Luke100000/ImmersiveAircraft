@@ -12,7 +12,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     private final String PROTOCOL_VERSION = "1";
     private final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
-            new Identifier(Main.MOD_ID, "main"),
+            new Identifier(Main.SHORT_MOD_ID, "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -24,7 +24,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     public <T extends Message> void registerMessage(Class<T> msg) {
         channel.registerMessage(id++, msg,
                 Message::encode,
-                b -> (T) Message.decode(b),
+                b -> (T)Message.decode(b),
                 (m, ctx) -> {
                     ctx.get().enqueueWork(() -> {
                         ServerPlayerEntity sender = ctx.get().getSender();
