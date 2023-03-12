@@ -1,3 +1,7 @@
+# 0.4.0
+
+* Added inventory
+
 # 0.3.1
 
 * Used even less aggressive keybinding method

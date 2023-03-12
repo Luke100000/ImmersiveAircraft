@@ -163,11 +163,15 @@ public abstract class VehicleEntity extends Entity {
         boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).getAbilities().creativeMode;
         if (bl || getDamageWobbleStrength() > 60.0f) {
             if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                dropItem(asItem());
+                drop();
             }
             discard();
         }
         return true;
+    }
+
+    protected void drop() {
+        dropItem(asItem());
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Abstract aircraft, which performs basic physics
  */
-public abstract class AircraftEntity extends VehicleEntity {
+public abstract class AircraftEntity extends InventoryVehicleEntity {
     private double lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, World world) {
