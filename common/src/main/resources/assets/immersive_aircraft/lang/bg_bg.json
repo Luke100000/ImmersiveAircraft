@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "По подразбиране се използва камера от трето лице в самолета.",
   "option.immersive_aircraft.enableTrails": "Измислени парна пътека.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
-  "option.immersive_aircraft.renderDistance": "Разстояние на визуализация в блокове."
+  "option.immersive_aircraft.renderDistance": "Разстояние на визуализация в блокове.",
+  "immersive_aircraft.slot.weapon": "Слот за оръжие",
+  "immersive_aircraft.slot.boiler": "Слот за гориво",
+  "immersive_aircraft.slot.banner": "Слот за банер",
+  "immersive_aircraft.slot.upgrade": "Слот за надграждане"
 }
