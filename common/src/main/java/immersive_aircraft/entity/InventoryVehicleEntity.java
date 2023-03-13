@@ -1,7 +1,9 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -13,6 +15,7 @@ import net.minecraft.inventory.InventoryChangedListener;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,7 +25,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class InventoryVehicleEntity extends VehicleEntity implements InventoryChangedListener, NamedScreenHandlerFactory {
-    protected SimpleInventory inventory;
+    protected SparseSimpleInventory inventory;
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
             .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 26)
             .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
@@ -38,7 +41,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     }
 
     protected void initInventory() {
-        this.inventory = new SimpleInventory(inventoryDescription.getInventorySize());
+        this.inventory = new SparseSimpleInventory(inventoryDescription.getInventorySize());
         this.inventory.addListener(this);
     }
 
@@ -73,8 +76,10 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         syncId = (syncId + 1) % 100 + 100;
         ScreenHandler screenHandler = createMenu(syncId, player.getInventory(), player);
         if (screenHandler != null) {
-            player.currentScreenHandler = screenHandler;
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.syncId), (ServerPlayerEntity)player);
+            player.currentScreenHandler = screenHandler;
+            ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin)player;
+            screenHandler.updateSyncHandler(playerAccessor.getScreenHandlerSyncHandler());
         }
     }
 
@@ -92,14 +97,16 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
 
-        this.inventory.readNbtList(nbt.getList("Inventory", 10));
+        NbtList nbtList = nbt.getList("Inventory", 10);
+        this.inventory.readNbt(nbtList);
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
 
-        nbt.put("Inventory", this.inventory.toNbtList());
+        nbt.put("Inventory", this.inventory.writeNbt(new NbtList()));
+
         return nbt;
     }
 
