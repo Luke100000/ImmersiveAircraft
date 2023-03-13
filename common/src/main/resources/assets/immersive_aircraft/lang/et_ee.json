@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Standardselt on õhusõidukis kolmanda isiku kaamera.",
   "option.immersive_aircraft.enableTrails": "Fancy aururajad.",
   "option.immersive_aircraft.enableAnimatedSails": "Lainelainelised purjed.",
-  "option.immersive_aircraft.renderDistance": "Renderdamise kaugus plokkidena."
+  "option.immersive_aircraft.renderDistance": "Renderdamise kaugus plokkidena.",
+  "immersive_aircraft.slot.weapon": "Relvapesa",
+  "immersive_aircraft.slot.boiler": "Kütusepesa",
+  "immersive_aircraft.slot.banner": "Bänneri pesa",
+  "immersive_aircraft.slot.upgrade": "Upgrade pesa"
 }
