@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Standardmäßig ist die Kamera im Flugzeug in der dritten Person.",
   "option.immersive_aircraft.enableTrails": "Schicke Dampfpfade.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
-  "option.immersive_aircraft.renderDistance": "Renderabstand in Blöcken."
+  "option.immersive_aircraft.renderDistance": "Renderabstand in Blöcken.",
+  "immersive_aircraft.slot.weapon": "Waffenplatz",
+  "immersive_aircraft.slot.boiler": "Kraftstoffschlitz",
+  "immersive_aircraft.slot.banner": "Banner Schlitz",
+  "immersive_aircraft.slot.upgrade": "Upgrade-Slot"
 }
