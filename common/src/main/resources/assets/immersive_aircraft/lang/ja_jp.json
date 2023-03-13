@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "航空機の三人称視点カメラにデフォルトで設定されています。",
   "option.immersive_aircraft.enableTrails": "ファンシーなスチームトレイル。",
   "option.immersive_aircraft.enableAnimatedSails": "波打つセイル。",
-  "option.immersive_aircraft.renderDistance": "レンダリング距離をブロック単位で表示します。"
+  "option.immersive_aircraft.renderDistance": "レンダリング距離をブロック単位で表示します。",
+  "immersive_aircraft.slot.weapon": "武器スロット",
+  "immersive_aircraft.slot.boiler": "フューエルスロット",
+  "immersive_aircraft.slot.banner": "バナースロット",
+  "immersive_aircraft.slot.upgrade": "アップグレードスロット"
 }
