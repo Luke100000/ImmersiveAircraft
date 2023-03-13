@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Uçakta varsayılan olarak üçüncü şahıs kamerası kullanılır.",
   "option.immersive_aircraft.enableTrails": "Süslü buhar yolları.",
   "option.immersive_aircraft.enableAnimatedSails": "Dalgalı yelkenler.",
-  "option.immersive_aircraft.renderDistance": "Mesafeyi bloklar halinde oluşturun."
+  "option.immersive_aircraft.renderDistance": "Mesafeyi bloklar halinde oluşturun.",
+  "immersive_aircraft.slot.weapon": "Silah yuvası",
+  "immersive_aircraft.slot.boiler": "Yakıt yuvası",
+  "immersive_aircraft.slot.banner": "Banner yuvası",
+  "immersive_aircraft.slot.upgrade": "Yükseltme yuvası"
 }
