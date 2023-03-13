@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "La telecamera di default è in terza persona nell'aereo.",
   "option.immersive_aircraft.enableTrails": "Fantastici percorsi a vapore.",
   "option.immersive_aircraft.enableAnimatedSails": "Vele ondeggianti.",
-  "option.immersive_aircraft.renderDistance": "Distanza di rendering in blocchi."
+  "option.immersive_aircraft.renderDistance": "Distanza di rendering in blocchi.",
+  "immersive_aircraft.slot.weapon": "Slot per armi",
+  "immersive_aircraft.slot.boiler": "Slot per il carburante",
+  "immersive_aircraft.slot.banner": "Slot per banner",
+  "immersive_aircraft.slot.upgrade": "Slot di aggiornamento"
 }
