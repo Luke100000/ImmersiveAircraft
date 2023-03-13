@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "La caméra par défaut est celle de la troisième personne dans l'avion.",
   "option.immersive_aircraft.enableTrails": "Des sentiers de vapeur fantaisistes.",
   "option.immersive_aircraft.enableAnimatedSails": "Des voiles ondulantes.",
-  "option.immersive_aircraft.renderDistance": "Rendre la distance en blocs."
+  "option.immersive_aircraft.renderDistance": "Rendre la distance en blocs.",
+  "immersive_aircraft.slot.weapon": "Emplacement d'arme",
+  "immersive_aircraft.slot.boiler": "Fente pour le carburant",
+  "immersive_aircraft.slot.banner": "Emplacement de la bannière",
+  "immersive_aircraft.slot.upgrade": "Fente de mise à niveau"
 }
