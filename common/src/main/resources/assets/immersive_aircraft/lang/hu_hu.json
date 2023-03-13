@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Alapértelmezett harmadik személyű kamera a repülőgépen.",
   "option.immersive_aircraft.enableTrails": "Fancy gőzpályák.",
   "option.immersive_aircraft.enableAnimatedSails": "Hullámos hullámos vitorlák.",
-  "option.immersive_aircraft.renderDistance": "Renderelési távolság blokkokban."
+  "option.immersive_aircraft.renderDistance": "Renderelési távolság blokkokban.",
+  "immersive_aircraft.slot.weapon": "Fegyver nyílás",
+  "immersive_aircraft.slot.boiler": "Üzemanyagnyílás",
+  "immersive_aircraft.slot.banner": "Banner slot",
+  "immersive_aircraft.slot.upgrade": "Frissítési nyílás"
 }
