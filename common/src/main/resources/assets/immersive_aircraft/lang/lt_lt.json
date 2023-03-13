@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Numatytasis nustatymas - trečiojo asmens kamera orlaivyje.",
   "option.immersive_aircraft.enableTrails": "Išgalvoti garo takai.",
   "option.immersive_aircraft.enableAnimatedSails": "Banguotos banguotos burės.",
-  "option.immersive_aircraft.renderDistance": "Atvaizdavimo atstumas blokais."
+  "option.immersive_aircraft.renderDistance": "Atvaizdavimo atstumas blokais.",
+  "immersive_aircraft.slot.weapon": "Ginklo lizdas",
+  "immersive_aircraft.slot.boiler": "Kuro lizdas",
+  "immersive_aircraft.slot.banner": "Reklaminis lizdas",
+  "immersive_aircraft.slot.upgrade": "Atnaujinimo lizdas"
 }
