@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Pēc noklusējuma tiek iestatīta trešās personas kamera lidmašīnā.",
   "option.immersive_aircraft.enableTrails": "Fancy tvaika takas.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey buras.",
-  "option.immersive_aircraft.renderDistance": "Renderēšanas attālums blokos."
+  "option.immersive_aircraft.renderDistance": "Renderēšanas attālums blokos.",
+  "immersive_aircraft.slot.weapon": "Ieroču slots",
+  "immersive_aircraft.slot.boiler": "Degvielas slots",
+  "immersive_aircraft.slot.banner": "Banner slots",
+  "immersive_aircraft.slot.upgrade": "Jaunināšanas slots"
 }
