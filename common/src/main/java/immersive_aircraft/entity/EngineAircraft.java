@@ -2,25 +2,34 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.util.InterpolatedFloat;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 /**
  * Simulated engine behavior
  */
 public abstract class EngineAircraft extends AircraftEntity {
     static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> UTILIZATION = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
     public float engineSpinUpStrength = 0.0f;
     public float engineSound = 0.0f;
+
+    private final int[] fuel;
 
     public enum GUI_STYLE {
         NONE,
@@ -33,6 +42,8 @@ public abstract class EngineAircraft extends AircraftEntity {
 
     public EngineAircraft(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
+
+        fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER).size()];
     }
 
     SoundEvent getEngineStartSound() {
@@ -56,6 +67,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.initDataTracker();
 
         dataTracker.startTracking(ENGINE, 0.0f);
+        dataTracker.startTracking(UTILIZATION, 0.0f);
     }
 
     @Override
@@ -85,6 +97,26 @@ public abstract class EngineAircraft extends AircraftEntity {
                 world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
             }
         }
+
+        // Fuel
+        float consumption = getEngineTarget();
+        if (!world.isClient && consumption > 0) {
+            if (random.nextFloat() < consumption) {
+                for (int i = 0; i < fuel.length; i++) {
+                    if (fuel[i] > 0) {
+                        fuel[i]--;
+                    } else {
+                        List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
+                        ItemStack stack = inventory.getStack(slots.get(i).index);
+                        int time = getFuelTime(stack);
+                        if (time > 0) {
+                            fuel[i] += time;
+                            stack.decrement(1);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -110,7 +142,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     public float getEnginePower() {
-        return enginePower.getSmooth();
+        return (float)(enginePower.getSmooth() * Math.sqrt(getFuelUtilization()));
     }
 
     public float getEngineTarget() {
@@ -128,5 +160,29 @@ public abstract class EngineAircraft extends AircraftEntity {
             }
         }
         dataTracker.set(ENGINE, engineTarget);
+    }
+
+    private int getFuelTime(ItemStack fuel) {
+        if (fuel.isEmpty()) {
+            return 0;
+        }
+        Item item = fuel.getItem();
+        return AbstractFurnaceBlockEntity.createFuelTimeMap().getOrDefault(item, 0);
+    }
+
+    public float getFuelUtilization() {
+        if (world.isClient) {
+            return dataTracker.get(UTILIZATION);
+        } else {
+            int running = 0;
+            for (int i : fuel) {
+                if (i > 0) {
+                    running++;
+                }
+            }
+            float utilization = (float)running / fuel.length;
+            dataTracker.set(UTILIZATION, utilization);
+            return utilization;
+        }
     }
 }

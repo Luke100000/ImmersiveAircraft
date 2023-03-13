@@ -2,6 +2,7 @@ package immersive_aircraft.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
+import immersive_aircraft.entity.EngineAircraft;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -64,7 +65,12 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
             switch (slot.type) {
                 case INVENTORY -> drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 22, 22);
                 case STORAGE -> drawImage(matrices, x + slot.x - 1 + 1, y + titleHeight + slot.y - 1, 284, 0, 22, 22);
-                case BOILER -> drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318, 0, 24, 39);
+                case BOILER -> {
+                    drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318, 0, 24, 39);
+                    if (handler.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
+                        drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
+                    }
+                }
                 case WEAPON -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 0, 22, 22);
                 case UPGRADE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
                 case BANNER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 44, 22, 22);
