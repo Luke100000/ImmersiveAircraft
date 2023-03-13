@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Staat standaard op derde persoon camera in vliegtuig.",
   "option.immersive_aircraft.enableTrails": "Zin in stoomsporen.",
   "option.immersive_aircraft.enableAnimatedSails": "Golvende golvende zeilen.",
-  "option.immersive_aircraft.renderDistance": "Render afstand in blokken."
+  "option.immersive_aircraft.renderDistance": "Render afstand in blokken.",
+  "immersive_aircraft.slot.weapon": "Wapensleuf",
+  "immersive_aircraft.slot.boiler": "Brandstofsleuf",
+  "immersive_aircraft.slot.banner": "Banner slot",
+  "immersive_aircraft.slot.upgrade": "Upgrade slot"
 }
