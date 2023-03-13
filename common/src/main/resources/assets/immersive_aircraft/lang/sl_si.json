@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Privzeta je kamera tretje osebe v letalu.",
   "option.immersive_aircraft.enableTrails": "Fantastične parne poti.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Jadra.",
-  "option.immersive_aircraft.renderDistance": "Razdalja upodabljanja v blokih."
+  "option.immersive_aircraft.renderDistance": "Razdalja upodabljanja v blokih.",
+  "immersive_aircraft.slot.weapon": "Reža za orožje",
+  "immersive_aircraft.slot.boiler": "Reža za gorivo",
+  "immersive_aircraft.slot.banner": "Reža za transparente",
+  "immersive_aircraft.slot.upgrade": "Reža za nadgradnjo"
 }
