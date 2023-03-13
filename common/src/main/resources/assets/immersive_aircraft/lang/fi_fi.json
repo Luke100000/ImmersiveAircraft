@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Oletusasetuksena kolmannen persoonan kamera lentokoneessa.",
   "option.immersive_aircraft.enableTrails": "Hienoja höyrypolkuja.",
   "option.immersive_aircraft.enableAnimatedSails": "Aaltoileva aaltoileva Purjeet.",
-  "option.immersive_aircraft.renderDistance": "Renderöintietäisyys lohkoina."
+  "option.immersive_aircraft.renderDistance": "Renderöintietäisyys lohkoina.",
+  "immersive_aircraft.slot.weapon": "Asepaikka",
+  "immersive_aircraft.slot.boiler": "Polttoainepaikka",
+  "immersive_aircraft.slot.banner": "Banneriaukko",
+  "immersive_aircraft.slot.upgrade": "Päivityspaikka"
 }
