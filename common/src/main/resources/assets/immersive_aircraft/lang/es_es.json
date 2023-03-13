@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Por defecto, cámara en tercera persona en el avión.",
   "option.immersive_aircraft.enableTrails": "Caminos de vapor elegantes.",
   "option.immersive_aircraft.enableAnimatedSails": "Velas ondulantes.",
-  "option.immersive_aircraft.renderDistance": "Renderiza la distancia en bloques."
+  "option.immersive_aircraft.renderDistance": "Renderiza la distancia en bloques.",
+  "immersive_aircraft.slot.weapon": "Ranura para armas",
+  "immersive_aircraft.slot.boiler": "Ranura de combustible",
+  "immersive_aircraft.slot.banner": "Banner ranura",
+  "immersive_aircraft.slot.upgrade": "Ranura de mejora"
 }
