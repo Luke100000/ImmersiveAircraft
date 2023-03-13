@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "По умолчанию в самолете установлена камера от третьего лица.",
   "option.immersive_aircraft.enableTrails": "Модные паровые дорожки.",
   "option.immersive_aircraft.enableAnimatedSails": "Волнообразные волнообразные паруса.",
-  "option.immersive_aircraft.renderDistance": "Рендерируй расстояние в блоках."
+  "option.immersive_aircraft.renderDistance": "Рендерируй расстояние в блоках.",
+  "immersive_aircraft.slot.weapon": "Слот для оружия",
+  "immersive_aircraft.slot.boiler": "Топливная щель",
+  "immersive_aircraft.slot.banner": "Баннерный слот",
+  "immersive_aircraft.slot.upgrade": "Обновление слота"
 }
