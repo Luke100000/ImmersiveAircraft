@@ -52,7 +52,7 @@ public class OverlayRenderer {
                 }
             }
 
-            int powerFrame = (int)((1.0f - aircraft.enginePower.getSmooth()) * 10 + 10.5);
+            int powerFrame = (int)((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
 
             int x = client.getWindow().getScaledWidth() / 2;
             int y = client.getWindow().getScaledHeight() - 37;
