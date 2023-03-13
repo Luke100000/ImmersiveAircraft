@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "在飞机上默认为第三人称视角",
   "option.immersive_aircraft.enableTrails": "漂亮的飞机尾流",
   "option.immersive_aircraft.enableAnimatedSails": "上下起伏的风帆",
-  "option.immersive_aircraft.renderDistance": "渲染距离（单位为方块）"
+  "option.immersive_aircraft.renderDistance": "渲染距离（单位为方块）",
+  "immersive_aircraft.slot.weapon": "武器槽",
+  "immersive_aircraft.slot.boiler": "燃料槽",
+  "immersive_aircraft.slot.banner": "旗帜槽",
+  "immersive_aircraft.slot.upgrade": "升级槽"
 }
