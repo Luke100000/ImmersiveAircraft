@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Se utilizează în mod implicit camera la persoana a treia în avion.",
   "option.immersive_aircraft.enableTrails": "Traseele cu aburi de lux.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey Wavey Sails.",
-  "option.immersive_aircraft.renderDistance": "Distanța de redare în blocuri."
+  "option.immersive_aircraft.renderDistance": "Distanța de redare în blocuri.",
+  "immersive_aircraft.slot.weapon": "Fantă pentru armă",
+  "immersive_aircraft.slot.boiler": "Fantă pentru combustibil",
+  "immersive_aircraft.slot.banner": "Slotul pentru bannere",
+  "immersive_aircraft.slot.upgrade": "Slot de upgrade"
 }
