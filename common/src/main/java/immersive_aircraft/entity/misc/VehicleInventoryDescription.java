@@ -8,7 +8,7 @@ import java.util.Map;
 public class VehicleInventoryDescription {
     int height = 0;
     int storageHeight = 0;
-    int lastIndex = -1;
+    int lastIndex = 0;
 
     public enum SlotType {
         INVENTORY,

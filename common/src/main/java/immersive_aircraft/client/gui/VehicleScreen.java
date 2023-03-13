@@ -8,11 +8,12 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
@@ -72,8 +73,12 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
 
         super.render(matrices, mouseX, mouseY, delta);
 
-        if (focusedSlot != null && !focusedSlot.hasStack()) {
-            this.renderTooltip(matrices, List.of(new LiteralText("Engine")), Optional.empty(), mouseX, mouseY);
+        // Slot tooltip
+        if (focusedSlot != null && !focusedSlot.hasStack() && focusedSlot.inventory == handler.getVehicle().getInventory()) {
+            VehicleInventoryDescription.Slot slot = handler.getVehicle().getInventoryDescription().getSlots().get(focusedSlot.getIndex());
+            if (slot.type == VehicleInventoryDescription.SlotType.BOILER || slot.type == VehicleInventoryDescription.SlotType.UPGRADE || slot.type == VehicleInventoryDescription.SlotType.BANNER || slot.type == VehicleInventoryDescription.SlotType.WEAPON) {
+                this.renderTooltip(matrices, List.of(new TranslatableText("immersive_aircraft.slot." + slot.type.name().toLowerCase(Locale.ROOT))), Optional.empty(), mouseX, mouseY);
+            }
         } else {
             drawMouseoverTooltip(matrices, mouseX, mouseY);
         }

@@ -39,5 +39,10 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Defaults to third person camera in aircraft.",
   "option.immersive_aircraft.enableTrails": "Fancy steam trails.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
-  "option.immersive_aircraft.renderDistance": "Render distance in blocks."
+  "option.immersive_aircraft.renderDistance": "Render distance in blocks.",
+
+  "immersive_aircraft.slot.weapon": "Weapon slot",
+  "immersive_aircraft.slot.boiler": "Fuel slot",
+  "immersive_aircraft.slot.banner": "Banner slot",
+  "immersive_aircraft.slot.upgrade": "Upgrade slot"
 }
