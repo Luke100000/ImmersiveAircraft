@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Predvolené nastavenie kamery tretej osoby v lietadle.",
   "option.immersive_aircraft.enableTrails": "Fantastické parné trasy.",
   "option.immersive_aircraft.enableAnimatedSails": "Vlnivé vlnivé plachty.",
-  "option.immersive_aircraft.renderDistance": "Vzdialenosť vykresľovania v blokoch."
+  "option.immersive_aircraft.renderDistance": "Vzdialenosť vykresľovania v blokoch.",
+  "immersive_aircraft.slot.weapon": "Slot na zbraň",
+  "immersive_aircraft.slot.boiler": "Slot na palivo",
+  "immersive_aircraft.slot.banner": "Banner slot",
+  "immersive_aircraft.slot.upgrade": "Štrbina na aktualizáciu"
 }
