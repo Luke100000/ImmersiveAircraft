@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Výchozí nastavení je kamera třetí osoby v letadle.",
   "option.immersive_aircraft.enableTrails": "Fantastické parní stezky.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Plachty.",
-  "option.immersive_aircraft.renderDistance": "Vzdálenost vykreslování v blocích."
+  "option.immersive_aircraft.renderDistance": "Vzdálenost vykreslování v blocích.",
+  "immersive_aircraft.slot.weapon": "Slot pro zbraň",
+  "immersive_aircraft.slot.boiler": "Slot na palivo",
+  "immersive_aircraft.slot.banner": "Banner slot",
+  "immersive_aircraft.slot.upgrade": "Slot pro aktualizaci"
 }
