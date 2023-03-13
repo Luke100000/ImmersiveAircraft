@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Standardinställningen är tredjepersonskamera i flygplanet.",
   "option.immersive_aircraft.enableTrails": "Fancy ångspår.",
   "option.immersive_aircraft.enableAnimatedSails": "Vågig vågig vågig segel.",
-  "option.immersive_aircraft.renderDistance": "Renderavstånd i block."
+  "option.immersive_aircraft.renderDistance": "Renderavstånd i block.",
+  "immersive_aircraft.slot.weapon": "Vapenplats",
+  "immersive_aircraft.slot.boiler": "Bränslespalt",
+  "immersive_aircraft.slot.banner": "Banderollplats",
+  "immersive_aircraft.slot.upgrade": "Uppgradering av slot"
 }
