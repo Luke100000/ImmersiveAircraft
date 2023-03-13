@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Domyślnie kamera z trzeciej osoby w samolocie.",
   "option.immersive_aircraft.enableTrails": "Fantazyjne szlaki parowe.",
   "option.immersive_aircraft.enableAnimatedSails": "Żagle z falami.",
-  "option.immersive_aircraft.renderDistance": "Renderuj odległość w blokach."
+  "option.immersive_aircraft.renderDistance": "Renderuj odległość w blokach.",
+  "immersive_aircraft.slot.weapon": "Slot na broń",
+  "immersive_aircraft.slot.boiler": "Szczelina na paliwo",
+  "immersive_aircraft.slot.banner": "Slot banerowy",
+  "immersive_aircraft.slot.upgrade": "Gniazdo uaktualnienia"
 }
