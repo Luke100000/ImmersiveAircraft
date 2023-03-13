@@ -33,5 +33,9 @@
   "option.immersive_aircraft.useThirdPersonByDefault": "Default ke kamera orang ketiga di pesawat.",
   "option.immersive_aircraft.enableTrails": "Jalur uap yang mewah.",
   "option.immersive_aircraft.enableAnimatedSails": "Layar yang berombak bergelombang.",
-  "option.immersive_aircraft.renderDistance": "Merender jarak dalam blok."
+  "option.immersive_aircraft.renderDistance": "Merender jarak dalam blok.",
+  "immersive_aircraft.slot.weapon": "Slot senjata",
+  "immersive_aircraft.slot.boiler": "Slot bahan bakar",
+  "immersive_aircraft.slot.banner": "Slot spanduk",
+  "immersive_aircraft.slot.upgrade": "Tingkatkan slot"
 }
