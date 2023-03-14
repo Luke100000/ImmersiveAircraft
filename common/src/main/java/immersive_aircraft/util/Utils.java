@@ -1,14 +1,15 @@
 package immersive_aircraft.util;
 
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
+import net.minecraft.item.BannerItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Pair;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Utils {
@@ -26,20 +27,15 @@ public class Utils {
     }
 
     public static List<Pair<BannerPattern, DyeColor>> parseBannerItem(ItemStack banner) {
+        DyeColor baseColor = ((BannerItem)banner.getItem()).getColor();
+
         NbtCompound nbtCompound = BlockItem.getBlockEntityNbt(banner);
         if (nbtCompound == null || !nbtCompound.contains("Patterns")) {
-            return List.of();
+            return List.of(Pair.of(BannerPattern.BASE, baseColor));
         }
 
         NbtList nbtList = nbtCompound.getList("Patterns", 10);
-        List<Pair<BannerPattern, DyeColor>> patterns = new LinkedList<>();
-        for (int i = 0; i < nbtList.size() && i < 6; ++i) {
-            NbtCompound element = nbtList.getCompound(i);
-            DyeColor dyeColor = DyeColor.byId(element.getInt("Color"));
-            BannerPattern bannerPattern = BannerPattern.byId(element.getString("Pattern"));
-            if (bannerPattern == null) continue;
-            patterns.add(new Pair<>(bannerPattern, dyeColor));
-        }
-        return patterns;
+
+        return BannerBlockEntity.getPatternsFromNbt(baseColor, nbtList);
     }
 }

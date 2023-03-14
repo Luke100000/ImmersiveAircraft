@@ -12,7 +12,7 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.math.*;
 import immersive_aircraft.util.obj.Face;
 import immersive_aircraft.util.obj.FaceVertex;
@@ -202,8 +202,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
             Pair<BannerPattern, DyeColor> pair = patterns.get(i);
-            float[] fs = pair.getRight().getColorComponents();
-            BannerPattern bannerPattern = pair.getLeft();
+            float[] fs = pair.getSecond().getColorComponents();
+            BannerPattern bannerPattern = pair.getFirst();
             SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
             VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
             Sprite sprite = spriteIdentifier.getSprite();
