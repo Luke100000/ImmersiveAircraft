@@ -34,7 +34,7 @@ public class OverlayRenderer {
 
             // boot-up animation
             int frame;
-            if (aircraft.getEngineTarget() > 0) {
+            if (aircraft.getEngineTarget() > 0 && aircraft.getEnginePower() > 0.001) {
                 if (bootUp < 1.0f) {
                     bootUp = Math.min(1.0f, bootUp + delta * 0.2f);
                     frame = (int)(bootUp * 5);

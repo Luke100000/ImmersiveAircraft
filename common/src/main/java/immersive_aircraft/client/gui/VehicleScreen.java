@@ -63,17 +63,27 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
 
         for (VehicleInventoryDescription.Slot slot : handler.getVehicle().getInventoryDescription().getSlots()) {
             switch (slot.type) {
-                case INVENTORY -> drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 22, 22);
-                case STORAGE -> drawImage(matrices, x + slot.x - 1 + 1, y + titleHeight + slot.y - 1, 284, 0, 22, 22);
+                case INVENTORY -> drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
+                case STORAGE -> drawImage(matrices, x + slot.x - 1 + 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
                 case BOILER -> {
                     drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318, 0, 24, 39);
                     if (handler.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
                         drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
                     }
                 }
-                case WEAPON -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 0, 22, 22);
-                case UPGRADE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
-                case BANNER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 44, 22, 22);
+                default -> {
+                    if (handler.getVehicle().getInventory().getStack(slot.index).isEmpty()) {
+                        switch (slot.type) {
+                            case WEAPON -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
+                            case UPGRADE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
+                            case BANNER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
+                            case DYE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
+                            case BOOSTER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                        }
+                    } else {
+                        drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 0, 22, 22);
+                    }
+                }
             }
         }
 

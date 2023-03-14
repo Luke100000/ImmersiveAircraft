@@ -3,9 +3,11 @@ package immersive_aircraft.entity;
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
@@ -17,11 +19,6 @@ import java.util.List;
 public class GyrodyneEntity extends Rotorcraft {
     private final static float PUSH_SPEED = 0.25f;
 
-    @Override
-    public GUI_STYLE getGuiStyle() {
-        return GUI_STYLE.NONE;
-    }
-
     private final AircraftProperties properties = new AircraftProperties()
             .setYawSpeed(5.0f)
             .setPitchSpeed(5.0f)
@@ -32,6 +29,24 @@ public class GyrodyneEntity extends Rotorcraft {
             .setRollFactor(30.0f)
             .setWindSensitivity(0.025f)
             .setMass(8.0f);
+
+    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
+            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 6, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 28, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 6, 8 + 6 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 28, 8 + 6 + 22)
+            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 3, 8, 6, 3)
+            .build();
+
+    @Override
+    public VehicleInventoryDescription getInventoryDescription() {
+        return inventoryDescription;
+    }
+
+    @Override
+    public GUI_STYLE getGuiStyle() {
+        return GUI_STYLE.NONE;
+    }
 
     public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -133,5 +148,24 @@ public class GyrodyneEntity extends Rotorcraft {
 
         // accelerate
         setVelocity(getVelocity().add(direction.multiply(thrust)));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+
+        if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
+            float consumption = getEngineTarget();
+            player.getHungerManager().addExhaustion(consumption);
+        }
+    }
+
+    @Override
+    public float getFuelUtilization() {
+        if (getPrimaryPassenger() instanceof ServerPlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
+            return 1.0f;
+        }
+        return 0.0f;
     }
 }

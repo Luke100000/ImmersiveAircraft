@@ -16,7 +16,9 @@ public class VehicleInventoryDescription {
         BOILER,
         WEAPON,
         UPGRADE,
-        BANNER
+        BOOSTER,
+        BANNER,
+        DYE
     }
 
     public static class Slot {

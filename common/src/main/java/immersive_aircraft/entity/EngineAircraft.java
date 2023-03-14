@@ -100,7 +100,7 @@ public abstract class EngineAircraft extends AircraftEntity {
 
         // Fuel
         float consumption = getEngineTarget();
-        if (!world.isClient && consumption > 0) {
+        if (fuel.length > 0 && !world.isClient && consumption > 0) {
             if (random.nextFloat() < consumption) {
                 for (int i = 0; i < fuel.length; i++) {
                     if (fuel[i] > 0) {

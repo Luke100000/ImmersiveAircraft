@@ -24,16 +24,27 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class InventoryVehicleEntity extends VehicleEntity implements InventoryChangedListener, NamedScreenHandlerFactory {
     protected SparseSimpleInventory inventory;
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 26)
-            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.BANNER, 8 + 18 * 2 + 6, 8 + 6 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22)
-            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 3)
+            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 10)
             .build();
+
+    public VehicleInventoryDescription getInventoryDescription() {
+        return inventoryDescription;
+    }
+
+    public List<ItemStack> getSlots(VehicleInventoryDescription.SlotType slotType) {
+        List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(slotType);
+        List<ItemStack> list = new ArrayList<>(slots.size());
+        for (VehicleInventoryDescription.Slot slot : slots) {
+            list.add(getInventory().getStack(slot.index));
+        }
+        return list;
+    }
 
     public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -41,7 +52,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     }
 
     protected void initInventory() {
-        this.inventory = new SparseSimpleInventory(inventoryDescription.getInventorySize());
+        this.inventory = new SparseSimpleInventory(getInventoryDescription().getInventorySize());
         this.inventory.addListener(this);
     }
 
@@ -112,9 +123,5 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
     public SimpleInventory getInventory() {
         return inventory;
-    }
-
-    public VehicleInventoryDescription getInventoryDescription() {
-        return inventoryDescription;
     }
 }
