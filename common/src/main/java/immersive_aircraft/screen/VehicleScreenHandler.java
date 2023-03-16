@@ -36,15 +36,15 @@ public class VehicleScreenHandler extends ScreenHandler {
             if (slot.type == VehicleInventoryDescription.SlotType.BOILER) {
                 this.addSlot(new FuelSlot(inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.WEAPON) {
-                this.addSlot(new TypedSlot(WeaponItem.class, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(WeaponItem.class, 64, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.UPGRADE) {
-                this.addSlot(new TypedSlot(UpgradeItem.class, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(UpgradeItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BOOSTER) {
-                this.addSlot(new TypedSlot(FireworkRocketItem.class, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(FireworkRocketItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BANNER) {
-                this.addSlot(new TypedSlot(BannerItem.class, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(BannerItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.DYE) {
-                this.addSlot(new TypedSlot(DyeItem.class, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(DyeItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else {
                 this.addSlot(new Slot(inventory, slot.index, slot.x, slot.y + titleHeight));
             }
