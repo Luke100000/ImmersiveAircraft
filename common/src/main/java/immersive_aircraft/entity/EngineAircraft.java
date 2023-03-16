@@ -162,7 +162,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         dataTracker.set(ENGINE, engineTarget);
     }
 
-    private int getFuelTime(ItemStack fuel) {
+    public static int getFuelTime(ItemStack fuel) {
         if (fuel.isEmpty()) {
             return 0;
         }
