@@ -3,6 +3,7 @@ package immersive_aircraft.entity;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
@@ -74,6 +75,9 @@ public abstract class EngineAircraft extends AircraftEntity {
     public void tick() {
         super.tick();
 
+        // adapt engine reaction time
+        enginePower.setSteps(20 / getTotalUpgrade(AircraftStat.ACCELERATION));
+
         // spin up the engine
         enginePower.update(getEngineTarget() * (touchingWater ? 0.1f : 1.0f));
 
@@ -99,23 +103,43 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
 
         // Fuel
-        float consumption = getEngineTarget();
+        float consumption = getFuelConsumption();
         if (fuel.length > 0 && !world.isClient && consumption > 0) {
             if (random.nextFloat() < consumption) {
                 for (int i = 0; i < fuel.length; i++) {
                     if (fuel[i] > 0) {
                         fuel[i]--;
-                    } else {
-                        List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
-                        ItemStack stack = inventory.getStack(slots.get(i).index);
-                        int time = getFuelTime(stack);
-                        if (time > 0) {
-                            fuel[i] += time;
-                            stack.decrement(1);
-                        }
                     }
                 }
             }
+        }
+
+        // Refuel
+        if (hasPassengers()) {
+            refuel();
+            getFuelUtilization();
+        }
+    }
+
+    float getFuelConsumption() {
+        return getEngineTarget() * getTotalUpgrade(AircraftStat.FUEL);
+    }
+
+    private void refuel(int i) {
+        if (fuel[i] <= 0) {
+            List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
+            ItemStack stack = inventory.getStack(slots.get(i).index);
+            int time = getFuelTime(stack);
+            if (time > 0) {
+                fuel[i] += time;
+                stack.decrement(1);
+            }
+        }
+    }
+
+    private void refuel() {
+        for (int i = 0; i < fuel.length; i++) {
+            refuel(i);
         }
     }
 
@@ -154,8 +178,7 @@ public abstract class EngineAircraft extends AircraftEntity {
             if (getEngineTarget() != engineTarget) {
                 NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
             }
-
-            if (getEngineTarget() == 0.0 && engineTarget > 0) {
+            if (getFuelUtilization() > 0 && getEngineTarget() == 0.0 && engineTarget > 0) {
                 world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, getEnginePitch(), false);
             }
         }

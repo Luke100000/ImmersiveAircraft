@@ -19,7 +19,7 @@ import java.util.List;
 public class GyrodyneEntity extends Rotorcraft {
     private final static float PUSH_SPEED = 0.25f;
 
-    private final AircraftProperties properties = new AircraftProperties()
+    private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setPitchSpeed(5.0f)
             .setEngineSpeed(0.3f)
@@ -27,7 +27,7 @@ public class GyrodyneEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(30.0f)
-            .setWindSensitivity(0.025f)
+            .setWindSensitivity(0.05f)
             .setMass(8.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
@@ -72,7 +72,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     float getGroundVelocityDecay() {
-        return 0.85f;
+        return falloffGroundVelocityDecay(0.8f);
     }
 
     @Override
@@ -154,9 +154,8 @@ public class GyrodyneEntity extends Rotorcraft {
     public void tick() {
         super.tick();
 
-
         if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
-            float consumption = getEngineTarget();
+            float consumption = getFuelConsumption();
             player.getHungerManager().addExhaustion(consumption);
         }
     }

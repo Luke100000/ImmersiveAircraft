@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
@@ -63,6 +64,13 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         return 0.98f;
     }
 
+    // Considers gravity and upgrades to modify decay
+    float falloffGroundVelocityDecay(float original) {
+        float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
+        float upgrade = Math.min(1.0f, getTotalUpgrade(AircraftStat.ACCELERATION) * 0.5f);
+        return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
+    }
+
     float getGroundVelocityDecay() {
         return 0.95f;
     }
@@ -73,13 +81,17 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
     @Override
     void updateVelocity() {
-        float decay = 1.0f;
+        float decay = 1.0f - 0.015f * getTotalUpgrade(AircraftStat.FRICTION);
         float gravity = getGravity();
         if (touchingWater) {
             gravity *= 0.25f;
             decay = 0.9f;
         } else if (onGround) {
-            decay = getGroundVelocityDecay();
+            if (hasPassengers()) {
+                decay = getGroundVelocityDecay();
+            } else {
+                decay = 0.75f;
+            }
         }
 
         // get direction
@@ -96,8 +108,8 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         convertPower(direction);
 
         // friction
-        Vec3d vec3d = getVelocity();
-        setVelocity(vec3d.x * decay * getHorizontalVelocityDelay(), vec3d.y * decay * getVerticalVelocityDelay() + gravity, vec3d.z * decay * getHorizontalVelocityDelay());
+        Vec3d velocity = getVelocity();
+        setVelocity(velocity.x * decay * getHorizontalVelocityDelay(), velocity.y * decay * getVerticalVelocityDelay() + gravity, velocity.z * decay * getHorizontalVelocityDelay());
         pressingInterpolatedX.decay(0.0f, 1.0f - decay * getRotationDecay());
         pressingInterpolatedZ.decay(0.0f, 1.0f - decay * getRotationDecay());
 
@@ -105,7 +117,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         if (!onGround) {
             boolean thundering = world.getLevelProperties().isThundering();
             boolean raining = world.getLevelProperties().isRaining();
-            float strength = (float)((1.0f + vec3d.length()) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
+            float strength = (float)((1.0f + velocity.length()) * (thundering ? 2.0f : 1.0f) * (raining ? 3.0f : 1.0f));
             float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
             float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
             setPitch(getPitch() + nx);

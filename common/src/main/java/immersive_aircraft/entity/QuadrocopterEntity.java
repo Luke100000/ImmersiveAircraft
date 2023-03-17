@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class QuadrocopterEntity extends Rotorcraft {
-    private final AircraftProperties properties = new AircraftProperties()
+    private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setPitchSpeed(1.5f)
             .setEngineSpeed(0.0325f)
@@ -22,7 +22,7 @@ public class QuadrocopterEntity extends Rotorcraft {
             .setDriftDrag(0.005f)
             .setLift(0.1f)
             .setRollFactor(15.0f)
-            .setWindSensitivity(0.01f)
+            .setWindSensitivity(0.02f)
             .setMass(4.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()

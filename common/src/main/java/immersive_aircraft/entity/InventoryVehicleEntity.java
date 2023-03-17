@@ -3,6 +3,8 @@ package immersive_aircraft.entity;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.item.UpgradeItem;
+import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
@@ -44,6 +46,25 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
             list.add(getInventory().getStack(slot.index));
         }
         return list;
+    }
+
+    //todo cache?
+    public float getTotalUpgrade(AircraftStat stat) {
+        float value = 1.0f;
+        List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
+        for (int step = 0; step < 2; step++) {
+            for (ItemStack stack : upgrades) {
+                if (stack.getItem() instanceof UpgradeItem upgrade) {
+                    float u = upgrade.getUpgrade().get(stat);
+                    if (u > 0 && step == 1) {
+                        value += u;
+                    } else if (u < 0 && step == 0) {
+                        value *= (u + 1);
+                    }
+                }
+            }
+        }
+        return Math.max(0.0f, value);
     }
 
     public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {

@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class AirshipEntity extends Rotorcraft {
-    private final AircraftProperties properties = new AircraftProperties()
+    private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setEngineSpeed(0.02f)
             .setVerticalSpeed(0.025f)
@@ -26,7 +26,7 @@ public class AirshipEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(5.0f)
-            .setWindSensitivity(0.05f)
+            .setWindSensitivity(0.1f)
             .setMass(12.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()

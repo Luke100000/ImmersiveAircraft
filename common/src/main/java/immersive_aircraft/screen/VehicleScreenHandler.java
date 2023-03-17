@@ -6,6 +6,7 @@ import immersive_aircraft.item.UpgradeItem;
 import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.screen.slot.FuelSlot;
 import immersive_aircraft.screen.slot.TypedSlot;
+import immersive_aircraft.screen.slot.UpgradeSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -36,11 +37,11 @@ public class VehicleScreenHandler extends ScreenHandler {
             if (slot.type == VehicleInventoryDescription.SlotType.BOILER) {
                 this.addSlot(new FuelSlot(inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.WEAPON) {
-                this.addSlot(new TypedSlot(WeaponItem.class, 64, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(WeaponItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.UPGRADE) {
-                this.addSlot(new TypedSlot(UpgradeItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new UpgradeSlot(vehicle, UpgradeItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BOOSTER) {
-                this.addSlot(new TypedSlot(FireworkRocketItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(FireworkRocketItem.class, 64, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BANNER) {
                 this.addSlot(new TypedSlot(BannerItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.DYE) {
@@ -91,6 +92,57 @@ public class VehicleScreenHandler extends ScreenHandler {
         }
 
         return newStack;
+    }
+
+    // Overwritten since max stack size isn't considered in vanilla
+    @Override
+    protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean unused) {
+        boolean inserted = false;
+
+        // try to stack
+        if (stack.isStackable()) {
+            int i = startIndex;
+            while (!stack.isEmpty() && (i < endIndex)) {
+                Slot slot = this.slots.get(i);
+                ItemStack target = slot.getStack();
+                if (!target.isEmpty() && ItemStack.canCombine(stack, target)) {
+                    int diff = target.getCount() + stack.getCount();
+                    int maxCount = slot.getMaxItemCount(stack);
+                    if (diff <= maxCount) {
+                        stack.setCount(0);
+                        target.setCount(diff);
+                        slot.markDirty();
+                        inserted = true;
+                    } else if (target.getCount() < maxCount) {
+                        stack.decrement(maxCount - target.getCount());
+                        target.setCount(maxCount);
+                        slot.markDirty();
+                        inserted = true;
+                    }
+                }
+                i++;
+            }
+        }
+
+        // use a new slot
+        if (!stack.isEmpty()) {
+            for (int i = startIndex; i < endIndex; i++) {
+                Slot slot = this.slots.get(i);
+                ItemStack target = slot.getStack();
+                int maxCount = slot.getMaxItemCount(target);
+                if (target.isEmpty() && slot.canInsert(stack)) {
+                    if (stack.getCount() > maxCount) {
+                        slot.setStack(stack.split(maxCount));
+                    } else {
+                        slot.setStack(stack.split(stack.getCount()));
+                    }
+                    slot.markDirty();
+                    inserted = true;
+                    break;
+                }
+            }
+        }
+        return inserted;
     }
 
     public void close(PlayerEntity player) {
