@@ -26,7 +26,7 @@ public class QuadrocopterEntity extends Rotorcraft {
             .setMass(4.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 9)
+            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 14)
             .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
             .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6 + 22, 8 + 6)
             .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 3, 2)

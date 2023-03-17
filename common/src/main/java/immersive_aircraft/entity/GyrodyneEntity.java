@@ -6,6 +6,7 @@ import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
@@ -162,7 +163,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     public float getFuelUtilization() {
-        if (getPrimaryPassenger() instanceof ServerPlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
+        if (getPrimaryPassenger() instanceof PlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
             return 1.0f;
         }
         return 0.0f;
