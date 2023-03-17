@@ -12,14 +12,14 @@ import java.util.function.Supplier;
 public class KeyBindings {
     public static List<KeyBinding> list = new LinkedList<>();
 
-    public static KeyBinding left = newFallbackKey("left", () -> MinecraftClient.getInstance().options.leftKey);
-    public static KeyBinding right = newFallbackKey("right", () -> MinecraftClient.getInstance().options.rightKey);
-    public static KeyBinding forward = newFallbackKey("forward", () -> MinecraftClient.getInstance().options.forwardKey);
-    public static KeyBinding backward = newFallbackKey("backward", () -> MinecraftClient.getInstance().options.backKey);
-    public static KeyBinding up = newFallbackKey("up", () -> MinecraftClient.getInstance().options.jumpKey);
-    public static KeyBinding down = newFallbackKey("down", () -> MinecraftClient.getInstance().options.sneakKey);
-    public static KeyBinding pull = newFallbackKey("pull", () -> MinecraftClient.getInstance().options.backKey);
-    public static KeyBinding push = newFallbackKey("push", () -> MinecraftClient.getInstance().options.forwardKey);
+    public static KeyBinding left = newFallbackKey("control_left", () -> MinecraftClient.getInstance().options.leftKey);
+    public static KeyBinding right = newFallbackKey("control_right", () -> MinecraftClient.getInstance().options.rightKey);
+    public static KeyBinding forward = newFallbackKey("control_forward", () -> MinecraftClient.getInstance().options.forwardKey);
+    public static KeyBinding backward = newFallbackKey("control_backward", () -> MinecraftClient.getInstance().options.backKey);
+    public static KeyBinding up = newFallbackKey("control_up", () -> MinecraftClient.getInstance().options.jumpKey);
+    public static KeyBinding down = newFallbackKey("control_down", () -> MinecraftClient.getInstance().options.sneakKey);
+    public static KeyBinding pull = newFallbackKey("control_pull", () -> MinecraftClient.getInstance().options.backKey);
+    public static KeyBinding push = newFallbackKey("control_push", () -> MinecraftClient.getInstance().options.forwardKey);
 
     public static KeyBinding dismount = newKey("dismount", GLFW.GLFW_KEY_R);
     public static KeyBinding boost = newKey("boost", GLFW.GLFW_KEY_B);
