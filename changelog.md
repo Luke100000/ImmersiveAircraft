@@ -1,6 +1,12 @@
 # 0.4.0
 
 * Added inventory
+* Added fuel
+    * The Gyrodyne burns your body fat instead
+* Added 9 unique upgrade items
+* Added banners to enhance the look of the Airplane and Airship
+* Added dye slots to tint the Airships sails
+* Added rocket boost
 * Improved wind mechanics, configurable
 
 # 0.3.1
