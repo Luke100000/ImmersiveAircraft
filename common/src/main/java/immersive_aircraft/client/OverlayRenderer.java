@@ -53,6 +53,7 @@ public class OverlayRenderer {
             }
 
             int powerFrame = (int)((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
+            int powerFrameTarget = (int)((1.0f - aircraft.getEngineTarget()) * 10 + 10.5);
 
             int x = client.getWindow().getScaledWidth() / 2;
             int y = client.getWindow().getScaledHeight() - 37;
@@ -66,7 +67,10 @@ public class OverlayRenderer {
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
 
             RenderSystem.setShaderTexture(0, TEXTURE2);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
+            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
         }
     }
 }
