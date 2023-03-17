@@ -5,7 +5,6 @@ import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;

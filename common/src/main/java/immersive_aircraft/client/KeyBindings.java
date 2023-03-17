@@ -22,6 +22,7 @@ public class KeyBindings {
     public static KeyBinding push = newFallbackKey("push", () -> MinecraftClient.getInstance().options.forwardKey);
 
     public static KeyBinding dismount = newKey("dismount", GLFW.GLFW_KEY_R);
+    public static KeyBinding boost = newKey("boost", GLFW.GLFW_KEY_B);
 
     private static KeyBinding newFallbackKey(String name, Supplier<KeyBinding> fallback) {
         KeyBinding key = new FallbackKeyBinding(

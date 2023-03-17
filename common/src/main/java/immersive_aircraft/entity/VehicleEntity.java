@@ -25,6 +25,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -45,6 +47,8 @@ public abstract class VehicleEntity extends Entity {
     static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+
+    static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     int interpolationSteps;
 
@@ -72,6 +76,22 @@ public abstract class VehicleEntity extends Entity {
 
     public float getRoll(float tickDelta) {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
+    }
+
+    public void boost() {
+        dataTracker.set(BOOST, 100);
+    }
+
+    protected void applyBoost() {
+
+    }
+
+    public boolean canBoost() {
+        return false;
+    }
+
+    public int getBoost() {
+        return dataTracker.get(BOOST);
     }
 
     abstract protected List<List<Vec3d>> getPassengerPositions();
@@ -117,6 +137,7 @@ public abstract class VehicleEntity extends Entity {
         dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0f);
+        dataTracker.startTracking(BOOST, 0);
     }
 
     @Override
@@ -245,6 +266,11 @@ public abstract class VehicleEntity extends Entity {
                     if (KeyBindings.dismount.wasPressed()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
                     }
+                    if (KeyBindings.boost.wasPressed() && canBoost()) {
+                        NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getVelocity()));
+                        Vec3d p = getPos();
+                        world.playSound(p.getX(), p.getY(), p.getZ(), SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
+                    }
                 }
             }
 
@@ -279,12 +305,25 @@ public abstract class VehicleEntity extends Entity {
         // interpolate
         handleClientSync();
 
+
+        int boost = getBoost();
+        if (boost > 0) {
+            dataTracker.set(BOOST, boost - 1);
+        }
+
         // if it's the right side, update the velocity
         if (isLogicalSideForUpdatingMovement()) {
             updateVelocity();
+
+            // boost
+            if (boost > 0) {
+                applyBoost();
+            }
+
             if (world.isClient) {
                 updateController();
             }
+
             move(MovementType.SELF, getVelocity());
         }
 
@@ -587,5 +626,9 @@ public abstract class VehicleEntity extends Entity {
     public boolean shouldRender(double distance) {
         double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
         return distance < d * d;
+    }
+
+    public void chill() {
+
     }
 }

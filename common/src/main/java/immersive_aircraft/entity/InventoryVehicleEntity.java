@@ -18,11 +18,13 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,5 +146,34 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
     public SimpleInventory getInventory() {
         return inventory;
+    }
+
+    @Override
+    public void boost() {
+        super.boost();
+
+        getSlots(VehicleInventoryDescription.SlotType.BOOSTER).forEach(s -> s.decrement(1));
+    }
+
+    @Override
+    protected void applyBoost() {
+        super.applyBoost();
+
+        // boost
+        Vec3d direction = getDirection();
+        float thrust = 0.05f * getBoost() / 100.0f;
+        setVelocity(getVelocity().add(direction.multiply(thrust)));
+
+        // particles
+        if (age % 2 == 0) {
+            Vec3d p = getPos();
+            Vec3d velocity = getVelocity().subtract(direction);
+            world.addParticle(ParticleTypes.FIREWORK, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
+        }
+    }
+
+    @Override
+    public boolean canBoost() {
+        return getSlots(VehicleInventoryDescription.SlotType.BOOSTER).stream().anyMatch(v -> !v.isEmpty()) && getBoost() <= 0;
     }
 }
