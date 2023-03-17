@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
@@ -63,6 +64,14 @@ public abstract class EngineAircraft extends AircraftEntity {
         return 0.0f;
     }
 
+    float getBaseFuelConsumption() {
+        return 1.0f;
+    }
+
+    float getEngineReactionSpeed() {
+        return 20.0f;
+    }
+
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
@@ -76,7 +85,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.tick();
 
         // adapt engine reaction time
-        enginePower.setSteps(20 / getTotalUpgrade(AircraftStat.ACCELERATION));
+        enginePower.setSteps(getEngineReactionSpeed() / getTotalUpgrade(AircraftStat.ACCELERATION));
 
         // spin up the engine
         enginePower.update(getEngineTarget() * (touchingWater ? 0.1f : 1.0f));
@@ -84,13 +93,14 @@ public abstract class EngineAircraft extends AircraftEntity {
         // simulate spin up
         engineSpinUpStrength = Math.max(0.0f, engineSpinUpStrength + enginePower.getDiff() - 0.01f);
 
+        // rotate propeller
         if (world.isClient()) {
             engineRotation.update((engineRotation.getValue() + getEnginePower()) % 1000);
-        } else {
-            // shutdown
-            if (!hasPassengers()) {
-                setEngineTarget(0.0f);
-            }
+        }
+
+        // shutdown
+        if (!hasPassengers() && getEngineTarget() > 0) {
+            setEngineTarget(0.0f);
         }
 
         // Engine sounds
@@ -122,7 +132,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     float getFuelConsumption() {
-        return getEngineTarget() * getTotalUpgrade(AircraftStat.FUEL);
+        return getEngineTarget() * getTotalUpgrade(AircraftStat.FUEL) * getBaseFuelConsumption() * Config.getInstance().fuelConsumption;
     }
 
     private void refuel(int i) {
@@ -174,15 +184,17 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     public void setEngineTarget(float engineTarget) {
-        if (world.isClient) {
-            if (getEngineTarget() != engineTarget) {
-                NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
+        if (getFuelUtilization() > 0 || engineTarget == 0) {
+            if (world.isClient) {
+                if (getEngineTarget() != engineTarget) {
+                    NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
+                }
+                if (getFuelUtilization() > 0 && getEngineTarget() == 0.0 && engineTarget > 0) {
+                    world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, getEnginePitch(), false);
+                }
             }
-            if (getFuelUtilization() > 0 && getEngineTarget() == 0.0 && engineTarget > 0) {
-                world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, getEnginePitch(), false);
-            }
+            dataTracker.set(ENGINE, engineTarget);
         }
-        dataTracker.set(ENGINE, engineTarget);
     }
 
     public static int getFuelTime(ItemStack fuel) {

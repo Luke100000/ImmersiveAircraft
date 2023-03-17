@@ -26,8 +26,8 @@ public class AirshipEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(5.0f)
-            .setWindSensitivity(0.1f)
-            .setMass(12.0f);
+            .setWindSensitivity(0.2f)
+            .setMass(3.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
             .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 36)
@@ -47,6 +47,11 @@ public class AirshipEntity extends Rotorcraft {
 
     public AirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    float getEngineReactionSpeed() {
+        return 50.0f;
     }
 
     SoundEvent getEngineSound() {

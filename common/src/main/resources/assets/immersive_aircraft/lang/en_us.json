@@ -53,6 +53,10 @@
   "option.immersive_aircraft.enableTrails": "Fancy steam trails.",
   "option.immersive_aircraft.enableAnimatedSails": "Wavey wavey Sails.",
   "option.immersive_aircraft.renderDistance": "Render distance in blocks.",
+  "option.immersive_aircraft.fuelConsumption": "Fuel burn rate.",
+  "option.immersive_aircraft.windClearWeather": "Base wind effect.",
+  "option.immersive_aircraft.windRainWeather": "Wind at rainfall.",
+  "option.immersive_aircraft.windThunderWeather": "Extra wind at thunder.",
 
   "immersive_aircraft.slot.booster": "Boost rockets",
   "immersive_aircraft.slot.weapon": "Weapon slot (Upcoming Feature)",

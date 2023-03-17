@@ -1,6 +1,7 @@
 # 0.4.0
 
 * Added inventory
+* Improved wind mechanics, configurable
 
 # 0.3.1
 

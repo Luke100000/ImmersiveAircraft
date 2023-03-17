@@ -1,11 +1,14 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
 import java.util.Collections;
@@ -115,18 +118,32 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
         // wind
         if (!onGround) {
-            boolean thundering = world.getLevelProperties().isThundering();
-            boolean raining = world.getLevelProperties().isRaining();
-            float strength = (float)((1.0f + velocity.length()) * (thundering ? 2.0f : 1.0f) * (raining ? 3.0f : 1.0f));
-            float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
-            float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
-            setPitch(getPitch() + nx);
-            setYaw(getYaw() + nz);
+            Vec3f effect = getWindEffect();
+            setPitch(getPitch() + effect.getX());
+            setYaw(getYaw() + effect.getZ());
+
+            float offsetStrength = 0.005f;
+            setVelocity(getVelocity().add(effect.getX() * offsetStrength, 0.0f, effect.getZ() * offsetStrength));
         }
     }
 
     public void chill() {
         lastY = 0.0;
+    }
+
+    public float getWindStrength() {
+        float sensitivity = getProperties().getWindSensitivity();
+        boolean thundering = world.getLevelProperties().isThundering();
+        boolean raining = world.getLevelProperties().isRaining();
+        float weather = (float)((Config.getInstance().windClearWeather + getVelocity().length()) + (thundering ? Config.getInstance().windThunderWeather : 0.0f) + (raining ? Config.getInstance().windRainWeather : 1.0f));
+        return weather * sensitivity;
+    }
+
+    public Vec3f getWindEffect() {
+        float wind = getWindStrength();
+        float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass()) * wind);
+        float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass()) * wind);
+        return new Vec3f(nx, 0.0f, nz);
     }
 }
 

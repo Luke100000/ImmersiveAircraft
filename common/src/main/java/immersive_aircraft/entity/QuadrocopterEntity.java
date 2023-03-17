@@ -22,8 +22,8 @@ public class QuadrocopterEntity extends Rotorcraft {
             .setDriftDrag(0.005f)
             .setLift(0.1f)
             .setRollFactor(15.0f)
-            .setWindSensitivity(0.02f)
-            .setMass(4.0f);
+            .setWindSensitivity(0.1f)
+            .setMass(1.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
             .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 14)
@@ -39,6 +39,11 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     public QuadrocopterEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    float getBaseFuelConsumption() {
+        return 1.5f;
     }
 
     @Override

@@ -28,8 +28,8 @@ public class GyrodyneEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(30.0f)
-            .setWindSensitivity(0.05f)
-            .setMass(8.0f);
+            .setWindSensitivity(0.1f)
+            .setMass(4.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
             .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 6, 8 + 6)
@@ -128,7 +128,9 @@ public class GyrodyneEntity extends Rotorcraft {
             if (getEngineTarget() == 1.0) {
                 if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
                     player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target_reached"), true);
-                    setVelocity(getVelocity().add(0, 0.25f, 0));
+                    if (onGround) {
+                        setVelocity(getVelocity().add(0, 0.25f, 0));
+                    }
                 }
             }
         }
@@ -143,7 +145,7 @@ public class GyrodyneEntity extends Rotorcraft {
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
-        if (onGround) {
+        if (onGround && getEngineTarget() < 1.0) {
             thrust = PUSH_SPEED * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
@@ -156,7 +158,7 @@ public class GyrodyneEntity extends Rotorcraft {
         super.tick();
 
         if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
-            float consumption = getFuelConsumption();
+            float consumption = getFuelConsumption() * 0.025f;
             player.getHungerManager().addExhaustion(consumption);
         }
     }
