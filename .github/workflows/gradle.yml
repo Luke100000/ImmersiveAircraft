@@ -57,7 +57,7 @@ jobs:
 
           name: "[Fabric ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
-          version-type: release
+          version-type: beta
           files: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
           loaders: |
             fabric
@@ -80,7 +80,7 @@ jobs:
 
           name: "[Forge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
-          version-type: release
+          version-type: beta
           files: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
           loaders: |
             forge
