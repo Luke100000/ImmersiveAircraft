@@ -16,7 +16,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -196,31 +196,33 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryKey<BannerPattern>, DyeColor>> patterns) {
+    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-            Pair<RegistryKey<BannerPattern>, DyeColor> pair = patterns.get(i);
+            Pair<RegistryEntry<BannerPattern>, DyeColor> pair = patterns.get(i);
             float[] fs = pair.getSecond().getColorComponents();
-            RegistryKey<BannerPattern> bannerPattern = pair.getFirst();
-            SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
-            VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
-            Sprite sprite = spriteIdentifier.getSprite();
-            MatrixStack.Entry entry = matrixStack.peek();
-            Matrix4f positionMatrix = entry.getPositionMatrix();
-            Matrix3f normalMatrix = entry.getNormalMatrix();
-            for (Face face : mesh.faces) {
-                if (face.vertices.size() == 4) {
-                    for (FaceVertex v : face.vertices) {
-                        vertexConsumer
-                                .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
-                                .color(fs[0], fs[1], fs[2], 1.0f)
-                                .texture(v.t.u * (sprite.getMaxU() - sprite.getMinU()) + sprite.getMinU(), v.t.v * (sprite.getMaxV() - sprite.getMinV()) + sprite.getMinV())
-                                .overlay(OverlayTexture.DEFAULT_UV)
-                                .light(light)
-                                .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                                .next();
+            RegistryEntry<BannerPattern> bannerPattern = pair.getFirst();
+            bannerPattern.getKey().ifPresent(key -> {
+                SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(key) : TexturedRenderLayers.getShieldPatternTextureId(key);
+                VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
+                Sprite sprite = spriteIdentifier.getSprite();
+                MatrixStack.Entry entry = matrixStack.peek();
+                Matrix4f positionMatrix = entry.getPositionMatrix();
+                Matrix3f normalMatrix = entry.getNormalMatrix();
+                for (Face face : mesh.faces) {
+                    if (face.vertices.size() == 4) {
+                        for (FaceVertex v : face.vertices) {
+                            vertexConsumer
+                                    .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
+                                    .color(fs[0], fs[1], fs[2], 1.0f)
+                                    .texture(v.t.u * (sprite.getMaxU() - sprite.getMinU()) + sprite.getMinU(), v.t.v * (sprite.getMaxV() - sprite.getMinV()) + sprite.getMinV())
+                                    .overlay(OverlayTexture.DEFAULT_UV)
+                                    .light(light)
+                                    .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
+                                    .next();
+                        }
                     }
                 }
-            }
+            });
         }
     }
 

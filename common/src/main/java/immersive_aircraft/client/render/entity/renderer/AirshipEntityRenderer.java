@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                                 int i = 0;
                                 for (ItemStack slot : slots) {
                                     if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
-                                        List<Pair<BannerPattern, DyeColor>> patterns = Utils.parseBannerItem(slot);
+                                        List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
                                         Mesh mesh = getFaces(id, "banner_" + (i++));
                                         renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
                                     }
