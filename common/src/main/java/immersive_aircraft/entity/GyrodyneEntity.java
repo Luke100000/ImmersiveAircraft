@@ -111,14 +111,14 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     private void updateEnginePowerTooltip() {
-        if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
+        if (getPrimaryPassenger() instanceof ClientPlayerEntity player && getFuelUtilization() > 0.0) {
             player.sendMessage(new TranslatableText("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
 
     @Override
     String getFuelType() {
-        return "fuel";
+        return "fat";
     }
 
     @Override

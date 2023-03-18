@@ -1,3 +1,8 @@
+# 0.4.1
+
+* Fixed fuel notification on gyrodyne
+* Fixed air friction stat color
+
 # 0.4.0
 
 * Added inventory

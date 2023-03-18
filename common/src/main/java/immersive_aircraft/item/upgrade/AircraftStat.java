@@ -2,7 +2,7 @@ package immersive_aircraft.item.upgrade;
 
 public enum AircraftStat {
     STRENGTH(true),
-    FRICTION(true),
+    FRICTION(false),
     ACCELERATION(true),
     DURABILITY(true),
     FUEL(false),
