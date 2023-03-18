@@ -22,7 +22,7 @@ public class QuadrocopterEntity extends Rotorcraft {
             .setDriftDrag(0.005f)
             .setLift(0.1f)
             .setRollFactor(15.0f)
-            .setWindSensitivity(0.1f)
+            .setWindSensitivity(0.025f)
             .setMass(1.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()

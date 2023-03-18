@@ -26,7 +26,7 @@ public class AirshipEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(5.0f)
-            .setWindSensitivity(0.2f)
+            .setWindSensitivity(0.1f)
             .setMass(3.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()

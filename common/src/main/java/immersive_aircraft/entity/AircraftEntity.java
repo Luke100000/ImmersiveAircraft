@@ -132,9 +132,9 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
     public float getWindStrength() {
         float sensitivity = getProperties().getWindSensitivity();
-        boolean thundering = world.getLevelProperties().isThundering();
-        boolean raining = world.getLevelProperties().isRaining();
-        float weather = (float)((Config.getInstance().windClearWeather + getVelocity().length()) + (thundering ? Config.getInstance().windThunderWeather : 0.0f) + (raining ? Config.getInstance().windRainWeather : 1.0f));
+        float thundering = world.getRainGradient(0.0f);
+        float raining = world.getThunderGradient(0.0f);
+        float weather = (float)((Config.getInstance().windClearWeather + getVelocity().length()) + thundering * Config.getInstance().windThunderWeather + raining * Config.getInstance().windRainWeather);
         return weather * sensitivity;
     }
 
