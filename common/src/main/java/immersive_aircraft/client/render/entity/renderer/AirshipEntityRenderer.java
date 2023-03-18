@@ -1,20 +1,26 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.item.BannerItem;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
+
+import java.util.List;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/airship.obj");
@@ -24,6 +30,21 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     private final Model model = new Model()
             .add(
                     new Object(id, "frame")
+            )
+            .add(
+                    new Object(id, "banners").setRenderConsumer(
+                            (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
+                                int i = 0;
+                                for (ItemStack slot : slots) {
+                                    if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
+                                        List<Pair<BannerPattern, DyeColor>> patterns = Utils.parseBannerItem(slot);
+                                        Mesh mesh = getFaces(id, "banner_" + (i++));
+                                        renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
+                                    }
+                                }
+                            }
+                    )
             )
             .add(
                     new Object(id, "sails")
