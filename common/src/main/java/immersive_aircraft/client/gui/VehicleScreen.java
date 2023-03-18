@@ -38,7 +38,7 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     }
 
     protected void drawCustomBackground(MatrixStack matrices) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
@@ -54,7 +54,7 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         drawCustomBackground(matrices);
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 

@@ -7,7 +7,6 @@ import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 
@@ -122,17 +121,13 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
         // wind
         if (!onGround) {
-            Vec3f effect = getWindEffect();
-            setPitch(getPitch() + effect.getX());
-            setYaw(getYaw() + effect.getZ());
+            Vector3f effect = getWindEffect();
+            setPitch(getPitch() + effect.x);
+            setYaw(getYaw() + effect.z);
 
             float offsetStrength = 0.005f;
-            setVelocity(getVelocity().add(effect.getX() * offsetStrength, 0.0f, effect.getZ() * offsetStrength));
+            setVelocity(getVelocity().add(effect.x * offsetStrength, 0.0f, effect.z * offsetStrength));
         }
-    }
-
-    public Vec3d toVec3d(Vector3f v) {
-        return new Vec3d(v.x, v.y, v.z);
     }
 
     public void chill() {
@@ -147,11 +142,11 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         return weather * sensitivity;
     }
 
-    public Vec3f getWindEffect() {
+    public Vector3f getWindEffect() {
         float wind = getWindStrength();
         float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass()) * wind);
         float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass()) * wind);
-        return new Vec3f(nx, 0.0f, nz);
+        return new Vector3f(nx, 0.0f, nz);
     }
 }
 

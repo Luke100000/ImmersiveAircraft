@@ -13,11 +13,12 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.*;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -120,10 +121,10 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
         }
 
-        Vec3f effect = entity.isOnGround() ? Vec3f.ZERO : entity.getWindEffect();
+        Vector3f effect = entity.isOnGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yaw));
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch(tickDelta) + effect.getZ()));
-        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entity.getRoll(tickDelta) + effect.getX()));
+        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch(tickDelta) + effect.z));
+        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entity.getRoll(tickDelta) + effect.x));
 
         Vector3f pivot = getPivot(entity);
         matrixStack.translate(pivot.x, pivot.y, pivot.z);

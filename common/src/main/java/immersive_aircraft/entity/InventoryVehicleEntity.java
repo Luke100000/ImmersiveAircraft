@@ -27,6 +27,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,14 +161,14 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         super.applyBoost();
 
         // boost
-        Vec3d direction = getDirection();
+        Vector3f direction = getDirection();
         float thrust = 0.05f * getBoost() / 100.0f;
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        setVelocity(getVelocity().add(toVec3d(direction.mul(thrust))));
 
         // particles
         if (age % 2 == 0) {
             Vec3d p = getPos();
-            Vec3d velocity = getVelocity().subtract(direction);
+            Vec3d velocity = getVelocity().subtract(toVec3d(direction));
             world.addParticle(ParticleTypes.FIREWORK, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
         }
     }

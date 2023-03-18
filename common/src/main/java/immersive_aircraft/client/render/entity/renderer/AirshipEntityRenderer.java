@@ -16,10 +16,9 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.List;
 

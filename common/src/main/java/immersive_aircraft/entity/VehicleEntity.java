@@ -640,4 +640,8 @@ public abstract class VehicleEntity extends Entity {
     public void chill() {
 
     }
+
+    public Vec3d toVec3d(Vector3f v) {
+        return new Vec3d(v.x, v.y, v.z);
+    }
 }
