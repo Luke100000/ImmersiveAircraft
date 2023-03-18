@@ -1,7 +1,15 @@
 package immersive_aircraft.entity.misc;
 
+import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.item.upgrade.AircraftStat;
+
 public class AircraftProperties {
+    private final InventoryVehicleEntity vehicle;
     private float yawSpeed, pitchSpeed, engineSpeed, glideFactor, driftDrag, lift, verticalSpeed, windSensitivity, rollFactor, groundPitch, mass;
+
+    public AircraftProperties(InventoryVehicleEntity vehicle) {
+        this.vehicle = vehicle;
+    }
 
     public float getYawSpeed() {
         return yawSpeed;
@@ -24,7 +32,7 @@ public class AircraftProperties {
     }
 
     public float getEngineSpeed() {
-        return engineSpeed;
+        return engineSpeed * vehicle.getTotalUpgrade(AircraftStat.STRENGTH);
     }
 
     public AircraftProperties setEngineSpeed(float engineSpeed) {
@@ -42,7 +50,7 @@ public class AircraftProperties {
     }
 
     public float getDriftDrag() {
-        return driftDrag;
+        return driftDrag * vehicle.getTotalUpgrade(AircraftStat.FRICTION);
     }
 
     // How much energy is lost by drift drag
@@ -62,7 +70,7 @@ public class AircraftProperties {
     }
 
     public float getVerticalSpeed() {
-        return verticalSpeed;
+        return verticalSpeed * vehicle.getTotalUpgrade(AircraftStat.STRENGTH);
     }
 
     public AircraftProperties setVerticalSpeed(float verticalSpeed) {
@@ -71,7 +79,7 @@ public class AircraftProperties {
     }
 
     public float getWindSensitivity() {
-        return windSensitivity;
+        return windSensitivity * vehicle.getTotalUpgrade(AircraftStat.WIND);
     }
 
     public AircraftProperties setWindSensitivity(float windSensitivity) {

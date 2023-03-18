@@ -1,8 +1,11 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.ObjectLoader;
-import immersive_aircraft.util.Utils;
+import immersive_aircraft.util.obj.Face;
+import immersive_aircraft.util.obj.FaceVertex;
+import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -13,11 +16,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.*;
-import immersive_aircraft.util.obj.Face;
-import immersive_aircraft.util.obj.FaceVertex;
-import immersive_aircraft.util.obj.Mesh;
+import net.minecraft.util.registry.RegistryKey;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -120,13 +120,10 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
         }
 
-        float WIND = entity.isOnGround() ? 0.0f : entity.getProperties().getWindSensitivity() * 10.0f;
-        float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 20.0)) * WIND;
-        float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 21.0)) * WIND;
-
+        Vec3f effect = entity.isOnGround() ? Vec3f.ZERO : entity.getWindEffect();
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yaw));
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch(tickDelta) + ny));
-        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entity.getRoll(tickDelta) + nx));
+        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.getPitch(tickDelta) + effect.getZ()));
+        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entity.getRoll(tickDelta) + effect.getX()));
 
         Vector3f pivot = getPivot(entity);
         matrixStack.translate(pivot.x, pivot.y, pivot.z);
@@ -203,31 +200,33 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryKey<BannerPattern>, DyeColor>> patterns) {
+    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-            Pair<RegistryKey<BannerPattern>, DyeColor> pair = patterns.get(i);
-            float[] fs = pair.getRight().getColorComponents();
-            RegistryKey<BannerPattern> bannerPattern = pair.getLeft();
-            SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
-            VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
-            Sprite sprite = spriteIdentifier.getSprite();
-            MatrixStack.Entry entry = matrixStack.peek();
-            Matrix4f positionMatrix = entry.getPositionMatrix();
-            Matrix3f normalMatrix = entry.getNormalMatrix();
-            for (Face face : mesh.faces) {
-                if (face.vertices.size() == 4) {
-                    for (FaceVertex v : face.vertices) {
-                        vertexConsumer
-                                .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
-                                .color(fs[0], fs[1], fs[2], 1.0f)
-                                .texture(v.t.u * (sprite.getMaxU() - sprite.getMinU()) + sprite.getMinU(), v.t.v * (sprite.getMaxV() - sprite.getMinV()) + sprite.getMinV())
-                                .overlay(OverlayTexture.DEFAULT_UV)
-                                .light(light)
-                                .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                                .next();
+            Pair<RegistryEntry<BannerPattern>, DyeColor> pair = patterns.get(i);
+            float[] fs = pair.getSecond().getColorComponents();
+            RegistryEntry<BannerPattern> bannerPattern = pair.getFirst();
+            bannerPattern.getKey().ifPresent(key -> {
+                SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(key) : TexturedRenderLayers.getShieldPatternTextureId(key);
+                VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
+                Sprite sprite = spriteIdentifier.getSprite();
+                MatrixStack.Entry entry = matrixStack.peek();
+                Matrix4f positionMatrix = entry.getPositionMatrix();
+                Matrix3f normalMatrix = entry.getNormalMatrix();
+                for (Face face : mesh.faces) {
+                    if (face.vertices.size() == 4) {
+                        for (FaceVertex v : face.vertices) {
+                            vertexConsumer
+                                    .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
+                                    .color(fs[0], fs[1], fs[2], 1.0f)
+                                    .texture(v.t.u * (sprite.getMaxU() - sprite.getMinU()) + sprite.getMinU(), v.t.v * (sprite.getMaxV() - sprite.getMinV()) + sprite.getMinV())
+                                    .overlay(OverlayTexture.DEFAULT_UV)
+                                    .light(light)
+                                    .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
+                                    .next();
+                        }
                     }
                 }
-            }
+            });
         }
     }
 
