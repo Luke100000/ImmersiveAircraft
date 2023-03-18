@@ -35,7 +35,7 @@ public class BiplaneEntity extends AirplaneEntity {
 
     @Override
     float getBaseFuelConsumption() {
-        return 1.5f;
+        return 2.5f;
     }
 
     final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(List.of(new Vec3d(0.0f, 0.05f, -0.6f)));

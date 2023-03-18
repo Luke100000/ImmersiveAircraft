@@ -43,7 +43,7 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     @Override
     float getBaseFuelConsumption() {
-        return 1.5f;
+        return 0.75f;
     }
 
     @Override

@@ -65,7 +65,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     float getBaseFuelConsumption() {
-        return 1.0f;
+        return 1.5f;
     }
 
     float getEngineReactionSpeed() {
