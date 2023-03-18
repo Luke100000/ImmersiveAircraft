@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "CCC",
-    "C C",
-    "CFC"
+    " II",
+    "CLI",
+    "CC "
   ],
   "key": {
     "C": [
@@ -11,13 +11,18 @@
         "item": "minecraft:copper_ingot"
       }
     ],
-    "F": [
+    "I": [
       {
-        "item": "minecraft:furnace"
+        "item": "minecraft:iron_ingot"
+      }
+    ],
+    "L": [
+      {
+        "item": "minecraft:lever"
       }
     ]
   },
   "result": {
-    "item": "immersive_aircraft:boiler"
+    "item": "immersive_aircraft:industrial_gears"
   }
 }

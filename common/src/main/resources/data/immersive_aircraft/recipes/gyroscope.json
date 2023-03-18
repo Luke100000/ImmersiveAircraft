@@ -1,23 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "CCC",
-    "C C",
-    "CFC"
+    "RCR",
+    "   ",
+    "   "
   ],
   "key": {
     "C": [
       {
-        "item": "minecraft:copper_ingot"
+        "item": "minecraft:compass"
       }
     ],
-    "F": [
+    "R": [
       {
-        "item": "minecraft:furnace"
+        "item": "minecraft:comparator"
       }
     ]
   },
   "result": {
-    "item": "immersive_aircraft:boiler"
+    "item": "immersive_aircraft:gyroscope"
   }
 }
