@@ -117,6 +117,11 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
+    String getFuelType() {
+        return "fuel";
+    }
+
+    @Override
     void updateController() {
         super.updateController();
 
@@ -146,7 +151,7 @@ public class GyrodyneEntity extends Rotorcraft {
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
         if (onGround && getEngineTarget() < 1.0) {
-            thrust = PUSH_SPEED * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
+            thrust = PUSH_SPEED / (1.0f + (float)getVelocity().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate
