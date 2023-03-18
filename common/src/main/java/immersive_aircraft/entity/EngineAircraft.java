@@ -16,7 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -145,7 +145,7 @@ public abstract class EngineAircraft extends AircraftEntity {
                     lastFuelState = FuelState.FUELED;
                 } else {
                     if (lastFuelState != FuelState.EMPTY) {
-                        player.sendMessage(new TranslatableText("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")), true);
+                        player.sendMessage(Text.translatable("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")), true);
                         lastFuelState = FuelState.EMPTY;
                     }
                 }
