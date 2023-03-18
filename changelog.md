@@ -8,6 +8,8 @@
 * Added dye slots to tint the Airships sails
 * Added rocket boost
 * Improved wind mechanics, configurable
+* Crashing aircraft now destroys them, configurable
+    * By default, only player can destroy aircraft to avoid a rogue skeleton throwing your stuff on the floor
 
 # 0.3.1
 

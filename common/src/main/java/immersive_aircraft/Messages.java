@@ -1,6 +1,7 @@
 package immersive_aircraft;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.network.c2s.RequestInventory;
@@ -14,5 +15,6 @@ public class Messages {
         NetworkHandler.registerMessage(OpenGuiRequest.class);
         NetworkHandler.registerMessage(InventoryUpdateMessage.class);
         NetworkHandler.registerMessage(RequestInventory.class);
+        NetworkHandler.registerMessage(CollisionMessage.class);
     }
 }

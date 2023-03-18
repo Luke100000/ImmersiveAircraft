@@ -44,6 +44,7 @@ public class CommandMessage implements Message {
     public enum Key {
         DISMOUNT,
         INVENTORY,
-        BOOST
+        BOOST,
+        DAMAGE
     }
 }

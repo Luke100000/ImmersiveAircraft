@@ -36,4 +36,10 @@ public final class Config extends JsonConfig {
 
     @FloatConfigEntry(3.0f)
     public float windThunderWeather;
+
+    @BooleanConfigEntry(true)
+    public boolean collisionDamage;
+
+    @BooleanConfigEntry(true)
+    public boolean onlyPlayerCanDestroyAircraft;
 }

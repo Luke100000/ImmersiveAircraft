@@ -47,6 +47,10 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
             roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
         }
 
+        if (Double.isNaN(getVelocity().x) || Double.isNaN(getVelocity().y) || Double.isNaN(getVelocity().z)) {
+            setVelocity(0, 0, 0);
+        }
+
         super.tick();
     }
 

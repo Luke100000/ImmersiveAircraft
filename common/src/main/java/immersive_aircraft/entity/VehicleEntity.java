@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
@@ -179,16 +180,22 @@ public abstract class VehicleEntity extends Entity {
         }
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
-        setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
+        setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f / getDurability());
         emitGameEvent(GameEvent.ENTITY_DAMAGED, source.getAttacker());
         boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).getAbilities().creativeMode;
-        if (bl || getDamageWobbleStrength() > 60.0f) {
-            if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                drop();
+        if (bl || getDamageWobbleStrength() > 40.0f) {
+            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers() || source.getAttacker() instanceof PlayerEntity) {
+                if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+                    drop();
+                }
+                discard();
             }
-            discard();
         }
         return true;
+    }
+
+    protected float getDurability() {
+        return 1.0f;
     }
 
     protected void drop() {
@@ -505,14 +512,16 @@ public abstract class VehicleEntity extends Entity {
         Vec3d prediction = getPos().add(movement);
         super.move(movementType, movement);
 
-        if (verticalCollision || horizontalCollision) {
-            float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
-            if (collision > 0.0001f) {
-                float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
-                if (repeat > 0.0f) {
-                    setDamageWobbleSide(-getDamageWobbleSide());
-                    setDamageWobbleTicks(10);
-                    setDamageWobbleStrength(getDamageWobbleStrength() + collision * 50 * repeat * repeat);
+        // Collision damage
+        if (Config.getInstance().collisionDamage) {
+            if (verticalCollision || horizontalCollision) {
+                float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
+                if (collision > 0.01f) {
+                    float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
+                    if (repeat > 0.0001f) {
+                        float damage = collision * 20 * repeat * repeat;
+                        NetworkHandler.sendToServer(new CollisionMessage(damage));
+                    }
                 }
             }
         }

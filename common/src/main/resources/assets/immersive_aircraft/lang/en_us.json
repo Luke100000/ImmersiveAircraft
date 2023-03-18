@@ -57,6 +57,8 @@
   "option.immersive_aircraft.windClearWeather": "Base wind effect.",
   "option.immersive_aircraft.windRainWeather": "Wind at rainfall.",
   "option.immersive_aircraft.windThunderWeather": "Extra wind at thunder.",
+  "option.immersive_aircraft.collisionDamage": "Collision damage.",
+  "option.immersive_aircraft.onlyPlayerCanDestroyAircraft": "Only player can destroy aircraft.",
 
   "immersive_aircraft.slot.booster": "Boost rockets",
   "immersive_aircraft.slot.weapon": "Weapon slot (Upcoming Feature)",

@@ -183,4 +183,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
         super.tick();
     }
+
+    @Override
+    protected float getDurability() {
+        return super.getDurability() * getTotalUpgrade(AircraftStat.DURABILITY);
+    }
 }
