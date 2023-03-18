@@ -1,8 +1,11 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.ObjectLoader;
-import immersive_aircraft.util.Utils;
+import immersive_aircraft.util.obj.Face;
+import immersive_aircraft.util.obj.FaceVertex;
+import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -12,11 +15,7 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.*;
-import immersive_aircraft.util.obj.Face;
-import immersive_aircraft.util.obj.FaceVertex;
-import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.util.registry.RegistryKey;
 
 import java.util.LinkedList;
@@ -117,13 +116,10 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
         }
 
-        float WIND = entity.isOnGround() ? 0.0f : entity.getProperties().getWindSensitivity() * 10.0f;
-        float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 20.0)) * WIND;
-        float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 21.0)) * WIND;
-
+        Vec3f effect = entity.isOnGround() ? Vec3f.ZERO : entity.getWindEffect();
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yaw));
-        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + ny));
-        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + nx));
+        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + effect.getZ()));
+        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + effect.getX()));
 
         Vec3f pivot = getPivot(entity);
         matrixStack.translate(pivot.getX(), pivot.getY(), pivot.getZ());
@@ -203,8 +199,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryKey<BannerPattern>, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
             Pair<RegistryKey<BannerPattern>, DyeColor> pair = patterns.get(i);
-            float[] fs = pair.getRight().getColorComponents();
-            RegistryKey<BannerPattern> bannerPattern = pair.getLeft();
+            float[] fs = pair.getSecond().getColorComponents();
+            RegistryKey<BannerPattern> bannerPattern = pair.getFirst();
             SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
             VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
             Sprite sprite = spriteIdentifier.getSprite();

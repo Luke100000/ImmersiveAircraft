@@ -24,4 +24,22 @@ public final class Config extends JsonConfig {
 
     @FloatConfigEntry(192.0f)
     public float renderDistance;
+
+    @FloatConfigEntry(1.0f)
+    public float fuelConsumption;
+
+    @FloatConfigEntry(1.0f)
+    public float windClearWeather;
+
+    @FloatConfigEntry(3.0f)
+    public float windRainWeather;
+
+    @FloatConfigEntry(3.0f)
+    public float windThunderWeather;
+
+    @BooleanConfigEntry(true)
+    public boolean collisionDamage;
+
+    @BooleanConfigEntry(true)
+    public boolean onlyPlayerCanDestroyAircraft;
 }

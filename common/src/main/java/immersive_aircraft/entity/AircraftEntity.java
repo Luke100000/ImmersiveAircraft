@@ -1,10 +1,13 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
 import java.util.Collections;
@@ -13,7 +16,7 @@ import java.util.List;
 /**
  * Abstract aircraft, which performs basic physics
  */
-public abstract class AircraftEntity extends VehicleEntity {
+public abstract class AircraftEntity extends InventoryVehicleEntity {
     private double lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, World world) {
@@ -44,6 +47,10 @@ public abstract class AircraftEntity extends VehicleEntity {
             roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
         }
 
+        if (Double.isNaN(getVelocity().x) || Double.isNaN(getVelocity().y) || Double.isNaN(getVelocity().z)) {
+            setVelocity(0, 0, 0);
+        }
+
         super.tick();
     }
 
@@ -63,6 +70,13 @@ public abstract class AircraftEntity extends VehicleEntity {
         return 0.98f;
     }
 
+    // Considers gravity and upgrades to modify decay
+    float falloffGroundVelocityDecay(float original) {
+        float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
+        float upgrade = Math.min(1.0f, getTotalUpgrade(AircraftStat.ACCELERATION) * 0.5f);
+        return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
+    }
+
     float getGroundVelocityDecay() {
         return 0.95f;
     }
@@ -73,13 +87,17 @@ public abstract class AircraftEntity extends VehicleEntity {
 
     @Override
     void updateVelocity() {
-        float decay = 1.0f;
+        float decay = 1.0f - 0.015f * getTotalUpgrade(AircraftStat.FRICTION);
         float gravity = getGravity();
         if (touchingWater) {
             gravity *= 0.25f;
             decay = 0.9f;
         } else if (onGround) {
-            decay = getGroundVelocityDecay();
+            if (hasPassengers()) {
+                decay = getGroundVelocityDecay();
+            } else {
+                decay = 0.75f;
+            }
         }
 
         // get direction
@@ -96,25 +114,39 @@ public abstract class AircraftEntity extends VehicleEntity {
         convertPower(direction);
 
         // friction
-        Vec3d vec3d = getVelocity();
-        setVelocity(vec3d.x * decay * getHorizontalVelocityDelay(), vec3d.y * decay * getVerticalVelocityDelay() + gravity, vec3d.z * decay * getHorizontalVelocityDelay());
+        Vec3d velocity = getVelocity();
+        setVelocity(velocity.x * decay * getHorizontalVelocityDelay(), velocity.y * decay * getVerticalVelocityDelay() + gravity, velocity.z * decay * getHorizontalVelocityDelay());
         pressingInterpolatedX.decay(0.0f, 1.0f - decay * getRotationDecay());
         pressingInterpolatedZ.decay(0.0f, 1.0f - decay * getRotationDecay());
 
         // wind
         if (!onGround) {
-            boolean thundering = world.getLevelProperties().isThundering();
-            boolean raining = world.getLevelProperties().isRaining();
-            float strength = (float)((1.0f + vec3d.length()) * (thundering ? 1.5f : 1.0f) * (raining ? 2.0f : 1.0f));
-            float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
-            float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass() * strength) * getProperties().getWindSensitivity() * strength);
-            setPitch(getPitch() + nx);
-            setYaw(getYaw() + nz);
+            Vec3f effect = getWindEffect();
+            setPitch(getPitch() + effect.getX());
+            setYaw(getYaw() + effect.getZ());
+
+            float offsetStrength = 0.005f;
+            setVelocity(getVelocity().add(effect.getX() * offsetStrength, 0.0f, effect.getZ() * offsetStrength));
         }
     }
 
     public void chill() {
         lastY = 0.0;
+    }
+
+    public float getWindStrength() {
+        float sensitivity = getProperties().getWindSensitivity();
+        float thundering = world.getRainGradient(0.0f);
+        float raining = world.getThunderGradient(0.0f);
+        float weather = (float)((Config.getInstance().windClearWeather + getVelocity().length()) + thundering * Config.getInstance().windThunderWeather + raining * Config.getInstance().windRainWeather);
+        return weather * sensitivity;
+    }
+
+    public Vec3f getWindEffect() {
+        float wind = getWindStrength();
+        float nx = (float)(Utils.cosNoise(age / 20.0 / getProperties().getMass()) * wind);
+        float nz = (float)(Utils.cosNoise(age / 21.0 / getProperties().getMass()) * wind);
+        return new Vec3f(nx, 0.0f, nz);
     }
 }
 

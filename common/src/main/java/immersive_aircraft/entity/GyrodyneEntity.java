@@ -3,9 +3,12 @@ package immersive_aircraft.entity;
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
@@ -17,12 +20,7 @@ import java.util.List;
 public class GyrodyneEntity extends Rotorcraft {
     private final static float PUSH_SPEED = 0.25f;
 
-    @Override
-    public GUI_STYLE getGuiStyle() {
-        return GUI_STYLE.NONE;
-    }
-
-    private final AircraftProperties properties = new AircraftProperties()
+    private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setPitchSpeed(5.0f)
             .setEngineSpeed(0.3f)
@@ -30,8 +28,26 @@ public class GyrodyneEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(30.0f)
-            .setWindSensitivity(0.025f)
-            .setMass(8.0f);
+            .setWindSensitivity(0.1f)
+            .setMass(4.0f);
+
+    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
+            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 6, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 28, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 6, 8 + 6 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 28, 8 + 6 + 22)
+            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 3, 8, 6, 3)
+            .build();
+
+    @Override
+    public VehicleInventoryDescription getInventoryDescription() {
+        return inventoryDescription;
+    }
+
+    @Override
+    public GUI_STYLE getGuiStyle() {
+        return GUI_STYLE.NONE;
+    }
 
     public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
@@ -57,7 +73,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     float getGroundVelocityDecay() {
-        return 0.85f;
+        return falloffGroundVelocityDecay(0.8f);
     }
 
     @Override
@@ -112,7 +128,9 @@ public class GyrodyneEntity extends Rotorcraft {
             if (getEngineTarget() == 1.0) {
                 if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
                     player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
-                    setVelocity(getVelocity().add(0, 0.25f, 0));
+                    if (onGround) {
+                        setVelocity(getVelocity().add(0, 0.25f, 0));
+                    }
                 }
             }
         }
@@ -127,11 +145,29 @@ public class GyrodyneEntity extends Rotorcraft {
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
-        if (onGround) {
+        if (onGround && getEngineTarget() < 1.0) {
             thrust = PUSH_SPEED * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate
         setVelocity(getVelocity().add(direction.multiply(thrust)));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
+            float consumption = getFuelConsumption() * 0.025f;
+            player.getHungerManager().addExhaustion(consumption);
+        }
+    }
+
+    @Override
+    public float getFuelUtilization() {
+        if (getPrimaryPassenger() instanceof PlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
+            return 1.0f;
+        }
+        return 0.0f;
     }
 }

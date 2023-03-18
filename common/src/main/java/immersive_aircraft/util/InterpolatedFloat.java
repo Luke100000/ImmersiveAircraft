@@ -6,7 +6,7 @@ public class InterpolatedFloat {
     private float valueSmooth;
     private float lastSmooth;
 
-    private final float steps;
+    private float steps;
 
     public InterpolatedFloat(float steps) {
         this.steps = 1.0f / steps;
@@ -26,6 +26,10 @@ public class InterpolatedFloat {
 
     public void decay(float towards, float decay) {
         valueSmooth = valueSmooth * (1.0f - decay) + towards * decay;
+    }
+
+    public void setSteps(float steps) {
+        this.steps = 1.0f / steps;
     }
 
     public float get(float tickDelta) {
