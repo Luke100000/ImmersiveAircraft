@@ -115,7 +115,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
         }
 
-        Vec3f effect = entity.getWindEffect();
+        Vec3f effect = entity.isOnGround() ? Vec3f.ZERO : entity.getWindEffect();
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yaw));
         matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + effect.getZ()));
         matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + effect.getX()));

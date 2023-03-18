@@ -106,11 +106,11 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
     int syncId;
 
-    public void openInventory(PlayerEntity player) {
+    public void openInventory(ServerPlayerEntity player) {
         syncId = (syncId + 1) % 100 + 100;
         ScreenHandler screenHandler = createMenu(syncId, player.getInventory(), player);
         if (screenHandler != null) {
-            NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.syncId), (ServerPlayerEntity)player);
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.syncId), player);
             player.currentScreenHandler = screenHandler;
             ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin)player;
             screenHandler.updateSyncHandler(playerAccessor.getScreenHandlerSyncHandler());
@@ -120,7 +120,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (!player.world.isClient && player.shouldCancelInteraction()) {
-            openInventory(player);
+            openInventory((ServerPlayerEntity)player);
             return ActionResult.CONSUME;
         }
         return super.interact(player, hand);
@@ -175,5 +175,12 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     @Override
     public boolean canBoost() {
         return getSlots(VehicleInventoryDescription.SlotType.BOOSTER).stream().anyMatch(v -> !v.isEmpty()) && getBoost() <= 0;
+    }
+
+    @Override
+    public void tick() {
+        inventory.tick(this);
+
+        super.tick();
     }
 }

@@ -4,6 +4,7 @@ import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public class CommandMessage implements Message {
@@ -35,7 +36,7 @@ public class CommandMessage implements Message {
 
         if (e.getRootVehicle() instanceof InventoryVehicleEntity vehicle) {
             if (key == Key.INVENTORY) {
-                vehicle.openInventory(e);
+                vehicle.openInventory((ServerPlayerEntity)e);
             }
         }
     }

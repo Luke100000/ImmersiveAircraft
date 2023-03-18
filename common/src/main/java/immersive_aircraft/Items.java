@@ -28,8 +28,8 @@ public interface Items {
 
     Supplier<Item> ENHANCED_PROPELLER = register("enhanced_propeller", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.FRICTION, -0.75f)));
     Supplier<Item> ECO_ENGINE = register("eco_engine", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.STRENGTH, -0.2f).set(AircraftStat.FUEL, -0.4f)));
-    Supplier<Item> NETHER_ENGINE = register("nether_engine", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.STRENGTH, 0.4f)));
-    Supplier<Item> STEEL_BOILER = register("steel_boiler", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.STRENGTH, 0.3f).set(AircraftStat.FUEL, 0.5f)));
+    Supplier<Item> NETHER_ENGINE = register("nether_engine", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.STRENGTH, 0.4f).set(AircraftStat.FUEL, 0.3f)));
+    Supplier<Item> STEEL_BOILER = register("steel_boiler", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.STRENGTH, 0.25f).set(AircraftStat.FUEL, 0.5f)));
     Supplier<Item> INDUSTRIAL_GEARS = register("industrial_gears", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.FUEL, -0.2f)));
     Supplier<Item> STURDY_PIPES = register("sturdy_pipes", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.STRENGTH, 0.1f)));
     Supplier<Item> GYROSCOPE = register("gyroscope", () -> new UpgradeItem(baseProps().maxCount(8), new AircraftUpgrade().set(AircraftStat.WIND, -1.0f)));

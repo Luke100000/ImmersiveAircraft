@@ -9,6 +9,7 @@ public class VehicleInventoryDescription {
     int height = 0;
     int storageHeight = 0;
     int lastIndex = 0;
+    int lastSyncIndex = 0;
 
     public enum SlotType {
         INVENTORY,
@@ -59,6 +60,11 @@ public class VehicleInventoryDescription {
         Slot slot = new Slot(x, y, lastIndex++, type);
         slotMap.get(type).add(slot);
         slots.add(slot);
+
+        if (type != SlotType.INVENTORY && type != SlotType.STORAGE) {
+            lastSyncIndex = lastIndex;
+        }
+
         return this;
     }
 
@@ -88,5 +94,9 @@ public class VehicleInventoryDescription {
 
     public int getStorageHeight() {
         return storageHeight;
+    }
+
+    public int getLastSyncIndex() {
+        return lastSyncIndex;
     }
 }
