@@ -14,7 +14,9 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -30,6 +32,14 @@ public abstract class EngineAircraft extends AircraftEntity {
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
     public float engineSpinUpStrength = 0.0f;
     public float engineSound = 0.0f;
+
+    enum FuelState {
+        NEVER,
+        EMPTY,
+        FUELED;
+    }
+
+    FuelState lastFuelState = FuelState.NEVER;
 
     private final int[] fuel;
 
@@ -127,8 +137,26 @@ public abstract class EngineAircraft extends AircraftEntity {
         // Refuel
         if (hasPassengers()) {
             refuel();
-            getFuelUtilization();
+
+            // Fuel notification
+            if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
+                float utilization = getFuelUtilization();
+                if (utilization > 0) {
+                    lastFuelState = FuelState.FUELED;
+                } else {
+                    if (lastFuelState != FuelState.EMPTY) {
+                        player.sendMessage(new TranslatableText("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")), true);
+                        lastFuelState = FuelState.EMPTY;
+                    }
+                }
+            }
+        } else {
+            lastFuelState = FuelState.NEVER;
         }
+    }
+
+    String getFuelType() {
+        return "fuel";
     }
 
     float getFuelConsumption() {

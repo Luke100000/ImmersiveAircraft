@@ -117,6 +117,11 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
+    String getFuelType() {
+        return "fuel";
+    }
+
+    @Override
     void updateController() {
         super.updateController();
 
