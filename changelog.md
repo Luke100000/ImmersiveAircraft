@@ -2,6 +2,7 @@
 
 * Fixed fuel notification on gyrodyne
 * Fixed air friction stat color
+* Fixed server crash
 
 # 0.4.0
 
