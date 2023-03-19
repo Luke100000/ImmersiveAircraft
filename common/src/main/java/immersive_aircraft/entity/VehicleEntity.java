@@ -518,7 +518,7 @@ public abstract class VehicleEntity extends Entity {
         super.move(movementType, movement);
 
         // Collision damage
-        if (Config.getInstance().collisionDamage) {
+        if (world.isClient && Config.getInstance().collisionDamage) {
             if (verticalCollision || horizontalCollision) {
                 float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
                 if (collision > 0.01f) {

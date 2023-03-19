@@ -1,3 +1,9 @@
+# 0.4.1
+
+* Fixed fuel notification on gyrodyne
+* Fixed air friction stat color
+* Fixed server crash
+
 # 0.4.0
 
 * Added inventory
