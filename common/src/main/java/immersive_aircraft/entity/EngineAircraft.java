@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -236,6 +237,9 @@ public abstract class EngineAircraft extends AircraftEntity {
 
     public float getFuelUtilization() {
         if (Config.getInstance().fuelConsumption == 0) {
+            return 1.0f;
+        }
+        if (!Config.getInstance().burnFuelInCreative && getPrimaryPassenger() instanceof PlayerEntity player && player.isCreative()) {
             return 1.0f;
         }
         if (world.isClient) {

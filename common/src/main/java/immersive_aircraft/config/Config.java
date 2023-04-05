@@ -42,4 +42,7 @@ public final class Config extends JsonConfig {
 
     @BooleanConfigEntry(true)
     public boolean onlyPlayerCanDestroyAircraft;
+
+    @BooleanConfigEntry(false)
+    public boolean burnFuelInCreative;
 }

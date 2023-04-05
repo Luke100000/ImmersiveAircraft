@@ -65,6 +65,7 @@
   "option.immersive_aircraft.windThunderWeather": "Extra wind at thunder.",
   "option.immersive_aircraft.collisionDamage": "Collision damage.",
   "option.immersive_aircraft.onlyPlayerCanDestroyAircraft": "Only player can destroy aircraft.",
+  "option.immersive_aircraft.burnFuelInCreative": "Burn fuel in creative mode.",
 
   "immersive_aircraft.slot.booster": "Boost rockets",
   "immersive_aircraft.slot.weapon": "Weapon slot (Upcoming Feature)",
