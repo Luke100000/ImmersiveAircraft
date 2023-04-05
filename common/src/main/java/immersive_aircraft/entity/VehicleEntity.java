@@ -22,14 +22,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
@@ -117,7 +117,7 @@ public abstract class VehicleEntity extends Entity {
     public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
         intersectionChecked = true;
-        stepHeight = 0.55f;
+        setStepHeight(0.55f);
 
         pressingInterpolatedX = new InterpolatedFloat(getInputInterpolationSteps());
         pressingInterpolatedY = new InterpolatedFloat(getInputInterpolationSteps());
@@ -213,7 +213,7 @@ public abstract class VehicleEntity extends Entity {
         if (random.nextInt(20) == 0) {
             world.playSound(getX(), getY(), getZ(), getSplashSound(), getSoundCategory(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
         }
-        emitGameEvent(GameEvent.SPLASH, getPrimaryPassenger());
+        emitGameEvent(GameEvent.SPLASH, getControllingPassenger());
     }
 
     @Override
@@ -232,7 +232,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public void animateDamage() {
+    public void animateDamage(float yaw) {
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() * 11.0f);
@@ -343,7 +343,7 @@ public abstract class VehicleEntity extends Entity {
         checkBlockCollision();
         List<Entity> list = world.getOtherEntities(this, getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
-            boolean bl = !world.isClient && !(getPrimaryPassenger() instanceof PlayerEntity);
+            boolean bl = !world.isClient && !(getControllingPassenger() instanceof PlayerEntity);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengerList().size() < (getPassengerSpace() - 1) && !entity.hasVehicle() && entity.getWidth() < getWidth() && entity instanceof LivingEntity && !(entity instanceof WaterCreatureEntity) && !(entity instanceof PlayerEntity)) {
@@ -445,7 +445,7 @@ public abstract class VehicleEntity extends Entity {
             double e;
             Vec3d vec3d = getDismountOffset(getWidth() * MathHelper.SQUARE_ROOT_OF_TWO, passenger.getWidth());
             double d = getX() + vec3d.x;
-            BlockPos blockPos = new BlockPos(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
+            BlockPos blockPos = BlockPos.ofFloored(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
             BlockPos blockPos2 = blockPos.down();
             if (!world.isWater(blockPos2)) {
                 double g;
@@ -566,10 +566,13 @@ public abstract class VehicleEntity extends Entity {
         return getPassengerList().size() < getPassengerSpace() && !isSubmergedIn(FluidTags.WATER);
     }
 
-    @Override
     @Nullable
-    public Entity getPrimaryPassenger() {
-        return getFirstPassenger();
+    public LivingEntity getControllingPassenger() {
+        if (getFirstPassenger() instanceof LivingEntity le) {
+            return le;
+        } else {
+            return super.getControllingPassenger();
+        }
     }
 
     public void setInputs(float x, float y, float z) {

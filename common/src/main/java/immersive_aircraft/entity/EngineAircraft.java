@@ -152,7 +152,7 @@ public abstract class EngineAircraft extends AircraftEntity {
             refuel();
 
             // Fuel notification
-            if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
+            if (getControllingPassenger() instanceof ServerPlayerEntity player) {
                 float utilization = getFuelUtilization();
                 if (utilization > 0 && isFuelLow()) {
                     if (lastFuelState != FuelState.LOW) {
@@ -292,7 +292,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (Config.getInstance().fuelConsumption == 0) {
             return 1.0f;
         }
-        if (!Config.getInstance().burnFuelInCreative && getPrimaryPassenger() instanceof PlayerEntity player && player.isCreative()) {
+        if (!Config.getInstance().burnFuelInCreative && getControllingPassenger() instanceof PlayerEntity player && player.isCreative()) {
             return 1.0f;
         }
         if (world.isClient) {

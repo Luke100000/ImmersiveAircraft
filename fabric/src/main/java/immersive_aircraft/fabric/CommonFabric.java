@@ -20,7 +20,7 @@ public final class CommonFabric implements ModInitializer {
         ItemGroups.GROUP = FabricItemGroup.builder(ItemGroups.getIdentifier())
                 .displayName(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
-                .entries((enabledFeatures, entries, operatorEnabled) -> entries.addAll(Items.getSortedItems()))
+                .entries((enabledFeatures, entries) -> entries.addAll(Items.getSortedItems()))
                 .build();
     }
 }

@@ -111,7 +111,7 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     private void updateEnginePowerTooltip() {
-        if (getPrimaryPassenger() instanceof ClientPlayerEntity player && getFuelUtilization() > 0.0) {
+        if (getControllingPassenger() instanceof ClientPlayerEntity player && getFuelUtilization() > 0.0) {
             player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
@@ -136,7 +136,7 @@ public class GyrodyneEntity extends Rotorcraft {
             updateEnginePowerTooltip();
 
             if (getEngineTarget() == 1.0) {
-                if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
+                if (getControllingPassenger() instanceof ClientPlayerEntity player) {
                     player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
                     if (onGround) {
                         setVelocity(getVelocity().add(0, 0.25f, 0));
@@ -169,7 +169,7 @@ public class GyrodyneEntity extends Rotorcraft {
     public void tick() {
         super.tick();
 
-        if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
+        if (getControllingPassenger() instanceof ServerPlayerEntity player) {
             float consumption = getFuelConsumption() * 0.025f;
             player.getHungerManager().addExhaustion(consumption);
         }
@@ -177,7 +177,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     public float getFuelUtilization() {
-        if (getPrimaryPassenger() instanceof PlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
+        if (getControllingPassenger() instanceof PlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
             return 1.0f;
         }
         return 0.0f;

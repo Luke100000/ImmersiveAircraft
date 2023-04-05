@@ -80,7 +80,7 @@ public class AircraftItem extends Item {
 
             if (!world.isClient) {
                 world.spawnEntity(entity);
-                world.emitGameEvent(user, GameEvent.ENTITY_PLACE, new BlockPos(hitResult.getPos()));
+                world.emitGameEvent(user, GameEvent.ENTITY_PLACE, BlockPos.ofFloored(hitResult.getPos()));
                 if (!user.getAbilities().creativeMode) {
                     itemStack.decrement(1);
                 }
