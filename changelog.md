@@ -1,3 +1,7 @@
+# 0.4.2
+
+* Configurable fuel consumption can now exceed 1
+
 # 0.4.1
 
 * Fixed fuel notification on gyrodyne
