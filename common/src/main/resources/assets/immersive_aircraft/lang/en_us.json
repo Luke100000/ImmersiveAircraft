@@ -12,6 +12,17 @@
   "key.immersive_aircraft.dismount": "Dismount",
   "key.immersive_aircraft.boost": "Rocket boost",
 
+  "key.immersive_aircraft.fallback_control_left": "Left",
+  "key.immersive_aircraft.fallback_control_right": "Right",
+  "key.immersive_aircraft.fallback_control_forward": "Forward",
+  "key.immersive_aircraft.fallback_control_backward": "Backward",
+  "key.immersive_aircraft.fallback_control_up": "Up",
+  "key.immersive_aircraft.fallback_control_down": "Down",
+  "key.immersive_aircraft.fallback_control_pull": "Pull Controller",
+  "key.immersive_aircraft.fallback_control_push": "Push Controller",
+  "key.immersive_aircraft.fallback_dismount": "Dismount",
+  "key.immersive_aircraft.fallback_boost": "Rocket boost",
+
   "entity.immersive_aircraft.airship": "Airship",
   "entity.immersive_aircraft.biplane": "Biplane",
   "entity.immersive_aircraft.gyrodyne": "Gyrodyne",

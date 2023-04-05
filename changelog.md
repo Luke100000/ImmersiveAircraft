@@ -7,6 +7,8 @@
 * The engine no longer burns the whole bucket
 * Added a configurable fuel map
 * Cut default wind sensibility in half
+* Changed back to custom Keybindings, allowing to reuse keys without conflicts
+    * A config flag exists to disable this in case of mod conflicts
 
 # 0.4.1
 
