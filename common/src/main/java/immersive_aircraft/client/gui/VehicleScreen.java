@@ -4,18 +4,17 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.EngineAircraft;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.mixin.SlotAccessorMixin;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.Locale;
-import java.util.Optional;
 
 public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     private static final Identifier TEXTURE = Main.locate("textures/gui/container/inventory.png");
@@ -39,9 +38,9 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     }
 
     protected void drawCustomBackground(MatrixStack matrices) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        assert client != null;
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        client.getTextureManager().bindTexture(TEXTURE);
 
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, containerSize + titleHeight * 2, 512, 256);
         drawTexture(matrices, x, y + containerSize + titleHeight * 2 - 4, 0, 222 - baseHeight, backgroundWidth, baseHeight, 512, 256);
@@ -55,30 +54,45 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         drawCustomBackground(matrices);
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        assert client != null;
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        client.getTextureManager().bindTexture(TEXTURE);
 
         int titleHeight = 10;
 
         for (VehicleInventoryDescription.Slot slot : handler.getVehicle().getInventoryDescription().getSlots()) {
             switch (slot.type) {
-                case INVENTORY -> drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
-                case STORAGE -> drawImage(matrices, x + slot.x - 1 + 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
-                case BOILER -> {
+                case INVENTORY:
+                    drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
+                    break;
+                case STORAGE:
+                    drawImage(matrices, x + slot.x - 1 + 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
+                    break;
+                case BOILER: {
                     drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318, 0, 24, 39);
-                    if (handler.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
+                    if (handler.getVehicle() instanceof EngineAircraft && ((EngineAircraft)handler.getVehicle()).getFuelUtilization() > 0.0) {
                         drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
                     }
+                    break;
                 }
-                default -> {
+                default: {
                     if (handler.getVehicle().getInventory().getStack(slot.index).isEmpty()) {
                         switch (slot.type) {
-                            case WEAPON -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
-                            case UPGRADE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
-                            case BANNER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
-                            case DYE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
-                            case BOOSTER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                            case WEAPON:
+                                drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
+                                break;
+                            case UPGRADE:
+                                drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
+                                break;
+                            case BANNER:
+                                drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
+                                break;
+                            case DYE:
+                                drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
+                                break;
+                            case BOOSTER:
+                                drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                                break;
                         }
                     } else {
                         drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 0, 22, 22);
@@ -91,9 +105,9 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
 
         // Slot tooltip
         if (focusedSlot != null && !focusedSlot.hasStack() && focusedSlot.inventory == handler.getVehicle().getInventory()) {
-            VehicleInventoryDescription.Slot slot = handler.getVehicle().getInventoryDescription().getSlots().get(focusedSlot.getIndex());
+            VehicleInventoryDescription.Slot slot = handler.getVehicle().getInventoryDescription().getSlots().get(((SlotAccessorMixin)focusedSlot).getIndex());
             if (slot.type == VehicleInventoryDescription.SlotType.DYE || slot.type == VehicleInventoryDescription.SlotType.BOOSTER || slot.type == VehicleInventoryDescription.SlotType.BOILER || slot.type == VehicleInventoryDescription.SlotType.UPGRADE || slot.type == VehicleInventoryDescription.SlotType.BANNER || slot.type == VehicleInventoryDescription.SlotType.WEAPON) {
-                this.renderTooltip(matrices, List.of(new TranslatableText("immersive_aircraft.slot." + slot.type.name().toLowerCase(Locale.ROOT))), Optional.empty(), mouseX, mouseY);
+                this.renderTooltip(matrices, Collections.singletonList(new TranslatableText("immersive_aircraft.slot." + slot.type.name().toLowerCase(Locale.ROOT))), mouseX, mouseY);
             }
         } else {
             drawMouseoverTooltip(matrices, mouseX, mouseY);

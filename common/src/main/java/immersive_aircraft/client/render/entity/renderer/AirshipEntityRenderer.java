@@ -55,7 +55,8 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
 
                                         ItemStack stack = entity.getSlots(VehicleInventoryDescription.SlotType.DYE).get(0);
                                         DyeColor color;
-                                        if (stack.getItem() instanceof DyeItem item) {
+                                        if (stack.getItem() instanceof DyeItem) {
+                                            DyeItem item = (DyeItem) stack.getItem();
                                             color = item.getColor();
                                         } else {
                                             color = DyeColor.WHITE;

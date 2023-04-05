@@ -68,9 +68,9 @@ public class OverlayRenderer {
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
 
             client.getTextureManager().bindTexture(TEXTURE2);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
+            RenderSystem.color4f(1.0f, 1.0f, 1.0f, 0.5f);
             DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
         }
     }

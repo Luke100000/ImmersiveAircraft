@@ -10,7 +10,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

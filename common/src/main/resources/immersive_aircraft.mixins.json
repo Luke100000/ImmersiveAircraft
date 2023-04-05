@@ -4,7 +4,8 @@
   "package": "immersive_aircraft.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "SlotAccessorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

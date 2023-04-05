@@ -5,7 +5,6 @@ import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.UpgradeItem;
 import immersive_aircraft.item.upgrade.AircraftStat;
-import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -56,8 +55,8 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
-                if (stack.getItem() instanceof UpgradeItem upgrade) {
-                    float u = upgrade.getUpgrade().get(stat);
+                if (stack.getItem() instanceof UpgradeItem) {
+                    float u = ((UpgradeItem)stack.getItem()).getUpgrade().get(stat);
                     if (u > 0 && step == 1) {
                         value += u;
                     } else if (u < 0 && step == 0) {
@@ -108,12 +107,11 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
     public void openInventory(ServerPlayerEntity player) {
         syncId = (syncId + 1) % 100 + 100;
-        ScreenHandler screenHandler = createMenu(syncId, player.getInventory(), player);
+        ScreenHandler screenHandler = createMenu(syncId, player.inventory, player);
         if (screenHandler != null) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.syncId), player);
             player.currentScreenHandler = screenHandler;
-            ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin)player;
-            screenHandler.updateSyncHandler(playerAccessor.getScreenHandlerSyncHandler());
+            player.currentScreenHandler.addListener(player);
         }
     }
 

@@ -22,7 +22,7 @@ import java.util.Map;
 public class KeyBindingMixin {
     @Shadow
     @Final
-    private static Map<String, KeyBinding> KEYS_BY_ID;
+    private static Map<String, KeyBinding> keysById;
 
     @Inject(method = "onKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;)V", at = @At("HEAD"))
     private static void immersiveAircraft$onKeyPressed(InputUtil.Key key, CallbackInfo ci) {
@@ -43,8 +43,9 @@ public class KeyBindingMixin {
     @Inject(method = "updateKeysByCode()V", at = @At("HEAD"))
     private static void immersiveAircraft$updateKeysByCode(CallbackInfo ci) {
         MultiKeyBinding.KEY_TO_BINDING.clear();
-        for (KeyBinding keyBinding : KEYS_BY_ID.values()) {
-            if (keyBinding instanceof MultiKeyBinding kb) {
+        for (KeyBinding keyBinding : keysById.values()) {
+            if (keyBinding instanceof MultiKeyBinding) {
+                MultiKeyBinding kb = (MultiKeyBinding)keyBinding;
                 MultiKeyBinding.KEY_TO_BINDING.computeIfAbsent(kb.customBoundKey, v -> new LinkedList<>()).add(kb);
             }
         }

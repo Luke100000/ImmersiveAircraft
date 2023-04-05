@@ -14,10 +14,10 @@ public class ClientNetworkManager implements NetworkManager {
         if (client.world != null && client.player != null) {
             InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.world.getEntityById(message.getVehicle());
             if (vehicle != null) {
-                VehicleScreenHandler handler = (VehicleScreenHandler)vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
-                VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName());
+                VehicleScreenHandler handler = (VehicleScreenHandler)vehicle.createMenu(message.getSyncId(), client.player.inventory, client.player);
+                VehicleScreen screen = new VehicleScreen(handler, client.player.inventory, vehicle.getDisplayName());
                 client.player.currentScreenHandler = screen.getScreenHandler();
-                client.setScreen(screen);
+                client.openScreen(screen);
             }
         }
     }

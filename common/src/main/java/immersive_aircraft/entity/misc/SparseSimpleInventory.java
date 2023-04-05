@@ -46,10 +46,10 @@ public class SparseSimpleInventory extends SimpleInventory {
 
 
     public void tick(InventoryVehicleEntity entity) {
-        if (entity.getWorld().isClient) {
+        if (entity.world.isClient) {
             // Sync initial inventory
             if (!inventoryRequested) {
-                NetworkHandler.sendToServer(new RequestInventory(entity.getId()));
+                NetworkHandler.sendToServer(new RequestInventory(entity.getEntityId()));
                 inventoryRequested = true;
             }
         } else {
@@ -59,9 +59,9 @@ public class SparseSimpleInventory extends SimpleInventory {
             ItemStack trackedStack = tracked.get(index);
             if (!stack.equals(trackedStack)) {
                 tracked.set(index, stack);
-                entity.getWorld().getPlayers().forEach(p -> {
-                    if (!(p.currentScreenHandler instanceof VehicleScreenHandler vehicleScreenHandler && vehicleScreenHandler.getVehicle() == entity)) {
-                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getId(), index, stack), (ServerPlayerEntity)p);
+                entity.world.getPlayers().forEach(p -> {
+                    if (!(p.currentScreenHandler instanceof VehicleScreenHandler && ((VehicleScreenHandler)p.currentScreenHandler).getVehicle() == entity)) {
+                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getEntityId(), index, stack), (ServerPlayerEntity)p);
                     }
                 });
             }

@@ -32,14 +32,14 @@ public class KeyBindings {
         } else {
             MinecraftClient client = MinecraftClient.getInstance();
 
-            left = newFallbackKey("fallback_control_left", () -> client.options.leftKey);
-            right = newFallbackKey("fallback_control_right", () -> client.options.rightKey);
-            forward = newFallbackKey("fallback_control_forward", () -> client.options.forwardKey);
-            backward = newFallbackKey("fallback_control_backward", () -> client.options.backKey);
-            up = newFallbackKey("fallback_control_up", () -> client.options.jumpKey);
-            down = newFallbackKey("fallback_control_down", () -> client.options.sneakKey);
-            pull = newFallbackKey("fallback_control_pull", () -> client.options.backKey);
-            push = newFallbackKey("fallback_control_push", () -> client.options.forwardKey);
+            left = newFallbackKey("fallback_control_left", () -> client.options.keyLeft);
+            right = newFallbackKey("fallback_control_right", () -> client.options.keyRight);
+            forward = newFallbackKey("fallback_control_forward", () -> client.options.keyForward);
+            backward = newFallbackKey("fallback_control_backward", () -> client.options.keyBack);
+            up = newFallbackKey("fallback_control_up", () -> client.options.keyJump);
+            down = newFallbackKey("fallback_control_down", () -> client.options.keySneak);
+            pull = newFallbackKey("fallback_control_pull", () -> client.options.keyBack);
+            push = newFallbackKey("fallback_control_push", () -> client.options.keyForward);
 
             dismount = newKey("fallback_dismount", GLFW.GLFW_KEY_R);
             boost = newKey("fallback_boost", GLFW.GLFW_KEY_B);

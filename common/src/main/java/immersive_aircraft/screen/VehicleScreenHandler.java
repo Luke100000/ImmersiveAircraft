@@ -12,7 +12,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.DyeItem;
-import net.minecraft.item.FireworkRocketItem;
+import net.minecraft.item.FireworkItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
@@ -41,7 +41,7 @@ public class VehicleScreenHandler extends ScreenHandler {
             } else if (slot.type == VehicleInventoryDescription.SlotType.UPGRADE) {
                 this.addSlot(new UpgradeSlot(vehicle, UpgradeItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BOOSTER) {
-                this.addSlot(new TypedSlot(FireworkRocketItem.class, 64, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new TypedSlot(FireworkItem.class, 64, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BANNER) {
                 this.addSlot(new TypedSlot(BannerItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.DYE) {
@@ -105,7 +105,7 @@ public class VehicleScreenHandler extends ScreenHandler {
             while (!stack.isEmpty() && (i < endIndex)) {
                 Slot slot = this.slots.get(i);
                 ItemStack target = slot.getStack();
-                if (!target.isEmpty() && ItemStack.canCombine(stack, target)) {
+                if (!target.isEmpty() && ItemStack.areEqual(stack, target)) {
                     int diff = target.getCount() + stack.getCount();
                     int maxCount = slot.getMaxItemCount(stack);
                     if (diff <= maxCount) {

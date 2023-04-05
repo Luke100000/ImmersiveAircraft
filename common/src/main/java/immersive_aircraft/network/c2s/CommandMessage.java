@@ -22,9 +22,9 @@ public class CommandMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        if (e.getRootVehicle() instanceof VehicleEntity aircraft) {
+        if (e.getRootVehicle() instanceof VehicleEntity) {
+            VehicleEntity vehicle = (VehicleEntity) e.getRootVehicle();
             if (key == Key.DISMOUNT) {
-                VehicleEntity vehicle = (VehicleEntity) e.getRootVehicle();
                 e.stopRiding();
                 vehicle.chill();
                 vehicle.setVelocity(fx, fy, fz);
@@ -35,7 +35,8 @@ public class CommandMessage implements Message {
             }
         }
 
-        if (e.getRootVehicle() instanceof InventoryVehicleEntity vehicle) {
+        if (e.getRootVehicle() instanceof InventoryVehicleEntity) {
+            InventoryVehicleEntity vehicle = (InventoryVehicleEntity) e.getRootVehicle();
             if (key == Key.INVENTORY) {
                 vehicle.openInventory((ServerPlayerEntity)e);
             }

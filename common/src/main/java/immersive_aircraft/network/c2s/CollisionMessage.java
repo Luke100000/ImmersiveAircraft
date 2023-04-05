@@ -14,7 +14,8 @@ public class CollisionMessage implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
+        if (e.getRootVehicle() instanceof VehicleEntity) {
+            VehicleEntity vehicle = (VehicleEntity) e.getRootVehicle();
             vehicle.damage(DamageSource.FALL, damage);
         }
     }
