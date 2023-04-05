@@ -156,7 +156,7 @@ public abstract class EngineAircraft extends AircraftEntity {
                 float utilization = getFuelUtilization();
                 if (utilization > 0 && isFuelLow()) {
                     if (lastFuelState != FuelState.LOW) {
-                        player.sendMessage(new TranslatableText("immersive_aircraft." + getFuelType() + ".low"), true);
+                        player.sendMessage(Text.translatable("immersive_aircraft." + getFuelType() + ".low"), true);
                         lastFuelState = FuelState.LOW;
                     }
                 } else if (utilization > 0) {
