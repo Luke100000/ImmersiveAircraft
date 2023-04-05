@@ -1,6 +1,7 @@
 # 0.4.2
 
 * Configurable fuel consumption can now exceed 1
+* If fuel consumption is set to 0, no initial item needs to get burned
 
 # 0.4.1
 

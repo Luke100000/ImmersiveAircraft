@@ -235,6 +235,9 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     public float getFuelUtilization() {
+        if (Config.getInstance().fuelConsumption == 0) {
+            return 1.0f;
+        }
         if (world.isClient) {
             return dataTracker.get(UTILIZATION);
         } else {
