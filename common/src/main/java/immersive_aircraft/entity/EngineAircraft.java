@@ -38,7 +38,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     enum FuelState {
         NEVER,
         EMPTY,
-        FUELED;
+        FUELED
     }
 
     FuelState lastFuelState = FuelState.NEVER;
@@ -173,7 +173,12 @@ public abstract class EngineAircraft extends AircraftEntity {
             int time = getFuelTime(stack);
             if (time > 0) {
                 fuel[i] += time;
+                Item item = stack.getItem();
                 stack.decrement(1);
+                if (stack.isEmpty()) {
+                    Item item2 = item.getRecipeRemainder();
+                    inventory.setStack(slots.get(i).index, item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
+                }
             }
         }
     }
