@@ -21,6 +21,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simulated engine behavior
@@ -227,12 +228,19 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
     }
 
+    public static Map<Item, Integer> cachedFuels;
+
     public static int getFuelTime(ItemStack fuel) {
         if (fuel.isEmpty()) {
             return 0;
         }
         Item item = fuel.getItem();
-        return AbstractFurnaceBlockEntity.createFuelTimeMap().getOrDefault(item, 0);
+
+        if (cachedFuels == null) {
+            cachedFuels = AbstractFurnaceBlockEntity.createFuelTimeMap();
+        }
+
+        return cachedFuels.getOrDefault(item, 0);
     }
 
     public float getFuelUtilization() {
