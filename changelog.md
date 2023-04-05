@@ -1,3 +1,34 @@
+# 0.4.2
+
+* Engines now have a fuel buffer and then die slowly when out of fuel
+* Configurable fuel consumption can now exceed 1
+* If fuel consumption is set to 0, no initial item needs to get burned
+* Don't burn fuel in creative mode (configurable)
+* The engine no longer burns the whole bucket
+* Added a configurable fuel map
+* Cut default wind sensibility in half
+* Changed back to custom Keybindings, allowing to reuse keys without conflicts
+    * A config flag exists to disable this in case of mod conflicts
+
+# 0.4.1
+
+* Fixed fuel notification on gyrodyne
+* Fixed air friction stat color
+* Fixed server crash
+
+# 0.4.0
+
+* Added inventory
+* Added fuel
+    * The Gyrodyne burns your body fat instead
+* Added 9 unique upgrade items
+* Added banners to enhance the look of the Airplane and Airship
+* Added dye slots to tint the Airships sails
+* Added rocket boost
+* Improved wind mechanics, configurable
+* Crashing aircraft now destroys them, configurable
+    * By default, only player can destroy aircraft to avoid a rogue skeleton throwing your stuff on the floor
+
 # 0.3.2
 
 * 1.16.5 now uses the right Java version

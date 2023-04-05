@@ -8,6 +8,7 @@ import immersive_aircraft.compat.Matrix4f;
 import immersive_aircraft.compat.Vec3f;
 import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.block.BlockState;
@@ -28,6 +29,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -50,6 +53,8 @@ public abstract class VehicleEntity extends Entity {
     static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
     static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+
+    static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     int interpolationSteps;
 
@@ -77,6 +82,22 @@ public abstract class VehicleEntity extends Entity {
 
     public float getRoll(float tickDelta) {
         return MathHelper.lerp(tickDelta, prevRoll, getRoll());
+    }
+
+    public void boost() {
+        dataTracker.set(BOOST, 100);
+    }
+
+    protected void applyBoost() {
+
+    }
+
+    public boolean canBoost() {
+        return false;
+    }
+
+    public int getBoost() {
+        return dataTracker.get(BOOST);
     }
 
     abstract protected List<List<Vec3d>> getPassengerPositions();
@@ -115,6 +136,7 @@ public abstract class VehicleEntity extends Entity {
         dataTracker.startTracking(DAMAGE_WOBBLE_TICKS, 0);
         dataTracker.startTracking(DAMAGE_WOBBLE_SIDE, 1);
         dataTracker.startTracking(DAMAGE_WOBBLE_STRENGTH, 0.0f);
+        dataTracker.startTracking(BOOST, 0);
     }
 
     @Override
@@ -156,15 +178,25 @@ public abstract class VehicleEntity extends Entity {
         }
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
-        setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f);
+        setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f / getDurability());
         boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).abilities.creativeMode;
-        if (bl || getDamageWobbleStrength() > 60.0f) {
-            if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-                dropItem(asItem());
+        if (bl || getDamageWobbleStrength() > 40.0f) {
+            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers() || source.getAttacker() instanceof PlayerEntity) {
+                if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+                    drop();
+                }
+                remove();
             }
-            remove();
         }
         return true;
+    }
+
+    protected float getDurability() {
+        return 1.0f;
+    }
+
+    protected void drop() {
+        dropItem(asItem());
     }
 
     @Override
@@ -238,6 +270,11 @@ public abstract class VehicleEntity extends Entity {
                     if (KeyBindings.dismount.wasPressed()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
                     }
+                    if (KeyBindings.boost.wasPressed() && canBoost()) {
+                        NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getVelocity()));
+                        Vec3d p = getPos();
+                        world.playSound(p.getX(), p.getY(), p.getZ(), SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
+                    }
                 }
             }
 
@@ -272,12 +309,25 @@ public abstract class VehicleEntity extends Entity {
         // interpolate
         handleClientSync();
 
+
+        int boost = getBoost();
+        if (boost > 0) {
+            dataTracker.set(BOOST, boost - 1);
+        }
+
         // if it's the right side, update the velocity
         if (isLogicalSideForUpdatingMovement()) {
             updateVelocity();
+
+            // boost
+            if (boost > 0) {
+                applyBoost();
+            }
+
             if (world.isClient) {
                 updateController();
             }
+
             move(MovementType.SELF, getVelocity());
         }
 
@@ -460,14 +510,16 @@ public abstract class VehicleEntity extends Entity {
         Vec3d prediction = getPos().add(movement);
         super.move(movementType, movement);
 
-        if (verticalCollision || horizontalCollision) {
-            float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
-            if (collision > 0.0001f) {
-                float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
-                if (repeat > 0.0f) {
-                    setDamageWobbleSide(-getDamageWobbleSide());
-                    setDamageWobbleTicks(10);
-                    setDamageWobbleStrength(getDamageWobbleStrength() + collision * 50 * repeat * repeat);
+        // Collision damage
+        if (world.isClient && Config.getInstance().collisionDamage) {
+            if (verticalCollision || horizontalCollision) {
+                float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
+                if (collision > 0.01f) {
+                    float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
+                    if (repeat > 0.0001f) {
+                        float damage = collision * 20 * repeat * repeat;
+                        NetworkHandler.sendToServer(new CollisionMessage(damage));
+                    }
                 }
             }
         }
@@ -576,6 +628,10 @@ public abstract class VehicleEntity extends Entity {
     public boolean shouldRender(double distance) {
         double d = Config.getInstance().renderDistance * getRenderDistanceMultiplier();
         return distance < d * d;
+    }
+
+    public void chill() {
+
     }
 
     // Start of compat

@@ -6,6 +6,7 @@ import immersive_aircraft.compat.Matrix4f;
 import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
@@ -19,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class AirshipEntity extends Rotorcraft {
-    private final AircraftProperties properties = new AircraftProperties()
+    private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setEngineSpeed(0.02f)
             .setVerticalSpeed(0.025f)
@@ -28,10 +29,31 @@ public class AirshipEntity extends Rotorcraft {
             .setLift(0.1f)
             .setRollFactor(5.0f)
             .setWindSensitivity(0.05f)
-            .setMass(12.0f);
+            .setMass(3.0f);
+
+    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
+            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 36)
+            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 28, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.BANNER, 8 + 18 * 2 + 6, 8 + 6 + 22 * 2)
+            .addSlot(VehicleInventoryDescription.SlotType.DYE, 8 + 18 * 2 + 28, 8 + 6 + 22 * 2)
+            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
+            .build();
+
+    @Override
+    public VehicleInventoryDescription getInventoryDescription() {
+        return inventoryDescription;
+    }
 
     public AirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    float getEngineReactionSpeed() {
+        return 50.0f;
     }
 
     SoundEvent getEngineSound() {
@@ -122,8 +144,10 @@ public class AirshipEntity extends Rotorcraft {
     public void tick() {
         super.tick();
 
+        float power = getEnginePower();
+
         if (world.isClient) {
-            if (isWithinParticleRange()) {
+            if (isWithinParticleRange() && power > 0.01) {
                 Matrix4f transform = getVehicleTransform();
 
                 // Trails
@@ -133,7 +157,7 @@ public class AirshipEntity extends Rotorcraft {
                 trail(tr, 0.0f);
 
                 // Smoke
-                if (enginePower.getValue() > 0.0 && age % 2 == 0) {
+                if (age % 2 == 0) {
                     Vector4f p = transformPosition(transform, (random.nextFloat() - 0.5f) * 0.4f, 0.8f, -0.8f);
                     Vec3d velocity = getVelocity();
                     world.addParticle(ParticleTypes.SMOKE, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);

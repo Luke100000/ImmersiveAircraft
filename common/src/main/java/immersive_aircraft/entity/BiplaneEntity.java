@@ -6,6 +6,7 @@ import immersive_aircraft.compat.Matrix4f;
 import immersive_aircraft.compat.Vec3f;
 import immersive_aircraft.compat.Vector4f;
 import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
@@ -17,8 +18,30 @@ import java.util.Collections;
 import java.util.List;
 
 public class BiplaneEntity extends AirplaneEntity {
+    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
+            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.BOOSTER, 8 + 9, 8 + 48)
+            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.BANNER, 8 + 18 * 2 + 28, 8 + 6)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22 * 2)
+            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22 * 2)
+            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
+            .build();
+
+    @Override
+    public VehicleInventoryDescription getInventoryDescription() {
+        return inventoryDescription;
+    }
+
     public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    float getBaseFuelConsumption() {
+        return 1.25f;
     }
 
     final List<List<Vec3d>> PASSENGER_POSITIONS = Collections.singletonList(Collections.singletonList(new Vec3d(0.0f, 0.05f, -0.6f)));

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RCR",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "C": [
+      {
+        "item": "minecraft:compass"
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:comparator"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:gyroscope"
+  }
+}

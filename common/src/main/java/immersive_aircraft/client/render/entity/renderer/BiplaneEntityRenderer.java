@@ -1,13 +1,23 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.util.Utils;
+import immersive_aircraft.util.obj.Mesh;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.BannerItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3f;
+
+import java.util.List;
 
 public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEntityRenderer<T> {
     private static final Identifier id = Main.locate("objects/biplane.obj");
@@ -18,18 +28,21 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             .add(
                     new Object(id, "frame")
             )
-            /*
             .add(
                     new Object(id, "banners").setRenderConsumer(
                             (vertexConsumerProvider, entity, matrixStack, light) -> {
-                                List<Pair<BannerPattern, DyeColor>> patterns = new LinkedList<>();
-                                patterns.add(new Pair<>(BannerPattern.CREEPER, DyeColor.RED));
-                                Mesh mesh = getFaces(id, "banners");
-                                renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
+                                List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
+                                int i = 0;
+                                for (ItemStack slot : slots) {
+                                    if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
+                                        List<Pair<BannerPattern, DyeColor>> patterns = Utils.parseBannerItem(slot);
+                                        Mesh mesh = getFaces(id, "banner_" + (i++));
+                                        renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
+                                    }
+                                }
                             }
                     )
             )
-             */
             .add(
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {

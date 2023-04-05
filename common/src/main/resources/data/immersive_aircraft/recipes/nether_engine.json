@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CNC",
+    "BEB",
+    "RRR"
+  ],
+  "key": {
+    "C": [
+      {
+        "item": "minecraft:magma_cream"
+      }
+    ],
+    "B": [
+      {
+        "item": "minecraft:blaze_rod"
+      }
+    ],
+    "R": [
+      {
+        "item": "minecraft:nether_brick"
+      }
+    ],
+    "N": [
+      {
+        "item": "minecraft:netherite_ingot"
+      }
+    ],
+    "E": [
+      {
+        "item": "immersive_aircraft:engine"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:nether_engine"
+  }
+}
