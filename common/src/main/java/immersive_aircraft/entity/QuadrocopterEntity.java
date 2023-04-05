@@ -22,7 +22,7 @@ public class QuadrocopterEntity extends Rotorcraft {
             .setDriftDrag(0.005f)
             .setLift(0.1f)
             .setRollFactor(15.0f)
-            .setWindSensitivity(0.025f)
+            .setWindSensitivity(0.0125f)
             .setMass(1.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
@@ -43,7 +43,7 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     @Override
     float getBaseFuelConsumption() {
-        return 0.75f;
+        return 0.5f;
     }
 
     @Override

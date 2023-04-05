@@ -18,7 +18,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setLift(0.15f)
             .setRollFactor(45.0f)
             .setGroundPitch(4.0f)
-            .setWindSensitivity(0.05f)
+            .setWindSensitivity(0.025f)
             .setMass(1.0f);
 
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {

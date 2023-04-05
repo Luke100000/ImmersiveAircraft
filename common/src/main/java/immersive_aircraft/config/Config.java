@@ -3,6 +3,8 @@ package immersive_aircraft.config;
 import immersive_aircraft.config.configEntries.BooleanConfigEntry;
 import immersive_aircraft.config.configEntries.FloatConfigEntry;
 
+import java.util.Map;
+
 public final class Config extends JsonConfig {
     private static final Config INSTANCE = loadOrCreate();
 
@@ -42,4 +44,15 @@ public final class Config extends JsonConfig {
 
     @BooleanConfigEntry(true)
     public boolean onlyPlayerCanDestroyAircraft;
+
+    @BooleanConfigEntry(false)
+    public boolean burnFuelInCreative;
+
+    @BooleanConfigEntry(true)
+    public boolean acceptVanillaFuel;
+
+    @BooleanConfigEntry(true)
+    public boolean useCustomKeybindSystem;
+
+    public Map<String, Integer> fuelList = Map.of("minecraft:blaze_powder", 1200);
 }
