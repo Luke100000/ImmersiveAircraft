@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -241,11 +242,18 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
         Item item = fuel.getItem();
 
+        // Build vanilla fuel map
         if (cachedFuels == null) {
             cachedFuels = AbstractFurnaceBlockEntity.createFuelTimeMap();
         }
 
-        return cachedFuels.getOrDefault(item, 0);
+        // Vanilla fuel
+        if (Config.getInstance().acceptVanillaFuel && cachedFuels.containsKey(item)) {
+            return cachedFuels.get(item);
+        }
+
+        // Custom fuel
+        return Config.getInstance().fuelList.getOrDefault(Registry.ITEM.getId(item).toString(), 0);
     }
 
     public float getFuelUtilization() {

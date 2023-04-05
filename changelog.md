@@ -4,6 +4,7 @@
 * If fuel consumption is set to 0, no initial item needs to get burned
 * Don't burn fuel in creative mode (configurable)
 * The engine no longer burns the whole bucket
+* Added a configurable fuel map
 
 # 0.4.1
 
