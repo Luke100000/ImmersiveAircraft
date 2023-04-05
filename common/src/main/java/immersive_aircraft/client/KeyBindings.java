@@ -18,17 +18,17 @@ public class KeyBindings {
 
     static {
         if (Config.getInstance().useCustomKeybindSystem) {
-            left = newMultiKey("control_left", GLFW.GLFW_KEY_A);
-            right = newMultiKey("control_right", GLFW.GLFW_KEY_D);
-            forward = newMultiKey("control_forward", GLFW.GLFW_KEY_W);
-            backward = newMultiKey("control_backward", GLFW.GLFW_KEY_S);
-            up = newMultiKey("control_up", GLFW.GLFW_KEY_SPACE);
-            down = newMultiKey("control_down", GLFW.GLFW_KEY_LEFT_SHIFT);
-            pull = newMultiKey("control_pull", GLFW.GLFW_KEY_S);
-            push = newMultiKey("control_push", GLFW.GLFW_KEY_W);
+            left = newMultiKey("multi_control_left", GLFW.GLFW_KEY_A);
+            right = newMultiKey("multi_control_right", GLFW.GLFW_KEY_D);
+            forward = newMultiKey("multi_control_forward", GLFW.GLFW_KEY_W);
+            backward = newMultiKey("multi_control_backward", GLFW.GLFW_KEY_S);
+            up = newMultiKey("multi_control_up", GLFW.GLFW_KEY_SPACE);
+            down = newMultiKey("multi_control_down", GLFW.GLFW_KEY_LEFT_SHIFT);
+            pull = newMultiKey("multi_control_pull", GLFW.GLFW_KEY_S);
+            push = newMultiKey("multi_control_push", GLFW.GLFW_KEY_W);
 
-            dismount = newMultiKey("dismount", GLFW.GLFW_KEY_R);
-            boost = newMultiKey("boost", GLFW.GLFW_KEY_B);
+            dismount = newMultiKey("multi_dismount", GLFW.GLFW_KEY_R);
+            boost = newMultiKey("multi_boost", GLFW.GLFW_KEY_B);
         } else {
             MinecraftClient client = MinecraftClient.getInstance();
 
