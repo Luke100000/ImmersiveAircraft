@@ -28,7 +28,7 @@ public class GyrodyneEntity extends Rotorcraft {
             .setDriftDrag(0.01f)
             .setLift(0.1f)
             .setRollFactor(30.0f)
-            .setWindSensitivity(0.1f)
+            .setWindSensitivity(0.05f)
             .setMass(4.0f);
 
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
@@ -119,6 +119,11 @@ public class GyrodyneEntity extends Rotorcraft {
     @Override
     String getFuelType() {
         return "fat";
+    }
+
+    @Override
+    protected boolean isFuelLow() {
+        return false;
     }
 
     @Override

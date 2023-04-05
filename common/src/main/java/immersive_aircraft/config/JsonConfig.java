@@ -68,7 +68,7 @@ public class JsonConfig implements Serializable {
                 config.save();
                 return config;
             } catch (Exception e) {
-                LOGGER.error("Failed to load Immersive Armors config! Default config is used for now. Delete the file to reset.");
+                LOGGER.error("Failed to load Immersive Aircraft config! Default config is used for now. Delete the file to reset.");
                 e.printStackTrace();
                 return new Config();
             }
