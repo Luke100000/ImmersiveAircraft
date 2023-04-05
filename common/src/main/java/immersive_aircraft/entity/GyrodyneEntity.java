@@ -122,6 +122,11 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
+    protected boolean isFuelLow() {
+        return false;
+    }
+
+    @Override
     void updateController() {
         super.updateController();
 

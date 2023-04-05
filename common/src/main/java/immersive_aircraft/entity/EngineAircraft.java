@@ -30,6 +30,7 @@ import java.util.Map;
 public abstract class EngineAircraft extends AircraftEntity {
     static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> UTILIZATION = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Boolean> LOW_ON_FUEL = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
@@ -39,10 +40,14 @@ public abstract class EngineAircraft extends AircraftEntity {
     enum FuelState {
         NEVER,
         EMPTY,
-        FUELED
+        FUELED,
+        LOW
     }
 
     FuelState lastFuelState = FuelState.NEVER;
+
+    public final static int TARGET_FUEL = 1000;
+    public final static int LOW_FUEL = 900;
 
     private final int[] fuel;
 
@@ -91,6 +96,7 @@ public abstract class EngineAircraft extends AircraftEntity {
 
         dataTracker.startTracking(ENGINE, 0.0f);
         dataTracker.startTracking(UTILIZATION, 0.0f);
+        dataTracker.startTracking(LOW_ON_FUEL, false);
     }
 
     @Override
@@ -121,6 +127,9 @@ public abstract class EngineAircraft extends AircraftEntity {
             engineSound += getEnginePower() * 0.25f;
             if (engineSound > 1.0f) {
                 engineSound--;
+                if (isFuelLow()) {
+                    engineSound -= random.nextInt(2);
+                }
                 world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
             }
         }
@@ -145,7 +154,12 @@ public abstract class EngineAircraft extends AircraftEntity {
             // Fuel notification
             if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
                 float utilization = getFuelUtilization();
-                if (utilization > 0) {
+                if (utilization > 0 && isFuelLow()) {
+                    if (lastFuelState != FuelState.LOW) {
+                        player.sendMessage(new TranslatableText("immersive_aircraft." + getFuelType() + ".low"), true);
+                        lastFuelState = FuelState.LOW;
+                    }
+                } else if (utilization > 0) {
                     lastFuelState = FuelState.FUELED;
                 } else {
                     if (lastFuelState != FuelState.EMPTY) {
@@ -159,6 +173,22 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
     }
 
+    protected boolean isFuelLow() {
+        if (world.isClient) {
+            return dataTracker.get(LOW_ON_FUEL);
+        } else {
+            boolean low = true;
+            for (int i : fuel) {
+                if (i > LOW_FUEL) {
+                    low = false;
+                    break;
+                }
+            }
+            dataTracker.set(LOW_ON_FUEL, low);
+            return low;
+        }
+    }
+
     String getFuelType() {
         return "fuel";
     }
@@ -168,7 +198,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     private void refuel(int i) {
-        if (fuel[i] <= 0) {
+        while (fuel[i] <= TARGET_FUEL) {
             List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
             ItemStack stack = inventory.getStack(slots.get(i).index);
             int time = getFuelTime(stack);
@@ -180,6 +210,8 @@ public abstract class EngineAircraft extends AircraftEntity {
                     Item item2 = item.getRecipeRemainder();
                     inventory.setStack(slots.get(i).index, item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
                 }
+            } else {
+                break;
             }
         }
     }
@@ -272,7 +304,7 @@ public abstract class EngineAircraft extends AircraftEntity {
                     running++;
                 }
             }
-            float utilization = (float)running / fuel.length;
+            float utilization = (float)running / fuel.length * (isFuelLow() ? 0.75f : 1.0f);
             dataTracker.set(UTILIZATION, utilization);
             return utilization;
         }

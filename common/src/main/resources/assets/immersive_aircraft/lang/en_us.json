@@ -50,6 +50,7 @@
 
   "immersive_aircraft.fuel.none": "No fuel!",
   "immersive_aircraft.fuel.out": "You ran out of fuel!",
+  "immersive_aircraft.fuel.low": "You are low on fuel!",
   "immersive_aircraft.fat.none": "No food!",
   "immersive_aircraft.fat.out": "You are too hungry to fly!",
 

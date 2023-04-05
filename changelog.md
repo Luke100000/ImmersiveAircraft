@@ -1,5 +1,6 @@
 # 0.4.2
 
+* Engines now have a fuel buffer and then die slowly when out of fuel
 * Configurable fuel consumption can now exceed 1
 * If fuel consumption is set to 0, no initial item needs to get burned
 * Don't burn fuel in creative mode (configurable)
