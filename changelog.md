@@ -5,6 +5,7 @@
 * Don't burn fuel in creative mode (configurable)
 * The engine no longer burns the whole bucket
 * Added a configurable fuel map
+* Cut default wind sensibility in half
 
 # 0.4.1
 
