@@ -1,3 +1,8 @@
+# 0.4.3
+
+* Fixed Schrödingers Dismount bug
+* Fixed Gyrodyne crash
+
 # 0.4.2
 
 * Engines now have a fuel buffer and then die slowly when out of fuel
