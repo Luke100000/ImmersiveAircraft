@@ -1,16 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "  C",
-    "ICI",
-    "C  "
+    "  I",
+    "III",
+    "I  "
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:copper_ingot"
-      }
-    ],
     "I": [
       {
         "item": "minecraft:iron_ingot"
