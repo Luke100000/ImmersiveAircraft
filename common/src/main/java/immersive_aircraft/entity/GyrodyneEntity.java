@@ -179,7 +179,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     @Override
     public float getFuelUtilization() {
-        if (getPrimaryPassenger() instanceof PlayerEntity && ((ServerPlayerEntity)getPrimaryPassenger()).getHungerManager().getFoodLevel() > 5) {
+        if (getPrimaryPassenger() instanceof PlayerEntity && ((PlayerEntity)getPrimaryPassenger()).getHungerManager().getFoodLevel() > 5) {
             return 1.0f;
         }
         return 0.0f;
