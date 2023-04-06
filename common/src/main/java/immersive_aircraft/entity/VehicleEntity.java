@@ -496,11 +496,11 @@ public abstract class VehicleEntity extends Entity {
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         }
-        if (!world.isClient) {
-            return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
-        }
         if (hasPassenger(player)) {
             return ActionResult.PASS;
+        }
+        if (!world.isClient && !player.hasVehicle()) {
+            return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
         }
         return ActionResult.SUCCESS;
     }
