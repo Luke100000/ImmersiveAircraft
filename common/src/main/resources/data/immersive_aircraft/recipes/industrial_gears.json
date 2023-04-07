@@ -2,10 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " II",
-    "ILI",
-    "II "
+    "CLI",
+    "CC "
   ],
   "key": {
+    "C": [
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
     "I": [
       {
         "item": "minecraft:iron_ingot"
