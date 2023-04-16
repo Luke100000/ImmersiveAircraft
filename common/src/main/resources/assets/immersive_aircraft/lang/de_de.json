@@ -79,7 +79,7 @@
   "option.immersive_aircraft.onlyPlayerCanDestroyAircraft": "Nur der Spieler kann Flugzeuge zerstören.",
   "option.immersive_aircraft.burnFuelInCreative": "Verbrenne Treibstoff im Kreativmodus.",
   "option.immersive_aircraft.acceptVanillaFuel": "Akzeptiere Vanilla-Kraftstoff.",
-  "option.immersive_aircraft.useCustomKeybindSystem": "Verwende Multi-Keybindings, das kann bestimmte Mods kaputt machen.",
+  "option.immersive_aircraft.useCustomKeybindSystem": "Verwende Mehrfach-Tastenbelegungen, dies kann aber andere Mods beeinflussen!",
   
   "immersive_aircraft.slot.booster": "Boost-Raketen",
   "immersive_aircraft.slot.weapon": "Waffen-Slot (Zukünftiges Feature)",
