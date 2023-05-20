@@ -69,7 +69,7 @@ public class JsonConfig implements Serializable {
                 return config;
             } catch (Exception e) {
                 LOGGER.error("Failed to load Immersive Aircraft config! Default config is used for now. Delete the file to reset.");
-                e.printStackTrace();
+                LOGGER.error(e);
                 return new Config();
             }
         } else {
