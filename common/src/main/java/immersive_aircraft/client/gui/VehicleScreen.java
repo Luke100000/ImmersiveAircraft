@@ -130,4 +130,18 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
 
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
+
+    @Override
+    protected boolean isClickOutsideBounds(double mouseX, double mouseY, int left, int top, int button) {
+        if (super.isClickOutsideBounds(mouseX, mouseY, left, top, button)) {
+            for (VehicleInventoryDescription.Rectangle rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
+                if (mouseX > rectangle.x() + x && mouseX < rectangle.x() + rectangle.w() + x && mouseY > rectangle.y() + y && mouseY < rectangle.y() + rectangle.h() + y) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
