@@ -7,13 +7,16 @@ import java.util.Map;
 
 public class VehicleInventoryDescription {
     int height = 0;
-    int storageHeight = 0;
     int lastIndex = 0;
     int lastSyncIndex = 0;
 
+    public record Rectangle(int x, int y, int w, int h) {
+    }
+
+    List<Rectangle> rectangles = new LinkedList<>();
+
     public enum SlotType {
         INVENTORY,
-        STORAGE,
         BOILER,
         WEAPON,
         UPGRADE,
@@ -61,7 +64,7 @@ public class VehicleInventoryDescription {
         slotMap.get(type).add(slot);
         slots.add(slot);
 
-        if (type != SlotType.INVENTORY && type != SlotType.STORAGE) {
+        if (type != SlotType.INVENTORY) {
             lastSyncIndex = lastIndex;
         }
 
@@ -77,11 +80,19 @@ public class VehicleInventoryDescription {
         return this;
     }
 
+    public VehicleInventoryDescription addBoxedSlots(SlotType type, int x, int y, int cols, int rows) {
+        addSlots(type, x, y, cols, rows);
+        return addRectangle(x - 8, y + 2, cols * 18 + 14, rows * 18 + 14);
+    }
+
+    public VehicleInventoryDescription addRectangle(int x, int y, int w, int h) {
+        rectangles.add(new Rectangle(x, y, w, h));
+        return this;
+    }
+
     public VehicleInventoryDescription build() {
         for (Slot slot : slots) {
-            if (slot.type == SlotType.STORAGE) {
-                storageHeight = Math.max(storageHeight, slot.y);
-            } else {
+            if (slot.x >= 0 && slot.x < 176) {
                 height = Math.max(height, slot.y + 28);
             }
         }
@@ -92,11 +103,11 @@ public class VehicleInventoryDescription {
         return height;
     }
 
-    public int getStorageHeight() {
-        return storageHeight;
-    }
-
     public int getLastSyncIndex() {
         return lastSyncIndex;
+    }
+
+    public List<Rectangle> getRectangles() {
+        return rectangles;
     }
 }

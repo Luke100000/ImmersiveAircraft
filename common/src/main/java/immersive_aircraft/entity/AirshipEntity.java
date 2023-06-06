@@ -13,7 +13,6 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Matrix4f;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -106,12 +105,16 @@ public class AirshipEntity extends Rotorcraft {
         return trails;
     }
 
-    private void trail(Matrix4f transform, float y) {
-        Vector4f p0 = transformPosition(transform, (float)0.0 - 0.15f, y, (float)0.0);
-        Vector4f p1 = transformPosition(transform, (float)0.0 + 0.15f, y, (float)0.0);
+    void trail(Matrix4f transform) {
+        trail(transform, 0);
+    }
 
-        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(getVelocity().length() - 0.05f)));
-        trails.get(0).add(p0, p1, trailStrength);
+    void trail(Matrix4f transform, int index) {
+        Vector4f p0 = transformPosition(transform, (float) 0.0 - 0.15f, 0.0f, 0.0f);
+        Vector4f p1 = transformPosition(transform, (float) 0.0 + 0.15f, 0.0f, 0.0f);
+
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float) (getVelocity().length() - 0.05f)));
+        getTrails().get(index).add(p0, p1, trailStrength);
     }
 
     protected List<List<Vector3f>> getPassengerPositions() {
@@ -136,7 +139,7 @@ public class AirshipEntity extends Rotorcraft {
         Vector3f direction = getDirection();
 
         // accelerate
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
+        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         Vector3f f = direction.mul(thrust);
         setVelocity(getVelocity().add(f.x, f.y, f.z));
     }
@@ -152,10 +155,7 @@ public class AirshipEntity extends Rotorcraft {
                 Matrix4f transform = getVehicleTransform();
 
                 // Trails
-                Matrix4f tr = new Matrix4f(transform);
-                tr.translate(0.0f, 0.4f, -1.2f);
-                tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 50.0f));
-                trail(tr, 0.0f);
+                addTrails(transform);
 
                 // Smoke
                 if (age % 2 == 0) {
@@ -167,5 +167,12 @@ public class AirshipEntity extends Rotorcraft {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
+    }
+
+    protected void addTrails(Matrix4f transform) {
+        Matrix4f tr = new Matrix4f(transform);
+        tr.translate(new Vector3f(0.0f, 0.4f, -1.2f));
+        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 50.0f));
+        trail(tr);
     }
 }

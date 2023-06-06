@@ -9,6 +9,7 @@ import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -113,7 +114,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         if (screenHandler != null) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.syncId), player);
             player.currentScreenHandler = screenHandler;
-            ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin)player;
+            ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin) player;
             screenHandler.updateSyncHandler(playerAccessor.getScreenHandlerSyncHandler());
         }
     }
@@ -121,7 +122,14 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (!player.world.isClient && player.shouldCancelInteraction()) {
-            openInventory((ServerPlayerEntity)player);
+            Entity primaryPassenger = getFirstPassenger();
+            if (primaryPassenger != null) {
+                // Kick out the first passenger
+                primaryPassenger.stopRiding();
+            } else {
+                // Open inventory instead
+                openInventory((ServerPlayerEntity) player);
+            }
             return ActionResult.CONSUME;
         }
         return super.interact(player, hand);
