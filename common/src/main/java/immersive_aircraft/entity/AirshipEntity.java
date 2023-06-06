@@ -13,7 +13,6 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Matrix4f;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -171,9 +170,9 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     protected void addTrails(Matrix4f transform) {
-        Matrix4f tr = transform.copy();
-        tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
+        Matrix4f tr = new Matrix4f(transform);
+        tr.translate(new Vector3f(0.0f, 0.4f, -1.2f));
+        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 50.0f));
         trail(tr);
     }
 }

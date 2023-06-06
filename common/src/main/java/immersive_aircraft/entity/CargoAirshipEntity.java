@@ -5,9 +5,10 @@ import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -64,19 +65,19 @@ public class CargoAirshipEntity extends AirshipEntity {
 
     @Override
     protected void addTrails(Matrix4f transform) {
-        Matrix4f tr = transform.copy();
-        tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
+        Matrix4f tr = new Matrix4f(transform);
+        tr.translate(new Vector3f(0.0f, 0.4f, -1.2f));
+        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 50.0f));
         trail(tr, 0);
 
-        tr = transform.copy();
-        tr.multiplyByTranslation(1.15625f, 2.5f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 65.0f));
+        tr = new Matrix4f(transform);
+        tr.translate(new Vector3f(1.15625f, 2.5f, -1.2f));
+        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 65.0f));
         trail(tr, 1);
 
-        tr = transform.copy();
-        tr.multiplyByTranslation(-1.15625f, 2.5f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-engineRotation.getSmooth() * 65.0f));
+        tr = new Matrix4f(transform);
+        tr.translate(new Vector3f(-1.15625f, 2.5f, -1.2f));
+        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 65.0f));
         trail(tr, 2);
     }
 }

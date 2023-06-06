@@ -16,10 +16,11 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -83,8 +84,8 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0, -0.125, 0.78125f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 20.0f));
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 20.0f));
+                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
                                 matrixStack.translate(0, 0.125, -0.78125f - 2.0f / 16.0f);
                             }
                     )
@@ -94,7 +95,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(0.0f, 0.1875f, 0.0f);
-                                        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float) (-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                         matrixStack.translate(0.0f, -0.1875f, 0.0f);
                                     }
                             )
@@ -112,7 +113,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(-1.15625, 2.34375, 0.0);
-                                        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float) (entity.engineRotation.getSmooth(tickDelta) * 170.0)));
+                                        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 170.0)));
                                         matrixStack.translate(1.15625, -2.34375, 0.0f);
                                     }
                             )
@@ -130,7 +131,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(1.15625, 2.34375, 0.0);
-                                        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float) (entity.engineRotation.getSmooth(tickDelta) * 170.0)));
+                                        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(entity.engineRotation.getSmooth(tickDelta) * 170.0)));
                                         matrixStack.translate(-1.15625, -2.34375, 0.0f);
                                     }
                             )
@@ -160,7 +161,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.2f, 0.0f);
+    Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.2f, 0.0f);
     }
 }
