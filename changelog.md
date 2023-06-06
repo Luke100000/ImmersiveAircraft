@@ -1,3 +1,7 @@
+# 0.5.0
+
+* Added Cargo Airship
+
 # 0.4.2
 
 * Engines now have a fuel buffer and then die slowly when out of fuel
