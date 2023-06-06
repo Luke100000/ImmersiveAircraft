@@ -1,6 +1,7 @@
 # 0.5.0
 
 * Added Cargo Airship
+* You can now kick out entities using shift-right click
 
 # 0.4.2
 
