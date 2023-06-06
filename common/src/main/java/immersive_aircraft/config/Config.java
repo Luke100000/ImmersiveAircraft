@@ -54,5 +54,11 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean useCustomKeybindSystem;
 
+    @FloatConfigEntry(2.0f)
+    public float crashDamage;
+
+    @BooleanConfigEntry(true)
+    public boolean preventKillThroughCrash;
+
     public Map<String, Integer> fuelList = Map.of("minecraft:blaze_powder", 1200);
 }
