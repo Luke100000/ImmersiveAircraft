@@ -3,6 +3,7 @@
 * Added Cargo Airship
 * You can now kick out entities using shift-right click
 * Added fall damage when crashing the aircraft (never lethal by default, configurable)
+* Fixed inventory staying open after entity got removed
 
 # 0.4.2
 

@@ -27,10 +27,10 @@ public class CargoAirshipEntity extends AirshipEntity {
             .addSlot(VehicleInventoryDescription.SlotType.BANNER, 8 + 18 * 2 + 6, 8 + 6 + 22 * 2)
             .addSlot(VehicleInventoryDescription.SlotType.DYE, 8 + 18 * 2 + 28, 8 + 6 + 22 * 2)
             .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
-            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, -9 - 18 * 4, 8, 4, 4)
-            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, 188, 8, 4, 4)
-            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, -9 - 18 * 4, 8 + 18 * 4 + 16, 4, 4)
-            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, 188, 8 + 18 * 4 + 16, 4, 4)
+            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, -8 - 18 * 4, 8, 4, 4)
+            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, 186, 8, 4, 4)
+            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, -8 - 18 * 4, 8 + 18 * 4 + 16, 4, 4)
+            .addBoxedSlots(VehicleInventoryDescription.SlotType.INVENTORY, 186, 8 + 18 * 4 + 16, 4, 4)
             .build();
 
     @Override

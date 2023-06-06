@@ -1,10 +1,7 @@
 package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
-import immersive_aircraft.entity.AirshipEntity;
-import immersive_aircraft.entity.BiplaneEntity;
-import immersive_aircraft.entity.GyrodyneEntity;
-import immersive_aircraft.entity.QuadrocopterEntity;
+import immersive_aircraft.entity.*;
 import immersive_aircraft.item.AircraftItem;
 import immersive_aircraft.item.UpgradeItem;
 import immersive_aircraft.item.upgrade.AircraftStat;
@@ -22,7 +19,7 @@ public interface Items {
     Supplier<Item> BOILER = register("boiler", () -> new Item(baseProps().maxCount(8)));
 
     Supplier<Item> AIRSHIP = register("airship", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new AirshipEntity(Entities.AIRSHIP.get(), world)));
-    Supplier<Item> CARGO_AIRSHIP = register("cargo_airship", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new AirshipEntity(Entities.CARGO_AIRSHIP.get(), world)));
+    Supplier<Item> CARGO_AIRSHIP = register("cargo_airship", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new CargoAirshipEntity(Entities.CARGO_AIRSHIP.get(), world)));
     Supplier<Item> BIPLANE = register("biplane", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new BiplaneEntity(Entities.BIPLANE.get(), world)));
     Supplier<Item> GYRODYNE = register("gyrodyne", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new GyrodyneEntity(Entities.GYRODYNE.get(), world)));
     Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().maxCount(1), (world) -> new QuadrocopterEntity(Entities.QUADROCOPTER.get(), world)));
