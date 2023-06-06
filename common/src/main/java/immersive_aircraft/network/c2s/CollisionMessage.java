@@ -21,7 +21,7 @@ public class CollisionMessage implements Message {
                 if (Config.getInstance().preventKillThroughCrash) {
                     crashDamage = Math.min(crashDamage, e.getHealth() - 1.0f);
                 }
-                e.damage(DamageSource.FALL, crashDamage);
+                e.damage(e.world.getDamageSources().fall(), crashDamage);
             }
         }
     }
