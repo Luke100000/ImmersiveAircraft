@@ -29,18 +29,10 @@ subprojects {
 
 def getAppVersion = { ->
     def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = stdout
-    }
     def commitId = stdout.toString().replace("\n", "").replace("\r", "").trim()
     stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'tag', '--points-at', commitId
-        standardOutput = stdout
-    }
     def tagName = stdout.toString().replace("\n", "").replace("\r", "").trim()
-    def versionName = '0-git-' + commitId
+    def versionName = '69.420'
     if (tagName != null && "" != tagName) {
         versionName = tagName
     }
