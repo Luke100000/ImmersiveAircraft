@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends EntityRenderer<T> {
-    class Object {
+	protected class Object {
         public interface AnimationConsumer<T> {
             void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
         }
@@ -31,7 +31,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light);
         }
 
-        Object(Identifier id, String object) {
+        public Object(Identifier id, String object) {
             this.id = id;
             this.object = object;
         }
@@ -78,7 +78,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    class Model {
+    protected class Model {
         private final List<Object> objects = new LinkedList<>();
 
         public Model add(Object o) {
@@ -95,9 +95,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         super(context);
     }
 
-    abstract Model getModel(AircraftEntity entity);
+    protected abstract Model getModel(AircraftEntity entity);
 
-    abstract Vec3f getPivot(AircraftEntity entity);
+    protected abstract Vec3f getPivot(AircraftEntity entity);
 
 
     @Override
@@ -145,11 +145,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
     }
 
-    static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
+    protected static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
         renderObject(mesh, matrixStack, vertexConsumer, light, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
+    protected static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
         Matrix4f positionMatrix = entry.getPositionMatrix();
         Matrix3f normalMatrix = entry.getNormalMatrix();
@@ -169,11 +169,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
+    protected static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
         renderSailObject(mesh, matrixStack, vertexConsumer, light, time, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
+    protected static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
         Matrix4f positionMatrix = entry.getPositionMatrix();
         Matrix3f normalMatrix = entry.getNormalMatrix();
@@ -196,7 +196,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns) {
+    protected static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
             Pair<RegistryEntry<BannerPattern>, DyeColor> pair = patterns.get(i);
             float[] fs = pair.getSecond().getColorComponents();
@@ -226,7 +226,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static Mesh getFaces(Identifier id, String object) {
+    protected static Mesh getFaces(Identifier id, String object) {
         return ObjectLoader.objects.get(id).get(object);
     }
 

@@ -45,24 +45,24 @@ import java.util.List;
  * Abstract vehicle which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-    static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+	protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
-    static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    int interpolationSteps;
+	protected int interpolationSteps;
 
-    double x;
-    double y;
-    double z;
+	protected double x;
+	protected double y;
+	protected double z;
 
-    double clientYaw;
-    double clientPitch;
+	protected double clientYaw;
+	protected double clientPitch;
 
-    float movementX;
-    float movementY;
-    float movementZ;
+	protected float movementX;
+	protected float movementY;
+	protected float movementZ;
 
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
@@ -119,7 +119,7 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
     }
 
-    float getInputInterpolationSteps() {
+    protected float getInputInterpolationSteps() {
         return 10;
     }
 
@@ -260,7 +260,7 @@ public abstract class VehicleEntity extends Entity {
         return positive ? 1.0f : -1.0f;
     }
 
-    boolean useAirplaneControls() {
+    protected boolean useAirplaneControls() {
         return false;
     }
 
@@ -378,13 +378,13 @@ public abstract class VehicleEntity extends Entity {
         --interpolationSteps;
     }
 
-    abstract void updateVelocity();
+    protected abstract void updateVelocity();
 
     protected float getGravity() {
         return -0.04f;
     }
 
-    abstract void updateController();
+    protected abstract void updateController();
 
     @Override
     public void updatePassengerPosition(Entity passenger) {
