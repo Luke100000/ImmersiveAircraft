@@ -32,7 +32,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             )
             .add(
                     new Object(id, "banners").setRenderConsumer(
-                            (vertexConsumerProvider, entity, matrixStack, light) -> {
+                            (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                 List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
                                 int i = 0;
                                 for (ItemStack slot : slots) {
@@ -90,12 +90,12 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    Model getModel(AircraftEntity entity) {
+    protected Model getModel(AircraftEntity entity) {
         return model;
     }
 
     @Override
-    Vector3f getPivot(AircraftEntity entity) {
+    protected Vector3f getPivot(AircraftEntity entity) {
         return new Vector3f(0.0f, 0.4f, 0.05f);
     }
 }

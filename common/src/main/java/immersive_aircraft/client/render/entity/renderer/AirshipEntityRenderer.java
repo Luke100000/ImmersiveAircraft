@@ -9,7 +9,6 @@ import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -36,7 +35,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             )
             .add(
                     new Object(id, "banners").setRenderConsumer(
-                            (vertexConsumerProvider, entity, matrixStack, light) -> {
+                            (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                 List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
                                 int i = 0;
                                 for (ItemStack slot : slots) {
@@ -52,7 +51,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add(
                     new Object(id, "sails")
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
 
@@ -69,7 +68,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
 
                                         if (entity.isWithinParticleRange() && Config.getInstance().enableAnimatedSails) {
                                             Mesh mesh = getFaces(id, "sails_animated");
-                                            float time = entity.world.getTime() % 24000 + MinecraftClient.getInstance().getTickDelta();
+                                            float time = entity.world.getTime() % 24000 + tickDelta;
                                             renderSailObject(mesh, matrixStack, vertexConsumer, light, time, r, g, b, 1.0f);
                                         } else {
                                             Mesh mesh = getFaces(id, "sails");
@@ -98,7 +97,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                                     }
                             )
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "propeller");
@@ -118,12 +117,12 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     }
 
     @Override
-    Model getModel(AircraftEntity entity) {
+    protected Model getModel(AircraftEntity entity) {
         return model;
     }
 
     @Override
-    Vector3f getPivot(AircraftEntity entity) {
+    protected Vector3f getPivot(AircraftEntity entity) {
         return new Vector3f(0.0f, 0.2f, 0.0f);
     }
 }

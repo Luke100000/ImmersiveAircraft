@@ -51,11 +51,11 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    float getEngineReactionSpeed() {
+    protected float getEngineReactionSpeed() {
         return 50.0f;
     }
 
-    SoundEvent getEngineSound() {
+    protected SoundEvent getEngineSound() {
         return Sounds.PROPELLER_SMALL.get();
     }
 
@@ -65,22 +65,22 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    float getGroundVelocityDecay() {
+    protected float getGroundVelocityDecay() {
         return 0.5f;
     }
 
     @Override
-    float getHorizontalVelocityDelay() {
+    protected float getHorizontalVelocityDelay() {
         return 0.97f;
     }
 
     @Override
-    float getVerticalVelocityDelay() {
+    protected float getVerticalVelocityDelay() {
         return 0.925f;
     }
 
     @Override
-    float getStabilizer() {
+    protected float getStabilizer() {
         return 0.1f;
     }
 
@@ -127,7 +127,7 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    void updateController() {
+    protected void updateController() {
         super.updateController();
 
         setEngineTarget(1.0f);
