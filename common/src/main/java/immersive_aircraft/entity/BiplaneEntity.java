@@ -34,7 +34,7 @@ public class BiplaneEntity extends AirplaneEntity {
     }
 
     @Override
-    float getBaseFuelConsumption() {
+    protected float getBaseFuelConsumption() {
         return 1.25f;
     }
 

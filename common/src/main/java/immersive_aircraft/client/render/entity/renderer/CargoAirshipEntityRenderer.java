@@ -155,12 +155,12 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
     }
 
     @Override
-    Model getModel(AircraftEntity entity) {
+    protected Model getModel(AircraftEntity entity) {
         return model;
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
+    protected Vec3f getPivot(AircraftEntity entity) {
         return new Vec3f(0.0f, 0.2f, 0.0f);
     }
 }

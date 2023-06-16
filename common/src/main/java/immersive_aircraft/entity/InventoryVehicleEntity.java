@@ -105,7 +105,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         return new VehicleScreenHandler(i, playerInventory, this);
     }
 
-    int syncId;
+    protected int syncId;
 
     public void openInventory(ServerPlayerEntity player) {
         syncId = (syncId + 1) % 100 + 100;

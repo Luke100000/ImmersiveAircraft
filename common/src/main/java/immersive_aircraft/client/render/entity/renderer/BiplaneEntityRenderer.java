@@ -89,12 +89,12 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    Model getModel(AircraftEntity entity) {
+    protected Model getModel(AircraftEntity entity) {
         return model;
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
+    protected Vec3f getPivot(AircraftEntity entity) {
         return new Vec3f(0.0f, 0.4f, 0.05f);
     }
 }
