@@ -1,6 +1,7 @@
 # 0.5.1
 
 * Fixed glitch on sails when pausing
+* Aircraft no longer break on autostep
 
 # 0.5.0
 
