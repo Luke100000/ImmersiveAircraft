@@ -28,7 +28,7 @@ import java.util.Map;
  * Simulated engine behavior
  */
 public abstract class EngineAircraft extends AircraftEntity {
-    static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
+	protected static final TrackedData<Float> ENGINE = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Float> UTILIZATION = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Boolean> LOW_ON_FUEL = DataTracker.registerData(EngineAircraft.class, TrackedDataHandlerRegistry.BOOLEAN);
 
@@ -37,7 +37,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     public float engineSpinUpStrength = 0.0f;
     public float engineSound = 0.0f;
 
-    enum FuelState {
+    protected enum FuelState {
         NEVER,
         EMPTY,
         FUELED,
@@ -66,27 +66,27 @@ public abstract class EngineAircraft extends AircraftEntity {
         fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER).size()];
     }
 
-    SoundEvent getEngineStartSound() {
+    protected SoundEvent getEngineStartSound() {
         return Sounds.ENGINE_START.get();
     }
 
-    SoundEvent getEngineSound() {
+    protected SoundEvent getEngineSound() {
         return Sounds.PROPELLER.get();
     }
 
-    float getEnginePitch() {
+    protected float getEnginePitch() {
         return 1.0f;
     }
 
-    float getStabilizer() {
+    protected float getStabilizer() {
         return 0.0f;
     }
 
-    float getBaseFuelConsumption() {
+    protected float getBaseFuelConsumption() {
         return 0.75f;
     }
 
-    float getEngineReactionSpeed() {
+    protected float getEngineReactionSpeed() {
         return 20.0f;
     }
 
@@ -189,7 +189,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
     }
 
-    String getFuelType() {
+    protected String getFuelType() {
         return "fuel";
     }
 
@@ -223,7 +223,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     @Override
-    void updateController() {
+    protected void updateController() {
         // left-right
         setYaw(getYaw() - getProperties().getYawSpeed() * pressingInterpolatedX.getSmooth());
 
@@ -235,7 +235,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     @Override
-    void updateVelocity() {
+    protected void updateVelocity() {
         super.updateVelocity();
 
         // landing

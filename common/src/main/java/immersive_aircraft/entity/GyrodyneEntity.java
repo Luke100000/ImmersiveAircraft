@@ -53,16 +53,16 @@ public class GyrodyneEntity extends Rotorcraft {
         super(entityType, world);
     }
 
-    SoundEvent getEngineStartSound() {
+    protected SoundEvent getEngineStartSound() {
         return Sounds.WOOSH.get();
     }
 
-    SoundEvent getEngineSound() {
+    protected SoundEvent getEngineSound() {
         return Sounds.WOOSH.get();
     }
 
     @Override
-    float getStabilizer() {
+    protected float getStabilizer() {
         return 0.3f;
     }
 
@@ -72,17 +72,17 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    float getGroundVelocityDecay() {
+    protected float getGroundVelocityDecay() {
         return falloffGroundVelocityDecay(0.8f);
     }
 
     @Override
-    float getHorizontalVelocityDelay() {
+    protected float getHorizontalVelocityDelay() {
         return 0.925f;
     }
 
     @Override
-    float getVerticalVelocityDelay() {
+    protected float getVerticalVelocityDelay() {
         return 0.9f;
     }
 
@@ -117,7 +117,7 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    String getFuelType() {
+    protected String getFuelType() {
         return "fat";
     }
 
@@ -127,7 +127,7 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    void updateController() {
+    protected void updateController() {
         super.updateController();
 
         // launch that engine

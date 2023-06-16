@@ -9,7 +9,6 @@ import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -38,7 +37,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
             )
             .add(
                     new Object(id, "banners").setRenderConsumer(
-                            (vertexConsumerProvider, entity, matrixStack, light) -> {
+                            (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                 List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
                                 int i = 0;
                                 for (ItemStack slot : slots) {
@@ -54,7 +53,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
             .add(
                     new Object(id, "sails")
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
 
@@ -71,7 +70,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
 
                                         if (entity.isWithinParticleRange() && Config.getInstance().enableAnimatedSails) {
                                             Mesh mesh = getFaces(id, "sails_animated");
-                                            float time = entity.world.getTime() % 24000 + MinecraftClient.getInstance().getTickDelta();
+                                            float time = entity.world.getTime() % 24000 + tickDelta;
                                             renderSailObject(mesh, matrixStack, vertexConsumer, light, time, r, g, b, 1.0f);
                                         } else {
                                             Mesh mesh = getFaces(id, "sails");
@@ -100,7 +99,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                                     }
                             )
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "propeller");
@@ -118,7 +117,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                                     }
                             )
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "small_propeller_right");
@@ -136,7 +135,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                                     }
                             )
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "small_propeller_left");
@@ -156,7 +155,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
     }
 
     @Override
-    Model getModel(AircraftEntity entity) {
+    protected Model getModel(AircraftEntity entity) {
         return model;
     }
 

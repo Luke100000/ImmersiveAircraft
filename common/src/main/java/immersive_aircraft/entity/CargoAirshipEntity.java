@@ -44,7 +44,7 @@ public class CargoAirshipEntity extends AirshipEntity {
     }
 
     @Override
-    float getBaseFuelConsumption() {
+    protected float getBaseFuelConsumption() {
         return 1.25f;
     }
 

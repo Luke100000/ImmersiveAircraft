@@ -54,7 +54,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         super.tick();
     }
 
-    void convertPower(Vec3d direction) {
+    protected void convertPower(Vec3d direction) {
         Vec3d velocity = getVelocity();
         double drag = Math.abs(direction.dotProduct(velocity.normalize()));
         setVelocity(velocity.normalize()
@@ -62,31 +62,31 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
                 .multiply(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag()))));
     }
 
-    float getHorizontalVelocityDelay() {
+    protected float getHorizontalVelocityDelay() {
         return 0.98f;
     }
 
-    float getVerticalVelocityDelay() {
+    protected float getVerticalVelocityDelay() {
         return 0.98f;
     }
 
     // Considers gravity and upgrades to modify decay
-    float falloffGroundVelocityDecay(float original) {
+    protected float falloffGroundVelocityDecay(float original) {
         float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
         float upgrade = Math.min(1.0f, getTotalUpgrade(AircraftStat.ACCELERATION) * 0.5f);
         return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }
 
-    float getGroundVelocityDecay() {
+    protected float getGroundVelocityDecay() {
         return 0.95f;
     }
 
-    float getRotationDecay() {
+    protected float getRotationDecay() {
         return 0.98f;
     }
 
     @Override
-    void updateVelocity() {
+    protected void updateVelocity() {
         float decay = 1.0f - 0.015f * getTotalUpgrade(AircraftStat.FRICTION);
         float gravity = getGravity();
         if (touchingWater) {
