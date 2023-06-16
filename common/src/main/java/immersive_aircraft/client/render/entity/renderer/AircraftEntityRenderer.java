@@ -28,7 +28,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
 
         public interface RenderConsumer<T> {
-            void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light);
+            void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light, float tickDelta);
         }
 
         public Object(Identifier id, String object) {
@@ -40,7 +40,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         private final String object;
 
         private AnimationConsumer<T> animationConsumer = null;
-        private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light) -> {
+        private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
             //Get vertex consumer
             Identifier identifier = getTexture(entity);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(identifier));
@@ -131,7 +131,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 matrixStack.push();
                 object.getAnimationConsumer().run(entity, yaw, tickDelta, matrixStack);
             }
-            object.getRenderConsumer().run(vertexConsumerProvider, entity, matrixStack, light);
+            object.getRenderConsumer().run(vertexConsumerProvider, entity, matrixStack, light, tickDelta);
             if (object.getAnimationConsumer() != null) {
                 matrixStack.pop();
             }
