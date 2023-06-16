@@ -138,7 +138,7 @@ public class GyrodyneEntity extends Rotorcraft {
             if (getEngineTarget() == 1.0) {
                 if (getControllingPassenger() instanceof ClientPlayerEntity player) {
                     player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
-                    if (onGround) {
+                    if (isOnGround()) {
                         setVelocity(getVelocity().add(0, 0.25f, 0));
                     }
                 }
@@ -156,7 +156,7 @@ public class GyrodyneEntity extends Rotorcraft {
         // speed
         float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
-        if (onGround && getEngineTarget() < 1.0) {
+        if (isOnGround() && getEngineTarget() < 1.0) {
             thrust = PUSH_SPEED / (1.0f + (float)getVelocity().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 

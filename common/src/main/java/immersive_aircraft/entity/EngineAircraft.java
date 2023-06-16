@@ -113,7 +113,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         engineSpinUpStrength = Math.max(0.0f, engineSpinUpStrength + enginePower.getDiff() - 0.01f);
 
         // rotate propeller
-        if (world.isClient()) {
+        if (getWorld().isClient()) {
             engineRotation.update((engineRotation.getValue() + getEnginePower()) % 1000);
         }
 
@@ -123,19 +123,19 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
 
         // Engine sounds
-        if (world.isClient) {
+        if (getWorld().isClient) {
             engineSound += getEnginePower() * 0.25f;
             if (engineSound > 1.0f) {
                 engineSound--;
                 if (isFuelLow()) {
                     engineSound -= random.nextInt(2);
                 }
-                world.playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
+                getWorld().playSound(getX(), getY(), getZ(), getEngineSound(), getSoundCategory(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
             }
         }
 
         // Fuel
-        if (fuel.length > 0 && !world.isClient) {
+        if (fuel.length > 0 && !getWorld().isClient) {
             float consumption = getFuelConsumption();
             while (consumption > 0 && (consumption >= 1 || random.nextFloat() < consumption)) {
                 for (int i = 0; i < fuel.length; i++) {
@@ -174,7 +174,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     protected boolean isFuelLow() {
-        if (world.isClient) {
+        if (getWorld().isClient) {
             return dataTracker.get(LOW_ON_FUEL);
         } else {
             boolean low = true;
@@ -228,7 +228,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         setYaw(getYaw() - getProperties().getYawSpeed() * pressingInterpolatedX.getSmooth());
 
         // forwards-backwards
-        if (!onGround) {
+        if (!isOnGround()) {
             setPitch(getPitch() + getProperties().getPitchSpeed() * pressingInterpolatedZ.getSmooth());
         }
         setPitch(getPitch() * (1.0f - getStabilizer()));
@@ -239,7 +239,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.updateVelocity();
 
         // landing
-        if (onGround) {
+        if (isOnGround()) {
             setPitch((getPitch() + getProperties().getGroundPitch()) * 0.9f - getProperties().getGroundPitch());
         }
     }
@@ -254,12 +254,12 @@ public abstract class EngineAircraft extends AircraftEntity {
 
     public void setEngineTarget(float engineTarget) {
         if (getFuelUtilization() > 0 || engineTarget == 0) {
-            if (world.isClient) {
+            if (getWorld().isClient) {
                 if (getEngineTarget() != engineTarget) {
                     NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
                 }
                 if (getFuelUtilization() > 0 && getEngineTarget() == 0.0 && engineTarget > 0) {
-                    world.playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, getEnginePitch(), false);
+                    getWorld().playSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundCategory(), 1.0f, getEnginePitch(), false);
                 }
             }
             dataTracker.set(ENGINE, engineTarget);
@@ -295,7 +295,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (!Config.getInstance().burnFuelInCreative && getControllingPassenger() instanceof PlayerEntity player && player.isCreative()) {
             return 1.0f;
         }
-        if (world.isClient) {
+        if (getWorld().isClient) {
             return dataTracker.get(UTILIZATION);
         } else {
             int running = 0;

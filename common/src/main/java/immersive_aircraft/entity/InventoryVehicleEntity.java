@@ -121,7 +121,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        if (!player.world.isClient && player.shouldCancelInteraction()) {
+        if (!player.getWorld().isClient && player.shouldCancelInteraction()) {
             Entity primaryPassenger = getFirstPassenger();
             if (primaryPassenger != null) {
                 // Kick out the first passenger
@@ -177,7 +177,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         if (age % 2 == 0) {
             Vec3d p = getPos();
             Vec3d velocity = getVelocity().subtract(toVec3d(direction));
-            world.addParticle(ParticleTypes.FIREWORK, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
+            getWorld().addParticle(ParticleTypes.FIREWORK, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
         }
     }
 

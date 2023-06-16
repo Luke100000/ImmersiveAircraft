@@ -5,6 +5,9 @@ import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public final class CommonFabric implements ModInitializer {
     @Override
@@ -17,11 +20,13 @@ public final class CommonFabric implements ModInitializer {
         Entities.bootstrap();
         Messages.loadMessages();
 
-        ItemGroups.GROUP = FabricItemGroup.builder(ItemGroups.getIdentifier())
+        ItemGroup group = FabricItemGroup.builder()
                 .displayName(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
                 .entries((enabledFeatures, entries) -> entries.addAll(Items.getSortedItems()))
                 .build();
+
+        Registry.register(Registries.ITEM_GROUP, Main.locate("group"), group);
     }
 }
 

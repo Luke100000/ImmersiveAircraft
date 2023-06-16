@@ -18,7 +18,7 @@ public class RequestInventory implements Message {
 
     @Override
     public void receive(PlayerEntity e) {
-        Entity entity = e.world.getEntityById(vehicleId);
+        Entity entity = e.getWorld().getEntityById(vehicleId);
         if (entity instanceof InventoryVehicleEntity vehicle) {
             for (int i = 0; i < vehicle.getInventoryDescription().getLastSyncIndex(); i++) {
                 ItemStack stack = vehicle.getInventory().getStack(i);

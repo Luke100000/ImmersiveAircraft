@@ -4,8 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.EngineAircraft;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 public class OverlayRenderer {
@@ -15,16 +14,16 @@ public class OverlayRenderer {
     private static float bootUp = 0.0f;
     private static float lastTime = 0;
 
-    public static void renderOverlay(MatrixStack matrices, float tickDelta) {
+    public static void renderOverlay(DrawContext context, float tickDelta) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (!client.options.hudHidden && client.interactionManager != null) {
             if (client.player != null && client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
-                renderAircraftGui(client, matrices, tickDelta, aircraft);
+                renderAircraftGui(client, context, tickDelta, aircraft);
             }
         }
     }
 
-    private static void renderAircraftGui(MinecraftClient client, MatrixStack matrices, float tickDelta, EngineAircraft aircraft) {
+    private static void renderAircraftGui(MinecraftClient client, DrawContext context, float tickDelta, EngineAircraft aircraft) {
         assert client.world != null;
 
         if (aircraft.getGuiStyle() == EngineAircraft.GUI_STYLE.ENGINE) {
@@ -37,23 +36,23 @@ public class OverlayRenderer {
             if (aircraft.getEngineTarget() > 0 && aircraft.getEnginePower() > 0.001) {
                 if (bootUp < 1.0f) {
                     bootUp = Math.min(1.0f, bootUp + delta * 0.2f);
-                    frame = (int)(bootUp * 5);
+                    frame = (int) (bootUp * 5);
                 } else {
                     int FPS = 30;
-                    int animation = (int)(aircraft.engineRotation.getSmooth(tickDelta) / 20.0f * FPS);
+                    int animation = (int) (aircraft.engineRotation.getSmooth(tickDelta) / 20.0f * FPS);
                     frame = 5 + animation % 6;
                 }
             } else {
                 if (bootUp > 0.0f) {
                     bootUp = Math.max(0.0f, bootUp - delta * 0.1f);
-                    frame = 10 + (int)((1.0 - bootUp) * 10);
+                    frame = 10 + (int) ((1.0 - bootUp) * 10);
                 } else {
                     frame = 20;
                 }
             }
 
-            int powerFrame = (int)((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
-            int powerFrameTarget = (int)((1.0f - aircraft.getEngineTarget()) * 10 + 10.5);
+            int powerFrame = (int) ((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
+            int powerFrameTarget = (int) ((1.0f - aircraft.getEngineTarget()) * 10 + 10.5);
 
             int x = client.getWindow().getScaledWidth() / 2;
             int y = client.getWindow().getScaledHeight() - 37;
@@ -63,15 +62,13 @@ public class OverlayRenderer {
             }
 
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            RenderSystem.setShaderTexture(0, TEXTURE);
-            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
+            context.drawTexture(TEXTURE, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
 
-            RenderSystem.setShaderTexture(0, TEXTURE2);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.enableBlend();
-            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
+            context.drawTexture(TEXTURE2, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
-            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
+            context.drawTexture(TEXTURE2, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
         }
     }
 }

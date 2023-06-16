@@ -41,7 +41,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
     public void tick() {
         // rolling interpolation
         prevRoll = roll;
-        if (onGround) {
+        if (isOnGround()) {
             roll *= 0.9;
         } else {
             roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
@@ -92,7 +92,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         if (touchingWater) {
             gravity *= 0.25f;
             decay = 0.9f;
-        } else if (onGround) {
+        } else if (isOnGround()) {
             if (hasPassengers()) {
                 decay = getGroundVelocityDecay();
             } else {
@@ -120,7 +120,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         pressingInterpolatedZ.decay(0.0f, 1.0f - decay * getRotationDecay());
 
         // wind
-        if (!onGround) {
+        if (!isOnGround()) {
             Vector3f effect = getWindEffect();
             setPitch(getPitch() + effect.x);
             setYaw(getYaw() + effect.z);
@@ -136,8 +136,8 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
     public float getWindStrength() {
         float sensitivity = getProperties().getWindSensitivity();
-        float thundering = world.getRainGradient(0.0f);
-        float raining = world.getThunderGradient(0.0f);
+        float thundering = getWorld().getRainGradient(0.0f);
+        float raining = getWorld().getThunderGradient(0.0f);
         float weather = (float)((Config.getInstance().windClearWeather + getVelocity().length()) + thundering * Config.getInstance().windThunderWeather + raining * Config.getInstance().windRainWeather);
         return weather * sensitivity;
     }

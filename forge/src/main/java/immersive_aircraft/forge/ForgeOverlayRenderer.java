@@ -23,7 +23,7 @@ public class ForgeOverlayRenderer extends InGameHud {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderOverlay(RenderGuiOverlayEvent.Post event) {
         if (event.getOverlay().id().equals(NamedGuiIdentifier)) {
-            OverlayRenderer.renderOverlay(event.getPoseStack(), event.getPartialTick());
+            OverlayRenderer.renderOverlay(event.getGuiGraphics(), event.getPartialTick());
         }
     }
 }

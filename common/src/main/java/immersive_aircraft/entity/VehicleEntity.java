@@ -180,7 +180,7 @@ public abstract class VehicleEntity extends Entity {
         if (isInvulnerableTo(source)) {
             return false;
         }
-        if (world.isClient || isRemoved()) {
+        if (getWorld().isClient || isRemoved()) {
             return true;
         }
         setDamageWobbleSide(-getDamageWobbleSide());
@@ -190,7 +190,7 @@ public abstract class VehicleEntity extends Entity {
         boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode;
         if (bl || getDamageWobbleStrength() > 40.0f) {
             if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers() || source.getAttacker() instanceof PlayerEntity) {
-                if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+                if (getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
                     drop();
                 }
                 discard();
@@ -209,9 +209,9 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public void onBubbleColumnSurfaceCollision(boolean drag) {
-        world.addParticle(ParticleTypes.SPLASH, getX() + (double) random.nextFloat(), getY() + 0.7, getZ() + (double) random.nextFloat(), 0.0, 0.0, 0.0);
+        getWorld().addParticle(ParticleTypes.SPLASH, getX() + (double) random.nextFloat(), getY() + 0.7, getZ() + (double) random.nextFloat(), 0.0, 0.0, 0.0);
         if (random.nextInt(20) == 0) {
-            world.playSound(getX(), getY(), getZ(), getSplashSound(), getSoundCategory(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
+            getWorld().playSound(getX(), getY(), getZ(), getSplashSound(), getSoundCategory(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
         }
         emitGameEvent(GameEvent.SPLASH, getControllingPassenger());
     }
@@ -272,7 +272,7 @@ public abstract class VehicleEntity extends Entity {
     @Override
     public void tick() {
         // pilot
-        if (world.isClient() && getPassengerList().size() > 0) {
+        if (getWorld().isClient() && getPassengerList().size() > 0) {
             for (Entity entity : getPassengerList()) {
                 if (entity instanceof ClientPlayerEntity) {
                     if (KeyBindings.dismount.wasPressed()) {
@@ -281,7 +281,7 @@ public abstract class VehicleEntity extends Entity {
                     if (KeyBindings.boost.wasPressed() && canBoost()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getVelocity()));
                         Vec3d p = getPos();
-                        world.playSound(p.getX(), p.getY(), p.getZ(), SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
+                        getWorld().playSound(p.getX(), p.getY(), p.getZ(), SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, SoundCategory.NEUTRAL, 1.0f, 1.0f, true);
                     }
                 }
             }
@@ -332,7 +332,7 @@ public abstract class VehicleEntity extends Entity {
                 applyBoost();
             }
 
-            if (world.isClient) {
+            if (getWorld().isClient) {
                 updateController();
             }
 
@@ -341,9 +341,9 @@ public abstract class VehicleEntity extends Entity {
 
         // auto enter
         checkBlockCollision();
-        List<Entity> list = world.getOtherEntities(this, getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
+        List<Entity> list = getWorld().getOtherEntities(this, getBoundingBox().expand(0.2f, -0.01f, 0.2f), EntityPredicates.canBePushedBy(this));
         if (!list.isEmpty()) {
-            boolean bl = !world.isClient && !(getControllingPassenger() instanceof PlayerEntity);
+            boolean bl = !getWorld().isClient && !(getControllingPassenger() instanceof PlayerEntity);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengerList().size() < (getPassengerSpace() - 1) && !entity.hasVehicle() && entity.getWidth() < getWidth() && entity instanceof LivingEntity && !(entity instanceof WaterCreatureEntity) && !(entity instanceof PlayerEntity)) {
@@ -355,7 +355,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // interpolate keys for visual feedback
-        if (world.isClient) {
+        if (getWorld().isClient) {
             pressingInterpolatedX.update(movementX);
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);
@@ -392,7 +392,7 @@ public abstract class VehicleEntity extends Entity {
     protected abstract void updateController();
 
     @Override
-    public void updatePassengerPosition(Entity passenger) {
+    public void updatePassengerPosition(Entity passenger, PositionUpdater positionUpdater) {
         if (!hasPassenger(passenger)) {
             return;
         }
@@ -415,10 +415,10 @@ public abstract class VehicleEntity extends Entity {
 
                 Vector4f worldPosition = transformPosition(transform,  position.x,  position.y,  position.z);
 
-                passenger.setPosition(worldPosition.x, worldPosition.y, worldPosition.z);
-
                 passenger.setYaw(passenger.getYaw() + (getYaw() - prevYaw));
                 passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
+
+                positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);
 
                 copyEntityData(passenger);
                 if (passenger instanceof AnimalEntity && size > 1) {
@@ -447,19 +447,19 @@ public abstract class VehicleEntity extends Entity {
             double d = getX() + vec3d.x;
             BlockPos blockPos = BlockPos.ofFloored(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
             BlockPos blockPos2 = blockPos.down();
-            if (!world.isWater(blockPos2)) {
+            if (!getWorld().isWater(blockPos2)) {
                 double g;
                 ArrayList<Vec3d> list = Lists.newArrayList();
-                double f = world.getDismountHeight(blockPos);
+                double f = getWorld().getDismountHeight(blockPos);
                 if (Dismounting.canDismountInBlock(f)) {
                     list.add(new Vec3d(d, (double) blockPos.getY() + f, e));
                 }
-                if (Dismounting.canDismountInBlock(g = world.getDismountHeight(blockPos2))) {
+                if (Dismounting.canDismountInBlock(g = getWorld().getDismountHeight(blockPos2))) {
                     list.add(new Vec3d(d, (double) blockPos2.getY() + g, e));
                 }
                 for (EntityPose entityPose : passenger.getPoses()) {
                     for (Vec3d vec3d2 : list) {
-                        if (!Dismounting.canPlaceEntityAt(world, vec3d2, passenger, entityPose)) continue;
+                        if (!Dismounting.canPlaceEntityAt(getWorld(), vec3d2, passenger, entityPose)) continue;
                         passenger.setPose(entityPose);
                         return vec3d2;
                     }
@@ -503,7 +503,7 @@ public abstract class VehicleEntity extends Entity {
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         }
-        if (!world.isClient) {
+        if (!getWorld().isClient) {
             return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
         }
         if (hasPassenger(player)) {
@@ -518,7 +518,7 @@ public abstract class VehicleEntity extends Entity {
         super.move(movementType, movement);
 
         // Collision damage
-        if (world.isClient && Config.getInstance().collisionDamage) {
+        if (getWorld().isClient && Config.getInstance().collisionDamage) {
             if (verticalCollision || horizontalCollision) {
                 double maxPossibleError = movement.length();
                 double error = prediction.distanceTo(getPos());

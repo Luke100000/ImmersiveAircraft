@@ -15,13 +15,13 @@ public class CollisionMessage implements Message {
     @Override
     public void receive(PlayerEntity e) {
         if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
-            vehicle.damage(e.world.getDamageSources().fall(), damage);
+            vehicle.damage(e.getWorld().getDamageSources().fall(), damage);
             if (vehicle.isRemoved()) {
                 float crashDamage = damage * Config.getInstance().crashDamage;
                 if (Config.getInstance().preventKillThroughCrash) {
                     crashDamage = Math.min(crashDamage, e.getHealth() - 1.0f);
                 }
-                e.damage(e.world.getDamageSources().fall(), crashDamage);
+                e.damage(e.getWorld().getDamageSources().fall(), crashDamage);
             }
         }
     }

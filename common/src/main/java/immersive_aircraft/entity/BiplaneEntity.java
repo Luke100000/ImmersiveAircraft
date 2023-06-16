@@ -71,7 +71,7 @@ public class BiplaneEntity extends AirplaneEntity {
     public void tick() {
         super.tick();
 
-        if (world.isClient) {
+        if (getWorld().isClient) {
             if (isWithinParticleRange()) {
                 Matrix4f transform = getVehicleTransform();
                 Matrix3f normalTransform = getVehicleNormalTransform();
@@ -86,7 +86,7 @@ public class BiplaneEntity extends AirplaneEntity {
                     Vector4f p = transformPosition(transform, 0.325f * (age % 4 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
                     Vector3f vel = transformVector(normalTransform, 0.2f * (age % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
                     Vec3d velocity = getVelocity();
-                    world.addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
+                    getWorld().addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

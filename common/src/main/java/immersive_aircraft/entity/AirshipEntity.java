@@ -150,7 +150,7 @@ public class AirshipEntity extends Rotorcraft {
 
         float power = getEnginePower();
 
-        if (world.isClient) {
+        if (getWorld().isClient) {
             if (isWithinParticleRange() && power > 0.01) {
                 Matrix4f transform = getVehicleTransform();
 
@@ -161,7 +161,7 @@ public class AirshipEntity extends Rotorcraft {
                 if (age % 2 == 0) {
                     Vector4f p = transformPosition(transform, (random.nextFloat() - 0.5f) * 0.4f, 0.8f, -0.8f);
                     Vec3d velocity = getVelocity();
-                    world.addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, velocity.x, velocity.y, velocity.z);
+                    getWorld().addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, velocity.x, velocity.y, velocity.z);
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
