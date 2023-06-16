@@ -76,7 +76,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     }
 
     @Override
-    Vector3f getPivot(AircraftEntity entity) {
+    protected Vector3f getPivot(AircraftEntity entity) {
         return new Vector3f(0.0f, 0.2f, 0.05f);
     }
 }

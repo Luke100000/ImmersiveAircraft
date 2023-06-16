@@ -86,7 +86,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
     }
 
     @Override
-    Vector3f getPivot(AircraftEntity entity) {
+    protected Vector3f getPivot(AircraftEntity entity) {
         return new Vector3f(0.0f, 0.0f, 0.0f);
     }
 }
