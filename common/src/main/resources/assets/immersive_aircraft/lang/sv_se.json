@@ -54,7 +54,7 @@
   "immersive_aircraft.fuel.low": "Du har ont om bränsle!",
   "immersive_aircraft.fat.none": "Ingen mat!",
   "immersive_aircraft.fat.out": "Du är för hungrig för att flyga!",
-  "option.immersive_aircraft.general": "Allmänna alternativ",
+  "option.immersive_aircraft.general": "Allmänna inställningar",
   "option.immersive_aircraft.separateCamera": "Använd en separat kamera i flygplanet.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Standardinställningen är tredjepersonskamera i flygplanet.",
   "option.immersive_aircraft.enableTrails": "Fancy ångspår.",
