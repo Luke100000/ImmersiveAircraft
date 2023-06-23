@@ -75,10 +75,10 @@
   "immersive_aircraft.slot.banner": "旗帜槽",
   "immersive_aircraft.slot.dye": "染料槽",
   "immersive_aircraft.slot.upgrade": "升级槽",
-  "immersive_aircraft.upgrade.strength": "%s%的发动机动力",
-  "immersive_aircraft.upgrade.friction": "%s％的空气摩擦",
-  "immersive_aircraft.upgrade.acceleration": "%s％的起飞速度",
-  "immersive_aircraft.upgrade.durability": "%s％的耐久度",
-  "immersive_aircraft.upgrade.fuel": "%s所需燃料的百分比",
-  "immersive_aircraft.upgrade.wind": "%s％的风效应"
+  "immersive_aircraft.upgrade.strength": "%s%% 的发动机动力",
+  "immersive_aircraft.upgrade.friction": "%s%% 的空气摩擦",
+  "immersive_aircraft.upgrade.acceleration": "%s%% 的起飞速度",
+  "immersive_aircraft.upgrade.durability": "%s%% 的耐久度",
+  "immersive_aircraft.upgrade.fuel": "%s%% 所需燃料的百分比",
+  "immersive_aircraft.upgrade.wind": "%s%% 的风效应"
 }
