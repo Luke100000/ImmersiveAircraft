@@ -31,7 +31,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
             )
             .add(
                     new Object(id, "banners").setRenderConsumer(
-                            (vertexConsumerProvider, entity, matrixStack, light) -> {
+                            (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                 List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
                                 int i = 0;
                                 for (ItemStack slot : slots) {
