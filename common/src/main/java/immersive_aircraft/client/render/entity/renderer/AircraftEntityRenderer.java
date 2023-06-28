@@ -79,6 +79,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     }
 
     protected class Model {
+    	
+    	public Model() {}
+    	
         private final List<Object> objects = new LinkedList<>();
 
         public Model add(Object o) {
