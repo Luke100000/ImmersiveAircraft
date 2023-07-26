@@ -1,3 +1,7 @@
+# 0.4.3
+
+* Synced translations and retired 1.18.2
+
 # 0.4.2
 
 * Engines now have a fuel buffer and then die slowly when out of fuel
