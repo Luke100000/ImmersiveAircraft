@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Quadrocopter",
   "item.immersive_aircraft.airship.description": "Ilmalaivat eivät ehkä ole nopein kulkuneuvo, mutta niitä on helppo ohjata.",
   "item.immersive_aircraft.cargo_airship.description": "Hidas ja polttoaineen nälkäinen, mutta kantaa koko varaston.",
-  "item.immersive_aircraft.biplane.description": "Tämä luotettava, maalaismainen kaksitaso vie sinut minne tahansa nopeasti ja melko luotettavasti. Varmista, että kiitotie on tarpeeksi pitkä.",
+  "item.immersive_aircraft.biplane.description": "Nopea ja melko luotettava. Varmista, että kiitotie on riittävän pitkä.",
   "item.immersive_aircraft.gyrodyne.description": "Kuka tarvitsee moottoria, jos lentokoneen voisi pyörittää pelkällä voimalla? Anna sille kunnon työntö ja se lentää!",
   "item.immersive_aircraft.quadrocopter.description": "Insinöörityön mestariteos! 4 roottoria kiinnitettynä bambuun. Täydellinen rakentamiseen, ja siinä kaikki.",
   "immersive_aircraft.gyrodyne_target": "%d%% Voimaa, jatka ponnistelua!",
