@@ -8,13 +8,22 @@ import immersive_aircraft.network.s2c.InventoryUpdateMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class RequestInventory implements Message {
+public class RequestInventory extends Message {
     private final int vehicleId;
 
     public RequestInventory(int id) {
         this.vehicleId = id;
+    }
+    public RequestInventory(PacketByteBuf b) {
+        vehicleId = b.readInt();
+    }
+
+    @Override
+    public void encode(PacketByteBuf b) {
+        b.writeInt(vehicleId);
     }
 
     @Override

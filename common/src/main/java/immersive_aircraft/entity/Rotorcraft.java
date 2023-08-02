@@ -20,7 +20,7 @@ abstract public class Rotorcraft extends EngineAircraft {
     }
 
     @Override
-    void convertPower(Vec3d direction) {
+    protected void convertPower(Vec3d direction) {
         Vec3d velocity = getVelocity().multiply(1.0f, 0.0f, 1.0f);
         double drag = Math.abs(direction.dotProduct(velocity.normalize()));
         Vec3d newVelocity = (velocity.normalize().multiply((1.0 - getProperties().getLift())))

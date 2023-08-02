@@ -43,21 +43,21 @@ public class QuadrocopterEntity extends Rotorcraft {
     }
 
     @Override
-    float getBaseFuelConsumption() {
+    protected float getBaseFuelConsumption() {
         return 0.5f;
     }
 
     @Override
-    float getInputInterpolationSteps() {
+    protected float getInputInterpolationSteps() {
         return 5;
     }
 
-    SoundEvent getEngineSound() {
+    protected SoundEvent getEngineSound() {
         return Sounds.PROPELLER_TINY.get();
     }
 
     @Override
-    float getEnginePitch() {
+    protected float getEnginePitch() {
         return 1.0f;
     }
 
@@ -67,22 +67,22 @@ public class QuadrocopterEntity extends Rotorcraft {
     }
 
     @Override
-    float getGroundVelocityDecay() {
+    protected float getGroundVelocityDecay() {
         return 0.25f;
     }
 
     @Override
-    float getHorizontalVelocityDelay() {
+    protected float getHorizontalVelocityDelay() {
         return 0.9f;
     }
 
     @Override
-    float getVerticalVelocityDelay() {
+    protected float getVerticalVelocityDelay() {
         return 0.8f;
     }
 
     @Override
-    float getStabilizer() {
+    protected float getStabilizer() {
         return 0.1f;
     }
 
@@ -107,7 +107,7 @@ public class QuadrocopterEntity extends Rotorcraft {
     }
 
     @Override
-    void updateController() {
+    protected void updateController() {
         super.updateController();
 
         setEngineTarget(1.0f);

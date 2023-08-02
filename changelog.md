@@ -1,3 +1,20 @@
+# 0.5.2
+
+* Switched to PacketByteBuf serializer
+
+# 0.5.1
+
+* Fixed glitch on sails when pausing
+* Aircraft no longer break on autostep
+
+# 0.5.0
+
+* Added Cargo Airship
+* You can now kick out entities using shift-right click
+* Added fall damage when crashing the aircraft (never lethal by default, configurable)
+* Fixed inventory staying open after entity got removed
+* Mirrored banners correctly
+
 # 0.4.4 (only 1.16.5)
 
 * Fixed wrong recipes

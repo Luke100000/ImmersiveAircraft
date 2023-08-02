@@ -26,11 +26,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     }
 
     public interface RenderConsumer<T> {
-        void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light);
+        void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light, float tickDelta);
     }
 
-    class Object {
-        Object(Identifier id, String object) {
+    protected class Object {
+        public Object(Identifier id, String object) {
             this.id = id;
             this.object = object;
         }
@@ -38,8 +38,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         private final Identifier id;
         private final String object;
 
-        private AircraftEntityRenderer.AnimationConsumer<T> animationConsumer = null;
-        private AircraftEntityRenderer.RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light) -> {
+        private AnimationConsumer<T> animationConsumer = null;
+        private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
             //Get vertex consumer
             Identifier identifier = getTexture(entity);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(identifier));
@@ -58,26 +58,30 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             return id;
         }
 
-        public AircraftEntityRenderer.AnimationConsumer<T> getAnimationConsumer() {
+        public AnimationConsumer<T> getAnimationConsumer() {
             return animationConsumer;
         }
 
-        public Object setAnimationConsumer(AircraftEntityRenderer.AnimationConsumer<T> animationConsumer) {
+        public Object setAnimationConsumer(AnimationConsumer<T> animationConsumer) {
             this.animationConsumer = animationConsumer;
             return this;
         }
 
-        public AircraftEntityRenderer.RenderConsumer<T> getRenderConsumer() {
+        public RenderConsumer<T> getRenderConsumer() {
             return renderConsumer;
         }
 
-        public Object setRenderConsumer(AircraftEntityRenderer.RenderConsumer<T> renderConsumer) {
+        public Object setRenderConsumer(RenderConsumer<T> renderConsumer) {
             this.renderConsumer = renderConsumer;
             return this;
         }
     }
 
-    class Model {
+    protected class Model {
+
+        public Model() {
+        }
+
         private final List<Object> objects = new LinkedList<>();
 
         public Model add(Object o) {
@@ -94,9 +98,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         super(entityRenderDispatcher);
     }
 
-    abstract Model getModel(AircraftEntity entity);
+    protected abstract Model getModel(AircraftEntity entity);
 
-    abstract Vec3f getPivot(AircraftEntity entity);
+    protected abstract Vec3f getPivot(AircraftEntity entity);
 
 
     @Override
@@ -106,13 +110,13 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         matrixStack.push();
 
         //Wobble
-        float h = (float)entity.getDamageWobbleTicks() - tickDelta;
+        float h = (float) entity.getDamageWobbleTicks() - tickDelta;
         float j = entity.getDamageWobbleStrength() - tickDelta;
         if (j < 0.0f) {
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
+            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float) entity.getDamageWobbleSide()));
         }
 
         Vec3f effect = entity.isOnGround() ? new Vec3f() : entity.getWindEffect();
@@ -130,7 +134,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 matrixStack.push();
                 object.getAnimationConsumer().run(entity, yaw, tickDelta, matrixStack);
             }
-            object.getRenderConsumer().run(vertexConsumerProvider, entity, matrixStack, light);
+            object.getRenderConsumer().run(vertexConsumerProvider, entity, matrixStack, light, tickDelta);
             if (object.getAnimationConsumer() != null) {
                 matrixStack.pop();
             }
@@ -144,11 +148,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
     }
 
-    static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
+    protected static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
         renderObject(mesh, matrixStack, vertexConsumer, light, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
+    protected static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
         Matrix4f positionMatrix = entry.getModel();
         Matrix3f normalMatrix = entry.getNormal();
@@ -168,11 +172,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
+    protected static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
         renderSailObject(mesh, matrixStack, vertexConsumer, light, time, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
+    protected static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
         MatrixStack.Entry entry = matrixStack.peek();
         Matrix4f positionMatrix = entry.getModel();
         Matrix3f normalMatrix = entry.getNormal();
@@ -181,8 +185,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 for (FaceVertex v : face.vertices) {
                     double angle = v.v.x + v.v.z + v.v.y * 0.25 + time * 0.25;
                     double scale = 0.05;
-                    float x = (float)(v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
-                    float z = (float)(v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
+                    float x = (float) (v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
+                    float z = (float) (v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
                     vertexConsumer
                             .vertex(positionMatrix, x, v.v.y, z)
                             .color(r, g, b, a).texture(v.t.u, v.t.v)
@@ -222,8 +226,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             }
         }
     }
-
-    static Mesh getFaces(Identifier id, String object) {
+    protected static Mesh getFaces(Identifier id, String object) {
         return ObjectLoader.objects.get(id).get(object);
     }
 

@@ -13,9 +13,7 @@ import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public class JsonConfig implements Serializable {
-    private static final long serialVersionUID = 9132405079466337851L;
-
+public class JsonConfig {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public int version = 0;
@@ -71,7 +69,7 @@ public class JsonConfig implements Serializable {
                 return config;
             } catch (Exception e) {
                 LOGGER.error("Failed to load Immersive Aircraft config! Default config is used for now. Delete the file to reset.");
-                e.printStackTrace();
+                LOGGER.error(e);
                 return new Config();
             }
         } else {

@@ -1,10 +1,7 @@
 package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
-import immersive_aircraft.entity.AirshipEntity;
-import immersive_aircraft.entity.BiplaneEntity;
-import immersive_aircraft.entity.GyrodyneEntity;
-import immersive_aircraft.entity.QuadrocopterEntity;
+import immersive_aircraft.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -36,6 +33,12 @@ public interface Entities {
     Supplier<EntityType<AirshipEntity>> AIRSHIP = register("airship", EntityType.Builder
             .create(AirshipEntity::new, SpawnGroup.MISC)
             .setDimensions(1.5f, 2.5f)
+            .makeFireImmune()
+    );
+
+    Supplier<EntityType<CargoAirshipEntity>> CARGO_AIRSHIP = register("cargo_airship", EntityType.Builder
+            .create(CargoAirshipEntity::new, SpawnGroup.MISC)
+            .setDimensions(1.75f, 2.5f)
             .makeFireImmune()
     );
 

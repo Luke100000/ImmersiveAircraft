@@ -373,4 +373,8 @@ public class Matrix4f {
         m.a23 = z;
         return m;
     }
+
+    public void multiplyByTranslation(float x, float y, float z) {
+        multiply(Matrix4f.translate(x, y, z));
+    }
 }

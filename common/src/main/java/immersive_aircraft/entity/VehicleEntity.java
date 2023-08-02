@@ -50,24 +50,24 @@ import java.util.List;
  * Abstract vehicle which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-    static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+	protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
-    static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    int interpolationSteps;
+	protected int interpolationSteps;
 
-    double x;
-    double y;
-    double z;
+	protected double x;
+	protected double y;
+	protected double z;
 
-    double clientYaw;
-    double clientPitch;
+	protected double clientYaw;
+	protected double clientPitch;
 
-    float movementX;
-    float movementY;
-    float movementZ;
+	protected float movementX;
+	protected float movementY;
+	protected float movementZ;
 
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
@@ -107,7 +107,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public void setPitch(float pitch) {
-        float loops = (float)(Math.floor((pitch + 180f) / 360f) * 360f);
+        float loops = (float) (Math.floor((pitch + 180f) / 360f) * 360f);
         pitch -= loops;
         prevPitch -= loops;
         this.pitch = pitch;
@@ -122,7 +122,7 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
     }
 
-    float getInputInterpolationSteps() {
+    protected float getInputInterpolationSteps() {
         return 10;
     }
 
@@ -201,7 +201,7 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public void onBubbleColumnSurfaceCollision(boolean drag) {
-        world.addParticle(ParticleTypes.SPLASH, getX() + (double)random.nextFloat(), getY() + 0.7, getZ() + (double)random.nextFloat(), 0.0, 0.0, 0.0);
+        world.addParticle(ParticleTypes.SPLASH, getX() + (double) random.nextFloat(), getY() + 0.7, getZ() + (double) random.nextFloat(), 0.0, 0.0, 0.0);
         if (random.nextInt(20) == 0) {
             world.playSound(getX(), getY(), getZ(), getSplashSound(), getSoundCategory(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
         }
@@ -257,7 +257,7 @@ public abstract class VehicleEntity extends Entity {
         return positive ? 1.0f : -1.0f;
     }
 
-    boolean useAirplaneControls() {
+    protected boolean useAirplaneControls() {
         return false;
     }
 
@@ -362,12 +362,12 @@ public abstract class VehicleEntity extends Entity {
         if (interpolationSteps <= 0) {
             return;
         }
-        double interpolatedX = getX() + (x - getX()) / (double)interpolationSteps;
-        double interpolatedY = getY() + (y - getY()) / (double)interpolationSteps;
-        double interpolatedZ = getZ() + (z - getZ()) / (double)interpolationSteps;
-        double interpolatedYaw = MathHelper.wrapDegrees(clientYaw - getYaw());
-        setYaw(getYaw() + (float)interpolatedYaw / (float)interpolationSteps);
-        setPitch(getPitch() + (float)(clientPitch - (double)getPitch()) / (float)interpolationSteps);
+        double interpolatedX = getX() + (x - getX()) / (double) interpolationSteps;
+        double interpolatedY = getY() + (y - getY()) / (double) interpolationSteps;
+        double interpolatedZ = getZ() + (z - getZ()) / (double) interpolationSteps;
+        double interpolatedYaw = MathHelper.wrapDegrees(clientYaw -  getYaw());
+        setYaw(getYaw() + (float) interpolatedYaw / (float) interpolationSteps);
+        setPitch(getPitch() + (float) (clientPitch - (double) getPitch()) / (float) interpolationSteps);
 
         setPosition(interpolatedX, interpolatedY, interpolatedZ);
         setRotation(getYaw(), getPitch());
@@ -375,13 +375,13 @@ public abstract class VehicleEntity extends Entity {
         --interpolationSteps;
     }
 
-    abstract void updateVelocity();
+    protected abstract void updateVelocity();
 
     protected float getGravity() {
         return -0.04f;
     }
 
-    abstract void updateController();
+    protected abstract void updateController();
 
     @Override
     public void updatePassengerPosition(Entity passenger) {
@@ -405,7 +405,7 @@ public abstract class VehicleEntity extends Entity {
 
                 position = position.add(0, passenger.getHeightOffset(), 0);
 
-                Vector4f worldPosition = transformPosition(transform, (float)position.x, (float)position.y, (float)position.z);
+                Vector4f worldPosition = transformPosition(transform, (float) position.x, (float) position.y, (float) position.z);
 
                 passenger.setPosition(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
 
@@ -415,20 +415,20 @@ public abstract class VehicleEntity extends Entity {
                 copyEntityData(passenger);
                 if (passenger instanceof AnimalEntity && size > 1) {
                     int angle = passenger.getEntityId() % 2 == 0 ? 90 : 270;
-                    passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)angle);
-                    passenger.setHeadYaw(passenger.getHeadYaw() + (float)angle);
+                    passenger.setBodyYaw(((AnimalEntity) passenger).bodyYaw + (float) angle);
+                    passenger.setHeadYaw(passenger.getHeadYaw() + (float) angle);
                 }
             }
         }
     }
 
     private Vec3d getDismountOffset(double vehicleWidth, double passengerWidth) {
-        double d = (vehicleWidth + passengerWidth + (double)1.0E-5f) / 2.0;
+        double d = (vehicleWidth + passengerWidth + (double) 1.0E-5f) / 2.0;
         float yaw = getYaw() + 90.0f;
-        float f = -MathHelper.sin(yaw * ((float)Math.PI / 180));
-        float g = MathHelper.cos(yaw * ((float)Math.PI / 180));
+        float f = -MathHelper.sin(yaw * ((float) Math.PI / 180));
+        float g = MathHelper.cos(yaw * ((float) Math.PI / 180));
         float h = Math.max(Math.abs(f), Math.abs(g));
-        return new Vec3d((double)f * d / (double)h, 0.0, (double)g * d / (double)h);
+        return new Vec3d((double) f * d / (double) h, 0.0, (double) g * d / (double) h);
     }
 
     @Override
@@ -444,10 +444,10 @@ public abstract class VehicleEntity extends Entity {
                 ArrayList<Vec3d> list = Lists.newArrayList();
                 double f = world.getDismountHeight(blockPos);
                 if (Dismounting.canDismountInBlock(f)) {
-                    list.add(new Vec3d(d, (double)blockPos.getY() + f, e));
+                    list.add(new Vec3d(d, (double) blockPos.getY() + f, e));
                 }
                 if (Dismounting.canDismountInBlock(g = world.getDismountHeight(blockPos2))) {
-                    list.add(new Vec3d(d, (double)blockPos2.getY() + g, e));
+                    list.add(new Vec3d(d, (double) blockPos2.getY() + g, e));
                 }
                 for (EntityPose entityPose : passenger.getPoses()) {
                     for (Vec3d vec3d2 : list) {
@@ -513,12 +513,16 @@ public abstract class VehicleEntity extends Entity {
         // Collision damage
         if (world.isClient && Config.getInstance().collisionDamage) {
             if (verticalCollision || horizontalCollision) {
-                float collision = (float)(prediction.subtract(getPos()).length() - Math.abs(getGravity()));
-                if (collision > 0.01f) {
-                    float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
-                    if (repeat > 0.0001f) {
-                        float damage = collision * 20 * repeat * repeat;
-                        NetworkHandler.sendToServer(new CollisionMessage(damage));
+                double maxPossibleError = movement.length();
+                double error = prediction.distanceTo(getPos());
+                if (error <= maxPossibleError) {
+                    float collision = (float) (error - (verticalCollision ? Math.abs(getGravity()) : 0.0));
+                    if (collision > 0.01f) {
+                        float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
+                        if (repeat > 0.0001f) {
+                            float damage = collision * 20 * repeat * repeat;
+                            NetworkHandler.sendToServer(new CollisionMessage(damage));
+                        }
                     }
                 }
             }
@@ -597,7 +601,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected Matrix4f getVehicleTransform() {
-        Matrix4f transform = Matrix4f.translate((float)getX(), (float)getY(), (float)getZ());
+        Matrix4f transform = Matrix4f.translate((float) getX(), (float) getY(), (float) getZ());
         transform.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-getYaw()));
         transform.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(getPitch()));
         transform.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(getRoll()));

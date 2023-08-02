@@ -52,11 +52,11 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    float getEngineReactionSpeed() {
+    protected float getEngineReactionSpeed() {
         return 50.0f;
     }
 
-    SoundEvent getEngineSound() {
+    protected SoundEvent getEngineSound() {
         return Sounds.PROPELLER_SMALL.get();
     }
 
@@ -66,22 +66,22 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    float getGroundVelocityDecay() {
+    protected float getGroundVelocityDecay() {
         return 0.5f;
     }
 
     @Override
-    float getHorizontalVelocityDelay() {
+    protected float getHorizontalVelocityDelay() {
         return 0.97f;
     }
 
     @Override
-    float getVerticalVelocityDelay() {
+    protected float getVerticalVelocityDelay() {
         return 0.925f;
     }
 
     @Override
-    float getStabilizer() {
+    protected float getStabilizer() {
         return 0.1f;
     }
 
@@ -106,12 +106,16 @@ public class AirshipEntity extends Rotorcraft {
         return trails;
     }
 
-    private void trail(Matrix4f transform, float y) {
-        Vector4f p0 = transformPosition(transform, (float)0.0 - 0.15f, y, (float)0.0);
-        Vector4f p1 = transformPosition(transform, (float)0.0 + 0.15f, y, (float)0.0);
+    void trail(Matrix4f transform) {
+        trail(transform, 0);
+    }
 
-        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(getVelocity().length() - 0.05f)));
-        trails.get(0).add(p0, p1, trailStrength);
+    void trail(Matrix4f transform, int index) {
+        Vector4f p0 = transformPosition(transform, (float) 0.0 - 0.15f, 0.0f, 0.0f);
+        Vector4f p1 = transformPosition(transform, (float) 0.0 + 0.15f, 0.0f, 0.0f);
+
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float) (getVelocity().length() - 0.05f)));
+        getTrails().get(index).add(p0, p1, trailStrength);
     }
 
     protected List<List<Vec3d>> getPassengerPositions() {
@@ -124,7 +128,7 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    void updateController() {
+    protected void updateController() {
         super.updateController();
 
         setEngineTarget(1.0f);
@@ -136,7 +140,7 @@ public class AirshipEntity extends Rotorcraft {
         Vec3d direction = getDirection();
 
         // accelerate
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
+        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         setVelocity(getVelocity().add(direction.multiply(thrust)));
     }
 
@@ -151,10 +155,7 @@ public class AirshipEntity extends Rotorcraft {
                 Matrix4f transform = getVehicleTransform();
 
                 // Trails
-                Matrix4f tr = transform.copy();
-                tr.multiply(Matrix4f.translate(0.0f, 0.4f, -1.2f));
-                tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
-                trail(tr, 0.0f);
+                addTrails(transform);
 
                 // Smoke
                 if (age % 2 == 0) {
@@ -166,5 +167,12 @@ public class AirshipEntity extends Rotorcraft {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
+    }
+
+    protected void addTrails(Matrix4f transform) {
+        Matrix4f tr = transform.copy();
+        tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
+        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
+        trail(tr);
     }
 }
