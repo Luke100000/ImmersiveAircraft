@@ -1,3 +1,7 @@
+# 0.5.2
+
+* Switched to PacketByteBuf serializer
+
 # 0.5.1
 
 * Fixed glitch on sails when pausing
