@@ -4,19 +4,26 @@ import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
 
-import java.io.Serial;
-
-public class OpenGuiRequest implements Message {
-    @Serial
-    private static final long serialVersionUID = -2371116419166251497L;
-
+public class OpenGuiRequest extends Message {
     private final int vehicle;
     private final int syncId;
 
     public OpenGuiRequest(VehicleEntity vehicle, int syncId) {
         this.vehicle = vehicle.getId();
         this.syncId = syncId;
+    }
+
+    public OpenGuiRequest(PacketByteBuf b) {
+        vehicle = b.readInt();
+        syncId = b.readInt();
+    }
+
+    @Override
+    public void encode(PacketByteBuf b) {
+        b.writeInt(vehicle);
+        b.writeInt(syncId);
     }
 
     @Override

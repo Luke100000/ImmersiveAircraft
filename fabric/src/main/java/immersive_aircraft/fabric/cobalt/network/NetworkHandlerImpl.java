@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     private final Map<Class<?>, Identifier> identifiers = new HashMap<>();
@@ -31,17 +32,17 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     }
 
     @Override
-    public <T extends Message> void registerMessage(Class<T> msg) {
+    public <T extends Message> void registerMessage(Class<T> msg, Function<PacketByteBuf, T> constructor) {
         Identifier identifier = createMessageIdentifier(msg);
         identifiers.put(msg, identifier);
 
         ServerPlayNetworking.registerGlobalReceiver(identifier, (server, player, handler, buffer, responder) -> {
-            Message m = Message.decode(buffer);
+            Message m = constructor.apply(buffer);
             server.execute(() -> m.receive(player));
         });
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            ClientProxy.register(identifier);
+            ClientProxy.register(identifier, constructor);
         }
     }
 
@@ -66,11 +67,12 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
             throw new RuntimeException("new ClientProxy()");
         }
 
-        public static void register(Identifier id) {
+        public static <T extends Message> void register(Identifier id, Function<PacketByteBuf, T> constructor) {
             ClientPlayNetworking.registerGlobalReceiver(id, (client, ignore1, buffer, ignore2) -> {
-                Message m = Message.decode(buffer);
+                Message m = constructor.apply(buffer);
                 client.execute(() -> m.receive(client.player));
             });
         }
     }
 }
+

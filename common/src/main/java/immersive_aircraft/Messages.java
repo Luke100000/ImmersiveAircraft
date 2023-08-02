@@ -10,11 +10,11 @@ import immersive_aircraft.network.s2c.OpenGuiRequest;
 
 public class Messages {
     public static void loadMessages() {
-        NetworkHandler.registerMessage(EnginePowerMessage.class);
-        NetworkHandler.registerMessage(CommandMessage.class);
-        NetworkHandler.registerMessage(OpenGuiRequest.class);
-        NetworkHandler.registerMessage(InventoryUpdateMessage.class);
-        NetworkHandler.registerMessage(RequestInventory.class);
-        NetworkHandler.registerMessage(CollisionMessage.class);
+        NetworkHandler.registerMessage(EnginePowerMessage.class, EnginePowerMessage::new);
+        NetworkHandler.registerMessage(CommandMessage.class, CommandMessage::new);
+        NetworkHandler.registerMessage(OpenGuiRequest.class, OpenGuiRequest::new);
+        NetworkHandler.registerMessage(InventoryUpdateMessage.class, InventoryUpdateMessage::new);
+        NetworkHandler.registerMessage(RequestInventory.class, RequestInventory::new);
+        NetworkHandler.registerMessage(CollisionMessage.class, CollisionMessage::new);
     }
 }
