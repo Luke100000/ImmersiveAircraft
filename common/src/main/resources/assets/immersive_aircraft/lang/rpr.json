@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Квадрокоптер",
   "item.immersive_aircraft.airship.description": "Может быть, дирижабли и не самое быстрое транспортное средство, но ими точно легко маневрировать.",
   "item.immersive_aircraft.cargo_airship.description": "Медленный и топливно голодный, но везет целый склад.",
-  "item.immersive_aircraft.biplane.description": "Этот надежный, деревенский биплан доставит тебя куда угодно быстро и довольно надежно. Убедись, что твоя взлетная полоса достаточно длинная.",
+  "item.immersive_aircraft.biplane.description": "Быстрый и довольно надежный. Убедись, что твоя взлетно-посадочная полоса достаточно длинная.",
   "item.immersive_aircraft.gyrodyne.description": "Кому нужен двигатель, если можно привести самолет в движение чистыми мускулами? Дайте ему хороший толчок, и он полетит!",
   "item.immersive_aircraft.quadrocopter.description": "Шедевр инженерной мысли! 4 ротора, привязанные к какому-то бамбуку. Идеально подходит для строительства, да и только.",
   "immersive_aircraft.gyrodyne_target": "%d%% Сила, продолжай толкать!",
