@@ -2,15 +2,15 @@ package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
-import immersive_aircraft.network.SerializableNbt;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 
-public class InventoryUpdateMessage implements Message {
+public class InventoryUpdateMessage extends Message {
     private final int vehicle;
     private final int index;
-    private final SerializableNbt stack;
+    private final NbtCompound stack;
 
     public InventoryUpdateMessage(int id, int index, ItemStack stack) {
         this.vehicle = id;
@@ -18,7 +18,19 @@ public class InventoryUpdateMessage implements Message {
 
         NbtCompound compound = new NbtCompound();
         stack.writeNbt(compound);
-        this.stack = new SerializableNbt(compound);
+        this.stack = compound;
+    }
+    public InventoryUpdateMessage(PacketByteBuf b) {
+        vehicle = b.readInt();
+        index = b.readInt();
+        stack = b.readNbt();
+    }
+
+    @Override
+    public void encode(PacketByteBuf b) {
+        b.writeInt(vehicle);
+        b.writeInt(index);
+        b.writeNbt(stack);
     }
 
     @Override
@@ -35,7 +47,7 @@ public class InventoryUpdateMessage implements Message {
     }
 
     public ItemStack getStack() {
-        return ItemStack.fromNbt(stack.getNbt());
+        return ItemStack.fromNbt(stack);
     }
 
 }
