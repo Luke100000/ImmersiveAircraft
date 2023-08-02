@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Kvadrokopter",
   "item.immersive_aircraft.airship.description": "Luftskip er kanskje ikke de raskeste luftfartøyene, men de er lette å manøvrere!",
   "item.immersive_aircraft.cargo_airship.description": "Den er treg og drivstoffkrevende, men har plass til et helt lager.",
-  "item.immersive_aircraft.biplane.description": "Dette trofaste biplanet tar deg raskt dit du vil. Bare pass på at rullebanen er lang nok!",
+  "item.immersive_aircraft.biplane.description": "Rask og ganske pålitelig. Sørg for at rullebanen er lang nok.",
   "item.immersive_aircraft.gyrodyne.description": "Hvem trenger en motor når du kan drive et luftfartøy med ren muskelkraft? Trå alt hva du orker og fly opp, høyt i det blå!",
   "item.immersive_aircraft.quadrocopter.description": "Fire propeller festet til en bambusramme – et mesterverk av ingeniørkunst! Perfekt å bygge med, og det er alt.",
   "immersive_aircraft.gyrodyne_target": "%d%% kraft – fortsett å trå!",
