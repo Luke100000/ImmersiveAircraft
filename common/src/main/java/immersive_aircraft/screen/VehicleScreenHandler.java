@@ -67,7 +67,7 @@ public class VehicleScreenHandler extends ScreenHandler {
     }
 
     public boolean canUse(PlayerEntity player) {
-        return this.inventory.canPlayerUse(player);
+        return vehicle.getInventory() == this.inventory && this.inventory.canPlayerUse(player) && vehicle.isAlive() && vehicle.distanceTo(player) < 8.0F;
     }
 
     public ItemStack transferSlot(PlayerEntity player, int index) {

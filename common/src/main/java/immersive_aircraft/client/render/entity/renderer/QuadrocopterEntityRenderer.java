@@ -38,7 +38,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                                     }
                             )
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "engine_" + (entity.enginePower.getSmooth() > 0.01 ? entity.age % 2 : 0));
@@ -58,7 +58,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                                     }
                             )
                             .setRenderConsumer(
-                                    (vertexConsumerProvider, entity, matrixStack, light) -> {
+                                    (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         Identifier identifier = getTexture(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "propeller");
@@ -80,12 +80,12 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
     }
 
     @Override
-    Model getModel(AircraftEntity entity) {
+    protected Model getModel(AircraftEntity entity) {
         return model;
     }
 
     @Override
-    Vec3f getPivot(AircraftEntity entity) {
+    protected Vec3f getPivot(AircraftEntity entity) {
         return new Vec3f(0.0f, 0.0f, 0.0f);
     }
 }

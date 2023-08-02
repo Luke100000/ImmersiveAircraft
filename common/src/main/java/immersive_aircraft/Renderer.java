@@ -1,9 +1,6 @@
 package immersive_aircraft;
 
-import immersive_aircraft.client.render.entity.renderer.AirshipEntityRenderer;
-import immersive_aircraft.client.render.entity.renderer.BiplaneEntityRenderer;
-import immersive_aircraft.client.render.entity.renderer.GyrodyneEntityRenderer;
-import immersive_aircraft.client.render.entity.renderer.QuadrocopterEntityRenderer;
+import immersive_aircraft.client.render.entity.renderer.*;
 import immersive_aircraft.cobalt.registration.Registration;
 
 public class Renderer {
@@ -11,6 +8,7 @@ public class Renderer {
         Registration.register(Entities.GYRODYNE.get(), GyrodyneEntityRenderer::new);
         Registration.register(Entities.BIPLANE.get(), BiplaneEntityRenderer::new);
         Registration.register(Entities.AIRSHIP.get(), AirshipEntityRenderer::new);
+        Registration.register(Entities.CARGO_AIRSHIP.get(), CargoAirshipEntityRenderer::new);
         Registration.register(Entities.QUADROCOPTER.get(), QuadrocopterEntityRenderer::new);
     }
 }

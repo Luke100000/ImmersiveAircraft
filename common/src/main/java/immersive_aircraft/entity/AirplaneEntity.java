@@ -26,7 +26,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
     }
 
     @Override
-    boolean useAirplaneControls() {
+    protected boolean useAirplaneControls() {
         return true;
     }
 
@@ -36,7 +36,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
     }
 
     @Override
-    float getGroundVelocityDecay() {
+    protected float getGroundVelocityDecay() {
         return falloffGroundVelocityDecay(0.9f);
     }
 
@@ -47,12 +47,12 @@ public abstract class AirplaneEntity extends EngineAircraft {
         return Math.max(0.0f, 1.0f - speed * 1.5f) * super.getGravity();
     }
 
-    float getBrakeFactor() {
+    protected float getBrakeFactor() {
         return 0.95f;
     }
 
     @Override
-    void updateController() {
+    protected void updateController() {
         if (!hasPassengers()) {
             return;
         }

@@ -38,6 +38,23 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
         //nop
     }
 
+    protected void drawRectangle(MatrixStack matrices, int x, int y, int h, int w) {
+        //corners
+        drawTexture(matrices, x, y, 176, 0, 16, 16, 512, 256);
+        drawTexture(matrices, x + w - 16, y, 176 + 32, 0, 16, 16, 512, 256);
+        drawTexture(matrices, x + w - 16, y + h - 16, 176 + 32, 32, 16, 16, 512, 256);
+        drawTexture(matrices, x, y + h - 16, 176, 32, 16, 16, 512, 256);
+
+        //edges
+        drawTexture(matrices, x + 16, y, w - 32, 16, 176 + 16, 0, 16, 16, 512, 256);
+        drawTexture(matrices, x + 16, y + h - 16, w - 32, 16, 176 + 16, 32, 16, 16, 512, 256);
+        drawTexture(matrices, x, y + 16, 16, h - 32, 176, 16, 16, 16, 512, 256);
+        drawTexture(matrices, x + w - 16, y + 16, 16, h - 32, 176 + 32, 16, 16, 16, 512, 256);
+
+        //center
+        drawTexture(matrices, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
+    }
+
     protected void drawCustomBackground(MatrixStack matrices) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -45,6 +62,10 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
 
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, containerSize + titleHeight * 2, 512, 256);
         drawTexture(matrices, x, y + containerSize + titleHeight * 2 - 4, 0, 222 - baseHeight, backgroundWidth, baseHeight, 512, 256);
+
+        for (VehicleInventoryDescription.Rectangle rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
+            drawRectangle(matrices, x + rectangle.x(), y + rectangle.y(), rectangle.w(), rectangle.h());
+        }
     }
 
     private void drawImage(MatrixStack matrices, int x, int y, int u, int v, int w, int h) {
@@ -64,7 +85,6 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
         for (VehicleInventoryDescription.Slot slot : handler.getVehicle().getInventoryDescription().getSlots()) {
             switch (slot.type) {
                 case INVENTORY -> drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
-                case STORAGE -> drawImage(matrices, x + slot.x - 1 + 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
                 case BOILER -> {
                     drawImage(matrices, x + slot.x - 4, y + titleHeight + slot.y - 18, 318, 0, 24, 39);
                     if (handler.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
@@ -74,11 +94,16 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
                 default -> {
                     if (handler.getVehicle().getInventory().getStack(slot.index).isEmpty()) {
                         switch (slot.type) {
-                            case WEAPON -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
-                            case UPGRADE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
-                            case BANNER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
-                            case DYE -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
-                            case BOOSTER -> drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                            case WEAPON ->
+                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
+                            case UPGRADE ->
+                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
+                            case BANNER ->
+                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
+                            case DYE ->
+                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
+                            case BOOSTER ->
+                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
                         }
                     } else {
                         drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 0, 22, 22);
@@ -105,5 +130,19 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
         super.init();
 
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
+    }
+
+    @Override
+    protected boolean isClickOutsideBounds(double mouseX, double mouseY, int left, int top, int button) {
+        if (super.isClickOutsideBounds(mouseX, mouseY, left, top, button)) {
+            for (VehicleInventoryDescription.Rectangle rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
+                if (mouseX > rectangle.x() + x && mouseX < rectangle.x() + rectangle.w() + x && mouseY > rectangle.y() + y && mouseY < rectangle.y() + rectangle.h() + y) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
