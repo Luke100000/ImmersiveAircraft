@@ -13,10 +13,7 @@ import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public class JsonConfig implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 9132405079466337851L;
-
+public class JsonConfig {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public int version = 0;

@@ -4,12 +4,22 @@ import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
 
-public class CollisionMessage implements Message {
+public class CollisionMessage extends Message {
     private final float damage;
 
     public CollisionMessage(float damage) {
         this.damage = damage;
+    }
+
+    public CollisionMessage(PacketByteBuf b) {
+        damage = b.readFloat();
+    }
+
+    @Override
+    public void encode(PacketByteBuf b) {
+        b.writeFloat(damage);
     }
 
     @Override
