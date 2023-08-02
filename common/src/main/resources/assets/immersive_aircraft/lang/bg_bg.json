@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Квадрокоптер",
   "item.immersive_aircraft.airship.description": "Дирижаблите може и да не са най-бързите превозни средства, но със сигурност са лесни за маневриране.",
   "item.immersive_aircraft.cargo_airship.description": "Бавен и жаден за гориво, но носи цял склад.",
-  "item.immersive_aircraft.biplane.description": "Този надежден двуместен самолет ще ви отведе навсякъде бързо и доста надеждно. Уверете се, че пистата ви е достатъчно дълга.",
+  "item.immersive_aircraft.biplane.description": "Бърз и доста надежден. Уверете се, че пистата ви е достатъчно дълга.",
   "item.immersive_aircraft.gyrodyne.description": "Кому е нужен двигател, ако може да задвижва самолета с чиста сила? Дайте му един добър тласък и той ще полети!",
   "item.immersive_aircraft.quadrocopter.description": "Шедьовър на инженерното изкуство! 4 ротора, прикрепени към бамбук. Перфектен за строителство и това е всичко.",
   "immersive_aircraft.gyrodyne_target": "%d%% Мощност, продължавайте да натискате!",
