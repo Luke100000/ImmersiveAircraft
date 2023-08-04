@@ -66,7 +66,7 @@
   "option.immersive_aircraft.fuelConsumption": "Kraftstoffverbrennungsrate.",
   "option.immersive_aircraft.windClearWeather": "Basis-Wind-Effekt.",
   "option.immersive_aircraft.windRainWeather": "Wind bei Niederschlag.",
-  "option.immersive_aircraft.windThunderWeather": "Extra Wind beim Gewitter.",
+  "option.immersive_aircraft.windThunderWeather": "Extra Wind bei Gewitter.",
   "option.immersive_aircraft.collisionDamage": "Kollisionsschaden.",
   "option.immersive_aircraft.onlyPlayerCanDestroyAircraft": "Nur der Spieler kann Flugzeuge zerstören.",
   "option.immersive_aircraft.burnFuelInCreative": "Verbrenne Treibstoff im Kreativmodus.",
