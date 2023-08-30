@@ -21,8 +21,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setWindSensitivity(0.025f)
             .setMass(1.0f);
 
-    public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+    public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+        super(entityType, world, canExplodeOnCrash);
     }
 
     @Override

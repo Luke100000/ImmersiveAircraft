@@ -30,7 +30,7 @@ public class BiplaneEntity extends AirplaneEntity {
     }
 
     public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+        super(entityType, world, true);
     }
 
     @Override

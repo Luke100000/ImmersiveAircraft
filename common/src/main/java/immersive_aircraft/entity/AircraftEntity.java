@@ -19,8 +19,8 @@ import java.util.List;
 public abstract class AircraftEntity extends InventoryVehicleEntity {
     private double lastY;
 
-    public AircraftEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+    public AircraftEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+        super(entityType, world, canExplodeOnCrash);
     }
 
     private static final List<Trail> TRAILS = Collections.emptyList();

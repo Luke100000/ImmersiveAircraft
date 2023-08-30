@@ -46,7 +46,7 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     public AirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+        super(entityType, world, true);
     }
 
     @Override
