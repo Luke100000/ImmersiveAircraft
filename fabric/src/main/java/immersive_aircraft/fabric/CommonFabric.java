@@ -1,9 +1,12 @@
 package immersive_aircraft.fabric;
 
 import immersive_aircraft.*;
+import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
+import immersive_aircraft.network.s2c.AircraftUpgradeMessage;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
@@ -27,6 +30,9 @@ public final class CommonFabric implements ModInitializer {
                 .build();
 
         Registry.register(Registries.ITEM_GROUP, Main.locate("group"), group);
+
+        // Register event for syncing aircraft upgrades.
+        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> NetworkHandler.sendToPlayer(new AircraftUpgradeMessage(), player));
     }
 }
 
