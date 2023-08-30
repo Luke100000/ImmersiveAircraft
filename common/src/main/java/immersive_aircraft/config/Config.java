@@ -12,6 +12,21 @@ public final class Config extends JsonConfig {
         return INSTANCE;
     }
 
+
+    // Crash configs -- added by Favouriteless
+    @BooleanConfigEntry(true)
+    public boolean enableDropsForNonPlayer = true;
+    @BooleanConfigEntry(false)
+    public boolean enableCrashExplosion;
+    @BooleanConfigEntry(true)
+    public boolean enableCrashBlockDestruction = true;
+    @BooleanConfigEntry(true)
+    public boolean enableCrashFire = true;
+    @FloatConfigEntry (2.0F)
+    public float crashExplosionRadius;
+
+
+
     @BooleanConfigEntry(true)
     public boolean separateCamera = true;
 

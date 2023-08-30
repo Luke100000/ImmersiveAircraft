@@ -71,8 +71,8 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         return Math.max(0.0f, value);
     }
 
-    public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+    public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+        super(entityType, world, canExplodeOnCrash);
         this.initInventory();
     }
 

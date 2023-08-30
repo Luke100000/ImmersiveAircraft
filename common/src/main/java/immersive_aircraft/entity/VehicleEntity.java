@@ -36,6 +36,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.World.ExplosionSourceType;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
@@ -53,6 +54,8 @@ public abstract class VehicleEntity extends Entity {
 	protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+
+    protected final boolean canExplodeOnCrash;
 
 	protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -114,8 +117,9 @@ public abstract class VehicleEntity extends Entity {
         super.setPitch(pitch);
     }
 
-    public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
         super(entityType, world);
+        this.canExplodeOnCrash = canExplodeOnCrash;
         intersectionChecked = true;
         setStepHeight(0.55f);
 
@@ -187,15 +191,27 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f / getDurability());
         emitGameEvent(GameEvent.ENTITY_DAMAGE, source.getAttacker());
-        boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode;
-        if (bl || getDamageWobbleStrength() > 40.0f) {
-            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers() || source.getAttacker() instanceof PlayerEntity) {
-                if (getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+
+        if(source.getAttacker() instanceof PlayerEntity player) { // Handle player drops separately to destruction drops.
+            if(!player.getAbilities().creativeMode)
+                drop(); // Only drop item if player is in creative mode.
+            discard();
+        }
+        else if(getDamageWobbleStrength() > 40.0F) {
+            if(!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers()) { // If the plane crashed, or was destroyed by a non-player.
+                if(getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer)
                     drop();
+
+                if(canExplodeOnCrash && Config.getInstance().enableCrashExplosion) { // If crashing explosion is enabled.
+                    getWorld().createExplosion(this, getX(), getY(), getZ(),
+                            Config.getInstance().crashExplosionRadius,
+                            Config.getInstance().enableCrashFire,
+                            Config.getInstance().enableCrashBlockDestruction ? ExplosionSourceType.MOB : ExplosionSourceType.NONE);
                 }
                 discard();
             }
         }
+
         return true;
     }
 
