@@ -1,7 +1,6 @@
 package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.cobalt.network.Message;
-import immersive_aircraft.item.UpgradeItem;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
@@ -9,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
