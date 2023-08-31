@@ -2,7 +2,6 @@ package immersive_aircraft.screen;
 
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import immersive_aircraft.item.UpgradeItem;
 import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.screen.slot.FuelSlot;
 import immersive_aircraft.screen.slot.TypedSlot;
@@ -39,7 +38,7 @@ public class VehicleScreenHandler extends ScreenHandler {
             } else if (slot.type == VehicleInventoryDescription.SlotType.WEAPON) {
                 this.addSlot(new TypedSlot(WeaponItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.UPGRADE) {
-                this.addSlot(new UpgradeSlot(vehicle, UpgradeItem.class, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
+                this.addSlot(new UpgradeSlot(vehicle, 1, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BOOSTER) {
                 this.addSlot(new TypedSlot(FireworkRocketItem.class, 64, inventory, slot.index, slot.x, slot.y + titleHeight));
             } else if (slot.type == VehicleInventoryDescription.SlotType.BANNER) {
