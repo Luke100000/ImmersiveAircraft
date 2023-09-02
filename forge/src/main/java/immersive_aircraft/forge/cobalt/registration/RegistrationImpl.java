@@ -1,11 +1,13 @@
 package immersive_aircraft.forge.cobalt.registration;
 
 import immersive_aircraft.cobalt.registration.Registration;
+import immersive_aircraft.forge.ForgeBusEvents;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registry;
+import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -23,6 +25,11 @@ public class RegistrationImpl extends Registration.Impl {
     public static final RegistrationImpl IMPL = new RegistrationImpl();
 
     private final Map<String, RegistryRepo> repos = new HashMap<>();
+    private final DataLoaderRegister dataLoaderRegister = new DataLoaderRegister();
+
+    public RegistrationImpl() {
+        ForgeBusEvents.DATA_REGISTRY = dataLoaderRegister;
+    }
 
     public static void bootstrap() {}
 
@@ -33,6 +40,11 @@ public class RegistrationImpl extends Registration.Impl {
     @Override
     public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererFactory<T> constructor) {
         EntityRenderers.register(type, constructor);
+    }
+
+    @Override
+    public void registerDataLoader(Identifier id, JsonDataLoader loader) {
+        dataLoaderRegister.dataLoaders.add(loader);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -72,4 +84,15 @@ public class RegistrationImpl extends Registration.Impl {
             return registries.get(id);
         }
     }
+
+    public static class DataLoaderRegister {
+
+        private final List<JsonDataLoader> dataLoaders = new ArrayList<>(); // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
+
+        public List<JsonDataLoader> getLoaders() {
+            return dataLoaders;
+        }
+
+    }
+
 }

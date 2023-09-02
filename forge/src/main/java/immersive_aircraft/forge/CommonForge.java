@@ -1,6 +1,8 @@
 package immersive_aircraft.forge;
 
 import immersive_aircraft.*;
+import immersive_aircraft.data.UpgradeDataLoader;
+import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.forge.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
 import net.minecraft.item.ItemGroup;
@@ -25,6 +27,7 @@ public final class CommonForge {
         Entities.bootstrap();
 
         DEF_REG.register(FMLJavaModLoadingContext.get().getModEventBus());
+        Registration.registerDataLoader("aircraft_upgrades", new UpgradeDataLoader());
     }
 
     public static final DeferredRegister<ItemGroup> DEF_REG = DeferredRegister.create(ITEM_GROUP, Main.MOD_ID);

@@ -1,26 +1,24 @@
 package immersive_aircraft.fabric;
 
 import immersive_aircraft.*;
+import immersive_aircraft.data.UpgradeDataLoader;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
-import immersive_aircraft.fabric.data.UpgradeResourceListener;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.network.s2c.AircraftUpgradeMessage;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -52,7 +50,7 @@ public final class CommonFabric implements ModInitializer {
         Registry.register(Registries.ITEM_GROUP, Main.locate("group"), group);
 
         // Register event for syncing aircraft upgrades.
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new UpgradeResourceListener());
+        Registration.registerDataLoader("aircraft_upgrades", new UpgradeDataLoader());
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> NetworkHandler.sendToPlayer(new AircraftUpgradeMessage(), player));
         ItemTooltipCallback.EVENT.register(this::itemTooltipCallback); // For aircraft upgrade tooltips
     }
