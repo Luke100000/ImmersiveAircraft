@@ -6,9 +6,8 @@ import java.util.Map;
 public class AircraftUpgrade {
     private final Map<AircraftStat, Float> stats = new HashMap<>();
 
-    public AircraftUpgrade set(AircraftStat stat, float value) {
+    public void set(AircraftStat stat, float value) {
         stats.put(stat, value);
-        return this;
     }
 
     public float get(AircraftStat stat) {

@@ -194,7 +194,7 @@ public abstract class VehicleEntity extends Entity {
 
         if(source.getAttacker() instanceof PlayerEntity player) { // Handle player drops separately to destruction drops.
             if(!player.getAbilities().creativeMode)
-                drop(); // Only drop item if player is in creative mode.
+                drop(); // Only drop item if player isn't in creative mode.
             discard();
         }
         else if(getDamageWobbleStrength() > 40.0F) {

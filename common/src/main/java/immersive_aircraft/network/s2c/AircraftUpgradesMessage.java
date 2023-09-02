@@ -12,27 +12,21 @@ import net.minecraft.registry.Registries;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AircraftUpgradeMessage extends Message {
+public class AircraftUpgradesMessage extends Message {
 
 	private final Map<Item, AircraftUpgrade> upgrades;
 
-	public AircraftUpgradeMessage() {
+	public AircraftUpgradesMessage() {
 		this.upgrades = AircraftUpgradeRegistry.INSTANCE.getAll();
 	}
 
-	public AircraftUpgradeMessage(PacketByteBuf buffer) {
+	public AircraftUpgradesMessage(PacketByteBuf buffer) {
 		upgrades = new HashMap<>();
 
 		int upgradeCount = buffer.readInt();
 		for(int i = 0; i < upgradeCount; i++) {
 			Item item = Registries.ITEM.get(buffer.readIdentifier());
-			int statCount = buffer.readInt();
-
-			AircraftUpgrade upgrade = new AircraftUpgrade();
-			for(int j = 0; j < statCount; j++)
-				upgrade.set(AircraftStat.values()[buffer.readInt()], buffer.readFloat());
-
-			upgrades.put(item, upgrade);
+			upgrades.put(item, readUpgrade(buffer));
 		}
 	}
 
@@ -42,16 +36,26 @@ public class AircraftUpgradeMessage extends Message {
 		buffer.writeInt(upgrades.size()); // Write upgrade entry count.
 
 		for(Item item : upgrades.keySet()) {
-			Map<AircraftStat, Float> upgradeMap = AircraftUpgradeRegistry.INSTANCE.getUpgrade(item).getAll();
-
 			buffer.writeIdentifier(Registries.ITEM.getId(item));
-			buffer.writeInt(upgradeMap.size());
-
-			for(AircraftStat stat : upgradeMap.keySet()) {
-				buffer.writeInt(stat.ordinal());
-				buffer.writeFloat(upgradeMap.get(stat));
-			}
+			writeUpgrade(buffer, upgrades.get(item));
 		}
+	}
+
+	protected void writeUpgrade(PacketByteBuf buffer, AircraftUpgrade upgrade) {
+		Map<AircraftStat, Float> upgradeMap = upgrade.getAll();
+		buffer.writeInt(upgradeMap.size());
+		for(AircraftStat stat : upgradeMap.keySet()) {
+			buffer.writeInt(stat.ordinal());
+			buffer.writeFloat(upgradeMap.get(stat));
+		}
+	}
+
+	protected AircraftUpgrade readUpgrade(PacketByteBuf buffer) {
+		AircraftUpgrade upgrade = new AircraftUpgrade();
+		int statCount = buffer.readInt();
+		for(int j = 0; j < statCount; j++)
+			upgrade.set(AircraftStat.values()[buffer.readInt()], buffer.readFloat());
+		return upgrade;
 	}
 
 	@Override

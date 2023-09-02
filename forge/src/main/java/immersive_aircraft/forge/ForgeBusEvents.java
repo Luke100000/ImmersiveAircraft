@@ -7,7 +7,8 @@ import immersive_aircraft.forge.cobalt.registration.RegistrationImpl.DataLoaderR
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
-import immersive_aircraft.network.s2c.AircraftUpgradeMessage;
+import immersive_aircraft.network.s2c.AircraftBaseUpgradesMessage;
+import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -53,11 +54,15 @@ public class ForgeBusEvents {
 
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        if(event.getPlayer() != null) // Syncing aircraft upgrades to players.
-            NetworkHandler.sendToPlayer(new AircraftUpgradeMessage(), event.getPlayer());
+        if(event.getPlayer() != null) { // Syncing aircraft upgrades to players.
+            NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), event.getPlayer());
+            NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), event.getPlayer());
+        }
         else {
-            for(ServerPlayerEntity player : event.getPlayerList().getPlayerList())
-                NetworkHandler.sendToPlayer(new AircraftUpgradeMessage(), player);
+            for(ServerPlayerEntity player : event.getPlayerList().getPlayerList()) {
+                NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
+                NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
+            }
         }
     }
 
