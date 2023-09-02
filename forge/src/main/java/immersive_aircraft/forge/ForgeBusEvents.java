@@ -3,11 +3,12 @@ package immersive_aircraft.forge;
 import immersive_aircraft.ClientMain;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
-import immersive_aircraft.forge.data.UpgradeDataLoader;
+import immersive_aircraft.forge.cobalt.registration.RegistrationImpl.DataLoaderRegister;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.network.s2c.AircraftUpgradeMessage;
+import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -27,6 +28,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = Main.MOD_ID)
 public class ForgeBusEvents {
 
+    public static DataLoaderRegister DATA_REGISTRY; // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl but it would just be messy
     private static final DecimalFormat fmt = new DecimalFormat("+#;-#");
     public static boolean firstLoad = true;
 
@@ -42,6 +44,14 @@ public class ForgeBusEvents {
     }
 
     @SubscribeEvent
+    public static void addReloadListenerEvent(AddReloadListenerEvent event) {
+        if(DATA_REGISTRY != null) {
+            for(JsonDataLoader loader : DATA_REGISTRY.getLoaders())
+                event.addListener(loader);
+        }
+    }
+
+    @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
         if(event.getPlayer() != null) // Syncing aircraft upgrades to players.
             NetworkHandler.sendToPlayer(new AircraftUpgradeMessage(), event.getPlayer());
@@ -49,11 +59,6 @@ public class ForgeBusEvents {
             for(ServerPlayerEntity player : event.getPlayerList().getPlayerList())
                 NetworkHandler.sendToPlayer(new AircraftUpgradeMessage(), player);
         }
-    }
-
-    @SubscribeEvent
-    public static void addReloadListenerEvent(AddReloadListenerEvent event) {
-        event.addListener(new UpgradeDataLoader("aircraft_upgrades"));
     }
 
     @SubscribeEvent

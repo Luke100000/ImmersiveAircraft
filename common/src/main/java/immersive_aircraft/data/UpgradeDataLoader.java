@@ -1,4 +1,4 @@
-package immersive_aircraft.forge.data;
+package immersive_aircraft.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -14,15 +14,13 @@ import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class UpgradeDataLoader extends JsonDataLoader {
 
-	public UpgradeDataLoader(String directory) {
-		super(new Gson(), directory);
+	public UpgradeDataLoader() {
+		super(new Gson(), "aircraft_upgrades");
 	}
 
 	@Override
@@ -32,8 +30,8 @@ public class UpgradeDataLoader extends JsonDataLoader {
 			try {
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-				if(ForgeRegistries.ITEMS.containsKey(identifier)) {
-					Item item = ForgeRegistries.ITEMS.getValue(identifier); // Grab item used as upgrade.
+				if(Registries.ITEM.containsId(identifier)) {
+					Item item = Registries.ITEM.get(identifier); // Grab item used as upgrade.
 
 					AircraftUpgrade upgrade = new AircraftUpgrade(); // Set up upgrade object.
 					for(String key : jsonObject.keySet()) {
@@ -44,10 +42,11 @@ public class UpgradeDataLoader extends JsonDataLoader {
 					AircraftUpgradeRegistry.INSTANCE.setUpgrade(item, upgrade);
 				}
 
-			} catch (IllegalArgumentException | JsonParseException jsonparseexception) {
-				Main.LOGGER.error("Parsing error on aircraft upgrade {}: {}", identifier, jsonparseexception.getMessage());
+			} catch (IllegalArgumentException | JsonParseException exception) {
+				Main.LOGGER.error("Parsing error on aircraft upgrade {}: {}", identifier, exception.getMessage());
 			}
 
 		});
 	}
+
 }
