@@ -19,17 +19,18 @@ import java.util.Optional;
 public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     private static final Identifier TEXTURE = Main.locate("textures/gui/container/inventory.png");
 
-    public static int titleHeight = 10;
-    public static int baseHeight = 86;
-    public static int containerSize;
+    public static final int TITLE_HEIGHT = 10;
+    public static final int BASE_HEIGHT = 86;
+
+    public int containerSize;
 
     public VehicleScreen(VehicleScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
 
         containerSize = handler.getVehicle().getInventoryDescription().getHeight();
 
-        backgroundHeight = baseHeight + containerSize + titleHeight * 2;
-        playerInventoryTitleY = containerSize + titleHeight;
+        backgroundHeight = BASE_HEIGHT + containerSize + TITLE_HEIGHT * 2;
+        playerInventoryTitleY = containerSize + TITLE_HEIGHT;
     }
 
     @Override
@@ -59,8 +60,8 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, containerSize + titleHeight * 2, 512, 256);
-        drawTexture(matrices, x, y + containerSize + titleHeight * 2 - 4, 0, 222 - baseHeight, backgroundWidth, baseHeight, 512, 256);
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
+        drawTexture(matrices, x, y + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, backgroundWidth, BASE_HEIGHT, 512, 256);
 
         for (VehicleInventoryDescription.Rectangle rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
             drawRectangle(matrices, x + rectangle.x(), y + rectangle.y(), rectangle.w(), rectangle.h());

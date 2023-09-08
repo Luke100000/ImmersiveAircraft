@@ -1,9 +1,6 @@
 package immersive_aircraft.entity.misc;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class VehicleInventoryDescription {
     int height = 0;
@@ -13,7 +10,7 @@ public class VehicleInventoryDescription {
     public record Rectangle(int x, int y, int w, int h) {
     }
 
-    List<Rectangle> rectangles = new LinkedList<>();
+    final List<Rectangle> rectangles = new LinkedList<>();
 
     public enum SlotType {
         INVENTORY,
@@ -38,8 +35,8 @@ public class VehicleInventoryDescription {
         }
     }
 
-    Map<SlotType, List<Slot>> slotMap = new HashMap<>();
-    List<Slot> slots = new LinkedList<>();
+    EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);
+    final List<Slot> slots = new LinkedList<>();
 
     {
         for (SlotType value : SlotType.values()) {

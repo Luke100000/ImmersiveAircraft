@@ -34,6 +34,7 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     public static void bootstrap() {
+        //nop
     }
 
     private RegistryRepo getRepo(String namespace) {

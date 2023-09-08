@@ -7,7 +7,7 @@ import java.util.*;
 
 public class AircraftBaseUpgradeRegistry {
 
-	public static AircraftBaseUpgradeRegistry INSTANCE = new AircraftBaseUpgradeRegistry();
+	public static final AircraftBaseUpgradeRegistry INSTANCE = new AircraftBaseUpgradeRegistry();
 	private final Map<EntityType<?>, AircraftUpgrade> upgradeModifiers = new HashMap<>();
 
 	public AircraftBaseUpgradeRegistry() {
