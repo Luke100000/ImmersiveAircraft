@@ -46,26 +46,26 @@ import java.util.List;
  * Abstract vehicle which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-	protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
     protected final boolean canExplodeOnCrash;
 
-	protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-	protected int interpolationSteps;
+    protected int interpolationSteps;
 
-	protected double x;
-	protected double y;
-	protected double z;
+    protected double x;
+    protected double y;
+    protected double z;
 
-	protected double clientYaw;
-	protected double clientPitch;
+    protected double clientYaw;
+    protected double clientPitch;
 
-	protected float movementX;
-	protected float movementY;
-	protected float movementZ;
+    protected float movementX;
+    protected float movementY;
+    protected float movementZ;
 
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
@@ -187,17 +187,16 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f / getDurability());
         emitGameEvent(GameEvent.ENTITY_DAMAGE, source.getAttacker());
 
-        if(source.getAttacker() instanceof PlayerEntity player) { // Handle player drops separately to destruction drops.
-            if(!player.getAbilities().creativeMode)
+        if (source.getAttacker() instanceof PlayerEntity player) { // Handle player drops separately to destruction drops.
+            if (!player.getAbilities().creativeMode)
                 drop(); // Only drop item if player isn't in creative mode.
             discard();
-        }
-        else if(getDamageWobbleStrength() > 40.0F) {
-            if(!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers()) { // If the plane crashed, or was destroyed by a non-player.
-                if(world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer)
+        } else if (getDamageWobbleStrength() > 40.0F) {
+            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers()) { // If the plane crashed, or was destroyed by a non-player.
+                if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer)
                     drop();
 
-                if(canExplodeOnCrash && Config.getInstance().enableCrashExplosion) { // If crashing explosion is enabled.
+                if (canExplodeOnCrash && Config.getInstance().enableCrashExplosion) { // If crashing explosion is enabled.
                     getWorld().createExplosion(this, getX(), getY(), getZ(),
                             Config.getInstance().crashExplosionRadius,
                             Config.getInstance().enableCrashFire,
@@ -309,8 +308,8 @@ public abstract class VehicleEntity extends Entity {
                                 KeyBindings.down.isPressed()
                         ),
                         getMovementMultiplier(
-                                useAirplaneControls() ? KeyBindings.push.isPressed() : KeyBindings.forward.isPressed(),
-                                useAirplaneControls() ? KeyBindings.pull.isPressed() : KeyBindings.backward.isPressed()
+                                KeyBindings.forward.isPressed(),
+                                KeyBindings.backward.isPressed()
                         )
                 );
             }

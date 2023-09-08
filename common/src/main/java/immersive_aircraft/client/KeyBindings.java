@@ -1,6 +1,5 @@
 package immersive_aircraft.client;
 
-import immersive_aircraft.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -13,37 +12,21 @@ import java.util.function.Supplier;
 public class KeyBindings {
     public static List<KeyBinding> list = new LinkedList<>();
 
-    public static final KeyBinding left, right, forward, backward, up, down, pull, push;
+    public static final KeyBinding left, right, forward, backward, up, down;
     public static final KeyBinding dismount, boost;
 
     static {
-        if (Config.getInstance().useCustomKeybindSystem) {
-            left = newMultiKey("multi_control_left", GLFW.GLFW_KEY_A);
-            right = newMultiKey("multi_control_right", GLFW.GLFW_KEY_D);
-            forward = newMultiKey("multi_control_forward", GLFW.GLFW_KEY_W);
-            backward = newMultiKey("multi_control_backward", GLFW.GLFW_KEY_S);
-            up = newMultiKey("multi_control_up", GLFW.GLFW_KEY_SPACE);
-            down = newMultiKey("multi_control_down", GLFW.GLFW_KEY_LEFT_SHIFT);
-            pull = newMultiKey("multi_control_pull", GLFW.GLFW_KEY_S);
-            push = newMultiKey("multi_control_push", GLFW.GLFW_KEY_W);
+        MinecraftClient client = MinecraftClient.getInstance();
 
-            dismount = newMultiKey("multi_dismount", GLFW.GLFW_KEY_R);
-            boost = newMultiKey("multi_boost", GLFW.GLFW_KEY_B);
-        } else {
-            MinecraftClient client = MinecraftClient.getInstance();
+        left = newFallbackKey("fallback_control_left", () -> client.options.leftKey);
+        right = newFallbackKey("fallback_control_right", () -> client.options.rightKey);
+        forward = newFallbackKey("fallback_control_forward", () -> client.options.forwardKey);
+        backward = newFallbackKey("fallback_control_backward", () -> client.options.backKey);
+        up = newFallbackKey("fallback_control_up", () -> client.options.jumpKey);
+        down = newFallbackKey("fallback_control_down", () -> client.options.sneakKey);
 
-            left = newFallbackKey("fallback_control_left", () -> client.options.leftKey);
-            right = newFallbackKey("fallback_control_right", () -> client.options.rightKey);
-            forward = newFallbackKey("fallback_control_forward", () -> client.options.forwardKey);
-            backward = newFallbackKey("fallback_control_backward", () -> client.options.backKey);
-            up = newFallbackKey("fallback_control_up", () -> client.options.jumpKey);
-            down = newFallbackKey("fallback_control_down", () -> client.options.sneakKey);
-            pull = newFallbackKey("fallback_control_pull", () -> client.options.backKey);
-            push = newFallbackKey("fallback_control_push", () -> client.options.forwardKey);
-
-            dismount = newKey("fallback_dismount", GLFW.GLFW_KEY_R);
-            boost = newKey("fallback_boost", GLFW.GLFW_KEY_B);
-        }
+        dismount = newKey("fallback_dismount", GLFW.GLFW_KEY_R);
+        boost = newKey("fallback_boost", GLFW.GLFW_KEY_B);
     }
 
     private static KeyBinding newFallbackKey(String name, Supplier<KeyBinding> fallback) {
@@ -62,17 +45,6 @@ public class KeyBindings {
                 "key.immersive_aircraft." + name,
                 InputUtil.Type.KEYSYM,
                 code,
-                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
-        );
-        list.add(key);
-        return key;
-    }
-
-    private static KeyBinding newMultiKey(String name, int defaultKey) {
-        KeyBinding key = new MultiKeyBinding(
-                "key.immersive_aircraft." + name,
-                InputUtil.Type.KEYSYM,
-                defaultKey,
                 "itemGroup.immersive_aircraft.immersive_aircraft_tab"
         );
         list.add(key);

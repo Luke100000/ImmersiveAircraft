@@ -2,6 +2,8 @@
 
 * Added datapack support for custom upgrades
 * Configurable vehicle explosions
+* Removed Multi-Keybindings as it no longer works with Forge anyways
+    * Also removed separate keybinds for pull and push
 
 # 0.5.2
 
