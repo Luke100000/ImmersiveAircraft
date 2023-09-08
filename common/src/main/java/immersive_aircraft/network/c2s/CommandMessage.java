@@ -41,6 +41,7 @@ public class CommandMessage extends Message {
         if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
             if (key == Key.DISMOUNT) {
                 e.stopRiding();
+                e.setJumping(false);
                 vehicle.chill();
                 vehicle.setVelocity(fx, fy, fz);
             } else if (key == Key.BOOST) {

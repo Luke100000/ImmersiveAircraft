@@ -285,9 +285,10 @@ public abstract class VehicleEntity extends Entity {
         // pilot
         if (world.isClient() && !getPassengerList().isEmpty()) {
             for (Entity entity : getPassengerList()) {
-                if (entity instanceof ClientPlayerEntity) {
+                if (entity instanceof ClientPlayerEntity player) {
                     if (KeyBindings.dismount.wasPressed()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+                        player.setJumping(false);
                     }
                     if (KeyBindings.boost.wasPressed() && canBoost()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getVelocity()));
