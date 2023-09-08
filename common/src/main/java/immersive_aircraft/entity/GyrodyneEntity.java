@@ -50,7 +50,7 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+        super(entityType, world, false);
     }
 
     protected SoundEvent getEngineStartSound() {
