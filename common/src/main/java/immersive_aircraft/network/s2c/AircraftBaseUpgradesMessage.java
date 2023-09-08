@@ -5,7 +5,7 @@ import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registries;
+import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class AircraftBaseUpgradesMessage extends AircraftUpgradesMessage {
 
 		int upgradeCount = buffer.readInt();
 		for(int i = 0; i < upgradeCount; i++) {
-			EntityType<?> type = Registries.ENTITY_TYPE.get(buffer.readIdentifier());
+			EntityType<?> type = Registry.ENTITY_TYPE.get(buffer.readIdentifier());
 			upgrades.put(type, readUpgrade(buffer));
 		}
 	}
@@ -34,7 +34,7 @@ public class AircraftBaseUpgradesMessage extends AircraftUpgradesMessage {
 		buffer.writeInt(upgrades.size());
 
 		for(EntityType<?> type : upgrades.keySet()) {
-			buffer.writeIdentifier(Registries.ENTITY_TYPE.getId(type));
+			buffer.writeIdentifier(Registry.ENTITY_TYPE.getId(type));
 			writeUpgrade(buffer, upgrades.get(type));
 		}
 	}

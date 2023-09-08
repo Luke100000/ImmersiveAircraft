@@ -35,8 +35,8 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.World.ExplosionSourceType;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public abstract class VehicleEntity extends Entity {
         return dataTracker.get(BOOST);
     }
 
-    abstract protected List<List<Vec3d>> getPassengerPositions();
+    protected abstract List<List<Vec3d>> getPassengerPositions();
 
     protected int getPassengerSpace() {
         return getPassengerPositions().size();
@@ -201,7 +201,7 @@ public abstract class VehicleEntity extends Entity {
                     getWorld().createExplosion(this, getX(), getY(), getZ(),
                             Config.getInstance().crashExplosionRadius,
                             Config.getInstance().enableCrashFire,
-                            Config.getInstance().enableCrashBlockDestruction ? ExplosionSourceType.MOB : ExplosionSourceType.NONE);
+                            Config.getInstance().enableCrashBlockDestruction ? Explosion.DestructionType.BREAK : Explosion.DestructionType.NONE);
                 }
                 discard();
             }
@@ -283,7 +283,7 @@ public abstract class VehicleEntity extends Entity {
     @Override
     public void tick() {
         // pilot
-        if (world.isClient() && getPassengerList().size() > 0) {
+        if (world.isClient() && !getPassengerList().isEmpty()) {
             for (Entity entity : getPassengerList()) {
                 if (entity instanceof ClientPlayerEntity) {
                     if (KeyBindings.dismount.wasPressed()) {
@@ -432,9 +432,9 @@ public abstract class VehicleEntity extends Entity {
                 passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
 
                 copyEntityData(passenger);
-                if (passenger instanceof AnimalEntity && size > 1) {
+                if (passenger instanceof AnimalEntity animalEntity && size > 1) {
                     int angle = passenger.getId() % 2 == 0 ? 90 : 270;
-                    passenger.setBodyYaw(((AnimalEntity) passenger).bodyYaw + (float) angle);
+                    passenger.setBodyYaw(animalEntity.bodyYaw + (float) angle);
                     passenger.setHeadYaw(passenger.getHeadYaw() + (float) angle);
                 }
             }
@@ -649,7 +649,7 @@ public abstract class VehicleEntity extends Entity {
         return new Vec3d(f.getX(), f.getY(), f.getZ());
     }
 
-    protected final static Vector4f ZERO_VEC4 = new Vector4f();
+    protected static final Vector4f ZERO_VEC4 = new Vector4f();
 
     @Override
     public boolean shouldRender(double distance) {

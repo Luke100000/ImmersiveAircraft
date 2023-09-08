@@ -9,11 +9,11 @@ import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
@@ -30,8 +30,8 @@ public class UpgradeDataLoader extends JsonDataLoader {
 			try {
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-				if(Registries.ITEM.containsId(identifier)) {
-					Item item = Registries.ITEM.get(identifier); // Grab item used as upgrade.
+				if(Registry.ITEM.containsId(identifier)) {
+					Item item = Registry.ITEM.get(identifier); // Grab item used as upgrade.
 
 					AircraftUpgrade upgrade = new AircraftUpgrade(); // Set up upgrade object.
 					for(String key : jsonObject.keySet()) {

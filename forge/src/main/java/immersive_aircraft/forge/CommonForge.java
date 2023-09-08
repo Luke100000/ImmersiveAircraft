@@ -23,7 +23,5 @@ public final class CommonForge {
         Sounds.bootstrap();
         Entities.bootstrap();
         DataLoaders.register();
-
-        DEF_REG.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 }

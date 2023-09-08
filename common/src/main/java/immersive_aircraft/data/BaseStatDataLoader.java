@@ -10,11 +10,11 @@ import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registries;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.registry.Registry;
 
 import java.util.Map;
 
@@ -31,8 +31,8 @@ public class BaseStatDataLoader extends JsonDataLoader {
 			try {
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-				if(Registries.ENTITY_TYPE.containsId(identifier)) {
-					EntityType<?> type = Registries.ENTITY_TYPE.get(identifier); // Grab item used as upgrade.
+				if(Registry.ENTITY_TYPE.containsId(identifier)) {
+					EntityType<?> type = Registry.ENTITY_TYPE.get(identifier); // Grab item used as upgrade.
 
 					AircraftUpgrade upgrade = new AircraftUpgrade(); // Set up upgrade object.
 					for(String key : jsonObject.keySet()) {

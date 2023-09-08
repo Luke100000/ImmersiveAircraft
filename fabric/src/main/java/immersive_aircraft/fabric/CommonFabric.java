@@ -1,9 +1,6 @@
 package immersive_aircraft.fabric;
 
-import immersive_aircraft.Entities;
-import immersive_aircraft.Items;
-import immersive_aircraft.Messages;
-import immersive_aircraft.Sounds;
+import immersive_aircraft.*;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;

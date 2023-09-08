@@ -25,11 +25,19 @@ public class Registration {
         return INSTANCE.register(registry, id, obj);
     }
 
+    public static class ObjectBuilders {
+        public static class ItemGroups {
+            public static ItemGroup create(Identifier id, Supplier<ItemStack> icon) {
+                return INSTANCE.itemGroup(id, icon);
+            }
+        }
+    }
+
     public static void registerDataLoader(String id, JsonDataLoader loader) {
         INSTANCE.registerDataLoader(Main.locate(id), loader);
     }
 
-    public static abstract class Impl {
+    public abstract static class Impl {
         protected Impl() {
             INSTANCE = this;
         }

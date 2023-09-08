@@ -1,6 +1,8 @@
 package immersive_aircraft.fabric.cobalt.registration;
 
 import immersive_aircraft.cobalt.registration.Registration;
+import immersive_aircraft.fabric.cobalt.data.JsonDataLoaderWrapper;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.render.entity.EntityRendererFactory;

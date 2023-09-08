@@ -7,7 +7,7 @@ import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registries;
+import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class AircraftUpgradesMessage extends Message {
 
 		int upgradeCount = buffer.readInt();
 		for(int i = 0; i < upgradeCount; i++) {
-			Item item = Registries.ITEM.get(buffer.readIdentifier());
+			Item item = Registry.ITEM.get(buffer.readIdentifier());
 			upgrades.put(item, readUpgrade(buffer));
 		}
 	}
@@ -36,7 +36,7 @@ public class AircraftUpgradesMessage extends Message {
 		buffer.writeInt(upgrades.size()); // Write upgrade entry count.
 
 		for(Item item : upgrades.keySet()) {
-			buffer.writeIdentifier(Registries.ITEM.getId(item));
+			buffer.writeIdentifier(Registry.ITEM.getId(item));
 			writeUpgrade(buffer, upgrades.get(item));
 		}
 	}
