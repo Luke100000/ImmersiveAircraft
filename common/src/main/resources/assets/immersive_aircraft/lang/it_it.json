@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Quadrocottero",
   "item.immersive_aircraft.airship.description": "I dirigibili non saranno i veicoli più veloci, ma di sicuro sono facili da manovrare.",
   "item.immersive_aircraft.cargo_airship.description": "Lenta e affamata di carburante, ma trasporta un intero magazzino.",
-  "item.immersive_aircraft.biplane.description": "Questo fidato e rustico biplano ti porterà ovunque in modo veloce e piuttosto affidabile. Assicurati che la tua pista sia abbastanza lunga.",
+  "item.immersive_aircraft.biplane.description": "Veloce e piuttosto affidabile. Assicurati che la tua pista sia abbastanza lunga.",
   "item.immersive_aircraft.gyrodyne.description": "Chi ha bisogno di un motore se si può alimentare l'aeromobile con la pura forza del corpo? Dagli una bella spinta e vola!",
   "item.immersive_aircraft.quadrocopter.description": "Un capolavoro di ingegneria! 4 rotori legati a del bambù. Perfetto per la costruzione, e questo è tutto.",
   "immersive_aircraft.gyrodyne_target": "%d%% Potenza, continua a spingere!",

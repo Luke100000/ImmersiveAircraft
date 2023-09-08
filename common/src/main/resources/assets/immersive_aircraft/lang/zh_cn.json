@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "四轴飞行器",
   "item.immersive_aircraft.airship.description": "飞艇可能飞得不快，但驾驶起来很轻松。",
   "item.immersive_aircraft.cargo_airship.description": "速度慢，耗油量大，但能运载整个仓库。",
-  "item.immersive_aircraft.biplane.description": "双翼机飞行速度快，安全性也很有保障。不过记得确认跑道长度足够哦！",
+  "item.immersive_aircraft.biplane.description": "速度快，相当可靠。请确保您的跑道足够长。",
   "item.immersive_aircraft.gyrodyne.description": "直升机，但是纯人力发动。使劲一推，你就能上天！",
   "item.immersive_aircraft.quadrocopter.description": "四个螺旋桨绑在一个竹架上，这是一个工程的杰作！适合用于建造，仅此而已。",
   "immersive_aircraft.gyrodyne_target": "推力到达%d%%，再加把劲！",

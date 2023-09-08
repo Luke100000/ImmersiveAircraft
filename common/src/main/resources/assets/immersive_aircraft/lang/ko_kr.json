@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "쿼드로콥터",
   "item.immersive_aircraft.airship.description": "Airships may not be the fastest vehicle, but they sure are easy to maneuver.",
   "item.immersive_aircraft.cargo_airship.description": "느리고 연료가 많이 소모되지만 전체 저장 공간을 운반합니다.",
-  "item.immersive_aircraft.biplane.description": "This trusty, rustic biplane will take you anywhere fast and rather reliably. Make sure your runway is long enough.",
+  "item.immersive_aircraft.biplane.description": "빠르고 안정적입니다. 활주로가 충분히 긴지 확인하세요.",
   "item.immersive_aircraft.gyrodyne.description": "Who needs an engine if one could power the aircraft with pure brawn? Give it a good push and off it flies!",
   "item.immersive_aircraft.quadrocopter.description": "A masterwork of engineering! 4 rotors strapped to some bamboo. Perfect for building, and that's about it.",
   "immersive_aircraft.gyrodyne_target": "%d%% 파워, 계속 밀어!",

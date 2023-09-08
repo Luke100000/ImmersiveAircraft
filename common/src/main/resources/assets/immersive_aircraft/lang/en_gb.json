@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Quadrocopter",
   "item.immersive_aircraft.airship.description": "Airships may not be the fastest vehicle, but they sure are easy to maneuver.",
   "item.immersive_aircraft.cargo_airship.description": "Slow and fuel hungry but carries an entire storage.",
-  "item.immersive_aircraft.biplane.description": "This trusty, rustic biplane will take you anywhere fast and rather reliably. Make sure your runway is long enough.",
+  "item.immersive_aircraft.biplane.description": "Fast and rather reliable. Make sure your runway is long enough.",
   "item.immersive_aircraft.gyrodyne.description": "Who needs an engine if one could power the aircraft with pure brawn? Give it a good push and off it flies!",
   "item.immersive_aircraft.quadrocopter.description": "A masterwork of engineering! 4 rotors strapped to some bamboo. Perfect for building, and that's about it.",
   "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",

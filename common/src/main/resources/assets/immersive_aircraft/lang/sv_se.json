@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Kvadrokopter",
   "item.immersive_aircraft.airship.description": "Luftskepp är kanske inte de snabbaste luftfarkosterna, men de är lättmanövrerade!",
   "item.immersive_aircraft.cargo_airship.description": "Långsam och bränsletörstig men rymmer ett helt lager.",
-  "item.immersive_aircraft.biplane.description": "Det här pålitliga biplanet tar dig snabbt vart som helst. Se bara till att landningsbanan är tillräckligt lång!",
+  "item.immersive_aircraft.biplane.description": "Snabb och ganska tillförlitlig. Se till att din landningsbana är tillräckligt lång.",
   "item.immersive_aircraft.gyrodyne.description": "Vem behöver en motor när man kan driva en luftfarkost med ren muskelkraft? Trampa på som en gnu och flyg upp, högt i det blå!",
   "item.immersive_aircraft.quadrocopter.description": "Fyra propellrar fastspända på bambu – ett mästerverk av ingenjörskonst! Perfekt för att bygga med och det är ungefär allt.",
   "immersive_aircraft.gyrodyne_target": "%d%% kraft – fortsätt trampa!",

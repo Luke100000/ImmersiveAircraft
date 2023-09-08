@@ -47,7 +47,7 @@
   "item.immersive_aircraft.quadrocopter": "Quadrocopter",
   "item.immersive_aircraft.airship.description": "Õhulaevad ei pruugi olla kõige kiiremad sõidukid, kuid neid on kindlasti lihtne manööverdada.",
   "item.immersive_aircraft.cargo_airship.description": "Aeglane ja kütusehimuline, kuid kannab kogu varu.",
-  "item.immersive_aircraft.biplane.description": "See usaldusväärne, maalähedane biplaan viib teid kiiresti ja üsna usaldusväärselt kõikjale. Veenduge, et teie lennurada on piisavalt pikk.",
+  "item.immersive_aircraft.biplane.description": "Kiire ja üsna usaldusväärne. Veenduge, et teie lennurada on piisavalt pikk.",
   "item.immersive_aircraft.gyrodyne.description": "Kellele on vaja mootorit, kui lennukit saaks käitada puhtalt jõuga? Andke sellele korralik tõuge ja see lendab!",
   "item.immersive_aircraft.quadrocopter.description": "Tehnika meistriteos! 4 rootorit, mis on kinnitatud bambuse külge. Täiuslik ehitamiseks, ja see ongi kõik.",
   "immersive_aircraft.gyrodyne_target": "%d%% Power, jätkake pingutamist!",
