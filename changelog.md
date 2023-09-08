@@ -1,3 +1,8 @@
+# 0.6.0
+
+* Added datapack support for custom upgrades
+* Configurable vehicle explosions
+
 # 0.5.2
 
 * Switched to PacketByteBuf serializer
