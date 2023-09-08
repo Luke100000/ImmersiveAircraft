@@ -29,6 +29,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
@@ -511,6 +512,10 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
+        if (!isValidDimension()) {
+            player.sendMessage(Text.translatable("immersive_aircraft.invalid_dimension"), true);
+            return ActionResult.FAIL;
+        }
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         }
@@ -659,5 +664,9 @@ public abstract class VehicleEntity extends Entity {
 
     public void chill() {
 
+    }
+
+    public boolean isValidDimension() {
+        return Config.getInstance().validDimensions.getOrDefault(this.world.getRegistryKey().getValue().toString(), true);
     }
 }

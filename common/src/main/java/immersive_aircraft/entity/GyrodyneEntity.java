@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
-    private final static float PUSH_SPEED = 0.25f;
+    private static final float PUSH_SPEED = 0.25f;
 
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)

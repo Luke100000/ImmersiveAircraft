@@ -46,8 +46,8 @@ public abstract class EngineAircraft extends AircraftEntity {
 
     FuelState lastFuelState = FuelState.NEVER;
 
-    public final static int TARGET_FUEL = 1000;
-    public final static int LOW_FUEL = 900;
+    public static final int TARGET_FUEL = 1000;
+    public static final int LOW_FUEL = 900;
 
     private final int[] fuel;
 

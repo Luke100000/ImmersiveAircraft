@@ -76,4 +76,10 @@ public final class Config extends JsonConfig {
     public boolean preventKillThroughCrash;
 
     public Map<String, Integer> fuelList = Map.of("minecraft:blaze_powder", 1200);
+
+    public Map<String, Boolean> validDimensions = Map.of(
+            "minecraft:overworld", true,
+            "minecraft:the_nether", false,
+            "minecraft:the_end", true
+    );
 }

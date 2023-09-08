@@ -1,6 +1,7 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
@@ -60,7 +61,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
                 AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem()); // Upgrades now pull from a very primitive registry rather than being saved on the item.
-                if(upgrade != null) {
+                if (upgrade != null) {
                     float u = upgrade.get(stat);
 
                     if (u > 0 && step == 1)
@@ -71,7 +72,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
             }
         }
         AircraftUpgrade baseUpgrade = AircraftBaseUpgradeRegistry.INSTANCE.getUpgradeModifier(this.getType());
-        if(baseUpgrade != null)
+        if (baseUpgrade != null)
             value += baseUpgrade.get(stat);
 
         return Math.max(0.0f, 1.0f + value);
