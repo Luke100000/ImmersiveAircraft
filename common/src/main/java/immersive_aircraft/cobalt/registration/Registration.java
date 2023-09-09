@@ -2,7 +2,6 @@ package immersive_aircraft.cobalt.registration;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
-import java.util.function.Supplier;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -10,12 +9,13 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
+import java.util.function.Supplier;
+
 public class Registration {
     private static Impl INSTANCE;
 
-    public static <T extends AircraftEntity> void register(EntityType<?> type, EntityRendererProvider<T> constructor) {
-        //noinspection unchecked
-        INSTANCE.registerEntityRenderer((EntityType<T>) type, constructor);
+    public static <T extends AircraftEntity> void register(EntityType<T> type, EntityRendererProvider<T> constructor) {
+        INSTANCE.registerEntityRenderer(type, constructor);
     }
 
     public static <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj) {
@@ -26,7 +26,7 @@ public class Registration {
         INSTANCE.registerDataLoader(Main.locate(id), loader);
     }
 
-    public static abstract class Impl {
+    public abstract static class Impl {
         protected Impl() {
             INSTANCE = this;
         }

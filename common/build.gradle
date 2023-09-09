@@ -4,6 +4,11 @@ loom {
 
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
+    maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
 }
 
 dependencies {
@@ -16,6 +21,8 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 }
 
 architectury {

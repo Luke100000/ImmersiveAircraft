@@ -31,7 +31,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
                 constructor,
                 (m, ctx) -> {
                     ctx.get().enqueueWork(() -> {
-                        ServerPlayerEntity sender = ctx.get().getSender();
+                        ServerPlayer sender = ctx.get().getSender();
                         m.receive(sender);
                     });
                     ctx.get().setPacketHandled(true);

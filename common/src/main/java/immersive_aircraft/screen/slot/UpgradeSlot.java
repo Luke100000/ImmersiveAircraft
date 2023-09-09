@@ -1,7 +1,8 @@
 package immersive_aircraft.screen.slot;
 
 import immersive_aircraft.entity.InventoryVehicleEntity;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.misc.VehicleInventoryDescription.SlotType;
+import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription.SlotType;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import net.minecraft.world.Container;

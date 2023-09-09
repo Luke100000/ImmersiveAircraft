@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
 public class InGameHudMixin {
-    @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;F)V", at = @At("TAIL"))
-    private void renderInject(GuiGraphics context, float tickDelta, CallbackInfo ci) {
-        OverlayRenderer.renderOverlay(context, tickDelta);
+    @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;F)V", at = @At("TAIL"))
+    private void renderInject(GuiGraphics guiGraphics, float partialTick, CallbackInfo ci) {
+        OverlayRenderer.renderOverlay(guiGraphics, partialTick);
     }
 }

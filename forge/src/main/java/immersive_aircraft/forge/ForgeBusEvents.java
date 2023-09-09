@@ -46,20 +46,19 @@ public class ForgeBusEvents {
 
     @SubscribeEvent
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
-        if(DATA_REGISTRY != null) {
-            for(SimpleJsonResourceReloadListener loader : DATA_REGISTRY.getLoaders())
+        if (DATA_REGISTRY != null) {
+            for (SimpleJsonResourceReloadListener loader : DATA_REGISTRY.getLoaders())
                 event.addListener(loader);
         }
     }
 
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        if(event.getPlayer() != null) { // Syncing aircraft upgrades to players.
+        if (event.getPlayer() != null) { // Syncing aircraft upgrades to players.
             NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), event.getPlayer());
             NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), event.getPlayer());
-        }
-        else {
-            for(ServerPlayer player : event.getPlayerList().getPlayers()) {
+        } else {
+            for (ServerPlayer player : event.getPlayerList().getPlayers()) {
                 NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
                 NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
             }
@@ -69,7 +68,7 @@ public class ForgeBusEvents {
     @SubscribeEvent
     public static void onItemTooltips(ItemTooltipEvent event) {
         AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(event.getItemStack().getItem());
-        if(upgrade != null) {
+        if (upgrade != null) {
             List<Component> tooltip = event.getToolTip();
 
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
@@ -77,7 +76,7 @@ public class ForgeBusEvents {
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
+                ).withStyle(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }

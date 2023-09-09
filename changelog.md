@@ -1,3 +1,12 @@
+# 0.6.0
+
+* Added datapack support for custom upgrades
+* Configurable vehicle explosions
+* Removed Multi-Keybindings as it no longer works with Forge anyways
+    * Also removed separate keybinds for pull and push
+* Added config to block aircraft in certain dimensions
+* Added JEI support for the larger inventories
+
 # 0.5.2
 
 * Switched to PacketByteBuf serializer

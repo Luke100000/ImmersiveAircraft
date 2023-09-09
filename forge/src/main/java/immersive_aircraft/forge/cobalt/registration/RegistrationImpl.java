@@ -31,7 +31,9 @@ public class RegistrationImpl extends Registration.Impl {
         ForgeBusEvents.DATA_REGISTRY = dataLoaderRegister;
     }
 
-    public static void bootstrap() {}
+    public static void bootstrap() {
+        //nop
+    }
 
     private RegistryRepo getRepo(String namespace) {
         return repos.computeIfAbsent(namespace, RegistryRepo::new);
@@ -47,7 +49,7 @@ public class RegistrationImpl extends Registration.Impl {
         dataLoaderRegister.dataLoaders.add(loader);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj) {
         DeferredRegister reg = getRepo(id.getNamespace()).get(registry);
@@ -64,7 +66,7 @@ public class RegistrationImpl extends Registration.Impl {
             this.namespace = namespace;
         }
 
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         public <T> DeferredRegister get(Registry<? super T> registry) {
             ResourceLocation id = registry.key().location();
             if (!registries.containsKey(id) && !skipped.contains(id)) {

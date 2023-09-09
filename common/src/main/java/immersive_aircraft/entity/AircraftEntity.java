@@ -101,7 +101,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         }
 
         // get direction
-        Vector3f direction = getDirection();
+        Vector3f direction = getForwardDirection();
 
         // glide
         float diff = (float)(lastY - getY());

@@ -18,7 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public class GyrodyneEntity extends Rotorcraft {
-    private final static float PUSH_SPEED = 0.25f;
+    private static final float PUSH_SPEED = 0.25f;
 
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
@@ -151,7 +151,7 @@ public class GyrodyneEntity extends Rotorcraft {
         setDeltaMovement(getDeltaMovement().add(f.x, f.y, f.z));
 
         // get direction
-        Vector3f direction = getDirection();
+        Vector3f direction = getForwardDirection();
 
         // speed
         float sin = Mth.sin(getXRot() * ((float)Math.PI / 180));

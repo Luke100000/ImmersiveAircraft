@@ -20,14 +20,14 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayer {
         super(world, profile);
     }
 
-    @Inject(method = "isInSneakingPose()Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isCrouching()Z", at = @At("HEAD"), cancellable = true)
     public void isInSneakingPoseInject(CallbackInfoReturnable<Boolean> cir) {
         if (getRootVehicle() instanceof AircraftEntity) {
             cir.setReturnValue(false);
         }
     }
 
-    @Inject(method = "openRidingInventory()V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "sendOpenInventory()V", at = @At("HEAD"), cancellable = true)
     public void isInSneakingPoseInject(CallbackInfo ci) {
         if (getRootVehicle() instanceof InventoryVehicleEntity) {
             NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.INVENTORY, getDeltaMovement()));

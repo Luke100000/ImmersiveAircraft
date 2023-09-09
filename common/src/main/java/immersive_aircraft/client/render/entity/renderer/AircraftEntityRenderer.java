@@ -1,7 +1,5 @@
 package immersive_aircraft.client.render.entity.renderer;
 
-import AnimationConsumer;
-import RenderConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
@@ -11,7 +9,6 @@ import immersive_aircraft.resources.ObjectLoader;
 import immersive_aircraft.util.obj.Face;
 import immersive_aircraft.util.obj.FaceVertex;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.client.render.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -35,13 +32,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends EntityRenderer<T> {
-	protected class Object {
+    protected class Object {
         public interface AnimationConsumer<T> {
-            void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
+            void run(T entity, float yaw, float tickDelta, PoseStack matrixStack);
         }
 
         public interface RenderConsumer<T> {
-            void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light, float tickDelta);
+            void run(MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float tickDelta);
         }
 
         public Object(ResourceLocation id, String object) {
@@ -55,8 +52,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         private AnimationConsumer<T> animationConsumer = null;
         private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
             //Get vertex consumer
-            Identifier identifier = getTexture(entity);
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(identifier));
+            ResourceLocation identifier = getTextureLocation(entity);
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(identifier));
             renderObject(getMesh(), matrixStack, vertexConsumer, light);
         };
 
@@ -93,8 +90,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     protected class Model {
 
-	public Model(){}
-		
+        public Model() {
+        }
+
         private final List<Object> objects = new LinkedList<>();
 
         public Model add(Object o) {
@@ -123,13 +121,13 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         matrixStack.pushPose();
 
         //Wobble
-        float h = (float)entity.getDamageWobbleTicks() - tickDelta;
+        float h = (float) entity.getDamageWobbleTicks() - tickDelta;
         float j = entity.getDamageWobbleStrength() - tickDelta;
         if (j < 0.0f) {
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
+            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getDamageWobbleSide()));
         }
 
         Vector3f effect = entity.onGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();
@@ -172,14 +170,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         for (Face face : mesh.faces) {
             if (face.vertices.size() == 4) {
                 for (FaceVertex v : face.vertices) {
-                    vertexConsumer
-                            .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
-                            .color(r, g, b, a)
-                            .uv(v.t.u, v.t.v)
-                            .overlayCoords(OverlayTexture.NO_OVERLAY)
-                            .uv2(light)
-                            .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                            .endVertex();
+                    vertexConsumer.vertex(positionMatrix, v.v.x, v.v.y, v.v.z).color(r, g, b, a).uv(v.t.u, v.t.v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, v.n.x, v.n.y, v.n.z).endVertex();
                 }
             }
         }
@@ -198,15 +189,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 for (FaceVertex v : face.vertices) {
                     double angle = v.v.x + v.v.z + v.v.y * 0.25 + time * 0.25;
                     double scale = 0.05;
-                    float x = (float)(v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
-                    float z = (float)(v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
-                    vertexConsumer
-                            .vertex(positionMatrix, x, v.v.y, z)
-                            .color(r, g, b, a).uv(v.t.u, v.t.v)
-                            .overlayCoords(OverlayTexture.NO_OVERLAY)
-                            .uv2(light)
-                            .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                            .endVertex();
+                    float x = (float) (v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
+                    float z = (float) (v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
+                    vertexConsumer.vertex(positionMatrix, x, v.v.y, z).color(r, g, b, a).uv(v.t.u, v.t.v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, v.n.x, v.n.y, v.n.z).endVertex();
                 }
             }
         }
@@ -227,14 +212,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 for (Face face : mesh.faces) {
                     if (face.vertices.size() == 4) {
                         for (FaceVertex v : face.vertices) {
-                            vertexConsumer
-                                    .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
-                                    .color(fs[0], fs[1], fs[2], 1.0f)
-                                    .uv(v.t.u * (sprite.getU1() - sprite.getU0()) + sprite.getU0(), v.t.v * (sprite.getV1() - sprite.getV0()) + sprite.getV0())
-                                    .overlayCoords(OverlayTexture.NO_OVERLAY)
-                                    .uv2(light)
-                                    .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                                    .endVertex();
+                            vertexConsumer.vertex(positionMatrix, v.v.x, v.v.y, v.v.z).color(fs[0], fs[1], fs[2], 1.0f).uv(v.t.u * (sprite.getU1() - sprite.getU0()) + sprite.getU0(), v.t.v * (sprite.getV1() - sprite.getV0()) + sprite.getV0()).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, v.n.x, v.n.y, v.n.z).endVertex();
                         }
                     }
                 }

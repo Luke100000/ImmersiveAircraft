@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ClientPlayerInteractionManagerMixin {
     @Shadow
     @Final
-    private Minecraft client;
+    private Minecraft minecraft;
 
-    @Inject(method = "hasRidingInventory()Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isServerControlledInventory()Z", at = @At("HEAD"), cancellable = true)
     public void hasRidingInventory(CallbackInfoReturnable<Boolean> cir) {
-        assert this.client.player != null;
-        if (this.client.player.isPassenger() && this.client.player.getVehicle() instanceof InventoryVehicleEntity) {
+        assert minecraft.player != null;
+        if (minecraft.player.isPassenger() && minecraft.player.getVehicle() instanceof InventoryVehicleEntity) {
             cir.setReturnValue(true);
         }
     }

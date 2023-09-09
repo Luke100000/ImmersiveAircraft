@@ -21,6 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -44,7 +45,7 @@ public final class CommonFabric implements ModInitializer {
         CreativeModeTab group = FabricItemGroup.builder()
                 .title(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
-                .entries((enabledFeatures, entries) -> entries.addAll(Items.getSortedItems()))
+                .displayItems((enabledFeatures, entries) -> entries.acceptAll(Items.getSortedItems()))
                 .build();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Main.locate("group"), group);
@@ -59,13 +60,13 @@ public final class CommonFabric implements ModInitializer {
      */
     private void itemTooltipCallback(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
         AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
-        if(upgrade != null) {
+        if (upgrade != null) {
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
 
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
+                ).withStyle(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }
@@ -73,7 +74,7 @@ public final class CommonFabric implements ModInitializer {
     /**
      * Send sync packets for upgrades when datapack is reloaded.
      */
-    private void onSyncDatapack(ServerPlayer player,  boolean joined) {
+    private void onSyncDatapack(ServerPlayer player, boolean joined) {
         NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
         NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
     }

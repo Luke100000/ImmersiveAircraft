@@ -5,22 +5,26 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.EngineAircraft;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/gui/container/inventory.png");
 
     public static int titleHeight = 10;
     public static int baseHeight = 86;
-    public static int containerSize;
+
+    public int containerSize;
 
     public VehicleScreen(VehicleScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
@@ -32,7 +36,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     }
 
     @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull GuiGraphics context, float delta, int mouseX, int mouseY) {
         //nop
     }
 
@@ -60,8 +64,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         context.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + titleHeight * 2, 512, 256);
         context.blit(TEXTURE, leftPos, topPos + containerSize + titleHeight * 2 - 4, 0, 222 - baseHeight, imageWidth, baseHeight, 512, 256);
 
-        for (VehicleInventoryDescription.Rectangle rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
-            drawRectangle(context, leftPos + rectangle.x(), topPos + rectangle.y(), rectangle.w(), rectangle.h());
+        for (Rect2i rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
+            drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
         }
     }
 
@@ -70,7 +74,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     }
 
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
         drawCustomBackground(context);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -81,29 +85,30 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
         for (VehicleInventoryDescription.Slot slot : menu.getVehicle().getInventoryDescription().getSlots()) {
             switch (slot.type) {
-                case INVENTORY -> drawImage(context, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
+                case INVENTORY ->
+                        drawImage(context, this.leftPos + slot.x - 1, this.topPos + titleHeight + slot.y - 1, 284, 0, 18, 18);
                 case BOILER -> {
-                    drawImage(context, leftPos + slot.x - 4, topPos + titleHeight + slot.y - 18, 318, 0, 24, 39);
+                    drawImage(context, this.leftPos + slot.x - 4, this.topPos + titleHeight + slot.y - 18, 318, 0, 24, 39);
                     if (menu.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
-                        drawImage(context, leftPos + slot.x - 4, topPos + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
+                        drawImage(context, this.leftPos + slot.x - 4, this.topPos + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
                     }
                 }
                 default -> {
                     if (menu.getVehicle().getInventory().getItem(slot.index).isEmpty()) {
                         switch (slot.type) {
                             case WEAPON ->
-                                    drawImage(context, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
+                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22, 22, 22);
                             case UPGRADE ->
-                                    drawImage(context, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
+                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
                             case BANNER ->
-                                    drawImage(context, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
+                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
                             case DYE ->
-                                    drawImage(context, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
+                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
                             case BOOSTER ->
-                                    drawImage(context, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
                         }
                     } else {
-                        drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 0, 22, 22);
+                        drawImage(context, this.leftPos + slot.x - 3, this.topPos + titleHeight + slot.y - 3, 262, 0, 22, 22);
                     }
                 }
             }
@@ -132,8 +137,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     @Override
     protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top, int button) {
         if (super.hasClickedOutside(mouseX, mouseY, left, top, button)) {
-            for (VehicleInventoryDescription.Rectangle rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
-                if (mouseX > rectangle.x() + leftPos && mouseX < rectangle.x() + rectangle.w() + leftPos && mouseY > rectangle.y() + topPos && mouseY < rectangle.y() + rectangle.h() + topPos) {
+            for (Rect2i rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
+                if (mouseX > rectangle.getX() + leftPos && mouseX < rectangle.getX() + rectangle.getWidth() + leftPos && mouseY > rectangle.getY() + topPos && mouseY < rectangle.getY() + rectangle.getHeight() + topPos) {
                     return false;
                 }
             }
@@ -141,5 +146,13 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         } else {
             return false;
         }
+    }
+
+    public int getX() {
+        return leftPos;
+    }
+
+    public int getY() {
+        return topPos;
     }
 }

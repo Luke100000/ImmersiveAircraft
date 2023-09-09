@@ -6,13 +6,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-abstract public class Rotorcraft extends EngineAircraft {
+public abstract class Rotorcraft extends EngineAircraft {
     public Rotorcraft(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
 
     @Override
-    public Vector3f getDirection() {
+    public Vector3f getForwardDirection() {
         return new Vector3f(
                 Mth.sin(-getYRot() * ((float)Math.PI / 180)),
                 0.0f,

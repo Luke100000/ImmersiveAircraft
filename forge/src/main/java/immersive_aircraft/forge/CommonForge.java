@@ -30,10 +30,10 @@ public final class CommonForge {
 
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(CREATIVE_MODE_TAB, Main.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> TAB = DEF_REG.register(Main.MOD_ID, () -> ItemGroup.builder()
-            .displayName(ItemGroups.getDisplayName())
+    public static final RegistryObject<CreativeModeTab> TAB = DEF_REG.register(Main.MOD_ID, () -> CreativeModeTab.builder()
+            .title(ItemGroups.getDisplayName())
             .icon(ItemGroups::getIcon)
-            .entries((featureFlags, output) -> output.addAll(Items.getSortedItems()))
+            .displayItems((featureFlags, output) -> output.acceptAll(Items.getSortedItems()))
             .build()
     );
 }
