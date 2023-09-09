@@ -9,13 +9,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.MinecraftVersion;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.server.level.ServerPlayer;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -23,21 +20,21 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
-    private final Map<Class<?>, Identifier> identifiers = new HashMap<>();
+    private final Map<Class<?>, ResourceLocation> identifiers = new HashMap<>();
 
     private int id = 0;
 
-    private <T> Identifier createMessageIdentifier(Class<T> msg) {
-        return new Identifier(Main.SHORT_MOD_ID, msg.getSimpleName().toLowerCase(Locale.ROOT).substring(0, 8) + id++);
+    private <T> ResourceLocation createMessageIdentifier(Class<T> msg) {
+        return new ResourceLocation(Main.SHORT_MOD_ID, msg.getSimpleName().toLowerCase(Locale.ROOT).substring(0, 8) + id++);
     }
 
-    private Identifier getMessageIdentifier(Message msg) {
+    private ResourceLocation getMessageIdentifier(Message msg) {
         return Objects.requireNonNull(identifiers.get(msg.getClass()), "Used unregistered message!");
     }
 
     @Override
-    public <T extends Message> void registerMessage(Class<T> msg, Function<PacketByteBuf, T> constructor) {
-        Identifier identifier = createMessageIdentifier(msg);
+    public <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        ResourceLocation identifier = createMessageIdentifier(msg);
         identifiers.put(msg, identifier);
 
         ServerPlayNetworking.registerGlobalReceiver(identifier, (server, player, handler, buffer, responder) -> {
@@ -52,14 +49,14 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     @Override
     public void sendToServer(Message msg) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         msg.encode(buf);
         ClientPlayNetworking.send(getMessageIdentifier(msg), buf);
     }
 
     @Override
-    public void sendToPlayer(Message msg, ServerPlayerEntity e) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+    public void sendToPlayer(Message msg, ServerPlayer e) {
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         msg.encode(buf);
         ServerPlayNetworking.send(e, getMessageIdentifier(msg), buf);
     }
@@ -71,7 +68,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
             throw new RuntimeException("new ClientProxy()");
         }
 
-        public static <T extends Message> void register(Identifier id, Function<PacketByteBuf, T> constructor) {
+        public static <T extends Message> void register(ResourceLocation id, Function<FriendlyByteBuf, T> constructor) {
             ClientPlayNetworking.registerGlobalReceiver(id, (client, ignore1, buffer, ignore2) -> {
                 Message m = constructor.apply(buffer);
                 client.execute(() -> m.receive(client.player));

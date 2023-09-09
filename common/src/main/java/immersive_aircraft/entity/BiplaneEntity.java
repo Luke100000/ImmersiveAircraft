@@ -3,17 +3,17 @@ package immersive_aircraft.entity;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class BiplaneEntity extends AirplaneEntity {
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
@@ -33,7 +33,7 @@ public class BiplaneEntity extends AirplaneEntity {
         return inventoryDescription;
     }
 
-    public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
 
@@ -58,7 +58,7 @@ public class BiplaneEntity extends AirplaneEntity {
         Vector4f p0 = transformPosition(transform, x, y - 0.15f, z);
         Vector4f p1 = transformPosition(transform, x, y + 0.15f, z);
 
-        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(Math.sqrt(getVelocity().length()) * (0.5f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(Math.sqrt(getDeltaMovement().length()) * (0.5f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
         trails.get(index).add(p0, p1, trailStrength);
     }
 
@@ -71,7 +71,7 @@ public class BiplaneEntity extends AirplaneEntity {
     public void tick() {
         super.tick();
 
-        if (getWorld().isClient) {
+        if (level().isClientSide) {
             if (isWithinParticleRange()) {
                 Matrix4f transform = getVehicleTransform();
                 Matrix3f normalTransform = getVehicleNormalTransform();
@@ -83,10 +83,10 @@ public class BiplaneEntity extends AirplaneEntity {
                 // Smoke
                 float power = getEnginePower();
                 if (power > 0.05) {
-                    Vector4f p = transformPosition(transform, 0.325f * (age % 4 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
-                    Vector3f vel = transformVector(normalTransform, 0.2f * (age % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
-                    Vec3d velocity = getVelocity();
-                    getWorld().addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
+                    Vector4f p = transformPosition(transform, 0.325f * (tickCount % 4 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
+                    Vector3f vel = transformVector(normalTransform, 0.2f * (tickCount % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
+                    Vec3 velocity = getDeltaMovement();
+                    level().addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

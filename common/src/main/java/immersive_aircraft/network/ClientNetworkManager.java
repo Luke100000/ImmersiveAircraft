@@ -5,18 +5,18 @@ import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.s2c.InventoryUpdateMessage;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class ClientNetworkManager implements NetworkManager {
     @Override
     public void handleOpenGuiRequest(OpenGuiRequest message) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.world != null && client.player != null) {
-            InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.world.getEntityById(message.getVehicle());
+        Minecraft client = Minecraft.getInstance();
+        if (client.level != null && client.player != null) {
+            InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
                 VehicleScreenHandler handler = (VehicleScreenHandler)vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
                 VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName());
-                client.player.currentScreenHandler = screen.getScreenHandler();
+                client.player.containerMenu = screen.getMenu();
                 client.setScreen(screen);
             }
         }
@@ -24,11 +24,11 @@ public class ClientNetworkManager implements NetworkManager {
 
     @Override
     public void handleInventoryUpdate(InventoryUpdateMessage message) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.world != null && client.player != null) {
-            InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.world.getEntityById(message.getVehicle());
+        Minecraft client = Minecraft.getInstance();
+        if (client.level != null && client.player != null) {
+            InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
-                vehicle.getInventory().setStack(message.getIndex(), message.getStack());
+                vehicle.getInventory().setItem(message.getIndex(), message.getStack());
             }
         }
     }

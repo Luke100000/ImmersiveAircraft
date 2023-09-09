@@ -5,8 +5,8 @@ import immersive_aircraft.Renderer;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
 import immersive_aircraft.resources.ObjectLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.ReloadableResourceManagerImpl;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 public final class ClientForge {
     @SubscribeEvent
     public static void data(FMLConstructModEvent event) {
-        ((ReloadableResourceManagerImpl)MinecraftClient.getInstance().getResourceManager()).registerReloader(new ObjectLoader());
+        ((ReloadableResourceManager)Minecraft.getInstance().getResourceManager()).registerReloadListener(new ObjectLoader());
     }
 
     @SubscribeEvent

@@ -3,8 +3,8 @@ package immersive_aircraft.network.s2c;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.entity.VehicleEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 
 public class OpenGuiRequest extends Message {
     private final int vehicle;
@@ -15,19 +15,19 @@ public class OpenGuiRequest extends Message {
         this.syncId = syncId;
     }
 
-    public OpenGuiRequest(PacketByteBuf b) {
+    public OpenGuiRequest(FriendlyByteBuf b) {
         vehicle = b.readInt();
         syncId = b.readInt();
     }
 
     @Override
-    public void encode(PacketByteBuf b) {
+    public void encode(FriendlyByteBuf b) {
         b.writeInt(vehicle);
         b.writeInt(syncId);
     }
 
     @Override
-    public void receive(PlayerEntity e) {
+    public void receive(Player e) {
         Main.networkManager.handleOpenGuiRequest(this);
     }
 

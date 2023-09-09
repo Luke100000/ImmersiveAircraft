@@ -2,13 +2,13 @@ package immersive_aircraft.forge.cobalt.registration;
 
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.forge.ForgeBusEvents;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.EntityRenderers;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.Registry;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistry;
@@ -38,25 +38,25 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     @Override
-    public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererFactory<T> constructor) {
+    public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererProvider<T> constructor) {
         EntityRenderers.register(type, constructor);
     }
 
     @Override
-    public void registerDataLoader(Identifier id, JsonDataLoader loader) {
+    public void registerDataLoader(ResourceLocation id, SimpleJsonResourceReloadListener loader) {
         dataLoaderRegister.dataLoaders.add(loader);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj) {
+    public <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj) {
         DeferredRegister reg = getRepo(id.getNamespace()).get(registry);
         return reg.register(id.getPath(), obj);
     }
 
     static class RegistryRepo {
-        private final Set<Identifier> skipped = new HashSet<>();
-        private final Map<Identifier, DeferredRegister<?>> registries = new HashMap<>();
+        private final Set<ResourceLocation> skipped = new HashSet<>();
+        private final Map<ResourceLocation, DeferredRegister<?>> registries = new HashMap<>();
 
         private final String namespace;
 
@@ -66,7 +66,7 @@ public class RegistrationImpl extends Registration.Impl {
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
         public <T> DeferredRegister get(Registry<? super T> registry) {
-            Identifier id = registry.getKey().getValue();
+            ResourceLocation id = registry.key().location();
             if (!registries.containsKey(id) && !skipped.contains(id)) {
                 ForgeRegistry reg = RegistryManager.ACTIVE.getRegistry(id);
                 if (reg == null) {
@@ -87,9 +87,9 @@ public class RegistrationImpl extends Registration.Impl {
 
     public static class DataLoaderRegister {
 
-        private final List<JsonDataLoader> dataLoaders = new ArrayList<>(); // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
+        private final List<SimpleJsonResourceReloadListener> dataLoaders = new ArrayList<>(); // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
 
-        public List<JsonDataLoader> getLoaders() {
+        public List<SimpleJsonResourceReloadListener> getLoaders() {
             return dataLoaders;
         }
 

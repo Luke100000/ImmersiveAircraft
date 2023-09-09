@@ -2,8 +2,8 @@ package immersive_aircraft.network.c2s;
 
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.entity.EngineAircraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 
 public class EnginePowerMessage extends Message {
     private final float engineTarget;
@@ -12,17 +12,17 @@ public class EnginePowerMessage extends Message {
         this.engineTarget = engineTarget;
     }
 
-    public EnginePowerMessage(PacketByteBuf b) {
+    public EnginePowerMessage(FriendlyByteBuf b) {
         engineTarget = b.readFloat();
     }
 
     @Override
-    public void encode(PacketByteBuf b) {
+    public void encode(FriendlyByteBuf b) {
         b.writeFloat(engineTarget);
     }
 
     @Override
-    public void receive(PlayerEntity e) {
+    public void receive(Player e) {
         if (e.getRootVehicle() instanceof EngineAircraft entity) {
             entity.setEngineTarget(engineTarget);
         }

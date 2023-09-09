@@ -9,10 +9,10 @@ import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.network.s2c.AircraftBaseUpgradesMessage;
 import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TickEvent;
@@ -47,7 +47,7 @@ public class ForgeBusEvents {
     @SubscribeEvent
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         if(DATA_REGISTRY != null) {
-            for(JsonDataLoader loader : DATA_REGISTRY.getLoaders())
+            for(SimpleJsonResourceReloadListener loader : DATA_REGISTRY.getLoaders())
                 event.addListener(loader);
         }
     }
@@ -59,7 +59,7 @@ public class ForgeBusEvents {
             NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), event.getPlayer());
         }
         else {
-            for(ServerPlayerEntity player : event.getPlayerList().getPlayerList()) {
+            for(ServerPlayer player : event.getPlayerList().getPlayers()) {
                 NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
                 NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
             }
@@ -70,14 +70,14 @@ public class ForgeBusEvents {
     public static void onItemTooltips(ItemTooltipEvent event) {
         AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(event.getItemStack().getItem());
         if(upgrade != null) {
-            List<Text> tooltip = event.getToolTip();
+            List<Component> tooltip = event.getToolTip();
 
-            tooltip.add(Text.translatable("item.immersive_aircraft.item.upgrade").formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
+            tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
 
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
-                tooltip.add(Text.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
+                tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? Formatting.GREEN : Formatting.RED));
+                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }

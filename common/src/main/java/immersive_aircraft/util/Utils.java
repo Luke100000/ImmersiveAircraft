@@ -1,19 +1,18 @@
 package immersive_aircraft.util;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.block.entity.BannerPatterns;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.DyeColor;
-
 import java.util.List;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatterns;
 
 public class Utils {
     public static double cosNoise(double time) {
@@ -29,16 +28,16 @@ public class Utils {
         return value;
     }
 
-    public static List<Pair<RegistryEntry<BannerPattern>, DyeColor>> parseBannerItem(ItemStack banner) {
+    public static List<Pair<Holder<BannerPattern>, DyeColor>> parseBannerItem(ItemStack banner) {
         DyeColor baseColor = ((BannerItem)banner.getItem()).getColor();
 
-        NbtCompound nbtCompound = BlockItem.getBlockEntityNbt(banner);
+        CompoundTag nbtCompound = BlockItem.getBlockEntityData(banner);
         if (nbtCompound == null || !nbtCompound.contains("Patterns")) {
-            return List.of(Pair.of(Registries.BANNER_PATTERN.entryOf(BannerPatterns.BASE), baseColor));
+            return List.of(Pair.of(BuiltInRegistries.BANNER_PATTERN.getHolderOrThrow(BannerPatterns.BASE), baseColor));
         }
 
-        NbtList nbtList = nbtCompound.getList("Patterns", 10);
+        ListTag nbtList = nbtCompound.getList("Patterns", 10);
 
-        return BannerBlockEntity.getPatternsFromNbt(baseColor, nbtList);
+        return BannerBlockEntity.createPatterns(baseColor, nbtList);
     }
 }

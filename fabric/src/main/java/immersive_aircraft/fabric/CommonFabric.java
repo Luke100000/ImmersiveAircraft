@@ -13,15 +13,14 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -42,13 +41,13 @@ public final class CommonFabric implements ModInitializer {
         DataLoaders.register();
         Messages.loadMessages();
 
-        ItemGroup group = FabricItemGroup.builder()
-                .displayName(ItemGroups.getDisplayName())
+        CreativeModeTab group = FabricItemGroup.builder()
+                .title(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
                 .entries((enabledFeatures, entries) -> entries.addAll(Items.getSortedItems()))
                 .build();
 
-        Registry.register(Registries.ITEM_GROUP, Main.locate("group"), group);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Main.locate("group"), group);
 
         // Register event for syncing aircraft upgrades.
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(this::onSyncDatapack);
@@ -58,15 +57,15 @@ public final class CommonFabric implements ModInitializer {
     /**
      * Handles adding ToolTips to aircraft upgrades.
      */
-    private void itemTooltipCallback(ItemStack stack, TooltipContext context, List<Text> tooltip) {
+    private void itemTooltipCallback(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
         AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
         if(upgrade != null) {
-            tooltip.add(Text.translatable("item.immersive_aircraft.item.upgrade").formatted(Formatting.GRAY).formatted(Formatting.ITALIC));
+            tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
 
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
-                tooltip.add(Text.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
+                tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? Formatting.GREEN : Formatting.RED));
+                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }
@@ -74,7 +73,7 @@ public final class CommonFabric implements ModInitializer {
     /**
      * Send sync packets for upgrades when datapack is reloaded.
      */
-    private void onSyncDatapack(ServerPlayerEntity player,  boolean joined) {
+    private void onSyncDatapack(ServerPlayer player,  boolean joined) {
         NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
         NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
     }
