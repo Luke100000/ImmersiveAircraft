@@ -8,6 +8,7 @@ import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Rect2i;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -19,22 +20,23 @@ import java.util.Optional;
 public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     private static final Identifier TEXTURE = Main.locate("textures/gui/container/inventory.png");
 
-    public static int titleHeight = 10;
-    public static int baseHeight = 86;
-    public static int containerSize;
+    public static final int TITLE_HEIGHT = 10;
+    public static final int BASE_HEIGHT = 86;
+
+    public int containerSize;
 
     public VehicleScreen(VehicleScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
 
         containerSize = handler.getVehicle().getInventoryDescription().getHeight();
 
-        backgroundHeight = baseHeight + containerSize + titleHeight * 2;
-        playerInventoryTitleY = containerSize + titleHeight;
+        backgroundHeight = BASE_HEIGHT + containerSize + TITLE_HEIGHT * 2;
+        playerInventoryTitleY = containerSize + TITLE_HEIGHT;
     }
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        //nop
+        // nop
     }
 
     protected void drawRectangle(MatrixStack matrices, int x, int y, int h, int w) {
@@ -55,15 +57,17 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     }
 
     protected void drawCustomBackground(MatrixStack matrices) {
+        this.renderBackground(matrices);
+
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, containerSize + titleHeight * 2, 512, 256);
-        drawTexture(matrices, x, y + containerSize + titleHeight * 2 - 4, 0, 222 - baseHeight, backgroundWidth, baseHeight, 512, 256);
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
+        drawTexture(matrices, x, y + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, backgroundWidth, BASE_HEIGHT, 512, 256);
 
-        for (VehicleInventoryDescription.Rectangle rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
-            drawRectangle(matrices, x + rectangle.x(), y + rectangle.y(), rectangle.w(), rectangle.h());
+        for (Rect2i rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
+            drawRectangle(matrices, x + rectangle.getX(), y + rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
         }
     }
 
@@ -134,8 +138,8 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
     @Override
     protected boolean isClickOutsideBounds(double mouseX, double mouseY, int left, int top, int button) {
         if (super.isClickOutsideBounds(mouseX, mouseY, left, top, button)) {
-            for (VehicleInventoryDescription.Rectangle rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
-                if (mouseX > rectangle.x() + x && mouseX < rectangle.x() + rectangle.w() + x && mouseY > rectangle.y() + y && mouseY < rectangle.y() + rectangle.h() + y) {
+            for (Rect2i rectangle : handler.getVehicle().getInventoryDescription().getRectangles()) {
+                if (mouseX > rectangle.getX() + x && mouseX < rectangle.getX() + rectangle.getWidth() + x && mouseY > rectangle.getY() + y && mouseY < rectangle.getY() + rectangle.getHeight() + y) {
                     return false;
                 }
             }
@@ -143,5 +147,13 @@ public class VehicleScreen extends HandledScreen<VehicleScreenHandler> {
         } else {
             return false;
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

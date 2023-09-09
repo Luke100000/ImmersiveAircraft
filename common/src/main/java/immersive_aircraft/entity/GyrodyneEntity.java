@@ -18,7 +18,7 @@ import org.joml.Vector3f;
 import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
-    private final static float PUSH_SPEED = 0.25f;
+    private static final float PUSH_SPEED = 0.25f;
 
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
@@ -50,7 +50,7 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+        super(entityType, world, false);
     }
 
     protected SoundEvent getEngineStartSound() {

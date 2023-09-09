@@ -19,6 +19,7 @@ public final class CommonForge {
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();
+        DataLoaders.register();
     }
 
     @SubscribeEvent

@@ -10,7 +10,7 @@ displayName = "Immersive Aircraft"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/immersive-aircraft"
 authors = "Luke100000"
 description = "A bunch of rustic aircraft to travel, transport, and explore!"
-logoFile = "logoFile.png"
+logoFile = "icon.png"
 itemIcon = "immersive_aircraft:biplane"
 
 [[dependencies.immersive_aircraft]]
@@ -23,6 +23,6 @@ side = "BOTH"
 [[dependencies.immersive_aircraft]]
 modId = "forge"
 mandatory = true
-versionRange = "[45.0.41,)"
+versionRange = "[45,)"
 ordering = "NONE"
 side = "BOTH"

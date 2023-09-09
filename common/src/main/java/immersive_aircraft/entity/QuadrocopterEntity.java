@@ -38,7 +38,7 @@ public class QuadrocopterEntity extends Rotorcraft {
     }
 
     public QuadrocopterEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+        super(entityType, world, true);
     }
 
     @Override

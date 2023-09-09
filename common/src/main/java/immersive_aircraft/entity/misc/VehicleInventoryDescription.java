@@ -1,19 +1,15 @@
 package immersive_aircraft.entity.misc;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import net.minecraft.client.util.math.Rect2i;
+
+import java.util.*;
 
 public class VehicleInventoryDescription {
     int height = 0;
     int lastIndex = 0;
     int lastSyncIndex = 0;
 
-    public record Rectangle(int x, int y, int w, int h) {
-    }
-
-    List<Rectangle> rectangles = new LinkedList<>();
+    final List<Rect2i> rectangles = new LinkedList<>();
 
     public enum SlotType {
         INVENTORY,
@@ -38,8 +34,8 @@ public class VehicleInventoryDescription {
         }
     }
 
-    Map<SlotType, List<Slot>> slotMap = new HashMap<>();
-    List<Slot> slots = new LinkedList<>();
+    EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);
+    final List<Slot> slots = new LinkedList<>();
 
     {
         for (SlotType value : SlotType.values()) {
@@ -86,7 +82,7 @@ public class VehicleInventoryDescription {
     }
 
     public VehicleInventoryDescription addRectangle(int x, int y, int w, int h) {
-        rectangles.add(new Rectangle(x, y, w, h));
+        rectangles.add(new Rect2i(x, y, w, h));
         return this;
     }
 
@@ -107,7 +103,7 @@ public class VehicleInventoryDescription {
         return lastSyncIndex;
     }
 
-    public List<Rectangle> getRectangles() {
+    public List<Rect2i> getRectangles() {
         return rectangles;
     }
 }

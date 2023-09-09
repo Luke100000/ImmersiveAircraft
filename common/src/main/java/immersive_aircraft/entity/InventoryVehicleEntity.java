@@ -1,10 +1,12 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import immersive_aircraft.item.UpgradeItem;
 import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.AircraftUpgrade;
+import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
@@ -54,25 +56,30 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
     //todo cache?
     public float getTotalUpgrade(AircraftStat stat) {
-        float value = 1.0f;
+        float value = 0.0f;
         List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
-                if (stack.getItem() instanceof UpgradeItem upgrade) {
-                    float u = upgrade.getUpgrade().get(stat);
-                    if (u > 0 && step == 1) {
+                AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem()); // Upgrades now pull from a very primitive registry rather than being saved on the item.
+                if (upgrade != null) {
+                    float u = upgrade.get(stat);
+
+                    if (u > 0 && step == 1)
                         value += u;
-                    } else if (u < 0 && step == 0) {
+                    else if (u < 0 && step == 0)
                         value *= (u + 1);
-                    }
                 }
             }
         }
-        return Math.max(0.0f, value);
+        AircraftUpgrade baseUpgrade = AircraftBaseUpgradeRegistry.INSTANCE.getUpgradeModifier(this.getType());
+        if (baseUpgrade != null)
+            value += baseUpgrade.get(stat);
+
+        return Math.max(0.0f, 1.0f + value);
     }
 
-    public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+    public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+        super(entityType, world, canExplodeOnCrash);
         this.initInventory();
     }
 

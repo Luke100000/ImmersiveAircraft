@@ -30,6 +30,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
@@ -50,24 +51,26 @@ import java.util.List;
  * Abstract vehicle which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-	protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    protected static final TrackedData<Integer> DAMAGE_WOBBLE_TICKS = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> DAMAGE_WOBBLE_SIDE = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Float> DAMAGE_WOBBLE_STRENGTH = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
-	protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected final boolean canExplodeOnCrash;
 
-	protected int interpolationSteps;
+    protected static final TrackedData<Integer> BOOST = DataTracker.registerData(VehicleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-	protected double x;
-	protected double y;
-	protected double z;
+    protected int interpolationSteps;
 
-	protected double clientYaw;
-	protected double clientPitch;
+    protected double x;
+    protected double y;
+    protected double z;
 
-	protected float movementX;
-	protected float movementY;
-	protected float movementZ;
+    protected double clientYaw;
+    protected double clientPitch;
+
+    protected float movementX;
+    protected float movementY;
+    protected float movementZ;
 
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
@@ -100,7 +103,7 @@ public abstract class VehicleEntity extends Entity {
         return dataTracker.get(BOOST);
     }
 
-    abstract protected List<List<Vector3f>> getPassengerPositions();
+    protected abstract List<List<Vector3f>> getPassengerPositions();
 
     protected int getPassengerSpace() {
         return getPassengerPositions().size();
@@ -114,8 +117,9 @@ public abstract class VehicleEntity extends Entity {
         super.setPitch(pitch);
     }
 
-    public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public VehicleEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
         super(entityType, world);
+        this.canExplodeOnCrash = canExplodeOnCrash;
         intersectionChecked = true;
         setStepHeight(0.55f);
 
@@ -187,15 +191,26 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleTicks(10);
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f / getDurability());
         emitGameEvent(GameEvent.ENTITY_DAMAGE, source.getAttacker());
-        boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode;
-        if (bl || getDamageWobbleStrength() > 40.0f) {
-            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers() || source.getAttacker() instanceof PlayerEntity) {
-                if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+
+        if (source.getAttacker() instanceof PlayerEntity player) { // Handle player drops separately to destruction drops.
+            if (!player.getAbilities().creativeMode)
+                drop(); // Only drop item if player isn't in creative mode.
+            discard();
+        } else if (getDamageWobbleStrength() > 40.0F) {
+            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || hasPassengers()) { // If the plane crashed, or was destroyed by a non-player.
+                if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer)
                     drop();
+
+                if (canExplodeOnCrash && Config.getInstance().enableCrashExplosion) { // If crashing explosion is enabled.
+                    getWorld().createExplosion(this, getX(), getY(), getZ(),
+                            Config.getInstance().crashExplosionRadius,
+                            Config.getInstance().enableCrashFire,
+                            Config.getInstance().enableCrashBlockDestruction ? World.ExplosionSourceType.MOB : World.ExplosionSourceType.NONE);
                 }
                 discard();
             }
         }
+
         return true;
     }
 
@@ -272,11 +287,12 @@ public abstract class VehicleEntity extends Entity {
     @Override
     public void tick() {
         // pilot
-        if (world.isClient() && getPassengerList().size() > 0) {
+        if (world.isClient() && !getPassengerList().isEmpty()) {
             for (Entity entity : getPassengerList()) {
-                if (entity instanceof ClientPlayerEntity) {
+                if (entity instanceof ClientPlayerEntity player) {
                     if (KeyBindings.dismount.wasPressed()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getVelocity()));
+                        player.setJumping(false);
                     }
                     if (KeyBindings.boost.wasPressed() && canBoost()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getVelocity()));
@@ -297,8 +313,8 @@ public abstract class VehicleEntity extends Entity {
                                 KeyBindings.down.isPressed()
                         ),
                         getMovementMultiplier(
-                                useAirplaneControls() ? KeyBindings.push.isPressed() : KeyBindings.forward.isPressed(),
-                                useAirplaneControls() ? KeyBindings.pull.isPressed() : KeyBindings.backward.isPressed()
+                                KeyBindings.forward.isPressed(),
+                                KeyBindings.backward.isPressed()
                         )
                 );
             }
@@ -411,9 +427,9 @@ public abstract class VehicleEntity extends Entity {
                     position.add(0.0f, 0.0f, 0.2f);
                 }
 
-                position = position.add(0, (float)passenger.getHeightOffset(), 0);
+                position = position.add(0, (float) passenger.getHeightOffset(), 0);
 
-                Vector4f worldPosition = transformPosition(transform,  position.x,  position.y,  position.z);
+                Vector4f worldPosition = transformPosition(transform, position.x, position.y, position.z);
 
                 passenger.setPosition(worldPosition.x, worldPosition.y, worldPosition.z);
 
@@ -421,9 +437,9 @@ public abstract class VehicleEntity extends Entity {
                 passenger.setHeadYaw(passenger.getHeadYaw() + (getYaw() - prevYaw));
 
                 copyEntityData(passenger);
-                if (passenger instanceof AnimalEntity && size > 1) {
+                if (passenger instanceof AnimalEntity animalEntity && size > 1) {
                     int angle = passenger.getId() % 2 == 0 ? 90 : 270;
-                    passenger.setBodyYaw(((AnimalEntity) passenger).bodyYaw + (float) angle);
+                    passenger.setBodyYaw(animalEntity.bodyYaw + (float) angle);
                     passenger.setHeadYaw(passenger.getHeadYaw() + (float) angle);
                 }
             }
@@ -500,6 +516,10 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
+        if (!isValidDimension()) {
+            player.sendMessage(Text.translatable("immersive_aircraft.invalid_dimension"), true);
+            return ActionResult.FAIL;
+        }
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         }
@@ -636,7 +656,7 @@ public abstract class VehicleEntity extends Entity {
         return transformVector(0.0f, 1.0f, 0.0f);
     }
 
-    protected final static Vector4f ZERO_VEC4 = new Vector4f();
+    protected static final Vector4f ZERO_VEC4 = new Vector4f();
 
     @Override
     public boolean shouldRender(double distance) {
@@ -650,5 +670,9 @@ public abstract class VehicleEntity extends Entity {
 
     public Vec3d toVec3d(Vector3f v) {
         return new Vec3d(v.x, v.y, v.z);
+    }
+
+    public boolean isValidDimension() {
+        return Config.getInstance().validDimensions.getOrDefault(this.world.getRegistryKey().getValue().toString(), true);
     }
 }

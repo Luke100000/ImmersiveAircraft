@@ -12,6 +12,24 @@ public final class Config extends JsonConfig {
         return INSTANCE;
     }
 
+
+    // Crash configs
+    @BooleanConfigEntry(true)
+    public boolean enableDropsForNonPlayer = true;
+
+    @BooleanConfigEntry(false)
+    public boolean enableCrashExplosion;
+
+    @BooleanConfigEntry(true)
+    public boolean enableCrashBlockDestruction = true;
+
+    @BooleanConfigEntry(true)
+    public boolean enableCrashFire = true;
+
+    @FloatConfigEntry(2.0F)
+    public float crashExplosionRadius;
+
+
     @BooleanConfigEntry(true)
     public boolean separateCamera = true;
 
@@ -51,9 +69,6 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean acceptVanillaFuel;
 
-    @BooleanConfigEntry(true)
-    public boolean useCustomKeybindSystem;
-
     @FloatConfigEntry(2.0f)
     public float crashDamage;
 
@@ -61,4 +76,10 @@ public final class Config extends JsonConfig {
     public boolean preventKillThroughCrash;
 
     public Map<String, Integer> fuelList = Map.of("minecraft:blaze_powder", 1200);
+
+    public Map<String, Boolean> validDimensions = Map.of(
+            "minecraft:overworld", true,
+            "minecraft:the_nether", false,
+            "minecraft:the_end", true
+    );
 }

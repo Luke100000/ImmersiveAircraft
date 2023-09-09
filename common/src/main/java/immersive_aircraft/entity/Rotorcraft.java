@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 import org.joml.Vector3f;
 
 abstract public class Rotorcraft extends EngineAircraft {
-    public Rotorcraft(EntityType<? extends AircraftEntity> entityType, World world) {
-        super(entityType, world);
+    public Rotorcraft(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+        super(entityType, world, canExplodeOnCrash);
     }
 
     @Override
