@@ -79,7 +79,7 @@ public final class Config extends JsonConfig {
 
     public Map<String, Boolean> validDimensions = Map.of(
             "minecraft:overworld", true,
-            "minecraft:the_nether", false,
+            "minecraft:the_nether", true,
             "minecraft:the_end", true
     );
 }
