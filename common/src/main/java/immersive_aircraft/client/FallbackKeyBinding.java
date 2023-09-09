@@ -1,34 +1,33 @@
 package immersive_aircraft.client;
 
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-
+import com.mojang.blaze3d.platform.InputConstants;
 import java.util.function.Supplier;
+import net.minecraft.client.KeyMapping;
 
-public class FallbackKeyBinding extends KeyBinding {
-    public Supplier<KeyBinding> fallbackKey;
+public class FallbackKeyBinding extends KeyMapping {
+    public Supplier<KeyMapping> fallbackKey;
 
-    public FallbackKeyBinding(String translationKey, InputUtil.Type type, Supplier<KeyBinding> fallbackKey, String category) {
-        super(translationKey, type, InputUtil.UNKNOWN_KEY.getCode(), category);
+    public FallbackKeyBinding(String translationKey, InputConstants.Type type, Supplier<KeyMapping> fallbackKey, String category) {
+        super(translationKey, type, InputConstants.UNKNOWN.getValue(), category);
 
         this.fallbackKey = fallbackKey;
     }
 
     @Override
-    public boolean isPressed() {
+    public boolean isDown() {
         if (isDefault()) {
-            return fallbackKey.get().isPressed();
+            return fallbackKey.get().isDown();
         } else {
-            return super.isPressed();
+            return super.isDown();
         }
     }
 
     @Override
-    public boolean wasPressed() {
+    public boolean consumeClick() {
         if (isDefault()) {
-            return fallbackKey.get().wasPressed();
+            return fallbackKey.get().consumeClick();
         } else {
-            return super.wasPressed();
+            return super.consumeClick();
         }
     }
 }

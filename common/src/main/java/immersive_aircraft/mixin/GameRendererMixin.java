@@ -1,12 +1,12 @@
 package immersive_aircraft.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import immersive_aircraft.entity.AircraftEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,33 +18,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GameRendererMixin {
     @Shadow
     @Final
-    private Camera camera;
+    private Camera mainCamera;
 
-    @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;update(Lnet/minecraft/world/BlockView;Lnet/minecraft/entity/Entity;ZZF)V"))
-    public void renderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
-        Entity entity = camera.getFocusedEntity();
-        if (!camera.isThirdPerson() && entity != null && entity.getRootVehicle() instanceof AircraftEntity aircraft) {
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"))
+    public void renderWorld(float tickDelta, long limitTime, PoseStack matrices, CallbackInfo ci) {
+        Entity entity = mainCamera.getEntity();
+        if (!mainCamera.isDetached() && entity != null && entity.getRootVehicle() instanceof AircraftEntity aircraft) {
             // rotate camera
-            matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(aircraft.getRoll(tickDelta)));
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(aircraft.getPitch(tickDelta)));
+            matrices.mulPose(Vector3f.ZP.rotationDegrees(aircraft.getRoll(tickDelta)));
+            matrices.mulPose(Vector3f.XP.rotationDegrees(aircraft.getViewXRot(tickDelta)));
 
             // fetch eye offset
-            float eye = entity.getStandingEyeHeight();
+            float eye = entity.getEyeHeight();
 
             // transform eye offset to match aircraft rotation
-            Vec3f offset = new Vec3f(0, -eye, 0);
-            Quaternion quaternion = Vec3f.POSITIVE_X.getDegreesQuaternion(0.0f);
-            quaternion.hamiltonProduct(Vec3f.POSITIVE_Y.getDegreesQuaternion(-aircraft.getYaw(tickDelta)));
-            quaternion.hamiltonProduct(Vec3f.POSITIVE_X.getDegreesQuaternion(aircraft.getPitch(tickDelta)));
-            quaternion.hamiltonProduct(Vec3f.POSITIVE_Z.getDegreesQuaternion(aircraft.getRoll(tickDelta)));
-            offset.rotate(quaternion);
+            Vector3f offset = new Vector3f(0, -eye, 0);
+            Quaternion quaternion = Vector3f.XP.rotationDegrees(0.0f);
+            quaternion.mul(Vector3f.YP.rotationDegrees(-aircraft.getViewYRot(tickDelta)));
+            quaternion.mul(Vector3f.XP.rotationDegrees(aircraft.getViewXRot(tickDelta)));
+            quaternion.mul(Vector3f.ZP.rotationDegrees(aircraft.getRoll(tickDelta)));
+            offset.transform(quaternion);
 
             // apply camera offset
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
-            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(camera.getYaw() + 180.0f));
-            matrices.translate(offset.getX(), offset.getY() + eye, offset.getZ());
-            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw() - 180.0f));
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-camera.getPitch()));
+            matrices.mulPose(Vector3f.XP.rotationDegrees(mainCamera.getXRot()));
+            matrices.mulPose(Vector3f.YP.rotationDegrees(mainCamera.getYRot() + 180.0f));
+            matrices.translate(offset.x(), offset.y() + eye, offset.z());
+            matrices.mulPose(Vector3f.YP.rotationDegrees(-mainCamera.getYRot() - 180.0f));
+            matrices.mulPose(Vector3f.XP.rotationDegrees(-mainCamera.getXRot()));
         }
     }
 }

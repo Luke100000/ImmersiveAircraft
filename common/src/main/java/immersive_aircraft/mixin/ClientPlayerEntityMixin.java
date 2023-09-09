@@ -5,10 +5,10 @@ import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.c2s.CommandMessage;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.encryption.PlayerPublicKey;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.player.ProfilePublicKey;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,23 +16,23 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ClientPlayerEntity.class)
-public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
-    public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile, @Nullable PlayerPublicKey publicKey) {
+@Mixin(LocalPlayer.class)
+public class ClientPlayerEntityMixin extends AbstractClientPlayer {
+    public ClientPlayerEntityMixin(ClientLevel world, GameProfile profile, @Nullable ProfilePublicKey publicKey) {
         super(world, profile, publicKey);
     }
 
-    @Inject(method = "isInSneakingPose()Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isCrouching()Z", at = @At("HEAD"), cancellable = true)
     public void isInSneakingPoseInject(CallbackInfoReturnable<Boolean> cir) {
         if (getRootVehicle() instanceof AircraftEntity) {
             cir.setReturnValue(false);
         }
     }
 
-    @Inject(method = "openRidingInventory()V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "sendOpenInventory()V", at = @At("HEAD"), cancellable = true)
     public void isInSneakingPoseInject(CallbackInfo ci) {
         if (getRootVehicle() instanceof InventoryVehicleEntity) {
-            NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.INVENTORY, getVelocity()));
+            NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.INVENTORY, getDeltaMovement()));
             ci.cancel();
         }
     }

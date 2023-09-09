@@ -1,8 +1,7 @@
 package immersive_aircraft.entity.misc;
 
-import net.minecraft.client.util.math.Rect2i;
-
 import java.util.*;
+import net.minecraft.client.renderer.Rect2i;
 
 public class VehicleInventoryDescription {
     int height = 0;

@@ -1,7 +1,7 @@
 package immersive_aircraft.entity.misc;
 
+import com.mojang.math.Vector4f;
 import immersive_aircraft.config.Config;
-import net.minecraft.util.math.Vector4f;
 
 public class Trail {
     public final float[] buffer;
@@ -34,12 +34,12 @@ public class Trail {
 
         if (nullEntries < size) {
             int i = lastIndex * 7;
-            buffer[i] = first.getX();
-            buffer[i + 1] = first.getY();
-            buffer[i + 2] = first.getZ();
-            buffer[i + 3] = second.getX();
-            buffer[i + 4] = second.getY();
-            buffer[i + 5] = second.getZ();
+            buffer[i] = first.x();
+            buffer[i + 1] = first.y();
+            buffer[i + 2] = first.z();
+            buffer[i + 3] = second.x();
+            buffer[i + 4] = second.y();
+            buffer[i + 5] = second.z();
             buffer[i + 6] = alpha;
         }
 

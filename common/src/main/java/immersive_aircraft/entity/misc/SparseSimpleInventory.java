@@ -5,48 +5,48 @@ import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.c2s.RequestInventory;
 import immersive_aircraft.network.s2c.InventoryUpdateMessage;
 import immersive_aircraft.screen.VehicleScreenHandler;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
 
-public class SparseSimpleInventory extends SimpleInventory {
-    private final DefaultedList<ItemStack> tracked;
+public class SparseSimpleInventory extends SimpleContainer {
+    private final NonNullList<ItemStack> tracked;
     private boolean inventoryRequested = false;
 
     public SparseSimpleInventory(int size) {
         super(size);
 
-        tracked = DefaultedList.ofSize(size, ItemStack.EMPTY);
+        tracked = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
-    public NbtList writeNbt(NbtList nbtList) {
-        for (int i = 0; i < this.size(); ++i) {
-            if (this.getStack(i).isEmpty()) continue;
-            NbtCompound nbtCompound = new NbtCompound();
+    public ListTag writeNbt(ListTag nbtList) {
+        for (int i = 0; i < this.getContainerSize(); ++i) {
+            if (this.getItem(i).isEmpty()) continue;
+            CompoundTag nbtCompound = new CompoundTag();
             nbtCompound.putByte("Slot", (byte)i);
-            this.getStack(i).writeNbt(nbtCompound);
+            this.getItem(i).save(nbtCompound);
             nbtList.add(nbtCompound);
         }
         return nbtList;
     }
 
-    public void readNbt(NbtList nbtList) {
-        this.clear();
+    public void readNbt(ListTag nbtList) {
+        this.clearContent();
         for (int i = 0; i < nbtList.size(); ++i) {
-            NbtCompound nbtCompound = nbtList.getCompound(i);
+            CompoundTag nbtCompound = nbtList.getCompound(i);
             int slot = nbtCompound.getByte("Slot") & 0xFF;
-            ItemStack itemStack = ItemStack.fromNbt(nbtCompound);
+            ItemStack itemStack = ItemStack.of(nbtCompound);
             if (itemStack.isEmpty()) continue;
-            this.setStack(slot, itemStack);
+            this.setItem(slot, itemStack);
         }
     }
 
 
     public void tick(InventoryVehicleEntity entity) {
-        if (entity.getWorld().isClient) {
+        if (entity.getLevel().isClientSide) {
             // Sync initial inventory
             if (!inventoryRequested) {
                 NetworkHandler.sendToServer(new RequestInventory(entity.getId()));
@@ -54,14 +54,14 @@ public class SparseSimpleInventory extends SimpleInventory {
             }
         } else {
             // Sync changed slots
-            int index = entity.age % entity.getInventoryDescription().getLastSyncIndex();
-            ItemStack stack = getStack(index);
+            int index = entity.tickCount % entity.getInventoryDescription().getLastSyncIndex();
+            ItemStack stack = getItem(index);
             ItemStack trackedStack = tracked.get(index);
             if (!stack.equals(trackedStack)) {
                 tracked.set(index, stack);
-                entity.getWorld().getPlayers().forEach(p -> {
-                    if (!(p.currentScreenHandler instanceof VehicleScreenHandler vehicleScreenHandler && vehicleScreenHandler.getVehicle() == entity)) {
-                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getId(), index, stack), (ServerPlayerEntity)p);
+                entity.getLevel().players().forEach(p -> {
+                    if (!(p.containerMenu instanceof VehicleScreenHandler vehicleScreenHandler && vehicleScreenHandler.getVehicle() == entity)) {
+                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getId(), index, stack), (ServerPlayer)p);
                     }
                 });
             }

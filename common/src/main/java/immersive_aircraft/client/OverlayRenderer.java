@@ -1,34 +1,34 @@
 package immersive_aircraft.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.EngineAircraft;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class OverlayRenderer {
-    private static final Identifier TEXTURE = Main.locate("textures/engine.png");
-    private static final Identifier TEXTURE2 = Main.locate("textures/power.png");
+    private static final ResourceLocation TEXTURE = Main.locate("textures/engine.png");
+    private static final ResourceLocation TEXTURE2 = Main.locate("textures/power.png");
 
     private static float bootUp = 0.0f;
     private static float lastTime = 0;
 
-    public static void renderOverlay(MatrixStack matrices, float tickDelta) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (!client.options.hudHidden && client.interactionManager != null) {
+    public static void renderOverlay(PoseStack matrices, float tickDelta) {
+        Minecraft client = Minecraft.getInstance();
+        if (!client.options.hideGui && client.gameMode != null) {
             if (client.player != null && client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
                 renderAircraftGui(client, matrices, tickDelta, aircraft);
             }
         }
     }
 
-    private static void renderAircraftGui(MinecraftClient client, MatrixStack matrices, float tickDelta, EngineAircraft aircraft) {
-        assert client.world != null;
+    private static void renderAircraftGui(Minecraft client, PoseStack matrices, float tickDelta, EngineAircraft aircraft) {
+        assert client.level != null;
 
         if (aircraft.getGuiStyle() == EngineAircraft.GUI_STYLE.ENGINE) {
-            float time = client.world.getTime() % 65536 + tickDelta;
+            float time = client.level.getGameTime() % 65536 + tickDelta;
             float delta = time - lastTime;
             lastTime = time;
 
@@ -55,22 +55,22 @@ public class OverlayRenderer {
             int powerFrame = (int)((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
             int powerFrameTarget = (int)((1.0f - aircraft.getEngineTarget()) * 10 + 10.5);
 
-            int x = client.getWindow().getScaledWidth() / 2;
-            int y = client.getWindow().getScaledHeight() - 37;
+            int x = client.getWindow().getGuiScaledWidth() / 2;
+            int y = client.getWindow().getGuiScaledHeight() - 37;
 
-            if (client.interactionManager != null && !client.interactionManager.hasExperienceBar()) {
+            if (client.gameMode != null && !client.gameMode.hasExperience()) {
                 y += 7;
             }
 
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.setShaderTexture(0, TEXTURE);
-            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
+            GuiComponent.blit(matrices, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
 
             RenderSystem.setShaderTexture(0, TEXTURE2);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
+            GuiComponent.blit(matrices, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
-            DrawableHelper.drawTexture(matrices, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
+            GuiComponent.blit(matrices, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
         }
     }
 }

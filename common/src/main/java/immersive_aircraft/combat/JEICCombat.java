@@ -6,8 +6,8 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
-import net.minecraft.client.util.math.Rect2i;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @JeiPlugin
 public class JEICCombat implements IModPlugin {
     @Override
-    public Identifier getPluginUid() {
+    public ResourceLocation getPluginUid() {
         return Main.locate("extended_storage");
     }
 
@@ -30,7 +30,7 @@ public class JEICCombat implements IModPlugin {
                 final int x = containerScreen.getX();
                 final int y = containerScreen.getY();
 
-                return containerScreen.getScreenHandler().getVehicle().getInventoryDescription().getRectangles().stream()
+                return containerScreen.getMenu().getVehicle().getInventoryDescription().getRectangles().stream()
                         .map(r -> new Rect2i(
                                 x + r.getX(),
                                 y + r.getY(),

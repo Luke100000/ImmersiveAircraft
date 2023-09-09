@@ -26,7 +26,7 @@
       "immersive_aircraft.config.ModMenuIntegration"
     ],
     "jei_mod_plugin": [
-      "immersive_aircraft.common.combat.JEICombat"
+      "immersive_aircraft.combat.JEICCombat"
     ]
   },
   "mixins": [

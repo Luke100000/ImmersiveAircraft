@@ -4,13 +4,12 @@ import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.util.registry.Registry;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 
 public class AircraftUpgradesMessage extends Message {
 
@@ -20,28 +19,28 @@ public class AircraftUpgradesMessage extends Message {
 		this.upgrades = AircraftUpgradeRegistry.INSTANCE.getAll();
 	}
 
-	public AircraftUpgradesMessage(PacketByteBuf buffer) {
+	public AircraftUpgradesMessage(FriendlyByteBuf buffer) {
 		upgrades = new HashMap<>();
 
 		int upgradeCount = buffer.readInt();
 		for(int i = 0; i < upgradeCount; i++) {
-			Item item = Registry.ITEM.get(buffer.readIdentifier());
+			Item item = Registry.ITEM.get(buffer.readResourceLocation());
 			upgrades.put(item, readUpgrade(buffer));
 		}
 	}
 
 	@Override
-	public void encode(PacketByteBuf buffer) {
+	public void encode(FriendlyByteBuf buffer) {
 		Map<Item, AircraftUpgrade> upgrades = AircraftUpgradeRegistry.INSTANCE.getAll();
 		buffer.writeInt(upgrades.size()); // Write upgrade entry count.
 
 		for(Item item : upgrades.keySet()) {
-			buffer.writeIdentifier(Registry.ITEM.getId(item));
+			buffer.writeResourceLocation(Registry.ITEM.getKey(item));
 			writeUpgrade(buffer, upgrades.get(item));
 		}
 	}
 
-	protected void writeUpgrade(PacketByteBuf buffer, AircraftUpgrade upgrade) {
+	protected void writeUpgrade(FriendlyByteBuf buffer, AircraftUpgrade upgrade) {
 		Map<AircraftStat, Float> upgradeMap = upgrade.getAll();
 		buffer.writeInt(upgradeMap.size());
 		for(AircraftStat stat : upgradeMap.keySet()) {
@@ -50,7 +49,7 @@ public class AircraftUpgradesMessage extends Message {
 		}
 	}
 
-	protected AircraftUpgrade readUpgrade(PacketByteBuf buffer) {
+	protected AircraftUpgrade readUpgrade(FriendlyByteBuf buffer) {
 		AircraftUpgrade upgrade = new AircraftUpgrade();
 		int statCount = buffer.readInt();
 		for(int j = 0; j < statCount; j++)
@@ -59,7 +58,7 @@ public class AircraftUpgradesMessage extends Message {
 	}
 
 	@Override
-	public void receive(PlayerEntity player) {
+	public void receive(Player player) {
 		AircraftUpgradeRegistry.INSTANCE.replace(upgrades); // Reset and refill the upgrade registry when the server reloads them.
 	}
 

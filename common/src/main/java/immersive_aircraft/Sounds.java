@@ -1,11 +1,10 @@
 package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-
 import java.util.function.Supplier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 
 public interface Sounds {
     Supplier<SoundEvent> ENGINE_START = register("engine_start");
@@ -19,7 +18,7 @@ public interface Sounds {
     }
 
     static Supplier<SoundEvent> register(String name) {
-        Identifier id = Main.locate(name);
+        ResourceLocation id = Main.locate(name);
         return Registration.register(Registry.SOUND_EVENT, id, () -> new SoundEvent(id));
     }
 }

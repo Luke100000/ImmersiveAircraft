@@ -1,21 +1,22 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.QuadrocopterEntity;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
-
 import java.util.Random;
 
-public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends AircraftEntityRenderer<T> {
-    private static final Identifier id = Main.locate("objects/quadrocopter.obj");
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-    private final Identifier texture = Main.locate("textures/entity/quadrocopter.png");
+public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends AircraftEntityRenderer<T> {
+    private static final ResourceLocation id = Main.locate("objects/quadrocopter.obj");
+
+    private final ResourceLocation texture = Main.locate("textures/entity/quadrocopter.png");
 
     private final Random random = new Random();
 
@@ -39,9 +40,9 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                             )
                             .setRenderConsumer(
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
-                                        Identifier identifier = getTexture(entity);
-                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
-                                        Mesh mesh = getFaces(id, "engine_" + (entity.enginePower.getSmooth() > 0.01 ? entity.age % 2 : 0));
+                                        ResourceLocation identifier = getTextureLocation(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
+                                        Mesh mesh = getFaces(id, "engine_" + (entity.enginePower.getSmooth() > 0.01 ? entity.tickCount % 2 : 0));
                                         renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
                             )
@@ -54,13 +55,13 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(propeller[0], propeller[1], propeller[2]);
-                                        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.engineRotation.getSmooth(tickDelta) * propeller[0] * propeller[2] * 200.0f));
+                                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(entity.engineRotation.getSmooth(tickDelta) * propeller[0] * propeller[2] * 200.0f));
                                     }
                             )
                             .setRenderConsumer(
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
-                                        Identifier identifier = getTexture(entity);
-                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        ResourceLocation identifier = getTextureLocation(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "propeller");
                                         renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
@@ -69,13 +70,13 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
         }
     }
 
-    public QuadrocopterEntityRenderer(EntityRendererFactory.Context context) {
+    public QuadrocopterEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
     }
 
     @Override
-    public Identifier getTexture(T AircraftEntity) {
+    public ResourceLocation getTextureLocation(@NotNull T entity) {
         return texture;
     }
 
@@ -85,7 +86,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
     }
 
     @Override
-    protected Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.0f, 0.0f);
+    protected Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.0f, 0.0f);
     }
 }

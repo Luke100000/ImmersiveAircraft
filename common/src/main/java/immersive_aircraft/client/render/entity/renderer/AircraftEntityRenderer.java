@@ -1,49 +1,58 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.ObjectLoader;
 import immersive_aircraft.util.obj.Face;
 import immersive_aircraft.util.obj.FaceVertex;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.*;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.phys.AABB;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends EntityRenderer<T> {
-	protected class Object {
+    protected class Object {
         public interface AnimationConsumer<T> {
-            void run(T entity, float yaw, float tickDelta, MatrixStack matrixStack);
+            void run(T entity, float yaw, float tickDelta, PoseStack matrixStack);
         }
 
         public interface RenderConsumer<T> {
-            void run(VertexConsumerProvider vertexConsumerProvider, T entity, MatrixStack matrixStack, int light, float tickDelta);
+            void run(MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float tickDelta);
         }
 
-        public Object(Identifier id, String object) {
+        public Object(ResourceLocation id, String object) {
             this.id = id;
             this.object = object;
         }
 
-        private final Identifier id;
+        private final ResourceLocation id;
         private final String object;
 
         private AnimationConsumer<T> animationConsumer = null;
         private RenderConsumer<T> renderConsumer = (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
             //Get vertex consumer
-            Identifier identifier = getTexture(entity);
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(identifier));
+            ResourceLocation identifier = getTextureLocation(entity);
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(identifier));
             renderObject(getMesh(), matrixStack, vertexConsumer, light);
         };
 
@@ -55,7 +64,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             return mesh;
         }
 
-        public Identifier getId() {
+        public ResourceLocation getId() {
             return id;
         }
 
@@ -80,8 +89,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     protected class Model {
 
-	public Model(){}
-		
+        public Model() {
+        }
+
         private final List<Object> objects = new LinkedList<>();
 
         public Model add(Object o) {
@@ -94,134 +104,134 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    public AircraftEntityRenderer(EntityRendererFactory.Context context) {
+    public AircraftEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     protected abstract Model getModel(AircraftEntity entity);
 
-    protected abstract Vec3f getPivot(AircraftEntity entity);
+    protected abstract Vector3f getPivot(AircraftEntity entity);
 
 
     @Override
-    public void render(T entity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
-        MatrixStack.Entry peek = matrixStack.peek();
+    public void render(T entity, float yaw, float tickDelta, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
+        PoseStack.Pose peek = matrixStack.last();
 
-        matrixStack.push();
+        matrixStack.pushPose();
 
         //Wobble
-        float h = (float)entity.getDamageWobbleTicks() - tickDelta;
+        float h = (float) entity.getDamageWobbleTicks() - tickDelta;
         float j = entity.getDamageWobbleStrength() - tickDelta;
         if (j < 0.0f) {
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(MathHelper.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getDamageWobbleSide()));
         }
 
-        Vec3f effect = entity.isOnGround() ? Vec3f.ZERO : entity.getWindEffect();
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yaw));
-        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta) + effect.getZ()));
-        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.getRoll(tickDelta) + effect.getX()));
+        Vector3f effect = entity.isOnGround() ? Vector3f.ZERO : entity.getWindEffect();
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-yaw));
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(entity.getViewXRot(tickDelta) + effect.z()));
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(entity.getRoll(tickDelta) + effect.x()));
 
-        Vec3f pivot = getPivot(entity);
-        matrixStack.translate(pivot.getX(), pivot.getY(), pivot.getZ());
+        Vector3f pivot = getPivot(entity);
+        matrixStack.translate(pivot.x(), pivot.y(), pivot.z());
 
         //Render parts
         Model model = getModel(entity);
         for (Object object : model.getObjects()) {
             if (object.getAnimationConsumer() != null) {
-                matrixStack.push();
+                matrixStack.pushPose();
                 object.getAnimationConsumer().run(entity, yaw, tickDelta, matrixStack);
             }
             object.getRenderConsumer().run(vertexConsumerProvider, entity, matrixStack, light, tickDelta);
             if (object.getAnimationConsumer() != null) {
-                matrixStack.pop();
+                matrixStack.popPose();
             }
         }
 
         // render trails
         entity.getTrails().forEach(t -> TrailRenderer.render(t, vertexConsumerProvider, peek));
 
-        matrixStack.pop();
+        matrixStack.popPose();
 
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
     }
 
-    protected static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light) {
+    protected static void renderObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light) {
         renderObject(mesh, matrixStack, vertexConsumer, light, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    protected static void renderObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
-        MatrixStack.Entry entry = matrixStack.peek();
-        Matrix4f positionMatrix = entry.getPositionMatrix();
-        Matrix3f normalMatrix = entry.getNormalMatrix();
+    protected static void renderObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
+        PoseStack.Pose entry = matrixStack.last();
+        Matrix4f positionMatrix = entry.pose();
+        Matrix3f normalMatrix = entry.normal();
         for (Face face : mesh.faces) {
             if (face.vertices.size() == 4) {
                 for (FaceVertex v : face.vertices) {
                     vertexConsumer
                             .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
                             .color(r, g, b, a)
-                            .texture(v.t.u, v.t.v)
-                            .overlay(OverlayTexture.DEFAULT_UV)
-                            .light(light)
+                            .uv(v.t.u, v.t.v)
+                            .overlayCoords(OverlayTexture.NO_OVERLAY)
+                            .uv2(light)
                             .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                            .next();
+                            .endVertex();
                 }
             }
         }
     }
 
-    protected static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
+    protected static void renderSailObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
         renderSailObject(mesh, matrixStack, vertexConsumer, light, time, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    protected static void renderSailObject(Mesh mesh, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
-        MatrixStack.Entry entry = matrixStack.peek();
-        Matrix4f positionMatrix = entry.getPositionMatrix();
-        Matrix3f normalMatrix = entry.getNormalMatrix();
+    protected static void renderSailObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
+        PoseStack.Pose entry = matrixStack.last();
+        Matrix4f positionMatrix = entry.pose();
+        Matrix3f normalMatrix = entry.normal();
         for (Face face : mesh.faces) {
             if (face.vertices.size() == 4) {
                 for (FaceVertex v : face.vertices) {
                     double angle = v.v.x + v.v.z + v.v.y * 0.25 + time * 0.25;
                     double scale = 0.05;
-                    float x = (float)(v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
-                    float z = (float)(v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
+                    float x = (float) (v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
+                    float z = (float) (v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
                     vertexConsumer
                             .vertex(positionMatrix, x, v.v.y, z)
-                            .color(r, g, b, a).texture(v.t.u, v.t.v)
-                            .overlay(OverlayTexture.DEFAULT_UV)
-                            .light(light)
+                            .color(r, g, b, a).uv(v.t.u, v.t.v)
+                            .overlayCoords(OverlayTexture.NO_OVERLAY)
+                            .uv2(light)
                             .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                            .next();
+                            .endVertex();
                 }
             }
         }
     }
 
-    protected static void renderBanner(MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns) {
+    protected static void renderBanner(PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-            Pair<RegistryEntry<BannerPattern>, DyeColor> pair = patterns.get(i);
-            float[] fs = pair.getSecond().getColorComponents();
-            RegistryEntry<BannerPattern> bannerPattern = pair.getFirst();
-            bannerPattern.getKey().ifPresent(key -> {
-                SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(key) : TexturedRenderLayers.getShieldPatternTextureId(key);
-                VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
-                Sprite sprite = spriteIdentifier.getSprite();
-                MatrixStack.Entry entry = matrixStack.peek();
-                Matrix4f positionMatrix = entry.getPositionMatrix();
-                Matrix3f normalMatrix = entry.getNormalMatrix();
+            Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
+            float[] fs = pair.getSecond().getTextureDiffuseColors();
+            Holder<BannerPattern> bannerPattern = pair.getFirst();
+            bannerPattern.unwrapKey().ifPresent(key -> {
+                Material spriteIdentifier = isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key);
+                VertexConsumer vertexConsumer = spriteIdentifier.buffer(vertexConsumers, RenderType::entityNoOutline);
+                TextureAtlasSprite sprite = spriteIdentifier.sprite();
+                PoseStack.Pose entry = matrixStack.last();
+                Matrix4f positionMatrix = entry.pose();
+                Matrix3f normalMatrix = entry.normal();
                 for (Face face : mesh.faces) {
                     if (face.vertices.size() == 4) {
                         for (FaceVertex v : face.vertices) {
                             vertexConsumer
                                     .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
                                     .color(fs[0], fs[1], fs[2], 1.0f)
-                                    .texture(v.t.u * (sprite.getMaxU() - sprite.getMinU()) + sprite.getMinU(), v.t.v * (sprite.getMaxV() - sprite.getMinV()) + sprite.getMinV())
-                                    .overlay(OverlayTexture.DEFAULT_UV)
-                                    .light(light)
+                                    .uv(v.t.u * (sprite.getU1() - sprite.getU0()) + sprite.getU0(), v.t.v * (sprite.getV1() - sprite.getV0()) + sprite.getV0())
+                                    .overlayCoords(OverlayTexture.NO_OVERLAY)
+                                    .uv2(light)
                                     .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                                    .next();
+                                    .endVertex();
                         }
                     }
                 }
@@ -229,7 +239,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         }
     }
 
-    protected static Mesh getFaces(Identifier id, String object) {
+    protected static Mesh getFaces(ResourceLocation id, String object) {
         return ObjectLoader.objects.get(id).get(object);
     }
 
@@ -238,7 +248,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         if (!entity.shouldRender(x, y, z)) {
             return false;
         }
-        Box box = entity.getVisibilityBoundingBox().expand(2.5);
+        AABB box = entity.getBoundingBoxForCulling().inflate(2.5);
         return frustum.isVisible(box);
     }
 }

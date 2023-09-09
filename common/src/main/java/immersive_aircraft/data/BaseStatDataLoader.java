@@ -9,29 +9,28 @@ import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.registry.Registry;
-
 import java.util.Map;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.entity.EntityType;
 
-public class BaseStatDataLoader extends JsonDataLoader {
+public class BaseStatDataLoader extends SimpleJsonResourceReloadListener {
 
 	public BaseStatDataLoader() {
 		super(new Gson(), "aircraft_base_upgrades");
 	}
 
 	@Override
-	protected void apply(Map<Identifier, JsonElement> jsonMap, ResourceManager manager, Profiler profiler) {
+	protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
 		AircraftBaseUpgradeRegistry.INSTANCE.reset(); // Clear existing upgrade values
 		jsonMap.forEach((identifier, jsonElement) -> {
 			try {
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-				if(Registry.ENTITY_TYPE.containsId(identifier)) {
+				if(Registry.ENTITY_TYPE.containsKey(identifier)) {
 					EntityType<?> type = Registry.ENTITY_TYPE.get(identifier); // Grab item used as upgrade.
 
 					AircraftUpgrade upgrade = new AircraftUpgrade(); // Set up upgrade object.

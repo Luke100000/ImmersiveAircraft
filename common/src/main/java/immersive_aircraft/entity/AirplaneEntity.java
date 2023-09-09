@@ -1,9 +1,9 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implements airplane like physics properties and accelerated towards
@@ -21,7 +21,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setWindSensitivity(0.025f)
             .setMass(1.0f);
 
-    public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+    public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
 
@@ -42,8 +42,8 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected float getGravity() {
-        Vec3d direction = getDirection();
-        float speed = (float)((float)getVelocity().length() * (1.0f - Math.abs(direction.getY())));
+        Vec3 direction = getForwardDirection();
+        float speed = (float)((float)getDeltaMovement().length() * (1.0f - Math.abs(direction.y())));
         return Math.max(0.0f, 1.0f - speed * 1.5f) * super.getGravity();
     }
 
@@ -53,7 +53,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected void updateController() {
-        if (!hasPassengers()) {
+        if (!isVehicle()) {
             return;
         }
 
@@ -63,17 +63,17 @@ public abstract class AirplaneEntity extends EngineAircraft {
         if (movementY != 0) {
             setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
             if (movementY < 0) {
-                setVelocity(getVelocity().multiply(getBrakeFactor()));
+                setDeltaMovement(getDeltaMovement().scale(getBrakeFactor()));
             }
         }
 
         // get direction
-        Vec3d direction = getDirection();
+        Vec3 direction = getForwardDirection();
 
         // speed
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed());
 
         // accelerate
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        setDeltaMovement(getDeltaMovement().add(direction.scale(thrust)));
     }
 }

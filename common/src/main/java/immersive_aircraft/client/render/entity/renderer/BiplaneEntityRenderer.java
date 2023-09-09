@@ -1,29 +1,30 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEntityRenderer<T> {
-    private static final Identifier id = Main.locate("objects/biplane.obj");
+    private static final ResourceLocation id = Main.locate("objects/biplane.obj");
 
-    private final Identifier texture;
+    private final ResourceLocation texture;
 
     private final Model model = new Model()
             .add(
@@ -36,7 +37,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                                 int i = 0;
                                 for (ItemStack slot : slots) {
                                     if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
-                                        List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
+                                        List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
                                         Mesh mesh = getFaces(id, "banner_" + (i++));
                                         renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
                                     }
@@ -48,7 +49,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.3125f, 0.0f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion((float)(entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.mulPose(Vector3f.ZP.rotationDegrees((float) (entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                 matrixStack.translate(0.0f, -0.3125f, 0.0f);
                             }
                     )
@@ -57,7 +58,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "elevator").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-entity.pressingInterpolatedZ.getSmooth(tickDelta) * 20.0f));
+                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(-entity.pressingInterpolatedZ.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )
@@ -66,25 +67,25 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "rudder").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
+                                matrixStack.mulPose(Vector3f.YP.rotationDegrees(entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )
             );
 
-    public BiplaneEntityRenderer(EntityRendererFactory.Context context) {
+    public BiplaneEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
         texture = Main.locate("textures/entity/biplane.png");
     }
 
     @Override
-    public void render(T entity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    public void render(@NotNull T entity, float yaw, float tickDelta, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource vertexConsumerProvider, int i) {
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);
     }
 
     @Override
-    public Identifier getTexture(T AircraftEntity) {
+    public ResourceLocation getTextureLocation(@NotNull T aircraft) {
         return texture;
     }
 
@@ -94,7 +95,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    protected Vec3f getPivot(AircraftEntity entity) {
-        return new Vec3f(0.0f, 0.4f, 0.05f);
+    protected Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.4f, 0.05f);
     }
 }

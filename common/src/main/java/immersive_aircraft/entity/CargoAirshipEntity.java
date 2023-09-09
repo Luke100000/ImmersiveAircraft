@@ -1,15 +1,14 @@
 package immersive_aircraft.entity;
 
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.world.World;
-
 import java.util.List;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class CargoAirshipEntity extends AirshipEntity {
     {
@@ -38,7 +37,7 @@ public class CargoAirshipEntity extends AirshipEntity {
         return inventoryDescription;
     }
 
-    public CargoAirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public CargoAirshipEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -65,18 +64,18 @@ public class CargoAirshipEntity extends AirshipEntity {
     @Override
     protected void addTrails(Matrix4f transform) {
         Matrix4f tr = transform.copy();
-        tr.multiplyByTranslation(0.0f, 0.4f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 50.0f));
+        tr.multiplyWithTranslation(0.0f, 0.4f, -1.2f);
+        tr.multiply(Vector3f.ZP.rotationDegrees(engineRotation.getSmooth() * 50.0f));
         trail(tr, 0);
 
         tr = transform.copy();
-        tr.multiplyByTranslation(1.15625f, 2.5f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(engineRotation.getSmooth() * 65.0f));
+        tr.multiplyWithTranslation(1.15625f, 2.5f, -1.2f);
+        tr.multiply(Vector3f.ZP.rotationDegrees(engineRotation.getSmooth() * 65.0f));
         trail(tr, 1);
 
         tr = transform.copy();
-        tr.multiplyByTranslation(-1.15625f, 2.5f, -1.2f);
-        tr.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-engineRotation.getSmooth() * 65.0f));
+        tr.multiplyWithTranslation(-1.15625f, 2.5f, -1.2f);
+        tr.multiply(Vector3f.ZP.rotationDegrees(-engineRotation.getSmooth() * 65.0f));
         trail(tr, 2);
     }
 }

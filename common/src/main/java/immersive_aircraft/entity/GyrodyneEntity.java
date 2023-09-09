@@ -4,18 +4,17 @@ import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
 import java.util.List;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class GyrodyneEntity extends Rotorcraft {
     private static final float PUSH_SPEED = 0.25f;
@@ -49,7 +48,7 @@ public class GyrodyneEntity extends Rotorcraft {
         return GUI_STYLE.NONE;
     }
 
-    public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public GyrodyneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, false);
     }
 
@@ -91,17 +90,17 @@ public class GyrodyneEntity extends Rotorcraft {
         return Items.GYRODYNE.get();
     }
 
-    final List<List<Vec3d>> PASSENGER_POSITIONS = List.of(
+    final List<List<Vec3>> PASSENGER_POSITIONS = List.of(
             List.of(
-                    new Vec3d(0.0f, -0.1f, 0.3f)
+                    new Vec3(0.0f, -0.1f, 0.3f)
             ),
             List.of(
-                    new Vec3d(0.0f, -0.1f, 0.3f),
-                    new Vec3d(0.0f, -0.1f, -0.6f)
+                    new Vec3(0.0f, -0.1f, 0.3f),
+                    new Vec3(0.0f, -0.1f, -0.6f)
             )
     );
 
-    protected List<List<Vec3d>> getPassengerPositions() {
+    protected List<List<Vec3>> getPassengerPositions() {
         return PASSENGER_POSITIONS;
     }
 
@@ -111,8 +110,8 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     private void updateEnginePowerTooltip() {
-        if (getPrimaryPassenger() instanceof ClientPlayerEntity player && getFuelUtilization() > 0.0) {
-            player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
+        if (getControllingPassenger() instanceof LocalPlayer player && getFuelUtilization() > 0.0) {
+            player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
 
@@ -136,10 +135,10 @@ public class GyrodyneEntity extends Rotorcraft {
             updateEnginePowerTooltip();
 
             if (getEngineTarget() == 1.0) {
-                if (getPrimaryPassenger() instanceof ClientPlayerEntity player) {
-                    player.sendMessage(Text.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
+                if (getControllingPassenger() instanceof LocalPlayer player) {
+                    player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
                     if (onGround) {
-                        setVelocity(getVelocity().add(0, 0.25f, 0));
+                        setDeltaMovement(getDeltaMovement().add(0, 0.25f, 0));
                     }
                 }
             }
@@ -147,35 +146,35 @@ public class GyrodyneEntity extends Rotorcraft {
 
         // up and down
         float power = getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth();
-        setVelocity(getVelocity().add(getTopDirection().multiply(power)));
+        setDeltaMovement(getDeltaMovement().add(getTopDirection().scale(power)));
 
         // get direction
-        Vec3d direction = getDirection();
+        Vec3 direction = getForwardDirection();
 
         // speed
-        float sin = MathHelper.sin(getPitch() * ((float)Math.PI / 180));
+        float sin = Mth.sin(getXRot() * ((float)Math.PI / 180));
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
         if (onGround && getEngineTarget() < 1.0) {
-            thrust = PUSH_SPEED / (1.0f + (float)getVelocity().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
+            thrust = PUSH_SPEED / (1.0f + (float)getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate
-        setVelocity(getVelocity().add(direction.multiply(thrust)));
+        setDeltaMovement(getDeltaMovement().add(direction.scale(thrust)));
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (getPrimaryPassenger() instanceof ServerPlayerEntity player) {
+        if (getControllingPassenger() instanceof ServerPlayer player) {
             float consumption = getFuelConsumption() * 0.025f;
-            player.getHungerManager().addExhaustion(consumption);
+            player.getFoodData().addExhaustion(consumption);
         }
     }
 
     @Override
     public float getFuelUtilization() {
-        if (getPrimaryPassenger() instanceof PlayerEntity player && player.getHungerManager().getFoodLevel() > 5) {
+        if (getControllingPassenger() instanceof Player player && player.getFoodData().getFoodLevel() > 5) {
             return 1.0f;
         }
         return 0.0f;
