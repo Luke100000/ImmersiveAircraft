@@ -2,12 +2,13 @@ package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AircraftBaseUpgradesMessage extends AircraftUpgradesMessage {
 

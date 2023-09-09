@@ -18,14 +18,14 @@ public abstract class PlayerEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Inject(method = "shouldDismount", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "wantsToStopRiding", at = @At("HEAD"), cancellable = true)
     void shouldDismountInjection(CallbackInfoReturnable<Boolean> cir) {
         if (this.getRootVehicle() instanceof AircraftEntity) {
             cir.setReturnValue(false);
         }
     }
 
-    @Inject(method = "updatePose()V", at = @At("TAIL"))
+    @Inject(method = "updatePlayerPose()V", at = @At("TAIL"))
     void updatePostInjection(CallbackInfo ci) {
         if (getRootVehicle() instanceof AircraftEntity) {
             this.setPose(Pose.STANDING);

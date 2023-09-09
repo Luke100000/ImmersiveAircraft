@@ -23,7 +23,6 @@ dependencies {
     }
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
 }
 
 architectury {

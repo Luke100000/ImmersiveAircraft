@@ -25,13 +25,13 @@ public class CollisionMessage extends Message {
     @Override
     public void receive(Player e) {
         if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
-            vehicle.hurt(e.level.damageSources().fall(), damage);
+            vehicle.hurt(e.getLevel().damageSources().fall(), damage);
             if (vehicle.isRemoved()) {
                 float crashDamage = damage * Config.getInstance().crashDamage;
                 if (Config.getInstance().preventKillThroughCrash) {
                     crashDamage = Math.min(crashDamage, e.getHealth() - 1.0f);
                 }
-                e.hurt(e.level.damageSources().fall(), crashDamage);
+                e.hurt(e.getLevel().damageSources().fall(), crashDamage);
             }
         }
     }

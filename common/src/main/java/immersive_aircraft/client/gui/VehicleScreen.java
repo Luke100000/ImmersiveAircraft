@@ -6,15 +6,17 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.EngineAircraft;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/gui/container/inventory.png");
@@ -22,7 +24,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     public static final int TITLE_HEIGHT = 10;
     public static final int BASE_HEIGHT = 86;
 
-    public int containerSize;
+    public final int containerSize;
 
     public VehicleScreen(VehicleScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
@@ -34,7 +36,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     }
 
     @Override
-    protected void renderBg(PoseStack matrices, float delta, int mouseX, int mouseY) {
+    protected void renderBg(@NotNull PoseStack matrices, float delta, int mouseX, int mouseY) {
         // nop
     }
 
@@ -75,7 +77,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
         drawCustomBackground(matrices);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -86,29 +88,30 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
         for (VehicleInventoryDescription.Slot slot : menu.getVehicle().getInventoryDescription().getSlots()) {
             switch (slot.type) {
-                case INVENTORY -> drawImage(matrices, x + slot.x - 1, y + titleHeight + slot.y - 1, 284, 0, 18, 18);
+                case INVENTORY ->
+                        drawImage(matrices, leftPos + slot.x - 1, topPos + titleHeight + slot.y - 1, 284, 0, 18, 18);
                 case BOILER -> {
-                    drawImage(matrices, leftPos + slot.x - 4, topPos + titleHeight + slot.y - 18, 318, 0, 24, 39);
+                    drawImage(matrices, this.leftPos + slot.x - 4, this.topPos + titleHeight + slot.y - 18, 318, 0, 24, 39);
                     if (menu.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
-                        drawImage(matrices, leftPos + slot.x - 4, topPos + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
+                        drawImage(matrices, this.leftPos + slot.x - 4, this.topPos + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
                     }
                 }
                 default -> {
                     if (menu.getVehicle().getInventory().getItem(slot.index).isEmpty()) {
                         switch (slot.type) {
                             case WEAPON ->
-                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22, 22, 22);
+                                    drawImage(matrices, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22, 22, 22);
                             case UPGRADE ->
-                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
+                                    drawImage(matrices, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
                             case BANNER ->
-                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
+                                    drawImage(matrices, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
                             case DYE ->
-                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
+                                    drawImage(matrices, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
                             case BOOSTER ->
-                                    drawImage(matrices, x + slot.x - 3, y + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                                    drawImage(matrices, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
                         }
                     } else {
-                        drawImage(matrices, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 0, 22, 22);
+                        drawImage(matrices, this.leftPos + slot.x - 3, this.topPos + titleHeight + slot.y - 3, 262, 0, 22, 22);
                     }
                 }
             }

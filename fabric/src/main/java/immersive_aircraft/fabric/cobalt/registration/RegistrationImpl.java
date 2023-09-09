@@ -1,6 +1,7 @@
 package immersive_aircraft.fabric.cobalt.registration;
 
 import immersive_aircraft.cobalt.registration.Registration;
+import immersive_aircraft.fabric.cobalt.data.JsonDataLoaderWrapper;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -10,6 +11,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+
 import java.util.function.Supplier;
 
 public class RegistrationImpl extends Registration.Impl {

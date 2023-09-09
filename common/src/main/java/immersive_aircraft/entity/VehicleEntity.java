@@ -14,7 +14,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.entity.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -27,7 +26,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.math.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -280,11 +278,6 @@ public abstract class VehicleEntity extends Entity {
         this.interpolationSteps = 10;
     }
 
-    @Override
-    public Direction getMotionDirection() {
-        return getDirection().getClockWise();
-    }
-
     private static float getMovementMultiplier(boolean positive, boolean negative) {
         if (positive == negative) {
             return 0.0f;
@@ -427,7 +420,7 @@ public abstract class VehicleEntity extends Entity {
 
         Matrix4f transform = getVehicleTransform();
 
-        int size = getPassengers().size() - 1;
+        int size = getPassengerPositions().size() - 1;
         List<List<Vector3f>> positions = getPassengerPositions();
         if (size < positions.size()) {
             int i = getPassengers().indexOf(passenger);
@@ -660,7 +653,7 @@ public abstract class VehicleEntity extends Entity {
         return transform;
     }
 
-    public Vector3f getDirection() {
+    public Vector3f getForwardDirection() {
         return transformVector(0.0f, 0.0f, 1.0f);
     }
 

@@ -19,27 +19,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayNetworkHandlerMixin {
     @Shadow
     @Final
-    private Minecraft client;
+    private Minecraft minecraft;
 
     @Shadow
-    private ClientLevel world;
+    private ClientLevel level;
 
     // Makes sure the dismount text reflects the actual keybinding
-    @Inject(method = "onEntityPassengersSet(Lnet/minecraft/network/packet/s2c/play/EntityPassengersSetS2CPacket;)V", at = @At("TAIL"))
+    @Inject(method = "handleSetEntityPassengersPacket(Lnet/minecraft/network/protocol/game/ClientboundSetPassengersPacket;)V", at = @At("TAIL"))
     public void onEntityPassengersSetInject(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
-        Entity entity = this.world.getEntity(packet.getVehicle());
+        Entity entity = this.level.getEntity(packet.getVehicle());
         if (entity == null) {
             return;
         }
-        boolean bl = entity.hasIndirectPassenger(this.client.player);
+        assert minecraft.player != null;
+        boolean bl = entity.hasIndirectPassenger(minecraft.player);
         for (int i : packet.getPassengers()) {
-            Entity entity2 = this.world.getEntity(i);
-            if (entity2 != null && (entity2 == this.client.player || bl) && entity instanceof VehicleEntity) {
-                assert this.client.player != null;
-                this.client.player.yRotO = entity.getYRot();
-                this.client.player.setYRot(entity.getYRot());
-                this.client.player.setYHeadRot(entity.getYRot());
-                this.client.gui.setOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), false);
+            Entity entity2 = this.level.getEntity(i);
+            if (entity2 != null && (entity2 == minecraft.player || bl) && entity instanceof VehicleEntity) {
+                assert minecraft.player != null;
+                minecraft.player.yRotO = entity.getYRot();
+                minecraft.player.setYRot(entity.getYRot());
+                minecraft.player.setYHeadRot(entity.getYRot());
+                minecraft.gui.setOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), false);
             }
         }
     }

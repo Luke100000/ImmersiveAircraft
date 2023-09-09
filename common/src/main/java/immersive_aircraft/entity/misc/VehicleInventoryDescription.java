@@ -33,7 +33,7 @@ public class VehicleInventoryDescription {
         }
     }
 
-    EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);
+    final EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);
     final List<Slot> slots = new LinkedList<>();
 
     {

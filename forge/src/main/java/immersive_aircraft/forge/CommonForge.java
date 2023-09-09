@@ -25,9 +25,9 @@ public final class CommonForge {
     @SubscribeEvent
     public static void register(CreativeModeTabEvent.Register event) {
         ItemGroups.GROUP = event.registerCreativeModeTab(ItemGroups.getIdentifier(), builder -> builder
-                .displayName(ItemGroups.getDisplayName())
+                .title(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
-                .entries((featureFlags, output) -> output.addAll(Items.getSortedItems()))
+                .displayItems((featureFlags, output) -> output.acceptAll(Items.getSortedItems()))
         );
     }
 }

@@ -9,7 +9,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 
 public class KeyBindings {
-    public static List<KeyMapping> list = new LinkedList<>();
+    public static final List<KeyMapping> list = new LinkedList<>();
 
     public static final KeyMapping left, right, forward, backward, up, down;
     public static final KeyMapping dismount, boost;

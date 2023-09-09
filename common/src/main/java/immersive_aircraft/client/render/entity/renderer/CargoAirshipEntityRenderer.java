@@ -1,6 +1,8 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
@@ -8,11 +10,19 @@ import immersive_aircraft.entity.AirshipEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.List;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
 
 public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends AirshipEntityRenderer<T> {
     private static final ResourceLocation id = Main.locate("objects/cargo_airship.obj");
@@ -33,7 +43,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                                 int i = 0;
                                 for (ItemStack slot : slots) {
                                     if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
-                                        List<Pair<RegistryEntry<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
+                                        List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
                                         Mesh mesh = getFaces(id, "banner_" + (i++));
                                         renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
                                     }
@@ -45,23 +55,23 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                     new Object(id, "sails")
                             .setRenderConsumer(
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
-                                        Identifier identifier = getTexture(entity);
-                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        ResourceLocation identifier = getTextureLocation(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
 
                                         ItemStack stack = entity.getSlots(VehicleInventoryDescription.SlotType.DYE).get(0);
                                         DyeColor color;
                                         if (stack.getItem() instanceof DyeItem item) {
-                                            color = item.getColor();
+                                            color = item.getDyeColor();
                                         } else {
                                             color = DyeColor.WHITE;
                                         }
-                                        float r = color.getColorComponents()[0];
-                                        float g = color.getColorComponents()[1];
-                                        float b = color.getColorComponents()[2];
+                                        float r = color.getTextureDiffuseColors()[0];
+                                        float g = color.getTextureDiffuseColors()[1];
+                                        float b = color.getTextureDiffuseColors()[2];
 
                                         if (entity.isWithinParticleRange() && Config.getInstance().enableAnimatedSails) {
                                             Mesh mesh = getFaces(id, "sails_animated");
-                                            float time = entity.world.getTime() % 24000 + tickDelta;
+                                            float time = entity.getLevel().getGameTime() % 24000 + tickDelta;
                                             renderSailObject(mesh, matrixStack, vertexConsumer, light, time, r, g, b, 1.0f);
                                         } else {
                                             Mesh mesh = getFaces(id, "sails");
@@ -74,8 +84,8 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0, -0.125, 0.78125f);
-                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 20.0f));
-                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.mulPose(Axis.ZP.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 20.0f));
+                                matrixStack.mulPose(Axis.XP.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 30.0f));
                                 matrixStack.translate(0, 0.125, -0.78125f - 2.0f / 16.0f);
                             }
                     )
@@ -85,14 +95,14 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(0.0f, 0.1875f, 0.0f);
-                                        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                        matrixStack.mulPose(Axis.ZP.rotationDegrees((float) (-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                         matrixStack.translate(0.0f, -0.1875f, 0.0f);
                                     }
                             )
                             .setRenderConsumer(
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
-                                        Identifier identifier = getTexture(entity);
-                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        ResourceLocation identifier = getTextureLocation(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "propeller");
                                         renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
@@ -103,14 +113,14 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(-1.15625, 2.34375, 0.0);
-                                        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 170.0)));
+                                        matrixStack.mulPose(Axis.ZP.rotationDegrees((float) (entity.engineRotation.getSmooth(tickDelta) * 170.0)));
                                         matrixStack.translate(1.15625, -2.34375, 0.0f);
                                     }
                             )
                             .setRenderConsumer(
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
-                                        Identifier identifier = getTexture(entity);
-                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        ResourceLocation identifier = getTextureLocation(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "small_propeller_right");
                                         renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
@@ -121,14 +131,14 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(1.15625, 2.34375, 0.0);
-                                        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)(entity.engineRotation.getSmooth(tickDelta) * 170.0)));
+                                        matrixStack.mulPose(Axis.ZP.rotationDegrees((float) (entity.engineRotation.getSmooth(tickDelta) * 170.0)));
                                         matrixStack.translate(-1.15625, -2.34375, 0.0f);
                                     }
                             )
                             .setRenderConsumer(
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
-                                        Identifier identifier = getTexture(entity);
-                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier));
+                                        ResourceLocation identifier = getTextureLocation(entity);
+                                        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
                                         Mesh mesh = getFaces(id, "small_propeller_left");
                                         renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
@@ -141,7 +151,7 @@ public class CargoAirshipEntityRenderer<T extends AirshipEntity> extends Airship
     }
 
     @Override
-    public ResourceLocation getTexture(T AircraftEntity) {
+    public ResourceLocation getTextureLocation(@NotNull T aircraft) {
         return texture;
     }
 

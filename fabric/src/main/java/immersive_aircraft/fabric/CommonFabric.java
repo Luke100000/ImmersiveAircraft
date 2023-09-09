@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -39,9 +40,9 @@ public final class CommonFabric implements ModInitializer {
         Messages.loadMessages();
 
         ItemGroups.GROUP = FabricItemGroup.builder(ItemGroups.getIdentifier())
-                .displayName(ItemGroups.getDisplayName())
+                .title(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
-                .entries((enabledFeatures, entries) -> entries.addAll(Items.getSortedItems()))
+                .displayItems((enabledFeatures, entries) -> entries.acceptAll(Items.getSortedItems()))
                 .build();
 
         // Register event for syncing aircraft upgrades.
@@ -60,7 +61,7 @@ public final class CommonFabric implements ModInitializer {
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).formatted(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
+                ).withStyle(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }

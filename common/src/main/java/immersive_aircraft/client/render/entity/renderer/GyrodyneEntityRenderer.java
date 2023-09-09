@@ -1,11 +1,13 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEntityRenderer<T> {
@@ -21,8 +23,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "controller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0, -0.125, 0.84f);
-                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
-                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 25.0f));
+                                matrixStack.mulPose(Axis.ZP.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
+                                matrixStack.mulPose(Axis.XP.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 25.0f));
                                 matrixStack.translate(0, 0.125, -0.84f);
                             }
                     )
@@ -31,7 +33,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "controller_2").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0, -0.125, 0.84f);
-                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.pressingInterpolatedY.getSmooth(tickDelta) * 20.0f));
+                                matrixStack.mulPose(Axis.XP.rotationDegrees(entity.pressingInterpolatedY.getSmooth(tickDelta) * 20.0f));
                                 matrixStack.translate(0, 0.125, -0.84f);
                             }
                     )
@@ -39,12 +41,12 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
             .add(
                     new Object(id, "wings").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
-                                float WIND = entity.isOnGround() ? 0.0f : 1.0f;
-                                float nx = (float)(Utils.cosNoise((entity.age + tickDelta) / 18.0)) * WIND;
-                                float ny = (float)(Utils.cosNoise((entity.age + tickDelta) / 19.0)) * WIND;
+                                float wind = entity.isOnGround() ? 0.0f : 1.0f;
+                                float nx = (float)(Utils.cosNoise((entity.tickCount + tickDelta) / 18.0)) * wind;
+                                float ny = (float)(Utils.cosNoise((entity.tickCount + tickDelta) / 19.0)) * wind;
 
-                                matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(ny));
-                                matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(nx));
+                                matrixStack.mulPose(Axis.XP.rotationDegrees(ny));
+                                matrixStack.mulPose(Axis.ZP.rotationDegrees(nx));
                             }
                     )
             )
@@ -52,7 +54,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(1.0 / 32.0, 0.0, -1.0 / 32.0);
-                                matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.mulPose(Axis.YP.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                 matrixStack.translate(-1.0 / 32.0, 0.0, 1.0 / 32.0);
                             }
                     )
@@ -65,7 +67,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     }
 
     @Override
-    public ResourceLocation getTexture(T AircraftEntity) {
+    public ResourceLocation getTextureLocation(@NotNull T aircraft) {
         return texture;
     }
 

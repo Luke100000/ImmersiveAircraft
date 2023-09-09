@@ -136,7 +136,7 @@ public class AirshipEntity extends Rotorcraft {
         setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get pointing direction
-        Vector3f direction = getDirection();
+        Vector3f direction = getForwardDirection();
 
         // accelerate
         float thrust = (float) (Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();

@@ -10,6 +10,7 @@ import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -122,7 +123,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.containerId), player);
             player.containerMenu = screenHandler;
             ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin) player;
-            screenHandler.setSynchronizer(playerAccessor.getScreenHandlerSyncHandler());
+            screenHandler.setSynchronizer(playerAccessor.getContainerSynchronizer());
         }
     }
 
@@ -144,7 +145,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
 
     @Override
-    public void load(CompoundTag nbt) {
+    public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
 
         ListTag nbtList = nbt.getList("Inventory", 10);
@@ -152,7 +153,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     }
 
     @Override
-    public CompoundTag saveWithoutId(CompoundTag nbt) {
+    public CompoundTag saveWithoutId(@NotNull CompoundTag nbt) {
         super.saveWithoutId(nbt);
 
         nbt.put("Inventory", this.inventory.writeNbt(new ListTag()));
@@ -176,7 +177,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         super.applyBoost();
 
         // boost
-        Vector3f direction = getDirection();
+        Vector3f direction = getForwardDirection();
         float thrust = 0.05f * getBoost() / 100.0f;
         setDeltaMovement(getDeltaMovement().add(toVec3d(direction.mul(thrust))));
 

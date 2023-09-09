@@ -151,7 +151,7 @@ public class GyrodyneEntity extends Rotorcraft {
         setDeltaMovement(getDeltaMovement().add(f.x, f.y, f.z));
 
         // get direction
-        Vector3f direction = getDirection();
+        Vector3f direction = getForwardDirection();
 
         // speed
         float sin = Mth.sin(getXRot() * ((float)Math.PI / 180));
