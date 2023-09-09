@@ -26,7 +26,7 @@ public class SparseSimpleInventory extends SimpleContainer {
         for (int i = 0; i < this.getContainerSize(); ++i) {
             if (this.getItem(i).isEmpty()) continue;
             CompoundTag nbtCompound = new CompoundTag();
-            nbtCompound.putByte("Slot", (byte)i);
+            nbtCompound.putByte("Slot", (byte) i);
             this.getItem(i).save(nbtCompound);
             nbtList.add(nbtCompound);
         }
@@ -61,7 +61,7 @@ public class SparseSimpleInventory extends SimpleContainer {
                 tracked.set(index, stack);
                 entity.getLevel().players().forEach(p -> {
                     if (!(p.containerMenu instanceof VehicleScreenHandler vehicleScreenHandler && vehicleScreenHandler.getVehicle() == entity)) {
-                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getId(), index, stack), (ServerPlayer)p);
+                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getId(), index, stack), (ServerPlayer) p);
                     }
                 });
             }

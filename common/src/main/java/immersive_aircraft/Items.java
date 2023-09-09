@@ -3,12 +3,13 @@ package immersive_aircraft;
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.*;
 import immersive_aircraft.item.AircraftItem;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Supplier;
 
 public interface Items {
     List<Supplier<Item>> items = new LinkedList<>();

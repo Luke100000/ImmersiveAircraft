@@ -53,7 +53,7 @@ public class CommandMessage extends Message {
 
         if (e.getRootVehicle() instanceof InventoryVehicleEntity vehicle) {
             if (key == Key.INVENTORY) {
-                vehicle.openInventory((ServerPlayer)e);
+                vehicle.openInventory((ServerPlayer) e);
             }
         }
     }

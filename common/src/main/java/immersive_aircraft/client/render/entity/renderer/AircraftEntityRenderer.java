@@ -127,7 +127,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float)entity.getDamageWobbleSide()));
+            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getDamageWobbleSide()));
         }
 
         Vector3f effect = entity.isOnGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();

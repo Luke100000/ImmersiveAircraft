@@ -92,7 +92,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                             .setAnimationConsumer(
                                     (entity, yaw, tickDelta, matrixStack) -> {
                                         matrixStack.translate(0.0f, 0.1875f, 0.0f);
-                                        matrixStack.mulPose(Axis.ZP.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                        matrixStack.mulPose(Axis.ZP.rotationDegrees((float) (-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                         matrixStack.translate(0.0f, -0.1875f, 0.0f);
                                     }
                             )

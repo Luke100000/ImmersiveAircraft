@@ -225,7 +225,7 @@ public class StringUtils {
         }
         // Convert from vector to array, and return it.
         returnArray = new String[1];
-        returnArray = (String[])returnVec.toArray((Object[])returnArray);
+        returnArray = (String[]) returnVec.toArray((Object[]) returnArray);
         return returnArray;
     }
 
@@ -272,7 +272,7 @@ public class StringUtils {
         }
         // Convert from vector to array, and return it.
         returnArray = new String[1];
-        returnArray = (String[])returnVec.toArray((Object[])returnArray);
+        returnArray = (String[]) returnVec.toArray((Object[]) returnArray);
         return returnArray;
     }
 }

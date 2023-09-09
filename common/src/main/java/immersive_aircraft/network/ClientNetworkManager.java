@@ -12,9 +12,9 @@ public class ClientNetworkManager implements NetworkManager {
     public void handleOpenGuiRequest(OpenGuiRequest message) {
         Minecraft client = Minecraft.getInstance();
         if (client.level != null && client.player != null) {
-            InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.level.getEntity(message.getVehicle());
+            InventoryVehicleEntity vehicle = (InventoryVehicleEntity) client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
-                VehicleScreenHandler handler = (VehicleScreenHandler)vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
+                VehicleScreenHandler handler = (VehicleScreenHandler) vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
                 VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName());
                 client.player.containerMenu = screen.getMenu();
                 client.setScreen(screen);
@@ -26,7 +26,7 @@ public class ClientNetworkManager implements NetworkManager {
     public void handleInventoryUpdate(InventoryUpdateMessage message) {
         Minecraft client = Minecraft.getInstance();
         if (client.level != null && client.player != null) {
-            InventoryVehicleEntity vehicle = (InventoryVehicleEntity)client.level.getEntity(message.getVehicle());
+            InventoryVehicleEntity vehicle = (InventoryVehicleEntity) client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
                 vehicle.getInventory().setItem(message.getIndex(), message.getStack());
             }

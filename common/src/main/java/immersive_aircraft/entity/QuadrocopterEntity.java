@@ -4,13 +4,13 @@ import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import org.joml.Vector3f;
-
-import java.util.List;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import org.joml.Vector3f;
+
+import java.util.List;
 
 public class QuadrocopterEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
@@ -118,7 +118,7 @@ public class QuadrocopterEntity extends Rotorcraft {
         Vector3f direction = getForwardDirection();
 
         // accelerate
-        float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
+        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         Vector3f f2 = direction.mul(thrust);
         setDeltaMovement(getDeltaMovement().add(f2.x, f2.y, f2.z));
     }

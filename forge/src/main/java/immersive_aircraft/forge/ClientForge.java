@@ -19,7 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 public final class ClientForge {
     @SubscribeEvent
     public static void data(FMLConstructModEvent event) {
-        ((ReloadableResourceManager)Minecraft.getInstance().getResourceManager()).registerReloadListener(new ObjectLoader());
+        ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(new ObjectLoader());
     }
 
     @SubscribeEvent

@@ -42,8 +42,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "wings").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 float wind = entity.isOnGround() ? 0.0f : 1.0f;
-                                float nx = (float)(Utils.cosNoise((entity.tickCount + tickDelta) / 18.0)) * wind;
-                                float ny = (float)(Utils.cosNoise((entity.tickCount + tickDelta) / 19.0)) * wind;
+                                float nx = (float) (Utils.cosNoise((entity.tickCount + tickDelta) / 18.0)) * wind;
+                                float ny = (float) (Utils.cosNoise((entity.tickCount + tickDelta) / 19.0)) * wind;
 
                                 matrixStack.mulPose(Axis.XP.rotationDegrees(ny));
                                 matrixStack.mulPose(Axis.ZP.rotationDegrees(nx));
@@ -54,7 +54,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     new Object(id, "propeller").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(1.0 / 32.0, 0.0, -1.0 / 32.0);
-                                matrixStack.mulPose(Axis.YP.rotationDegrees((float)(-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
+                                matrixStack.mulPose(Axis.YP.rotationDegrees((float) (-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
                                 matrixStack.translate(-1.0 / 32.0, 0.0, 1.0 / 32.0);
                             }
                     )

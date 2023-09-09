@@ -3,17 +3,17 @@ package immersive_aircraft.entity;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import java.util.List;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 public class BiplaneEntity extends AirplaneEntity {
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
@@ -58,7 +58,7 @@ public class BiplaneEntity extends AirplaneEntity {
         Vector4f p0 = transformPosition(transform, x, y - 0.15f, z);
         Vector4f p1 = transformPosition(transform, x, y + 0.15f, z);
 
-        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float)(Math.sqrt(getDeltaMovement().length()) * (0.5f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, (float) (Math.sqrt(getDeltaMovement().length()) * (0.5f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
         trails.get(index).add(p0, p1, trailStrength);
     }
 

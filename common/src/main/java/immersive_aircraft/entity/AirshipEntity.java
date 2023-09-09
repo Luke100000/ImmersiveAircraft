@@ -6,17 +6,17 @@ import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-
-import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
+import java.util.List;
 
 public class AirshipEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)

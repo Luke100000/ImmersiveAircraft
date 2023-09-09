@@ -32,8 +32,8 @@ public class TrailRenderer {
             int pre = ((i + trail.lastIndex - 1) % trail.size) * 7;
             int index = ((i + trail.lastIndex) % trail.size) * 7;
 
-            int a1 = (int)((1.0f - ((float)i) / trail.size * 255) * trail.buffer[pre + 6]);
-            int a2 = i == (trail.size - 1) ? 0 : (int)((1.0f - ((float)i + 1) / trail.size * 255) * trail.buffer[index + 6]);
+            int a1 = (int) ((1.0f - ((float) i) / trail.size * 255) * trail.buffer[pre + 6]);
+            int a2 = i == (trail.size - 1) ? 0 : (int) ((1.0f - ((float) i + 1) / trail.size * 255) * trail.buffer[index + 6]);
 
             vertex(trail, lineVertexConsumer, matrix, 0, 0, pre, pos, a1, light);
             vertex(trail, lineVertexConsumer, matrix, 0, 1, pre + 3, pos, a1, light);
@@ -49,7 +49,7 @@ public class TrailRenderer {
     }
 
     private static void vertex(Trail trail, VertexConsumer lineVertexConsumer, Matrix3f matrix, float u, float v, int index, Vec3 pos, float a, int light) {
-        Vector3f p = new Vector3f((float)(trail.buffer[index] - pos.x), (float)(trail.buffer[index + 1] - pos.y), (float)(trail.buffer[index + 2] - pos.z));
+        Vector3f p = new Vector3f((float) (trail.buffer[index] - pos.x), (float) (trail.buffer[index + 1] - pos.y), (float) (trail.buffer[index + 2] - pos.z));
         matrix.transform(p);
         lineVertexConsumer.vertex(p.x, p.y, p.z, trail.gray, trail.gray, trail.gray, a, u, v, OverlayTexture.NO_OVERLAY, light, 1, 0, 0);
     }

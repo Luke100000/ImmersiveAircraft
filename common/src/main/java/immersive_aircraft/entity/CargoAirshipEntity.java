@@ -4,13 +4,13 @@ import com.mojang.math.Axis;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.List;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
 
 public class CargoAirshipEntity extends AirshipEntity {
     {
