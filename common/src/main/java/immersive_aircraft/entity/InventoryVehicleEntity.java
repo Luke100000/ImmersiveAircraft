@@ -1,7 +1,6 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
-import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;

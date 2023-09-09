@@ -4,6 +4,10 @@ loom {
 
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
 }
 
 dependencies {
@@ -16,6 +20,9 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
+    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
 }
 
 architectury {
