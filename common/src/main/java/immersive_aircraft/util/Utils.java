@@ -1,7 +1,6 @@
 package immersive_aircraft.util;
 
 import com.mojang.datafixers.util.Pair;
-import java.util.List;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
+
+import java.util.List;
 
 public class Utils {
     public static double cosNoise(double time) {
@@ -29,7 +30,7 @@ public class Utils {
     }
 
     public static List<Pair<Holder<BannerPattern>, DyeColor>> parseBannerItem(ItemStack banner) {
-        DyeColor baseColor = ((BannerItem)banner.getItem()).getColor();
+        DyeColor baseColor = ((BannerItem) banner.getItem()).getColor();
 
         CompoundTag nbtCompound = BlockItem.getBlockEntityData(banner);
         if (nbtCompound == null || !nbtCompound.contains("Patterns")) {

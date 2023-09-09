@@ -6,11 +6,12 @@ import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
-import java.util.Collections;
-import java.util.List;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Abstract aircraft, which performs basic physics
@@ -137,14 +138,14 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         float sensitivity = getProperties().getWindSensitivity();
         float thundering = level.getRainLevel(0.0f);
         float raining = level.getThunderLevel(0.0f);
-        float weather = (float)((Config.getInstance().windClearWeather + getDeltaMovement().length()) + thundering * Config.getInstance().windThunderWeather + raining * Config.getInstance().windRainWeather);
+        float weather = (float) ((Config.getInstance().windClearWeather + getDeltaMovement().length()) + thundering * Config.getInstance().windThunderWeather + raining * Config.getInstance().windRainWeather);
         return weather * sensitivity;
     }
 
     public Vector3f getWindEffect() {
         float wind = getWindStrength();
-        float nx = (float)(Utils.cosNoise(tickCount / 20.0 / getProperties().getMass()) * wind);
-        float nz = (float)(Utils.cosNoise(tickCount / 21.0 / getProperties().getMass()) * wind);
+        float nx = (float) (Utils.cosNoise(tickCount / 20.0 / getProperties().getMass()) * wind);
+        float nz = (float) (Utils.cosNoise(tickCount / 21.0 / getProperties().getMass()) * wind);
         return new Vector3f(nx, 0.0f, nz);
     }
 }

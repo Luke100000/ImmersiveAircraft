@@ -7,8 +7,6 @@ import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.util.InterpolatedFloat;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -23,11 +21,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Simulated engine behavior
  */
 public abstract class EngineAircraft extends AircraftEntity {
-	protected static final EntityDataAccessor<Float> ENGINE = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Float> ENGINE = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> UTILIZATION = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> LOW_ON_FUEL = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.BOOLEAN);
 
@@ -244,7 +245,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     public float getEnginePower() {
-        return (float)(enginePower.getSmooth() * Math.sqrt(getFuelUtilization()));
+        return (float) (enginePower.getSmooth() * Math.sqrt(getFuelUtilization()));
     }
 
     public float getEngineTarget() {
@@ -303,7 +304,7 @@ public abstract class EngineAircraft extends AircraftEntity {
                     running++;
                 }
             }
-            float utilization = (float)running / fuel.length * (isFuelLow() ? 0.75f : 1.0f);
+            float utilization = (float) running / fuel.length * (isFuelLow() ? 0.75f : 1.0f);
             entityData.set(UTILIZATION, utilization);
             return utilization;
         }

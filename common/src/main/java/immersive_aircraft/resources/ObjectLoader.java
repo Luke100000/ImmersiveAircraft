@@ -3,17 +3,18 @@ package immersive_aircraft.resources;
 import immersive_aircraft.Main;
 import immersive_aircraft.util.obj.Builder;
 import immersive_aircraft.util.obj.Mesh;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
-import net.minecraft.util.profiling.ProfilerFiller;
 
 public class ObjectLoader extends SimplePreparableReloadListener<Map<ResourceLocation, Resource>> {
     protected static final ResourceLocation ID = Main.locate("objects");

@@ -3,9 +3,10 @@ package immersive_aircraft;
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.*;
 import immersive_aircraft.item.AircraftItem;
-import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
+
+import java.util.function.Supplier;
 
 public interface Items {
     Supplier<Item> HULL = register("hull", () -> new Item(baseProps().stacksTo(8)));

@@ -1,10 +1,11 @@
 package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
-import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+
+import java.util.function.Supplier;
 
 public interface Sounds {
     Supplier<SoundEvent> ENGINE_START = register("engine_start");

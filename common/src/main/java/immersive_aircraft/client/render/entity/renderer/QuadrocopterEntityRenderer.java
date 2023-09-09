@@ -6,12 +6,12 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.QuadrocopterEntity;
 import immersive_aircraft.util.obj.Mesh;
-import java.util.Random;
-
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 
 public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends AircraftEntityRenderer<T> {
     private static final ResourceLocation id = Main.locate("objects/quadrocopter.obj");

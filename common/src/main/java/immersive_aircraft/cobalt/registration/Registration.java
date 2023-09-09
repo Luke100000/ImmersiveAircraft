@@ -2,7 +2,6 @@ package immersive_aircraft.cobalt.registration;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
-import java.util.function.Supplier;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +10,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Supplier;
 
 public class Registration {
     private static Impl INSTANCE;

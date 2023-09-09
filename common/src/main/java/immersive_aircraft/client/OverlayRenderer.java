@@ -37,23 +37,23 @@ public class OverlayRenderer {
             if (aircraft.getEngineTarget() > 0 && aircraft.getEnginePower() > 0.001) {
                 if (bootUp < 1.0f) {
                     bootUp = Math.min(1.0f, bootUp + delta * 0.2f);
-                    frame = (int)(bootUp * 5);
+                    frame = (int) (bootUp * 5);
                 } else {
                     int FPS = 30;
-                    int animation = (int)(aircraft.engineRotation.getSmooth(tickDelta) / 20.0f * FPS);
+                    int animation = (int) (aircraft.engineRotation.getSmooth(tickDelta) / 20.0f * FPS);
                     frame = 5 + animation % 6;
                 }
             } else {
                 if (bootUp > 0.0f) {
                     bootUp = Math.max(0.0f, bootUp - delta * 0.1f);
-                    frame = 10 + (int)((1.0 - bootUp) * 10);
+                    frame = 10 + (int) ((1.0 - bootUp) * 10);
                 } else {
                     frame = 20;
                 }
             }
 
-            int powerFrame = (int)((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
-            int powerFrameTarget = (int)((1.0f - aircraft.getEngineTarget()) * 10 + 10.5);
+            int powerFrame = (int) ((1.0f - aircraft.getEnginePower()) * 10 + 10.5);
+            int powerFrameTarget = (int) ((1.0f - aircraft.getEngineTarget()) * 10 + 10.5);
 
             int x = client.getWindow().getGuiScaledWidth() / 2;
             int y = client.getWindow().getGuiScaledHeight() - 37;

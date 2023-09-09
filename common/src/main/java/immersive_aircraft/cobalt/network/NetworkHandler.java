@@ -1,8 +1,9 @@
 package immersive_aircraft.cobalt.network;
 
-import java.util.function.Function;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+
+import java.util.function.Function;
 
 public abstract class NetworkHandler {
     private static Impl INSTANCE;

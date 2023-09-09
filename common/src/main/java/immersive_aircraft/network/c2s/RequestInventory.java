@@ -16,6 +16,7 @@ public class RequestInventory extends Message {
     public RequestInventory(int id) {
         this.vehicleId = id;
     }
+
     public RequestInventory(FriendlyByteBuf b) {
         vehicleId = b.readInt();
     }
@@ -31,7 +32,7 @@ public class RequestInventory extends Message {
         if (entity instanceof InventoryVehicleEntity vehicle) {
             for (int i = 0; i < vehicle.getInventoryDescription().getLastSyncIndex(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);
-                NetworkHandler.sendToPlayer(new InventoryUpdateMessage(this.vehicleId, i, stack), (ServerPlayer)e);
+                NetworkHandler.sendToPlayer(new InventoryUpdateMessage(this.vehicleId, i, stack), (ServerPlayer) e);
             }
         }
     }

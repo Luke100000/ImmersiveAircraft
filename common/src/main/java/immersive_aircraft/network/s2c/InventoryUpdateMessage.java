@@ -20,6 +20,7 @@ public class InventoryUpdateMessage extends Message {
         stack.save(compound);
         this.stack = compound;
     }
+
     public InventoryUpdateMessage(FriendlyByteBuf b) {
         vehicle = b.readInt();
         index = b.readInt();

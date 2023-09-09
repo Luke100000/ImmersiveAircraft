@@ -2,10 +2,6 @@ package immersive_aircraft.item;
 
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.util.FlowingText;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.function.Predicate;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -25,6 +21,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 public class AircraftItem extends Item {
     private static final Predicate<Entity> RIDERS = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
@@ -51,7 +51,7 @@ public class AircraftItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
         ItemStack itemStack = user.getItemInHand(hand);
         BlockHitResult hitResult = getPlayerPOVHitResult(world, user, ClipContext.Fluid.ANY);
-        if (((HitResult)hitResult).getType() == HitResult.Type.MISS) {
+        if (((HitResult) hitResult).getType() == HitResult.Type.MISS) {
             return InteractionResultHolder.pass(itemStack);
         }
 
@@ -68,7 +68,7 @@ public class AircraftItem extends Item {
         }
 
         // Place the aircraft
-        if (((HitResult)hitResult).getType() == HitResult.Type.BLOCK) {
+        if (((HitResult) hitResult).getType() == HitResult.Type.BLOCK) {
             AircraftEntity entity = constructor.create(world);
 
             entity.setPos(hitResult.getLocation().x, hitResult.getLocation().y, hitResult.getLocation().z);
