@@ -4,9 +4,6 @@ import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import org.joml.Vector3f;
-
-import java.util.List;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,6 +13,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import org.joml.Vector3f;
+
+import java.util.List;
 
 public class GyrodyneEntity extends Rotorcraft {
     private static final float PUSH_SPEED = 0.25f;
@@ -112,7 +112,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
     private void updateEnginePowerTooltip() {
         if (getControllingPassenger() instanceof LocalPlayer player && getFuelUtilization() > 0.0) {
-            player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target", (int)(getEngineTarget() * 100.f + 0.5f)), true);
+            player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target", (int) (getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
 
@@ -154,10 +154,10 @@ public class GyrodyneEntity extends Rotorcraft {
         Vector3f direction = getForwardDirection();
 
         // speed
-        float sin = Mth.sin(getXRot() * ((float)Math.PI / 180));
-        float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
+        float sin = Mth.sin(getXRot() * ((float) Math.PI / 180));
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
         if (onGround() && getEngineTarget() < 1.0) {
-            thrust = PUSH_SPEED / (1.0f + (float)getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
+            thrust = PUSH_SPEED / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate

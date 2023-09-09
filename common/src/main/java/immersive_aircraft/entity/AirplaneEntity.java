@@ -43,7 +43,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
     @Override
     protected float getGravity() {
         Vector3f direction = getForwardDirection();
-        float speed = (float)getDeltaMovement().length() * (1.0f - Math.abs(direction.y));
+        float speed = (float) getDeltaMovement().length() * (1.0f - Math.abs(direction.y));
         return Math.max(0.0f, 1.0f - speed * 1.5f) * super.getGravity();
     }
 
@@ -71,7 +71,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
         Vector3f direction = getForwardDirection();
 
         // speed
-        float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed());
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed());
 
         // accelerate
         setDeltaMovement(getDeltaMovement().add(toVec3d(direction.mul(thrust))));

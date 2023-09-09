@@ -1,12 +1,13 @@
 package immersive_aircraft.util;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FlowingText {
     public static List<Component> wrap(Component text, int maxWidth) {

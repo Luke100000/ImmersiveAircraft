@@ -1,10 +1,9 @@
 package immersive_aircraft.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
 
 import java.util.function.Supplier;
-
-import net.minecraft.client.KeyMapping;
 
 public class FallbackKeyBinding extends KeyMapping {
     public final Supplier<KeyMapping> fallbackKey;

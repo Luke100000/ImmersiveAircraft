@@ -1,7 +1,10 @@
 package immersive_aircraft.entity.misc;
 
-import java.util.*;
 import net.minecraft.client.renderer.Rect2i;
+
+import java.util.EnumMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class VehicleInventoryDescription {
     int height = 0;

@@ -1,14 +1,13 @@
 package immersive_aircraft.client;
 
-import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 
 public class KeyBindings {
     public static final List<KeyMapping> list = new LinkedList<>();
