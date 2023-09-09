@@ -8,30 +8,29 @@ import immersive_aircraft.Main;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
-
 import java.util.Map;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.item.Item;
 
-public class UpgradeDataLoader extends JsonDataLoader {
+public class UpgradeDataLoader extends SimpleJsonResourceReloadListener {
 
 	public UpgradeDataLoader() {
 		super(new Gson(), "aircraft_upgrades");
 	}
 
 	@Override
-	protected void apply(Map<Identifier, JsonElement> jsonMap, ResourceManager manager, Profiler profiler) {
+	protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
 		AircraftUpgradeRegistry.INSTANCE.reset(); // Clear existing upgrade values
 		jsonMap.forEach((identifier, jsonElement) -> {
 			try {
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-				if(Registries.ITEM.containsId(identifier)) {
-					Item item = Registries.ITEM.get(identifier); // Grab item used as upgrade.
+				if(BuiltInRegistries.ITEM.containsKey(identifier)) {
+					Item item = BuiltInRegistries.ITEM.get(identifier); // Grab item used as upgrade.
 
 					AircraftUpgrade upgrade = new AircraftUpgrade(); // Set up upgrade object.
 					for(String key : jsonObject.keySet()) {

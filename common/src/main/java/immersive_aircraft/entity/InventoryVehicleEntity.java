@@ -10,32 +10,32 @@ import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.InventoryChangedListener;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerListener;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public abstract class InventoryVehicleEntity extends VehicleEntity implements InventoryChangedListener, NamedScreenHandlerFactory {
+public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
     protected SparseSimpleInventory inventory;
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
             .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 10)
@@ -49,7 +49,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(slotType);
         List<ItemStack> list = new ArrayList<>(slots.size());
         for (VehicleInventoryDescription.Slot slot : slots) {
-            list.add(getInventory().getStack(slot.index));
+            list.add(getInventory().getItem(slot.index));
         }
         return list;
     }
@@ -78,7 +78,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         return Math.max(0.0f, 1.0f + value);
     }
 
-    public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+    public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
         this.initInventory();
     }
@@ -89,7 +89,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     }
 
     @Override
-    public void onInventoryChanged(Inventory sender) {
+    public void containerChanged(Container sender) {
 
     }
 
@@ -99,68 +99,68 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
 
         //drop inventory
         if (this.inventory != null) {
-            for (int i = 0; i < this.inventory.size(); ++i) {
-                ItemStack itemStack = this.inventory.getStack(i);
+            for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
+                ItemStack itemStack = this.inventory.getItem(i);
                 if (itemStack.isEmpty() || EnchantmentHelper.hasVanishingCurse(itemStack)) continue;
-                this.dropStack(itemStack);
+                this.spawnAtLocation(itemStack);
             }
         }
     }
 
     @Nullable
     @Override
-    public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+    public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
         return new VehicleScreenHandler(i, playerInventory, this);
     }
 
     protected int syncId;
 
-    public void openInventory(ServerPlayerEntity player) {
+    public void openInventory(ServerPlayer player) {
         syncId = (syncId + 1) % 100 + 100;
-        ScreenHandler screenHandler = createMenu(syncId, player.getInventory(), player);
+        AbstractContainerMenu screenHandler = createMenu(syncId, player.getInventory(), player);
         if (screenHandler != null) {
-            NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.syncId), player);
-            player.currentScreenHandler = screenHandler;
+            NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.containerId), player);
+            player.containerMenu = screenHandler;
             ServerPlayerEntityMixin playerAccessor = (ServerPlayerEntityMixin) player;
-            screenHandler.updateSyncHandler(playerAccessor.getScreenHandlerSyncHandler());
+            screenHandler.setSynchronizer(playerAccessor.getScreenHandlerSyncHandler());
         }
     }
 
     @Override
-    public ActionResult interact(PlayerEntity player, Hand hand) {
-        if (!player.world.isClient && player.shouldCancelInteraction()) {
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if (!player.level.isClientSide && player.isSecondaryUseActive()) {
             Entity primaryPassenger = getFirstPassenger();
             if (primaryPassenger != null) {
                 // Kick out the first passenger
                 primaryPassenger.stopRiding();
             } else {
                 // Open inventory instead
-                openInventory((ServerPlayerEntity) player);
+                openInventory((ServerPlayer) player);
             }
-            return ActionResult.CONSUME;
+            return InteractionResult.CONSUME;
         }
         return super.interact(player, hand);
     }
 
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
 
-        NbtList nbtList = nbt.getList("Inventory", 10);
+        ListTag nbtList = nbt.getList("Inventory", 10);
         this.inventory.readNbt(nbtList);
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
+    public CompoundTag saveWithoutId(CompoundTag nbt) {
+        super.saveWithoutId(nbt);
 
-        nbt.put("Inventory", this.inventory.writeNbt(new NbtList()));
+        nbt.put("Inventory", this.inventory.writeNbt(new ListTag()));
 
         return nbt;
     }
 
-    public SimpleInventory getInventory() {
+    public SimpleContainer getInventory() {
         return inventory;
     }
 
@@ -168,7 +168,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
     public void boost() {
         super.boost();
 
-        getSlots(VehicleInventoryDescription.SlotType.BOOSTER).forEach(s -> s.decrement(1));
+        getSlots(VehicleInventoryDescription.SlotType.BOOSTER).forEach(s -> s.shrink(1));
     }
 
     @Override
@@ -178,13 +178,13 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements In
         // boost
         Vector3f direction = getDirection();
         float thrust = 0.05f * getBoost() / 100.0f;
-        setVelocity(getVelocity().add(toVec3d(direction.mul(thrust))));
+        setDeltaMovement(getDeltaMovement().add(toVec3d(direction.mul(thrust))));
 
         // particles
-        if (age % 2 == 0) {
-            Vec3d p = getPos();
-            Vec3d velocity = getVelocity().subtract(toVec3d(direction));
-            world.addParticle(ParticleTypes.FIREWORK, p.getX(), p.getY(), p.getZ(), velocity.x, velocity.y, velocity.z);
+        if (tickCount % 2 == 0) {
+            Vec3 p = position();
+            Vec3 velocity = getDeltaMovement().subtract(toVec3d(direction));
+            level.addParticle(ParticleTypes.FIREWORK, p.x(), p.y(), p.z(), velocity.x, velocity.y, velocity.z);
         }
     }
 

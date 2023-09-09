@@ -1,8 +1,8 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
-import net.minecraft.entity.EntityType;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
 /**
@@ -21,7 +21,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
             .setWindSensitivity(0.025f)
             .setMass(1.0f);
 
-    public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, World world, boolean canExplodeOnCrash) {
+    public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
 
@@ -43,7 +43,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
     @Override
     protected float getGravity() {
         Vector3f direction = getDirection();
-        float speed = (float)getVelocity().length() * (1.0f - Math.abs(direction.y));
+        float speed = (float)getDeltaMovement().length() * (1.0f - Math.abs(direction.y));
         return Math.max(0.0f, 1.0f - speed * 1.5f) * super.getGravity();
     }
 
@@ -53,7 +53,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
     @Override
     protected void updateController() {
-        if (!hasPassengers()) {
+        if (!isVehicle()) {
             return;
         }
 
@@ -63,7 +63,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
         if (movementY != 0) {
             setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
             if (movementY < 0) {
-                setVelocity(getVelocity().multiply(getBrakeFactor()));
+                setDeltaMovement(getDeltaMovement().scale(getBrakeFactor()));
             }
         }
 
@@ -74,6 +74,6 @@ public abstract class AirplaneEntity extends EngineAircraft {
         float thrust = (float)(Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed());
 
         // accelerate
-        setVelocity(getVelocity().add(toVec3d(direction.mul(thrust))));
+        setDeltaMovement(getDeltaMovement().add(toVec3d(direction.mul(thrust))));
     }
 }

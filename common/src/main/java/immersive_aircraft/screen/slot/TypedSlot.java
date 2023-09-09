@@ -1,15 +1,15 @@
 package immersive_aircraft.screen.slot;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class TypedSlot extends Slot {
     private final Class<? extends Item> clazz;
     private final int stackSize;
 
-    public TypedSlot(Class<? extends Item> clazz, int stackSize, Inventory inventory, int index, int x, int y) {
+    public TypedSlot(Class<? extends Item> clazz, int stackSize, Container inventory, int index, int x, int y) {
         super(inventory, index, x, y);
 
         this.clazz = clazz;
@@ -17,12 +17,12 @@ public class TypedSlot extends Slot {
     }
 
     @Override
-    public boolean canInsert(ItemStack stack) {
+    public boolean mayPlace(ItemStack stack) {
         return clazz.isAssignableFrom(stack.getItem().getClass());
     }
 
     @Override
-    public int getMaxItemCount() {
+    public int getMaxStackSize() {
         return stackSize;
     }
 }

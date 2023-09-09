@@ -1,22 +1,22 @@
 package immersive_aircraft;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemGroups {
-    public static Identifier getIdentifier() {
+    public static ResourceLocation getIdentifier() {
         return Main.locate(Main.MOD_ID + "_tab");
     }
 
-    public static Text getDisplayName() {
-        return Text.translatable("itemGroup." + ItemGroups.getIdentifier().toTranslationKey());
+    public static Component getDisplayName() {
+        return Component.translatable("itemGroup." + ItemGroups.getIdentifier().toLanguageKey());
     }
 
     public static ItemStack getIcon() {
-        return Items.BIPLANE.get().getDefaultStack();
+        return Items.BIPLANE.get().getDefaultInstance();
     }
 
-    public static ItemGroup GROUP;
+    public static CreativeModeTab GROUP;
 }

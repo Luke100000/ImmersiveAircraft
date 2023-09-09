@@ -4,19 +4,16 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.QuadrocopterEntity;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
 import org.joml.Vector3f;
 
 import java.util.Random;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 
 public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends AircraftEntityRenderer<T> {
-    private static final Identifier id = Main.locate("objects/quadrocopter.obj");
+    private static final ResourceLocation id = Main.locate("objects/quadrocopter.obj");
 
-    private final Identifier texture = Main.locate("textures/entity/quadrocopter.png");
+    private final ResourceLocation texture = Main.locate("textures/entity/quadrocopter.png");
 
     private final Random random = new Random();
 
@@ -70,13 +67,13 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
         }
     }
 
-    public QuadrocopterEntityRenderer(EntityRendererFactory.Context context) {
+    public QuadrocopterEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
     }
 
     @Override
-    public Identifier getTexture(T AircraftEntity) {
+    public ResourceLocation getTexture(T AircraftEntity) {
         return texture;
     }
 

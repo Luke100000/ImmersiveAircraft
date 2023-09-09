@@ -6,28 +6,28 @@ import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.screen.slot.FuelSlot;
 import immersive_aircraft.screen.slot.TypedSlot;
 import immersive_aircraft.screen.slot.UpgradeSlot;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.FireworkRocketItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.FireworkRocketItem;
+import net.minecraft.world.item.ItemStack;
 
-public class VehicleScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
+public class VehicleScreenHandler extends AbstractContainerMenu {
+    private final Container inventory;
 
     private final InventoryVehicleEntity vehicle;
 
-    public VehicleScreenHandler(int syncId, PlayerInventory playerInventory, InventoryVehicleEntity vehicle) {
+    public VehicleScreenHandler(int syncId, Inventory playerInventory, InventoryVehicleEntity vehicle) {
         super(null, syncId);
 
         this.vehicle = vehicle;
         this.inventory = vehicle.getInventory();
 
-        inventory.onOpen(playerInventory.player);
+        inventory.startOpen(playerInventory.player);
 
         int titleHeight = 10;
 
@@ -65,28 +65,28 @@ public class VehicleScreenHandler extends ScreenHandler {
         }
     }
 
-    public boolean canUse(PlayerEntity player) {
-        return vehicle.getInventory() == this.inventory && this.inventory.canPlayerUse(player) && vehicle.isAlive() && vehicle.distanceTo(player) < 8.0F;
+    public boolean stillValid(Player player) {
+        return vehicle.getInventory() == this.inventory && this.inventory.stillValid(player) && vehicle.isAlive() && vehicle.distanceTo(player) < 8.0F;
     }
 
-    public ItemStack quickMove(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot.hasStack()) {
-            ItemStack originalStack = slot.getStack();
+        if (slot.hasItem()) {
+            ItemStack originalStack = slot.getItem();
             newStack = originalStack.copy();
-            if (index < this.inventory.size()) {
-                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
+            if (index < this.inventory.getContainerSize()) {
+                if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
+            } else if (!this.moveItemStackTo(originalStack, 0, this.inventory.getContainerSize(), false)) {
                 return ItemStack.EMPTY;
             }
 
             if (originalStack.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
+                slot.setByPlayer(ItemStack.EMPTY);
             } else {
-                slot.markDirty();
+                slot.setChanged();
             }
         }
 
@@ -95,7 +95,7 @@ public class VehicleScreenHandler extends ScreenHandler {
 
     // Overwritten since max stack size isn't considered in vanilla
     @Override
-    protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean unused) {
+    protected boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean unused) {
         boolean inserted = false;
 
         // try to stack
@@ -103,19 +103,19 @@ public class VehicleScreenHandler extends ScreenHandler {
             int i = startIndex;
             while (!stack.isEmpty() && (i < endIndex)) {
                 Slot slot = this.slots.get(i);
-                ItemStack target = slot.getStack();
-                if (!target.isEmpty() && ItemStack.canCombine(stack, target)) {
+                ItemStack target = slot.getItem();
+                if (!target.isEmpty() && ItemStack.isSameItemSameTags(stack, target)) {
                     int diff = target.getCount() + stack.getCount();
-                    int maxCount = slot.getMaxItemCount(stack);
+                    int maxCount = slot.getMaxStackSize(stack);
                     if (diff <= maxCount) {
                         stack.setCount(0);
                         target.setCount(diff);
-                        slot.markDirty();
+                        slot.setChanged();
                         inserted = true;
                     } else if (target.getCount() < maxCount) {
-                        stack.decrement(maxCount - target.getCount());
+                        stack.shrink(maxCount - target.getCount());
                         target.setCount(maxCount);
-                        slot.markDirty();
+                        slot.setChanged();
                         inserted = true;
                     }
                 }
@@ -127,15 +127,15 @@ public class VehicleScreenHandler extends ScreenHandler {
         if (!stack.isEmpty()) {
             for (int i = startIndex; i < endIndex; i++) {
                 Slot slot = this.slots.get(i);
-                ItemStack target = slot.getStack();
-                int maxCount = slot.getMaxItemCount(target);
-                if (target.isEmpty() && slot.canInsert(stack)) {
+                ItemStack target = slot.getItem();
+                int maxCount = slot.getMaxStackSize(target);
+                if (target.isEmpty() && slot.mayPlace(stack)) {
                     if (stack.getCount() > maxCount) {
-                        slot.setStack(stack.split(maxCount));
+                        slot.setByPlayer(stack.split(maxCount));
                     } else {
-                        slot.setStack(stack.split(stack.getCount()));
+                        slot.setByPlayer(stack.split(stack.getCount()));
                     }
-                    slot.markDirty();
+                    slot.setChanged();
                     inserted = true;
                     break;
                 }
@@ -145,9 +145,9 @@ public class VehicleScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public void onClosed(PlayerEntity player) {
-        super.onClosed(player);
-        this.inventory.onClose(player);
+    public void removed(Player player) {
+        super.removed(player);
+        this.inventory.stopOpen(player);
     }
 
     public InventoryVehicleEntity getVehicle() {

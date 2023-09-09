@@ -1,5 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
@@ -7,24 +8,17 @@ import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
 import org.joml.Vector3f;
 
 import java.util.List;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 
 public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEntityRenderer<T> {
-    private static final Identifier id = Main.locate("objects/biplane.obj");
+    private static final ResourceLocation id = Main.locate("objects/biplane.obj");
 
-    private final Identifier texture;
+    private final ResourceLocation texture;
 
     private final Model model = new Model()
             .add(
@@ -73,19 +67,19 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     )
             );
 
-    public BiplaneEntityRenderer(EntityRendererFactory.Context context) {
+    public BiplaneEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
         texture = Main.locate("textures/entity/biplane.png");
     }
 
     @Override
-    public void render(T entity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    public void render(T entity, float yaw, float tickDelta, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i) {
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);
     }
 
     @Override
-    public Identifier getTexture(T AircraftEntity) {
+    public ResourceLocation getTexture(T AircraftEntity) {
         return texture;
     }
 

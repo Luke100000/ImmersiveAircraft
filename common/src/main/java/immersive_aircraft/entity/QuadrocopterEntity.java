@@ -4,13 +4,13 @@ import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.world.World;
 import org.joml.Vector3f;
 
 import java.util.List;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class QuadrocopterEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
@@ -37,7 +37,7 @@ public class QuadrocopterEntity extends Rotorcraft {
         return inventoryDescription;
     }
 
-    public QuadrocopterEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public QuadrocopterEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
 
@@ -102,7 +102,7 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     @Override
     protected float getGravity() {
-        return touchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getGravity();
+        return wasTouchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getGravity();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class QuadrocopterEntity extends Rotorcraft {
         setEngineTarget(1.0f);
 
         // up and down
-        setVelocity(getVelocity().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
+        setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get pointing direction
         Vector3f direction = getDirection();
@@ -120,6 +120,6 @@ public class QuadrocopterEntity extends Rotorcraft {
         // accelerate
         float thrust = (float)(Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
         Vector3f f2 = direction.mul(thrust);
-        setVelocity(getVelocity().add(f2.x, f2.y, f2.z));
+        setDeltaMovement(getDeltaMovement().add(f2.x, f2.y, f2.z));
     }
 }

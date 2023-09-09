@@ -1,9 +1,8 @@
 package immersive_aircraft.entity.misc;
 
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
-import net.minecraft.entity.EntityType;
-
 import java.util.*;
+import net.minecraft.world.entity.EntityType;
 
 public class AircraftBaseUpgradeRegistry {
 

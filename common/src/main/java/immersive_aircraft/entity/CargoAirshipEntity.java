@@ -1,16 +1,16 @@
 package immersive_aircraft.entity;
 
+import com.mojang.math.Axis;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.world.World;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.List;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class CargoAirshipEntity extends AirshipEntity {
     {
@@ -39,7 +39,7 @@ public class CargoAirshipEntity extends AirshipEntity {
         return inventoryDescription;
     }
 
-    public CargoAirshipEntity(EntityType<? extends AircraftEntity> entityType, World world) {
+    public CargoAirshipEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -67,17 +67,17 @@ public class CargoAirshipEntity extends AirshipEntity {
     protected void addTrails(Matrix4f transform) {
         Matrix4f tr = new Matrix4f(transform);
         tr.translate(new Vector3f(0.0f, 0.4f, -1.2f));
-        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 50.0f));
+        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 50.0f));
         trail(tr, 0);
 
         tr = new Matrix4f(transform);
         tr.translate(new Vector3f(1.15625f, 2.5f, -1.2f));
-        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 65.0f));
+        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 65.0f));
         trail(tr, 1);
 
         tr = new Matrix4f(transform);
         tr.translate(new Vector3f(-1.15625f, 2.5f, -1.2f));
-        tr.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(engineRotation.getSmooth() * 65.0f));
+        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 65.0f));
         trail(tr, 2);
     }
 }

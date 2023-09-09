@@ -4,15 +4,14 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.util.Utils;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 
 public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEntityRenderer<T> {
-    private static final Identifier id = Main.locate("objects/gyrodyne.obj");
+    private static final ResourceLocation id = Main.locate("objects/gyrodyne.obj");
 
-    private final Identifier texture;
+    private final ResourceLocation texture;
 
     private final Model model = new Model()
             .add(
@@ -59,14 +58,14 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     )
             );
 
-    public GyrodyneEntityRenderer(EntityRendererFactory.Context context) {
+    public GyrodyneEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
         texture = Main.locate("textures/entity/gyrodyne.png");
     }
 
     @Override
-    public Identifier getTexture(T AircraftEntity) {
+    public ResourceLocation getTexture(T AircraftEntity) {
         return texture;
     }
 

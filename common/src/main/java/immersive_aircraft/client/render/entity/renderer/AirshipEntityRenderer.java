@@ -8,26 +8,15 @@ import immersive_aircraft.entity.AirshipEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
 import immersive_aircraft.util.obj.Mesh;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
-
 import java.util.List;
-
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
-    private static final Identifier id = Main.locate("objects/airship.obj");
+    private static final ResourceLocation id = Main.locate("objects/airship.obj");
 
-    private final Identifier texture = Main.locate("textures/entity/airship.png");
+    private final ResourceLocation texture = Main.locate("textures/entity/airship.png");
 
     private final Model model = new Model()
             .add(
@@ -106,13 +95,13 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                             )
             );
 
-    public AirshipEntityRenderer(EntityRendererFactory.Context context) {
+    public AirshipEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
     }
 
     @Override
-    public Identifier getTexture(T AircraftEntity) {
+    public ResourceLocation getTexture(T AircraftEntity) {
         return texture;
     }
 
