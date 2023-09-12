@@ -1,6 +1,6 @@
 package immersive_aircraft.entity.misc;
 
-import net.minecraft.client.renderer.Rect2i;
+import immersive_aircraft.util.Rect2iCommon;
 
 import java.util.EnumMap;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ public class VehicleInventoryDescription {
     int lastIndex = 0;
     int lastSyncIndex = 0;
 
-    final List<Rect2i> rectangles = new LinkedList<>();
+    final List<Rect2iCommon> rectangles = new LinkedList<>();
 
     public enum SlotType {
         INVENTORY,
@@ -84,7 +84,7 @@ public class VehicleInventoryDescription {
     }
 
     public VehicleInventoryDescription addRectangle(int x, int y, int w, int h) {
-        rectangles.add(new Rect2i(x, y, w, h));
+        rectangles.add(new Rect2iCommon(x, y, w, h));
         return this;
     }
 
@@ -105,7 +105,7 @@ public class VehicleInventoryDescription {
         return lastSyncIndex;
     }
 
-    public List<Rect2i> getRectangles() {
+    public List<Rect2iCommon> getRectangles() {
         return rectangles;
     }
 }
