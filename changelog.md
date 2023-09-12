@@ -1,3 +1,7 @@
+# 0.6.2
+
+* Fixed another server crash on Fabric
+
 # 0.6.1
 
 * Fixed server crash on Fabric

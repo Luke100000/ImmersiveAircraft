@@ -13,6 +13,8 @@ public class ClientMain {
         ItemsClient.postLoad();
 
         Main.networkManager = new ClientNetworkManager();
+
+        Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
     }
 
     private static boolean isInVehicle;

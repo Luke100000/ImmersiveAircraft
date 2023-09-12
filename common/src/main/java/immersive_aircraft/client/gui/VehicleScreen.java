@@ -6,9 +6,9 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.EngineAircraft;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
+import immersive_aircraft.util.Rect2iCommon;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -67,7 +67,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         blit(matrices, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
         blit(matrices, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
 
-        for (Rect2i rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
+        for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
             drawRectangle(matrices, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
         }
     }
@@ -140,7 +140,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     @Override
     protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top, int button) {
         if (super.hasClickedOutside(mouseX, mouseY, left, top, button)) {
-            for (Rect2i rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
+            for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
                 if (mouseX > rectangle.getX() + leftPos && mouseX < rectangle.getX() + rectangle.getWidth() + leftPos && mouseY > rectangle.getY() + topPos && mouseY < rectangle.getY() + rectangle.getHeight() + topPos) {
                     return false;
                 }

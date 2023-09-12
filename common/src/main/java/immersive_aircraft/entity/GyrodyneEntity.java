@@ -4,7 +4,6 @@ import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -111,7 +110,7 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     private void updateEnginePowerTooltip() {
-        if (getControllingPassenger() instanceof LocalPlayer player && getFuelUtilization() > 0.0) {
+        if (getControllingPassenger() instanceof Player player && player.getLevel().isClientSide && getFuelUtilization() > 0.0) {
             player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target", (int) (getEngineTarget() * 100.f + 0.5f)), true);
         }
     }
@@ -135,12 +134,10 @@ public class GyrodyneEntity extends Rotorcraft {
             setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + pressingInterpolatedZ.getValue() * 0.05f - 0.035f)));
             updateEnginePowerTooltip();
 
-            if (getEngineTarget() == 1.0) {
-                if (getControllingPassenger() instanceof LocalPlayer player) {
-                    player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
-                    if (onGround) {
-                        setDeltaMovement(getDeltaMovement().add(0, 0.25f, 0));
-                    }
+            if (getEngineTarget() == 1.0 && getControllingPassenger() instanceof Player player && player.getLevel().isClientSide) {
+                player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
+                if (onGround) {
+                    setDeltaMovement(getDeltaMovement().add(0, 0.25f, 0));
                 }
             }
         }

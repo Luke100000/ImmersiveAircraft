@@ -5,6 +5,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
+import immersive_aircraft.Main;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
@@ -12,8 +13,6 @@ import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -292,7 +291,7 @@ public abstract class VehicleEntity extends Entity {
         // pilot
         if (level.isClientSide() && !getPassengers().isEmpty()) {
             for (Entity entity : getPassengers()) {
-                if (entity instanceof LocalPlayer player) {
+                if (entity instanceof Player player) {
                     if (KeyBindings.dismount.consumeClick()) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
                         player.setJumping(false);
@@ -307,7 +306,7 @@ public abstract class VehicleEntity extends Entity {
 
             //controls
             Entity pilot = getPassengers().get(0);
-            if (pilot instanceof LocalPlayer) {
+            if (pilot instanceof Player) {
                 setInputs(getMovementMultiplier(
                                 KeyBindings.left.isDown(),
                                 KeyBindings.right.isDown()
@@ -616,7 +615,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public boolean isWithinParticleRange() {
-        return Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().distanceToSqr(position()) < 1024;
+        return Main.cameraGetter.getPosition().distanceToSqr(position()) < 1024;
     }
 
     protected Vector4f transformPosition(Matrix4f transform, float x, float y, float z) {
