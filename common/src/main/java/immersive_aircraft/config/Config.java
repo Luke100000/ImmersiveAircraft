@@ -69,6 +69,9 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean acceptVanillaFuel;
 
+    @BooleanConfigEntry(true)
+    public boolean useCustomKeybindSystem;
+
     @FloatConfigEntry(2.0f)
     public float crashDamage;
 

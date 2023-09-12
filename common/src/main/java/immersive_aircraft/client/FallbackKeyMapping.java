@@ -5,10 +5,10 @@ import net.minecraft.client.KeyMapping;
 
 import java.util.function.Supplier;
 
-public class FallbackKeyBinding extends KeyMapping {
+public class FallbackKeyMapping extends KeyMapping {
     public Supplier<KeyMapping> fallbackKey;
 
-    public FallbackKeyBinding(String translationKey, InputConstants.Type type, Supplier<KeyMapping> fallbackKey, String category) {
+    public FallbackKeyMapping(String translationKey, InputConstants.Type type, Supplier<KeyMapping> fallbackKey, String category) {
         super(translationKey, type, InputConstants.UNKNOWN.getValue(), category);
 
         this.fallbackKey = fallbackKey;
