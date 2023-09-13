@@ -1,3 +1,8 @@
+# 0.6.2
+
+* Fixed another server crash on Fabric
+* Reverted removal of Multi-Keybindings as player got angry
+
 # 0.6.1
 
 * Fixed server crash on Fabric
