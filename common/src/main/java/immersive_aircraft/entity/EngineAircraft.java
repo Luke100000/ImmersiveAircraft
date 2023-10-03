@@ -19,10 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import dev.architectury.registry.fuel.FuelRegistry;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Simulated engine behavior
@@ -266,26 +265,14 @@ public abstract class EngineAircraft extends AircraftEntity {
         }
     }
 
-    public static Map<Item, Integer> cachedFuels;
-
     public static int getFuelTime(ItemStack fuel) {
-        if (fuel.isEmpty()) {
-            return 0;
-        }
-        Item item = fuel.getItem();
+        var fuelList = Config.getInstance().fuelList;
 
-        // Build vanilla fuel map
-        if (cachedFuels == null) {
-            cachedFuels = AbstractFurnaceBlockEntity.getFuel();
-        }
-
-        // Vanilla fuel
-        if (Config.getInstance().acceptVanillaFuel && cachedFuels.containsKey(item)) {
-            return cachedFuels.get(item);
-        }
+        if(!fuelList.containsKey(fuel.getItem().toString()))
+            return FuelRegistry.get(fuel);
 
         // Custom fuel
-        return Config.getInstance().fuelList.getOrDefault(Registry.ITEM.getKey(item).toString(), 0);
+        return Config.getInstance().fuelList.getOrDefault(Registry.ITEM.getKey(fuel.getItem()).toString(), 0);
     }
 
     public float getFuelUtilization() {
