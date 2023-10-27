@@ -1,3 +1,7 @@
+# 0.7.0
+
+* Reorders slots to no longer burn your banners (Existing aircrafts needs some manual fixing)
+
 # 0.6.2
 
 * Fixed another server crash on Fabric
