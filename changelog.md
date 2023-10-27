@@ -1,6 +1,7 @@
 # 0.7.0
 
 * Reorders slots to no longer burn your banners (Existing aircrafts needs some manual fixing)
+* Added support for modded fuel (Thanks Brandon!)
 
 # 0.6.2
 
