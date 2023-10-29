@@ -43,7 +43,9 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -53,26 +55,26 @@ import java.util.List;
  * Abstract vehicle which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-	protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_TICKS = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
-	protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_SIDE = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
-	protected static final EntityDataAccessor<Float> DAMAGE_WOBBLE_STRENGTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_TICKS = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_SIDE = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Float> DAMAGE_WOBBLE_STRENGTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
 
     protected final boolean canExplodeOnCrash;
 
-	protected static final EntityDataAccessor<Integer> BOOST = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Integer> BOOST = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
 
-	protected int interpolationSteps;
+    protected int interpolationSteps;
 
-	protected double x;
-	protected double y;
-	protected double z;
+    protected double x;
+    protected double y;
+    protected double z;
 
-	protected double clientYaw;
-	protected double clientPitch;
+    protected double serverYRot;
+    protected double serverXRot;
 
-	protected float movementX;
-	protected float movementY;
-	protected float movementZ;
+    protected float movementX;
+    protected float movementY;
+    protected float movementZ;
 
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
@@ -87,6 +89,39 @@ public abstract class VehicleEntity extends Entity {
 
     public float getRoll(float tickDelta) {
         return Mth.lerp(tickDelta, prevRoll, getRoll());
+    }
+
+    @Override
+    public void setYRot(float rot) {
+        float old = getYRot();
+        super.setYRot(rot);
+
+        if (collides()) {
+            super.setYRot(old);
+        }
+    }
+
+    @Override
+    public void setXRot(float pitch) {
+        float old = roll;
+
+        float loops = (float) (Math.floor((pitch + 180f) / 360f) * 360f);
+        pitch -= loops;
+        xRotO -= loops;
+        super.setXRot(pitch);
+
+        if (collides()) {
+            super.setXRot(old);
+        }
+    }
+
+    public void setZRot(float rot) {
+        float old = roll;
+        roll = rot;
+
+        if (collides()) {
+            roll = old;
+        }
     }
 
     public void boost() {
@@ -109,14 +144,6 @@ public abstract class VehicleEntity extends Entity {
 
     protected int getPassengerSpace() {
         return getPassengerPositions().size();
-    }
-
-    @Override
-    public void setXRot(float pitch) {
-        float loops = (float) (Math.floor((pitch + 180f) / 360f) * 360f);
-        pitch -= loops;
-        xRotO -= loops;
-        super.setXRot(pitch);
     }
 
     public VehicleEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -168,7 +195,7 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public boolean isPushable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -194,17 +221,16 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleStrength(getDamageWobbleStrength() + amount * 10.0f / getDurability());
         gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
 
-        if(source.getEntity() instanceof Player player) { // Handle player drops separately to destruction drops.
-            if(!player.getAbilities().instabuild)
+        if (source.getEntity() instanceof Player player) { // Handle player drops separately to destruction drops.
+            if (!player.getAbilities().instabuild)
                 drop(); // Only drop item if player isn't in creative mode.
             discard();
-        }
-        else if(getDamageWobbleStrength() > 40.0F) {
-            if(!Config.getInstance().onlyPlayerCanDestroyAircraft || isVehicle()) { // If the plane crashed, or was destroyed by a non-player.
-                if(level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer)
+        } else if (getDamageWobbleStrength() > 40.0F) {
+            if (!Config.getInstance().onlyPlayerCanDestroyAircraft || isVehicle()) { // If the plane crashed, or was destroyed by a non-player.
+                if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer)
                     drop();
 
-                if(canExplodeOnCrash && Config.getInstance().enableCrashExplosion) { // If crashing explosion is enabled.
+                if (canExplodeOnCrash && Config.getInstance().enableCrashExplosion) { // If crashing explosion is enabled.
                     getLevel().explode(this, getX(), getY(), getZ(),
                             Config.getInstance().crashExplosionRadius,
                             Config.getInstance().enableCrashFire,
@@ -236,17 +262,35 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public void push(Entity entity) {
-        if (entity instanceof AircraftEntity) {
-            if (entity.getBoundingBox().minY < getBoundingBox().maxY) {
-                super.push(entity);
+        float a = entity.getYRot() * ((float) Math.PI / 180);
+        double speed = (1.0 - entity.getDeltaMovement().length()) * 0.2;
+        if (speed > 0.0) {
+            double dx = Math.sin(-a) * speed;
+            double dz = Math.cos(-a) * speed;
+            if (!this.isVehicle()) {
+                this.push(dx, 0.0, dz);
+
+                /*
+                // Calculate the displacement vector
+                double deltaX = entity.getX() - getX();
+                double deltaZ = entity.getZ() - getZ();
+
+                // Calculate the angle between the displacement vector and the force direction
+                double dotProduct = deltaX * dx + deltaZ * dz;
+                double displacementMagnitude = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+                double forceDirectionMagnitude = Math.sqrt(dx * dx + dz * dz);
+                double cosTheta = dotProduct / (displacementMagnitude * forceDirectionMagnitude);
+
+                // Calculate the angular rotation
+                double angularRotation = Math.acos(cosTheta);
+                super.setYRot((float) (getYRot() - angularRotation * speed * 16.0));
+                 */
             }
-        } else if (entity.getBoundingBox().minY <= getBoundingBox().minY) {
-            super.push(entity);
         }
     }
 
     public Item asItem() {
-        return Items.DARK_OAK_BOAT;
+        return Items.STICK;
     }
 
     @Override
@@ -266,8 +310,8 @@ public abstract class VehicleEntity extends Entity {
         this.x = x;
         this.y = y;
         this.z = z;
-        clientYaw = yaw;
-        clientPitch = pitch;
+        serverYRot = yaw;
+        serverXRot = pitch;
         this.interpolationSteps = 10;
     }
 
@@ -360,10 +404,11 @@ public abstract class VehicleEntity extends Entity {
 
         // auto enter
         checkInsideBlocks();
-        List<Entity> list = level.getEntities(this, getBoundingBox().inflate(0.2f, -0.01f, 0.2f), EntitySelector.pushableBy(this));
+        List<Entity> list = level.getEntities(this, getBoundingBox().inflate(8.0), EntitySelector.pushableBy(this));
         if (!list.isEmpty()) {
             boolean bl = !level.isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
+                if (!collidesWith(entity.getBoundingBox().inflate(0.2f, -0.01f, 0.2f))) continue;
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
                     entity.startRiding(this);
@@ -381,6 +426,15 @@ public abstract class VehicleEntity extends Entity {
         }
     }
 
+    private boolean collidesWith(AABB aabb) {
+        for (AABB additionalShape : getAdditionalShapes()) {
+            if (aabb.intersects(additionalShape)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void handleClientSync() {
         if (isControlledByLocalInstance()) {
             interpolationSteps = 0;
@@ -392,9 +446,9 @@ public abstract class VehicleEntity extends Entity {
         double interpolatedX = getX() + (x - getX()) / (double) interpolationSteps;
         double interpolatedY = getY() + (y - getY()) / (double) interpolationSteps;
         double interpolatedZ = getZ() + (z - getZ()) / (double) interpolationSteps;
-        double interpolatedYaw = Mth.wrapDegrees(clientYaw - (double) getYRot());
+        double interpolatedYaw = Mth.wrapDegrees(serverYRot - (double) getYRot());
         setYRot(getYRot() + (float) interpolatedYaw / (float) interpolationSteps);
-        setXRot(getXRot() + (float) (clientPitch - (double) getXRot()) / (float) interpolationSteps);
+        setXRot(getXRot() + (float) (serverXRot - (double) getXRot()) / (float) interpolationSteps);
 
         setPos(interpolatedX, interpolatedY, interpolatedZ);
         setRot(getYRot(), getXRot());
@@ -629,6 +683,10 @@ public abstract class VehicleEntity extends Entity {
         return transformVector(getVehicleNormalTransform(), x, y, z);
     }
 
+    protected Vector3f transformVectorQuantized(float x, float y, float z) {
+        return transformVector(getVehicleNormalTransformQuantized(), x, y, z);
+    }
+
     protected Vector3f transformVector(Matrix3f transform, float x, float y, float z) {
         Vector3f p0 = new Vector3f(x, y, z);
         p0.transform(transform);
@@ -640,6 +698,19 @@ public abstract class VehicleEntity extends Entity {
         transform.multiply(Vector3f.YP.rotationDegrees(-getYRot()));
         transform.multiply(Vector3f.XP.rotationDegrees(getXRot()));
         transform.multiply(Vector3f.ZP.rotationDegrees(getRoll()));
+        return transform;
+    }
+
+    private float quantize(float value) {
+        int floor = Mth.floor(value * 256.0f / 360.0f);
+        return (floor * 360) / 256.0f;
+    }
+
+    protected Matrix3f getVehicleNormalTransformQuantized() {
+        Matrix3f transform = Matrix3f.createScaleMatrix(1.0f, 1.0f, 1.0f);
+        transform.mul(Vector3f.YP.rotationDegrees(-quantize(getYRot())));
+        transform.mul(Vector3f.XP.rotationDegrees(quantize(getXRot())));
+        transform.mul(Vector3f.ZP.rotationDegrees(quantize(getRoll())));
         return transform;
     }
 
@@ -661,6 +732,11 @@ public abstract class VehicleEntity extends Entity {
         return new Vec3(f.x(), f.y(), f.z());
     }
 
+    public Vec3 getRightDirection() {
+        Vector3f f = transformVector(1.0f, 0.0f, 0.0f);
+        return new Vec3(f.x(), f.y(), f.z());
+    }
+
     protected static final Vector4f ZERO_VEC4 = new Vector4f();
 
     @Override
@@ -675,5 +751,70 @@ public abstract class VehicleEntity extends Entity {
 
     public boolean isValidDimension() {
         return Config.getInstance().validDimensions.getOrDefault(this.level.dimension().location().toString(), true);
+    }
+
+    private AABB getOffsetBoundingBox(double xSize, double ySize, double zSize, float x, float y, float z) {
+        Vector3f center = transformVectorQuantized(x, y, z);
+        return new AABB(center.x() - xSize / 2.0 + getX(), center.y() - ySize / 2.0 + getY(), center.z() - zSize / 2.0 + getZ(), center.x() + xSize / 2.0 + getX(), center.y() + ySize / 2.0 + getY(), center.z() + zSize / 2.0 + getZ());
+    }
+
+    public List<AABB> getAdditionalShapes() {
+        return List.of(
+                // Wings
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 1.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 2.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 3.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, -1.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, -2.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, -3.0f, 0.65f, 1.0f),
+
+                // Tail
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -2.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -3.0f)
+        );
+    }
+
+    public boolean collides() {
+        if (level.collidesWithSuffocatingBlock(this, getBoundingBox())) {
+            return true;
+        }
+        for (AABB additionalShape : getAdditionalShapes()) {
+            if (level.collidesWithSuffocatingBlock(this, additionalShape)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Vec3 customCollide(Vec3 vec) {
+        AABB aabb = this.getBoundingBox();
+        vec = customCollide(vec, this, aabb);
+        for (AABB additionalShape : getAdditionalShapes()) {
+            vec = customCollide(vec, this, additionalShape);
+        }
+        return vec;
+    }
+
+    private Vec3 customCollide(Vec3 vec, VehicleEntity vehicle, AABB aabb) {
+        List<VoxelShape> list = this.getLevel().getEntityCollisions(vehicle, aabb.expandTowards(vec));
+        Vec3 vec3 = vec.lengthSqr() == 0.0 ? vec : Entity.collideBoundingBox(vehicle, vec, aabb, this.getLevel(), list);
+        boolean bl = vec.x != vec3.x;
+        boolean bl2 = vec.y != vec3.y;
+        boolean bl3 = vec.z != vec3.z;
+        boolean bl4 = this.onGround || bl2 && vec.y < 0.0;
+        if (this.maxUpStep > 0.0f && bl4 && (bl || bl3)) {
+            Vec3 vec34;
+            Vec3 vec32 = Entity.collideBoundingBox(vehicle, new Vec3(vec.x, this.maxUpStep, vec.z), aabb, this.getLevel(), list);
+            Vec3 vec33 = Entity.collideBoundingBox(vehicle, new Vec3(0.0, this.maxUpStep, 0.0), aabb.expandTowards(vec.x, 0.0, vec.z), this.getLevel(), list);
+            if (vec33.y < (double) this.maxUpStep && (vec34 = Entity.collideBoundingBox(vehicle, new Vec3(vec.x, 0.0, vec.z), aabb.move(vec33), this.getLevel(), list).add(vec33)).horizontalDistanceSqr() > vec32.horizontalDistanceSqr()) {
+                vec32 = vec34;
+            }
+            if (vec32.horizontalDistanceSqr() > vec3.horizontalDistanceSqr()) {
+                return vec32.add(Entity.collideBoundingBox(vehicle, new Vec3(0.0, -vec32.y + vec.y, 0.0), aabb.move(vec32), this.getLevel(), list));
+            }
+        }
+        return vec3;
     }
 }

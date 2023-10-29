@@ -42,9 +42,9 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         // rolling interpolation
         prevRoll = roll;
         if (onGround) {
-            roll *= 0.9;
+            setZRot(roll * 0.9f);
         } else {
-            roll = -pressingInterpolatedX.getSmooth() * getProperties().getRollFactor();
+            setZRot(-pressingInterpolatedX.getSmooth() * getProperties().getRollFactor());
         }
 
         if (Double.isNaN(getDeltaMovement().x) || Double.isNaN(getDeltaMovement().y) || Double.isNaN(getDeltaMovement().z)) {
