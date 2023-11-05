@@ -11,10 +11,6 @@ public class AircraftBaseUpgradeRegistry {
     public static final AircraftBaseUpgradeRegistry INSTANCE = new AircraftBaseUpgradeRegistry();
     private final Map<EntityType<?>, AircraftUpgrade> upgradeModifiers = new HashMap<>();
 
-    public AircraftBaseUpgradeRegistry() {
-
-    }
-
     public void setUpgradeModifier(EntityType<?> type, AircraftUpgrade upgrade) {
         upgradeModifiers.put(type, upgrade);
     }
@@ -35,5 +31,4 @@ public class AircraftBaseUpgradeRegistry {
     public Map<EntityType<?>, AircraftUpgrade> getAll() {
         return upgradeModifiers;
     }
-
 }

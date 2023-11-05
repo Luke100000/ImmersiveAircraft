@@ -21,6 +21,8 @@ public final class CommonFabric implements ModInitializer {
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();
+        WeaponRegistry.bootstrap();
+
         DataLoaders.register();
         Messages.loadMessages();
 

@@ -1,6 +1,7 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.entity.misc.WeaponMount;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;

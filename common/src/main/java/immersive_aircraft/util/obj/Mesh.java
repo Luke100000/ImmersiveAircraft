@@ -5,9 +5,6 @@ import java.util.ArrayList;
 public class Mesh {
     public final ArrayList<Face> faces = new ArrayList<>();
 
-    public Mesh() {
-    }
-
     public void add(Face face) {
         faces.add(face);
     }

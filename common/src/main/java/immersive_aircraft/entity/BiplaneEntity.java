@@ -7,13 +7,17 @@ import com.mojang.math.Vector4f;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.misc.WeaponMount;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Map;
 
 public class BiplaneEntity extends AirplaneEntity {
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
@@ -28,9 +32,27 @@ public class BiplaneEntity extends AirplaneEntity {
             .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
             .build();
 
+    private static final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = Map.of(
+            1, Map.of(
+                    WeaponMount.Type.ROTATING, List.of(
+                            new WeaponMount(Matrix4f.createTranslateMatrix(0.0f, 0.5f, -0.75f))
+                    ),
+                    WeaponMount.Type.FRONT, List.of(
+                            new WeaponMount(Matrix4f.createTranslateMatrix(-1.0f, 0.0f, 0.5f)),
+                            new WeaponMount(Matrix4f.createTranslateMatrix(1.0f, 0.0f, 0.5f))
+                    )
+            )
+    );
+
     @Override
     public VehicleInventoryDescription getInventoryDescription() {
         return inventoryDescription;
+    }
+
+    @Override
+    public List<WeaponMount> getWeaponMounts(int slot) {
+        ItemStack stack = getSlot(slot).get();
+        return weaponMounts.containsKey(slot) ? weaponMounts.get(slot).getOrDefault(WeaponMount.Type.ROTATING, List.of(WeaponMount.EMPTY)) : List.of(WeaponMount.EMPTY);
     }
 
     public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
@@ -93,5 +115,24 @@ public class BiplaneEntity extends AirplaneEntity {
                 trails.get(1).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
+    }
+
+    @Override
+    public List<AABB> getAdditionalShapes() {
+        return List.of(
+                // Wings
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 1.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 2.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 3.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, -1.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, -2.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, -3.0f, 0.65f, 1.0f),
+
+                // Tail
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -2.0f),
+                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -3.0f)
+        );
     }
 }

@@ -38,11 +38,11 @@ public class Builder {
     public int facePolyCount = 0;
     public int faceErrorCount = 0;
 
-    private final static String OBJ_VERTEX_TEXTURE = "vt";
-    private final static String OBJ_VERTEX_NORMAL = "vn";
-    private final static String OBJ_VERTEX = "v";
-    private final static String OBJ_FACE = "f";
-    private final static String OBJ_OBJECT_NAME = "o";
+    private static final String OBJ_VERTEX_TEXTURE = "vt";
+    private static final String OBJ_VERTEX_NORMAL = "vn";
+    private static final String OBJ_VERTEX = "v";
+    private static final String OBJ_FACE = "f";
+    private static final String OBJ_OBJECT_NAME = "o";
 
     public Builder(BufferedReader stream) throws IOException {
         String line;
@@ -113,7 +113,6 @@ public class Builder {
     public void addVertexNormal(float x, float y, float z) {
         verticesN.add(new VertexNormal(x, y, z));
     }
-
 
     public void addFace(int[] vertexIndices) {
         Face face = new Face();
@@ -216,6 +215,8 @@ public class Builder {
 
     public void addObjectName(String name) {
         this.objectName = name;
-        objects.put(objectName, new Mesh());
+        if (!objects.containsKey(name)) {
+            objects.put(objectName, new Mesh());
+        }
     }
 }

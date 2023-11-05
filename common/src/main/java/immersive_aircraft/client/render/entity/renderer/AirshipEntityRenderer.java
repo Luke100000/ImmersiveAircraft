@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
+import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
@@ -39,8 +40,8 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                                 for (ItemStack slot : slots) {
                                     if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
                                         List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
-                                        Mesh mesh = getFaces(id, "banner_" + (i++));
-                                        renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
+                                        Mesh mesh = MeshRenderer.getFaces(id, "banner_" + (i++));
+                                        MeshRenderer.renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
                                     }
                                 }
                             }
@@ -65,12 +66,12 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                                         float b = color.getTextureDiffuseColors()[2];
 
                                         if (entity.isWithinParticleRange() && Config.getInstance().enableAnimatedSails) {
-                                            Mesh mesh = getFaces(id, "sails_animated");
+                                            Mesh mesh = MeshRenderer.getFaces(id, "sails_animated");
                                             float time = entity.getLevel().getGameTime() % 24000 + tickDelta;
-                                            renderSailObject(mesh, matrixStack, vertexConsumer, light, time, r, g, b, 1.0f);
+                                            MeshRenderer.renderSailObject(mesh, matrixStack, vertexConsumer, light, time, r, g, b, 1.0f);
                                         } else {
-                                            Mesh mesh = getFaces(id, "sails");
-                                            renderObject(mesh, matrixStack, vertexConsumer, light, r, g, b, 1.0f);
+                                            Mesh mesh = MeshRenderer.getFaces(id, "sails");
+                                            MeshRenderer.renderObject(mesh, matrixStack, vertexConsumer, light, r, g, b, 1.0f);
                                         }
                                     }
                             )
@@ -98,8 +99,8 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         ResourceLocation identifier = getTextureLocation(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
-                                        Mesh mesh = getFaces(id, "propeller");
-                                        renderObject(mesh, matrixStack, vertexConsumer, light);
+                                        Mesh mesh = MeshRenderer.getFaces(id, "propeller");
+                                        MeshRenderer.renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
                             )
             );

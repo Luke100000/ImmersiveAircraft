@@ -19,11 +19,19 @@ public final class CommonForge {
         Messages.loadMessages();
     }
 
+    private static boolean registered = false;
+
     @SubscribeEvent
     public static void onRegistryEvent(RegisterEvent event) {
-        Items.bootstrap();
-        Sounds.bootstrap();
-        Entities.bootstrap();
-        DataLoaders.register();
+        if (!registered) {
+            registered = true;
+
+            Items.bootstrap();
+            Sounds.bootstrap();
+            Entities.bootstrap();
+            WeaponRegistry.bootstrap();
+
+            DataLoaders.register();
+        }
     }
 }

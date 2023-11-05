@@ -2,29 +2,19 @@ package immersive_aircraft.client.render.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
+import immersive_aircraft.WeaponRendererRegistry;
+import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.entity.AircraftEntity;
-import immersive_aircraft.resources.ObjectLoader;
-import immersive_aircraft.util.obj.Face;
-import immersive_aircraft.util.obj.FaceVertex;
+import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.phys.AABB;
 
 import java.util.LinkedList;
@@ -53,11 +43,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             //Get vertex consumer
             ResourceLocation identifier = getTextureLocation(entity);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(identifier));
-            renderObject(getMesh(), matrixStack, vertexConsumer, light);
+            MeshRenderer.renderObject(getMesh(), matrixStack, vertexConsumer, light);
         };
 
         public Mesh getMesh() {
-            Mesh mesh = getFaces(id, object);
+            Mesh mesh = MeshRenderer.getFaces(id, object);
             if (mesh == null) {
                 throw new RuntimeException(String.format("Mesh %s in %s does not exist!", id, object));
             }
@@ -88,8 +78,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
     }
 
     protected class Model {
-
         public Model() {
+            // nop
         }
 
         private final List<Object> objects = new LinkedList<>();
@@ -150,97 +140,19 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             }
         }
 
-        // render trails
+        //Render weapons
+        for (List<Weapon> weapons : entity.getWeapons().values()) {
+            for (Weapon weapon : weapons) {
+                WeaponRendererRegistry.get(weapon).render(entity, weapon, matrixStack, vertexConsumerProvider, light, tickDelta);
+            }
+        }
+
+        //Render trails
         entity.getTrails().forEach(t -> TrailRenderer.render(t, vertexConsumerProvider, peek));
 
         matrixStack.popPose();
 
         super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
-    }
-
-    protected static void renderObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light) {
-        renderObject(mesh, matrixStack, vertexConsumer, light, 1.0f, 1.0f, 1.0f, 1.0f);
-    }
-
-    protected static void renderObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light, float r, float g, float b, float a) {
-        PoseStack.Pose entry = matrixStack.last();
-        Matrix4f positionMatrix = entry.pose();
-        Matrix3f normalMatrix = entry.normal();
-        for (Face face : mesh.faces) {
-            if (face.vertices.size() == 4) {
-                for (FaceVertex v : face.vertices) {
-                    vertexConsumer
-                            .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
-                            .color(r, g, b, a)
-                            .uv(v.t.u, v.t.v)
-                            .overlayCoords(OverlayTexture.NO_OVERLAY)
-                            .uv2(light)
-                            .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                            .endVertex();
-                }
-            }
-        }
-    }
-
-    protected static void renderSailObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light, double time) {
-        renderSailObject(mesh, matrixStack, vertexConsumer, light, time, 1.0f, 1.0f, 1.0f, 1.0f);
-    }
-
-    protected static void renderSailObject(Mesh mesh, PoseStack matrixStack, VertexConsumer vertexConsumer, int light, double time, float r, float g, float b, float a) {
-        PoseStack.Pose entry = matrixStack.last();
-        Matrix4f positionMatrix = entry.pose();
-        Matrix3f normalMatrix = entry.normal();
-        for (Face face : mesh.faces) {
-            if (face.vertices.size() == 4) {
-                for (FaceVertex v : face.vertices) {
-                    double angle = v.v.x + v.v.z + v.v.y * 0.25 + time * 0.25;
-                    double scale = 0.05;
-                    float x = (float) (v.v.x + (Math.cos(angle) + Math.cos(angle * 1.7)) * scale * v.c.r);
-                    float z = (float) (v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
-                    vertexConsumer
-                            .vertex(positionMatrix, x, v.v.y, z)
-                            .color(r, g, b, a).uv(v.t.u, v.t.v)
-                            .overlayCoords(OverlayTexture.NO_OVERLAY)
-                            .uv2(light)
-                            .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                            .endVertex();
-                }
-            }
-        }
-    }
-
-    protected static void renderBanner(PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, Mesh mesh, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
-        for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-            Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
-            float[] fs = pair.getSecond().getTextureDiffuseColors();
-            Holder<BannerPattern> bannerPattern = pair.getFirst();
-            bannerPattern.unwrapKey().ifPresent(key -> {
-                Material spriteIdentifier = isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key);
-                VertexConsumer vertexConsumer = spriteIdentifier.buffer(vertexConsumers, RenderType::entityNoOutline);
-                TextureAtlasSprite sprite = spriteIdentifier.sprite();
-                PoseStack.Pose entry = matrixStack.last();
-                Matrix4f positionMatrix = entry.pose();
-                Matrix3f normalMatrix = entry.normal();
-                for (Face face : mesh.faces) {
-                    if (face.vertices.size() == 4) {
-                        for (FaceVertex v : face.vertices) {
-                            vertexConsumer
-                                    .vertex(positionMatrix, v.v.x, v.v.y, v.v.z)
-                                    .color(fs[0], fs[1], fs[2], 1.0f)
-                                    .uv(v.t.u * (sprite.getU1() - sprite.getU0()) + sprite.getU0(), v.t.v * (sprite.getV1() - sprite.getV0()) + sprite.getV0())
-                                    .overlayCoords(OverlayTexture.NO_OVERLAY)
-                                    .uv2(light)
-                                    .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
-                                    .endVertex();
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    protected static Mesh getFaces(ResourceLocation id, String object) {
-        return ObjectLoader.objects.get(id).get(object);
     }
 
     @Override

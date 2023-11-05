@@ -41,6 +41,12 @@ public interface Entities {
             .fireImmune()
     );
 
+    Supplier<EntityType<BlimpEntity>> BLIMP = register("blimp", EntityType.Builder
+            .of(BlimpEntity::new, MobCategory.MISC)
+            .sized(8.0f, 8.0f)
+            .fireImmune()
+    );
+
     static void bootstrap() {
 
     }

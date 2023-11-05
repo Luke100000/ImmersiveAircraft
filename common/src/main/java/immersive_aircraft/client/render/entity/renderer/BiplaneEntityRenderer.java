@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
+import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
@@ -38,8 +39,8 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                                 for (ItemStack slot : slots) {
                                     if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
                                         List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
-                                        Mesh mesh = getFaces(id, "banner_" + (i++));
-                                        renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
+                                        Mesh mesh = MeshRenderer.getFaces(id, "banner_" + (i++));
+                                        MeshRenderer.renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
                                     }
                                 }
                             }

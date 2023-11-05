@@ -1,9 +1,12 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.misc.WeaponMount;
+import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
@@ -17,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -27,16 +31,24 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
     protected SparseSimpleInventory inventory;
+    protected Map<Integer, List<Weapon>> weapons = new HashMap<>();
+
     private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
             .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 10)
             .build();
 
     public VehicleInventoryDescription getInventoryDescription() {
         return inventoryDescription;
+    }
+
+    public List<WeaponMount> getWeaponMounts(int slot) {
+        return List.of(WeaponMount.EMPTY);
     }
 
     public List<ItemStack> getSlots(VehicleInventoryDescription.SlotType slotType) {
@@ -54,7 +66,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
-                AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem()); // Upgrades now pull from a very primitive registry rather than being saved on the item.
+                AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
                 if (upgrade != null) {
                     float u = upgrade.get(stat);
 
@@ -65,9 +77,11 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
                 }
             }
         }
+
         AircraftUpgrade baseUpgrade = AircraftBaseUpgradeRegistry.INSTANCE.getUpgradeModifier(this.getType());
-        if (baseUpgrade != null)
+        if (baseUpgrade != null) {
             value += baseUpgrade.get(stat);
+        }
 
         return Math.max(0.0f, 1.0f + value);
     }
@@ -191,11 +205,47 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     public void tick() {
         inventory.tick(this);
 
+        // Check and recreate weapon slots
+        for (VehicleInventoryDescription.Slot slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
+            ItemStack weaponItemStack = getSlot(slot.index).get();
+            List<Weapon> weapon = weapons.get(slot.index);
+
+            if (weaponItemStack.isEmpty() && weapon != null) {
+                weapons.remove(slot.index);
+            } else if (!weaponItemStack.isEmpty() && (weapon == null || weapon.get(0).getStack() != weaponItemStack)) {
+                WeaponRegistry.WeaponConstructor constructor = WeaponRegistry.get(weaponItemStack);
+                if (constructor != null) {
+                    List<WeaponMount> weaponMounts = getWeaponMounts(slot.index);
+                    ArrayList<Weapon> weapons = new ArrayList<>(weaponMounts.size());
+                    for (WeaponMount weaponMount : weaponMounts) {
+                        weapons.add(constructor.create(this, weaponItemStack, weaponMount, slot.index));
+                    }
+                    this.weapons.put(slot.index, weapons);
+                }
+            }
+        }
+
+        // Update weapons
+        for (List<Weapon> weapons : weapons.values()) {
+            for (Weapon w : weapons) {
+                w.tick();
+            }
+        }
+
         super.tick();
     }
 
     @Override
     protected float getDurability() {
         return super.getDurability() * getTotalUpgrade(AircraftStat.DURABILITY);
+    }
+
+    @Override
+    public SlotAccess getSlot(int slot) {
+        return SlotAccess.forContainer(inventory, slot);
+    }
+
+    public Map<Integer, List<Weapon>> getWeapons() {
+        return weapons;
     }
 }

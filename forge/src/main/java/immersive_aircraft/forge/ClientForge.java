@@ -2,6 +2,7 @@ package immersive_aircraft.forge;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
+import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
 import immersive_aircraft.resources.ObjectLoader;
@@ -27,6 +28,7 @@ public final class ClientForge {
         RegistrationImpl.bootstrap();
 
         Renderer.bootstrap();
+        WeaponRendererRegistry.bootstrap();
     }
 
     @SubscribeEvent

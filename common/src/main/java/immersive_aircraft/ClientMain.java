@@ -2,10 +2,14 @@ package immersive_aircraft;
 
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.network.ClientNetworkManager;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+
+import java.util.List;
 
 public class ClientMain {
     public static void postLoad() {
@@ -21,8 +25,9 @@ public class ClientMain {
     private static CameraType lastPerspective;
 
     public static void tick() {
+        Minecraft client = Minecraft.getInstance();
+
         if (Config.getInstance().separateCamera) {
-            Minecraft client = Minecraft.getInstance();
             LocalPlayer player = client.player;
             boolean b = player != null && player.getRootVehicle() instanceof AircraftEntity;
             if (b != isInVehicle) {
@@ -35,6 +40,16 @@ public class ClientMain {
                 CameraType perspective = client.options.getCameraType();
                 client.options.setCameraType(lastPerspective);
                 lastPerspective = perspective;
+            }
+        }
+
+        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
+            if (client.options.keyUse.isDown()) {
+                for (List<Weapon> weapons : vehicle.getWeapons().values()) {
+                    for (Weapon weapon : weapons) {
+                        weapon.clientFire();
+                    }
+                }
             }
         }
     }

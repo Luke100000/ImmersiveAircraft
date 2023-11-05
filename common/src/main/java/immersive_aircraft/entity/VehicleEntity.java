@@ -753,27 +753,13 @@ public abstract class VehicleEntity extends Entity {
         return Config.getInstance().validDimensions.getOrDefault(this.level.dimension().location().toString(), true);
     }
 
-    private AABB getOffsetBoundingBox(double xSize, double ySize, double zSize, float x, float y, float z) {
+    protected AABB getOffsetBoundingBox(double xSize, double ySize, double zSize, float x, float y, float z) {
         Vector3f center = transformVectorQuantized(x, y, z);
         return new AABB(center.x() - xSize / 2.0 + getX(), center.y() - ySize / 2.0 + getY(), center.z() - zSize / 2.0 + getZ(), center.x() + xSize / 2.0 + getX(), center.y() + ySize / 2.0 + getY(), center.z() + zSize / 2.0 + getZ());
     }
 
     public List<AABB> getAdditionalShapes() {
-        return List.of(
-                // Wings
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 1.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 2.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 3.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, -1.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, -2.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, -3.0f, 0.65f, 1.0f),
-
-                // Tail
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -2.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -3.0f)
-        );
+        return List.of();
     }
 
     public boolean collides() {

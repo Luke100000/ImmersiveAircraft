@@ -2,6 +2,7 @@ package immersive_aircraft.fabric;
 
 import immersive_aircraft.ClientMain;
 import immersive_aircraft.Renderer;
+import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.fabric.resources.FabricObjectLoader;
 import immersive_aircraft.item.upgrade.AircraftStat;
@@ -36,6 +37,7 @@ public final class ClientFabric implements ClientModInitializer {
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new FabricObjectLoader());
 
         Renderer.bootstrap();
+        WeaponRendererRegistry.bootstrap();
 
         KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
         ItemTooltipCallback.EVENT.register(this::itemTooltipCallback); // For aircraft upgrade tooltips
