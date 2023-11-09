@@ -753,9 +753,9 @@ public abstract class VehicleEntity extends Entity {
         return Config.getInstance().validDimensions.getOrDefault(this.level.dimension().location().toString(), true);
     }
 
-    protected AABB getOffsetBoundingBox(double xSize, double ySize, double zSize, float x, float y, float z) {
+    protected AABB getOffsetBoundingBox(double xzSize, double ySize, float x, float y, float z) {
         Vector3f center = transformVectorQuantized(x, y, z);
-        return new AABB(center.x() - xSize / 2.0 + getX(), center.y() - ySize / 2.0 + getY(), center.z() - zSize / 2.0 + getZ(), center.x() + xSize / 2.0 + getX(), center.y() + ySize / 2.0 + getY(), center.z() + zSize / 2.0 + getZ());
+        return new AABB(center.x() - xzSize / 2.0 + getX(), center.y() - ySize / 2.0 + getY(), center.z() - xzSize / 2.0 + getZ(), center.x() + xzSize / 2.0 + getX(), center.y() + ySize / 2.0 + getY(), center.z() + xzSize / 2.0 + getZ());
     }
 
     public List<AABB> getAdditionalShapes() {

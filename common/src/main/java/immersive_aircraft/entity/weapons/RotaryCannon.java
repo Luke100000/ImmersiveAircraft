@@ -43,7 +43,7 @@ public class RotaryCannon extends Weapon {
         if (pilot != null) {
             boolean firstPerson = Main.firstPersonGetter.isFirstPerson();
             yaw = (float) ((pilot.getYHeadRot() - getEntity().getYRot()) / 180 * Math.PI);
-            pitch = (float) ((pilot.getXRot() - getEntity().getXRot()) / 180 * Math.PI) - (firstPerson ? 0.0f : 0.2f);
+            pitch = (float) ((pilot.getXRot() / 180 * Math.PI) - (firstPerson ? 0.0f : 0.2f));
         }
     }
 
@@ -98,15 +98,15 @@ public class RotaryCannon extends Weapon {
 
     public Quaternion getHeadTransform() {
         Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll() / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(getPitch(), 0.0f, 0.0f));
         quaternion.mul(Quaternion.fromXYZ(0.0f, -getYaw(), 0.0f));
+        quaternion.mul(Quaternion.fromXYZ(getPitch(), 0.0f, 0.0f));
         return quaternion;
     }
 
     public Quaternion getHeadTransform(float tickDelta) {
         Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(getPitch(tickDelta), 0.0f, 0.0f));
         quaternion.mul(Quaternion.fromXYZ(0.0f, -getYaw(tickDelta), 0.0f));
+        quaternion.mul(Quaternion.fromXYZ(getPitch(tickDelta), 0.0f, 0.0f));
         quaternion.mul(Quaternion.fromXYZ(0.0f, 0.0f, getRotating(tickDelta)));
         return quaternion;
     }

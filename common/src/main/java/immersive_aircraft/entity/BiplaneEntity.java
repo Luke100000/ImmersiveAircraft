@@ -125,18 +125,22 @@ public class BiplaneEntity extends AirplaneEntity {
     public List<AABB> getAdditionalShapes() {
         return List.of(
                 // Wings
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 1.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 2.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 3.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, -1.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, -2.0f, 0.65f, 1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, -3.0f, 0.65f, 1.0f),
+                getOffsetBoundingBox(1.0, 0.7, 0.75f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, 1.5f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, 2.25f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, 3.0f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, 0.0f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, -0.75f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, -1.5f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, -2.25f, 0.65f, 1.125f),
+                getOffsetBoundingBox(1.0, 0.7, -3.0f, 0.65f, 1.125f),
 
                 // Tail
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -1.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -2.0f),
-                getOffsetBoundingBox(1.0, 0.7, 1.0, 0.0f, 0.65f, -3.0f)
+                getOffsetBoundingBox(0.8, 0.6, 0.0f, 0.65f, -1.0f),
+                getOffsetBoundingBox(0.8, 0.6, 0.0f, 0.65f, -1.5f),
+                getOffsetBoundingBox(0.6, 0.5, 0.0f, 0.65f, -2.0f),
+                getOffsetBoundingBox(0.6, 0.5, 0.0f, 0.65f, -2.5f),
+                getOffsetBoundingBox(1.2, 0.2, 0.0f, 0.65f, -2.6f)
         );
     }
 }

@@ -105,7 +105,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
         // glide
         double diff = lastY - getY();
-        if (lastY != 0.0 && getProperties().getGlideFactor() > 0) {
+        if (lastY != 0.0 && getProperties().getGlideFactor() > 0 && diff != 0.0) {
             setDeltaMovement(getDeltaMovement().add(direction.scale(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.y())))));
         }
         lastY = getY();
