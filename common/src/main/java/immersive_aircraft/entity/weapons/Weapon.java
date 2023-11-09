@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.weapons;
 
+import com.mojang.math.Vector3f;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +35,8 @@ public abstract class Weapon {
     }
 
     public abstract void tick();
+
+    public abstract void fire(Vector3f direction);
 
     public abstract void clientFire();
 }

@@ -2,6 +2,7 @@ package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.*;
+import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.item.AircraftItem;
 import immersive_aircraft.item.WeaponItem;
 import net.minecraft.core.Registry;
@@ -23,7 +24,7 @@ public interface Items {
     Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().stacksTo(1), world -> new QuadrocopterEntity(Entities.QUADROCOPTER.get(), world)));
     Supplier<Item> BLIMP = register("blimp", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BlimpEntity(Entities.BLIMP.get(), world)));
 
-    Supplier<Item> ROTARY_CANNON = register("rotary_cannon", () -> new WeaponItem(baseProps().stacksTo(1)));
+    Supplier<Item> ROTARY_CANNON = register("rotary_cannon", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.ROTATING));
 
     Supplier<Item> ENHANCED_PROPELLER = register("enhanced_propeller", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> ECO_ENGINE = register("eco_engine", () -> new Item(baseProps().stacksTo(8)));

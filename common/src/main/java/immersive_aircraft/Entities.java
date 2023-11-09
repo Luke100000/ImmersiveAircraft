@@ -2,6 +2,7 @@ package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.*;
+import immersive_aircraft.entity.bullet.BulletEntity;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -44,6 +45,14 @@ public interface Entities {
     Supplier<EntityType<BlimpEntity>> BLIMP = register("blimp", EntityType.Builder
             .of(BlimpEntity::new, MobCategory.MISC)
             .sized(8.0f, 8.0f)
+            .fireImmune()
+    );
+
+    Supplier<EntityType<BulletEntity>> BULLET = register("bullet", EntityType.Builder
+            .of(BulletEntity::new, MobCategory.MISC)
+            .sized(0.25f, 0.25f)
+            .clientTrackingRange(4)
+            .updateInterval(10)
             .fireImmune()
     );
 

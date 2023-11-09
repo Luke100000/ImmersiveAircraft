@@ -693,7 +693,7 @@ public abstract class VehicleEntity extends Entity {
         return p0;
     }
 
-    protected Matrix4f getVehicleTransform() {
+    public Matrix4f getVehicleTransform() {
         Matrix4f transform = Matrix4f.createTranslateMatrix((float) getX(), (float) getY(), (float) getZ());
         transform.multiply(Vector3f.YP.rotationDegrees(-getYRot()));
         transform.multiply(Vector3f.XP.rotationDegrees(getXRot()));
@@ -706,7 +706,7 @@ public abstract class VehicleEntity extends Entity {
         return (floor * 360) / 256.0f;
     }
 
-    protected Matrix3f getVehicleNormalTransformQuantized() {
+    public Matrix3f getVehicleNormalTransformQuantized() {
         Matrix3f transform = Matrix3f.createScaleMatrix(1.0f, 1.0f, 1.0f);
         transform.mul(Vector3f.YP.rotationDegrees(-quantize(getYRot())));
         transform.mul(Vector3f.XP.rotationDegrees(quantize(getXRot())));
@@ -714,7 +714,7 @@ public abstract class VehicleEntity extends Entity {
         return transform;
     }
 
-    protected Matrix3f getVehicleNormalTransform() {
+    public Matrix3f getVehicleNormalTransform() {
         Matrix3f transform = Matrix3f.createScaleMatrix(1.0f, 1.0f, 1.0f);
         transform.mul(Vector3f.YP.rotationDegrees(-getYRot()));
         transform.mul(Vector3f.XP.rotationDegrees(getXRot()));

@@ -8,6 +8,7 @@ import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.entity.misc.WeaponMount;
+import immersive_aircraft.item.WeaponItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -35,7 +36,7 @@ public class BiplaneEntity extends AirplaneEntity {
     private static final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = Map.of(
             1, Map.of(
                     WeaponMount.Type.ROTATING, List.of(
-                            new WeaponMount(Matrix4f.createTranslateMatrix(0.0f, 0.5f, -0.75f))
+                            new WeaponMount(Matrix4f.createTranslateMatrix(0.0f, 0.5f, -1.25f))
                     ),
                     WeaponMount.Type.FRONT, List.of(
                             new WeaponMount(Matrix4f.createTranslateMatrix(-1.0f, 0.0f, 0.5f)),
@@ -52,7 +53,10 @@ public class BiplaneEntity extends AirplaneEntity {
     @Override
     public List<WeaponMount> getWeaponMounts(int slot) {
         ItemStack stack = getSlot(slot).get();
-        return weaponMounts.containsKey(slot) ? weaponMounts.get(slot).getOrDefault(WeaponMount.Type.ROTATING, List.of(WeaponMount.EMPTY)) : List.of(WeaponMount.EMPTY);
+        if (stack.getItem() instanceof WeaponItem weaponItem) {
+            return weaponMounts.containsKey(slot) ? weaponMounts.get(slot).getOrDefault(weaponItem.getMountType(), List.of(WeaponMount.EMPTY)) : List.of(WeaponMount.EMPTY);
+        }
+        return super.getWeaponMounts(slot);
     }
 
     public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {

@@ -2,7 +2,6 @@ package immersive_aircraft.client.render.entity.weaponRenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
 import immersive_aircraft.Main;
 import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.entity.AircraftEntity;
@@ -18,10 +17,16 @@ public class RotaryCannonRenderer extends WeaponRenderer<RotaryCannon> {
     @Override
     public <T extends AircraftEntity> void render(T entity, RotaryCannon weapon, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float tickDelta) {
         matrixStack.pushPose();
-        matrixStack.mulPose(Quaternion.fromYXZ(-weapon.getYaw(), weapon.getPitch(), 0.0f));
+        matrixStack.mulPoseMatrix(weapon.getMount().getTransform());
 
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(TEXTURE));
+
         MeshRenderer.renderObject(MeshRenderer.getFaces(ID, "cube"), matrixStack, vertexConsumer, light);
+
+        matrixStack.translate(0.0f, 12.5f / 16.0f, -4.0f / 16.0f);
+        matrixStack.mulPose(weapon.getHeadTransform(tickDelta));
+        matrixStack.translate(0.0f, -12.5f / 16.0f, 4.0f / 16.0f);
+        MeshRenderer.renderObject(MeshRenderer.getFaces(ID, "head"), matrixStack, vertexConsumer, light);
 
         matrixStack.popPose();
     }

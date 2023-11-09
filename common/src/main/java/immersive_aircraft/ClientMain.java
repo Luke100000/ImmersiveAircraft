@@ -19,6 +19,7 @@ public class ClientMain {
         Main.networkManager = new ClientNetworkManager();
 
         Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Main.firstPersonGetter = () -> Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
     }
 
     private static boolean isInVehicle;

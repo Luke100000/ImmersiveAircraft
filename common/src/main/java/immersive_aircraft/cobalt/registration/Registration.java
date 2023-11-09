@@ -1,7 +1,6 @@
 package immersive_aircraft.cobalt.registration;
 
 import immersive_aircraft.Main;
-import immersive_aircraft.entity.AircraftEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +15,7 @@ import java.util.function.Supplier;
 public class Registration {
     private static Impl INSTANCE;
 
-    public static <T extends AircraftEntity> void register(EntityType<T> type, EntityRendererProvider<T> constructor) {
+    public static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> constructor) {
         INSTANCE.registerEntityRenderer(type, constructor);
     }
 
