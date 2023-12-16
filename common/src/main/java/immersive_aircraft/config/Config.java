@@ -2,6 +2,7 @@ package immersive_aircraft.config;
 
 import immersive_aircraft.config.configEntries.BooleanConfigEntry;
 import immersive_aircraft.config.configEntries.FloatConfigEntry;
+import immersive_aircraft.config.configEntries.IntegerConfigEntry;
 
 import java.util.Map;
 
@@ -17,11 +18,11 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean enableDropsForNonPlayer = true;
 
-    @BooleanConfigEntry(false)
+    @BooleanConfigEntry(true)
     public boolean enableCrashExplosion;
 
-    @BooleanConfigEntry(true)
-    public boolean enableCrashBlockDestruction = true;
+    @BooleanConfigEntry(false)
+    public boolean enableCrashBlockDestruction = false;
 
     @BooleanConfigEntry(true)
     public boolean enableCrashFire = true;
@@ -29,6 +30,17 @@ public final class Config extends JsonConfig {
     @FloatConfigEntry(2.0F)
     public float crashExplosionRadius;
 
+    @FloatConfigEntry(2.0f)
+    public float crashDamage;
+
+    @BooleanConfigEntry(true)
+    public boolean preventKillThroughCrash;
+
+    @IntegerConfigEntry(0)
+    public int healthBarRow;
+
+    @IntegerConfigEntry(30)
+    public int damagePerHealthPoint;
 
     @BooleanConfigEntry(true)
     public boolean separateCamera = true;
@@ -60,9 +72,6 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean collisionDamage;
 
-    @BooleanConfigEntry(true)
-    public boolean onlyPlayerCanDestroyAircraft;
-
     @BooleanConfigEntry(false)
     public boolean burnFuelInCreative;
 
@@ -71,12 +80,6 @@ public final class Config extends JsonConfig {
 
     @BooleanConfigEntry(true)
     public boolean useCustomKeybindSystem;
-
-    @FloatConfigEntry(2.0f)
-    public float crashDamage;
-
-    @BooleanConfigEntry(true)
-    public boolean preventKillThroughCrash;
 
     public Map<String, Integer> fuelList = Map.of(
             "minecraft:blaze_powder", 1200

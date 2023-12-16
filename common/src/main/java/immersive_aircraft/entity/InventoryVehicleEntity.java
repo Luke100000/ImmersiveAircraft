@@ -236,7 +236,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     }
 
     @Override
-    protected float getDurability() {
+    public float getDurability() {
         return super.getDurability() * getTotalUpgrade(AircraftStat.DURABILITY);
     }
 

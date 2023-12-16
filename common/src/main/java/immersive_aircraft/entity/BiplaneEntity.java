@@ -140,7 +140,7 @@ public class BiplaneEntity extends AirplaneEntity {
                 getOffsetBoundingBox(0.8, 0.6, 0.0f, 0.65f, -1.5f),
                 getOffsetBoundingBox(0.6, 0.5, 0.0f, 0.65f, -2.0f),
                 getOffsetBoundingBox(0.6, 0.5, 0.0f, 0.65f, -2.5f),
-                getOffsetBoundingBox(1.2, 0.2, 0.0f, 0.65f, -2.6f)
+                getOffsetBoundingBox(1.2, 0.2, 0.0f, 0.7f, -2.6f)
         );
     }
 }

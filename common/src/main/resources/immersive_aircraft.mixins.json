@@ -9,7 +9,7 @@
   },
   "client": [
     "ClientPlayerEntityMixin", "ClientPlayerInteractionManagerMixin", "ClientPlayNetworkHandlerMixin",
-    "EntityRenderDispatcherMixin", "GameRendererMixin", "InGameHudMixin", "KeyMappingAccessorMixin", "KeyMappingMixin",
+    "EntityRenderDispatcherMixin", "GameRendererMixin", "GuiMixin", "KeyMappingAccessorMixin", "KeyMappingMixin",
     "LivingEntityRendererMixin", "PlayerEntityRendererMixin"
   ]
 }

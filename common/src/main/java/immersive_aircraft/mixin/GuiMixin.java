@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
-public class InGameHudMixin {
+public class GuiMixin {
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("TAIL"))
     private void renderInject(PoseStack matrices, float tickDelta, CallbackInfo ci) {
         OverlayRenderer.renderOverlay(matrices, tickDelta);
