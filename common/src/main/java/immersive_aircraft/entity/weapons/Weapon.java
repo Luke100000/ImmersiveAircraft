@@ -38,5 +38,5 @@ public abstract class Weapon {
 
     public abstract void fire(Vector3f direction);
 
-    public abstract void clientFire();
+    public abstract void clientFire(int index);
 }

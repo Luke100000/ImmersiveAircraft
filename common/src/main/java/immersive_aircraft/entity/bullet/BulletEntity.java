@@ -3,14 +3,12 @@ package immersive_aircraft.entity.bullet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 
 public class BulletEntity extends ThrowableItemProjectile {
     public BulletEntity(EntityType<? extends BulletEntity> entityType, Level level) {
@@ -41,23 +39,5 @@ public class BulletEntity extends ThrowableItemProjectile {
             float damage = 5.0f;
             result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), damage);
         }
-    }
-
-    @Override
-    protected void onHit(HitResult result) {
-        super.onHit(result);
-
-        if (!this.level.isClientSide) {
-            if (result instanceof EntityHitResult entityHitResult && !canHitEntity(entityHitResult.getEntity())) {
-                return;
-            }
-            this.level.broadcastEntityEvent(this, (byte) 3);
-            this.discard();
-        }
-    }
-
-    @Override
-    protected boolean canHitEntity(Entity target) {
-        return getOwner() != target && target.getVehicle() != getOwner() && super.canHitEntity(target);
     }
 }

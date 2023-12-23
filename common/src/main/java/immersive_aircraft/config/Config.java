@@ -24,8 +24,8 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(false)
     public boolean enableCrashBlockDestruction = false;
 
-    @BooleanConfigEntry(true)
-    public boolean enableCrashFire = true;
+    @BooleanConfigEntry(false)
+    public boolean enableCrashFire = false;
 
     @FloatConfigEntry(2.0F)
     public float crashExplosionRadius;
@@ -89,5 +89,15 @@ public final class Config extends JsonConfig {
             "minecraft:overworld", true,
             "minecraft:the_nether", true,
             "minecraft:the_end", true
+    );
+
+    public Map<String, Integer> powderAmmunition = Map.of(
+            "minecraft:gun_powder", 100
+    );
+
+    public Map<String, Integer> arrowAmmunition = Map.of(
+            "minecraft:arrow", 100,
+            "minecraft:tipped_arrow", 100,
+            "minecraft:spectral_arrow", 100
     );
 }

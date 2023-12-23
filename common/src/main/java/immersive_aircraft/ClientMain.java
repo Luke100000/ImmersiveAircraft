@@ -44,12 +44,10 @@ public class ClientMain {
             }
         }
 
-        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
-            if (client.options.keyUse.isDown()) {
-                for (List<Weapon> weapons : vehicle.getWeapons().values()) {
-                    for (Weapon weapon : weapons) {
-                        weapon.clientFire();
-                    }
+        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle && client.options.keyUse.isDown()) {
+            for (List<Weapon> weapons : vehicle.getWeapons().values()) {
+                for (int i = 0; i < weapons.size(); i++) {
+                    weapons.get(i).clientFire(i);
                 }
             }
         }

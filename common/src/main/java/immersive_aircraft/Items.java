@@ -25,6 +25,7 @@ public interface Items {
     Supplier<Item> BLIMP = register("blimp", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BlimpEntity(Entities.BLIMP.get(), world)));
 
     Supplier<Item> ROTARY_CANNON = register("rotary_cannon", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.ROTATING));
+    Supplier<Item> HEAVY_CROSSBOW = register("heavy_crossbow", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.FRONT));
 
     Supplier<Item> ENHANCED_PROPELLER = register("enhanced_propeller", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> ECO_ENGINE = register("eco_engine", () -> new Item(baseProps().stacksTo(8)));

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.render.entity.MeshRenderer;
+import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.util.obj.Mesh;
@@ -143,7 +144,10 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
         //Render weapons
         for (List<Weapon> weapons : entity.getWeapons().values()) {
             for (Weapon weapon : weapons) {
-                WeaponRendererRegistry.get(weapon).render(entity, weapon, matrixStack, vertexConsumerProvider, light, tickDelta);
+                WeaponRenderer<Weapon> renderer = WeaponRendererRegistry.get(weapon);
+                if (renderer != null) {
+                    renderer.render(entity, weapon, matrixStack, vertexConsumerProvider, light, tickDelta);
+                }
             }
         }
 

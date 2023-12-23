@@ -33,14 +33,15 @@ public class BiplaneEntity extends AirplaneEntity {
             .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
             .build();
 
+    // TODO Config
     private static final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = Map.of(
             1, Map.of(
                     WeaponMount.Type.ROTATING, List.of(
                             new WeaponMount(Matrix4f.createTranslateMatrix(0.0f, 0.5f, -1.25f))
                     ),
                     WeaponMount.Type.FRONT, List.of(
-                            new WeaponMount(Matrix4f.createTranslateMatrix(-1.0f, 0.0f, 0.5f)),
-                            new WeaponMount(Matrix4f.createTranslateMatrix(1.0f, 0.0f, 0.5f))
+                            new WeaponMount(Matrix4f.createTranslateMatrix(-1.0f, -0.0625f, 1.0f)),
+                            new WeaponMount(Matrix4f.createTranslateMatrix(1.0f, -0.0625f, 1.0f))
                     )
             )
     );

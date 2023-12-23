@@ -64,7 +64,8 @@ public interface MeshRenderer {
                     float z = (float) (v.v.z + (Math.sin(angle) + Math.sin(angle * 1.7)) * scale * v.c.r);
                     vertexConsumer
                             .vertex(positionMatrix, x, v.v.y, z)
-                            .color(r, g, b, a).uv(v.t.u, v.t.v)
+                            .color(r, g, b, a)
+                            .uv(v.t.u, v.t.v)
                             .overlayCoords(OverlayTexture.NO_OVERLAY)
                             .uv2(light)
                             .normal(normalMatrix, v.n.x, v.n.y, v.n.z)
