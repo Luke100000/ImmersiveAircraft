@@ -121,11 +121,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         return new VehicleScreenHandler(i, playerInventory, this);
     }
 
-    protected int syncId;
-
     public void openInventory(ServerPlayer player) {
-        syncId = (syncId + 1) % 100 + 100;
-        AbstractContainerMenu screenHandler = createMenu(syncId, player.getInventory(), player);
+        player.nextContainerCounter();
+        AbstractContainerMenu screenHandler = createMenu(player.containerCounter, player.getInventory(), player);
         if (screenHandler != null) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.containerId), player);
             player.containerMenu = screenHandler;
