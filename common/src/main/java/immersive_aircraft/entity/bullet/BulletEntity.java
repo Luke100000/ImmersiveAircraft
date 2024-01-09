@@ -11,6 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
 public class BulletEntity extends ThrowableItemProjectile {
+    private float scale = 1.0f;
+
     public BulletEntity(EntityType<? extends BulletEntity> entityType, Level level) {
         super(entityType, level);
     }
@@ -21,6 +23,14 @@ public class BulletEntity extends ThrowableItemProjectile {
 
     private ParticleOptions getParticle() {
         return ParticleTypes.EXPLOSION;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
     @Override

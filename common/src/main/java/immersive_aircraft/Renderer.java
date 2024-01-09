@@ -1,8 +1,8 @@
 package immersive_aircraft;
 
 import immersive_aircraft.client.render.entity.renderer.*;
+import immersive_aircraft.client.render.entity.renderer.bullet.BulletEntityRenderer;
 import immersive_aircraft.cobalt.registration.Registration;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 
 public class Renderer {
     public static void bootstrap() {
@@ -13,6 +13,6 @@ public class Renderer {
         Registration.register(Entities.QUADROCOPTER.get(), QuadrocopterEntityRenderer::new);
         Registration.register(Entities.BLIMP.get(), BlimpEntityRenderer::new);
 
-        Registration.register(Entities.BULLET.get(), ThrownItemRenderer::new);
+        Registration.register(Entities.BULLET.get(), BulletEntityRenderer::new);
     }
 }

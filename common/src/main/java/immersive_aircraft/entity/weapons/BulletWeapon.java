@@ -47,6 +47,10 @@ public abstract class BulletWeapon extends Weapon {
         VehicleEntity entity = getEntity();
         position.transform(entity.getVehicleTransform());
 
+        float vx = (float) (entity.xOld - entity.getX());
+        float vy = (float) (entity.yOld - entity.getY());
+        float vz = (float) (entity.zOld - entity.getZ());
+
         // Offset the position by the barrel length
         float barrelLength = getBarrelLength();
         position.add(direction.x() * barrelLength, direction.y() * barrelLength, direction.z() * barrelLength, 0.0f);
@@ -54,13 +58,11 @@ public abstract class BulletWeapon extends Weapon {
         // Spawn bullets
         for (int i = 0; i < getBulletCount(); i++) {
             Entity bullet = getBullet(entity, position, direction);
+            bullet.setDeltaMovement(entity.getDeltaMovement().add(vx, vy, vz));
             entity.getLevel().addFreshEntity(bullet);
         }
 
         // Fire-particle
-        float vx = (float) (entity.xOld - entity.getX());
-        float vy = (float) (entity.yOld - entity.getY());
-        float vz = (float) (entity.zOld - entity.getZ());
         direction.mul(0.25f);
         direction.add(vx, vy, vz);
         FireResponse fireMessage = new FireResponse(position, direction);
