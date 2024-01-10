@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Mehr Energie, schieb weiter!",
   "immersive_aircraft.gyrodyne_target_reached": "Die notwendige Drehgeschwindigkeit des Propellers ist erreicht, bereit zum Abheben!",
   "immersive_aircraft.invalid_dimension": "Dieses Flugzeug funktioniert nicht in dieser Dimension.",
+  "immersive_aircraft.out_of_ammo": "Keine Munition mehr!",
   "immersive_aircraft.fuel.none": "Kein Benzin!",
   "immersive_aircraft.fuel.out": "Dir ist der Sprit ausgegangen!",
   "immersive_aircraft.fuel.low": "Du hast nur noch wenig Treibstoff!",
