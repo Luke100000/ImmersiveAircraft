@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% потужності, продовжуйте штовхати!",
   "immersive_aircraft.gyrodyne_target_reached": "Необхідна частота досягнута, готовий до зльоту!",
   "immersive_aircraft.invalid_dimension": "Цей літак не працює в цьому вимірі.",
+  "immersive_aircraft.out_of_ammo": "Патрони скінчилися!",
   "immersive_aircraft.fuel.none": "Немає палива!",
   "immersive_aircraft.fuel.out": "У Вас закінчилося паливо!",
   "immersive_aircraft.fuel.low": "У вас мало пального!",
