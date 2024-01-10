@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Мощност, продължавайте да натискате!",
   "immersive_aircraft.gyrodyne_target_reached": "Минималната скорост на ротора е достигната, готовност за излитане!",
   "immersive_aircraft.invalid_dimension": "Този самолет не работи в това измерение.",
+  "immersive_aircraft.out_of_ammo": "Няма патрони!",
   "immersive_aircraft.fuel.none": "Няма гориво!",
   "immersive_aircraft.fuel.out": "Горивото ви е свършило!",
   "immersive_aircraft.fuel.low": "Имате малко гориво!",
