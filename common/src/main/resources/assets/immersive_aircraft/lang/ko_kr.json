@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% 파워, 계속 밀어!",
   "immersive_aircraft.gyrodyne_target_reached": "최소 로터 속도 도달, 이륙 준비 완료!",
   "immersive_aircraft.invalid_dimension": "이 항공기는 이 차원에서는 작동하지 않습니다.",
+  "immersive_aircraft.out_of_ammo": "탄약이 떨어졌어요!",
   "immersive_aircraft.fuel.none": "연료가 없습니다!",
   "immersive_aircraft.fuel.out": "연료가 떨어졌습니다!",
   "immersive_aircraft.fuel.low": "연료가 부족합니다!",
