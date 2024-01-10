@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Сила, продолжай толкать!",
   "immersive_aircraft.gyrodyne_target_reached": "Минимальная скорость вращения ротора достигнута, готов к взлету!",
   "immersive_aircraft.invalid_dimension": "Этот самолет не работает в этом измерении.",
+  "immersive_aircraft.out_of_ammo": "Кончились патроны!",
   "immersive_aircraft.fuel.none": "Никакого топлива!",
   "immersive_aircraft.fuel.out": "У тебя закончилось топливо!",
   "immersive_aircraft.fuel.low": "У тебя мало топлива!",
