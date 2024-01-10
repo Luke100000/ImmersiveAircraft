@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "回転数は%d%%、漕ぎ続けてください！",
   "immersive_aircraft.gyrodyne_target_reached": "離陸の準備ができて！",
   "immersive_aircraft.invalid_dimension": "この機体はこの次元では機能しない。",
+  "immersive_aircraft.out_of_ammo": "弾切れだ！",
   "immersive_aircraft.fuel.none": "燃料は残っていない！",
   "immersive_aircraft.fuel.out": "燃料がなくなった！",
   "immersive_aircraft.fuel.low": "燃料の量が少ない",
