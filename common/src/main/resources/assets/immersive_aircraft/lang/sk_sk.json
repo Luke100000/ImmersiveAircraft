@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Power, pokračuj v tlaku!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimálna rýchlosť rotora dosiahnutá, pripravený na vzlet!",
   "immersive_aircraft.invalid_dimension": "Toto lietadlo v tejto dimenzii nefunguje.",
+  "immersive_aircraft.out_of_ammo": "Došli náboje!",
   "immersive_aircraft.fuel.none": "Žiadne palivo!",
   "immersive_aircraft.fuel.out": "Došlo vám palivo!",
   "immersive_aircraft.fuel.low": "Máte málo paliva!",
