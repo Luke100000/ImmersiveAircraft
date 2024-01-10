@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% kraftur – haltu áfram að stíga!",
   "immersive_aircraft.gyrodyne_target_reached": "Tilbúið í flugtak!",
   "immersive_aircraft.invalid_dimension": "This aircraft does not work in this dimension.",
+  "immersive_aircraft.out_of_ammo": "Out of ammo!",
   "immersive_aircraft.fuel.none": "Það er ekkert eldsneyti!",
   "immersive_aircraft.fuel.out": "Eldsneytið er orðið uppurið!",
   "immersive_aircraft.fuel.low": "Eldsneytismagn er lágt!",
