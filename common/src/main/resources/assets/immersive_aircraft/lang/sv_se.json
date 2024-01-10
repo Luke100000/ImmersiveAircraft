@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% kraft – fortsätt trampa!",
   "immersive_aircraft.gyrodyne_target_reached": "Klar för start!",
   "immersive_aircraft.invalid_dimension": "Detta flygplan fungerar inte i denna dimension.",
+  "immersive_aircraft.out_of_ammo": "Slut på ammunition!",
   "immersive_aircraft.fuel.none": "Det finns inget bränsle!",
   "immersive_aircraft.fuel.out": "Bränslet har tagit slut!",
   "immersive_aircraft.fuel.low": "Det är ont om bränsle!",
