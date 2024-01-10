@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%dGüç, itmeye devam et!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor hızına ulaşıldı, kalkışa hazır!",
   "immersive_aircraft.invalid_dimension": "Bu uçak bu boyutta çalışmıyor.",
+  "immersive_aircraft.out_of_ammo": "Cephanem bitti!",
   "immersive_aircraft.fuel.none": "Yakıt yok!",
   "immersive_aircraft.fuel.out": "Yakıtın bitti!",
   "immersive_aircraft.fuel.low": "Yakıtınız azaldı!",
