@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "推力到達%d%%，再加把勁！",
   "immersive_aircraft.gyrodyne_target_reached": "到達達螺旋槳最低速度要求，準備起飛！",
   "immersive_aircraft.invalid_dimension": "這架飛機不能在這個維度飛行!",
+  "immersive_aircraft.out_of_ammo": "Out of ammo!",
   "immersive_aircraft.fuel.none": "沒有燃料！",
   "immersive_aircraft.fuel.out": "你的燃料用完了！",
   "immersive_aircraft.fuel.low": "你的燃料不足！",
