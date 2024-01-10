@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Power, jätkake pingutamist!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimaalne rootori kiirus on saavutatud, valmis startimiseks!",
   "immersive_aircraft.invalid_dimension": "See lennuk ei tööta selles mõõtmes.",
+  "immersive_aircraft.out_of_ammo": "Laskemoona on otsas!",
   "immersive_aircraft.fuel.none": "Kütust ei ole!",
   "immersive_aircraft.fuel.out": "Sul sai kütus otsa!",
   "immersive_aircraft.fuel.low": "Sul on kütus vähe!",
