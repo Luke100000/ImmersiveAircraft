@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% ¡Potencia, sigue empujando!",
   "immersive_aircraft.gyrodyne_target_reached": "Velocidad mínima del rotor alcanzada, ¡listo para despegar!",
   "immersive_aircraft.invalid_dimension": "Este avión no funciona en esta dimensión.",
+  "immersive_aircraft.out_of_ammo": "¡Sin munición!",
   "immersive_aircraft.fuel.none": "¡No hay combustible!",
   "immersive_aircraft.fuel.out": "¡Te has quedado sin combustible!",
   "immersive_aircraft.fuel.low": "¡Tienes poco combustible!",
