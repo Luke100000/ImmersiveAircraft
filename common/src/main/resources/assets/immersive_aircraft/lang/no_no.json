@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% kraft – fortsett å trå!",
   "immersive_aircraft.gyrodyne_target_reached": "Klar for start!",
   "immersive_aircraft.invalid_dimension": "Dette flyet fungerer ikke i denne dimensjonen.",
+  "immersive_aircraft.out_of_ammo": "Tom for ammunisjon!",
   "immersive_aircraft.fuel.none": "Det finnes ikke noe drivstoff!",
   "immersive_aircraft.fuel.out": "Drivstoffet er gått tomt!",
   "immersive_aircraft.fuel.low": "Det er knapphet på drivstoff!",
