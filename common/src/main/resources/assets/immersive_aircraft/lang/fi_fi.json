@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Voimaa, jatka ponnistelua!",
   "immersive_aircraft.gyrodyne_target_reached": "Roottorin vähimmäisnopeus saavutettu, valmiina lentoonlähtöön!",
   "immersive_aircraft.invalid_dimension": "Tämä lentokone ei toimi tässä ulottuvuudessa.",
+  "immersive_aircraft.out_of_ammo": "Ammukset loppu!",
   "immersive_aircraft.fuel.none": "Ei polttoainetta!",
   "immersive_aircraft.fuel.out": "Polttoaine loppui!",
   "immersive_aircraft.fuel.low": "Polttoaine on vähissä!",
