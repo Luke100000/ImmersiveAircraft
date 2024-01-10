@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Kracht, doorzetten!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotorsnelheid bereikt, klaar om op te stijgen!",
   "immersive_aircraft.invalid_dimension": "Dit vliegtuig werkt niet in deze dimensie.",
+  "immersive_aircraft.out_of_ammo": "Geen munitie meer!",
   "immersive_aircraft.fuel.none": "Geen brandstof!",
   "immersive_aircraft.fuel.out": "Je hebt geen brandstof meer!",
   "immersive_aircraft.fuel.low": "Je hebt weinig brandstof!",
