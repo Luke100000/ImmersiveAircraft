@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Putere, continuă să împingi!",
   "immersive_aircraft.gyrodyne_target_reached": "Viteza minimă a rotorului a fost atinsă, gata de decolare!",
   "immersive_aircraft.invalid_dimension": "Această aeronavă nu funcționează în această dimensiune.",
+  "immersive_aircraft.out_of_ammo": "Am rămas fără muniție!",
   "immersive_aircraft.fuel.none": "Fără combustibil!",
   "immersive_aircraft.fuel.out": "Ai rămas fără combustibil!",
   "immersive_aircraft.fuel.low": "Ai rămas fără combustibil!",
