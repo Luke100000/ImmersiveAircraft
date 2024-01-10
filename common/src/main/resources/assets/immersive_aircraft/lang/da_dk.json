@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% kraft – bliv ved med at træde!",
   "immersive_aircraft.gyrodyne_target_reached": "Klar til start!",
   "immersive_aircraft.invalid_dimension": "Dette fly fungerer ikke i denne dimension.",
+  "immersive_aircraft.out_of_ammo": "Vi har ikke mere ammunition!",
   "immersive_aircraft.fuel.none": "Det er ikke noget brændstof!",
   "immersive_aircraft.fuel.out": "Brændstoffet er løbet tør!",
   "immersive_aircraft.fuel.low": "Brændstofsniveauet er lavt!",
