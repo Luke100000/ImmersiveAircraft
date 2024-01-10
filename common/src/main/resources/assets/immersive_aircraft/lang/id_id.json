@@ -53,6 +53,7 @@
   "immersive_aircraft.gyrodyne_target": "%d%% Kekuatan, terus dorong!",
   "immersive_aircraft.gyrodyne_target_reached": "Kecepatan rotor minimum tercapai, siap untuk lepas landas!",
   "immersive_aircraft.invalid_dimension": "Pesawat ini tidak bekerja dalam dimensi ini.",
+  "immersive_aircraft.out_of_ammo": "Kehabisan amunisi!",
   "immersive_aircraft.fuel.none": "Tidak ada bahan bakar!",
   "immersive_aircraft.fuel.out": "Anda kehabisan bahan bakar!",
   "immersive_aircraft.fuel.low": "Anda kehabisan bahan bakar!",
