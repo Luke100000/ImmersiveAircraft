@@ -1,4 +1,4 @@
-package immersive_aircraft.util.obj;
+package immersive_aircraft.resources.obj;
 
 import java.util.ArrayList;
 

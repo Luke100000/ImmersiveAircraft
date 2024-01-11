@@ -1,4 +1,4 @@
-package immersive_aircraft.util.bbmodel;
+package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

@@ -1,4 +1,4 @@
-package immersive_aircraft.util.obj;
+package immersive_aircraft.resources.obj;
 
 public class VertexColor {
     public final float r;

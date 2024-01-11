@@ -6,7 +6,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import immersive_aircraft.Main;
-import immersive_aircraft.util.bbmodel.*;
+import immersive_aircraft.resources.bbmodel.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -24,6 +24,9 @@ public class BBModelRenderer {
         Quaternion rotation = Quaternion.fromXYZ(object.rotation);
         matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
         matrixStack.mulPose(rotation);
+
+        // if animation is not null, apply animation (scale, rotation, translation)
+
         matrixStack.translate(-object.origin.x(), -object.origin.y(), -object.origin.z());
 
         if (object instanceof BBCube cube) {

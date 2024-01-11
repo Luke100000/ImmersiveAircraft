@@ -1,4 +1,4 @@
-package immersive_aircraft.util.obj;
+package immersive_aircraft.resources.obj;
 
 // This code was written by myself, Sean R. Owens, sean at guild dot net,
 // and is released to the public domain. Share and enjoy. Since some

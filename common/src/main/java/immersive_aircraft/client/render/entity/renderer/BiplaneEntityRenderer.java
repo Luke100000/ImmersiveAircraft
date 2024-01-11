@@ -9,7 +9,7 @@ import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
-import immersive_aircraft.util.obj.Mesh;
+import immersive_aircraft.resources.obj.Mesh;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Holder;

@@ -1,4 +1,4 @@
-package immersive_aircraft.util.obj;
+package immersive_aircraft.resources.obj;
 
 // This code was written by myself, Sean R. Owens, sean at guild dot net,
 // and is released to the public domain. Share and enjoy. Since some
@@ -9,15 +9,24 @@ package immersive_aircraft.util.obj;
 // In addition this code may also be used under the "unlicense" described
 // at http://unlicense.org/ .  See the file UNLICENSE in the repo.
 
-public class FaceVertex {
-    int index = -1;
+public class VertexNormal {
+    public float x;
+    public float y;
+    public float z;
 
-    public VertexPosition v = null;
-    public VertexTexture t = null;
-    public VertexNormal n = null;
-    public VertexColor c = null;
+    public void add(float x, float y, float z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
+    public VertexNormal(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 
     public String toString() {
-        return v + "|" + n + "|" + t;
+        return x + "," + y + "," + z;
     }
 }
