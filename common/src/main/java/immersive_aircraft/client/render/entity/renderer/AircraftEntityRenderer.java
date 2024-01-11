@@ -3,11 +3,14 @@ package immersive_aircraft.client.render.entity.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
+import immersive_aircraft.Main;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.resources.BBModelLoader;
+import immersive_aircraft.util.bbmodel.BBModel;
 import immersive_aircraft.util.obj.Mesh;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -140,6 +143,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
                 matrixStack.popPose();
             }
         }
+
+        BBModel bbModel = BBModelLoader.objects.get(Main.locate("armor"));
+        BBModelRenderer.renderModel(bbModel, matrixStack, vertexConsumerProvider, light);
 
         //Render weapons
         for (List<Weapon> weapons : entity.getWeapons().values()) {

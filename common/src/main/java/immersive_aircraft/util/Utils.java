@@ -1,5 +1,7 @@
 package immersive_aircraft.util;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -40,5 +42,25 @@ public class Utils {
         ListTag nbtList = nbtCompound.getList("Patterns", 10);
 
         return BannerBlockEntity.createPatterns(baseColor, nbtList);
+    }
+
+    public static boolean getBooleanElement(JsonObject object, String member) {
+        JsonElement element = object.getAsJsonPrimitive(member);
+        if (element == null) {
+            return false;
+        }
+        return element.getAsBoolean();
+    }
+
+    public static int getIntElement(JsonObject object, String member) {
+        return getIntElement(object, member, 0);
+    }
+
+    public static int getIntElement(JsonObject object, String member, int defaultValue) {
+        JsonElement element = object.getAsJsonPrimitive(member);
+        if (element == null) {
+            return defaultValue;
+        }
+        return element.getAsInt();
     }
 }

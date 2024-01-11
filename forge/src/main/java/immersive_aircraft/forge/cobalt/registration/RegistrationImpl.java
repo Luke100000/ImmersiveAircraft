@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -28,9 +28,11 @@ public class RegistrationImpl extends Registration.Impl {
 
     private final Map<String, RegistryRepo> repos = new HashMap<>();
     private final DataLoaderRegister dataLoaderRegister = new DataLoaderRegister();
+    private final DataLoaderRegister resourceLoaderRegister = new DataLoaderRegister();
 
     public RegistrationImpl() {
         ForgeBusEvents.DATA_REGISTRY = dataLoaderRegister;
+        ForgeBusEvents.RESOURCE_REGISTRY = resourceLoaderRegister;
     }
 
     public static void bootstrap() {
@@ -47,8 +49,13 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     @Override
-    public void registerDataLoader(ResourceLocation id, SimpleJsonResourceReloadListener loader) {
+    public void registerDataLoader(ResourceLocation id, PreparableReloadListener loader) {
         dataLoaderRegister.dataLoaders.add(loader);
+    }
+
+    @Override
+    public void registerResourceLoader(ResourceLocation id, PreparableReloadListener loader) {
+        resourceLoaderRegister.dataLoaders.add(loader);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -100,13 +107,10 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     public static class DataLoaderRegister {
+        private final List<PreparableReloadListener> dataLoaders = new ArrayList<>(); // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
 
-        private final List<SimpleJsonResourceReloadListener> dataLoaders = new ArrayList<>(); // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
-
-        public List<SimpleJsonResourceReloadListener> getLoaders() {
+        public List<PreparableReloadListener> getLoaders() {
             return dataLoaders;
         }
-
     }
-
 }

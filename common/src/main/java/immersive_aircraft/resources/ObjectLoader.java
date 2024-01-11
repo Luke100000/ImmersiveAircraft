@@ -19,7 +19,7 @@ import java.util.Map;
 public class ObjectLoader extends SimplePreparableReloadListener<Map<ResourceLocation, Resource>> {
     protected static final ResourceLocation ID = Main.locate("objects");
 
-    public final static Map<ResourceLocation, Map<String, Mesh>> objects = new HashMap<>();
+    public static final Map<ResourceLocation, Map<String, Mesh>> objects = new HashMap<>();
 
     @Override
     protected Map<ResourceLocation, Resource> prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -33,8 +33,7 @@ public class ObjectLoader extends SimplePreparableReloadListener<Map<ResourceLoc
             try {
                 InputStream stream = res.open();
                 Map<String, Mesh> faces = new Builder(new BufferedReader(new InputStreamReader(stream))).objects;
-                ResourceLocation newId = new ResourceLocation(id.getNamespace(), id.getPath());
-                objects.put(newId, faces);
+                objects.put(id, faces);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

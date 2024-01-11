@@ -12,7 +12,7 @@ import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TickEvent;
@@ -30,6 +30,7 @@ import java.util.Map;
 public class ForgeBusEvents {
 
     public static DataLoaderRegister DATA_REGISTRY; // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl but it would just be messy
+    public static DataLoaderRegister RESOURCE_REGISTRY; // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl but it would just be messy
     private static final DecimalFormat fmt = new DecimalFormat("+#;-#");
     public static boolean firstLoad = true;
 
@@ -47,8 +48,14 @@ public class ForgeBusEvents {
     @SubscribeEvent
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         if (DATA_REGISTRY != null) {
-            for (SimpleJsonResourceReloadListener loader : DATA_REGISTRY.getLoaders())
+            for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
                 event.addListener(loader);
+            }
+        }
+        if (RESOURCE_REGISTRY != null) {
+            for (PreparableReloadListener loader : RESOURCE_REGISTRY.getLoaders()) {
+                event.addListener(loader);
+            }
         }
     }
 

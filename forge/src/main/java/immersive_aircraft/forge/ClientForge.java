@@ -5,7 +5,6 @@ import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
-import immersive_aircraft.resources.ObjectLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,7 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 public final class ClientForge {
     @SubscribeEvent
     public static void data(FMLConstructModEvent event) {
-        ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(new ObjectLoader());
+        ReloadableResourceManager resourceManager = (ReloadableResourceManager) Minecraft.getInstance().getResourceManager();
+        ForgeBusEvents.RESOURCE_REGISTRY.getLoaders().forEach(resourceManager::registerReloadListener);
     }
 
     @SubscribeEvent
