@@ -11,6 +11,7 @@ public class BBModel {
     public final List<BBTexture> textures = new LinkedList<>();
     public final LinkedList<BBObject> root;
     public final HashMap<String, BBObject> objects;
+    public final List<BBAnimation> animations = new LinkedList<>();
 
     public BBModel(JsonObject model) {
         this.meta = new BBMeta(model.get("meta"));
@@ -39,5 +40,12 @@ public class BBModel {
                 this.objects.put(bone.uuid, bone);
             }
         });
+
+        if (model.has("animations")) {
+            model.get("animations").getAsJsonArray().forEach(element -> {
+                BBAnimation animation = new BBAnimation(element.getAsJsonObject());
+                this.animations.add(animation);
+            });
+        }
     }
 }

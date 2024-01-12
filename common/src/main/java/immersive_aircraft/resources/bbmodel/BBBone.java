@@ -1,8 +1,6 @@
 package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonObject;
-import org.mariuszgromada.math.mxparser.Argument;
-import org.mariuszgromada.math.mxparser.Expression;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,11 +21,5 @@ public class BBBone extends BBObject {
                 }
             }
         });
-
-        Argument x = new Argument("x", 0);
-        Expression e = new Expression("2+x", x);
-        x.setArgumentValue(7);
-        double calculate = e.calculate();
-        System.out.printf("ca");
     }
 }

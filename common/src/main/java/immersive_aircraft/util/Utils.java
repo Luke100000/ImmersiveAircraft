@@ -1,8 +1,10 @@
 package immersive_aircraft.util;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Vector3f;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -62,5 +64,17 @@ public class Utils {
             return defaultValue;
         }
         return element.getAsInt();
+    }
+
+    public static Vector3f parseVector(JsonObject element, String member) {
+        JsonArray array = element.getAsJsonArray(member);
+        if (array == null) {
+            return new Vector3f();
+        }
+        return new Vector3f(
+                array.get(0).getAsFloat(),
+                array.get(1).getAsFloat(),
+                array.get(2).getAsFloat()
+        );
     }
 }

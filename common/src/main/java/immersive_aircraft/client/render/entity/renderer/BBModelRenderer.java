@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
 import immersive_aircraft.resources.bbmodel.*;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,27 +14,40 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class BBModelRenderer {
-    public static void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
+    public static void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time) {
         model.root.forEach(object -> {
-            renderObject(object, matrixStack, vertexConsumerProvider, light);
+            renderObject(model, object, matrixStack, vertexConsumerProvider, light, time);
         });
     }
 
-    private static void renderObject(BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
+    private static void renderObject(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time) {
         matrixStack.pushPose();
-        Quaternion rotation = Quaternion.fromXYZ(object.rotation);
         matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
-        matrixStack.mulPose(rotation);
 
-        // if animation is not null, apply animation (scale, rotation, translation)
+        if (!model.animations.isEmpty()) {
+            BBAnimation animation = model.animations.get(0);
+            if (animation.hasAnimator(object.uuid)) {
+                Vector3f position = animation.sample(object.uuid, BBAnimator.Channel.POSITION, time);
+                position.mul(1.0f / 16.0f);
+                matrixStack.translate(position.x(), position.y(), position.z());
 
+                Vector3f rotation = animation.sample(object.uuid, BBAnimator.Channel.ROTATION, time);
+                rotation.mul(1.0f / 180.0f * (float) Math.PI);
+                matrixStack.mulPose(Quaternion.fromXYZ(rotation));
+
+                Vector3f scale = animation.sample(object.uuid, BBAnimator.Channel.SCALE, time);
+                matrixStack.scale(scale.x(), scale.y(), scale.z());
+            }
+        }
+
+        matrixStack.mulPose(Quaternion.fromXYZ(object.rotation));
         matrixStack.translate(-object.origin.x(), -object.origin.y(), -object.origin.z());
 
         if (object instanceof BBCube cube) {
             renderCube(cube, matrixStack, vertexConsumerProvider, light);
         } else if (object instanceof BBBone bone) {
             bone.children.forEach(child -> {
-                renderObject(child, matrixStack, vertexConsumerProvider, light);
+                renderObject(model, child, matrixStack, vertexConsumerProvider, light, time);
             });
         }
         matrixStack.popPose();

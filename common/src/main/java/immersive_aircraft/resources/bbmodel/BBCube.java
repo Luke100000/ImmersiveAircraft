@@ -37,8 +37,8 @@ public class BBCube extends BBObject {
     public BBCube(JsonObject element, BBModel model) {
         super(element);
 
-        this.from = parseVector(element, "from");
-        this.to = parseVector(element, "to");
+        this.from = Utils.parseVector(element, "from");
+        this.to = Utils.parseVector(element, "to");
 
         this.inflate = Utils.getIntElement(element, "inflate");
 
@@ -77,7 +77,7 @@ public class BBCube extends BBObject {
         double[] v = new double[24];
         for (int i = 0; i < 6; i++) {
             JsonObject faceObject = element.getAsJsonObject("faces").getAsJsonObject(SIDES[i]);
-            int id = faceObject.getAsJsonPrimitive("texture").getAsInt();
+            int id = Utils.getIntElement(element, "texture");
             BBTexture texture = model.textures.get(id);
 
             faces[i].texture = texture;

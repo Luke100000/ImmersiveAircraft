@@ -144,8 +144,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             }
         }
 
-        BBModel bbModel = BBModelLoader.objects.get(Main.locate("armor"));
-        BBModelRenderer.renderModel(bbModel, matrixStack, vertexConsumerProvider, light);
+        BBModel bbModel = BBModelLoader.objects.get(Main.locate("test"));
+        float time = (entity.getLevel().getGameTime() % 24000 + tickDelta) / 20.0f;
+        BBModelRenderer.renderModel(bbModel, matrixStack, vertexConsumerProvider, light, time);
 
         //Render weapons
         for (List<Weapon> weapons : entity.getWeapons().values()) {
