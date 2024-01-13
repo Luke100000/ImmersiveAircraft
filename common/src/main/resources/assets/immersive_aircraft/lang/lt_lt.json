@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Jums trūksta degalų!",
   "immersive_aircraft.fat.none": "Jokio maisto!",
   "immersive_aircraft.fat.out": "Esate per daug alkanas, kad skristumėte!",
+  "immersive_aircraft.repair": "%s%% suremontuota!",
   "option.immersive_aircraft.general": "Bendrosios parinktys",
   "option.immersive_aircraft.separateCamera": "Naudokite atskirą orlaivio kamerą.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Numatytasis nustatymas - trečiojo asmens kamera orlaivyje.",
