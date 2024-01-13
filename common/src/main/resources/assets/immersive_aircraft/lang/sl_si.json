@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Imate premalo goriva!",
   "immersive_aircraft.fat.none": "Brez hrane!",
   "immersive_aircraft.fat.out": "Preveč lačni ste, da bi leteli!",
+  "immersive_aircraft.repair": "%s%% popravljeno!",
   "option.immersive_aircraft.general": "Splošne možnosti",
   "option.immersive_aircraft.separateCamera": "V letalu uporabite ločeno kamero.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Privzeta je kamera tretje osebe v letalu.",
