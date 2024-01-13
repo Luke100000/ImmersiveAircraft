@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "연료가 부족합니다!",
   "immersive_aircraft.fat.none": "음식은 안 돼요!",
   "immersive_aircraft.fat.out": "너무 배가 고파서 날 수 없습니다!",
+  "immersive_aircraft.repair": "%s%% 수리 완료!",
   "option.immersive_aircraft.general": "일반 옵션",
   "option.immersive_aircraft.separateCamera": "기내에서는 별도의 카메라를 사용하세요.",
   "option.immersive_aircraft.useThirdPersonByDefault": "기내에서는 기본적으로 3인칭 카메라로 설정됩니다.",
