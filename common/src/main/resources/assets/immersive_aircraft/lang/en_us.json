@@ -69,6 +69,7 @@
   "immersive_aircraft.fuel.low": "You are low on fuel!",
   "immersive_aircraft.fat.none": "No food!",
   "immersive_aircraft.fat.out": "You are too hungry to fly!",
+  "immersive_aircraft.repair": "%s%% repaired!",
 
   "option.immersive_aircraft.general": "General Options",
   "option.immersive_aircraft.separateCamera": "Use a separate camera in aircraft.",

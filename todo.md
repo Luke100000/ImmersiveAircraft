@@ -7,3 +7,14 @@
     * Use point collisions at wings and back of plane, use soft collision resolving
 * More aircraft!
 * Rockets
+* Drop as item
+
+
+
+wrap up things, do NOT include new renderer for now
+* add bomber
+* add telescope
+* add damage texture, in case of z fighting add a small offset
+* when repairing, print the progress
+* add a how to get out warning when trying to shift
+* move properties and BBs and weapon mounts into json

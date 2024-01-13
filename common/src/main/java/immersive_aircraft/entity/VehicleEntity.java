@@ -14,11 +14,13 @@ import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -94,36 +96,15 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public void setYRot(float rot) {
-        float old = getYRot();
-        super.setYRot(rot);
-
-        if (collides()) {
-            super.setYRot(old);
-        }
-    }
-
-    @Override
     public void setXRot(float pitch) {
-        float old = roll;
-
         float loops = (float) (Math.floor((pitch + 180f) / 360f) * 360f);
         pitch -= loops;
         xRotO -= loops;
         super.setXRot(pitch);
-
-        if (collides()) {
-            super.setXRot(old);
-        }
     }
 
     public void setZRot(float rot) {
-        float old = roll;
         roll = rot;
-
-        if (collides()) {
-            roll = old;
-        }
     }
 
     public void boost() {
@@ -197,11 +178,6 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public boolean isPushable() {
-        return false;
-    }
-
-    @Override
     protected Vec3 getRelativePortalPosition(Direction.Axis portalAxis, BlockUtil.FoundRectangle portalRect) {
         return LivingEntity.resetForwardDirectionOfRelativePortalPosition(super.getRelativePortalPosition(portalAxis, portalRect));
     }
@@ -229,7 +205,9 @@ public abstract class VehicleEntity extends Entity {
 
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
-        setDamageWobbleStrength(getDamageWobbleStrength() + amount * 5.0f / getDurability() / (1.0f + getDamageWobbleStrength() * 0.05f));
+
+        // todo different per vehicle
+        setDamageWobbleStrength((float) (getDamageWobbleStrength() + Math.sqrt(amount) * 30.0f / (1.0f + getDamageWobbleStrength() * 0.05f)));
 
         gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
 
@@ -616,17 +594,29 @@ public abstract class VehicleEntity extends Entity {
         if (getHealth() < 1.0f) {
             repair(0.025f);
 
-            for (AABB shape : getAdditionalShapes()) {
-                for (int i = 0; i < 5; i++) {
-                    Vec3 center = shape.getCenter();
-                    double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
-                    double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
-                    double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
-                    this.level.addParticle(ParticleTypes.COMPOSTER, x, y, z, 0, random.nextDouble(), 0);
+            if (!level.isClientSide && !hasPassenger(player)) {
+                MutableComponent component = Component.translatable("immersive_aircraft.repair", (int) (getHealth() * 100.0f));
+                if (getHealth() < 0.33) {
+                    component.withStyle(ChatFormatting.RED);
+                } else if (getHealth() < 0.66) {
+                    component.withStyle(ChatFormatting.GOLD);
+                } else {
+                    component.withStyle(ChatFormatting.GREEN);
                 }
-            }
+                player.displayClientMessage(component, true);
 
-            this.level.playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
+                for (AABB shape : getAdditionalShapes()) {
+                    for (int i = 0; i < 5; i++) {
+                        Vec3 center = shape.getCenter();
+                        double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
+                        double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
+                        double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
+                        this.level.addParticle(ParticleTypes.COMPOSTER, x, y, z, 0, random.nextDouble(), 0);
+                    }
+                }
+
+                this.level.playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
+            }
 
             return InteractionResult.CONSUME;
         }
@@ -819,17 +809,5 @@ public abstract class VehicleEntity extends Entity {
 
     public List<AABB> getAdditionalShapes() {
         return List.of();
-    }
-
-    public boolean collides() {
-        if (level.collidesWithSuffocatingBlock(this, getBoundingBox())) {
-            return true;
-        }
-        for (AABB additionalShape : getAdditionalShapes()) {
-            if (level.collidesWithSuffocatingBlock(this, additionalShape)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

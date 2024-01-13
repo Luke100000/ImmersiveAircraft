@@ -2,6 +2,7 @@
 
 * Reorders slots to no longer burn your banners (Existing aircraft needs some manual fixing)
 * Added support for modded fuel (Thanks Brandon!)
+* Biplanes can now reverse
 
 # 0.6.2
 
