@@ -3,7 +3,7 @@
   "minVersion": "0.7",
   "package": "immersive_aircraft.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": ["EntityGetterMixin", "EntityMixin", "PlayerEntityMixin", "ProjectileUtilMixin", "ServerPlayerEntityMixin"],
+  "mixins": ["PlayerEntityMixin", "ProjectileUtilMixin", "ServerPlayerEntityMixin"],
   "injectors": {
     "defaultRequire": 1
   },

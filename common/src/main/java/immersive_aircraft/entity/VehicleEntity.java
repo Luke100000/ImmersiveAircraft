@@ -46,7 +46,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -832,35 +831,5 @@ public abstract class VehicleEntity extends Entity {
             }
         }
         return false;
-    }
-
-    public Vec3 customCollide(Vec3 vec) {
-        AABB aabb = this.getBoundingBox();
-        vec = customCollide(vec, this, aabb);
-        for (AABB additionalShape : getAdditionalShapes()) {
-            vec = customCollide(vec, this, additionalShape);
-        }
-        return vec;
-    }
-
-    private Vec3 customCollide(Vec3 vec, VehicleEntity vehicle, AABB aabb) {
-        List<VoxelShape> list = this.getLevel().getEntityCollisions(vehicle, aabb.expandTowards(vec));
-        Vec3 vec3 = vec.lengthSqr() == 0.0 ? vec : Entity.collideBoundingBox(vehicle, vec, aabb, this.getLevel(), list);
-        boolean bl = vec.x != vec3.x;
-        boolean bl2 = vec.y != vec3.y;
-        boolean bl3 = vec.z != vec3.z;
-        boolean bl4 = this.onGround || bl2 && vec.y < 0.0;
-        if (this.maxUpStep > 0.0f && bl4 && (bl || bl3)) {
-            Vec3 vec34;
-            Vec3 vec32 = Entity.collideBoundingBox(vehicle, new Vec3(vec.x, this.maxUpStep, vec.z), aabb, this.getLevel(), list);
-            Vec3 vec33 = Entity.collideBoundingBox(vehicle, new Vec3(0.0, this.maxUpStep, 0.0), aabb.expandTowards(vec.x, 0.0, vec.z), this.getLevel(), list);
-            if (vec33.y < (double) this.maxUpStep && (vec34 = Entity.collideBoundingBox(vehicle, new Vec3(vec.x, 0.0, vec.z), aabb.move(vec33), this.getLevel(), list).add(vec33)).horizontalDistanceSqr() > vec32.horizontalDistanceSqr()) {
-                vec32 = vec34;
-            }
-            if (vec32.horizontalDistanceSqr() > vec3.horizontalDistanceSqr()) {
-                return vec32.add(Entity.collideBoundingBox(vehicle, new Vec3(0.0, -vec32.y + vec.y, 0.0), aabb.move(vec32), this.getLevel(), list));
-            }
-        }
-        return vec3;
     }
 }
