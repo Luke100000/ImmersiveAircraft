@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Máte málo paliva!",
   "immersive_aircraft.fat.none": "Žiadne jedlo!",
   "immersive_aircraft.fat.out": "Ste príliš hladní, aby ste mohli lietať!",
+  "immersive_aircraft.repair": "%s%% opravené!",
   "option.immersive_aircraft.general": "Všeobecné možnosti",
   "option.immersive_aircraft.separateCamera": "Používajte samostatnú kameru v lietadle.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Predvolené nastavenie kamery tretej osoby v lietadle.",
