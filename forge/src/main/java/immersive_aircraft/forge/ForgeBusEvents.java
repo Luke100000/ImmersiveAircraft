@@ -52,11 +52,6 @@ public class ForgeBusEvents {
                 event.addListener(loader);
             }
         }
-        if (RESOURCE_REGISTRY != null) {
-            for (PreparableReloadListener loader : RESOURCE_REGISTRY.getLoaders()) {
-                event.addListener(loader);
-            }
-        }
     }
 
     @SubscribeEvent

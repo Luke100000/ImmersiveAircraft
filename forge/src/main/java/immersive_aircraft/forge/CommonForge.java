@@ -14,8 +14,11 @@ import net.minecraftforge.registries.RegisterEvent;
 public final class CommonForge {
     public CommonForge() {
         RegistrationImpl.bootstrap();
+        DataLoaders.bootstrap();
+
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
+
         Messages.loadMessages();
     }
 
@@ -30,8 +33,6 @@ public final class CommonForge {
             Sounds.bootstrap();
             Entities.bootstrap();
             WeaponRegistry.bootstrap();
-
-            DataLoaders.register();
         }
     }
 }

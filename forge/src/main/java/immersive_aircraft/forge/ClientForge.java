@@ -26,7 +26,6 @@ public final class ClientForge {
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
         RegistrationImpl.bootstrap();
-
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
     }

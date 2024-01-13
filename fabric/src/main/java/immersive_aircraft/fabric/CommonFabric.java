@@ -22,8 +22,8 @@ public final class CommonFabric implements ModInitializer {
         Sounds.bootstrap();
         Entities.bootstrap();
         WeaponRegistry.bootstrap();
+        DataLoaders.bootstrap();
 
-        DataLoaders.register();
         Messages.loadMessages();
 
         // Register event for syncing aircraft upgrades.

@@ -207,7 +207,7 @@ public abstract class VehicleEntity extends Entity {
         setDamageWobbleTicks(10);
 
         // todo different per vehicle
-        setDamageWobbleStrength((float) (getDamageWobbleStrength() + Math.sqrt(amount) * 30.0f / (1.0f + getDamageWobbleStrength() * 0.05f)));
+        setDamageWobbleStrength((float) (getDamageWobbleStrength() + Math.sqrt(amount) * 5.0f / (1.0f + getDamageWobbleStrength() * 0.05f)));
 
         gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
 
@@ -592,9 +592,10 @@ public abstract class VehicleEntity extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (getHealth() < 1.0f) {
-            repair(0.025f);
-
             if (!level.isClientSide && !hasPassenger(player)) {
+                repair(Config.getInstance().repairSpeed);
+
+                // Repair message
                 MutableComponent component = Component.translatable("immersive_aircraft.repair", (int) (getHealth() * 100.0f));
                 if (getHealth() < 0.33) {
                     component.withStyle(ChatFormatting.RED);
@@ -605,6 +606,7 @@ public abstract class VehicleEntity extends Entity {
                 }
                 player.displayClientMessage(component, true);
 
+                // Repair particles
                 for (AABB shape : getAdditionalShapes()) {
                     for (int i = 0; i < 5; i++) {
                         Vec3 center = shape.getCenter();

@@ -81,6 +81,7 @@
   "option.immersive_aircraft.windClearWeather": "Base wind effect.",
   "option.immersive_aircraft.windRainWeather": "Wind at rainfall.",
   "option.immersive_aircraft.windThunderWeather": "Extra wind at thunder.",
+  "option.immersive_aircraft.repairSpeed": "Repair per click.",
   "option.immersive_aircraft.collisionDamage": "Collision damage.",
   "option.immersive_aircraft.burnFuelInCreative": "Burn fuel in creative mode.",
   "option.immersive_aircraft.acceptVanillaFuel": "Accept vanilla fuel.",

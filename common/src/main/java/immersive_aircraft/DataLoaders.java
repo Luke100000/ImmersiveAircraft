@@ -6,8 +6,12 @@ import immersive_aircraft.data.UpgradeDataLoader;
 import immersive_aircraft.resources.BBModelLoader;
 import immersive_aircraft.resources.ObjectLoader;
 
-public interface DataLoaders {
-    static void register() {
+public class DataLoaders {
+    public static void bootstrap() {
+        // nop
+    }
+
+    static {
         Registration.registerDataLoader("aircraft_upgrades", new UpgradeDataLoader());
         Registration.registerDataLoader("aircraft_stats", new BaseStatDataLoader());
 

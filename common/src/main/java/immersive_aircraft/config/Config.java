@@ -69,6 +69,9 @@ public final class Config extends JsonConfig {
     @FloatConfigEntry(3.0f)
     public float windThunderWeather;
 
+    @FloatConfigEntry(0.025f)
+    public float repairSpeed;
+
     @BooleanConfigEntry(true)
     public boolean collisionDamage;
 
