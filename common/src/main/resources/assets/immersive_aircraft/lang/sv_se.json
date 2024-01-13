@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Det är ont om bränsle!",
   "immersive_aircraft.fat.none": "Du orkar inte trampa längre!",
   "immersive_aircraft.fat.out": "Du är helt utmattad!",
+  "immersive_aircraft.repair": "%s%% reparerad!",
   "option.immersive_aircraft.general": "Allmänna inställningar",
   "option.immersive_aircraft.separateCamera": "Använd en annan kamera i luftfarkoster",
   "option.immersive_aircraft.useThirdPersonByDefault": "Använd tredjepersonsperspektiv i luftfarkoster",
