@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Anda kehabisan bahan bakar!",
   "immersive_aircraft.fat.none": "Tidak ada makanan!",
   "immersive_aircraft.fat.out": "Anda terlalu lapar untuk terbang!",
+  "immersive_aircraft.repair": "%s%% diperbaiki!",
   "option.immersive_aircraft.general": "Opsi Umum",
   "option.immersive_aircraft.separateCamera": "Gunakan kamera terpisah di pesawat terbang.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Default ke kamera orang ketiga di pesawat.",
