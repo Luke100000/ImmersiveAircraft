@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Jums ir maz degvielas!",
   "immersive_aircraft.fat.none": "Bez ēdiena!",
   "immersive_aircraft.fat.out": "Jūs esat pārāk izsalcis, lai lidotu!",
+  "immersive_aircraft.repair": "%s%% salabots!",
   "option.immersive_aircraft.general": "Vispārīgās opcijas",
   "option.immersive_aircraft.separateCamera": "Lidmašīnā izmantojiet atsevišķu kameru.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Pēc noklusējuma tiek iestatīta trešās personas kamera lidmašīnā.",
