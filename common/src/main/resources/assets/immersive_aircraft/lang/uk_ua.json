@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "У вас мало пального!",
   "immersive_aircraft.fat.none": "Скінчилась їжа!",
   "immersive_aircraft.fat.out": "Ви надто голодні, щоб летіти!",
+  "immersive_aircraft.repair": "%s%% відремонтовано!",
   "option.immersive_aircraft.general": "Загальні налаштування",
   "option.immersive_aircraft.separateCamera": "Використовувати окремі налаштування виду в літаках.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Використовувати вид від третього лиця за замовчуванням.",
