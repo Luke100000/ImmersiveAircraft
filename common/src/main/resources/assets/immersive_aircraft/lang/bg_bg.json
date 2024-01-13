@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Имате малко гориво!",
   "immersive_aircraft.fat.none": "Няма храна!",
   "immersive_aircraft.fat.out": "Твърде гладни сте, за да летите!",
+  "immersive_aircraft.repair": "%s%% ремонтирано!",
   "option.immersive_aircraft.general": "Общи опции",
   "option.immersive_aircraft.separateCamera": "Използвайте отделна камера в самолета.",
   "option.immersive_aircraft.useThirdPersonByDefault": "По подразбиране се използва камера от трето лице в самолета.",
