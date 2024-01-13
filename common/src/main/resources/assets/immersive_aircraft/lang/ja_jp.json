@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "燃料の量が少ない",
   "immersive_aircraft.fat.none": "満腹度ゲージは空っぽだ",
   "immersive_aircraft.fat.out": "飛ぶにはお腹が空きすぎる",
+  "immersive_aircraft.repair": "%s修理しました！",
   "option.immersive_aircraft.general": "一般の設定",
   "option.immersive_aircraft.separateCamera": "航空機を使うときは視点を変える",
   "option.immersive_aircraft.useThirdPersonByDefault": "航空機を使用する際は、三人称視点に変える",
