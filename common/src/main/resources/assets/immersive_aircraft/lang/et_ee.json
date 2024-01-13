@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Sul on kütus vähe!",
   "immersive_aircraft.fat.none": "Ei mingit toitu!",
   "immersive_aircraft.fat.out": "Sa oled liiga näljane, et lennata!",
+  "immersive_aircraft.repair": "%s%% parandatud!",
   "option.immersive_aircraft.general": "Üldised valikud",
   "option.immersive_aircraft.separateCamera": "Kasutage õhusõidukis eraldi kaamerat.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Standardselt on õhusõidukis kolmanda isiku kaamera.",
