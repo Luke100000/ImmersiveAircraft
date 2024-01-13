@@ -1,4 +1,4 @@
-package immersive_aircraft.mixin;
+package immersive_aircraft.mixin.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import immersive_aircraft.client.MultiKeyMapping;

@@ -1,7 +1,7 @@
 package immersive_aircraft.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import immersive_aircraft.mixin.KeyMappingAccessorMixin;
+import immersive_aircraft.mixin.client.KeyMappingAccessorMixin;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;

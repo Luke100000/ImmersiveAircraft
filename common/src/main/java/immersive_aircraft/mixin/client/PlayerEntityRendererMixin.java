@@ -1,4 +1,4 @@
-package immersive_aircraft.mixin;
+package immersive_aircraft.mixin.client;
 
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.model.PlayerModel;

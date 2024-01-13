@@ -1,4 +1,4 @@
-package immersive_aircraft.mixin;
+package immersive_aircraft.mixin.client;
 
 import com.mojang.authlib.GameProfile;
 import immersive_aircraft.cobalt.network.NetworkHandler;

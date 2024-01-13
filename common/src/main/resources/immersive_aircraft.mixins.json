@@ -8,8 +8,10 @@
     "defaultRequire": 1
   },
   "client": [
-    "ClientPlayerEntityMixin", "ClientPlayerInteractionManagerMixin", "ClientPlayNetworkHandlerMixin",
-    "EntityRenderDispatcherMixin", "GameRendererMixin", "GuiMixin", "KeyMappingAccessorMixin", "KeyMappingMixin",
-    "LivingEntityRendererMixin", "PlayerEntityRendererMixin"
+    "client.ClientPlayerEntityMixin", "client.ClientPlayerInteractionManagerMixin",
+    "client.ClientPlayNetworkHandlerMixin",
+    "client.EntityRenderDispatcherMixin", "client.GameRendererMixin", "client.GuiMixin",
+    "client.KeyMappingAccessorMixin", "client.KeyMappingMixin",
+    "client.LivingEntityRendererMixin", "client.PlayerEntityRendererMixin"
   ]
 }
