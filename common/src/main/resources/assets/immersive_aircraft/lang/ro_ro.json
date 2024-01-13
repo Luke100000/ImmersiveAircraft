@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Ai rămas fără combustibil!",
   "immersive_aircraft.fat.none": "Fără mâncare!",
   "immersive_aircraft.fat.out": "Ești prea flămând ca să zbori!",
+  "immersive_aircraft.repair": "%s%% reparat!",
   "option.immersive_aircraft.general": "Opțiuni generale",
   "option.immersive_aircraft.separateCamera": "Utilizați o cameră separată în aeronavă.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Se utilizează în mod implicit camera la persoana a treia în avion.",
