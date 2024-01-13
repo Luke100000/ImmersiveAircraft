@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Yakıtınız azaldı!",
   "immersive_aircraft.fat.none": "Yemek yok!",
   "immersive_aircraft.fat.out": "Uçamayacak kadar açsın!",
+  "immersive_aircraft.repair": "%s% tamir edildi!",
   "option.immersive_aircraft.general": "Genel Seçenekler",
   "option.immersive_aircraft.separateCamera": "Uçakta ayrı bir kamera kullanın.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Uçakta varsayılan olarak üçüncü şahıs kamerası kullanılır.",
