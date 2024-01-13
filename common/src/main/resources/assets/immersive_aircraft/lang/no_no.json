@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Det er knapphet på drivstoff!",
   "immersive_aircraft.fat.none": "Du er helt utslitt!",
   "immersive_aircraft.fat.out": "Du orker ikke å trå lenger!",
+  "immersive_aircraft.repair": "%s%% reparert!",
   "option.immersive_aircraft.general": "Allmenne innstillinger",
   "option.immersive_aircraft.separateCamera": "Bruk et annet kamera når man er i et luftfartøy",
   "option.immersive_aircraft.useThirdPersonByDefault": "Bruk tredjepersonsperspektiv i luftfartøy",
