@@ -3,6 +3,8 @@
 * Reorders slots to no longer burn your banners (Existing aircraft needs some manual fixing)
 * Added support for modded fuel (Thanks Brandon!)
 * Biplanes can now reverse
+* REI is now also supported
+* Fixed client tracking range (Vehicles are now 2.4x farther visible)
 
 # 0.6.2
 
