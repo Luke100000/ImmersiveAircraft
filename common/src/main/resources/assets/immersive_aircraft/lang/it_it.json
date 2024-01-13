@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Sei a corto di carburante!",
   "immersive_aircraft.fat.none": "Niente cibo!",
   "immersive_aircraft.fat.out": "Hai troppa fame per volare!",
+  "immersive_aircraft.repair": "%s%% riparato!",
   "option.immersive_aircraft.general": "Opzioni generali",
   "option.immersive_aircraft.separateCamera": "Usa una telecamera separata per gli aerei.",
   "option.immersive_aircraft.useThirdPersonByDefault": "La telecamera di default è in terza persona nell'aereo.",
