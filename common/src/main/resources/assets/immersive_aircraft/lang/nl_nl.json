@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Je hebt weinig brandstof!",
   "immersive_aircraft.fat.none": "Geen eten!",
   "immersive_aircraft.fat.out": "Je hebt te veel honger om te vliegen!",
+  "immersive_aircraft.repair": "%s%% gerepareerd!",
   "option.immersive_aircraft.general": "Algemene opties",
   "option.immersive_aircraft.separateCamera": "Gebruik een aparte camera in vliegtuigen.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Staat standaard op derde persoon camera in vliegtuig.",
