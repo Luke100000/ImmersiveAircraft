@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Δεν έχετε πολλά καύσιμα!",
   "immersive_aircraft.fat.none": "Όχι φαγητό!",
   "immersive_aircraft.fat.out": "Είσαι πολύ πεινασμένος για να πετάξεις!",
+  "immersive_aircraft.repair": "%s%% επισκευασμένο!",
   "option.immersive_aircraft.general": "Γενικές επιλογές",
   "option.immersive_aircraft.separateCamera": "Χρησιμοποιήστε ξεχωριστή κάμερα στο αεροσκάφος.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Προεπιλογή κάμερας τρίτου προσώπου στο αεροσκάφος.",
