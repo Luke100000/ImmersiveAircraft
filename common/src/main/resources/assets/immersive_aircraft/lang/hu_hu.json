@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Kevés az üzemanyag!",
   "immersive_aircraft.fat.none": "Nincs kaja!",
   "immersive_aircraft.fat.out": "Túl éhes vagy a repüléshez!",
+  "immersive_aircraft.repair": "%s%% javítva!",
   "option.immersive_aircraft.general": "Általános lehetőségek",
   "option.immersive_aircraft.separateCamera": "Használjon külön kamerát a repülőgépen.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Alapértelmezett harmadik személyű kamera a repülőgépen.",
