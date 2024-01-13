@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "Eldsneytismagn er lágt!",
   "immersive_aircraft.fat.none": "Þú ert orðinn orkulaus!",
   "immersive_aircraft.fat.out": "Þú orkar ekki stigið lengur!",
+  "immersive_aircraft.repair": "%s%% repaired!",
   "option.immersive_aircraft.general": "Almennar stillingar",
   "option.immersive_aircraft.separateCamera": "Use a separate camera in aircraft.",
   "option.immersive_aircraft.useThirdPersonByDefault": "Defaults to third person camera in aircraft.",
