@@ -59,6 +59,7 @@
   "immersive_aircraft.fuel.low": "你的燃料不足！",
   "immersive_aircraft.fat.none": "沒有食物！",
   "immersive_aircraft.fat.out": "你太餓了，不能再飛了，吃個東西休息一下！",
+  "immersive_aircraft.repair": "%s%% repaired!",
   "option.immersive_aircraft.general": "通用設定",
   "option.immersive_aircraft.separateCamera": "在飛機上設置單獨的視角",
   "option.immersive_aircraft.useThirdPersonByDefault": "在飛機上預設為第三人稱視角",
