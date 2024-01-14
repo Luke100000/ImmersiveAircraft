@@ -68,6 +68,7 @@ public abstract class VehicleEntity extends Entity {
     protected static final EntityDataAccessor<Integer> BOOST = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
 
     protected int interpolationSteps;
+    protected int lastTriedToExit;
 
     protected double x;
     protected double y;
@@ -270,7 +271,6 @@ public abstract class VehicleEntity extends Entity {
         gameEvent(GameEvent.SPLASH, getControllingPassenger());
     }
 
-    @SuppressWarnings("CommentedOutCode")
     @Override
     public void push(Entity entity) {
         float a = entity.getYRot() * ((float) Math.PI / 180);
@@ -281,22 +281,6 @@ public abstract class VehicleEntity extends Entity {
 
             if (!this.isVehicle()) {
                 this.push(dx, 0.0, dz);
-
-                /*
-                // Calculate the displacement vector
-                double deltaX = entity.getX() - getX();
-                double deltaZ = entity.getZ() - getZ();
-
-                // Calculate the angle between the displacement vector and the force direction
-                double dotProduct = deltaX * dx + deltaZ * dz;
-                double displacementMagnitude = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-                double forceDirectionMagnitude = Math.sqrt(dx * dx + dz * dz);
-                double cosTheta = dotProduct / (displacementMagnitude * forceDirectionMagnitude);
-
-                // Calculate the angular rotation
-                double angularRotation = Math.acos(cosTheta);
-                super.setYRot((float) (getYRot() - angularRotation * speed * 16.0));
-                 */
             }
         }
     }
@@ -413,8 +397,13 @@ public abstract class VehicleEntity extends Entity {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player) {
                 if (KeyBindings.dismount.consumeClick()) {
-                    NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
-                    player.setJumping(false);
+                    if (onGround || tickCount - lastTriedToExit < 20) {
+                        NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
+                        player.setJumping(false);
+                    } else {
+                        lastTriedToExit = tickCount;
+                        player.displayClientMessage(Component.translatable("immersive_aircraft.tried_dismount"), true);
+                    }
                 }
                 if (KeyBindings.boost.consumeClick() && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));

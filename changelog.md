@@ -5,6 +5,7 @@
 * Biplanes can now reverse
 * REI is now also supported
 * Fixed client tracking range (Vehicles are now 2.4x farther visible)
+* You now have to confirm R to dismount when in flight
 
 # 0.6.2
 
