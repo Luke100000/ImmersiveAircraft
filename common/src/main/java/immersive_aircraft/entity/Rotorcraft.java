@@ -20,6 +20,15 @@ public abstract class Rotorcraft extends EngineAircraft {
     }
 
     @Override
+    public Vec3 getRightDirection() {
+        return new Vec3(
+                Mth.cos(-getYRot() * ((float) Math.PI / 180)),
+                0.0,
+                Mth.sin(getYRot() * ((float) Math.PI / 180))
+        ).normalize();
+    }
+
+    @Override
     protected void convertPower(Vec3 direction) {
         Vec3 velocity = getDeltaMovement().multiply(1.0f, 0.0f, 1.0f);
         double drag = Math.abs(direction.dot(velocity.normalize()));

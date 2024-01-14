@@ -7,6 +7,8 @@
 * Fixed client tracking range (Vehicles are now 2.4x farther visible)
 * You now have to confirm R to dismount when in flight
 * You now get reminded how to exit when trying to shift
+* Quadrocopter now have a strafing movement and do not affect the camera, making it way more usable for building and
+  first person operations
 
 # 0.6.2
 

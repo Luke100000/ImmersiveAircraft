@@ -5,6 +5,7 @@ import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class QuadrocopterEntity extends Rotorcraft {
     private final AircraftProperties properties = new AircraftProperties(this)
-            .setYawSpeed(5.0f)
+            .setYawSpeed(0.15f)
             .setPitchSpeed(1.5f)
             .setEngineSpeed(0.0325f)
             .setVerticalSpeed(0.0325f)
@@ -39,6 +40,8 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     public QuadrocopterEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
+
+        adaptPlayerRotation = false;
     }
 
     @Override
@@ -53,11 +56,6 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     protected SoundEvent getEngineSound() {
         return Sounds.PROPELLER_TINY.get();
-    }
-
-    @Override
-    protected float getEnginePitch() {
-        return 1.0f;
     }
 
     @Override
@@ -107,18 +105,42 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     @Override
     protected void updateController() {
-        super.updateController();
-
         setEngineTarget(1.0f);
+
+        // forwards-backwards
+        if (!onGround) {
+            setXRot(getXRot() + getProperties().getPitchSpeed() * pressingInterpolatedZ.getSmooth());
+        }
+        setXRot(getXRot() * (1.0f - getStabilizer()));
 
         // up and down
         setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth(), 0.0f));
 
-        // get pointing direction
-        Vec3 direction = getForwardDirection();
+        // Rotate to pilot's head rotation
+        Entity pilot = getControllingPassenger();
+        if (pilot != null) {
+            float diff = pilot.getYHeadRot() - getYRot();
+            if (diff > 180.0f) {
+                diff -= 360.0f;
+            } else if (diff < -180.0f) {
+                diff += 360.0f;
+            }
+            diff = diff * properties.getYawSpeed();
+            setYRot(getYRot() + diff);
+        }
 
-        // accelerate
-        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed()) * pressingInterpolatedZ.getSmooth();
-        setDeltaMovement(getDeltaMovement().add(direction.scale(thrust)));
+        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * properties.getEngineSpeed());
+
+        // left and right
+        Vec3 direction = getRightDirection().scale(thrust * pressingInterpolatedX.getSmooth());
+        setDeltaMovement(getDeltaMovement().add(direction));
+
+        // forward and backward
+        direction = getForwardDirection().scale(thrust * pressingInterpolatedZ.getSmooth());
+        setDeltaMovement(getDeltaMovement().add(direction));
+    }
+
+    protected void convertPower(Vec3 direction) {
+        // Quadrocopters does not convert power
     }
 }

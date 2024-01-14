@@ -90,6 +90,8 @@ public abstract class VehicleEntity extends Entity {
     public float roll;
     public float prevRoll;
 
+    public boolean adaptPlayerRotation = true;
+
     public float getRoll() {
         return roll;
     }
@@ -501,8 +503,10 @@ public abstract class VehicleEntity extends Entity {
 
                 passenger.setPos(worldPosition.x(), worldPosition.y(), worldPosition.z());
 
-                passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
-                passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
+                if (adaptPlayerRotation) {
+                    passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
+                    passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
+                }
 
                 copyEntityData(passenger);
                 if (passenger instanceof Animal animalEntity && size > 1) {
@@ -775,6 +779,11 @@ public abstract class VehicleEntity extends Entity {
 
     public Vec3 getForwardDirection() {
         Vector3f f = transformVector(0.0f, 0.0f, 1.0f);
+        return new Vec3(f.x(), f.y(), f.z());
+    }
+
+    public Vec3 getRightDirection() {
+        Vector3f f = transformVector(1.0f, 0.0f, 0.0f);
         return new Vec3(f.x(), f.y(), f.z());
     }
 

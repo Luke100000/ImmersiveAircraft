@@ -23,10 +23,12 @@ public class GameRendererMixin {
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"))
     public void renderWorld(float tickDelta, long limitTime, PoseStack matrices, CallbackInfo ci) {
         Entity entity = mainCamera.getEntity();
-        if (!mainCamera.isDetached() && entity != null && entity.getRootVehicle() instanceof AircraftEntity aircraft) {
+        if (!mainCamera.isDetached() && entity != null && entity.getRootVehicle() instanceof AircraftEntity vehicle) {
             // rotate camera
-            matrices.mulPose(Vector3f.ZP.rotationDegrees(aircraft.getRoll(tickDelta)));
-            matrices.mulPose(Vector3f.XP.rotationDegrees(aircraft.getViewXRot(tickDelta)));
+            if (vehicle.adaptPlayerRotation) {
+                matrices.mulPose(Vector3f.ZP.rotationDegrees(vehicle.getRoll(tickDelta)));
+                matrices.mulPose(Vector3f.XP.rotationDegrees(vehicle.getViewXRot(tickDelta)));
+            }
 
             // fetch eye offset
             float eye = entity.getEyeHeight();
@@ -34,9 +36,9 @@ public class GameRendererMixin {
             // transform eye offset to match aircraft rotation
             Vector3f offset = new Vector3f(0, -eye, 0);
             Quaternion quaternion = Vector3f.XP.rotationDegrees(0.0f);
-            quaternion.mul(Vector3f.YP.rotationDegrees(-aircraft.getViewYRot(tickDelta)));
-            quaternion.mul(Vector3f.XP.rotationDegrees(aircraft.getViewXRot(tickDelta)));
-            quaternion.mul(Vector3f.ZP.rotationDegrees(aircraft.getRoll(tickDelta)));
+            quaternion.mul(Vector3f.YP.rotationDegrees(-vehicle.getViewYRot(tickDelta)));
+            quaternion.mul(Vector3f.XP.rotationDegrees(vehicle.getViewXRot(tickDelta)));
+            quaternion.mul(Vector3f.ZP.rotationDegrees(vehicle.getRoll(tickDelta)));
             offset.transform(quaternion);
 
             // apply camera offset

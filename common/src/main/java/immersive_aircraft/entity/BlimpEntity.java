@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class BlimpEntity extends Rotorcraft {
+public class BlimpEntity extends AirshipEntity {
     private final AircraftProperties properties = new AircraftProperties(this)
             .setYawSpeed(5.0f)
             .setEngineSpeed(0.02f)
@@ -46,7 +46,7 @@ public class BlimpEntity extends Rotorcraft {
     }
 
     public BlimpEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
-        super(entityType, world, true);
+        super(entityType, world);
     }
 
     @Override

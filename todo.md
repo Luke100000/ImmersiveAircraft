@@ -15,5 +15,4 @@ wrap up things, do NOT include new renderer for now
 * add bomber
 * add telescope
 * add damage texture, in case of z fighting add a small offset
-* when repairing, print the progress
 * move properties and BBs and weapon mounts into json
