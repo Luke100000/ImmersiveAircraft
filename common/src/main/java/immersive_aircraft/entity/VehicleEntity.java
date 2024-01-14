@@ -15,6 +15,7 @@ import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -69,6 +70,7 @@ public abstract class VehicleEntity extends Entity {
 
     protected int interpolationSteps;
     protected int lastTriedToExit;
+    public boolean triedToShiftExit;
 
     protected double x;
     protected double y;
@@ -347,7 +349,6 @@ public abstract class VehicleEntity extends Entity {
         // interpolate
         handleClientSync();
 
-
         int boost = getBoost();
         if (boost > 0) {
             entityData.set(BOOST, boost - 1);
@@ -396,6 +397,10 @@ public abstract class VehicleEntity extends Entity {
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player) {
+                if (KeyBindings.down.isDown() && isOnGround() && getDeltaMovement().length() < 0.01) {
+                    player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
+                }
+
                 if (KeyBindings.dismount.consumeClick()) {
                     if (onGround || tickCount - lastTriedToExit < 20) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
@@ -405,6 +410,7 @@ public abstract class VehicleEntity extends Entity {
                         player.displayClientMessage(Component.translatable("immersive_aircraft.tried_dismount"), true);
                     }
                 }
+
                 if (KeyBindings.boost.consumeClick() && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));
                     Vec3 p = position();

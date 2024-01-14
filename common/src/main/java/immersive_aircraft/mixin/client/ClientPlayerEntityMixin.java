@@ -2,8 +2,8 @@ package immersive_aircraft.mixin.client;
 
 import com.mojang.authlib.GameProfile;
 import immersive_aircraft.cobalt.network.NetworkHandler;
-import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.network.c2s.CommandMessage;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -23,14 +23,14 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayer {
     }
 
     @Inject(method = "isCrouching()Z", at = @At("HEAD"), cancellable = true)
-    public void isInSneakingPoseInject(CallbackInfoReturnable<Boolean> cir) {
-        if (getRootVehicle() instanceof AircraftEntity) {
+    public void ia$isCrouching(CallbackInfoReturnable<Boolean> cir) {
+        if (getRootVehicle() instanceof VehicleEntity vehicle) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "sendOpenInventory()V", at = @At("HEAD"), cancellable = true)
-    public void isInSneakingPoseInject(CallbackInfo ci) {
+    public void ia$sendOpenInventory(CallbackInfo ci) {
         if (getRootVehicle() instanceof InventoryVehicleEntity) {
             NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.INVENTORY, getDeltaMovement()));
             ci.cancel();

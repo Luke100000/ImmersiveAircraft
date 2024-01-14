@@ -6,6 +6,7 @@
 * REI is now also supported
 * Fixed client tracking range (Vehicles are now 2.4x farther visible)
 * You now have to confirm R to dismount when in flight
+* You now get reminded how to exit when trying to shift
 
 # 0.6.2
 
