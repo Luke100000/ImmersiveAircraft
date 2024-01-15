@@ -4,12 +4,15 @@ import com.mojang.math.Vector3f;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.AircraftProperties;
 import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.entity.weapons.Telescope;
+import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -147,6 +150,18 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         float nx = (float) (Utils.cosNoise(tickCount / 20.0 / getProperties().getMass()) * wind);
         float nz = (float) (Utils.cosNoise(tickCount / 21.0 / getProperties().getMass()) * wind);
         return new Vector3f(nx, 0.0f, nz);
+    }
+
+    public boolean isScoping() {
+        Collection<List<Weapon>> values = getWeapons().values();
+        for (List<Weapon> weapons : values) {
+            for (Weapon weapon : weapons) {
+                if (weapon instanceof Telescope telescope && telescope.isScoping()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 

@@ -1,8 +1,6 @@
 package immersive_aircraft;
 
-import immersive_aircraft.client.render.entity.weaponRenderer.HeavyCrossbowRenderer;
-import immersive_aircraft.client.render.entity.weaponRenderer.RotaryCannonRenderer;
-import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
+import immersive_aircraft.client.render.entity.weaponRenderer.*;
 import immersive_aircraft.entity.weapons.Weapon;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +18,8 @@ public class WeaponRendererRegistry {
     static {
         register(Main.locate("rotary_cannon"), new RotaryCannonRenderer());
         register(Main.locate("heavy_crossbow"), new HeavyCrossbowRenderer());
+        register(Main.locate("telescope"), new TelescopeRenderer());
+        register(Main.locate("bomb_bay"), new BombBayRenderer());
     }
 
     public static void bootstrap() {

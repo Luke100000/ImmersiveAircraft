@@ -24,7 +24,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayer {
 
     @Inject(method = "isCrouching()Z", at = @At("HEAD"), cancellable = true)
     public void ia$isCrouching(CallbackInfoReturnable<Boolean> cir) {
-        if (getRootVehicle() instanceof VehicleEntity vehicle) {
+        if (getRootVehicle() instanceof VehicleEntity) {
             cir.setReturnValue(false);
         }
     }

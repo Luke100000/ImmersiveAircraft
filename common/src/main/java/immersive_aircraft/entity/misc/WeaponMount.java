@@ -17,6 +17,7 @@ public class WeaponMount {
 
     public enum Type {
         ROTATING,
-        FRONT
+        FRONT,
+        DROP
     }
 }

@@ -9,12 +9,12 @@ import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.s2c.FireResponse;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 
@@ -43,13 +43,11 @@ public abstract class BulletWeapon extends Weapon {
     public void fire(Vector3f direction) {
         // Calculate the position of the barrel
         Vector4f position = getBarrelOffset();
-        position.transform(getMount().getTransform());
         VehicleEntity entity = getEntity();
+        position.transform(getMount().getTransform());
         position.transform(entity.getVehicleTransform());
 
-        float vx = (float) (entity.xOld - entity.getX());
-        float vy = (float) (entity.yOld - entity.getY());
-        float vz = (float) (entity.zOld - entity.getZ());
+        Vec3 speed = entity.getSpeedVector();
 
         // Offset the position by the barrel length
         float barrelLength = getBarrelLength();
@@ -58,13 +56,13 @@ public abstract class BulletWeapon extends Weapon {
         // Spawn bullets
         for (int i = 0; i < getBulletCount(); i++) {
             Entity bullet = getBullet(entity, position, direction);
-            bullet.setDeltaMovement(entity.getDeltaMovement().add(vx, vy, vz));
+            bullet.setDeltaMovement(bullet.getDeltaMovement().add(speed));
             entity.getLevel().addFreshEntity(bullet);
         }
 
         // Fire-particle
         direction.mul(0.25f);
-        direction.add(vx, vy, vz);
+        direction.add((float) speed.x, (float) speed.y, (float) speed.z);
         FireResponse fireMessage = new FireResponse(position, direction);
         for (ServerPlayer player : ((ServerLevel) entity.getLevel()).players()) {
             NetworkHandler.sendToPlayer(fireMessage, player);
@@ -72,7 +70,7 @@ public abstract class BulletWeapon extends Weapon {
     }
 
     protected boolean spentAmmo(Map<String, Integer> ammunition, int amount) {
-        if (ammo < amount && (getEntity() instanceof InventoryVehicleEntity vehicle)) {
+        if (ammo < amount && getEntity() instanceof InventoryVehicleEntity vehicle) {
             for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);
 

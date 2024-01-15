@@ -1,7 +1,8 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.*;
-import immersive_aircraft.Main;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
+import com.mojang.math.Vector4f;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.VehicleEntity;
@@ -14,21 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import static immersive_aircraft.Entities.BULLET;
 
 public class RotaryCannon extends BulletWeapon {
-    float yaw = 0.0f;
-    float pitch = 0.0f;
-    float rotating = 0.0f;
-
-    float lastYaw = 0.0f;
-    float lastPitch = 0.0f;
-    float lastRotating = 0.0f;
+    private final RotationalManager rotationalManager = new RotationalManager();
 
     public RotaryCannon(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
         super(entity, stack, mount, slot);
-    }
-
-    @Override
-    protected float getBarrelLength() {
-        return 1.0f;
     }
 
     @Override
@@ -37,7 +27,7 @@ public class RotaryCannon extends BulletWeapon {
     }
 
     public float getVelocity() {
-        return 3.0f;
+        return 6.0f;
     }
 
     public float getInaccuracy() {
@@ -56,77 +46,36 @@ public class RotaryCannon extends BulletWeapon {
 
     @Override
     public void tick() {
-        lastYaw = yaw;
-        lastPitch = pitch;
-        lastRotating = rotating;
-
-        // todo use the "right" passenger
-        Entity pilot = getEntity().getControllingPassenger();
-        if (pilot != null) {
-            boolean firstPerson = Main.firstPersonGetter.isFirstPerson();
-            yaw = (float) ((pilot.getYHeadRot() - getEntity().getYRot()) / 180 * Math.PI);
-            pitch = (float) ((pilot.getXRot() / 180 * Math.PI) - (firstPerson ? 0.0f : 0.2f));
-        }
+        rotationalManager.tick();
+        rotationalManager.pointTo(getEntity());
     }
 
     @Override
     public void fire(Vector3f direction) {
-        if (spentAmmo(Config.getInstance().powderAmmunition, 20)) {
+        if (spentAmmo(Config.getInstance().powderAmmunition, 10)) {
             super.fire(direction);
         }
     }
 
     private Vector3f getDirection() {
-        Matrix4f transform = new Matrix4f(getMount().getTransform());
-        transform.multiply(getHeadTransform());
-        Vector3f direction = new Vector3f(0, 0, 1.0f);
-        direction.transform(new Matrix3f(transform));
-        direction.transform(getEntity().getVehicleNormalTransform());
-        return direction;
-    }
-
-    public Quaternion getHeadTransform() {
-        Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll() / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, -getYaw(), 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(getPitch(), 0.0f, 0.0f));
-        return quaternion;
+        return rotationalManager.screenToGlobal(getEntity());
     }
 
     public Quaternion getHeadTransform(float tickDelta) {
         Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, -getYaw(tickDelta), 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(getPitch(tickDelta), 0.0f, 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, 0.0f, getRotating(tickDelta)));
+        quaternion.mul(Quaternion.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
+        quaternion.mul(Quaternion.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
+        quaternion.mul(Quaternion.fromXYZ(0.0f, 0.0f, rotationalManager.getRoll(tickDelta)));
         return quaternion;
     }
 
     @Override
     public void clientFire(int index) {
-        float old = rotating;
-        rotating += 0.25f;
+        float old = rotationalManager.roll;
+        rotationalManager.roll += 0.25f;
 
-        if (Math.floor(old) != Math.floor(rotating)) {
+        if (Math.floor(old) != Math.floor(rotationalManager.roll)) {
             NetworkHandler.sendToServer(new FireMessage(getSlot(), index, getDirection()));
         }
-    }
-
-    public float getYaw() {
-        return yaw;
-    }
-
-    public float getYaw(float tickDelta) {
-        return yaw * tickDelta + lastYaw * (1.0f - tickDelta);
-    }
-
-    public float getPitch() {
-        return pitch;
-    }
-
-    public float getPitch(float tickDelta) {
-        return pitch * tickDelta + lastPitch * (1.0f - tickDelta);
-    }
-
-    public float getRotating(float tickDelta) {
-        return (float) ((rotating * tickDelta + lastRotating * (1.0f - tickDelta)) * Math.PI / 2.0);
     }
 }

@@ -15,7 +15,6 @@ import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -55,7 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract vehicle which handles player input, collisions, passengers and destruction
+ * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
@@ -70,7 +69,6 @@ public abstract class VehicleEntity extends Entity {
 
     protected int interpolationSteps;
     protected int lastTriedToExit;
-    public boolean triedToShiftExit;
 
     protected double x;
     protected double y;
@@ -89,6 +87,13 @@ public abstract class VehicleEntity extends Entity {
 
     public float roll;
     public float prevRoll;
+
+    public double lastX;
+    public double lastY;
+    public double lastZ;
+    public double secondLastX;
+    public double secondLastY;
+    public double secondLastZ;
 
     public boolean adaptPlayerRotation = true;
 
@@ -275,20 +280,6 @@ public abstract class VehicleEntity extends Entity {
         gameEvent(GameEvent.SPLASH, getControllingPassenger());
     }
 
-    @Override
-    public void push(Entity entity) {
-        float a = entity.getYRot() * ((float) Math.PI / 180);
-        double speed = (1.0 - entity.getDeltaMovement().length()) * 0.2;
-        if (speed > 0.0) {
-            double dx = Math.sin(-a) * speed;
-            double dz = Math.cos(-a) * speed;
-
-            if (!this.isVehicle()) {
-                this.push(dx, 0.0, dz);
-            }
-        }
-    }
-
     public Item asItem() {
         return Items.STICK;
     }
@@ -333,6 +324,15 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public void tick() {
+        if (tickCount % 10 == 0) {
+            secondLastX = lastX;
+            secondLastY = lastY;
+            secondLastZ = lastZ;
+            lastX = getX();
+            lastY = getY();
+            lastZ = getZ();
+        }
+
         // pilot
         if (level.isClientSide() && !getPassengers().isEmpty()) {
             tickPilot();
@@ -382,9 +382,7 @@ public abstract class VehicleEntity extends Entity {
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
                     entity.startRiding(this);
-                    continue;
                 }
-                push(entity);
             }
         }
 
@@ -815,5 +813,9 @@ public abstract class VehicleEntity extends Entity {
 
     public List<AABB> getAdditionalShapes() {
         return List.of();
+    }
+
+    public Vec3 getSpeedVector() {
+        return new Vec3((lastX - secondLastX) / 10.0f, (lastY - secondLastY) / 10.0f, (lastZ - secondLastZ) / 10.0f);
     }
 }

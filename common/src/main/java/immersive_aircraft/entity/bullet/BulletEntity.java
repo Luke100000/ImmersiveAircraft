@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
 public class BulletEntity extends ThrowableItemProjectile {
-    private float scale = 1.0f;
+    private float scale = 0.25f;
 
     public BulletEntity(EntityType<? extends BulletEntity> entityType, Level level) {
         super(entityType, level);
@@ -49,5 +49,14 @@ public class BulletEntity extends ThrowableItemProjectile {
             float damage = 5.0f;
             result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), damage);
         }
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        double d = this.getBoundingBox().getSize() * 10.0;
+        if (Double.isNaN(d)) {
+            d = 10.0;
+        }
+        return distance < (d *= 64.0) * d * scale;
     }
 }

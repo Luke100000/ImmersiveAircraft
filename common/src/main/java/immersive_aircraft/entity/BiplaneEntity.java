@@ -42,6 +42,10 @@ public class BiplaneEntity extends AirplaneEntity {
                     WeaponMount.Type.FRONT, List.of(
                             new WeaponMount(Matrix4f.createTranslateMatrix(-1.0f, -0.0625f, 1.0f)),
                             new WeaponMount(Matrix4f.createTranslateMatrix(1.0f, -0.0625f, 1.0f))
+                    ),
+                    WeaponMount.Type.DROP, List.of(
+                            new WeaponMount(Matrix4f.createTranslateMatrix(-1.25f, -0.1f, 1.0f)),
+                            new WeaponMount(Matrix4f.createTranslateMatrix(1.25f, -0.1f, 1.0f))
                     )
             )
     );

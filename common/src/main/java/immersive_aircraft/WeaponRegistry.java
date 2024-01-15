@@ -4,6 +4,8 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapons.RotaryCannon;
 import immersive_aircraft.entity.weapons.HeavyCrossbow;
+import immersive_aircraft.entity.weapons.Telescope;
+import immersive_aircraft.entity.weapons.BombBay;
 import immersive_aircraft.entity.weapons.Weapon;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +24,8 @@ public class WeaponRegistry {
     static {
         register(Main.locate("rotary_cannon"), RotaryCannon::new);
         register(Main.locate("heavy_crossbow"), HeavyCrossbow::new);
+        register(Main.locate("telescope"), Telescope::new);
+        register(Main.locate("bomb_bay"), BombBay::new);
     }
 
     public static void bootstrap() {
