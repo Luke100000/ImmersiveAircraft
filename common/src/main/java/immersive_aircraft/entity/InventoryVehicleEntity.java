@@ -102,9 +102,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     }
 
     @Override
-    protected void drop() {
-        super.drop();
-
+    protected void dropInventory() {
         //drop inventory
         if (this.inventory != null) {
             for (int i = 0; i < this.inventory.getContainerSize(); ++i) {

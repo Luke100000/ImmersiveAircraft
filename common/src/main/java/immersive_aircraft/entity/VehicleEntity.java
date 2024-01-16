@@ -209,6 +209,7 @@ public abstract class VehicleEntity extends Entity {
 
         // Creative player
         if (source.getEntity() instanceof Player player && player.getAbilities().instabuild) {
+            dropInventory();
             discard();
             return true;
         }
@@ -238,17 +239,18 @@ public abstract class VehicleEntity extends Entity {
         if (health <= 0) {
             setHealth(0);
 
-            // Drop stuff if enabled
-            if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
-                drop();
-            }
-
             // Explode if destroyed by force
             if (force && canExplodeOnCrash && Config.getInstance().enableCrashExplosion) {
                 getLevel().explode(this, getX(), getY(), getZ(),
                         Config.getInstance().crashExplosionRadius,
                         Config.getInstance().enableCrashFire,
                         Config.getInstance().enableCrashBlockDestruction ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
+            }
+
+            // Drop stuff if enabled
+            if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
+                drop();
+                dropInventory();
             }
 
             discard();
@@ -269,6 +271,10 @@ public abstract class VehicleEntity extends Entity {
 
     protected void drop() {
         spawnAtLocation(asItem());
+    }
+
+    protected void dropInventory() {
+        // nothing
     }
 
     @Override
@@ -401,10 +407,11 @@ public abstract class VehicleEntity extends Entity {
             double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
             double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
             double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
-            Vec3 vector = getSpeedVector();
-            this.level.addParticle(ParticleTypes.SMOKE, x, y, z, vector.x, vector.y, vector.z);
+
+            Vec3 speed = getSpeedVector();
+            this.level.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
             if (getHealth() < 0.5) {
-                this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, vector.x, vector.y, vector.z);
+                this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
             }
         }
     }
