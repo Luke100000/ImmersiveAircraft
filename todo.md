@@ -12,6 +12,6 @@
 
 
 wrap up things, do NOT include new renderer for now
-* add damage texture, in case of z fighting add a small offset
 * move properties and BBs and weapon mounts into json
 * add textures for all weapons
+* add tooltips for weapons

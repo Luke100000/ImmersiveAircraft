@@ -392,6 +392,21 @@ public abstract class VehicleEntity extends Entity {
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);
         }
+
+        if (level.isClientSide && random.nextFloat() > getHealth()) {
+            // Damage particles
+            List<AABB> additionalShapes = getAdditionalShapes();
+            AABB shape = additionalShapes.get(random.nextInt(additionalShapes.size()));
+            Vec3 center = shape.getCenter();
+            double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
+            double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
+            double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
+            Vec3 vector = getSpeedVector();
+            this.level.addParticle(ParticleTypes.SMOKE, x, y, z, vector.x, vector.y, vector.z);
+            if (getHealth() < 0.5) {
+                this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, vector.x, vector.y, vector.z);
+            }
+        }
     }
 
     private void tickPilot() {
@@ -603,6 +618,8 @@ public abstract class VehicleEntity extends Entity {
                 }
                 player.displayClientMessage(component, true);
 
+                this.level.playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
+            } else {
                 // Repair particles
                 for (AABB shape : getAdditionalShapes()) {
                     for (int i = 0; i < 5; i++) {
@@ -613,8 +630,6 @@ public abstract class VehicleEntity extends Entity {
                         this.level.addParticle(ParticleTypes.COMPOSTER, x, y, z, 0, random.nextDouble(), 0);
                     }
                 }
-
-                this.level.playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
             }
 
             return InteractionResult.CONSUME;
@@ -650,7 +665,7 @@ public abstract class VehicleEntity extends Entity {
                 if (collision > 0.01f) {
                     float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
-                        float damage = collision * 20 * repeat * repeat;
+                        float damage = collision * 30 * repeat * repeat;
                         NetworkHandler.sendToServer(new CollisionMessage(damage));
                     }
                 }

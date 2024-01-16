@@ -48,7 +48,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             //Get vertex consumer
             ResourceLocation identifier = getTextureLocation(entity);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(identifier));
-            MeshRenderer.renderObject(getMesh(), matrixStack, vertexConsumer, light);
+            float health = entity.getHealth() * 0.5f + 0.5f;
+            MeshRenderer.renderObject(getMesh(), matrixStack, vertexConsumer, light, health, health, health, 1.0f);
         };
 
         public Mesh getMesh() {
