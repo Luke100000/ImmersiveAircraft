@@ -42,6 +42,7 @@ forge*changelog.txt
 *.png~
 *.aup3
 .xdp-*
+*.kate-swp
 /models/custom_model.java
 /models/custom_model_yarn.java
 /page/

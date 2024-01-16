@@ -20,7 +20,11 @@
       "immersive_aircraft:enhanced_propeller",
       "immersive_aircraft:gyroscope",
       "immersive_aircraft:hull_reinforcement",
-      "immersive_aircraft:improved_landing_gear"
+      "immersive_aircraft:improved_landing_gear",
+      "immersive_aircraft:telescope",
+      "immersive_aircraft:bomb_bay",
+      "immersive_aircraft:rotary_cannon",
+      "immersive_aircraft:heavy_crossbow"
     ]
   },
   "criteria": {
