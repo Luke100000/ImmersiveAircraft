@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Баннерный слот",
   "immersive_aircraft.slot.dye": "Красильная щель",
   "immersive_aircraft.slot.upgrade": "Обновление слота",
-  "immersive_aircraft.upgrade.strength": "%s%% мощности двигателя",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% мощности двигателя",
   "immersive_aircraft.upgrade.friction": "%s%% воздушного трения",
   "immersive_aircraft.upgrade.acceleration": "%s%% взлетной скорости",
   "immersive_aircraft.upgrade.durability": "%s%% долговечность",
