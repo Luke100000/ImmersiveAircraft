@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Banneriaukko",
   "immersive_aircraft.slot.dye": "Väriaine-aukko",
   "immersive_aircraft.slot.upgrade": "Päivityspaikka",
-  "immersive_aircraft.upgrade.strength": "%s%% moottorin teho",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% moottorin teho",
   "immersive_aircraft.upgrade.friction": "%s%% ilman kitka",
   "immersive_aircraft.upgrade.acceleration": "%s%% lentoonlähtönopeus",
   "immersive_aircraft.upgrade.durability": "%s%% kestävyys",
