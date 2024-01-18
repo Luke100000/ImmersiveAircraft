@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "배너 슬롯",
   "immersive_aircraft.slot.dye": "염료 슬롯",
   "immersive_aircraft.slot.upgrade": "업그레이드 슬롯",
-  "immersive_aircraft.upgrade.strength": "%s엔진 출력 %%",
+  "immersive_aircraft.upgrade.engineSpeed": "%s엔진 출력 %%",
   "immersive_aircraft.upgrade.friction": "%s공기 마찰 %%",
   "immersive_aircraft.upgrade.acceleration": "%s이륙 속도 %%",
   "immersive_aircraft.upgrade.durability": "%s%% 내구성",
