@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Υποδοχή πανό",
   "immersive_aircraft.slot.dye": "Υποδοχή βαφής",
   "immersive_aircraft.slot.upgrade": "Υποδοχή αναβάθμισης",
-  "immersive_aircraft.upgrade.strength": "%s%% ισχύς κινητήρα",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% ισχύς κινητήρα",
   "immersive_aircraft.upgrade.friction": "%s%% τριβή αέρα",
   "immersive_aircraft.upgrade.acceleration": "%s%% ταχύτητα απογείωσης",
   "immersive_aircraft.upgrade.durability": "%s%% ανθεκτικότητα",
