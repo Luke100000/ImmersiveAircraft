@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Bänneri pesa",
   "immersive_aircraft.slot.dye": "Värvipesa",
   "immersive_aircraft.slot.upgrade": "Upgrade pesa",
-  "immersive_aircraft.upgrade.strength": "%s%% mootori võimsus",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% mootori võimsus",
   "immersive_aircraft.upgrade.friction": "%s%% õhuhõõrdumine",
   "immersive_aircraft.upgrade.acceleration": "%s%% stardikiirus",
   "immersive_aircraft.upgrade.durability": "%s%% vastupidavus",
