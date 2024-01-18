@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "旗スロット",
   "immersive_aircraft.slot.dye": "染料スロット",
   "immersive_aircraft.slot.upgrade": "アップグレードスロット",
-  "immersive_aircraft.upgrade.strength": "%s%%機関出力",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%%機関出力",
   "immersive_aircraft.upgrade.friction": "%s%%空気抵抗",
   "immersive_aircraft.upgrade.acceleration": "%s%%離陸速度",
   "immersive_aircraft.upgrade.durability": "%s%%耐久値",
