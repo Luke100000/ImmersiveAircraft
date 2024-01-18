@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Banner",
   "immersive_aircraft.slot.dye": "Farvestof",
   "immersive_aircraft.slot.upgrade": "Opgradering",
-  "immersive_aircraft.upgrade.strength": "%s%% motoreffekt",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% motoreffekt",
   "immersive_aircraft.upgrade.friction": "%s%% luftmodstand",
   "immersive_aircraft.upgrade.acceleration": "%s%% starthastighed",
   "immersive_aircraft.upgrade.durability": "%s%% holdbarhed",
