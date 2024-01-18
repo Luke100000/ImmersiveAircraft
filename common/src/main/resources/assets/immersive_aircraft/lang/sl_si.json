@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Reža za transparente",
   "immersive_aircraft.slot.dye": "Reža za barvanje",
   "immersive_aircraft.slot.upgrade": "Reža za nadgradnjo",
-  "immersive_aircraft.upgrade.strength": "%s% % moči motorja",
+  "immersive_aircraft.upgrade.engineSpeed": "%s% % moči motorja",
   "immersive_aircraft.upgrade.friction": "%s%% trenje zraka",
   "immersive_aircraft.upgrade.acceleration": "%s%% vzletna hitrost",
   "immersive_aircraft.upgrade.durability": "%s%% vzdržljivost",
