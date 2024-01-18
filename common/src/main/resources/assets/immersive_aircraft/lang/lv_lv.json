@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Banner slots",
   "immersive_aircraft.slot.dye": "Krāsošanas slots",
   "immersive_aircraft.slot.upgrade": "Jaunināšanas slots",
-  "immersive_aircraft.upgrade.strength": "%s%% dzinēja jauda",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% dzinēja jauda",
   "immersive_aircraft.upgrade.friction": "%s%% gaisa berze",
   "immersive_aircraft.upgrade.acceleration": "%s%% pacelšanās ātrums",
   "immersive_aircraft.upgrade.durability": "%s%% ilgmūžība",
