@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Slotul pentru bannere",
   "immersive_aircraft.slot.dye": "Fantă de colorare",
   "immersive_aircraft.slot.upgrade": "Slot de upgrade",
-  "immersive_aircraft.upgrade.strength": "%s%% puterea motorului",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% puterea motorului",
   "immersive_aircraft.upgrade.friction": "%s%% frecarea aerului",
   "immersive_aircraft.upgrade.acceleration": "%s%% viteza de decolare",
   "immersive_aircraft.upgrade.durability": "%s%% durabilitate",
