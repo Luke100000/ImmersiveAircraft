@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Banner slot",
   "immersive_aircraft.slot.dye": "Verfgleuf",
   "immersive_aircraft.slot.upgrade": "Upgrade slot",
-  "immersive_aircraft.upgrade.strength": "%s%% motorvermogen",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% motorvermogen",
   "immersive_aircraft.upgrade.friction": "%s%% luchtwrijving",
   "immersive_aircraft.upgrade.acceleration": "%s%% startsnelheid",
   "immersive_aircraft.upgrade.durability": "%s%% duurzaamheid",
