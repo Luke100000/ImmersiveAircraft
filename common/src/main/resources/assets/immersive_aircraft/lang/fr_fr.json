@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Emplacement de la bannière",
   "immersive_aircraft.slot.dye": "Fente de teinture",
   "immersive_aircraft.slot.upgrade": "Fente de mise à niveau",
-  "immersive_aircraft.upgrade.strength": "%s%% de la puissance du moteur",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% de la puissance du moteur",
   "immersive_aircraft.upgrade.friction": "%s%% frottement de l'air",
   "immersive_aircraft.upgrade.acceleration": "%s%% de la vitesse de décollage",
   "immersive_aircraft.upgrade.durability": "%s%% durabilité",
