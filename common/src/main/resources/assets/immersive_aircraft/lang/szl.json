@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Slot banerowy",
   "immersive_aircraft.slot.dye": "Szczelina do farbowania",
   "immersive_aircraft.slot.upgrade": "Gniazdo uaktualnienia",
-  "immersive_aircraft.upgrade.strength": "%s%% mocy silnika",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% mocy silnika",
   "immersive_aircraft.upgrade.friction": "%s%% tarcie powietrza",
   "immersive_aircraft.upgrade.acceleration": "%s%% prędkość startowa",
   "immersive_aircraft.upgrade.durability": "%s%% trwałość",
