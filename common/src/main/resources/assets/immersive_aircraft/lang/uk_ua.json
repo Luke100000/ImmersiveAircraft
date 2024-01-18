@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Відсік для банера",
   "immersive_aircraft.slot.dye": "Відсік для барвника",
   "immersive_aircraft.slot.upgrade": "Відсік покращення",
-  "immersive_aircraft.upgrade.strength": "%s%% потужність двигуна",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% потужність двигуна",
   "immersive_aircraft.upgrade.friction": "%s%% тертя повітря",
   "immersive_aircraft.upgrade.acceleration": "%s%% швидкість зльоту",
   "immersive_aircraft.upgrade.durability": "%s%% витривалість",
