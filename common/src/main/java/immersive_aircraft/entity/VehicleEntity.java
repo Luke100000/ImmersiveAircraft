@@ -10,6 +10,9 @@ import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.data.AircraftDataLoader;
+import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
+import immersive_aircraft.entity.misc.PositionDescriptor;
 import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
@@ -17,6 +20,7 @@ import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -26,6 +30,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -57,6 +62,8 @@ import java.util.List;
  * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
+    public final ResourceLocation identifier;
+
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
 
     protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_TICKS = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
@@ -133,7 +140,7 @@ public abstract class VehicleEntity extends Entity {
         return entityData.get(BOOST);
     }
 
-    protected abstract List<List<Vec3>> getPassengerPositions();
+    protected abstract List<List<PositionDescriptor>> getPassengerPositions();
 
     protected int getPassengerSpace() {
         return getPassengerPositions().size();
@@ -148,6 +155,8 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedX = new InterpolatedFloat(getInputInterpolationSteps());
         pressingInterpolatedY = new InterpolatedFloat(getInputInterpolationSteps());
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
+
+        identifier = Registry.ENTITY_TYPE.getKey(getType());
     }
 
     protected float getInputInterpolationSteps() {
@@ -402,16 +411,18 @@ public abstract class VehicleEntity extends Entity {
         if (level.isClientSide && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> additionalShapes = getAdditionalShapes();
-            AABB shape = additionalShapes.get(random.nextInt(additionalShapes.size()));
-            Vec3 center = shape.getCenter();
-            double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
-            double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
-            double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
+            if (!additionalShapes.isEmpty()) {
+                AABB shape = additionalShapes.get(random.nextInt(additionalShapes.size()));
+                Vec3 center = shape.getCenter();
+                double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
+                double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
+                double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
 
-            Vec3 speed = getSpeedVector();
-            this.level.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
-            if (getHealth() < 0.5) {
-                this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
+                Vec3 speed = getSpeedVector();
+                this.level.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
+                if (getHealth() < 0.5) {
+                    this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
+                }
             }
         }
     }
@@ -506,20 +517,24 @@ public abstract class VehicleEntity extends Entity {
         Matrix4f transform = getVehicleTransform();
 
         int size = getPassengers().size() - 1;
-        List<List<Vec3>> positions = getPassengerPositions();
+        List<List<PositionDescriptor>> positions = getPassengerPositions();
         if (size < positions.size()) {
             int i = getPassengers().indexOf(passenger);
             if (i >= 0 && i < positions.get(size).size()) {
-                Vec3 position = positions.get(size).get(i);
+                PositionDescriptor positionDescriptor = positions.get(size).get(i);
+
+                float x = positionDescriptor.x();
+                float y = positionDescriptor.y();
+                float z = positionDescriptor.z();
 
                 //animals are thicc
                 if (passenger instanceof Animal) {
-                    position.add(0.0f, 0.0f, 0.2f);
+                    z += 0.2f;
                 }
 
-                position = position.add(0, passenger.getMyRidingOffset(), 0);
+                y += (float) passenger.getMyRidingOffset();
 
-                Vector4f worldPosition = transformPosition(transform, (float) position.x, (float) position.y, (float) position.z);
+                Vector4f worldPosition = transformPosition(transform, x, y, z);
 
                 passenger.setPos(worldPosition.x(), worldPosition.y(), worldPosition.z());
 
@@ -828,13 +843,19 @@ public abstract class VehicleEntity extends Entity {
         return Config.getInstance().validDimensions.getOrDefault(this.level.dimension().location().toString(), true);
     }
 
-    protected AABB getOffsetBoundingBox(double xzSize, double ySize, float x, float y, float z) {
-        Vector3f center = transformVectorQuantized(x, y, z);
-        return new AABB(center.x() - xzSize / 2.0 + getX(), center.y() - ySize / 2.0 + getY(), center.z() - xzSize / 2.0 + getZ(), center.x() + xzSize / 2.0 + getX(), center.y() + ySize / 2.0 + getY(), center.z() + xzSize / 2.0 + getZ());
+    protected AABB getOffsetBoundingBox(BoundingBoxDescriptor descriptor) {
+        Vector3f center = transformVectorQuantized(descriptor.x(), descriptor.y(), descriptor.z());
+        return new AABB(
+                center.x() - descriptor.width() / 2.0 + getX(),
+                center.y() - descriptor.height() / 2.0 + getY(),
+                center.z() - descriptor.width() / 2.0 + getZ(),
+                center.x() + descriptor.width() / 2.0 + getX(),
+                center.y() + descriptor.height() / 2.0 + getY(),
+                center.z() + descriptor.width() / 2.0 + getZ());
     }
 
     public List<AABB> getAdditionalShapes() {
-        return List.of();
+        return AircraftDataLoader.get(identifier).getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
     }
 
     public Vec3 getSpeedVector() {

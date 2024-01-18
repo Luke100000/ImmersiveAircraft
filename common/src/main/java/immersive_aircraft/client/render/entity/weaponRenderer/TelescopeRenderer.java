@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import immersive_aircraft.Main;
 import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.entity.AircraftEntity;
-import immersive_aircraft.entity.weapons.RotaryCannon;
 import immersive_aircraft.entity.weapons.Telescope;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -18,7 +17,7 @@ public class TelescopeRenderer extends WeaponRenderer<Telescope> {
     @Override
     public <T extends AircraftEntity> void render(T entity, Telescope weapon, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float tickDelta) {
         matrixStack.pushPose();
-        matrixStack.mulPoseMatrix(weapon.getMount().getTransform());
+        matrixStack.mulPoseMatrix(weapon.getMount().transform());
 
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(TEXTURE));
 

@@ -54,7 +54,9 @@ public class SparseSimpleInventory extends SimpleContainer {
             }
         } else {
             // Sync changed slots
-            int index = entity.tickCount % entity.getInventoryDescription().getLastSyncIndex();
+            int lastSyncIndex = entity.getInventoryDescription().getLastSyncIndex();
+            if (lastSyncIndex == 0) return;
+            int index = entity.tickCount % lastSyncIndex;
             ItemStack stack = getItem(index);
             ItemStack trackedStack = tracked.get(index);
             if (!stack.equals(trackedStack)) {

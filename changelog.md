@@ -16,6 +16,7 @@
 * You now get reminded how to exit when trying to shift
 * Quadrocopter now have a strafing movement and do not affect the camera, making it way more usable for building and
   first person operations
+* Aircraft are now party data driven, allowing easier modification of model, inventory, weapon mounts etc
 
 # 0.6.2
 

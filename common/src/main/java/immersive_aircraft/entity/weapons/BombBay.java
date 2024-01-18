@@ -66,7 +66,7 @@ public class BombBay extends BulletWeapon {
 
     private Vector3f getDirection() {
         Vector3f direction = new Vector3f(0, 1.0f, 0);
-        direction.transform(new Matrix3f(getMount().getTransform()));
+        direction.transform(new Matrix3f(getMount().transform()));
         direction.transform(getEntity().getVehicleNormalTransform());
         return direction;
     }

@@ -1,10 +1,9 @@
 package immersive_aircraft.screen.slot;
 
+import immersive_aircraft.util.Utils;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-
-import static immersive_aircraft.entity.EngineAircraft.getFuelTime;
 
 public class FuelSlot extends Slot {
     public FuelSlot(Container inventory, int index, int x, int y) {
@@ -13,7 +12,7 @@ public class FuelSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return getFuelTime(stack) > 0;
+        return Utils.getFuelTime(stack) > 0;
     }
 }
 

@@ -44,7 +44,7 @@ public abstract class BulletWeapon extends Weapon {
         // Calculate the position of the barrel
         Vector4f position = getBarrelOffset();
         VehicleEntity entity = getEntity();
-        position.transform(getMount().getTransform());
+        position.transform(getMount().transform());
         position.transform(entity.getVehicleTransform());
 
         Vec3 speed = entity.getSpeedVector();

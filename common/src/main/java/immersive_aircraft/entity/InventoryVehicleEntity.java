@@ -2,11 +2,13 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.data.AircraftDataLoader;
 import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
@@ -36,19 +38,22 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
-    protected SparseSimpleInventory inventory;
+    private SparseSimpleInventory inventory;
     protected Map<Integer, List<Weapon>> weapons = new HashMap<>();
 
-    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 10)
-            .build();
-
     public VehicleInventoryDescription getInventoryDescription() {
-        return inventoryDescription;
+        return AircraftDataLoader.get(identifier).getInventoryDescription();
     }
 
+    private static final List<WeaponMount> EMPTY_WEAPONS = List.of(WeaponMount.EMPTY);
+    private static final Map<WeaponMount.Type, List<WeaponMount>> EMPTY_WEAPONS_MAP = Map.of();
+
     public List<WeaponMount> getWeaponMounts(int slot) {
-        return List.of(WeaponMount.EMPTY);
+        ItemStack stack = getSlot(slot).get();
+        if (stack.getItem() instanceof WeaponItem weaponItem) {
+            AircraftDataLoader.get(identifier).getWeaponMounts().getOrDefault(slot, EMPTY_WEAPONS_MAP).getOrDefault(weaponItem.getMountType(), EMPTY_WEAPONS);
+        }
+        return EMPTY_WEAPONS;
     }
 
     public List<ItemStack> getSlots(VehicleInventoryDescription.SlotType slotType) {
@@ -96,6 +101,14 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         this.inventory.addListener(this);
     }
 
+    public SparseSimpleInventory getInventory() {
+        int inventorySize = getInventoryDescription().getInventorySize();
+        if (inventorySize != inventory.getContainerSize()) {
+            initInventory();
+        }
+        return inventory;
+    }
+
     @Override
     public void containerChanged(Container sender) {
 
@@ -104,9 +117,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     @Override
     protected void dropInventory() {
         //drop inventory
-        if (this.inventory != null) {
-            for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
-                ItemStack itemStack = this.inventory.getItem(i);
+        if (getInventory() != null) {
+            for (int i = 0; i < getInventory().getContainerSize(); ++i) {
+                ItemStack itemStack = getInventory().getItem(i);
                 if (itemStack.isEmpty() || EnchantmentHelper.hasVanishingCurse(itemStack)) continue;
                 this.spawnAtLocation(itemStack);
             }
@@ -152,20 +165,16 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         super.load(nbt);
 
         ListTag nbtList = nbt.getList("Inventory", 10);
-        this.inventory.readNbt(nbtList);
+        getInventory().readNbt(nbtList);
     }
 
     @Override
     public CompoundTag saveWithoutId(CompoundTag nbt) {
         super.saveWithoutId(nbt);
 
-        nbt.put("Inventory", this.inventory.writeNbt(new ListTag()));
+        nbt.put("Inventory", getInventory().writeNbt(new ListTag()));
 
         return nbt;
-    }
-
-    public SimpleContainer getInventory() {
-        return inventory;
     }
 
     @Override
@@ -199,7 +208,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     public void tick() {
-        inventory.tick(this);
+        getInventory().tick(this);
 
         // Check and recreate weapon slots
         for (VehicleInventoryDescription.Slot slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
@@ -232,13 +241,8 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     }
 
     @Override
-    public float getDurability() {
-        return super.getDurability() * getTotalUpgrade(AircraftStat.DURABILITY);
-    }
-
-    @Override
     public SlotAccess getSlot(int slot) {
-        return SlotAccess.forContainer(inventory, slot);
+        return SlotAccess.forContainer(getInventory(), slot);
     }
 
     public Map<Integer, List<Weapon>> getWeapons() {

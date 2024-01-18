@@ -8,6 +8,7 @@ import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
 import immersive_aircraft.network.s2c.AircraftBaseUpgradesMessage;
+import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -59,10 +60,12 @@ public class ForgeBusEvents {
         if (event.getPlayer() != null) { // Syncing aircraft upgrades to players.
             NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), event.getPlayer());
             NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), event.getPlayer());
+            NetworkHandler.sendToPlayer(new AircraftDataMessage(), event.getPlayer());
         } else {
             for (ServerPlayer player : event.getPlayerList().getPlayers()) {
                 NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
                 NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
+                NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
             }
         }
     }
@@ -78,7 +81,7 @@ public class ForgeBusEvents {
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).withStyle(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
+                ).withStyle(entry.getValue() * (entry.getKey().positive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }

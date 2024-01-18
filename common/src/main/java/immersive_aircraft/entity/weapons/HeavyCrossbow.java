@@ -71,7 +71,7 @@ public class HeavyCrossbow extends BulletWeapon {
 
     private Vector3f getDirection() {
         Vector3f direction = new Vector3f(0, 0, 1.0f);
-        direction.transform(new Matrix3f(getMount().getTransform()));
+        direction.transform(new Matrix3f(getMount().transform()));
         direction.transform(getEntity().getVehicleNormalTransform());
         return direction;
     }

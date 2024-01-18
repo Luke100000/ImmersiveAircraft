@@ -13,7 +13,7 @@ public abstract class SimpleWeaponRenderer<W extends Weapon> extends WeaponRende
     @Override
     public <T extends AircraftEntity> void render(T entity, W weapon, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float tickDelta) {
         matrixStack.pushPose();
-        matrixStack.mulPoseMatrix(weapon.getMount().getTransform());
+        matrixStack.mulPoseMatrix(weapon.getMount().transform());
 
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(getTexture()));
 

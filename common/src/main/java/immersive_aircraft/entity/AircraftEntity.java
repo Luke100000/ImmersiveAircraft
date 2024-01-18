@@ -2,7 +2,9 @@ package immersive_aircraft.entity;
 
 import com.mojang.math.Vector3f;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.data.AircraftDataLoader;
 import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.entity.misc.PositionDescriptor;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.weapons.Telescope;
 import immersive_aircraft.entity.weapons.Weapon;
@@ -20,10 +22,13 @@ import java.util.List;
  * Abstract aircraft, which performs basic physics
  */
 public abstract class AircraftEntity extends InventoryVehicleEntity {
+    private final AircraftProperties properties;
     private double lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
+
+        this.properties = new AircraftProperties(AircraftDataLoader.get(identifier).getProperties(), this);
     }
 
     private static final List<Trail> TRAILS = Collections.emptyList();
@@ -32,12 +37,12 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         return TRAILS;
     }
 
-    public abstract AircraftProperties getProperties();
+    public AircraftProperties getProperties() {
+        return properties;
+    }
 
-    final List<List<Vec3>> PASSENGER_POSITIONS = List.of(List.of(new Vec3(0.0f, 0.0f, 0.0f)));
-
-    protected List<List<Vec3>> getPassengerPositions() {
-        return PASSENGER_POSITIONS;
+    protected List<List<PositionDescriptor>> getPassengerPositions() {
+        return AircraftDataLoader.get(identifier).getPassengerPositions();
     }
 
     @Override
@@ -47,7 +52,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         if (onGround) {
             setZRot(roll * 0.9f);
         } else {
-            setZRot(-pressingInterpolatedX.getSmooth() * getProperties().getRollFactor());
+            setZRot(-pressingInterpolatedX.getSmooth() * getProperties().get(AircraftStat.ROLL_FACTOR));
         }
 
         if (Double.isNaN(getDeltaMovement().x) || Double.isNaN(getDeltaMovement().y) || Double.isNaN(getDeltaMovement().z)) {
@@ -61,8 +66,8 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         Vec3 velocity = getDeltaMovement();
         double drag = Math.abs(direction.dot(velocity.normalize()));
         setDeltaMovement(velocity.normalize()
-                .lerp(direction, getProperties().getLift())
-                .scale(velocity.length() * (drag * getProperties().getDriftDrag() + (1.0 - getProperties().getDriftDrag()))));
+                .lerp(direction, getProperties().get(AircraftStat.LIFT))
+                .scale(velocity.length() * (drag * getProperties().get(AircraftStat.FRICTION) + (1.0 - getProperties().get(AircraftStat.FRICTION)))));
     }
 
     protected float getHorizontalVelocityDelay() {
@@ -80,10 +85,12 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }
 
+    // todo property
     protected float getGroundVelocityDecay() {
         return 0.95f;
     }
 
+    // todo property
     protected float getRotationDecay() {
         return 0.98f;
     }
@@ -108,8 +115,8 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
         // glide
         double diff = lastY - getY();
-        if (lastY != 0.0 && getProperties().getGlideFactor() > 0 && diff != 0.0) {
-            setDeltaMovement(getDeltaMovement().add(direction.scale(diff * getProperties().getGlideFactor() * (1.0f - Math.abs(direction.y())))));
+        if (lastY != 0.0 && getProperties().get(AircraftStat.GLIDE_FACTOR) > 0 && diff != 0.0) {
+            setDeltaMovement(getDeltaMovement().add(direction.scale(diff * getProperties().get(AircraftStat.GLIDE_FACTOR) * (1.0f - Math.abs(direction.y())))));
         }
         lastY = getY();
 
@@ -137,8 +144,13 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         lastY = 0.0;
     }
 
+    @Override
+    public float getDurability() {
+        return getProperties().get(AircraftStat.DURABILITY);
+    }
+
     public float getWindStrength() {
-        float sensitivity = getProperties().getWindSensitivity();
+        float sensitivity = getProperties().get(AircraftStat.WIND);
         float thundering = level.getRainLevel(0.0f);
         float raining = level.getThunderLevel(0.0f);
         float weather = (float) ((Config.getInstance().windClearWeather + getDeltaMovement().length()) + thundering * Config.getInstance().windThunderWeather + raining * Config.getInstance().windRainWeather);
@@ -147,8 +159,8 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
     public Vector3f getWindEffect() {
         float wind = getWindStrength();
-        float nx = (float) (Utils.cosNoise(tickCount / 20.0 / getProperties().getMass()) * wind);
-        float nz = (float) (Utils.cosNoise(tickCount / 21.0 / getProperties().getMass()) * wind);
+        float nx = (float) (Utils.cosNoise(tickCount / 20.0 / getProperties().get(AircraftStat.MASS)) * wind);
+        float nz = (float) (Utils.cosNoise(tickCount / 21.0 / getProperties().get(AircraftStat.MASS)) * wind);
         return new Vector3f(nx, 0.0f, nz);
     }
 
