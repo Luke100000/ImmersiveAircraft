@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Fana",
   "immersive_aircraft.slot.dye": "Färg",
   "immersive_aircraft.slot.upgrade": "Uppgradering",
-  "immersive_aircraft.upgrade.strength": "%s%% motoreffekt",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% motoreffekt",
   "immersive_aircraft.upgrade.friction": "%s%% luftmotstånd",
   "immersive_aircraft.upgrade.acceleration": "%s%% starthastighet",
   "immersive_aircraft.upgrade.durability": "%s%% hållbarhet",
