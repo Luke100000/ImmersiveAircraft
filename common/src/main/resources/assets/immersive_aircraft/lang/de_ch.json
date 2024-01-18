@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Banner Schlitz",
   "immersive_aircraft.slot.dye": "Färbeschlitz",
   "immersive_aircraft.slot.upgrade": "Upgrade-Slot",
-  "immersive_aircraft.upgrade.strength": "%s%% Motorleistung",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% Motorleistung",
   "immersive_aircraft.upgrade.friction": "%s%% Luftreibung",
   "immersive_aircraft.upgrade.acceleration": "%s%% Abfluggeschwindigkeit",
   "immersive_aircraft.upgrade.durability": "%s%% Haltbarkeit",
