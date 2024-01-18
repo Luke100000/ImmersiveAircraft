@@ -90,7 +90,7 @@
   "immersive_aircraft.slot.banner": "Banner slot",
   "immersive_aircraft.slot.dye": "Slot na farbivo",
   "immersive_aircraft.slot.upgrade": "Štrbina na aktualizáciu",
-  "immersive_aircraft.upgrade.strength": "%s%% výkon motora",
+  "immersive_aircraft.upgrade.engineSpeed": "%s%% výkon motora",
   "immersive_aircraft.upgrade.friction": "%s%% trenie vzduchu",
   "immersive_aircraft.upgrade.acceleration": "%s%% vzletová rýchlosť",
   "immersive_aircraft.upgrade.durability": "%s%% trvanlivosť",
