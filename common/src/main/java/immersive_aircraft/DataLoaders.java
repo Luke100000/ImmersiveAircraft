@@ -2,7 +2,6 @@ package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.data.AircraftDataLoader;
-import immersive_aircraft.data.BaseStatDataLoader;
 import immersive_aircraft.data.UpgradeDataLoader;
 import immersive_aircraft.resources.BBModelLoader;
 import immersive_aircraft.resources.ObjectLoader;
@@ -14,7 +13,6 @@ public class DataLoaders {
 
     static {
         Registration.registerDataLoader("aircraft_upgrades", new UpgradeDataLoader());
-        Registration.registerDataLoader("aircraft_stats", new BaseStatDataLoader());
         Registration.registerDataLoader("aircraft", new AircraftDataLoader());
 
         Registration.registerResourceLoader("objects_obj", new ObjectLoader());

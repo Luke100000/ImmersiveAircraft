@@ -6,7 +6,6 @@ import immersive_aircraft.item.upgrade.AircraftStat;
 import java.util.Map;
 
 public class AircraftProperties {
-    // todo this could replace the base upgrades
     private final Map<AircraftStat, Float> baseValues;
     private final InventoryVehicleEntity vehicle;
 

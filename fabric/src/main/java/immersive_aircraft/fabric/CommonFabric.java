@@ -5,7 +5,6 @@ import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
-import immersive_aircraft.network.s2c.AircraftBaseUpgradesMessage;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
 import net.fabricmc.api.ModInitializer;
@@ -35,7 +34,6 @@ public final class CommonFabric implements ModInitializer {
      */
     private void onSyncDatapack(ServerPlayer player, boolean joined) {
         NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
-        NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
         NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
     }
 }

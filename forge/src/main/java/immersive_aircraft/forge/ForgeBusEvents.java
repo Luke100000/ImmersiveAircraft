@@ -7,7 +7,6 @@ import immersive_aircraft.forge.cobalt.registration.RegistrationImpl.DataLoaderR
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
-import immersive_aircraft.network.s2c.AircraftBaseUpgradesMessage;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
 import net.minecraft.ChatFormatting;
@@ -29,9 +28,10 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = Main.MOD_ID)
 public class ForgeBusEvents {
+    // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl, but it would just be messy
+    public static DataLoaderRegister DATA_REGISTRY;
+    public static DataLoaderRegister RESOURCE_REGISTRY;
 
-    public static DataLoaderRegister DATA_REGISTRY; // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl but it would just be messy
-    public static DataLoaderRegister RESOURCE_REGISTRY; // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl but it would just be messy
     private static final DecimalFormat fmt = new DecimalFormat("+#;-#");
     public static boolean firstLoad = true;
 
@@ -59,12 +59,10 @@ public class ForgeBusEvents {
     public static void onDatapackSync(OnDatapackSyncEvent event) {
         if (event.getPlayer() != null) { // Syncing aircraft upgrades to players.
             NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), event.getPlayer());
-            NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), event.getPlayer());
             NetworkHandler.sendToPlayer(new AircraftDataMessage(), event.getPlayer());
         } else {
             for (ServerPlayer player : event.getPlayerList().getPlayers()) {
                 NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
-                NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
                 NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
             }
         }

@@ -3,7 +3,6 @@ package immersive_aircraft.entity;
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.data.AircraftDataLoader;
-import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.entity.misc.WeaponMount;
@@ -82,12 +81,6 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
                 }
             }
         }
-
-        AircraftUpgrade baseUpgrade = AircraftBaseUpgradeRegistry.INSTANCE.getUpgradeModifier(this.getType());
-        if (baseUpgrade != null) {
-            value += baseUpgrade.get(stat);
-        }
-
         return Math.max(0.0f, 1.0f + value);
     }
 
