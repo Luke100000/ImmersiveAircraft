@@ -3,12 +3,16 @@
     "yawSpeed": 5.0,
     "pitchSpeed": 5.0,
     "engineSpeed": 0.3,
+    "pushSpeed": 0.3,
     "verticalSpeed": 0.04,
     "driftDrag": 0.01,
     "lift": 0.1,
     "rollFactor": 30.0,
     "wind": 0.05,
-    "mass": 4.0
+    "mass": 4.0,
+    "groundFriction": 0.8,
+    "horizontalDecay": 0.925,
+    "verticalDecay": 0.9
   },
   "inventorySlots": [
     {"type": "weapon", "x": 14, "y": 14},

@@ -233,7 +233,6 @@ public abstract class VehicleEntity extends Entity {
 
         boolean force = !(source.getDirectEntity() instanceof Player);
 
-        // todo max health
         applyDamage(amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
 
         return true;
@@ -625,8 +624,8 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (getHealth() < 1.0f) {
-            if (!level.isClientSide && !hasPassenger(player)) {
+        if (getHealth() < 1.0f && !hasPassenger(player)) {
+            if (!level.isClientSide) {
                 repair(Config.getInstance().repairSpeed);
 
                 // Repair message
@@ -687,7 +686,7 @@ public abstract class VehicleEntity extends Entity {
                 if (collision > 0.01f) {
                     float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
-                        float damage = collision * 30 * repeat * repeat;
+                        float damage = collision * 40 * repeat * repeat;
                         NetworkHandler.sendToServer(new CollisionMessage(damage));
                     }
                 }

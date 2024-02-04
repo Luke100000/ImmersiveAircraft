@@ -2,7 +2,8 @@
   "properties": {
     "yawSpeed": 5.0,
     "pitchSpeed": 4.0,
-    "engineSpeed": 0.0225,
+    "engineSpeed": 0.025,
+    "pushSpeed": 0.025,
     "glideFactor": 0.05,
     "driftDrag": 0.01,
     "lift": 0.15,

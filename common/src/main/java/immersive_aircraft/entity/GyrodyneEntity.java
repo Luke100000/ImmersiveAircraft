@@ -14,9 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class GyrodyneEntity extends Rotorcraft {
-    // todo property
-    private static final float PUSH_SPEED = 0.25f;
-
     @Override
     public GUI_STYLE getGuiStyle() {
         return GUI_STYLE.NONE;
@@ -37,21 +34,6 @@ public class GyrodyneEntity extends Rotorcraft {
     @Override
     protected float getStabilizer() {
         return 0.3f;
-    }
-
-    @Override
-    protected float getGroundVelocityDecay() {
-        return falloffGroundVelocityDecay(0.8f);
-    }
-
-    @Override
-    protected float getHorizontalVelocityDelay() {
-        return 0.925f;
-    }
-
-    @Override
-    protected float getVerticalVelocityDelay() {
-        return 0.9f;
     }
 
     @Override
@@ -108,7 +90,7 @@ public class GyrodyneEntity extends Rotorcraft {
         float sin = Mth.sin(getXRot() * ((float) Math.PI / 180));
         float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED)) * sin;
         if (onGround && getEngineTarget() < 1.0) {
-            thrust = PUSH_SPEED / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
+            thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate

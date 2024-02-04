@@ -9,7 +9,10 @@
     "lift": 0.1,
     "rollFactor": 15.0,
     "wind": 0.0125,
-    "mass": 1.0
+    "mass": 1.0,
+    "groundFriction": 0.25,
+    "horizontalDecay": 0.9,
+    "verticalDecay": 0.8
   },
   "inventorySlots": [
     {"type": "boiler", "x": 17, "y": 22},

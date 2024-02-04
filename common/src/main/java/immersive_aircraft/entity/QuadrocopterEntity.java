@@ -32,21 +32,6 @@ public class QuadrocopterEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getGroundVelocityDecay() {
-        return 0.25f;
-    }
-
-    @Override
-    protected float getHorizontalVelocityDelay() {
-        return 0.9f;
-    }
-
-    @Override
-    protected float getVerticalVelocityDelay() {
-        return 0.8f;
-    }
-
-    @Override
     protected float getStabilizer() {
         return 0.1f;
     }

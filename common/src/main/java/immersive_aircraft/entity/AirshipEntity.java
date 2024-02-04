@@ -31,21 +31,6 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getGroundVelocityDecay() {
-        return 0.5f;
-    }
-
-    @Override
-    protected float getHorizontalVelocityDelay() {
-        return 0.97f;
-    }
-
-    @Override
-    protected float getVerticalVelocityDelay() {
-        return 0.925f;
-    }
-
-    @Override
     protected float getStabilizer() {
         return 0.1f;
     }

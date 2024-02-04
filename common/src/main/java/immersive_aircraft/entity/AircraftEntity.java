@@ -70,29 +70,11 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
                 .scale(velocity.length() * (drag * getProperties().get(AircraftStat.FRICTION) + (1.0 - getProperties().get(AircraftStat.FRICTION)))));
     }
 
-    protected float getHorizontalVelocityDelay() {
-        return 0.98f;
-    }
-
-    protected float getVerticalVelocityDelay() {
-        return 0.98f;
-    }
-
     // Considers gravity and upgrades to modify decay
     protected float falloffGroundVelocityDecay(float original) {
         float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
         float upgrade = Math.min(1.0f, getTotalUpgrade(AircraftStat.ACCELERATION) * 0.5f);
         return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
-    }
-
-    // todo property
-    protected float getGroundVelocityDecay() {
-        return 0.95f;
-    }
-
-    // todo property
-    protected float getRotationDecay() {
-        return 0.98f;
     }
 
     @Override
@@ -104,7 +86,7 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
             decay = 0.9f;
         } else if (onGround) {
             if (isVehicle()) {
-                decay = getGroundVelocityDecay();
+                decay = falloffGroundVelocityDecay(getProperties().get(AircraftStat.GROUND_FRICTION));
             } else {
                 decay = 0.75f;
             }
@@ -125,9 +107,12 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
 
         // friction
         Vec3 velocity = getDeltaMovement();
-        setDeltaMovement(velocity.x * decay * getHorizontalVelocityDelay(), velocity.y * decay * getVerticalVelocityDelay() + gravity, velocity.z * decay * getHorizontalVelocityDelay());
-        pressingInterpolatedX.decay(0.0f, 1.0f - decay * getRotationDecay());
-        pressingInterpolatedZ.decay(0.0f, 1.0f - decay * getRotationDecay());
+        float hd = getProperties().get(AircraftStat.HORIZONTAL_DECAY);
+        float vd = getProperties().get(AircraftStat.VERTICAL_DECAY);
+        setDeltaMovement(velocity.x * decay * hd, velocity.y * decay * vd + gravity, velocity.z * decay * hd);
+        float rf = decay * getProperties().get(AircraftStat.ROTATION_DECAY);
+        pressingInterpolatedX.decay(0.0f, 1.0f - rf);
+        pressingInterpolatedZ.decay(0.0f, 1.0f - rf);
 
         // wind
         if (!onGround) {

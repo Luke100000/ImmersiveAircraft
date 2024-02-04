@@ -8,7 +8,10 @@
     "lift": 0.1,
     "rollFactor": 5.0,
     "wind": 0.05,
-    "mass": 3.0
+    "mass": 3.0,
+    "groundFriction": 0.5,
+    "horizontalDecay": 0.97,
+    "verticalDecay": 0.925
   },
   "inventorySlots": [
     {"type": "weapon", "x": 50, "y": 14},

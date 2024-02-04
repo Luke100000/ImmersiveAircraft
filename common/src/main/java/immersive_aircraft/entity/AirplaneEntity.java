@@ -9,9 +9,6 @@ import net.minecraft.world.phys.Vec3;
  * Implements airplane like physics properties and accelerated towards
  */
 public abstract class AirplaneEntity extends EngineAircraft {
-    // todo property
-    private static final float PUSH_SPEED = 0.025f;
-
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
@@ -19,11 +16,6 @@ public abstract class AirplaneEntity extends EngineAircraft {
     @Override
     protected boolean useAirplaneControls() {
         return true;
-    }
-
-    @Override
-    protected float getGroundVelocityDecay() {
-        return falloffGroundVelocityDecay(0.9f);
     }
 
     @Override
@@ -59,7 +51,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
         // speed
         float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED));
         if (onGround && getEngineTarget() < 1.0) {
-            thrust = PUSH_SPEED / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
+            thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
         }
 
         // accelerate
