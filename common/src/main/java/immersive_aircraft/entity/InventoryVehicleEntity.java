@@ -1,9 +1,13 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
-import immersive_aircraft.entity.misc.AircraftBaseUpgradeRegistry;
+import immersive_aircraft.data.AircraftDataLoader;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.misc.WeaponMount;
+import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
@@ -17,6 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,23 +34,34 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
-    protected SparseSimpleInventory inventory;
-    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 10)
-            .build();
+    private SparseSimpleInventory inventory;
+    protected Map<Integer, List<Weapon>> weapons = new HashMap<>();
 
     public VehicleInventoryDescription getInventoryDescription() {
-        return inventoryDescription;
+        return AircraftDataLoader.get(identifier).getInventoryDescription();
+    }
+
+    private static final List<WeaponMount> EMPTY_WEAPONS = List.of(WeaponMount.EMPTY);
+    private static final Map<WeaponMount.Type, List<WeaponMount>> EMPTY_WEAPONS_MAP = Map.of();
+
+    public List<WeaponMount> getWeaponMounts(int slot) {
+        ItemStack stack = getSlot(slot).get();
+        if (stack.getItem() instanceof WeaponItem weaponItem) {
+            return AircraftDataLoader.get(identifier).getWeaponMounts().getOrDefault(slot, EMPTY_WEAPONS_MAP).getOrDefault(weaponItem.getMountType(), EMPTY_WEAPONS);
+        }
+        return EMPTY_WEAPONS;
     }
 
     public List<ItemStack> getSlots(VehicleInventoryDescription.SlotType slotType) {
         List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(slotType);
         List<ItemStack> list = new ArrayList<>(slots.size());
         for (VehicleInventoryDescription.Slot slot : slots) {
-            list.add(getInventory().getItem(slot.index));
+            list.add(getInventory().getItem(slot.index()));
         }
         return list;
     }
@@ -56,7 +72,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
-                AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem()); // Upgrades now pull from a very primitive registry rather than being saved on the item.
+                AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
                 if (upgrade != null) {
                     float u = upgrade.get(stat);
 
@@ -67,10 +83,6 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
                 }
             }
         }
-        AircraftUpgrade baseUpgrade = AircraftBaseUpgradeRegistry.INSTANCE.getUpgradeModifier(this.getType());
-        if (baseUpgrade != null)
-            value += baseUpgrade.get(stat);
-
         return Math.max(0.0f, 1.0f + value);
     }
 
@@ -84,19 +96,25 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         this.inventory.addListener(this);
     }
 
+    public SparseSimpleInventory getInventory() {
+        int inventorySize = getInventoryDescription().getInventorySize();
+        if (inventorySize != inventory.getContainerSize()) {
+            initInventory();
+        }
+        return inventory;
+    }
+
     @Override
     public void containerChanged(Container sender) {
 
     }
 
     @Override
-    protected void drop() {
-        super.drop();
-
+    protected void dropInventory() {
         //drop inventory
-        if (this.inventory != null) {
-            for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
-                ItemStack itemStack = this.inventory.getItem(i);
+        if (getInventory() != null) {
+            for (int i = 0; i < getInventory().getContainerSize(); ++i) {
+                ItemStack itemStack = getInventory().getItem(i);
                 if (itemStack.isEmpty() || EnchantmentHelper.hasVanishingCurse(itemStack)) continue;
                 this.spawnAtLocation(itemStack);
             }
@@ -109,11 +127,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         return new VehicleScreenHandler(i, playerInventory, this);
     }
 
-    protected int syncId;
-
     public void openInventory(ServerPlayer player) {
-        syncId = (syncId + 1) % 100 + 100;
-        AbstractContainerMenu screenHandler = createMenu(syncId, player.getInventory(), player);
+        player.nextContainerCounter();
+        AbstractContainerMenu screenHandler = createMenu(player.containerCounter, player.getInventory(), player);
         if (screenHandler != null) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.containerId), player);
             player.containerMenu = screenHandler;
@@ -144,20 +160,16 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         super.load(nbt);
 
         ListTag nbtList = nbt.getList("Inventory", 10);
-        this.inventory.readNbt(nbtList);
+        getInventory().readNbt(nbtList);
     }
 
     @Override
     public CompoundTag saveWithoutId(@NotNull CompoundTag nbt) {
         super.saveWithoutId(nbt);
 
-        nbt.put("Inventory", this.inventory.writeNbt(new ListTag()));
+        nbt.put("Inventory", getInventory().writeNbt(new ListTag()));
 
         return nbt;
-    }
-
-    public SimpleContainer getInventory() {
-        return inventory;
     }
 
     @Override
@@ -191,13 +203,44 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     public void tick() {
-        inventory.tick(this);
+        getInventory().tick(this);
+
+        // Check and recreate weapon slots
+        for (VehicleInventoryDescription.Slot slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
+            ItemStack weaponItemStack = getSlot(slot.index()).get();
+            List<Weapon> weapon = weapons.get(slot.index());
+
+            if (weaponItemStack.isEmpty() && weapon != null) {
+                weapons.remove(slot.index());
+            } else if (!weaponItemStack.isEmpty() && (weapon == null || weapon.get(0).getStack() != weaponItemStack)) {
+                WeaponRegistry.WeaponConstructor constructor = WeaponRegistry.get(weaponItemStack);
+                if (constructor != null) {
+                    List<WeaponMount> weaponMounts = getWeaponMounts(slot.index());
+                    ArrayList<Weapon> weapons = new ArrayList<>(weaponMounts.size());
+                    for (WeaponMount weaponMount : weaponMounts) {
+                        weapons.add(constructor.create(this, weaponItemStack, weaponMount, slot.index()));
+                    }
+                    this.weapons.put(slot.index(), weapons);
+                }
+            }
+        }
+
+        // Update weapons
+        for (List<Weapon> weapons : weapons.values()) {
+            for (Weapon w : weapons) {
+                w.tick();
+            }
+        }
 
         super.tick();
     }
 
     @Override
-    protected float getDurability() {
-        return super.getDurability() * getTotalUpgrade(AircraftStat.DURABILITY);
+    public SlotAccess getSlot(int slot) {
+        return SlotAccess.forContainer(getInventory(), slot);
+    }
+
+    public Map<Integer, List<Weapon>> getWeapons() {
+        return weapons;
     }
 }

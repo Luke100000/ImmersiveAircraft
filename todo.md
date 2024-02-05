@@ -2,7 +2,8 @@
 
 * Sinking bubbles
 * Mouse movement
+* Separate controls for plane/hovercraft, not just engine
 * Better sounds
-* Collision simulation
-    * Use point collisions at wings and back of plane, use soft collision resolving
 * More aircraft!
+* Rockets (this is 1.20.1+)
+* Drop as item

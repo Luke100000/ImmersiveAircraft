@@ -1,6 +1,13 @@
 package immersive_aircraft.util;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
+import immersive_aircraft.config.Config;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +21,7 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 
 import java.util.List;
+import java.util.Map;
 
 public class Utils {
     public static double cosNoise(double time) {
@@ -40,5 +48,78 @@ public class Utils {
         ListTag nbtList = nbtCompound.getList("Patterns", 10);
 
         return BannerBlockEntity.createPatterns(baseColor, nbtList);
+    }
+
+    public static int getFuelTime(ItemStack fuel) {
+        if (fuel.isEmpty()) {
+            return 0;
+        }
+
+        // Custom fuel
+        Map<String, Integer> fuelList = Config.getInstance().fuelList;
+        String identifier = BuiltInRegistries.ITEM.getKey(fuel.getItem()).toString();
+        if (fuelList.containsKey(identifier)) {
+            return fuelList.get(identifier);
+        }
+
+        // Vanilla fuel
+        if (Config.getInstance().acceptVanillaFuel) {
+            int fuelTime = CobaltFuelRegistry.INSTANCE.get(fuel);
+            if (fuelTime > 0) {
+                return fuelTime;
+            }
+        }
+
+        return 0;
+    }
+
+    public static boolean getBooleanElement(JsonObject object, String member) {
+        JsonElement element = object.getAsJsonPrimitive(member);
+        if (element == null) {
+            return false;
+        }
+        return element.getAsBoolean();
+    }
+
+    public static int getIntElement(JsonObject object, String member) {
+        return getIntElement(object, member, 0);
+    }
+
+    public static int getIntElement(JsonObject object, String member, int defaultValue) {
+        JsonElement element = object.getAsJsonPrimitive(member);
+        if (element == null) {
+            return defaultValue;
+        }
+        return element.getAsInt();
+    }
+
+    public static float getFloatElement(JsonObject object, String member) {
+        return getFloatElement(object, member, 0);
+    }
+
+    public static float getFloatElement(JsonObject object, String member, float defaultValue) {
+        JsonElement element = object.getAsJsonPrimitive(member);
+        if (element == null) {
+            return defaultValue;
+        }
+        return element.getAsFloat();
+    }
+
+    public static Vector3f parseVector(JsonObject element, String member) {
+        JsonArray array = element.getAsJsonArray(member);
+        if (array == null) {
+            return new Vector3f();
+        }
+        return new Vector3f(
+                array.get(0).getAsFloat(),
+                array.get(1).getAsFloat(),
+                array.get(2).getAsFloat()
+        );
+    }
+
+    public static Quaternionf fromXYZ(float yaw, float pitch, float roll) {
+        Quaternionf quaternion = new Quaternionf();
+        quaternion.rotationXYZ(yaw, pitch, roll);
+        return quaternion;
     }
 }

@@ -12,6 +12,7 @@ public final class Main {
     public static final Logger LOGGER = LogManager.getLogger();
     public static NetworkManager networkManager;
     public static CameraGetter cameraGetter = () -> Vec3.ZERO;
+    public static FirstPersonGetter firstPersonGetter = () -> false;
 
     public static ResourceLocation locate(String path) {
         return new ResourceLocation(MOD_ID, path);
@@ -19,5 +20,9 @@ public final class Main {
 
     public interface CameraGetter {
         Vec3 getPosition();
+    }
+
+    public interface FirstPersonGetter {
+        boolean isFirstPerson();
     }
 }

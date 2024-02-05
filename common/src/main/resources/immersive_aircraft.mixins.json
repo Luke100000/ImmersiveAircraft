@@ -3,22 +3,14 @@
   "minVersion": "0.7",
   "package": "immersive_aircraft.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": [
-    "PlayerEntityMixin",
-    "ServerPlayerEntityMixin"
-  ],
+  "mixins": ["PlayerEntityMixin", "ProjectileUtilMixin", "ServerPlayerEntityMixin"],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "ClientPlayerEntityMixin",
-    "ClientPlayerInteractionManagerMixin",
-    "ClientPlayNetworkHandlerMixin",
-    "GameRendererMixin",
-    "InGameHudMixin",
-    "KeyMappingAccessorMixin",
-    "KeyMappingMixin",
-    "LivingEntityRendererMixin",
-    "PlayerEntityRendererMixin"
+    "client.AbstractClientPlayerMixin", "client.ClientPlayerEntityMixin", "client.ClientPlayerInteractionManagerMixin",
+    "client.ClientPlayNetworkHandlerMixin", "client.EntityRenderDispatcherMixin", "client.GameRendererMixin",
+    "client.GuiMixin", "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
+    "client.PlayerEntityRendererMixin"
   ]
 }

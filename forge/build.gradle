@@ -26,20 +26,32 @@ configurations {
 }
 
 repositories {
-    maven {
-        // location of the maven that hosts JEI files since January 2023
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
+    maven { url "https://maven.terraformersmc.com/releases/" }
+    maven { url = "https://dvs1.progwml6.com/files/maven/" }
+    maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://maven.architectury.dev/" }
+    maven { url "https://maven.blamejared.com/" }
+    maven { url "https://modmaven.dev" }
 }
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
+    forgeRuntimeLibrary 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:$rei_version"
+
+    // Required to run JEI
+    // modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+
+    // Required to run JEI
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:$rei_version"
 }
 
 processResources {

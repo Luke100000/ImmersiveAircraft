@@ -3,11 +3,12 @@ package immersive_aircraft.client.render.entity.renderer;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import immersive_aircraft.Main;
+import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.util.Utils;
-import immersive_aircraft.util.obj.Mesh;
+import immersive_aircraft.resources.obj.Mesh;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -37,8 +38,8 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                                 for (ItemStack slot : slots) {
                                     if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
                                         List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
-                                        Mesh mesh = getFaces(id, "banner_" + (i++));
-                                        renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
+                                        Mesh mesh = MeshRenderer.getFaces(id, "banner_" + (i++));
+                                        MeshRenderer.renderBanner(matrixStack, vertexConsumerProvider, light, mesh, true, patterns);
                                     }
                                 }
                             }
@@ -66,7 +67,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
                     new Object(id, "rudder").setAnimationConsumer(
                             (entity, yaw, tickDelta, matrixStack) -> {
                                 matrixStack.translate(0.0f, 0.0625f, -2.5f);
-                                matrixStack.mulPose(Axis.YP.rotationDegrees(entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
+                                matrixStack.mulPose(Axis.YP.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 18.0f));
                                 matrixStack.translate(0.0f, -0.0625f, 2.5f);
                             }
                     )

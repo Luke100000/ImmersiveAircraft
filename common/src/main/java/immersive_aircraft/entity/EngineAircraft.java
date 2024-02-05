@@ -7,7 +7,7 @@ import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.util.InterpolatedFloat;
-import net.minecraft.core.registries.BuiltInRegistries;
+import immersive_aircraft.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,10 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Simulated engine behavior
@@ -200,15 +198,15 @@ public abstract class EngineAircraft extends AircraftEntity {
     private void refuel(int i) {
         while (fuel[i] <= TARGET_FUEL) {
             List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
-            ItemStack stack = inventory.getItem(slots.get(i).index);
-            int time = getFuelTime(stack);
+            ItemStack stack = getInventory().getItem(slots.get(i).index());
+            int time = Utils.getFuelTime(stack);
             if (time > 0) {
                 fuel[i] += time;
                 Item item = stack.getItem();
                 stack.shrink(1);
                 if (stack.isEmpty()) {
                     Item item2 = item.getCraftingRemainingItem();
-                    inventory.setItem(slots.get(i).index, item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
+                    getInventory().setItem(slots.get(i).index(), item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
                 }
             } else {
                 break;
@@ -225,11 +223,11 @@ public abstract class EngineAircraft extends AircraftEntity {
     @Override
     protected void updateController() {
         // left-right
-        setYRot(getYRot() - getProperties().getYawSpeed() * pressingInterpolatedX.getSmooth());
+        setYRot(getYRot() - getProperties().get(AircraftStat.YAW_SPEED) * pressingInterpolatedX.getSmooth());
 
         // forwards-backwards
         if (!onGround()) {
-            setXRot(getXRot() + getProperties().getPitchSpeed() * pressingInterpolatedZ.getSmooth());
+            setXRot(getXRot() + getProperties().get(AircraftStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
         setXRot(getXRot() * (1.0f - getStabilizer()));
     }
@@ -240,7 +238,7 @@ public abstract class EngineAircraft extends AircraftEntity {
 
         // landing
         if (onGround()) {
-            setXRot((getXRot() + getProperties().getGroundPitch()) * 0.9f - getProperties().getGroundPitch());
+            setXRot((getXRot() + getProperties().get(AircraftStat.GROUND_PITCH)) * 0.9f - getProperties().get(AircraftStat.GROUND_PITCH));
         }
     }
 
@@ -264,28 +262,6 @@ public abstract class EngineAircraft extends AircraftEntity {
             }
             entityData.set(ENGINE, engineTarget);
         }
-    }
-
-    public static Map<Item, Integer> cachedFuels;
-
-    public static int getFuelTime(ItemStack fuel) {
-        if (fuel.isEmpty()) {
-            return 0;
-        }
-        Item item = fuel.getItem();
-
-        // Build vanilla fuel map
-        if (cachedFuels == null) {
-            cachedFuels = AbstractFurnaceBlockEntity.getFuel();
-        }
-
-        // Vanilla fuel
-        if (Config.getInstance().acceptVanillaFuel && cachedFuels.containsKey(item)) {
-            return cachedFuels.get(item);
-        }
-
-        // Custom fuel
-        return Config.getInstance().fuelList.getOrDefault(BuiltInRegistries.ITEM.getKey(item).toString(), 0);
     }
 
     public float getFuelUtilization() {

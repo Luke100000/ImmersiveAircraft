@@ -1,0 +1,40 @@
+{
+  "properties": {
+    "yawSpeed": 5.0,
+    "engineSpeed": 0.0175,
+    "verticalSpeed": 0.02,
+    "glideFactor": 0.0,
+    "driftDrag": 0.01,
+    "lift": 0.1,
+    "rollFactor": 5.0,
+    "wind": 0.05,
+    "mass": 8.0
+  },
+  "inventorySlots": [
+    {"type": "upgrade", "x": 50, "y": 14},
+    {"type": "upgrade", "x": 72, "y": 14},
+    {"type": "upgrade", "x": 50, "y": 36},
+    {"type": "upgrade", "x": 72, "y": 36},
+    {"type": "banner", "x": 50, "y": 58},
+    {"type": "dye", "x": 72, "y": 58},
+    {"type": "boiler", "x": 17, "y": 44},
+    {"type": "inventory", "x": 98, "y": 8, "cols": 4, "rows": 4},
+    {"type": "inventory", "x": -80, "y": 8, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 186, "y": 8, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": -80, "y": 96, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 186, "y": 96, "cols": 4, "rows": 4, "boxed": true}
+  ],
+  "weaponMounts": [
+  ],
+  "passengerPositions": [
+    [
+      {"x": 0.0, "y": -0.1, "z": 0.0}
+    ],
+    [
+      {"x": 0.0, "y": -0.1, "z": 0.4},
+      {"x": 0.0, "y": -0.1, "z": -0.3}
+    ]
+  ],
+  "boundingBoxes": [
+  ]
+}

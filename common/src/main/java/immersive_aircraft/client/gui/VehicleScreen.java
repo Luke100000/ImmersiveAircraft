@@ -84,31 +84,31 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         int titleHeight = 10;
 
         for (VehicleInventoryDescription.Slot slot : menu.getVehicle().getInventoryDescription().getSlots()) {
-            switch (slot.type) {
+            switch (slot.type()) {
                 case INVENTORY ->
-                        drawImage(context, this.leftPos + slot.x - 1, this.topPos + titleHeight + slot.y - 1, 284, 0, 18, 18);
+                        drawImage(context, this.leftPos + slot.x() - 1, this.topPos + titleHeight + slot.y() - 1, 284, 0, 18, 18);
                 case BOILER -> {
-                    drawImage(context, this.leftPos + slot.x - 4, this.topPos + titleHeight + slot.y - 18, 318, 0, 24, 39);
+                    drawImage(context, this.leftPos + slot.x() - 4, this.topPos + titleHeight + slot.y() - 18, 318, 0, 24, 39);
                     if (menu.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
-                        drawImage(context, this.leftPos + slot.x - 4, this.topPos + titleHeight + slot.y - 18, 318 + 30, 0, 24, 39);
+                        drawImage(context, this.leftPos + slot.x() - 4, this.topPos + titleHeight + slot.y() - 18, 318 + 30, 0, 24, 39);
                     }
                 }
                 default -> {
-                    if (menu.getVehicle().getInventory().getItem(slot.index).isEmpty()) {
-                        switch (slot.type) {
+                    if (menu.getVehicle().getInventory().getItem(slot.index()).isEmpty()) {
+                        switch (slot.type()) {
                             case WEAPON ->
-                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22, 22, 22);
+                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22, 22, 22);
                             case UPGRADE ->
-                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 2, 22, 22);
+                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 2, 22, 22);
                             case BANNER ->
-                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 3, 22, 22);
+                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 3, 22, 22);
                             case DYE ->
-                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 4, 22, 22);
+                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 4, 22, 22);
                             case BOOSTER ->
-                                    drawImage(context, leftPos + slot.x - 3, topPos + titleHeight + slot.y - 3, 262, 22 * 5, 22, 22);
+                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 5, 22, 22);
                         }
                     } else {
-                        drawImage(context, this.leftPos + slot.x - 3, this.topPos + titleHeight + slot.y - 3, 262, 0, 22, 22);
+                        drawImage(context, this.leftPos + slot.x() - 3, this.topPos + titleHeight + slot.y() - 3, 262, 0, 22, 22);
                     }
                 }
             }
@@ -119,8 +119,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         // Slot tooltip
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {
             VehicleInventoryDescription.Slot slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
-            if (slot.type == VehicleInventoryDescription.SlotType.DYE || slot.type == VehicleInventoryDescription.SlotType.BOOSTER || slot.type == VehicleInventoryDescription.SlotType.BOILER || slot.type == VehicleInventoryDescription.SlotType.UPGRADE || slot.type == VehicleInventoryDescription.SlotType.BANNER || slot.type == VehicleInventoryDescription.SlotType.WEAPON) {
-                context.renderTooltip(this.font, List.of(Component.translatable("immersive_aircraft.slot." + slot.type.name().toLowerCase(Locale.ROOT))), Optional.empty(), mouseX, mouseY);
+            if (slot.type() == VehicleInventoryDescription.SlotType.DYE || slot.type() == VehicleInventoryDescription.SlotType.BOOSTER || slot.type() == VehicleInventoryDescription.SlotType.BOILER || slot.type() == VehicleInventoryDescription.SlotType.UPGRADE || slot.type() == VehicleInventoryDescription.SlotType.BANNER || slot.type() == VehicleInventoryDescription.SlotType.WEAPON) {
+                context.renderTooltip(this.font, List.of(Component.translatable("immersive_aircraft.slot." + slot.type().name().toLowerCase(Locale.ROOT))), Optional.empty(), mouseX, mouseY);
             }
         } else {
             renderTooltip(context, mouseX, mouseY);

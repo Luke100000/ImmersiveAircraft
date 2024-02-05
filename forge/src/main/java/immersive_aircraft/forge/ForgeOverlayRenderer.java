@@ -18,7 +18,7 @@ public class ForgeOverlayRenderer extends Gui {
         super(client, itemRenderer);
     }
 
-    private final static ResourceLocation NamedGuiIdentifier = new ResourceLocation("minecraft:hotbar");
+    private static final ResourceLocation NamedGuiIdentifier = new ResourceLocation("minecraft:hotbar");
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void renderOverlay(RenderGuiOverlayEvent.Post event) {

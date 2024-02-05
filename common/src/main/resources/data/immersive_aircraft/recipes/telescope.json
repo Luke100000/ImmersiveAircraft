@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T  ",
+    "C  ",
+    "   "
+  ],
+  "key": {
+    "T": [
+      {
+        "item": "minecraft:spyglass"
+      }
+    ],
+    "C": [
+      {
+        "item": "minecraft:copper_ingot"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:telescope"
+  }
+}

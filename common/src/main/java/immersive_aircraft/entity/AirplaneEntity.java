@@ -1,6 +1,6 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.entity.misc.AircraftProperties;
+import immersive_aircraft.item.upgrade.AircraftStat;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
@@ -9,18 +9,6 @@ import org.joml.Vector3f;
  * Implements airplane like physics properties and accelerated towards
  */
 public abstract class AirplaneEntity extends EngineAircraft {
-    private final AircraftProperties properties = new AircraftProperties(this)
-            .setYawSpeed(5.0f)
-            .setPitchSpeed(4.0f)
-            .setEngineSpeed(0.0225f)
-            .setGlideFactor(0.05f)
-            .setDriftDrag(0.01f)
-            .setLift(0.15f)
-            .setRollFactor(45.0f)
-            .setGroundPitch(4.0f)
-            .setWindSensitivity(0.025f)
-            .setMass(1.0f);
-
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
@@ -28,16 +16,6 @@ public abstract class AirplaneEntity extends EngineAircraft {
     @Override
     protected boolean useAirplaneControls() {
         return true;
-    }
-
-    @Override
-    public AircraftProperties getProperties() {
-        return properties;
-    }
-
-    @Override
-    protected float getGroundVelocityDecay() {
-        return falloffGroundVelocityDecay(0.9f);
     }
 
     @Override
@@ -71,7 +49,10 @@ public abstract class AirplaneEntity extends EngineAircraft {
         Vector3f direction = getForwardDirection();
 
         // speed
-        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed());
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED));
+        if (onGround && getEngineTarget() < 1.0) {
+            thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
+        }
 
         // accelerate
         setDeltaMovement(getDeltaMovement().add(toVec3d(direction.mul(thrust))));
