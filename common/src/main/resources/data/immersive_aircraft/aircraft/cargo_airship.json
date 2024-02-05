@@ -11,7 +11,7 @@
     "mass": 8.0
   },
   "inventorySlots": [
-    {"type": "weapon", "x": 50, "y": 14},
+    {"type": "upgrade", "x": 50, "y": 14},
     {"type": "upgrade", "x": 72, "y": 14},
     {"type": "upgrade", "x": 50, "y": 36},
     {"type": "upgrade", "x": 72, "y": 36},
@@ -19,9 +19,9 @@
     {"type": "dye", "x": 72, "y": 58},
     {"type": "boiler", "x": 17, "y": 44},
     {"type": "inventory", "x": 98, "y": 8, "cols": 4, "rows": 4},
-    {"type": "inventory", "x": -80, "y": 8, "cols": 4, "rows": 4},
-    {"type": "inventory", "x": 186, "y": 8, "cols": 4, "rows": 4},
-    {"type": "inventory", "x": -80, "y": 96, "cols": 4, "rows": 4},
+    {"type": "inventory", "x": -80, "y": 8, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 186, "y": 8, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": -80, "y": 96, "cols": 4, "rows": 4, "boxed": true},
     {"type": "inventory", "x": 186, "y": 96, "cols": 4, "rows": 4, "boxed": true}
   ],
   "weaponMounts": [

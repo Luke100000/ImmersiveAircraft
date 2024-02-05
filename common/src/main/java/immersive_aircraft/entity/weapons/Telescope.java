@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
 public class Telescope extends Weapon {
-    private final RotationalManager rotationalManager = new RotationalManager();
+    private final RotationalManager rotationalManager = new RotationalManager(this);
 
     int lastFireTick = 0;
 

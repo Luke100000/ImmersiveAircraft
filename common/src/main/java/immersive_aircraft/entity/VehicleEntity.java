@@ -386,13 +386,13 @@ public abstract class VehicleEntity extends Entity {
             move(MoverType.SELF, getDeltaMovement());
         }
 
-        // auto enter
         checkInsideBlocks();
-        List<Entity> list = level.getEntities(this, getBoundingBox().inflate(8.0), EntitySelector.pushableBy(this));
+
+        // auto enter
+        List<Entity> list = level.getEntities(this, getBoundingBox().inflate(0.2f, -0.01f, 0.2f), EntitySelector.pushableBy(this));
         if (!list.isEmpty()) {
             boolean bl = !level.isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
-                if (!collidesWith(entity.getBoundingBox().inflate(0.2f, -0.01f, 0.2f))) continue;
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
                     entity.startRiding(this);
@@ -407,6 +407,10 @@ public abstract class VehicleEntity extends Entity {
             pressingInterpolatedZ.update(movementZ);
         }
 
+        tickDamageParticles();
+    }
+
+    private void tickDamageParticles() {
         if (level.isClientSide && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> additionalShapes = getAdditionalShapes();
@@ -467,15 +471,6 @@ public abstract class VehicleEntity extends Entity {
                     )
             );
         }
-    }
-
-    private boolean collidesWith(AABB aabb) {
-        for (AABB additionalShape : getAdditionalShapes()) {
-            if (aabb.intersects(additionalShape)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void handleClientSync() {
@@ -740,6 +735,12 @@ public abstract class VehicleEntity extends Entity {
     @Nullable
     public Entity getControllingPassenger() {
         return getFirstPassenger();
+    }
+
+    @Nullable
+    public Entity getGunner(int offset) {
+        List<Entity> passengers = getPassengers();
+        return passengers.isEmpty() ? null : passengers.get(Math.max(0, passengers.size() - 1 - offset));
     }
 
     public void setInputs(float x, float y, float z) {

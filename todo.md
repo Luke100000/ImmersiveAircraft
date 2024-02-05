@@ -2,16 +2,11 @@
 
 * Sinking bubbles
 * Mouse movement
+* Separate controls for plane/hovercraft, not just engine
 * Better sounds
-* Collision simulation
-    * Use point collisions at wings and back of plane, use soft collision resolving
 * More aircraft!
-* Rockets
+* Rockets (this is 1.20.1+)
 * Drop as item
 
-
-
-wrap up things, do NOT include new renderer for now
-* move properties and BBs and weapon mounts into json
-* add textures for all weapons
-* add tooltips for weapons
+When zooming, temporary enforce first person
+When mounts are too close to player, do not render them in first person

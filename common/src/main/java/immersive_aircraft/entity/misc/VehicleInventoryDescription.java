@@ -28,6 +28,10 @@ public class VehicleInventoryDescription {
             SlotType type = SlotType.values()[buffer.readInt()];
             addSlot(type, buffer.readInt(), buffer.readInt());
         }
+        int rectCount = buffer.readInt();
+        for (int i = 0; i < rectCount; i++) {
+            addRectangle(buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt());
+        }
         build();
     }
 
@@ -54,6 +58,13 @@ public class VehicleInventoryDescription {
             buffer.writeInt(slot.x);
             buffer.writeInt(slot.y);
         }
+        buffer.writeInt(rectangles.size());
+        for (Rect2iCommon rectangle : rectangles) {
+            buffer.writeInt(rectangle.getX());
+            buffer.writeInt(rectangle.getY());
+            buffer.writeInt(rectangle.getWidth());
+            buffer.writeInt(rectangle.getHeight());
+        }
     }
 
     public enum SlotType {
@@ -66,17 +77,7 @@ public class VehicleInventoryDescription {
         DYE
     }
 
-    public static class Slot {
-        public final int x, y;
-        public final int index;
-        public final SlotType type;
-
-        public Slot(int x, int y, int index, SlotType type) {
-            this.x = x;
-            this.y = y;
-            this.index = index;
-            this.type = type;
-        }
+    public record Slot(int x, int y, int index, SlotType type) {
     }
 
     EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);

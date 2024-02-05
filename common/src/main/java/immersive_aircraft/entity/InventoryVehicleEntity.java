@@ -50,7 +50,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     public List<WeaponMount> getWeaponMounts(int slot) {
         ItemStack stack = getSlot(slot).get();
         if (stack.getItem() instanceof WeaponItem weaponItem) {
-            AircraftDataLoader.get(identifier).getWeaponMounts().getOrDefault(slot, EMPTY_WEAPONS_MAP).getOrDefault(weaponItem.getMountType(), EMPTY_WEAPONS);
+            return AircraftDataLoader.get(identifier).getWeaponMounts().getOrDefault(slot, EMPTY_WEAPONS_MAP).getOrDefault(weaponItem.getMountType(), EMPTY_WEAPONS);
         }
         return EMPTY_WEAPONS;
     }
@@ -59,7 +59,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(slotType);
         List<ItemStack> list = new ArrayList<>(slots.size());
         for (VehicleInventoryDescription.Slot slot : slots) {
-            list.add(getInventory().getItem(slot.index));
+            list.add(getInventory().getItem(slot.index()));
         }
         return list;
     }
@@ -205,20 +205,20 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
         // Check and recreate weapon slots
         for (VehicleInventoryDescription.Slot slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
-            ItemStack weaponItemStack = getSlot(slot.index).get();
-            List<Weapon> weapon = weapons.get(slot.index);
+            ItemStack weaponItemStack = getSlot(slot.index()).get();
+            List<Weapon> weapon = weapons.get(slot.index());
 
             if (weaponItemStack.isEmpty() && weapon != null) {
-                weapons.remove(slot.index);
+                weapons.remove(slot.index());
             } else if (!weaponItemStack.isEmpty() && (weapon == null || weapon.get(0).getStack() != weaponItemStack)) {
                 WeaponRegistry.WeaponConstructor constructor = WeaponRegistry.get(weaponItemStack);
                 if (constructor != null) {
-                    List<WeaponMount> weaponMounts = getWeaponMounts(slot.index);
+                    List<WeaponMount> weaponMounts = getWeaponMounts(slot.index());
                     ArrayList<Weapon> weapons = new ArrayList<>(weaponMounts.size());
                     for (WeaponMount weaponMount : weaponMounts) {
-                        weapons.add(constructor.create(this, weaponItemStack, weaponMount, slot.index));
+                        weapons.add(constructor.create(this, weaponItemStack, weaponMount, slot.index()));
                     }
-                    this.weapons.put(slot.index, weapons);
+                    this.weapons.put(slot.index(), weapons);
                 }
             }
         }

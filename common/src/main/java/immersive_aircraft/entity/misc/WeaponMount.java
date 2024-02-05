@@ -7,7 +7,7 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.FloatBuffer;
 
 public record WeaponMount(Matrix4f transform) {
-    public static final WeaponMount EMPTY = new WeaponMount(Matrix4f.createScaleMatrix(0.0f, 0.0f, 0.0f));
+    public static final WeaponMount EMPTY = new WeaponMount(Matrix4f.createScaleMatrix(1.0f, 1.0f, 1.0f));
 
     public void encode(FriendlyByteBuf buffer) {
         FloatBuffer floatValues = MemoryUtil.memAllocFloat(16);

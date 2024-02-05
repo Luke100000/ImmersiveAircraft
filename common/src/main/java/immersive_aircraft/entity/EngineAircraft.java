@@ -198,7 +198,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     private void refuel(int i) {
         while (fuel[i] <= TARGET_FUEL) {
             List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
-            ItemStack stack = getInventory().getItem(slots.get(i).index);
+            ItemStack stack = getInventory().getItem(slots.get(i).index());
             int time = Utils.getFuelTime(stack);
             if (time > 0) {
                 fuel[i] += time;
@@ -206,7 +206,7 @@ public abstract class EngineAircraft extends AircraftEntity {
                 stack.shrink(1);
                 if (stack.isEmpty()) {
                     Item item2 = item.getCraftingRemainingItem();
-                    getInventory().setItem(slots.get(i).index, item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
+                    getInventory().setItem(slots.get(i).index(), item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
                 }
             } else {
                 break;

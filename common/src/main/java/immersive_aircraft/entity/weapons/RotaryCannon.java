@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import static immersive_aircraft.Entities.BULLET;
 
 public class RotaryCannon extends BulletWeapon {
-    private final RotationalManager rotationalManager = new RotationalManager();
+    private final RotationalManager rotationalManager = new RotationalManager(this);
 
     public RotaryCannon(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
         super(entity, stack, mount, slot);

@@ -15,7 +15,7 @@
   },
   "inventorySlots": [
     {"type": "weapon", "x": 50, "y": 14},
-    {"type": "weapon", "x": 72, "y": 14},
+    {"type": "upgrade", "x": 72, "y": 14},
     {"type": "upgrade", "x": 50, "y": 36},
     {"type": "upgrade", "x": 72, "y": 36},
     {"type": "banner", "x": 50, "y": 58},
@@ -24,6 +24,19 @@
     {"type": "inventory", "x": 98, "y": 8, "cols": 4, "rows": 4}
   ],
   "weaponMounts": [
+    {
+      "ROTATING": [
+        {"x": 0, "y": 0.3125, "z": 1.0}
+      ],
+      "FRONT": [
+        {"x": -0.5, "y": 0.25, "z": 0.0, "roll": 90},
+        {"x": 0.5, "y": 0.25, "z": 0.0, "roll": -90}
+      ],
+      "DROP": [
+        {"x": -0.5, "y": 0.0, "z": 0.0, "roll": -90},
+        {"x": 0.5, "y": 0.0, "z": 0.0, "roll": 90}
+      ]
+    }
   ],
   "passengerPositions": [
     [

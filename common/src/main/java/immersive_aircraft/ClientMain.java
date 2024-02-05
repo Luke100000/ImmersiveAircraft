@@ -8,6 +8,7 @@ import immersive_aircraft.network.ClientNetworkManager;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
 
 import java.util.List;
 
@@ -44,11 +45,20 @@ public class ClientMain {
             }
         }
 
-        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle && client.options.keyUse.isDown()) {
+        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
+            int gunnerOffset = 0;
             for (List<Weapon> weapons : vehicle.getWeapons().values()) {
+                vehicle.getGunner(gunnerOffset);
                 for (int i = 0; i < weapons.size(); i++) {
-                    weapons.get(i).clientFire(i);
+                    Weapon weapon = weapons.get(i);
+                    weapon.setGunnerOffset(gunnerOffset);
+
+                    // Only the gunner may fire
+                    if (client.player == vehicle.getGunner(gunnerOffset) && client.options.keyUse.isDown() && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+                        weapon.clientFire(i);
+                    }
                 }
+                gunnerOffset += 1;
             }
         }
     }

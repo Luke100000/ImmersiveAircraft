@@ -11,9 +11,9 @@ public record PositionDescriptor(float x, float y, float z, float yaw, float pit
         float x = Utils.getFloatElement(json, "x");
         float y = Utils.getFloatElement(json, "y");
         float z = Utils.getFloatElement(json, "z");
-        float yaw = Utils.getFloatElement(json, "yaw");
-        float pitch = Utils.getFloatElement(json, "pitch");
-        float roll = Utils.getFloatElement(json, "roll");
+        float yaw = Utils.getFloatElement(json, "yaw") / 180 * (float) Math.PI;
+        float pitch = Utils.getFloatElement(json, "pitch") / 180 * (float) Math.PI;
+        float roll = Utils.getFloatElement(json, "roll") / 180 * (float) Math.PI;
         return new PositionDescriptor(x, y, z, yaw, pitch, roll);
     }
 

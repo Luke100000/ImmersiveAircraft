@@ -44,7 +44,7 @@ public final class ClientFabric implements ClientModInitializer {
     private void itemTooltipCallback(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
         AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
         if (upgrade != null) {
-            tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+            tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY));
 
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),

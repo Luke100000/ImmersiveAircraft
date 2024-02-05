@@ -7,6 +7,8 @@ import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.world.entity.Entity;
 
 public class RotationalManager {
+    private final Weapon weapon;
+
     float yaw = 0.0f;
     float pitch = 0.0f;
     float roll = 0.0f;
@@ -14,6 +16,10 @@ public class RotationalManager {
     float lastYaw = 0.0f;
     float lastPitch = 0.0f;
     float lastRoll = 0.0f;
+
+    public RotationalManager(Weapon weapon) {
+        this.weapon = weapon;
+    }
 
     private float turn(float diff) {
         if (diff > Math.PI) {
@@ -81,7 +87,7 @@ public class RotationalManager {
     }
 
     public Vector3f screenToGlobal(VehicleEntity vehicle, Vector3f normal) {
-        Entity pilot = vehicle.getControllingPassenger();
+        Entity pilot = vehicle.getGunner(weapon.getGunnerOffset());
 
         if (pilot != null) {
             Matrix3f camera = getCamera(vehicle, pilot);

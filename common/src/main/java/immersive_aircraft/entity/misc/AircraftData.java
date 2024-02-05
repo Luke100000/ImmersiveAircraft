@@ -45,7 +45,7 @@ public class AircraftData {
                 mounts.forEach(mountElement -> {
                     JsonObject mount = mountElement.getAsJsonObject();
                     PositionDescriptor position = PositionDescriptor.fromJson(mount);
-                    weaponMounts.get(slot.index).get(type).add(new WeaponMount(position.matrix()));
+                    weaponMounts.get(slot.index()).get(type).add(new WeaponMount(position.matrix()));
                 });
             });
         });
@@ -114,7 +114,7 @@ public class AircraftData {
         List<VehicleInventoryDescription.Slot> weaponSlots = inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON);
         weaponSlots.forEach(slot -> {
             for (WeaponMount.Type type : WeaponMount.Type.values()) {
-                weaponMounts.computeIfAbsent(slot.index, integer -> new HashMap<>()).put(type, new LinkedList<>());
+                weaponMounts.computeIfAbsent(slot.index(), integer -> new HashMap<>()).put(type, new LinkedList<>());
             }
         });
     }
