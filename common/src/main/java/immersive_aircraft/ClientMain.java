@@ -23,12 +23,16 @@ public class ClientMain {
         Main.firstPersonGetter = () -> Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
     }
 
+    private static boolean isZooming;
+    private static CameraType perspectiveBeforeZoom;
+
     private static boolean isInVehicle;
     private static CameraType lastPerspective;
 
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
 
+        // Toggle view when entering a vehicle
         if (Config.getInstance().separateCamera) {
             LocalPlayer player = client.player;
             boolean b = player != null && player.getRootVehicle() instanceof AircraftEntity;
@@ -45,6 +49,18 @@ public class ClientMain {
             }
         }
 
+        // Switch to first person when scoping
+        if (client.player != null && client.player.getVehicle() instanceof AircraftEntity vehicle && vehicle.isScoping() != isZooming) {
+            isZooming = vehicle.isScoping();
+            if (isZooming) {
+                perspectiveBeforeZoom = client.options.getCameraType();
+                client.options.setCameraType(CameraType.FIRST_PERSON);
+            } else {
+                client.options.setCameraType(perspectiveBeforeZoom);
+            }
+        }
+
+        // Fire weapons when in a vehicle
         if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
             int gunnerOffset = 0;
             for (List<Weapon> weapons : vehicle.getWeapons().values()) {

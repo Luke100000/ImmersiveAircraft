@@ -1,12 +1,12 @@
 # 0.7.0
 
 * Aircraft now have a health bar, building up visual damage until they explode
-  * Right click fixes it again
+    * Right click fixes it again
 * Added 4 weapon/utilities
-  * Telescope – Twice the zoom as a spyglass and always available
-  * Heavy Crossbow – Shots arrows with a lot of force
-  * Rotary Cannon – Automatic cannon on a gyroscopic mount
-  * Bomb Bay – Drops tiny TNT packets (no block destruction)
+    * Telescope – Twice the zoom as a spyglass and always available
+    * Heavy Crossbow – Shots arrows with a lot of force
+    * Rotary Cannon – Automatic cannon on a gyroscopic mount
+    * Bomb Bay – Drops tiny TNT packets (no block destruction)
 * Reorders slots to no longer burn your banners (Existing aircraft needs some manual fixing)
 * Added support for modded fuel (Thanks Brandon!)
 * Biplanes can now reverse

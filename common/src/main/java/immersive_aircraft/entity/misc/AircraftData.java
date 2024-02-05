@@ -45,7 +45,8 @@ public class AircraftData {
                 mounts.forEach(mountElement -> {
                     JsonObject mount = mountElement.getAsJsonObject();
                     PositionDescriptor position = PositionDescriptor.fromJson(mount);
-                    weaponMounts.get(slot.index()).get(type).add(new WeaponMount(position.matrix()));
+                    boolean blocking = mount.has("blocking") && mount.get("blocking").getAsBoolean();
+                    weaponMounts.get(slot.index()).get(type).add(new WeaponMount(position.matrix(), blocking));
                 });
             });
         });
