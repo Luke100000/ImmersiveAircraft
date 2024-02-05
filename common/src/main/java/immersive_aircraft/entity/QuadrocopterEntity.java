@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class QuadrocopterEntity extends Rotorcraft {
@@ -75,14 +76,15 @@ public class QuadrocopterEntity extends Rotorcraft {
         float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(AircraftStat.ENGINE_SPEED));
 
         // left and right
-        Vec3 direction = getRightDirection().scale(thrust * pressingInterpolatedX.getSmooth());
-        setDeltaMovement(getDeltaMovement().add(direction));
+        Vector3f direction = getRightDirection().mul(thrust * pressingInterpolatedX.getSmooth());
+        setDeltaMovement(getDeltaMovement().add(direction.x, direction.y, direction.z));
 
         // forward and backward
-        direction = getForwardDirection().scale(thrust * pressingInterpolatedZ.getSmooth());
-        setDeltaMovement(getDeltaMovement().add(direction));
+        direction = getForwardDirection().mul(thrust * pressingInterpolatedZ.getSmooth());
+        setDeltaMovement(getDeltaMovement().add(direction.x, direction.y, direction.z));
     }
 
+    @Override
     protected void convertPower(Vec3 direction) {
         // Quadrocopters does not convert power
     }

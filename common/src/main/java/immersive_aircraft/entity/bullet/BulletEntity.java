@@ -2,7 +2,6 @@ package immersive_aircraft.entity.bullet;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -47,7 +46,7 @@ public class BulletEntity extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult result) {
         if (canHitEntity(result.getEntity())) {
             float damage = 5.0f;
-            result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), damage);
+            result.getEntity().hurt(getLevel().damageSources().thrown(this, this.getOwner()), damage);
         }
     }
 

@@ -2,9 +2,7 @@ package immersive_aircraft.client.render.entity.renderer.bullet;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.bullet.BulletEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,6 +11,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer<T> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/entity/bullet.png");
@@ -28,7 +28,7 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
         float scale = entity.getScale();
         matrixStack.scale(scale, scale, scale);
         matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180.0f));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(180.0f));
         PoseStack.Pose pose = matrixStack.last();
         Matrix4f matrix4f = pose.pose();
         Matrix3f matrix3f = pose.normal();

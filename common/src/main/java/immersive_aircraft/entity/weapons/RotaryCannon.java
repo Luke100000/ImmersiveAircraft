@@ -1,16 +1,17 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.bullet.BulletEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
+import immersive_aircraft.util.Utils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import static immersive_aircraft.Entities.BULLET;
 
@@ -61,11 +62,11 @@ public class RotaryCannon extends BulletWeapon {
         return rotationalManager.screenToGlobal(getEntity());
     }
 
-    public Quaternion getHeadTransform(float tickDelta) {
-        Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, 0.0f, rotationalManager.getRoll(tickDelta)));
+    public Quaternionf getHeadTransform(float tickDelta) {
+        Quaternionf quaternion = Utils.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
+        quaternion.mul(Utils.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
+        quaternion.mul(Utils.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
+        quaternion.mul(Utils.fromXYZ(0.0f, 0.0f, rotationalManager.getRoll(tickDelta)));
         return quaternion;
     }
 

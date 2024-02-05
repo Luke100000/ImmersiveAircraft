@@ -4,7 +4,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 
 public class TinyTNT extends PrimedTnt {
@@ -38,6 +37,6 @@ public class TinyTNT extends PrimedTnt {
     }
 
     private void boom() {
-        this.level.explode(this, this.getX(), this.getY(0.0625), this.getZ(), 4.0f, Explosion.BlockInteraction.NONE);
+        this.level.explode(this, this.getX(), this.getY(0.0625), this.getZ(), 4.0f, Level.ExplosionInteraction.NONE);
     }
 }

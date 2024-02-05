@@ -1,6 +1,6 @@
 package immersive_aircraft.network.c2s;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import net.minecraft.network.FriendlyByteBuf;

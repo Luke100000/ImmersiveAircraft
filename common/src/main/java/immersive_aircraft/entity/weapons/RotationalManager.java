@@ -1,10 +1,11 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.world.entity.Entity;
+import org.joml.Matrix3f;
+import org.joml.Vector3f;
 
 public class RotationalManager {
     private final Weapon weapon;
@@ -53,15 +54,14 @@ public class RotationalManager {
 
     public Matrix3f getCamera(VehicleEntity vehicle, Entity pilot) {
         Matrix3f camera = new Matrix3f();
-        camera.setIdentity();
 
         if (Main.firstPersonGetter.isFirstPerson()) {
-            camera.mul(Vector3f.ZP.rotationDegrees(vehicle.getRoll()));
-            camera.mul(Vector3f.XP.rotationDegrees(vehicle.getXRot()));
+            camera.rotate(Axis.ZP.rotationDegrees(vehicle.getRoll()));
+            camera.rotate(Axis.XP.rotationDegrees(vehicle.getXRot()));
         }
 
-        camera.mul(Vector3f.XP.rotationDegrees(pilot.getXRot()));
-        camera.mul(Vector3f.YP.rotationDegrees(pilot.getYRot() + 180.0f));
+        camera.rotate(Axis.XP.rotationDegrees(pilot.getXRot()));
+        camera.rotate(Axis.YP.rotationDegrees(pilot.getYRot() + 180.0f));
 
         return camera;
     }
@@ -74,9 +74,9 @@ public class RotationalManager {
         screenToGlobal(vehicle, normal);
 
         // Convert into vehicle space
-        Matrix3f vehicleTransform = vehicle.getVehicleNormalTransform().copy();
+        Matrix3f vehicleTransform = new Matrix3f(vehicle.getVehicleNormalTransform());
         vehicleTransform.invert();
-        normal.transform(vehicleTransform);
+        normal.mul(vehicleTransform);
 
         yaw = (float) -Math.atan2(normal.x(), normal.z());
         pitch = (float) -Math.atan2(normal.y(), Math.sqrt(normal.x() * normal.x() + normal.z() * normal.z()));
@@ -92,7 +92,7 @@ public class RotationalManager {
         if (pilot != null) {
             Matrix3f camera = getCamera(vehicle, pilot);
             camera.invert();
-            normal.transform(camera);
+            normal.mul(camera);
         }
 
         return normal;

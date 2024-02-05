@@ -4,7 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.math.Vector3f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
 import net.minecraft.core.Holder;
@@ -56,7 +57,7 @@ public class Utils {
 
         // Custom fuel
         Map<String, Integer> fuelList = Config.getInstance().fuelList;
-        String identifier = Registry.ITEM.getKey(fuel.getItem()).toString();
+        String identifier = BuiltInRegistries.ITEM.getKey(fuel.getItem()).toString();
         if (fuelList.containsKey(identifier)) {
             return fuelList.get(identifier);
         }
@@ -114,5 +115,11 @@ public class Utils {
                 array.get(1).getAsFloat(),
                 array.get(2).getAsFloat()
         );
+    }
+
+    public static Quaternionf fromXYZ(float yaw, float pitch, float roll) {
+        Quaternionf quaternion = new Quaternionf();
+        quaternion.rotationXYZ(yaw, pitch, roll);
+        return quaternion;
     }
 }

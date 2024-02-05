@@ -1,7 +1,7 @@
 package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonObject;
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;

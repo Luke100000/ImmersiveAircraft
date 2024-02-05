@@ -2,7 +2,7 @@ package immersive_aircraft;
 
 import immersive_aircraft.client.render.entity.weaponRenderer.*;
 import immersive_aircraft.entity.weapons.Weapon;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
@@ -28,6 +28,6 @@ public class WeaponRendererRegistry {
 
     public static <W extends Weapon> WeaponRenderer<W> get(W weapon) {
         //noinspection unchecked
-        return (WeaponRenderer<W>) REGISTRY.get(Registry.ITEM.getKey(weapon.getStack().getItem()));
+        return (WeaponRenderer<W>) REGISTRY.get(BuiltInRegistries.ITEM.getKey(weapon.getStack().getItem()));
     }
 }

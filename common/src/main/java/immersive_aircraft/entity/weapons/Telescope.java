@@ -1,12 +1,13 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
+import immersive_aircraft.util.Utils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class Telescope extends Weapon {
     private final RotationalManager rotationalManager = new RotationalManager(this);
@@ -30,10 +31,10 @@ public class Telescope extends Weapon {
         // pass
     }
 
-    public Quaternion getHeadTransform(float tickDelta) {
-        Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
+    public Quaternionf getHeadTransform(float tickDelta) {
+        Quaternionf quaternion = Utils.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
+        quaternion.mul(Utils.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
+        quaternion.mul(Utils.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
         return quaternion;
     }
 

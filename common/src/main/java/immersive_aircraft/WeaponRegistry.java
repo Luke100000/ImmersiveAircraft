@@ -2,12 +2,8 @@ package immersive_aircraft;
 
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
-import immersive_aircraft.entity.weapons.RotaryCannon;
-import immersive_aircraft.entity.weapons.HeavyCrossbow;
-import immersive_aircraft.entity.weapons.Telescope;
-import immersive_aircraft.entity.weapons.BombBay;
-import immersive_aircraft.entity.weapons.Weapon;
-import net.minecraft.core.Registry;
+import immersive_aircraft.entity.weapons.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -33,7 +29,7 @@ public class WeaponRegistry {
     }
 
     public static WeaponConstructor get(ItemStack weapon) {
-        return REGISTRY.get(Registry.ITEM.getKey(weapon.getItem()));
+        return REGISTRY.get(BuiltInRegistries.ITEM.getKey(weapon.getItem()));
     }
 
     public interface WeaponConstructor {

@@ -1,7 +1,7 @@
 package immersive_aircraft.client.render.entity.renderer.bullet;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import immersive_aircraft.entity.bullet.TinyTNT;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
@@ -36,9 +36,9 @@ public class TinyTNTRenderer extends EntityRenderer<TinyTNT> {
             matrixStack.scale(g, g, g);
         }
         matrixStack.scale(0.375f, 0.375f, 0.375f);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90.0f));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(-90.0f));
         matrixStack.translate(-0.5, -0.5, 0.5);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(90.0f));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(90.0f));
         TntMinecartRenderer.renderWhiteSolidBlock(this.blockRenderer, Blocks.TNT.defaultBlockState(), matrixStack, buffer, packedLight, i / 5 % 2 == 0);
         matrixStack.popPose();
         super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);

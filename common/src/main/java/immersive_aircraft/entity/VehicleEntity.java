@@ -17,8 +17,8 @@ import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -157,7 +157,7 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedY = new InterpolatedFloat(getInputInterpolationSteps());
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
 
-        identifier = Registry.ENTITY_TYPE.getKey(getType());
+        identifier = BuiltInRegistries.ENTITY_TYPE.getKey(getType());
     }
 
     protected float getInputInterpolationSteps() {
@@ -727,6 +727,7 @@ public abstract class VehicleEntity extends Entity {
         return getPassengers().size() < getPassengerSpace() && !isEyeInFluid(FluidTags.WATER);
     }
 
+    @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
         if (getFirstPassenger() instanceof LivingEntity le) {
@@ -793,10 +794,10 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public Matrix3f getVehicleNormalTransformQuantized() {
-        Matrix3f transform = Matrix3f.createScaleMatrix(1.0f, 1.0f, 1.0f);
-        transform.mul(Vector3f.YP.rotationDegrees(-quantize(getYRot())));
-        transform.mul(Vector3f.XP.rotationDegrees(quantize(getXRot())));
-        transform.mul(Vector3f.ZP.rotationDegrees(quantize(getRoll())));
+        Matrix3f transform = new Matrix3f();
+        transform.rotate(Axis.YP.rotationDegrees(-quantize(getYRot())));
+        transform.rotate(Axis.XP.rotationDegrees(quantize(getXRot())));
+        transform.rotate(Axis.ZP.rotationDegrees(quantize(getRoll())));
         return transform;
     }
 
@@ -812,9 +813,9 @@ public abstract class VehicleEntity extends Entity {
         return transformVector(0.0f, 0.0f, 1.0f);
     }
 
-    public Vec3 getRightDirection() {
+    public Vector3f getRightDirection() {
         Vector3f f = transformVector(1.0f, 0.0f, 0.0f);
-        return new Vec3(f.x(), f.y(), f.z());
+        return new Vector3f(f.x(), f.y(), f.z());
     }
 
     public Vector3f getTopDirection() {

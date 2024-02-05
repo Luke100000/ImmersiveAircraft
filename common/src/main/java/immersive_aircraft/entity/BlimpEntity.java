@@ -1,8 +1,5 @@
 package immersive_aircraft.entity;
 
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.Trail;
@@ -12,6 +9,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
@@ -80,12 +79,5 @@ public class BlimpEntity extends AirshipEntity {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
-    }
-
-    protected void addTrails(Matrix4f transform) {
-        Matrix4f tr = transform.copy();
-        tr.multiplyWithTranslation(0.0f, 0.4f, -1.2f);
-        tr.multiply(Vector3f.ZP.rotationDegrees(engineRotation.getSmooth() * 50.0f));
-        trail(tr);
     }
 }

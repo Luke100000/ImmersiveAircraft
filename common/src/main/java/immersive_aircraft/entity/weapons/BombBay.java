@@ -1,8 +1,5 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import immersive_aircraft.Entities;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
@@ -12,6 +9,9 @@ import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix3f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class BombBay extends BulletWeapon {
     private static final float MAX_COOLDOWN = 1.0f;
@@ -66,8 +66,8 @@ public class BombBay extends BulletWeapon {
 
     private Vector3f getDirection() {
         Vector3f direction = new Vector3f(0, 1.0f, 0);
-        direction.transform(new Matrix3f(getMount().transform()));
-        direction.transform(getEntity().getVehicleNormalTransform());
+        direction.mul(new Matrix3f(getMount().transform()));
+        direction.mul(getEntity().getVehicleNormalTransform());
         return direction;
     }
 }

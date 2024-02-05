@@ -1,8 +1,5 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.VehicleEntity;
@@ -12,6 +9,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix3f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class HeavyCrossbow extends BulletWeapon {
     private static final float MAX_COOLDOWN = 1.0f;
@@ -71,8 +71,8 @@ public class HeavyCrossbow extends BulletWeapon {
 
     private Vector3f getDirection() {
         Vector3f direction = new Vector3f(0, 0, 1.0f);
-        direction.transform(new Matrix3f(getMount().transform()));
-        direction.transform(getEntity().getVehicleNormalTransform());
+        direction.mul(new Matrix3f(getMount().transform()));
+        direction.mul(getEntity().getVehicleNormalTransform());
         return direction;
     }
 }

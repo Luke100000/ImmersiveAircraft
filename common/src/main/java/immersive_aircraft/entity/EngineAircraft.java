@@ -7,7 +7,6 @@ import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.util.InterpolatedFloat;
-import net.minecraft.core.registries.BuiltInRegistries;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;

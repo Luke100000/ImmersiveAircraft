@@ -1,6 +1,6 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import net.minecraft.world.item.ItemStack;

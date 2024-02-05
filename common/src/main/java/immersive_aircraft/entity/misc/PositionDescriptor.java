@@ -1,10 +1,9 @@
 package immersive_aircraft.entity.misc;
 
 import com.google.gson.JsonObject;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.FriendlyByteBuf;
+import org.joml.Matrix4f;
 
 public record PositionDescriptor(float x, float y, float z, float yaw, float pitch, float roll) {
     static PositionDescriptor fromJson(JsonObject json) {
@@ -37,9 +36,9 @@ public record PositionDescriptor(float x, float y, float z, float yaw, float pit
     }
 
     public Matrix4f matrix() {
-        Matrix4f matrix = Matrix4f.createTranslateMatrix(x, y, z);
-        Quaternion quaternion = Quaternion.fromXYZ(yaw, pitch, roll);
-        matrix.multiply(new Matrix4f(quaternion));
+        Matrix4f matrix = new Matrix4f();
+        matrix.translate(x, y, z);
+        matrix.rotate(Utils.fromXYZ(0.0f, 0.0f, roll));
         return matrix;
     }
 }

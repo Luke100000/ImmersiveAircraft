@@ -1,7 +1,7 @@
 package immersive_aircraft.network.s2c;
 
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
 import net.minecraft.network.FriendlyByteBuf;

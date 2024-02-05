@@ -22,10 +22,10 @@ public abstract class Rotorcraft extends EngineAircraft {
     }
 
     @Override
-    public Vec3 getRightDirection() {
-        return new Vec3(
+    public Vector3f getRightDirection() {
+        return new Vector3f(
                 Mth.cos(-getYRot() * ((float) Math.PI / 180)),
-                0.0,
+                0.0f,
                 Mth.sin(getYRot() * ((float) Math.PI / 180))
         ).normalize();
     }

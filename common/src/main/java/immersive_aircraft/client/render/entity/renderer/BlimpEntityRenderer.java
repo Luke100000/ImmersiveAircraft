@@ -1,6 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
-import com.mojang.math.Vector3f;
+import org.joml.Vector3f;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BlimpEntity;

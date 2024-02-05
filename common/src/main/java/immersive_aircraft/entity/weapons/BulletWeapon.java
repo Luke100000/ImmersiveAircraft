@@ -1,13 +1,11 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.s2c.FireResponse;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,6 +13,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.Map;
 
@@ -44,8 +44,8 @@ public abstract class BulletWeapon extends Weapon {
         // Calculate the position of the barrel
         Vector4f position = getBarrelOffset();
         VehicleEntity entity = getEntity();
-        position.transform(getMount().transform());
-        position.transform(entity.getVehicleTransform());
+        position.mul(getMount().transform());
+        position.mul(entity.getVehicleTransform());
 
         Vec3 speed = entity.getSpeedVector();
 
@@ -74,7 +74,7 @@ public abstract class BulletWeapon extends Weapon {
             for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);
 
-                String key = Registry.ITEM.getKey(stack.getItem()).toString();
+                String key = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 
                 if (ammunition.containsKey(key)) {
                     ammo += ammunition.get(key);

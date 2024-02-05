@@ -1,11 +1,10 @@
 package immersive_aircraft.cobalt.registration;
 
 import immersive_aircraft.Main;
-import immersive_aircraft.entity.AircraftEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
@@ -14,7 +13,7 @@ import java.util.function.Supplier;
 public class Registration {
     private static Impl INSTANCE;
 
-    public static <T extends AircraftEntity> void register(EntityType<T> type, EntityRendererProvider<T> constructor) {
+    public static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> constructor) {
         INSTANCE.registerEntityRenderer(type, constructor);
     }
 
@@ -22,8 +21,12 @@ public class Registration {
         return INSTANCE.register(registry, id, obj);
     }
 
-    public static void registerDataLoader(String id, SimpleJsonResourceReloadListener loader) {
+    public static void registerDataLoader(String id, PreparableReloadListener loader) {
         INSTANCE.registerDataLoader(Main.locate(id), loader);
+    }
+
+    public static void registerResourceLoader(String id, PreparableReloadListener loader) {
+        INSTANCE.registerResourceLoader(Main.locate(id), loader);
     }
 
     public abstract static class Impl {
@@ -33,7 +36,9 @@ public class Registration {
 
         public abstract <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererProvider<T> constructor);
 
-        public abstract void registerDataLoader(ResourceLocation id, SimpleJsonResourceReloadListener loader);
+        public abstract void registerDataLoader(ResourceLocation id, PreparableReloadListener loader);
+
+        public abstract void registerResourceLoader(ResourceLocation id, PreparableReloadListener loader);
 
         public abstract <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj);
     }
