@@ -1,0 +1,52 @@
+{
+  "properties": {
+    "yawSpeed": 5.0,
+    "engineSpeed": 0.02,
+    "verticalSpeed": 0.025,
+    "glideFactor": 0.0,
+    "driftDrag": 0.01,
+    "lift": 0.1,
+    "rollFactor": 5.0,
+    "wind": 0.05,
+    "mass": 3.0,
+    "groundFriction": 0.5,
+    "horizontalDecay": 0.97,
+    "verticalDecay": 0.925
+  },
+  "inventorySlots": [
+    {"type": "weapon", "x": 50, "y": 14},
+    {"type": "upgrade", "x": 72, "y": 14},
+    {"type": "upgrade", "x": 50, "y": 36},
+    {"type": "upgrade", "x": 72, "y": 36},
+    {"type": "banner", "x": 50, "y": 58},
+    {"type": "dye", "x": 72, "y": 58},
+    {"type": "boiler", "x": 17, "y": 44},
+    {"type": "inventory", "x": 98, "y": 8, "cols": 4, "rows": 4}
+  ],
+  "weaponMounts": [
+    {
+      "ROTATING": [
+        {"x": 0, "y": 0.3125, "z": 1.0}
+      ],
+      "FRONT": [
+        {"x": -0.5, "y": 0.25, "z": 0.0, "roll": 90},
+        {"x": 0.5, "y": 0.25, "z": 0.0, "roll": -90}
+      ],
+      "DROP": [
+        {"x": -0.5, "y": 0.0, "z": 0.0, "roll": -90},
+        {"x": 0.5, "y": 0.0, "z": 0.0, "roll": 90}
+      ]
+    }
+  ],
+  "passengerPositions": [
+    [
+      {"x": 0.0, "y": -0.1, "z": 0.0}
+    ],
+    [
+      {"x": 0.0, "y": -0.1, "z": 0.4},
+      {"x": 0.0, "y": -0.1, "z": -0.3}
+    ]
+  ],
+  "boundingBoxes": [
+  ]
+}

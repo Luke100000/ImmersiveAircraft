@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Vector3f;
+import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
+import immersive_aircraft.config.Config;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 
 import java.util.List;
+import java.util.Map;
 
 public class Utils {
     public static double cosNoise(double time) {
@@ -46,6 +49,29 @@ public class Utils {
         return BannerBlockEntity.createPatterns(baseColor, nbtList);
     }
 
+    public static int getFuelTime(ItemStack fuel) {
+        if (fuel.isEmpty()) {
+            return 0;
+        }
+
+        // Custom fuel
+        Map<String, Integer> fuelList = Config.getInstance().fuelList;
+        String identifier = Registry.ITEM.getKey(fuel.getItem()).toString();
+        if (fuelList.containsKey(identifier)) {
+            return fuelList.get(identifier);
+        }
+
+        // Vanilla fuel
+        if (Config.getInstance().acceptVanillaFuel) {
+            int fuelTime = CobaltFuelRegistry.INSTANCE.get(fuel);
+            if (fuelTime > 0) {
+                return fuelTime;
+            }
+        }
+
+        return 0;
+    }
+
     public static boolean getBooleanElement(JsonObject object, String member) {
         JsonElement element = object.getAsJsonPrimitive(member);
         if (element == null) {
@@ -64,6 +90,18 @@ public class Utils {
             return defaultValue;
         }
         return element.getAsInt();
+    }
+
+    public static float getFloatElement(JsonObject object, String member) {
+        return getFloatElement(object, member, 0);
+    }
+
+    public static float getFloatElement(JsonObject object, String member, float defaultValue) {
+        JsonElement element = object.getAsJsonPrimitive(member);
+        if (element == null) {
+            return defaultValue;
+        }
+        return element.getAsFloat();
     }
 
     public static Vector3f parseVector(JsonObject element, String member) {

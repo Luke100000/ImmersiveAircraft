@@ -118,7 +118,6 @@ public class Builder {
         Face face = new Face();
 
         int i = 0;
-        // @TODO: add better error checking - make sure values is not empty and that it is a multiple of 3
         while (i < vertexIndices.length) {
             // >     v is the vertex reference number for a point element. Each point
             // >     element requires one vertex. Positive values indicate absolute

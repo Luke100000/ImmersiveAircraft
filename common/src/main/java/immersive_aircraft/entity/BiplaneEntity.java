@@ -6,60 +6,15 @@ import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import immersive_aircraft.entity.misc.WeaponMount;
-import immersive_aircraft.item.WeaponItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
-import java.util.Map;
 
 public class BiplaneEntity extends AirplaneEntity {
-    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.BOOSTER, 8 + 9, 8 + 48)
-            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.BANNER, 8 + 18 * 2 + 28, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22 * 2)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22 * 2)
-            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 22)
-            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
-            .build();
-
-    // TODO Config
-    private static final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = Map.of(
-            1, Map.of(
-                    WeaponMount.Type.ROTATING, List.of(
-                            new WeaponMount(Matrix4f.createTranslateMatrix(0.0f, 0.5f, -1.25f))
-                    ),
-                    WeaponMount.Type.FRONT, List.of(
-                            new WeaponMount(Matrix4f.createTranslateMatrix(-1.0f, -0.0625f, 1.0f)),
-                            new WeaponMount(Matrix4f.createTranslateMatrix(1.0f, -0.0625f, 1.0f))
-                    )
-            )
-    );
-
-    @Override
-    public VehicleInventoryDescription getInventoryDescription() {
-        return inventoryDescription;
-    }
-
-    @Override
-    public List<WeaponMount> getWeaponMounts(int slot) {
-        ItemStack stack = getSlot(slot).get();
-        if (stack.getItem() instanceof WeaponItem weaponItem) {
-            return weaponMounts.containsKey(slot) ? weaponMounts.get(slot).getOrDefault(weaponItem.getMountType(), List.of(WeaponMount.EMPTY)) : List.of(WeaponMount.EMPTY);
-        }
-        return super.getWeaponMounts(slot);
-    }
-
     public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
@@ -67,12 +22,6 @@ public class BiplaneEntity extends AirplaneEntity {
     @Override
     protected float getBaseFuelConsumption() {
         return 1.25f;
-    }
-
-    final List<List<Vec3>> PASSENGER_POSITIONS = List.of(List.of(new Vec3(0.0f, 0.05f, -0.6f)));
-
-    protected List<List<Vec3>> getPassengerPositions() {
-        return PASSENGER_POSITIONS;
     }
 
     private final List<Trail> trails = List.of(new Trail(40), new Trail(40));
@@ -120,28 +69,5 @@ public class BiplaneEntity extends AirplaneEntity {
                 trails.get(1).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
-    }
-
-    @Override
-    public List<AABB> getAdditionalShapes() {
-        return List.of(
-                // Wings
-                getOffsetBoundingBox(1.0, 0.7, 0.75f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, 1.5f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, 2.25f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, 3.0f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, 0.0f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, -0.75f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, -1.5f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, -2.25f, 0.65f, 1.125f),
-                getOffsetBoundingBox(1.0, 0.7, -3.0f, 0.65f, 1.125f),
-
-                // Tail
-                getOffsetBoundingBox(0.8, 0.6, 0.0f, 0.65f, -1.0f),
-                getOffsetBoundingBox(0.8, 0.6, 0.0f, 0.65f, -1.5f),
-                getOffsetBoundingBox(0.6, 0.5, 0.0f, 0.65f, -2.0f),
-                getOffsetBoundingBox(0.6, 0.5, 0.0f, 0.65f, -2.5f),
-                getOffsetBoundingBox(1.2, 0.2, 0.0f, 0.7f, -2.6f)
-        );
     }
 }

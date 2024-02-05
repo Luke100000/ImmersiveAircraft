@@ -17,7 +17,7 @@ public class RotaryCannonRenderer extends WeaponRenderer<RotaryCannon> {
     @Override
     public <T extends AircraftEntity> void render(T entity, RotaryCannon weapon, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float tickDelta) {
         matrixStack.pushPose();
-        matrixStack.mulPoseMatrix(weapon.getMount().getTransform());
+        matrixStack.mulPoseMatrix(weapon.getMount().transform());
 
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(TEXTURE));
 

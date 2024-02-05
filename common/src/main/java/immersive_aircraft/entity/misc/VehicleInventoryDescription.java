@@ -1,10 +1,15 @@
 package immersive_aircraft.entity.misc;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import immersive_aircraft.util.Rect2iCommon;
+import immersive_aircraft.util.Utils;
+import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class VehicleInventoryDescription {
     int height = 0;
@@ -12,6 +17,55 @@ public class VehicleInventoryDescription {
     int lastSyncIndex = 0;
 
     final List<Rect2iCommon> rectangles = new LinkedList<>();
+
+    public VehicleInventoryDescription() {
+
+    }
+
+    public VehicleInventoryDescription(FriendlyByteBuf buffer) {
+        int slotCount = buffer.readInt();
+        for (int i = 0; i < slotCount; i++) {
+            SlotType type = SlotType.values()[buffer.readInt()];
+            addSlot(type, buffer.readInt(), buffer.readInt());
+        }
+        int rectCount = buffer.readInt();
+        for (int i = 0; i < rectCount; i++) {
+            addRectangle(buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt());
+        }
+        build();
+    }
+
+    public VehicleInventoryDescription(JsonArray inventorySlots) {
+        inventorySlots.forEach(jsonElement -> {
+            JsonObject slot = jsonElement.getAsJsonObject();
+            int cols = Utils.getIntElement(slot, "cols", 1);
+            int rows = Utils.getIntElement(slot, "rows", 1);
+            addSlots(
+                    VehicleInventoryDescription.SlotType.valueOf(slot.get("type").getAsString().toUpperCase(Locale.ROOT)),
+                    slot.get("x").getAsInt(),
+                    slot.get("y").getAsInt(),
+                    cols, rows,
+                    slot.has("boxed") && slot.getAsJsonPrimitive("boxed").getAsBoolean()
+            );
+        });
+        build();
+    }
+
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeInt(slots.size());
+        for (Slot slot : slots) {
+            buffer.writeInt(slot.type.ordinal());
+            buffer.writeInt(slot.x);
+            buffer.writeInt(slot.y);
+        }
+        buffer.writeInt(rectangles.size());
+        for (Rect2iCommon rectangle : rectangles) {
+            buffer.writeInt(rectangle.getX());
+            buffer.writeInt(rectangle.getY());
+            buffer.writeInt(rectangle.getWidth());
+            buffer.writeInt(rectangle.getHeight());
+        }
+    }
 
     public enum SlotType {
         INVENTORY,
@@ -23,17 +77,7 @@ public class VehicleInventoryDescription {
         DYE
     }
 
-    public static class Slot {
-        public final int x, y;
-        public final int index;
-        public final SlotType type;
-
-        public Slot(int x, int y, int index, SlotType type) {
-            this.x = x;
-            this.y = y;
-            this.index = index;
-            this.type = type;
-        }
+    public record Slot(int x, int y, int index, SlotType type) {
     }
 
     EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);
@@ -69,18 +113,16 @@ public class VehicleInventoryDescription {
         return this;
     }
 
-    public VehicleInventoryDescription addSlots(SlotType type, int x, int y, int cols, int rows) {
+    public VehicleInventoryDescription addSlots(SlotType type, int x, int y, int cols, int rows, boolean boxed) {
+        if (boxed) {
+            addRectangle(x - 8, y + 2, cols * 18 + 14, rows * 18 + 14);
+        }
         for (int sx = 0; sx < cols; sx++) {
             for (int sy = 0; sy < rows; sy++) {
                 addSlot(type, x + sx * 18, y + sy * 18);
             }
         }
         return this;
-    }
-
-    public VehicleInventoryDescription addBoxedSlots(SlotType type, int x, int y, int cols, int rows) {
-        addSlots(type, x, y, cols, rows);
-        return addRectangle(x - 8, y + 2, cols * 18 + 14, rows * 18 + 14);
     }
 
     public VehicleInventoryDescription addRectangle(int x, int y, int w, int h) {

@@ -22,10 +22,12 @@ public interface Items {
     Supplier<Item> BIPLANE = register("biplane", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BiplaneEntity(Entities.BIPLANE.get(), world)));
     Supplier<Item> GYRODYNE = register("gyrodyne", () -> new AircraftItem(baseProps().stacksTo(1), world -> new GyrodyneEntity(Entities.GYRODYNE.get(), world)));
     Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().stacksTo(1), world -> new QuadrocopterEntity(Entities.QUADROCOPTER.get(), world)));
-    Supplier<Item> BLIMP = register("blimp", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BlimpEntity(Entities.BLIMP.get(), world)));
+    // Supplier<Item> BLIMP = register("blimp", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BlimpEntity(Entities.BLIMP.get(), world)));
 
     Supplier<Item> ROTARY_CANNON = register("rotary_cannon", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.ROTATING));
     Supplier<Item> HEAVY_CROSSBOW = register("heavy_crossbow", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.FRONT));
+    Supplier<Item> TELESCOPE = register("telescope", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.ROTATING));
+    Supplier<Item> BOMB_BAY = register("bomb_bay", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.DROP));
 
     Supplier<Item> ENHANCED_PROPELLER = register("enhanced_propeller", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> ECO_ENGINE = register("eco_engine", () -> new Item(baseProps().stacksTo(8)));

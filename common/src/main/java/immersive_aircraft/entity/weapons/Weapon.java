@@ -10,6 +10,7 @@ public abstract class Weapon {
     private final ItemStack stack;
     private final WeaponMount mount;
     private final int slot;
+    private int gunnerOffset;
 
     public Weapon(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
         this.entity = entity;
@@ -32,6 +33,14 @@ public abstract class Weapon {
 
     public int getSlot() {
         return slot;
+    }
+
+    public int getGunnerOffset() {
+        return gunnerOffset;
+    }
+
+    public void setGunnerOffset(int gunnerOffset) {
+        this.gunnerOffset = gunnerOffset;
     }
 
     public abstract void tick();

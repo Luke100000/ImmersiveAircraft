@@ -1,7 +1,7 @@
 package immersive_aircraft;
 
 import immersive_aircraft.client.render.entity.renderer.*;
-import immersive_aircraft.client.render.entity.renderer.bullet.BulletEntityRenderer;
+import immersive_aircraft.client.render.entity.renderer.bullet.*;
 import immersive_aircraft.cobalt.registration.Registration;
 
 public class Renderer {
@@ -14,5 +14,6 @@ public class Renderer {
         Registration.register(Entities.BLIMP.get(), BlimpEntityRenderer::new);
 
         Registration.register(Entities.BULLET.get(), BulletEntityRenderer::new);
+        Registration.register(Entities.TINY_TNT.get(), TinyTNTRenderer::new);
     }
 }

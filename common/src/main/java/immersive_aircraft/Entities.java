@@ -3,6 +3,7 @@ package immersive_aircraft;
 import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.*;
 import immersive_aircraft.entity.bullet.BulletEntity;
+import immersive_aircraft.entity.bullet.TinyTNT;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -57,7 +58,15 @@ public interface Entities {
     Supplier<EntityType<BulletEntity>> BULLET = register("bullet", EntityType.Builder
             .of(BulletEntity::new, MobCategory.MISC)
             .sized(0.25f, 0.25f)
-            .clientTrackingRange(4)
+            .clientTrackingRange(6)
+            .updateInterval(10)
+            .fireImmune()
+    );
+
+    Supplier<EntityType<TinyTNT>> TINY_TNT = register("tiny_tnt", EntityType.Builder
+            .of(TinyTNT::new, MobCategory.MISC)
+            .sized(0.375f, 0.375f)
+            .clientTrackingRange(6)
             .updateInterval(10)
             .fireImmune()
     );

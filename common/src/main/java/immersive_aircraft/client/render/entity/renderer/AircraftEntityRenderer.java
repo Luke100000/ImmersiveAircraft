@@ -5,14 +5,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
 import immersive_aircraft.WeaponRendererRegistry;
-import immersive_aircraft.client.render.entity.BBModelRenderer;
 import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.weapons.Weapon;
-import immersive_aircraft.resources.BBModelLoader;
-import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.obj.Mesh;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -48,7 +47,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             //Get vertex consumer
             ResourceLocation identifier = getTextureLocation(entity);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(identifier));
-            MeshRenderer.renderObject(getMesh(), matrixStack, vertexConsumer, light);
+            float health = entity.getHealth() * 0.5f + 0.5f;
+            MeshRenderer.renderObject(getMesh(), matrixStack, vertexConsumer, light, health, health, health, 1.0f);
         };
 
         public Mesh getMesh() {
@@ -152,11 +152,14 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
          */
 
         //Render weapons
+        LocalPlayer player = Minecraft.getInstance().player;
         for (List<Weapon> weapons : entity.getWeapons().values()) {
             for (Weapon weapon : weapons) {
-                WeaponRenderer<Weapon> renderer = WeaponRendererRegistry.get(weapon);
-                if (renderer != null) {
-                    renderer.render(entity, weapon, matrixStack, vertexConsumerProvider, light, tickDelta);
+                if (!weapon.getMount().blocking() || !Main.firstPersonGetter.isFirstPerson() || player == null || !entity.hasPassenger(player)) {
+                    WeaponRenderer<Weapon> renderer = WeaponRendererRegistry.get(weapon);
+                    if (renderer != null) {
+                        renderer.render(entity, weapon, matrixStack, vertexConsumerProvider, light, tickDelta);
+                    }
                 }
             }
         }

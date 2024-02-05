@@ -1,0 +1,24 @@
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ITI",
+    "I I",
+    "   "
+  ],
+  "key": {
+    "T": [
+      {
+        "item": "minecraft:tnt"
+      }
+    ],
+    "I": [
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:bomb_bay"
+  }
+}

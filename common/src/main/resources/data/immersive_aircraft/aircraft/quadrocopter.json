@@ -1,0 +1,43 @@
+{
+  "properties": {
+    "yawSpeed": 0.15,
+    "pitchSpeed": 1.5,
+    "engineSpeed": 0.0325,
+    "verticalSpeed": 0.0325,
+    "glideFactor": 0.0,
+    "driftDrag": 0.005,
+    "lift": 0.1,
+    "rollFactor": 15.0,
+    "wind": 0.0125,
+    "mass": 1.0,
+    "groundFriction": 0.25,
+    "horizontalDecay": 0.9,
+    "verticalDecay": 0.8
+  },
+  "inventorySlots": [
+    {"type": "boiler", "x": 17, "y": 22},
+    {"type": "weapon", "x": 50, "y": 14},
+    {"type": "upgrade", "x": 72, "y": 14},
+    {"type": "inventory", "x": 98, "y": 8, "cols": 3, "rows": 2}
+  ],
+  "weaponMounts": [
+    {
+      "ROTATING": [
+        {"x": 0, "y": 0.875, "z": -0.5, "blocking": true}
+      ],
+      "FRONT": [
+        {"x": 0, "y": 0.375, "z": 1.0}
+      ],
+      "DROP": [
+        {"x": 0, "y": -0.25, "z": 0}
+      ]
+    }
+  ],
+  "passengerPositions": [
+    [
+      {"x": 0.0, "y": 0.275, "z": -0.1}
+    ]
+  ],
+  "boundingBoxes": [
+  ]
+}

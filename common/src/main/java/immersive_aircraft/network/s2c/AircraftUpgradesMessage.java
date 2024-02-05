@@ -45,7 +45,7 @@ public class AircraftUpgradesMessage extends Message {
         Map<AircraftStat, Float> upgradeMap = upgrade.getAll();
         buffer.writeInt(upgradeMap.size());
         for (AircraftStat stat : upgradeMap.keySet()) {
-            buffer.writeInt(stat.ordinal());
+            buffer.writeUtf(stat.name());
             buffer.writeFloat(upgradeMap.get(stat));
         }
     }
@@ -53,8 +53,9 @@ public class AircraftUpgradesMessage extends Message {
     protected AircraftUpgrade readUpgrade(FriendlyByteBuf buffer) {
         AircraftUpgrade upgrade = new AircraftUpgrade();
         int statCount = buffer.readInt();
-        for (int j = 0; j < statCount; j++)
-            upgrade.set(AircraftStat.values()[buffer.readInt()], buffer.readFloat());
+        for (int j = 0; j < statCount; j++) {
+            upgrade.set(AircraftStat.STATS.get(buffer.readUtf()), buffer.readFloat());
+        }
         return upgrade;
     }
 
