@@ -41,6 +41,12 @@ forge*changelog.txt
 *.mtl
 *.png~
 *.aup3
+.xdp-*
+*.kate-swp
 /models/custom_model.java
 /models/custom_model_yarn.java
 /page/
+
+
+# Temporary
+blimp.*

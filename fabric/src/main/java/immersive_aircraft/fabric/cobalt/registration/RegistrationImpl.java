@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 
@@ -22,8 +22,13 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     @Override
-    public void registerDataLoader(ResourceLocation id, SimpleJsonResourceReloadListener loader) {
+    public void registerDataLoader(ResourceLocation id, PreparableReloadListener loader) {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new JsonDataLoaderWrapper(id, loader)); // Fabric impl adds a wrapper for loaders.
+    }
+
+    @Override
+    public void registerResourceLoader(ResourceLocation id, PreparableReloadListener loader) {
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new JsonDataLoaderWrapper(id, loader)); // Fabric impl adds a wrapper for loaders.
     }
 
     @Override

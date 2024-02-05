@@ -4,17 +4,17 @@ loom {
 
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
-    maven {
-        // location of the maven that hosts JEI files since January 2023
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
+    maven { url = "https://dvs1.progwml6.com/files/maven/" }
+    maven { url "<https://maven.shedaniel.me/>" }
+    maven { url "<https://maven.architectury.dev/>" }
 }
 
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+
+    implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
     modApi "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
 
@@ -23,6 +23,9 @@ dependencies {
     }
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:$rei_version"
 }
 
 architectury {

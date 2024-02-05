@@ -7,12 +7,12 @@ import immersive_aircraft.forge.cobalt.registration.RegistrationImpl.DataLoaderR
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.item.upgrade.AircraftUpgrade;
 import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
-import immersive_aircraft.network.s2c.AircraftBaseUpgradesMessage;
+import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TickEvent;
@@ -28,8 +28,10 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = Main.MOD_ID)
 public class ForgeBusEvents {
+    // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl, but it would just be messy
+    public static DataLoaderRegister DATA_REGISTRY;
+    public static DataLoaderRegister RESOURCE_REGISTRY;
 
-    public static DataLoaderRegister DATA_REGISTRY; // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl but it would just be messy
     private static final DecimalFormat fmt = new DecimalFormat("+#;-#");
     public static boolean firstLoad = true;
 
@@ -47,8 +49,9 @@ public class ForgeBusEvents {
     @SubscribeEvent
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         if (DATA_REGISTRY != null) {
-            for (SimpleJsonResourceReloadListener loader : DATA_REGISTRY.getLoaders())
+            for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
                 event.addListener(loader);
+            }
         }
     }
 
@@ -56,11 +59,11 @@ public class ForgeBusEvents {
     public static void onDatapackSync(OnDatapackSyncEvent event) {
         if (event.getPlayer() != null) { // Syncing aircraft upgrades to players.
             NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), event.getPlayer());
-            NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), event.getPlayer());
+            NetworkHandler.sendToPlayer(new AircraftDataMessage(), event.getPlayer());
         } else {
             for (ServerPlayer player : event.getPlayerList().getPlayers()) {
                 NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
-                NetworkHandler.sendToPlayer(new AircraftBaseUpgradesMessage(), player);
+                NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
             }
         }
     }
@@ -76,7 +79,7 @@ public class ForgeBusEvents {
             for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
-                ).withStyle(entry.getValue() * (entry.getKey().isPositive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
+                ).withStyle(entry.getValue() * (entry.getKey().positive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
             }
         }
     }

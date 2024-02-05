@@ -3,9 +3,10 @@ package immersive_aircraft.client.render.entity.renderer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import immersive_aircraft.Main;
+import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.QuadrocopterEntity;
-import immersive_aircraft.util.obj.Mesh;
+import immersive_aircraft.resources.obj.Mesh;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -43,8 +44,8 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         ResourceLocation identifier = getTextureLocation(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
-                                        Mesh mesh = getFaces(id, "engine_" + (entity.enginePower.getSmooth() > 0.01 ? entity.tickCount % 2 : 0));
-                                        renderObject(mesh, matrixStack, vertexConsumer, light);
+                                        Mesh mesh = MeshRenderer.getFaces(id, "engine_" + (entity.enginePower.getSmooth() > 0.01 ? entity.tickCount % 2 : 0));
+                                        MeshRenderer.renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
                             )
             );
@@ -63,8 +64,8 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
                                     (vertexConsumerProvider, entity, matrixStack, light, tickDelta) -> {
                                         ResourceLocation identifier = getTextureLocation(entity);
                                         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(identifier));
-                                        Mesh mesh = getFaces(id, "propeller");
-                                        renderObject(mesh, matrixStack, vertexConsumer, light);
+                                        Mesh mesh = MeshRenderer.getFaces(id, "propeller");
+                                        MeshRenderer.renderObject(mesh, matrixStack, vertexConsumer, light);
                                     }
                             )
             );

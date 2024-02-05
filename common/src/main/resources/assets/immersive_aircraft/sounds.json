@@ -23,5 +23,15 @@
     "sounds": [
       "immersive_aircraft:woosh"
     ]
+  },
+  "repair": {
+    "sounds": [
+      "immersive_aircraft:repair_0",
+      "immersive_aircraft:repair_1",
+      "immersive_aircraft:repair_2",
+      "immersive_aircraft:repair_3",
+      "immersive_aircraft:repair_4",
+      "immersive_aircraft:repair_5"
+    ]
   }
 }

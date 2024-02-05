@@ -2,8 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
-import immersive_aircraft.entity.misc.AircraftProperties;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.item.upgrade.AircraftStat;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -14,35 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
-import java.util.List;
-
 public class GyrodyneEntity extends Rotorcraft {
-    private static final float PUSH_SPEED = 0.25f;
-
-    private final AircraftProperties properties = new AircraftProperties(this)
-            .setYawSpeed(5.0f)
-            .setPitchSpeed(5.0f)
-            .setEngineSpeed(0.3f)
-            .setVerticalSpeed(0.04f)
-            .setDriftDrag(0.01f)
-            .setLift(0.1f)
-            .setRollFactor(30.0f)
-            .setWindSensitivity(0.05f)
-            .setMass(4.0f);
-
-    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 6, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 28, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 6, 8 + 6 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 28, 8 + 6 + 22)
-            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 3, 8, 6, 3)
-            .build();
-
-    @Override
-    public VehicleInventoryDescription getInventoryDescription() {
-        return inventoryDescription;
-    }
-
     @Override
     public GUI_STYLE getGuiStyle() {
         return GUI_STYLE.NONE;
@@ -66,42 +37,8 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    public AircraftProperties getProperties() {
-        return properties;
-    }
-
-    @Override
-    protected float getGroundVelocityDecay() {
-        return falloffGroundVelocityDecay(0.8f);
-    }
-
-    @Override
-    protected float getHorizontalVelocityDelay() {
-        return 0.925f;
-    }
-
-    @Override
-    protected float getVerticalVelocityDelay() {
-        return 0.9f;
-    }
-
-    @Override
     public Item asItem() {
         return Items.GYRODYNE.get();
-    }
-
-    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(
-            List.of(
-                    new Vector3f(0.0f, -0.1f, 0.3f)
-            ),
-            List.of(
-                    new Vector3f(0.0f, -0.1f, 0.3f),
-                    new Vector3f(0.0f, -0.1f, -0.6f)
-            )
-    );
-
-    protected List<List<Vector3f>> getPassengerPositions() {
-        return PASSENGER_POSITIONS;
     }
 
     @Override
@@ -143,7 +80,7 @@ public class GyrodyneEntity extends Rotorcraft {
         }
 
         // up and down
-        float power = getEnginePower() * properties.getVerticalSpeed() * pressingInterpolatedY.getSmooth();
+        float power = getEnginePower() * getProperties().get(AircraftStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth();
         Vector3f f = getTopDirection().mul(power);
         setDeltaMovement(getDeltaMovement().add(f.x, f.y, f.z));
 
@@ -152,9 +89,9 @@ public class GyrodyneEntity extends Rotorcraft {
 
         // speed
         float sin = Mth.sin(getXRot() * ((float) Math.PI / 180));
-        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * properties.getEngineSpeed()) * sin;
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED)) * sin;
         if (onGround && getEngineTarget() < 1.0) {
-            thrust = PUSH_SPEED / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
+            thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate

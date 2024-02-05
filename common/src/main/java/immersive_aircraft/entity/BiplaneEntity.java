@@ -2,7 +2,6 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.entity.misc.Trail;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -16,23 +15,6 @@ import org.joml.Vector4f;
 import java.util.List;
 
 public class BiplaneEntity extends AirplaneEntity {
-    private static final VehicleInventoryDescription inventoryDescription = new VehicleInventoryDescription()
-            .addSlot(VehicleInventoryDescription.SlotType.BOILER, 8 + 9, 8 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.BOOSTER, 8 + 9, 8 + 48)
-            .addSlot(VehicleInventoryDescription.SlotType.WEAPON, 8 + 18 * 2 + 6, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.BANNER, 8 + 18 * 2 + 28, 8 + 6)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 6, 8 + 6 + 22 * 2)
-            .addSlot(VehicleInventoryDescription.SlotType.UPGRADE, 8 + 18 * 2 + 28, 8 + 6 + 22 * 2)
-            .addSlots(VehicleInventoryDescription.SlotType.INVENTORY, 8 + 18 * 5, 8, 4, 4)
-            .build();
-
-    @Override
-    public VehicleInventoryDescription getInventoryDescription() {
-        return inventoryDescription;
-    }
-
     public BiplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
@@ -40,12 +22,6 @@ public class BiplaneEntity extends AirplaneEntity {
     @Override
     protected float getBaseFuelConsumption() {
         return 1.25f;
-    }
-
-    final List<List<Vector3f>> PASSENGER_POSITIONS = List.of(List.of(new Vector3f(0.0f, 0.05f, -0.6f)));
-
-    protected List<List<Vector3f>> getPassengerPositions() {
-        return PASSENGER_POSITIONS;
     }
 
     private final List<Trail> trails = List.of(new Trail(40), new Trail(40));

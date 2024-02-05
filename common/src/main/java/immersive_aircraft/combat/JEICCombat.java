@@ -27,16 +27,7 @@ public class JEICCombat implements IModPlugin {
         registration.addGuiContainerHandler(VehicleScreen.class, new IGuiContainerHandler<>() {
             @Override
             public @NotNull List<Rect2i> getGuiExtraAreas(@NotNull VehicleScreen containerScreen) {
-                final int x = containerScreen.getX();
-                final int y = containerScreen.getY();
-
-                return containerScreen.getMenu().getVehicle().getInventoryDescription().getRectangles().stream()
-                        .map(r -> new Rect2i(
-                                x + r.getX(),
-                                y + r.getY(),
-                                r.getWidth(),
-                                r.getHeight()
-                        )).toList();
+                return CombatUtils.getAreas(containerScreen).toList();
             }
         });
     }
