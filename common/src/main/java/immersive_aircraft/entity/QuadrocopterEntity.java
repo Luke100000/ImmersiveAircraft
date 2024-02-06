@@ -52,7 +52,7 @@ public class QuadrocopterEntity extends Rotorcraft {
         setEngineTarget(1.0f);
 
         // forwards-backwards
-        if (!onGround) {
+        if (!onGround()) {
             setXRot(getXRot() + getProperties().get(AircraftStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
         setXRot(getXRot() * (1.0f - getStabilizer()));

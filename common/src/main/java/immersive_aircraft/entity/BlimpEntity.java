@@ -62,7 +62,7 @@ public class BlimpEntity extends AirshipEntity {
 
         float power = getEnginePower();
 
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             if (isWithinParticleRange() && power > 0.01) {
                 Matrix4f transform = getVehicleTransform();
 
@@ -73,7 +73,7 @@ public class BlimpEntity extends AirshipEntity {
                 if (tickCount % 2 == 0) {
                     Vector4f p = transformPosition(transform, (random.nextFloat() - 0.5f) * 0.4f, 0.8f, -0.8f);
                     Vec3 velocity = getDeltaMovement();
-                    level.addParticle(ParticleTypes.SMOKE, p.x(), p.y(), p.z(), velocity.x, velocity.y, velocity.z);
+                    level().addParticle(ParticleTypes.SMOKE, p.x(), p.y(), p.z(), velocity.x, velocity.y, velocity.z);
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

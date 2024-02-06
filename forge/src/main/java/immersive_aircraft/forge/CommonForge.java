@@ -19,29 +19,21 @@ public final class CommonForge {
     public CommonForge() {
         RegistrationImpl.bootstrap();
         DataLoaders.bootstrap();
+        Items.bootstrap();
+        Sounds.bootstrap();
+        Entities.bootstrap();
+        WeaponRegistry.bootstrap();
 
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
 
         Messages.loadMessages();
+
+        DEF_REG.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
-
-    private static boolean registered = false;
-
-    @SubscribeEvent
-    public static void onRegistryEvent(RegisterEvent event) {
-        if (!registered) {
-            registered = true;
-
-            Items.bootstrap();
-            Sounds.bootstrap();
-            Entities.bootstrap();
-            WeaponRegistry.bootstrap();
-        }
-    }
-
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(CREATIVE_MODE_TAB, Main.MOD_ID);
 
+    @SuppressWarnings("unused")
     public static final RegistryObject<CreativeModeTab> TAB = DEF_REG.register(Main.MOD_ID, () -> CreativeModeTab.builder()
             .title(ItemGroups.getDisplayName())
             .icon(ItemGroups::getIcon)

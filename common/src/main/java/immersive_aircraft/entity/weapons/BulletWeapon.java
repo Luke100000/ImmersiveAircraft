@@ -57,14 +57,14 @@ public abstract class BulletWeapon extends Weapon {
         for (int i = 0; i < getBulletCount(); i++) {
             Entity bullet = getBullet(entity, position, direction);
             bullet.setDeltaMovement(bullet.getDeltaMovement().add(speed));
-            entity.getLevel().addFreshEntity(bullet);
+            entity.level().addFreshEntity(bullet);
         }
 
         // Fire-particle
         direction.mul(0.25f);
         direction.add((float) speed.x, (float) speed.y, (float) speed.z);
         FireResponse fireMessage = new FireResponse(position, direction);
-        for (ServerPlayer player : ((ServerLevel) entity.getLevel()).players()) {
+        for (ServerPlayer player : ((ServerLevel) entity.level()).players()) {
             NetworkHandler.sendToPlayer(fireMessage, player);
         }
     }

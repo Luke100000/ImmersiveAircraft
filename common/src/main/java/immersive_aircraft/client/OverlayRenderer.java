@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-public class OverlayRenderer extends GuiComponent {
+public class OverlayRenderer {
     static OverlayRenderer INSTANCE = new OverlayRenderer();
 
     private static final ResourceLocation ENGINE_TEX = Main.locate("textures/gui/engine.png");
@@ -26,7 +26,7 @@ public class OverlayRenderer extends GuiComponent {
                 INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
             }
             if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
-                INSTANCE.renderAircraftHealth(client, matrices, vehicle);
+                INSTANCE.renderAircraftHealth(client, context, vehicle);
             }
         }
     }
@@ -35,12 +35,7 @@ public class OverlayRenderer extends GuiComponent {
         return (int) Math.ceil(10.0 / vehicle.getDurability());
     }
 
-    private void renderAircraftHealth(Minecraft minecraft, PoseStack poseStack, VehicleEntity vehicle) {
-        int shaderTexture = RenderSystem.getShaderTexture(0);
-
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, ICONS_TEX);
-
+    private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
@@ -56,18 +51,16 @@ public class OverlayRenderer extends GuiComponent {
             for (int i = 0; i < heartsInRow; i++) {
                 int u = 52;
                 int x = ox - i * 8 - 9;
-                blit(poseStack, x, y, u, 9, 9, 9, 64, 64);
+                context.blit(ICONS_TEX, x, y, u, 9, 9, 9, 64, 64);
                 if (i * 2 + 1 + hearts < health) {
-                    blit(poseStack, x, y, 0, 0, 9, 9, 64, 64);
+                    context.blit(ICONS_TEX, x, y, 0, 0, 9, 9, 64, 64);
                 }
                 if (i * 2 + 1 + hearts != health) continue;
-                blit(poseStack, x, y, 10, 0, 9, 9, 64, 64);
+                context.blit(ICONS_TEX, x, y, 10, 0, 9, 9, 64, 64);
             }
             y -= 10;
             hearts += 20;
         }
-
-        RenderSystem.setShaderTexture(0, shaderTexture);
     }
 
     private void renderAircraftGui(Minecraft client, GuiGraphics context, float tickDelta, EngineAircraft aircraft) {
@@ -107,8 +100,6 @@ public class OverlayRenderer extends GuiComponent {
             if (client.gameMode != null && !client.gameMode.hasExperience()) {
                 y += 7;
             }
-
-            int shaderTexture = RenderSystem.getShaderTexture(0);
 
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             context.blit(ENGINE_TEX, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);

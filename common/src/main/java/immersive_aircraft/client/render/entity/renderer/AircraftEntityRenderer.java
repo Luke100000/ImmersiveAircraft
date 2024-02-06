@@ -148,7 +148,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
         /*
         BBModel bbModel = BBModelLoader.objects.get(Main.locate("test"));
-        float time = (entity.getLevel().getGameTime() % 24000 + tickDelta) / 20.0f;
+        float time = (entity.level().getGameTime() % 24000 + tickDelta) / 20.0f;
         BBModelRenderer.renderModel(bbModel, matrixStack, vertexConsumerProvider, light, time);
          */
 

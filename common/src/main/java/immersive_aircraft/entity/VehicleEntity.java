@@ -258,7 +258,7 @@ public abstract class VehicleEntity extends Entity {
             }
 
             // Drop stuff if enabled
-            if (level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
+            if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
                 drop();
                 dropInventory();
             }
@@ -345,7 +345,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // pilot
-        if (level.isClientSide() && !getPassengers().isEmpty()) {
+        if (level().isClientSide() && !getPassengers().isEmpty()) {
             tickPilot();
         }
 
@@ -408,7 +408,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private void tickDamageParticles() {
-        if (level.isClientSide && random.nextFloat() > getHealth()) {
+        if (level().isClientSide && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> additionalShapes = getAdditionalShapes();
             if (!additionalShapes.isEmpty()) {
@@ -419,9 +419,9 @@ public abstract class VehicleEntity extends Entity {
                 double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
 
                 Vec3 speed = getSpeedVector();
-                this.level.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
+                level().addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
                 if (getHealth() < 0.5) {
-                    this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
+                    level().addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
                 }
             }
         }
@@ -430,12 +430,12 @@ public abstract class VehicleEntity extends Entity {
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player) {
-                if (KeyBindings.down.isDown() && isOnGround() && getDeltaMovement().length() < 0.01) {
+                if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
                     player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
                 }
 
                 if (KeyBindings.dismount.consumeClick()) {
-                    if (onGround || tickCount - lastTriedToExit < 20) {
+                    if (onGround() || tickCount - lastTriedToExit < 20) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
                         player.setJumping(false);
                     } else {
@@ -447,7 +447,7 @@ public abstract class VehicleEntity extends Entity {
                 if (KeyBindings.boost.consumeClick() && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));
                     Vec3 p = position();
-                    level.playLocalSound(p.x(), p.y(), p.z(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 1.0f, 1.0f, true);
+                    level().playLocalSound(p.x(), p.y(), p.z(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 1.0f, 1.0f, true);
                 }
             }
         }
@@ -537,9 +537,9 @@ public abstract class VehicleEntity extends Entity {
                 positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);
 
                 copyEntityData(passenger);
-                if (passenger instanceof Animal && size > 1) {
+                if (passenger instanceof Animal animal && size > 1) {
                     int angle = passenger.getId() % 2 == 0 ? 90 : 270;
-                    passenger.setYBodyRot(((Animal) passenger).yBodyRot + (float) angle);
+                    passenger.setYBodyRot(animal.yBodyRot + (float) angle);
                     passenger.setYHeadRot(passenger.getYHeadRot() + (float) angle);
                 }
             }
@@ -619,7 +619,7 @@ public abstract class VehicleEntity extends Entity {
     @Override
     public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
         if (getHealth() < 1.0f && !hasPassenger(player)) {
-            if (!level.isClientSide) {
+            if (!level().isClientSide) {
                 repair(Config.getInstance().repairSpeed);
 
                 // Repair message
@@ -633,7 +633,7 @@ public abstract class VehicleEntity extends Entity {
                 }
                 player.displayClientMessage(component, true);
 
-                this.level.playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
+                level().playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
             } else {
                 // Repair particles
                 for (AABB shape : getAdditionalShapes()) {
@@ -642,7 +642,7 @@ public abstract class VehicleEntity extends Entity {
                         double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
                         double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
                         double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
-                        this.level.addParticle(ParticleTypes.COMPOSTER, x, y, z, 0, random.nextDouble(), 0);
+                        level().addParticle(ParticleTypes.COMPOSTER, x, y, z, 0, random.nextDouble(), 0);
                     }
                 }
             }

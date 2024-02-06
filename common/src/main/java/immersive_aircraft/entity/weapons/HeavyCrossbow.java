@@ -41,7 +41,7 @@ public class HeavyCrossbow extends BulletWeapon {
 
     @Override
     protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
-        Arrow arrow = new Arrow(shooter.getLevel(), position.x(), position.y(), position.z());
+        Arrow arrow = new Arrow(shooter.level(), position.x(), position.y(), position.z());
         arrow.pickup = AbstractArrow.Pickup.ALLOWED;
         arrow.setOwner(getEntity().getControllingPassenger());
         arrow.shoot(direction.x(), direction.y() + 0.1f, direction.z(), getVelocity(), getInaccuracy());

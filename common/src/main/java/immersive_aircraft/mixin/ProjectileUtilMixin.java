@@ -35,7 +35,7 @@ public class ProjectileUtilMixin {
         Entity entity = null;
         Vec3 collision = null;
 
-        for (Entity e : source.level.getEntities(source, boundingBox.inflate(16.0), VehicleEntity.class::isInstance)) {
+        for (Entity e : source.level().getEntities(source, boundingBox.inflate(16.0), VehicleEntity.class::isInstance)) {
             if (e instanceof VehicleEntity vehicle && filter.test(vehicle)) {
                 for (AABB aabb : vehicle.getAdditionalShapes()) {
                     Optional<Vec3> optionalCollision = aabb.inflate(inflationAmount).clip(startVec, endVec);

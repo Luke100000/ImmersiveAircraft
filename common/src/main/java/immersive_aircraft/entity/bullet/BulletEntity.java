@@ -37,7 +37,7 @@ public class BulletEntity extends ThrowableItemProjectile {
         if (id == 3) {
             ParticleOptions particleOptions = this.getParticle();
             for (int i = 0; i < 5; ++i) {
-                this.level.addParticle(particleOptions, this.getX(), this.getY(), this.getZ(), 0.0f, 0.0f, 0.0f);
+                this.level().addParticle(particleOptions, this.getX(), this.getY(), this.getZ(), 0.0f, 0.0f, 0.0f);
             }
         }
     }
@@ -46,7 +46,7 @@ public class BulletEntity extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult result) {
         if (canHitEntity(result.getEntity())) {
             float damage = 5.0f;
-            result.getEntity().hurt(getLevel().damageSources().thrown(this, this.getOwner()), damage);
+            result.getEntity().hurt(level().damageSources().thrown(this, this.getOwner()), damage);
         }
     }
 

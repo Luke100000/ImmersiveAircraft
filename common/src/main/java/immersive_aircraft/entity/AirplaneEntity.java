@@ -50,7 +50,7 @@ public abstract class AirplaneEntity extends EngineAircraft {
 
         // speed
         float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED));
-        if (onGround && getEngineTarget() < 1.0) {
+        if (onGround() && getEngineTarget() < 1.0) {
             thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
         }
 
