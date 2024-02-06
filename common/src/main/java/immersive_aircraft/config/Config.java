@@ -95,7 +95,8 @@ public final class Config extends JsonConfig {
     );
 
     public Map<String, Integer> powderAmmunition = Map.of(
-            "minecraft:gunpowder", 100
+            "minecraft:gunpowder", 100,
+            "minecraft:gun_powder", 100
     );
 
     public Map<String, Integer> arrowAmmunition = Map.of(

@@ -1,6 +1,5 @@
 package immersive_aircraft.resources;
 
-import immersive_aircraft.Main;
 import immersive_aircraft.resources.obj.Builder;
 import immersive_aircraft.resources.obj.Mesh;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ObjectLoader extends SimplePreparableReloadListener<Map<ResourceLocation, Resource>> {
-    protected static final ResourceLocation ID = Main.locate("objects");
-
     public static final Map<ResourceLocation, Map<String, Mesh>> objects = new HashMap<>();
 
     @Override

@@ -7,3 +7,6 @@
 * More aircraft!
 * Rockets (this is 1.20.1+)
 * Drop as item
+
+
+Confirm R does not work when changed

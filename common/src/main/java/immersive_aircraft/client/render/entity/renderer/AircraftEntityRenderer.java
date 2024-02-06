@@ -5,10 +5,13 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
 import immersive_aircraft.WeaponRendererRegistry;
+import immersive_aircraft.client.render.entity.BBModelRenderer;
 import immersive_aircraft.client.render.entity.MeshRenderer;
 import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.resources.BBModelLoader;
+import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.obj.Mesh;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -145,11 +148,10 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
             }
         }
 
-        /*
-        BBModel bbModel = BBModelLoader.objects.get(Main.locate("test"));
+        // Render model
+        BBModel bbModel = BBModelLoader.MODELS.get(Main.locate("gyrodyne"));
         float time = (entity.getLevel().getGameTime() % 24000 + tickDelta) / 20.0f;
         BBModelRenderer.renderModel(bbModel, matrixStack, vertexConsumerProvider, light, time);
-         */
 
         //Render weapons
         LocalPlayer player = Minecraft.getInstance().player;

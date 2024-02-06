@@ -1,6 +1,7 @@
 package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonObject;
+import immersive_aircraft.Main;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,12 +29,22 @@ public class BBModel {
             if (type.equals("cube")) {
                 BBObject object = new BBCube(element.getAsJsonObject(), this);
                 this.objects.put(object.uuid, object);
+            } else if (type.equals("mesh")) {
+                BBObject object = new BBMesh(element.getAsJsonObject(), this);
+                this.objects.put(object.uuid, object);
+            } else {
+                Main.LOGGER.warn("Unknown object type {}", type);
             }
         });
 
         model.get("outliner").getAsJsonArray().forEach(element -> {
             if (element.isJsonPrimitive()) {
-                this.root.add(this.objects.get(element.getAsString()));
+                BBObject object = this.objects.get(element.getAsString());
+                if (object != null) {
+                    this.root.add(object);
+                } else {
+                    Main.LOGGER.warn("Object with uuid {} not found", element.getAsString());
+                }
             } else {
                 BBObject bone = new BBBone(element.getAsJsonObject(), this);
                 this.root.add(bone);

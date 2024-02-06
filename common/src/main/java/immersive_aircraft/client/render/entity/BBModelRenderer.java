@@ -6,18 +6,14 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-import immersive_aircraft.Main;
 import immersive_aircraft.resources.bbmodel.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
 
 public class BBModelRenderer {
     public static void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time) {
-        model.root.forEach(object -> {
-            renderObject(model, object, matrixStack, vertexConsumerProvider, light, time);
-        });
+        model.root.forEach(object -> renderObject(model, object, matrixStack, vertexConsumerProvider, light, time));
     }
 
     private static void renderObject(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time) {
@@ -43,23 +39,20 @@ public class BBModelRenderer {
         matrixStack.mulPose(Quaternion.fromXYZ(object.rotation));
         matrixStack.translate(-object.origin.x(), -object.origin.y(), -object.origin.z());
 
-        if (object instanceof BBCube cube) {
-            renderCube(cube, matrixStack, vertexConsumerProvider, light);
+        if (object instanceof BBFaceContainer cube) {
+            renderFaces(cube, matrixStack, vertexConsumerProvider, light);
         } else if (object instanceof BBBone bone) {
-            bone.children.forEach(child -> {
-                renderObject(model, child, matrixStack, vertexConsumerProvider, light, time);
-            });
+            bone.children.forEach(child -> renderObject(model, child, matrixStack, vertexConsumerProvider, light, time));
         }
         matrixStack.popPose();
     }
 
-    private static void renderCube(BBCube cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
+    private static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
         Matrix3f normalMatrix = last.normal();
-        for (BBFace face : cube.faces) {
-            ResourceLocation id = Main.locate("textures/" + face.texture.name);
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(id));
+        for (BBFace face : cube.getFaces()) {
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutout(face.texture.location));
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
                 vertexConsumer
