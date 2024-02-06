@@ -23,6 +23,12 @@ public class Telescope extends Weapon {
         rotationalManager.pointTo(getEntity());
 
         lastFireTick--;
+        if (lastFireTick == 0) {
+            Entity pilot = getEntity().getControllingPassenger();
+            if (pilot != null) {
+                pilot.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0f, 1.0f);
+            }
+        }
     }
 
     @Override
@@ -41,7 +47,9 @@ public class Telescope extends Weapon {
     public void clientFire(int index) {
         Entity pilot = getEntity().getControllingPassenger();
         assert pilot != null;
-        pilot.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0f, 1.0f);
+        if (lastFireTick <= 0) {
+            pilot.playSound(SoundEvents.SPYGLASS_USE, 1.0f, 1.0f);
+        }
         lastFireTick = 2;
     }
 

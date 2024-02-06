@@ -1,5 +1,6 @@
 package immersive_aircraft;
 
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.InventoryVehicleEntity;
@@ -13,6 +14,8 @@ import net.minecraft.world.InteractionHand;
 import java.util.List;
 
 public class ClientMain {
+    private static int activeTicks;
+
     public static void postLoad() {
         //finish the items
         ItemsClient.postLoad();
@@ -62,6 +65,8 @@ public class ClientMain {
 
         // Fire weapons when in a vehicle
         if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
+            activeTicks++;
+
             int gunnerOffset = 0;
             for (List<Weapon> weapons : vehicle.getWeapons().values()) {
                 vehicle.getGunner(gunnerOffset);
@@ -70,12 +75,14 @@ public class ClientMain {
                     weapon.setGunnerOffset(gunnerOffset);
 
                     // Only the gunner may fire
-                    if (client.player == vehicle.getGunner(gunnerOffset) && client.options.keyUse.isDown() && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+                    if (activeTicks > 20 && client.player == vehicle.getGunner(gunnerOffset) && KeyBindings.use.isDown() && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
                         weapon.clientFire(i);
                     }
                 }
                 gunnerOffset += 1;
             }
+        } else {
+            activeTicks = 0;
         }
     }
 }
