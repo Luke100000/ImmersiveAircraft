@@ -3,6 +3,8 @@
 * TNT dropper now requires 0.2 TNT per shot, instead of 0.02 typo
 * Added keybind for using weapons/mounts
 * Fixed gunpowder typo, can now be used in rotary cannon
+* Added a cooldown, so you don't bomb your aircraft when entering
+* Fixed sound of telescope
 
 # 0.7.0
 
