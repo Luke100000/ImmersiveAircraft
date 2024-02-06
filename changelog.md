@@ -1,3 +1,9 @@
+# 0.7.1
+
+* TNT dropper now requires 0.2 TNT per shot, instead of 0.02 typo
+* Added keybind for using weapons/mounts
+* Fixed gunpowder typo, can now be used in rotary cannon
+
 # 0.7.0
 
 * Aircraft now have a health bar, building up visual damage until they explode

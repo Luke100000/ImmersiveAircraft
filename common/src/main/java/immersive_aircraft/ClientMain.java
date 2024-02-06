@@ -1,11 +1,13 @@
 package immersive_aircraft;
 
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.network.ClientNetworkManager;
 import net.minecraft.client.CameraType;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -70,7 +72,7 @@ public class ClientMain {
                     weapon.setGunnerOffset(gunnerOffset);
 
                     // Only the gunner may fire
-                    if (client.player == vehicle.getGunner(gunnerOffset) && client.options.keyUse.isDown() && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+                    if (client.player == vehicle.getGunner(gunnerOffset) && KeyBindings.use.isDown() && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
                         weapon.clientFire(i);
                     }
                 }
