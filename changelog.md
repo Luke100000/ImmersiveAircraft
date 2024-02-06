@@ -5,6 +5,7 @@
 * Fixed gunpowder typo, can now be used in rotary cannon
 * Added a cooldown, so you don't bomb your aircraft when entering
 * Fixed sound of telescope
+* Fixed client ticking at higher rate than server
 
 # 0.7.0
 
