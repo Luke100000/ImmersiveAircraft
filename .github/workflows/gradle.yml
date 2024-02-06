@@ -47,7 +47,7 @@ jobs:
       - name: "Rename Forge files"
         run: mv "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
       - name: "Upload Fabric"
-        uses: Kir-Antipov/mc-publish@v3.1
+        uses: Kir-Antipov/mc-publish@v3.3.0
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         with:
           modrinth-id: x3HZvrj6
@@ -70,7 +70,7 @@ jobs:
 
           fail-mode: skip
       - name: "Upload Forge"
-        uses: Kir-Antipov/mc-publish@v3.1
+        uses: Kir-Antipov/mc-publish@v3.3.0
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         with:
           modrinth-id: x3HZvrj6
