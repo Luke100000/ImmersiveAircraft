@@ -51,7 +51,7 @@ public class BombBay extends BulletWeapon {
 
     @Override
     public void fire(Vector3f direction) {
-        if (spentAmmo(Config.getInstance().bombBayAmmunition, 2)) {
+        if (spentAmmo(Config.getInstance().bombBayAmmunition, 20)) {
             super.fire(direction);
         }
     }
