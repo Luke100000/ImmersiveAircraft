@@ -5,6 +5,8 @@ import immersive_aircraft.util.Utils;
 import net.minecraft.resources.ResourceLocation;
 
 public class BBTexture {
+    public static final BBTexture MISSING = new BBTexture();
+
     public final String uuid;
     public final String id;
     public final String name;
@@ -14,6 +16,18 @@ public class BBTexture {
     public final int uvHeight;
 
     public final ResourceLocation location;
+
+    public BBTexture() {
+        this.uuid = "";
+        this.id = "";
+        this.name = "";
+        this.width = 16;
+        this.height = 16;
+        this.uvWidth = 16;
+        this.uvHeight = 16;
+
+        this.location = new ResourceLocation("missing");
+    }
 
     public BBTexture(JsonObject element) {
         this.uuid = element.getAsJsonPrimitive("uuid").getAsString();

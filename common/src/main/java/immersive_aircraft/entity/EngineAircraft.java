@@ -6,6 +6,7 @@ import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.chat.Component;
@@ -284,5 +285,12 @@ public abstract class EngineAircraft extends AircraftEntity {
             entityData.set(UTILIZATION, utilization);
             return utilization;
         }
+    }
+
+    @Override
+    public void setAnimationVariables(float tickDelta) {
+        super.setAnimationVariables(tickDelta);
+
+        BBAnimationVariables.set("engine_rotation", engineRotation.getSmooth(tickDelta));
     }
 }

@@ -60,7 +60,7 @@ public class BBMesh extends BBObject implements BBFaceContainer {
 
             // Get the texture
             int id = Utils.getIntElement(faceObject, "texture");
-            BBTexture texture = model.textures.get(id);
+            BBTexture texture = model.getTexture(id);
 
             // Get the uv
             Map<String, float[]> uvs = getArrayMap(faceObject.get("uv"), 2);

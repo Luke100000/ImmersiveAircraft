@@ -7,17 +7,21 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import static immersive_aircraft.resources.bbmodel.BBTexture.MISSING;
+
 public class BBModel {
     public final BBMeta meta;
     public final List<BBTexture> textures = new LinkedList<>();
     public final LinkedList<BBObject> root;
     public final HashMap<String, BBObject> objects;
+    public final HashMap<String, BBObject> objectsByName;
     public final List<BBAnimation> animations = new LinkedList<>();
 
     public BBModel(JsonObject model) {
         this.meta = new BBMeta(model.get("meta"));
         this.root = new LinkedList<>();
         this.objects = new HashMap<>();
+        this.objectsByName = new HashMap<>();
 
         model.get("textures").getAsJsonArray().forEach(element -> {
             BBTexture texture = new BBTexture(element.getAsJsonObject());
@@ -29,9 +33,11 @@ public class BBModel {
             if (type.equals("cube")) {
                 BBObject object = new BBCube(element.getAsJsonObject(), this);
                 this.objects.put(object.uuid, object);
+                this.objectsByName.put(object.name, object);
             } else if (type.equals("mesh")) {
                 BBObject object = new BBMesh(element.getAsJsonObject(), this);
                 this.objects.put(object.uuid, object);
+                this.objectsByName.put(object.name, object);
             } else {
                 Main.LOGGER.warn("Unknown object type {}", type);
             }
@@ -49,6 +55,7 @@ public class BBModel {
                 BBObject bone = new BBBone(element.getAsJsonObject(), this);
                 this.root.add(bone);
                 this.objects.put(bone.uuid, bone);
+                this.objectsByName.put(bone.name, bone);
             }
         });
 
@@ -58,5 +65,9 @@ public class BBModel {
                 this.animations.add(animation);
             });
         }
+    }
+
+    public BBTexture getTexture(int id) {
+        return id < textures.size() ? textures.get(id) : MISSING;
     }
 }

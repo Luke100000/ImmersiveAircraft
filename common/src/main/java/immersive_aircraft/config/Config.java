@@ -51,9 +51,6 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean enableTrails = true;
 
-    @BooleanConfigEntry(true)
-    public boolean enableAnimatedSails = true;
-
     @FloatConfigEntry(192.0f)
     public float renderDistance;
 

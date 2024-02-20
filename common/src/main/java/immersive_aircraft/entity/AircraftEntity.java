@@ -9,6 +9,7 @@ import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.weapons.Telescope;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.Utils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -159,6 +160,12 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
             }
         }
         return false;
+    }
+
+    public void setAnimationVariables(float tickDelta) {
+        BBAnimationVariables.set("pressing_interpolated_x", pressingInterpolatedX.getSmooth(tickDelta));
+        BBAnimationVariables.set("pressing_interpolated_y", pressingInterpolatedY.getSmooth(tickDelta));
+        BBAnimationVariables.set("pressing_interpolated_z", pressingInterpolatedZ.getSmooth(tickDelta));
     }
 }
 

@@ -3,11 +3,13 @@ package immersive_aircraft.resources.bbmodel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.math.Vector3f;
+import immersive_aircraft.Main;
 import immersive_aircraft.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BBCube extends BBObject implements BBFaceContainer {
     private static final String[] SIDES = {"north", "east", "south", "west", "up", "down"};
@@ -33,7 +35,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
     public final Vector3f from;
     public final Vector3f to;
     public final int inflate;
-    public final ArrayList<BBFace> faces;
+    public final List<BBFace> faces;
 
     public BBCube(JsonObject element, BBModel model) {
         super(element);
@@ -43,7 +45,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
 
         this.inflate = Utils.getIntElement(element, "inflate");
 
-        this.faces = new ArrayList<>(6);
+        this.faces = new LinkedList<>();
         for (int i = 0; i < 6; i++) {
             BBFace.BBVertex[] vertices = new BBFace.BBVertex[4];
             for (int j = 0; j < 4; j++) {
@@ -81,7 +83,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
         for (int i = 0; i < 6; i++) {
             JsonObject faceObject = element.getAsJsonObject("faces").getAsJsonObject(SIDES[i]);
             int id = Utils.getIntElement(element, "texture");
-            BBTexture texture = model.textures.get(id);
+            BBTexture texture = model.getTexture(id);
 
             BBFace f = faces.get(i);
             f.texture = texture;
@@ -108,6 +110,21 @@ public class BBCube extends BBObject implements BBFaceContainer {
             f.vertices[3].u = uv[0] / texture.uvWidth;
             f.vertices[3].v = uv[1] / texture.uvHeight;
         }
+
+        // Remove degenerate faces
+        for (int i = faces.size() - 1; i >= 0; i--) {
+            BBFace f = faces.get(i);
+            float v0x = f.vertices[1].x - f.vertices[0].x;
+            float v0y = f.vertices[1].y - f.vertices[0].y;
+            float v0z = f.vertices[1].z - f.vertices[0].z;
+            float v1x = f.vertices[2].x - f.vertices[0].x;
+            float v1y = f.vertices[2].y - f.vertices[0].y;
+            float v1z = f.vertices[2].z - f.vertices[0].z;
+            if (v0x * v1y - v0y * v1x == 0 && v0x * v1z - v0z * v1x == 0 && v0y * v1z - v0z * v1y == 0) {
+                Main.LOGGER.warn("Degenerate face detected in cube " + this.name + ". Removing it.");
+                faces.remove(i);
+            }
+        }
     }
 
     @NotNull
@@ -121,6 +138,9 @@ public class BBCube extends BBObject implements BBFaceContainer {
 
         adjustedFrom.mul(1.0f / 16.0f);
         adjustedTo.mul(1.0f / 16.0f);
+
+        adjustedFrom.sub(origin);
+        adjustedTo.sub(origin);
 
         return new Vector3f[]{
                 new Vector3f(adjustedTo.x(), adjustedTo.y(), adjustedTo.z()),

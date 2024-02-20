@@ -48,13 +48,6 @@ public interface Entities {
             .fireImmune()
     );
 
-    Supplier<EntityType<BlimpEntity>> BLIMP = register("blimp", EntityType.Builder
-            .of(BlimpEntity::new, MobCategory.MISC)
-            .sized(8.0f, 8.0f)
-            .clientTrackingRange(12)
-            .fireImmune()
-    );
-
     Supplier<EntityType<BulletEntity>> BULLET = register("bullet", EntityType.Builder
             .of(BulletEntity::new, MobCategory.MISC)
             .sized(0.25f, 0.25f)

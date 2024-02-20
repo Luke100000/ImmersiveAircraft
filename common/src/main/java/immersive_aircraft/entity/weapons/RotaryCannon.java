@@ -5,10 +5,12 @@ import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.bullet.BulletEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
@@ -77,5 +79,12 @@ public class RotaryCannon extends BulletWeapon {
         if (Math.floor(old) != Math.floor(rotationalManager.roll)) {
             NetworkHandler.sendToServer(new FireMessage(getSlot(), index, getDirection()));
         }
+    }
+
+    public <T extends AircraftEntity> void setAnimationVariables(T entity, float time) {
+        float tickDelta = time % 1.0f;
+        BBAnimationVariables.set("pitch", (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
+        BBAnimationVariables.set("yaw", (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));
+        BBAnimationVariables.set("roll", (float) (rotationalManager.getRoll(tickDelta) / Math.PI * 180.0f));
     }
 }

@@ -2,76 +2,40 @@ package immersive_aircraft.client.render.entity.renderer;
 
 import com.mojang.math.Vector3f;
 import immersive_aircraft.Main;
+import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEntityRenderer<T> {
-    private static final ResourceLocation id = Main.locate("objects/gyrodyne.obj");
+    private static final ResourceLocation ID = Main.locate("gyrodyne");
 
-    private final ResourceLocation texture;
+    protected ResourceLocation getModelId() {
+        return ID;
+    }
 
-    private final Model model = new Model()
+    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
             .add(
-                    new Object(id, "frame")
-            )
-            .add(
-                    new Object(id, "controller").setAnimationConsumer(
-                            (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.translate(0, -0.125, 0.84f);
-                                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-entity.pressingInterpolatedX.getSmooth(tickDelta) * 30.0f));
-                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(entity.pressingInterpolatedZ.getSmooth(tickDelta) * 25.0f));
-                                matrixStack.translate(0, 0.125, -0.84f);
-                            }
-                    )
-            )
-            .add(
-                    new Object(id, "controller_2").setAnimationConsumer(
-                            (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.translate(0, -0.125, 0.84f);
-                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(entity.pressingInterpolatedY.getSmooth(tickDelta) * 20.0f));
-                                matrixStack.translate(0, 0.125, -0.84f);
-                            }
-                    )
-            )
-            .add(
-                    new Object(id, "wings").setAnimationConsumer(
-                            (entity, yaw, tickDelta, matrixStack) -> {
-                                float wind = entity.isOnGround() ? 0.0f : 1.0f;
-                                float nx = (float) (Utils.cosNoise((entity.tickCount + tickDelta) / 18.0)) * wind;
-                                float ny = (float) (Utils.cosNoise((entity.tickCount + tickDelta) / 19.0)) * wind;
+                    "wings",
+                    (entity, yaw, time, matrixStack) -> {
+                        float wind = entity.isOnGround() ? 0.0f : 1.0f;
+                        float nx = (float) (Utils.cosNoise(time / 18.0)) * wind;
+                        float ny = (float) (Utils.cosNoise(time / 19.0)) * wind;
 
-                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(ny));
-                                matrixStack.mulPose(Vector3f.ZP.rotationDegrees(nx));
-                            }
-                    )
-            )
-            .add(
-                    new Object(id, "propeller").setAnimationConsumer(
-                            (entity, yaw, tickDelta, matrixStack) -> {
-                                matrixStack.translate(1.0 / 32.0, 0.0, -1.0 / 32.0);
-                                matrixStack.mulPose(Vector3f.YP.rotationDegrees((float) (-entity.engineRotation.getSmooth(tickDelta) * 100.0)));
-                                matrixStack.translate(-1.0 / 32.0, 0.0, 1.0 / 32.0);
-                            }
-                    )
+                        matrixStack.mulPose(Vector3f.XP.rotationDegrees(ny));
+                        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(nx));
+                    }
             );
 
     public GyrodyneEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
-        texture = Main.locate("textures/entity/gyrodyne.png");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull T aircraft) {
-        return texture;
-    }
-
-    @Override
-    protected Model getModel(AircraftEntity entity) {
+    protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
         return model;
     }
 

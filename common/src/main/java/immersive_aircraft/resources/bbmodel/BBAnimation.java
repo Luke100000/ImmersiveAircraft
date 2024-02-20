@@ -22,7 +22,7 @@ public class BBAnimation {
         this.length = element.getAsJsonPrimitive("length").getAsFloat();
         this.snapping = element.getAsJsonPrimitive("snapping").getAsInt();
 
-        this.frameCount = (int) (length * snapping + 0.5);
+        this.frameCount = Math.max(1, (int) (length * snapping + 0.5));
 
         if (element.has("animators")) {
             element.getAsJsonObject("animators").entrySet().forEach(entry -> {

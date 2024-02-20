@@ -17,9 +17,13 @@ public class BBKeyframe {
         this.time = element.getAsJsonPrimitive("time").getAsFloat();
         this.expressions = new Expression[3];
         JsonObject point = element.getAsJsonArray("data_points").get(0).getAsJsonObject();
-        this.expressions[0] = new Expression(point.getAsJsonPrimitive("x").getAsString(), BBAnimationVariables.getArgumentArray());
-        this.expressions[1] = new Expression(point.getAsJsonPrimitive("y").getAsString(), BBAnimationVariables.getArgumentArray());
-        this.expressions[2] = new Expression(point.getAsJsonPrimitive("z").getAsString(), BBAnimationVariables.getArgumentArray());
+        this.expressions[0] = getExpression(point, "x");
+        this.expressions[1] = getExpression(point, "y");
+        this.expressions[2] = getExpression(point, "z");
+    }
+
+    private static Expression getExpression(JsonObject point, String x) {
+        return new Expression(point.getAsJsonPrimitive(x).getAsString().replace("variable.", "variable_"), BBAnimationVariables.getArgumentArray());
     }
 
     public Vector3f evaluate() {
