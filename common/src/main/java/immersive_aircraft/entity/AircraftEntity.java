@@ -24,7 +24,7 @@ import java.util.List;
  */
 public abstract class AircraftEntity extends InventoryVehicleEntity {
     private final AircraftProperties properties;
-    private double lastY;
+    protected double lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
