@@ -861,4 +861,8 @@ public abstract class VehicleEntity extends Entity {
     public Vec3 getSpeedVector() {
         return new Vec3((lastX - secondLastX) / 10.0f, (lastY - secondLastY) / 10.0f, (lastZ - secondLastZ) / 10.0f);
     }
+
+    public boolean isPilotCreative() {
+        return getControllingPassenger() instanceof Player player && player.isCreative();
+    }
 }

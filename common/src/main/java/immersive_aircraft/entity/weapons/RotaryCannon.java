@@ -1,8 +1,8 @@
 package immersive_aircraft.entity.weapons;
 
-import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
+import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.AircraftEntity;
@@ -11,6 +11,7 @@ import immersive_aircraft.entity.bullet.BulletEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
@@ -59,16 +60,13 @@ public class RotaryCannon extends BulletWeapon {
         }
     }
 
-    private Vector3f getDirection() {
-        return rotationalManager.screenToGlobal(getEntity());
+    @Override
+    public SoundEvent getSound() {
+        return Sounds.CANNON.get();
     }
 
-    public Quaternion getHeadTransform(float tickDelta) {
-        Quaternion quaternion = Quaternion.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
-        quaternion.mul(Quaternion.fromXYZ(0.0f, 0.0f, rotationalManager.getRoll(tickDelta)));
-        return quaternion;
+    private Vector3f getDirection() {
+        return rotationalManager.screenToGlobal(getEntity());
     }
 
     @Override

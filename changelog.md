@@ -1,6 +1,8 @@
 # 0.7.2
 
 * Fixed negative modifiers not working as intended
+* Added rotary cannon sound
+* Creative players no longer require ammo
 
 # 0.7.1
 

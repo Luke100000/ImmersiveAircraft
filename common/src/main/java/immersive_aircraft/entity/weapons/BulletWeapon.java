@@ -11,14 +11,19 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
+import java.util.Random;
 
 public abstract class BulletWeapon extends Weapon {
+    private final Random random = new Random();
+
     private ItemStack ammoStack;
     private int ammo;
 
@@ -67,9 +72,20 @@ public abstract class BulletWeapon extends Weapon {
         for (ServerPlayer player : ((ServerLevel) entity.getLevel()).players()) {
             NetworkHandler.sendToPlayer(fireMessage, player);
         }
+
+        // Play sound
+        getEntity().playSound(getSound(), 1.0f, random.nextFloat() * 0.2f + 0.9f);
+    }
+
+    public SoundEvent getSound() {
+        return SoundEvents.CROSSBOW_SHOOT;
     }
 
     protected boolean spentAmmo(Map<String, Integer> ammunition, int amount) {
+        if (getEntity().isPilotCreative()) {
+            return true;
+        }
+
         if (ammo < amount && getEntity() instanceof InventoryVehicleEntity vehicle) {
             for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);

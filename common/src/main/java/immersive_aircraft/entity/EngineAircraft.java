@@ -173,6 +173,10 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     protected boolean isFuelLow() {
+        if (!Config.getInstance().burnFuelInCreative && isPilotCreative()) {
+            return false;
+        }
+
         if (level.isClientSide) {
             return entityData.get(LOW_ON_FUEL);
         } else {
@@ -269,7 +273,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (Config.getInstance().fuelConsumption == 0) {
             return 1.0f;
         }
-        if (!Config.getInstance().burnFuelInCreative && getControllingPassenger() instanceof Player player && player.isCreative()) {
+        if (!Config.getInstance().burnFuelInCreative && isPilotCreative()) {
             return 1.0f;
         }
         if (level.isClientSide) {
