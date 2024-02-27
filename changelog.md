@@ -1,3 +1,7 @@
+# 0.7.2
+
+* Fixed negative modifiers not working as intended
+
 # 0.7.1
 
 * TNT dropper now requires 0.2 TNT per shot, instead of 0.02 typo

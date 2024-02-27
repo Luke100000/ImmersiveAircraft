@@ -66,7 +66,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     //todo cache?
     public float getTotalUpgrade(AircraftStat stat) {
-        float value = 0.0f;
+        float value = 1.0f;
         List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
@@ -81,7 +81,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
                 }
             }
         }
-        return Math.max(0.0f, 1.0f + value);
+        return Math.max(0.0f, value);
     }
 
     public InventoryVehicleEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
