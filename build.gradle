@@ -37,29 +37,26 @@ subprojects {
     }
 }
 
+
 def getAppVersion = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        standardOutput = stdout
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags', '--abbrev=0'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } catch (Exception e) {
+        println "Warning: ${e.message}, is git installed?"
+        return "dev"
     }
-    def commitId = stdout.toString().replace("\n", "").replace("\r", "").trim()
-    stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'tag', '--points-at', commitId
-        standardOutput = stdout
-    }
-    def tagName = stdout.toString().replace("\n", "").replace("\r", "").trim()
-    def versionName = '0-git-' + commitId
-    if (tagName != null && "" != tagName) {
-        versionName = tagName
-    }
-    return versionName
 } as Object
+
 
 allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
     archivesBaseName = rootProject.archives_base_name
     version = getAppVersion()

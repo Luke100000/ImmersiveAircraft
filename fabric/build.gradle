@@ -94,3 +94,25 @@ components.java {
         skip()
     }
 }
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            groupId = rootProject.groupId
+            version = version + "+fabric"
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "reposiliteRepository"
+            url = uri("https://maven.conczin.net/Artifacts")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
+        }
+    }
+}
