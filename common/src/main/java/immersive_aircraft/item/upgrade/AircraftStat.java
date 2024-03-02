@@ -12,16 +12,17 @@ public record AircraftStat(String name, boolean positive, float defaultValue) {
     public static final AircraftStat PITCH_SPEED = register("pitchSpeed", true);
     public static final AircraftStat PUSH_SPEED = register("pushSpeed", true);
 
-    public static final AircraftStat ACCELERATION = register("acceleration", true);
+    public static final AircraftStat ACCELERATION = register("acceleration", true, 1.0f);
     public static final AircraftStat DURABILITY = register("durability", true, 1.0f);
     public static final AircraftStat FUEL = register("fuel", false);
 
-    public static final AircraftStat FRICTION = register("friction", false);
+    public static final AircraftStat FRICTION = register("friction", false, 0.015f);
     public static final AircraftStat GLIDE_FACTOR = register("glideFactor", true);
     public static final AircraftStat LIFT = register("lift", true);
 
     public static final AircraftStat ROLL_FACTOR = register("rollFactor", true);
     public static final AircraftStat GROUND_PITCH = register("groundPitch", true);
+    public static final AircraftStat STABILIZER = register("stabilizer", true, 0.0f);
 
     public static final AircraftStat WIND = register("wind", false);
     public static final AircraftStat MASS = register("mass", false, 1.0f);

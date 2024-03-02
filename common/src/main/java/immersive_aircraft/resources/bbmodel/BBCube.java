@@ -121,7 +121,6 @@ public class BBCube extends BBObject implements BBFaceContainer {
             float v1y = f.vertices[2].y - f.vertices[0].y;
             float v1z = f.vertices[2].z - f.vertices[0].z;
             if (v0x * v1y - v0y * v1x == 0 && v0x * v1z - v0z * v1x == 0 && v0y * v1z - v0z * v1y == 0) {
-                Main.LOGGER.warn("Degenerate face detected in cube " + this.name + ". Removing it.");
                 faces.remove(i);
             }
         }

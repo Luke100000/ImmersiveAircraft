@@ -3,6 +3,7 @@
 * Fixed negative modifiers not working as intended
 * Added rotary cannon sound
 * Creative players no longer require ammo
+* The gyroscope now also stabilizes the pitch
 
 # 0.7.1
 

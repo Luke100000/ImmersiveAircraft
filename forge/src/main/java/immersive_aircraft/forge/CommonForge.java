@@ -12,12 +12,14 @@ import net.minecraftforge.registries.RegisterEvent;
 @Mod(Main.MOD_ID)
 @Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Bus.MOD)
 public final class CommonForge {
-    public CommonForge() {
-        RegistrationImpl.bootstrap();
-        DataLoaders.bootstrap();
-
+     static {
+        new RegistrationImpl();
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
+    }
+
+    public CommonForge() {
+        DataLoaders.bootstrap();
 
         Messages.loadMessages();
     }

@@ -74,13 +74,13 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
     // Considers gravity and upgrades to modify decay
     protected float falloffGroundVelocityDecay(float original) {
         float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
-        float upgrade = Math.min(1.0f, getTotalUpgrade(AircraftStat.ACCELERATION) * 0.5f);
+        float upgrade = Math.min(1.0f, getProperties().get(AircraftStat.ACCELERATION) * 0.5f);
         return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }
 
     @Override
     protected void updateVelocity() {
-        float decay = 1.0f - 0.015f * getTotalUpgrade(AircraftStat.FRICTION);
+        float decay = 1.0f - getProperties().get(AircraftStat.FRICTION);
         float gravity = getGravity();
         if (wasTouchingWater) {
             gravity *= 0.25f;

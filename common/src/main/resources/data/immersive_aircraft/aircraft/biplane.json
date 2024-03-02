@@ -1,8 +1,9 @@
 {
   "properties": {
+    "fuel": 1.25,
     "yawSpeed": 5.0,
     "pitchSpeed": 4.0,
-    "engineSpeed": 0.025,
+    "engineSpeed": 0.03,
     "pushSpeed": 0.025,
     "glideFactor": 0.05,
     "driftDrag": 0.01,

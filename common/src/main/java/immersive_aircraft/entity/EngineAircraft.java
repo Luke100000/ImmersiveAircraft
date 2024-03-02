@@ -16,7 +16,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -77,14 +76,6 @@ public abstract class EngineAircraft extends AircraftEntity {
         return 1.0f;
     }
 
-    protected float getStabilizer() {
-        return 0.0f;
-    }
-
-    protected float getBaseFuelConsumption() {
-        return 0.75f;
-    }
-
     protected float getEngineReactionSpeed() {
         return 20.0f;
     }
@@ -103,7 +94,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.tick();
 
         // adapt engine reaction time
-        enginePower.setSteps(getEngineReactionSpeed() / getTotalUpgrade(AircraftStat.ACCELERATION));
+        enginePower.setSteps(getEngineReactionSpeed() / getProperties().get(AircraftStat.ACCELERATION));
 
         // spin up the engine
         enginePower.update(getEngineTarget() * (wasTouchingWater ? 0.1f : 1.0f));
@@ -197,7 +188,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     float getFuelConsumption() {
-        return getEngineTarget() * getTotalUpgrade(AircraftStat.FUEL) * getBaseFuelConsumption() * Config.getInstance().fuelConsumption;
+        return getEngineTarget() * getProperties().get(AircraftStat.FUEL) * Config.getInstance().fuelConsumption;
     }
 
     private void refuel(int i) {
@@ -234,7 +225,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (!onGround) {
             setXRot(getXRot() + getProperties().get(AircraftStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
-        setXRot(getXRot() * (1.0f - getStabilizer()));
+        setXRot(getXRot() * (1.0f - getProperties().getAdditive(AircraftStat.STABILIZER)));
     }
 
     @Override

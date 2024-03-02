@@ -31,11 +31,6 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getStabilizer() {
-        return 0.1f;
-    }
-
-    @Override
     public Item asItem() {
         return Items.AIRSHIP.get();
     }

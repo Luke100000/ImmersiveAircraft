@@ -23,9 +23,6 @@ import java.util.function.Supplier;
  * Contains all the crap required to interface with forge's code
  */
 public class RegistrationImpl extends Registration.Impl {
-    @SuppressWarnings("unused")
-    public static final RegistrationImpl IMPL = new RegistrationImpl();
-
     private final Map<String, RegistryRepo> repos = new HashMap<>();
     private final DataLoaderRegister dataLoaderRegister = new DataLoaderRegister();
     private final DataLoaderRegister resourceLoaderRegister = new DataLoaderRegister();
@@ -33,10 +30,6 @@ public class RegistrationImpl extends Registration.Impl {
     public RegistrationImpl() {
         ForgeBusEvents.DATA_REGISTRY = dataLoaderRegister;
         ForgeBusEvents.RESOURCE_REGISTRY = resourceLoaderRegister;
-    }
-
-    public static void bootstrap() {
-        //nop
     }
 
     private RegistryRepo getRepo(String namespace) {

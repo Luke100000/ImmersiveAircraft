@@ -32,11 +32,6 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getStabilizer() {
-        return 0.3f;
-    }
-
-    @Override
     public Item asItem() {
         return Items.GYRODYNE.get();
     }

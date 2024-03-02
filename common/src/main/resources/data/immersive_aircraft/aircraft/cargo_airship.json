@@ -1,5 +1,7 @@
 {
   "properties": {
+    "stabilizer": 0.1,
+    "fuel": 1.25,
     "yawSpeed": 5.0,
     "engineSpeed": 0.0175,
     "verticalSpeed": 0.02,
