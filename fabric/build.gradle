@@ -19,14 +19,6 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
-repositories {
-    maven { url "https://maven.terraformersmc.com/releases/" }
-    maven { url "<https://maven.shedaniel.me/>" }
-    maven { url "<https://maven.architectury.dev/>" }
-    maven { url = "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://cursemaven.com" }
-}
-
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
@@ -49,6 +41,9 @@ dependencies {
     // Required to run REI
     //modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
+
+    // modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
+    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
 }
 
 processResources {
@@ -99,7 +94,7 @@ publishing {
     publications {
         mavenCommon(MavenPublication) {
             artifactId = rootProject.archives_base_name
-            groupId = rootProject.groupId
+            groupId = rootProject.group_id
             version = version + "+fabric"
             from components.java
         }

@@ -22,10 +22,13 @@ subprojects {
     }
 
     repositories {
-        maven {
-            name = 'ParchmentMC'
-            url = 'https://maven.parchmentmc.org'
-        }
+        maven { url = 'https://maven.parchmentmc.org' }
+        maven { url "https://maven.terraformersmc.com/releases/" }
+        maven { url = "https://dvs1.progwml6.com/files/maven/" }
+        maven { url "<https://maven.shedaniel.me/>" }
+        maven { url "<https://maven.architectury.dev/>" }
+        maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
+        maven { url "https://cursemaven.com" }
     }
 
     dependencies {

@@ -25,12 +25,6 @@ configurations {
     developmentForge.extendsFrom common
 }
 
-repositories {
-    maven { url = "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "<https://maven.shedaniel.me/>" }
-    maven { url "<https://maven.architectury.dev/>" }
-}
-
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
@@ -49,6 +43,9 @@ dependencies {
 
     // Required to run JEI
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:$rei_version"
+
+    // modCompileOnly "earth.terrarium.adastra:ad_astra-forge-$minecraft_version:${ad_astra_version}"
+    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-forge-$minecraft_version:${ad_astra_version}"
 }
 
 processResources {
@@ -109,7 +106,7 @@ publishing {
     publications {
         mavenCommon(MavenPublication) {
             artifactId = rootProject.archives_base_name
-            groupId = rootProject.groupId
+            groupId = rootProject.group_id
             version = version + "+forge"
             from components.java
         }
