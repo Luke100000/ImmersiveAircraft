@@ -106,5 +106,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% velocidade de descolagem",
   "immersive_aircraft.upgrade.durability": "%s%% durabilidade",
   "immersive_aircraft.upgrade.fuel": "%s%% necessidade de combustível",
-  "immersive_aircraft.upgrade.wind": "%s%% efeito do vento"
+  "immersive_aircraft.upgrade.wind": "%s%% efeito do vento",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% estabilização"
 }
