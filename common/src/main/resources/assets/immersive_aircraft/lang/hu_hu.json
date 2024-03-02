@@ -106,5 +106,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% felszállási sebesség",
   "immersive_aircraft.upgrade.durability": "%s%% tartósság",
   "immersive_aircraft.upgrade.fuel": "%s%% üzemanyag-szükséglet",
-  "immersive_aircraft.upgrade.wind": "%s%% szélhatás"
+  "immersive_aircraft.upgrade.wind": "%s%% szélhatás",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizálás"
 }
