@@ -4,6 +4,7 @@
 * Added rotary cannon sound
 * Creative players no longer require ammo
 * The gyroscope now also stabilizes the pitch
+* Updated icons (Thanks 김작업!)
 
 # 0.7.1
 
