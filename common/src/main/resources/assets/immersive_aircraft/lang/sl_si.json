@@ -106,5 +106,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% vzletna hitrost",
   "immersive_aircraft.upgrade.durability": "%s%% vzdržljivost",
   "immersive_aircraft.upgrade.fuel": "%s% % potrebe po gorivu",
-  "immersive_aircraft.upgrade.wind": "%s%% učinek vetra"
+  "immersive_aircraft.upgrade.wind": "%s%% učinek vetra",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija"
 }
