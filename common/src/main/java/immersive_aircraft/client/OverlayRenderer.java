@@ -23,7 +23,7 @@ public class OverlayRenderer extends GuiComponent {
     public static void renderOverlay(PoseStack matrices, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
         if (!client.options.hideGui && client.gameMode != null && client.player != null) {
-            if (client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
+            if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
                 INSTANCE.renderAircraftGui(client, matrices, tickDelta, aircraft);
             }
             if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
