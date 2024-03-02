@@ -106,5 +106,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% pacelšanās ātrums",
   "immersive_aircraft.upgrade.durability": "%s%% ilgmūžība",
   "immersive_aircraft.upgrade.fuel": "%s%% degvielas nepieciešamība",
-  "immersive_aircraft.upgrade.wind": "%s%% vēja ietekme"
+  "immersive_aircraft.upgrade.wind": "%s%% vēja ietekme",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizē"
 }

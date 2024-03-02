@@ -106,5 +106,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% kilimo greitis",
   "immersive_aircraft.upgrade.durability": "%s%% ilgaamžiškumas",
   "immersive_aircraft.upgrade.fuel": "%s%% degalų poreikis",
-  "immersive_aircraft.upgrade.wind": "%s%% vėjo poveikis"
+  "immersive_aircraft.upgrade.wind": "%s%% vėjo poveikis",
+  "immersive_aircraft.upgrade.stabilizer": "%s% % stabilizavimas"
 }
