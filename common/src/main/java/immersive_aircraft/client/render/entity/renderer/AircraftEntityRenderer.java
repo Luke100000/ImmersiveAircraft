@@ -42,7 +42,9 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends E
 
     protected abstract ResourceLocation getModelId();
 
-    protected abstract Vector3f getPivot(AircraftEntity entity);
+    protected Vector3f getPivot(AircraftEntity entity) {
+        return new Vector3f(0.0f, 0.0f, 0.0f);
+    }
 
 
     @Override
