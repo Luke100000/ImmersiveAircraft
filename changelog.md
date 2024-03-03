@@ -1,6 +1,8 @@
 # 0.7.3
 
 * Added camera offset, especially for larger aircraft
+* Fixed cargo airship's sails
+* You can now exit every aircraft properly, and don't stand on its top
 
 # 0.7.2
 

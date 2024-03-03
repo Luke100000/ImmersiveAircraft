@@ -59,7 +59,7 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLo
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager resourceManager, ProfilerFiller profiler) {
         MODELS.clear();
-        jsonMap.forEach((identifier, jsonElement) -> MODELS.put(identifier, new BBModel(jsonElement.getAsJsonObject())));
+        jsonMap.forEach((identifier, jsonElement) -> MODELS.put(identifier, new BBModel(jsonElement.getAsJsonObject(), identifier)));
         System.out.printf("Loaded %d BBModels\n", MODELS.size());
     }
 }

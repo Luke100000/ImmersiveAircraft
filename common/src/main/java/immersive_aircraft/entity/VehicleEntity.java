@@ -560,41 +560,40 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private Vec3 getDismountOffset(double vehicleWidth, double passengerWidth) {
-        double d = (vehicleWidth + passengerWidth + (double) 1.0E-5f) / 2.0;
+        double offset = (vehicleWidth + passengerWidth + (double) 1.0E-5f) / 2.0;
         float yaw = getYRot() + 90.0f;
-        float f = -Mth.sin(yaw * ((float) Math.PI / 180));
-        float g = Mth.cos(yaw * ((float) Math.PI / 180));
-        float h = Math.max(Math.abs(f), Math.abs(g));
-        return new Vec3((double) f * d / (double) h, 0.0, (double) g * d / (double) h);
+        float x = -Mth.sin(yaw * ((float) Math.PI / 180));
+        float z = Mth.cos(yaw * ((float) Math.PI / 180));
+        float n = Math.max(Math.abs(x), Math.abs(z));
+        return new Vec3((double) x * offset / (double) n, 0.0, (double) z * offset / (double) n);
     }
 
     @Override
     public Vec3 getDismountLocationForPassenger(LivingEntity passenger) {
-        if (getDeltaMovement().lengthSqr() < 0.1f) {
-            double e;
-            Vec3 vec3d = getDismountOffset(getBbWidth() * Mth.SQRT_OF_TWO, passenger.getBbWidth());
-            double d = getX() + vec3d.x;
-            BlockPos blockPos = new BlockPos(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
-            BlockPos blockPos2 = blockPos.below();
-            if (!level.isWaterAt(blockPos2)) {
-                double g;
-                ArrayList<Vec3> list = Lists.newArrayList();
-                double f = level.getBlockFloorHeight(blockPos);
-                if (DismountHelper.isBlockFloorValid(f)) {
-                    list.add(new Vec3(d, (double) blockPos.getY() + f, e));
-                }
-                if (DismountHelper.isBlockFloorValid(g = level.getBlockFloorHeight(blockPos2))) {
-                    list.add(new Vec3(d, (double) blockPos2.getY() + g, e));
-                }
-                for (Pose entityPose : passenger.getDismountPoses()) {
-                    for (Vec3 vec3d2 : list) {
-                        if (!DismountHelper.canDismountTo(level, vec3d2, passenger, entityPose)) continue;
-                        passenger.setPose(entityPose);
-                        return vec3d2;
-                    }
+        Vec3 vec3d = getDismountOffset(getBbWidth() * Mth.SQRT_OF_TWO, passenger.getBbWidth() * Mth.SQRT_OF_TWO);
+        double ox = getX() + vec3d.x;
+        double oz = getZ() + vec3d.z;
+        BlockPos exitPos = new BlockPos(ox, getY(), oz);
+        BlockPos floorPos = exitPos.below();
+        if (!level.isWaterAt(floorPos)) {
+            ArrayList<Vec3> list = Lists.newArrayList();
+            double exitHeight = level.getBlockFloorHeight(exitPos);
+            if (DismountHelper.isBlockFloorValid(exitHeight)) {
+                list.add(new Vec3(ox, (double) exitPos.getY() + exitHeight, oz));
+            }
+            double floorHeight = level.getBlockFloorHeight(floorPos);
+            if (DismountHelper.isBlockFloorValid(floorHeight)) {
+                list.add(new Vec3(ox, (double) floorPos.getY() + floorHeight, oz));
+            }
+            for (Pose entityPose : passenger.getDismountPoses()) {
+                for (Vec3 vec3d2 : list) {
+                    if (!DismountHelper.canDismountTo(level, vec3d2, passenger, entityPose)) continue;
+                    passenger.setPose(entityPose);
+                    return vec3d2;
                 }
             }
         }
+
         return super.getDismountLocationForPassenger(passenger);
     }
 

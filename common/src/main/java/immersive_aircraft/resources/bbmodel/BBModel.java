@@ -2,6 +2,7 @@ package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.Main;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,15 +17,20 @@ public class BBModel {
     public final HashMap<String, BBObject> objects;
     public final HashMap<String, BBObject> objectsByName;
     public final List<BBAnimation> animations = new LinkedList<>();
+    public final float textureWidth, textureHeight;
 
-    public BBModel(JsonObject model) {
+    public BBModel(JsonObject model, ResourceLocation identifier) {
         this.meta = new BBMeta(model.get("meta"));
         this.root = new LinkedList<>();
         this.objects = new HashMap<>();
         this.objectsByName = new HashMap<>();
 
+        JsonObject resolution = model.get("resolution").getAsJsonObject();
+        this.textureWidth = resolution.getAsJsonPrimitive("width").getAsFloat();
+        this.textureHeight = resolution.getAsJsonPrimitive("height").getAsFloat();
+
         model.get("textures").getAsJsonArray().forEach(element -> {
-            BBTexture texture = new BBTexture(element.getAsJsonObject());
+            BBTexture texture = new BBTexture(element.getAsJsonObject(), identifier);
             this.textures.add(texture);
         });
 
@@ -65,6 +71,14 @@ public class BBModel {
                 this.animations.add(animation);
             });
         }
+    }
+
+    public float getTextureWidth(BBTexture texture) {
+        return meta.modelFormat.equals("free") ? texture.uvWidth : textureWidth;
+    }
+
+    public float getTextureHeight(BBTexture texture) {
+        return meta.modelFormat.equals("free") ? texture.uvHeight : textureHeight;
     }
 
     public BBTexture getTexture(int id) {

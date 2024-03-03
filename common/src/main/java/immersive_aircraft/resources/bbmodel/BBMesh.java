@@ -82,6 +82,9 @@ public class BBMesh extends BBObject implements BBFaceContainer {
                     float[] uv = uvs.get(identifier);
                     float[] pos = positions.get(identifier);
 
+                    float textureWidth = model.getTextureWidth(texture);
+                    float textureHeight = model.getTextureHeight(texture);
+
                     BBFace.BBVertex vd = new BBFace.BBVertex();
                     vd.x = pos[0] / 16.0f;
                     vd.y = pos[1] / 16.0f;
@@ -89,8 +92,8 @@ public class BBMesh extends BBObject implements BBFaceContainer {
                     vd.nx = n[0];
                     vd.ny = n[1];
                     vd.nz = n[2];
-                    vd.u = uv[0] / texture.uvWidth;
-                    vd.v = uv[1] / texture.uvHeight;
+                    vd.u = uv[0] / textureWidth;
+                    vd.v = uv[1] / textureHeight;
                     vertices[index++] = vd;
                 }
 

@@ -3,7 +3,6 @@ package immersive_aircraft.resources.bbmodel;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.math.Vector3f;
-import immersive_aircraft.Main;
 import immersive_aircraft.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -101,14 +100,17 @@ public class BBCube extends BBObject implements BBFaceContainer {
                 rot -= 90;
             }
 
-            f.vertices[0].u = uv[0] / texture.uvWidth;
-            f.vertices[0].v = uv[3] / texture.uvHeight;
-            f.vertices[1].u = uv[2] / texture.uvWidth;
-            f.vertices[1].v = uv[3] / texture.uvHeight;
-            f.vertices[2].u = uv[2] / texture.uvWidth;
-            f.vertices[2].v = uv[1] / texture.uvHeight;
-            f.vertices[3].u = uv[0] / texture.uvWidth;
-            f.vertices[3].v = uv[1] / texture.uvHeight;
+            float textureWidth = model.getTextureWidth(texture);
+            float textureHeight = model.getTextureHeight(texture);
+
+            f.vertices[0].u = uv[0] / textureWidth;
+            f.vertices[0].v = uv[3] / textureHeight;
+            f.vertices[1].u = uv[2] / textureWidth;
+            f.vertices[1].v = uv[3] / textureHeight;
+            f.vertices[2].u = uv[2] / textureWidth;
+            f.vertices[2].v = uv[1] / textureHeight;
+            f.vertices[3].u = uv[0] / textureWidth;
+            f.vertices[3].v = uv[1] / textureHeight;
         }
 
         // Remove degenerate faces

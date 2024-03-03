@@ -29,7 +29,7 @@ public class BBTexture {
         this.location = new ResourceLocation("missing");
     }
 
-    public BBTexture(JsonObject element) {
+    public BBTexture(JsonObject element, ResourceLocation identifier) {
         this.uuid = element.getAsJsonPrimitive("uuid").getAsString();
         this.id = element.getAsJsonPrimitive("id").getAsString();
         this.name = element.getAsJsonPrimitive("name").getAsString();
@@ -41,7 +41,7 @@ public class BBTexture {
         if (this.name.contains(":")) {
             this.location = new ResourceLocation(this.name);
         } else {
-            this.location = new ResourceLocation("immersive_aircraft", "textures/entity/" + this.name);
+            this.location = new ResourceLocation(identifier.getNamespace(), "textures/entity/" + this.name);
         }
     }
 }
