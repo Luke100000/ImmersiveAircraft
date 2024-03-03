@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "在创造模式中燃烧燃料",
   "option.immersive_aircraft.acceptVanillaFuel": "接受原生燃料。",
   "option.immersive_aircraft.useCustomKeybindSystem": "使用多按键绑定可能导致某些模组出现问题。",
+  "option.immersive_aircraft.showHotbarEngineGauge": "在热栏上渲染引擎仪表。",
   "option.immersive_aircraft.enableCrashExplosion": "启用爆炸。",
   "option.immersive_aircraft.enableCrashBlockDestruction": "启用破坏性爆炸。",
   "option.immersive_aircraft.enableCrashFire": "使炽热的爆炸成为可能。",
