@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Radošajā režīmā sadedzini degvielu.",
   "option.immersive_aircraft.acceptVanillaFuel": "Pieņem vaniļas degvielu.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Izmantot multi-keybindings, var sabojāt dažus modus.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Pārveidojiet motora rādītāju virs karstās joslas.",
   "option.immersive_aircraft.enableCrashExplosion": "Iespējot sprādzienu.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Iespējot destruktīvu sprādzienu.",
   "option.immersive_aircraft.enableCrashFire": "Iespējams ugunīgs sprādziens.",
