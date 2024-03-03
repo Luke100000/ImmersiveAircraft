@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Ardeți combustibil în modul creativ.",
   "option.immersive_aircraft.acceptVanillaFuel": "Acceptați combustibilul de vanilie.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Folosiți multi-keybindings, poate întrerupe anumite moduri.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Redă indicatorul motorului deasupra barei fierbinți.",
   "option.immersive_aircraft.enableCrashExplosion": "Activați explozia.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Activează explozia distructivă.",
   "option.immersive_aircraft.enableCrashFire": "Activați explozia incendiară.",
