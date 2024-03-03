@@ -413,9 +413,9 @@ public abstract class VehicleEntity extends Entity {
     private void tickDamageParticles() {
         if (level.isClientSide && random.nextFloat() > getHealth()) {
             // Damage particles
-            List<AABB> additionalShapes = getAdditionalShapes();
-            if (!additionalShapes.isEmpty()) {
-                AABB shape = additionalShapes.get(random.nextInt(additionalShapes.size()));
+            List<AABB> shapes = getShapes();
+            if (!shapes.isEmpty()) {
+                AABB shape = shapes.get(random.nextInt(shapes.size()));
                 Vec3 center = shape.getCenter();
                 double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
                 double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
@@ -856,6 +856,12 @@ public abstract class VehicleEntity extends Entity {
 
     public List<AABB> getAdditionalShapes() {
         return AircraftDataLoader.get(identifier).getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
+    }
+
+    public List<AABB> getShapes() {
+        List<AABB> shapes = new ArrayList<>(getAdditionalShapes());
+        shapes.add(getBoundingBox());
+        return shapes;
     }
 
     public Vec3 getSpeedVector() {

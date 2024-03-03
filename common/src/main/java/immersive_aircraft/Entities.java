@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public interface Entities {
     Supplier<EntityType<GyrodyneEntity>> GYRODYNE = register("gyrodyne", EntityType.Builder
             .of(GyrodyneEntity::new, MobCategory.MISC)
-            .sized(1.25f, 0.6f)
+            .sized(1.3f, 0.6f)
             .clientTrackingRange(12)
             .fireImmune()
     );
