@@ -883,4 +883,8 @@ public abstract class VehicleEntity extends Entity {
     public boolean isPilotCreative() {
         return getControllingPassenger() instanceof Player player && player.isCreative();
     }
+
+    public double getZoom() {
+        return 0.0;
+    }
 }

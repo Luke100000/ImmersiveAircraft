@@ -106,4 +106,8 @@ public class AirshipEntity extends Rotorcraft {
         tr.multiply(Vector3f.ZP.rotationDegrees(engineRotation.getSmooth() * 50.0f));
         trail(tr);
     }
+
+    public double getZoom() {
+        return 5.0;
+    }
 }

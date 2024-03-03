@@ -109,4 +109,8 @@ public class GyrodyneEntity extends Rotorcraft {
         }
         return 0.0f;
     }
+
+    public double getZoom() {
+        return 2.0;
+    }
 }
