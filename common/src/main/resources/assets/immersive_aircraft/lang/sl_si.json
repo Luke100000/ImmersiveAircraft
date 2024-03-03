@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "V ustvarjalnem načinu porabite gorivo.",
   "option.immersive_aircraft.acceptVanillaFuel": "Sprejmite gorivo vanilije.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Uporabite multi-keybindings, lahko prekinejo nekatere mods.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Prikaz merilnika motorja nad vročo vrstico.",
   "option.immersive_aircraft.enableCrashExplosion": "Omogočite eksplozijo.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Omogočite uničujočo eksplozijo.",
   "option.immersive_aircraft.enableCrashFire": "Omogoči ognjeno eksplozijo.",
