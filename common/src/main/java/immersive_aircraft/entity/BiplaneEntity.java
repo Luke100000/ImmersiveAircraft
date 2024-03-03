@@ -66,6 +66,7 @@ public class BiplaneEntity extends AirplaneEntity {
         }
     }
 
+    @Override
     public double getZoom() {
         return 3.0;
     }

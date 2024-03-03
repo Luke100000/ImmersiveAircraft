@@ -107,6 +107,7 @@ public class AirshipEntity extends Rotorcraft {
         trail(tr);
     }
 
+    @Override
     public double getZoom() {
         return 5.0;
     }
