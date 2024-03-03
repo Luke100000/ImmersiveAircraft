@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Égess üzemanyagot kreatív üzemmódban.",
   "option.immersive_aircraft.acceptVanillaFuel": "Fogadja el a vaníliás üzemanyagot.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Használj több kulcsot is, ez bizonyos modokat megtörhet.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "A motorszintmérő megjelenítése a hotbar fölött.",
   "option.immersive_aircraft.enableCrashExplosion": "Robbanás engedélyezése.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Pusztító robbanás engedélyezése.",
   "option.immersive_aircraft.enableCrashFire": "Tüzes robbanás lehetővé tétele.",
