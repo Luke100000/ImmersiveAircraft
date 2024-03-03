@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Förbränn bränsle i kreativt läge",
   "option.immersive_aircraft.acceptVanillaFuel": "Tillåt vanliga bränslen (kol, trä, o.s.v.)",
   "option.immersive_aircraft.useCustomKeybindSystem": "Använd flera kortkommandon (kan få vissa mod att sluta fungera)",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Placera motormätaren över hotbaren.",
   "option.immersive_aircraft.enableCrashExplosion": "Möjliggör explosion.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Möjliggör destruktiv explosion.",
   "option.immersive_aircraft.enableCrashFire": "Möjliggör en brinnande explosion.",
