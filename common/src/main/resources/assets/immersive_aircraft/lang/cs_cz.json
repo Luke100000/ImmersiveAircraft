@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Spalujte palivo v kreativním režimu.",
   "option.immersive_aircraft.acceptVanillaFuel": "Přijměte vanilkové palivo.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Použití více klíčových vazeb, může porušit některé mody.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Vykreslení ukazatele motoru nad horkým panelem.",
   "option.immersive_aircraft.enableCrashExplosion": "Povolit výbuch.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Povolit destruktivní explozi.",
   "option.immersive_aircraft.enableCrashFire": "Umožnit ohnivý výbuch.",
