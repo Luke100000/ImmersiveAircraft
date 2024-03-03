@@ -29,14 +29,14 @@ public interface Entities {
 
     Supplier<EntityType<AirshipEntity>> AIRSHIP = register("airship", EntityType.Builder
             .of(AirshipEntity::new, MobCategory.MISC)
-            .sized(1.5f, 2.5f)
+            .sized(1.5f, 3.0f)
             .clientTrackingRange(12)
             .fireImmune()
     );
 
     Supplier<EntityType<CargoAirshipEntity>> CARGO_AIRSHIP = register("cargo_airship", EntityType.Builder
             .of(CargoAirshipEntity::new, MobCategory.MISC)
-            .sized(1.75f, 2.5f)
+            .sized(1.75f, 3.0f)
             .clientTrackingRange(12)
             .fireImmune()
     );

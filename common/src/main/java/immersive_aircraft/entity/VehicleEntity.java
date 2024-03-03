@@ -886,4 +886,13 @@ public abstract class VehicleEntity extends Entity {
     public double getZoom() {
         return 0.0;
     }
+
+    @Override
+    public AABB getBoundingBoxForCulling() {
+        AABB box = super.getBoundingBoxForCulling();
+        for (AABB additionalShape : getAdditionalShapes()) {
+            box = box.minmax(additionalShape);
+        }
+        return box;
+    }
 }
