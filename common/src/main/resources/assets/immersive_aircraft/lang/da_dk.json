@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Brænd brændstof i kreativ",
   "option.immersive_aircraft.acceptVanillaFuel": "Tillad normale brændstoffer (kul, træ, osv.)",
   "option.immersive_aircraft.useCustomKeybindSystem": "Brug flere tastebindinger (kan ødelægge nogle modifikationer)",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Gengiv motormåleren over hotbaren.",
   "option.immersive_aircraft.enableCrashExplosion": "Aktiver eksplosion.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Aktiver destruktiv eksplosion.",
   "option.immersive_aircraft.enableCrashFire": "Aktiver en brændende eksplosion.",
