@@ -103,6 +103,7 @@ public abstract class VehicleEntity extends Entity {
     public double secondLastZ;
 
     public boolean adaptPlayerRotation = true;
+    private int drowning;
 
     public float getRoll() {
         return roll;
@@ -414,18 +415,29 @@ public abstract class VehicleEntity extends Entity {
         if (level.isClientSide && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> shapes = getShapes();
-            if (!shapes.isEmpty()) {
-                AABB shape = shapes.get(random.nextInt(shapes.size()));
+            AABB shape = shapes.get(random.nextInt(shapes.size()));
+            Vec3 center = shape.getCenter();
+            double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
+            double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
+            double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
+
+            Vec3 speed = getSpeedVector();
+            this.level.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
+            if (getHealth() < 0.5) {
+                this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
+            }
+        }
+
+        // Drowning particles
+        if (isUnderWater() && drowning < 200) {
+            drowning++;
+
+            for (AABB shape : getShapes()) {
                 Vec3 center = shape.getCenter();
                 double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
                 double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
                 double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
-
-                Vec3 speed = getSpeedVector();
-                this.level.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
-                if (getHealth() < 0.5) {
-                    this.level.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
-                }
+                this.level.addParticle(ParticleTypes.BUBBLE, x, y, z, 0.0, 0.0, 0.0);
             }
         }
     }

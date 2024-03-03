@@ -7,6 +7,7 @@
 * Updated icons (Thanks 김작업!)
 * Weapons now also work when daylight cycle is off
 * Fixed bullets being funky
+* Added fancy sinking bubbles
 
 # 0.7.1
 
