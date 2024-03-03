@@ -30,11 +30,11 @@ public class RotaryCannon extends BulletWeapon {
     }
 
     public float getVelocity() {
-        return 6.0f;
+        return 4.0f;
     }
 
     public float getInaccuracy() {
-        return 0.0f;
+        return 1.0f;
     }
 
     @Override

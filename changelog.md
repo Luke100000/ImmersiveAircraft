@@ -5,6 +5,8 @@
 * Creative players no longer require ammo
 * The gyroscope now also stabilizes the pitch
 * Updated icons (Thanks 김작업!)
+* Weapons now also work when daylight cycle is off
+* Fixed bullets being funky
 
 # 0.7.1
 

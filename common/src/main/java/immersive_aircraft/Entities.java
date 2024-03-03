@@ -51,7 +51,7 @@ public interface Entities {
     Supplier<EntityType<BulletEntity>> BULLET = register("bullet", EntityType.Builder
             .of(BulletEntity::new, MobCategory.MISC)
             .sized(0.25f, 0.25f)
-            .clientTrackingRange(6)
+            .clientTrackingRange(10)
             .updateInterval(10)
             .fireImmune()
     );
@@ -59,7 +59,7 @@ public interface Entities {
     Supplier<EntityType<TinyTNT>> TINY_TNT = register("tiny_tnt", EntityType.Builder
             .of(TinyTNT::new, MobCategory.MISC)
             .sized(0.375f, 0.375f)
-            .clientTrackingRange(6)
+            .clientTrackingRange(10)
             .updateInterval(10)
             .fireImmune()
     );

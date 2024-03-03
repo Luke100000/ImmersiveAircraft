@@ -1,28 +1,19 @@
 package immersive_aircraft.entity.bullet;
 
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
-public class BulletEntity extends ThrowableItemProjectile {
+public class BulletEntity extends AbstractHurtingProjectile {
     private float scale = 0.25f;
+    private float damage = 5.0f;
 
     public BulletEntity(EntityType<? extends BulletEntity> entityType, Level level) {
         super(entityType, level);
-    }
-
-    protected Item getDefaultItem() {
-        return Items.IRON_NUGGET;
-    }
-
-    private ParticleOptions getParticle() {
-        return ParticleTypes.EXPLOSION;
     }
 
     public float getScale() {
@@ -33,22 +24,37 @@ public class BulletEntity extends ThrowableItemProjectile {
         this.scale = scale;
     }
 
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 3) {
-            ParticleOptions particleOptions = this.getParticle();
-            for (int i = 0; i < 5; ++i) {
-                this.level.addParticle(particleOptions, this.getX(), this.getY(), this.getZ(), 0.0f, 0.0f, 0.0f);
-            }
-        }
+    public float getDamage() {
+        return damage;
+    }
+
+    public void setDamage(float damage) {
+        this.damage = damage;
     }
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
         if (canHitEntity(result.getEntity())) {
-            float damage = 5.0f;
             result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), damage);
         }
+    }
+
+    @Override
+    protected void onHit(HitResult result) {
+        super.onHit(result);
+        if (!this.level.isClientSide) {
+            this.discard();
+        }
+    }
+
+    @Override
+    public boolean isPickable() {
+        return false;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return false;
     }
 
     @Override
@@ -58,5 +64,23 @@ public class BulletEntity extends ThrowableItemProjectile {
             d = 10.0;
         }
         return distance < (d *= 64.0) * d * scale;
+    }
+
+    @Override
+    protected boolean canHitEntity(Entity target) {
+        if (target.isSpectator() || !target.isAlive() || !target.isPickable()) {
+            return false;
+        }
+        Entity entity = this.getOwner();
+        return entity == null || !entity.isPassengerOfSameVehicle(target);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (getDeltaMovement().lengthSqr() < 0.1) {
+            discard();
+        }
     }
 }

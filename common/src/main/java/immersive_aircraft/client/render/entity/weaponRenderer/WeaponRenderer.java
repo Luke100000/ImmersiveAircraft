@@ -16,7 +16,7 @@ public abstract class WeaponRenderer<W extends Weapon> {
 
         BBModel model = BBModelLoader.MODELS.get(getModelId());
         weapon.setAnimationVariables(entity, time);
-        BBModelRenderer.renderModel(model, matrixStack, vertexConsumerProvider, light, time, entity, null);
+        BBModelRenderer.renderModel(model, matrixStack, vertexConsumerProvider, light, time, entity, null, 1.0f, 1.0f, 1.0f, 1.0f);
 
         matrixStack.popPose();
     }
