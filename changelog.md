@@ -1,6 +1,7 @@
 # 0.7.4
 
 * Fixed issues with building
+* Fixed background not being dim in inventory
 
 # 0.7.3
 

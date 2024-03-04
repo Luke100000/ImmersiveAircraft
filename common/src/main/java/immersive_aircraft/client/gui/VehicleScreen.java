@@ -75,6 +75,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
     @Override
     public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+        renderBackground(context);
+
         drawCustomBackground(context);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
