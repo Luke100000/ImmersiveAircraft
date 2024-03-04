@@ -1,1 +1,0 @@
-This is a heavily modified and cropped version of https://github.com/seanrowens/oObjLoader

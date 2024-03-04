@@ -3,11 +3,14 @@ package immersive_aircraft.resources.bbmodel;
 import com.google.gson.JsonObject;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class BBAnimator {
-    Map<Channel, List<BBKeyframe>> frames = new EnumMap<>(Channel.class);
-    Map<Channel, int[]> frameLookup = new EnumMap<>(Channel.class);
+    final Map<Channel, List<BBKeyframe>> frames = new EnumMap<>(Channel.class);
+    final Map<Channel, int[]> frameLookup = new EnumMap<>(Channel.class);
 
     public BBAnimator(JsonObject element, BBAnimation animation) {
         element.getAsJsonArray("keyframes").forEach(entry -> {
@@ -42,13 +45,28 @@ public class BBAnimator {
     public Vector3f sample(BBAnimation animation, Channel channel, float time) {
         List<BBKeyframe> keyframes = frames.get(channel);
         if (keyframes.isEmpty()) {
-            return new Vector3f();
+            if (channel == Channel.SCALE) {
+                return new Vector3f(1, 1, 1);
+            } else {
+                return new Vector3f();
+            }
         }
-        time = time % animation.length;
+
+        if (animation.length == 0) {
+            time = 0.0f;
+        } else {
+            time = time % animation.length;
+        }
+
         int frameIndex = animation.toFrameIndex(time);
         int i = frameLookup.get(channel)[frameIndex];
         BBKeyframe first = keyframes.get(i);
         BBKeyframe second = keyframes.get((i + 1) % keyframes.size());
+
+        if (first.time == second.time) {
+            return first.evaluate();
+        }
+
         float delta = (time - first.time) / (second.time - first.time);
         Vector3f firstVector = first.evaluate();
         firstVector.mul(1 - delta);

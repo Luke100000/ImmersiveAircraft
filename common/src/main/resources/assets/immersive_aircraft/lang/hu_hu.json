@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Push Controller",
   "key.immersive_aircraft.multi_dismount": "Leszerelés",
   "key.immersive_aircraft.multi_boost": "Rocket boost",
+  "key.immersive_aircraft.multi_use": "Fegyverhasználat/mount",
   "key.immersive_aircraft.fallback_control_left": "Balra",
   "key.immersive_aircraft.fallback_control_right": "Jobbra",
   "key.immersive_aircraft.fallback_control_forward": "Előre",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Push Controller",
   "key.immersive_aircraft.fallback_dismount": "Leszerelés",
   "key.immersive_aircraft.fallback_boost": "Rocket boost",
+  "key.immersive_aircraft.fallback_use": "Fegyverhasználat/mount",
   "entity.immersive_aircraft.airship": "Léghajó",
   "entity.immersive_aircraft.cargo_airship": "Teherszállító léghajó",
   "entity.immersive_aircraft.biplane": "Kétfedelű repülőgép",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Égess üzemanyagot kreatív üzemmódban.",
   "option.immersive_aircraft.acceptVanillaFuel": "Fogadja el a vaníliás üzemanyagot.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Használj több kulcsot is, ez bizonyos modokat megtörhet.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "A motorszintmérő megjelenítése a hotbar fölött.",
   "option.immersive_aircraft.enableCrashExplosion": "Robbanás engedélyezése.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Pusztító robbanás engedélyezése.",
   "option.immersive_aircraft.enableCrashFire": "Tüzes robbanás lehetővé tétele.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% felszállási sebesség",
   "immersive_aircraft.upgrade.durability": "%s%% tartósság",
   "immersive_aircraft.upgrade.fuel": "%s%% üzemanyag-szükséglet",
-  "immersive_aircraft.upgrade.wind": "%s%% szélhatás"
+  "immersive_aircraft.upgrade.wind": "%s%% szélhatás",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizálás"
 }

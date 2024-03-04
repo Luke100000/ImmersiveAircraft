@@ -24,6 +24,11 @@
       "immersive_aircraft:woosh"
     ]
   },
+  "cannon": {
+    "sounds": [
+      "immersive_aircraft:cannon"
+    ]
+  },
   "repair": {
     "sounds": [
       "immersive_aircraft:repair_0",

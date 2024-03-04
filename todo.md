@@ -1,6 +1,5 @@
 # Todo
 
-* Sinking bubbles
 * Mouse movement
 * Separate controls for plane/hovercraft, not just engine
 * Better sounds

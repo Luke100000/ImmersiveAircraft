@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Valdiklis \"Push Controller",
   "key.immersive_aircraft.multi_dismount": "Išmontuokite",
   "key.immersive_aircraft.multi_boost": "Raketos padidinimas",
+  "key.immersive_aircraft.multi_use": "Naudoti ginklą / montuotę",
   "key.immersive_aircraft.fallback_control_left": "Kairėje pusėje",
   "key.immersive_aircraft.fallback_control_right": "Dešinė",
   "key.immersive_aircraft.fallback_control_forward": "Pirmyn",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Valdiklis \"Push Controller",
   "key.immersive_aircraft.fallback_dismount": "Išmontuokite",
   "key.immersive_aircraft.fallback_boost": "Raketos padidinimas",
+  "key.immersive_aircraft.fallback_use": "Naudoti ginklą / montuotę",
   "entity.immersive_aircraft.airship": "Dirižablis",
   "entity.immersive_aircraft.cargo_airship": "Krovininis dirižablis",
   "entity.immersive_aircraft.biplane": "Dvigubas lėktuvas",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Kūrybiniu režimu deginkite degalus.",
   "option.immersive_aircraft.acceptVanillaFuel": "Priimkite vanilinius degalus.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Naudokite daugkartinius keybindings, gali sugadinti tam tikrus modus.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Atvaizduokite variklio matuoklį virš karštosios juostos.",
   "option.immersive_aircraft.enableCrashExplosion": "Įgalinti sprogimą.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Įgalinkite griaunamąjį sprogimą.",
   "option.immersive_aircraft.enableCrashFire": "Įgalinti ugninį sprogimą.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% kilimo greitis",
   "immersive_aircraft.upgrade.durability": "%s%% ilgaamžiškumas",
   "immersive_aircraft.upgrade.fuel": "%s%% degalų poreikis",
-  "immersive_aircraft.upgrade.wind": "%s%% vėjo poveikis"
+  "immersive_aircraft.upgrade.wind": "%s%% vėjo poveikis",
+  "immersive_aircraft.upgrade.stabilizer": "%s% % stabilizavimas"
 }

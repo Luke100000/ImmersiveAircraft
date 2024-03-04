@@ -16,12 +16,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.CreativeModeTab;
 
 public final class CommonFabric implements ModInitializer {
-    @Override
-    public void onInitialize() {
+    static {
         new RegistrationImpl();
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
+    }
 
+    @Override
+    public void onInitialize() {
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();

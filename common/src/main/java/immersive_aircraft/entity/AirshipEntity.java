@@ -32,11 +32,6 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getStabilizer() {
-        return 0.1f;
-    }
-
-    @Override
     public Item asItem() {
         return Items.AIRSHIP.get();
     }
@@ -112,5 +107,10 @@ public class AirshipEntity extends Rotorcraft {
         tr.translate(new Vector3f(0.0f, 0.4f, -1.2f));
         tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 50.0f));
         trail(tr);
+    }
+
+    @Override
+    public double getZoom() {
+        return 5.0;
     }
 }

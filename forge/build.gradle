@@ -2,19 +2,20 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
     forge {
-        mixinConfig "immersive_aircraft.mixins.json"
-
+        convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-    }
-}
 
-architectury {
-    platformSetupLoomIde()
-    forge()
+        mixinConfig "immersive_aircraft.mixins.json"
+    }
 }
 
 configurations {
@@ -25,19 +26,11 @@ configurations {
     developmentForge.extendsFrom common
 }
 
-repositories {
-    maven { url "https://maven.terraformersmc.com/releases/" }
-    maven { url = "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url "https://maven.architectury.dev/" }
-    maven { url "https://maven.blamejared.com/" }
-    maven { url "https://modmaven.dev" }
-}
-
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
     forgeRuntimeLibrary 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+    include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
@@ -52,43 +45,36 @@ dependencies {
 
     // Required to run JEI
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:$rei_version"
+
+    // modCompileOnly "earth.terrarium.adastra:ad_astra-forge-$minecraft_version:${ad_astra_version}"
+    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-forge-$minecraft_version:${ad_astra_version}"
 }
 
 processResources {
+    inputs.property "version", project.version
+
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
-    inputs.property "META-INF/mods.toml", project.version
 }
 
 shadowJar {
     exclude "fabric.mod.json"
-    exclude "immersive_aircraft.accessWidener"
+    exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
-}
-
-jar {
-    classifier "dev"
 }
 
 sourcesJar {
-    afterEvaluate {
-        [":common"].forEach {
-            def depSources = project(it).sourcesJar
-            dependsOn depSources
-            from(depSources.archiveFile.map { zipTree(it) }) {
-                exclude "immersive_aircraft.accessWidener"
-            }
-        }
-    }
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
 }
 
 components.java {
@@ -105,5 +91,27 @@ afterEvaluate {
                 .replaceAll("@LOADER_MAJOR@", rootProject.forge_version.split("\\.")[0])
                 .replaceAll("@MINECRAFT_VERSION@", rootProject.architectury.minecraft)
                 .replaceAll("@FORGE_VERSION@", rootProject.forge_version)
+    }
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            groupId = rootProject.group_id
+            version = version + "+forge"
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "reposiliteRepository"
+            url = uri("https://maven.conczin.net/Artifacts")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
+        }
     }
 }

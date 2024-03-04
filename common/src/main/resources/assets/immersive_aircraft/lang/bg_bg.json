@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Контролер за натискане",
   "key.immersive_aircraft.multi_dismount": "Демонтиране на",
   "key.immersive_aircraft.multi_boost": "Ракетен тласък",
+  "key.immersive_aircraft.multi_use": "Използване на оръжие/монтаж",
   "key.immersive_aircraft.fallback_control_left": "Вляво",
   "key.immersive_aircraft.fallback_control_right": "Вдясно",
   "key.immersive_aircraft.fallback_control_forward": "Forward",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Контролер за натискане",
   "key.immersive_aircraft.fallback_dismount": "Демонтиране на",
   "key.immersive_aircraft.fallback_boost": "Ракетен тласък",
+  "key.immersive_aircraft.fallback_use": "Използване на оръжие/монтаж",
   "entity.immersive_aircraft.airship": "Дирижабъл",
   "entity.immersive_aircraft.cargo_airship": "Товарен дирижабъл",
   "entity.immersive_aircraft.biplane": "Двуплощник",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Изгаряйте гориво в творчески режим.",
   "option.immersive_aircraft.acceptVanillaFuel": "Приемете гориво от ванилия.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Използване на мулти-кейбинги, може да наруши някои модификации.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Изобразяване на манометъра на двигателя върху горещата лента.",
   "option.immersive_aircraft.enableCrashExplosion": "Разрешаване на експлозията.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Разрешаване на разрушителна експлозия.",
   "option.immersive_aircraft.enableCrashFire": "Възможност за огнена експлозия.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% скорост на излитане",
   "immersive_aircraft.upgrade.durability": "%s%% издръжливост",
   "immersive_aircraft.upgrade.fuel": "%s%% необходимост от гориво",
-  "immersive_aircraft.upgrade.wind": "%s%% ефект на вятъра"
+  "immersive_aircraft.upgrade.wind": "%s%% ефект на вятъра",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизиране"
 }

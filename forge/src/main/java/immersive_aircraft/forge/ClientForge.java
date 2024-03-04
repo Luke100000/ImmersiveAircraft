@@ -4,7 +4,6 @@ import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
-import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,7 +24,6 @@ public final class ClientForge {
 
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
-        RegistrationImpl.bootstrap();
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
     }

@@ -51,9 +51,6 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean enableTrails = true;
 
-    @BooleanConfigEntry(true)
-    public boolean enableAnimatedSails = true;
-
     @FloatConfigEntry(192.0f)
     public float renderDistance;
 
@@ -83,6 +80,9 @@ public final class Config extends JsonConfig {
 
     @BooleanConfigEntry(true)
     public boolean useCustomKeybindSystem;
+
+    @BooleanConfigEntry(true)
+    public boolean showHotbarEngineGauge;
 
     public Map<String, Integer> fuelList = Map.of(
             "minecraft:blaze_powder", 1200

@@ -38,10 +38,10 @@ public class ClientMain {
         Minecraft client = Minecraft.getInstance();
 
         // Only tick once per tick
-        if (client.level == null || client.level.getDayTime() == lastTime) {
+        if (client.level == null || client.level.getGameTime() == lastTime) {
             return;
         }
-        lastTime = client.level.getDayTime();
+        lastTime = client.level.getGameTime();
 
         // Toggle view when entering a vehicle
         if (Config.getInstance().separateCamera) {

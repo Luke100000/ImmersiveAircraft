@@ -1,3 +1,24 @@
+# 0.7.4
+
+* Fixed issues with building
+
+# 0.7.3
+
+* Added camera offset, especially for larger aircraft
+* Fixed cargo airship's sails
+* You can now exit every aircraft properly, and don't stand on its top
+
+# 0.7.2
+
+* Fixed negative modifiers not working as intended
+* Added rotary cannon sound
+* Creative players no longer require ammo
+* The gyroscope now also stabilizes the pitch
+* Updated icons (Thanks 김작업!)
+* Weapons now also work when daylight cycle is off
+* Fixed bullets being funky
+* Added fancy sinking bubbles
+
 # 0.7.1
 
 * TNT dropper now requires 0.2 TNT per shot, instead of 0.02 typo

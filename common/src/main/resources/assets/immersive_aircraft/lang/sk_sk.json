@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Ovládač Push",
   "key.immersive_aircraft.multi_dismount": "Demontáž",
   "key.immersive_aircraft.multi_boost": "Raketový impulz",
+  "key.immersive_aircraft.multi_use": "Použitie zbrane/montáže",
   "key.immersive_aircraft.fallback_control_left": "Vľavo",
   "key.immersive_aircraft.fallback_control_right": "Vpravo",
   "key.immersive_aircraft.fallback_control_forward": "Forward",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Ovládač Push",
   "key.immersive_aircraft.fallback_dismount": "Demontáž",
   "key.immersive_aircraft.fallback_boost": "Raketový impulz",
+  "key.immersive_aircraft.fallback_use": "Použitie zbrane/montáže",
   "entity.immersive_aircraft.airship": "Vzducholoď",
   "entity.immersive_aircraft.cargo_airship": "Nákladná vzducholoď",
   "entity.immersive_aircraft.biplane": "Dvojplošník",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Spaľte palivo v kreatívnom režime.",
   "option.immersive_aircraft.acceptVanillaFuel": "Prijmite vanilkové palivo.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Používajte viackľúčové väzby, môžu sa rozbiť niektoré módy.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Vykreslenie ukazovateľa motora nad horúcim panelom.",
   "option.immersive_aircraft.enableCrashExplosion": "Povolenie výbuchu.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Povolenie deštruktívnej explózie.",
   "option.immersive_aircraft.enableCrashFire": "Umožniť ohnivý výbuch.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% vzletová rýchlosť",
   "immersive_aircraft.upgrade.durability": "%s%% trvanlivosť",
   "immersive_aircraft.upgrade.fuel": "%s%% potreba paliva",
-  "immersive_aircraft.upgrade.wind": "%s%% vplyv vetra"
+  "immersive_aircraft.upgrade.wind": "%s%% vplyv vetra",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizácia"
 }

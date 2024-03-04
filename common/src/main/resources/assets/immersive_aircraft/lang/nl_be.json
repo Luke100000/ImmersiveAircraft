@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Drukregelaar",
   "key.immersive_aircraft.multi_dismount": "Verwijder",
   "key.immersive_aircraft.multi_boost": "Raketboost",
+  "key.immersive_aircraft.multi_use": "Gebruik wapen/bergplaats",
   "key.immersive_aircraft.fallback_control_left": "Links",
   "key.immersive_aircraft.fallback_control_right": "Rechts",
   "key.immersive_aircraft.fallback_control_forward": "Voorwaarts",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Drukregelaar",
   "key.immersive_aircraft.fallback_dismount": "Verwijder",
   "key.immersive_aircraft.fallback_boost": "Raketboost",
+  "key.immersive_aircraft.fallback_use": "Gebruik wapen/bergplaats",
   "entity.immersive_aircraft.airship": "Luchtschip",
   "entity.immersive_aircraft.cargo_airship": "Vracht Luchtschip",
   "entity.immersive_aircraft.biplane": "Tweedekker",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Verbrand brandstof in de creatieve modus.",
   "option.immersive_aircraft.acceptVanillaFuel": "Accepteer vanillebrandstof.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Gebruik multi-keybindings, kan bepaalde mods breken.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Geef de motormeter weer boven de hotbar.",
   "option.immersive_aircraft.enableCrashExplosion": "Explosie inschakelen.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Destructieve explosie inschakelen.",
   "option.immersive_aircraft.enableCrashFire": "Vurige explosie mogelijk maken.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% startsnelheid",
   "immersive_aircraft.upgrade.durability": "%s%% duurzaamheid",
   "immersive_aircraft.upgrade.fuel": "%s%% brandstofbehoefte",
-  "immersive_aircraft.upgrade.wind": "%s%% windeffect"
+  "immersive_aircraft.upgrade.wind": "%s%% windeffect",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseren"
 }

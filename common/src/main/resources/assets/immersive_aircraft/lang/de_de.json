@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Steuerhebel drücken",
   "key.immersive_aircraft.multi_dismount": "Absteigen",
   "key.immersive_aircraft.multi_boost": "Raketenschub",
+  "key.immersive_aircraft.multi_use": "Waffe/Mount verwenden",
   "key.immersive_aircraft.fallback_control_left": "Links",
   "key.immersive_aircraft.fallback_control_right": "Rechts",
   "key.immersive_aircraft.fallback_control_forward": "Vorwärts",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Steuerhebel drücken",
   "key.immersive_aircraft.fallback_dismount": "Absteigen",
   "key.immersive_aircraft.fallback_boost": "Raketenschub",
+  "key.immersive_aircraft.fallback_use": "Waffe/Mount verwenden",
   "entity.immersive_aircraft.airship": "Luftschiff",
   "entity.immersive_aircraft.cargo_airship": "Frachtluftschiff",
   "entity.immersive_aircraft.biplane": "Doppeldecker",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Verbrenne Treibstoff im Kreativmodus.",
   "option.immersive_aircraft.acceptVanillaFuel": "Akzeptiere Vanilla-Kraftstoff.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Verwende Mehrfach-Tastenbelegungen, dies kann aber andere Mods beeinflussen!",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Rendere die Motoranzeige über die Hotbar.",
   "option.immersive_aircraft.enableCrashExplosion": "Aktiviere die Explosion.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Aktiviere die zerstörerische Explosion.",
   "option.immersive_aircraft.enableCrashFire": "Aktiviere die feurige Explosion.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% Abfluggeschwindigkeit",
   "immersive_aircraft.upgrade.durability": "%s%% Haltbarkeit",
   "immersive_aircraft.upgrade.fuel": "%s%% Kraftstoffbedarf",
-  "immersive_aircraft.upgrade.wind": "%s%% Windeffekt"
+  "immersive_aircraft.upgrade.wind": "%s%% Windeffekt",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisierend"
 }

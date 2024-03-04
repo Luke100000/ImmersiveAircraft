@@ -14,7 +14,18 @@ public class AircraftProperties {
         this.vehicle = vehicle;
     }
 
+    /**
+     * Returns the base stat multiplied by the upgrade value.
+     * If the base value is 0, an upgrade has no effect, e.g., an aircraft without fuel consumption will never consume fuel.
+     */
     public float get(AircraftStat stat) {
         return baseValues.getOrDefault(stat, 0.0f) * vehicle.getTotalUpgrade(stat);
+    }
+
+    /**
+     * Returns the base stat + the upgrade value, used when absolut changes are needed like the stabilizer.
+     */
+    public float getAdditive(AircraftStat stat) {
+        return baseValues.getOrDefault(stat, 0.0f) + vehicle.getTotalUpgrade(stat) - 1.0f;
     }
 }

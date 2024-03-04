@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Push Controller",
   "key.immersive_aircraft.multi_dismount": "Demontāža",
   "key.immersive_aircraft.multi_boost": "Raķešu paātrinājums",
+  "key.immersive_aircraft.multi_use": "Izmantot ieroci/uzstādīt",
   "key.immersive_aircraft.fallback_control_left": "Kreisā",
   "key.immersive_aircraft.fallback_control_right": "Tiesības",
   "key.immersive_aircraft.fallback_control_forward": "Uz priekšu",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Push Controller",
   "key.immersive_aircraft.fallback_dismount": "Demontāža",
   "key.immersive_aircraft.fallback_boost": "Raķešu paātrinājums",
+  "key.immersive_aircraft.fallback_use": "Izmantot ieroci/uzstādīt",
   "entity.immersive_aircraft.airship": "Dirižablis",
   "entity.immersive_aircraft.cargo_airship": "Kravas dirižablis",
   "entity.immersive_aircraft.biplane": "Biplane",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Radošajā režīmā sadedzini degvielu.",
   "option.immersive_aircraft.acceptVanillaFuel": "Pieņem vaniļas degvielu.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Izmantot multi-keybindings, var sabojāt dažus modus.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Pārveidojiet motora rādītāju virs karstās joslas.",
   "option.immersive_aircraft.enableCrashExplosion": "Iespējot sprādzienu.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Iespējot destruktīvu sprādzienu.",
   "option.immersive_aircraft.enableCrashFire": "Iespējams ugunīgs sprādziens.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% pacelšanās ātrums",
   "immersive_aircraft.upgrade.durability": "%s%% ilgmūžība",
   "immersive_aircraft.upgrade.fuel": "%s%% degvielas nepieciešamība",
-  "immersive_aircraft.upgrade.wind": "%s%% vēja ietekme"
+  "immersive_aircraft.upgrade.wind": "%s%% vēja ietekme",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizē"
 }

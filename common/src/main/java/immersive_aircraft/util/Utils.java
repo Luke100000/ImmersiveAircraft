@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
 import net.minecraft.core.Holder;
@@ -19,6 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatterns;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Map;
@@ -121,5 +121,9 @@ public class Utils {
         Quaternionf quaternion = new Quaternionf();
         quaternion.rotationXYZ(yaw, pitch, roll);
         return quaternion;
+    }
+
+    public static Quaternionf fromXYZ(Vector3f rotation) {
+        return fromXYZ(rotation.x, rotation.y, rotation.z);
     }
 }

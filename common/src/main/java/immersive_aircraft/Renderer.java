@@ -11,7 +11,6 @@ public class Renderer {
         Registration.register(Entities.AIRSHIP.get(), AirshipEntityRenderer::new);
         Registration.register(Entities.CARGO_AIRSHIP.get(), CargoAirshipEntityRenderer::new);
         Registration.register(Entities.QUADROCOPTER.get(), QuadrocopterEntityRenderer::new);
-        Registration.register(Entities.BLIMP.get(), BlimpEntityRenderer::new);
 
         Registration.register(Entities.BULLET.get(), BulletEntityRenderer::new);
         Registration.register(Entities.TINY_TNT.get(), TinyTNTRenderer::new);

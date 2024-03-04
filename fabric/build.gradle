@@ -2,13 +2,13 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 configurations {
@@ -19,20 +19,12 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
-repositories {
-    maven { url "https://maven.terraformersmc.com/releases/" }
-    maven { url = "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url "https://maven.architectury.dev/" }
-    maven { url "https://maven.blamejared.com/" }
-    maven { url "https://modmaven.dev" }
-}
-
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+    include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
     modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") { transitive false }
 
@@ -50,48 +42,62 @@ dependencies {
     // Required to run REI
     //modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
+
+    // modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
+    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
 }
 
 processResources {
+    inputs.property "version", project.version
+
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
-    inputs.property "version", project.version
 }
 
 shadowJar {
-    exclude "architectury-common.accessWidener"
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
-}
-
-jar {
-    classifier "dev"
 }
 
 sourcesJar {
-    afterEvaluate {
-        [":common"].forEach {
-            def depSources = project(it).sourcesJar
-            dependsOn depSources
-            from(depSources.archiveFile.map { zipTree(it) }) {
-                exclude "immersive_aircraft.accessWidener"
-            }
-        }
-    }
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
 }
 
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            groupId = rootProject.group_id
+            version = version + "+fabric"
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "reposiliteRepository"
+            url = uri("https://maven.conczin.net/Artifacts")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
+        }
     }
 }

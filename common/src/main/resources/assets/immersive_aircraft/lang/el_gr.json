@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Ελεγκτής ώθησης",
   "key.immersive_aircraft.multi_dismount": "Αποσυναρμολόγηση",
   "key.immersive_aircraft.multi_boost": "Ενίσχυση πυραύλων",
+  "key.immersive_aircraft.multi_use": "Χρήση όπλου/εξάρτησης",
   "key.immersive_aircraft.fallback_control_left": "Αριστερά",
   "key.immersive_aircraft.fallback_control_right": "Δεξιά",
   "key.immersive_aircraft.fallback_control_forward": "Εμπρός",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Ελεγκτής ώθησης",
   "key.immersive_aircraft.fallback_dismount": "Αποσυναρμολόγηση",
   "key.immersive_aircraft.fallback_boost": "Ενίσχυση πυραύλων",
+  "key.immersive_aircraft.fallback_use": "Χρήση όπλου/εξάρτησης",
   "entity.immersive_aircraft.airship": "Αερόπλοιο",
   "entity.immersive_aircraft.cargo_airship": "Αερόπλοιο φορτίου",
   "entity.immersive_aircraft.biplane": "Διπλάνο",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Κάψτε καύσιμα στη δημιουργική λειτουργία.",
   "option.immersive_aircraft.acceptVanillaFuel": "Αποδεχτείτε καύσιμα βανίλιας.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Χρήση πολλαπλών συνδέσμων κλειδιών, μπορεί να σπάσει ορισμένα mods.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Αποδώστε το μετρητή κινητήρα πάνω από τη γραμμή θερμότητας.",
   "option.immersive_aircraft.enableCrashExplosion": "Ενεργοποίηση της έκρηξης.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Ενεργοποίηση καταστροφικής έκρηξης.",
   "option.immersive_aircraft.enableCrashFire": "Ενεργοποίηση πύρινης έκρηξης.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% ταχύτητα απογείωσης",
   "immersive_aircraft.upgrade.durability": "%s%% ανθεκτικότητα",
   "immersive_aircraft.upgrade.fuel": "%s%% απαίτηση καυσίμου",
-  "immersive_aircraft.upgrade.wind": "%s%% επίδραση του ανέμου"
+  "immersive_aircraft.upgrade.wind": "%s%% επίδραση του ανέμου",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% σταθεροποίηση"
 }

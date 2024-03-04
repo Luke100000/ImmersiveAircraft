@@ -1,5 +1,6 @@
 {
   "properties": {
+    "stabilizer": 0.1,
     "yawSpeed": 5.0,
     "engineSpeed": 0.02,
     "verticalSpeed": 0.025,
@@ -26,7 +27,7 @@
   "weaponMounts": [
     {
       "ROTATING": [
-        {"x": 0, "y": 0.3125, "z": 1.0}
+        {"x": 0, "y": 0.2875, "z": 1.001}
       ],
       "FRONT": [
         {"x": -0.5, "y": 0.25, "z": 0.0, "roll": 90},

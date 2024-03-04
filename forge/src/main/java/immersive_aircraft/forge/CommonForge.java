@@ -16,21 +16,24 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 @Mod(Main.MOD_ID)
 @Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Bus.MOD)
 public final class CommonForge {
+     static {
+        new RegistrationImpl();
+        new NetworkHandlerImpl();
+        new CobaltFuelRegistryImpl();
+    }
+
     public CommonForge() {
-        RegistrationImpl.bootstrap();
         DataLoaders.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();
         WeaponRegistry.bootstrap();
 
-        new NetworkHandlerImpl();
-        new CobaltFuelRegistryImpl();
-
         Messages.loadMessages();
 
         DEF_REG.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
+
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(CREATIVE_MODE_TAB, Main.MOD_ID);
 
     @SuppressWarnings("unused")

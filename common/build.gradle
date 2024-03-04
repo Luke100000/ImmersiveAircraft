@@ -1,35 +1,52 @@
-loom {
-    accessWidenerPath = file("src/main/resources/immersive_aircraft.accessWidener")
+architectury {
+    common(rootProject.enabled_platforms.split(","))
 }
 
-repositories {
-    maven { url "https://maven.terraformersmc.com/releases/" }
-    maven { url = "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://maven.shedaniel.me/" }
-    maven { url "https://maven.architectury.dev/" }
-    maven { url "https://maven.blamejared.com/" }
-    maven { url "https://modmaven.dev" }
+loom {
+    accessWidenerPath = file("src/main/resources/immersive_aircraft.accessWidener")
 }
 
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
 
     implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
-    modApi "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
+    modApi "com.terraformersmc:modmenu:${mod_menu_version}"
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_version}") {
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_version}") {
+        //noinspection GroovyAssignabilityCheck
         exclude(group: "net.fabricmc.fabric-api")
     }
 
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:$rei_version"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:${rei_version}"
+
+    // modCompileOnly "earth.terrarium.adastra:ad_astra-api-$minecraft_version:${ad_astra_version}-api"
+    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-common-$minecraft_version:${ad_astra_version}"
 }
 
-architectury {
-    common(true)
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            groupId = rootProject.group_id
+            version = version + "+common"
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "reposiliteRepository"
+            url = uri("https://maven.conczin.net/Artifacts")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_TOKEN")
+            }
+        }
+    }
 }

@@ -15,6 +15,7 @@ import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -105,6 +106,7 @@ public abstract class VehicleEntity extends Entity {
     public double secondLastZ;
 
     public boolean adaptPlayerRotation = true;
+    private int drowning;
 
     public float getRoll() {
         return roll;
@@ -410,26 +412,37 @@ public abstract class VehicleEntity extends Entity {
     private void tickDamageParticles() {
         if (level().isClientSide && random.nextFloat() > getHealth()) {
             // Damage particles
-            List<AABB> additionalShapes = getAdditionalShapes();
-            if (!additionalShapes.isEmpty()) {
-                AABB shape = additionalShapes.get(random.nextInt(additionalShapes.size()));
+            List<AABB> shapes = getShapes();
+            AABB shape = shapes.get(random.nextInt(shapes.size()));
+            Vec3 center = shape.getCenter();
+            double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
+            double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
+            double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
+
+            Vec3 speed = getSpeedVector();
+            level().addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
+            if (getHealth() < 0.5) {
+                level().addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
+            }
+        }
+
+        // Drowning particles
+        if (isUnderWater() && drowning < 200) {
+            drowning++;
+
+            for (AABB shape : getShapes()) {
                 Vec3 center = shape.getCenter();
                 double x = center.x + shape.getXsize() * (random.nextDouble() - 0.5) * 1.5;
                 double y = center.y + shape.getYsize() * (random.nextDouble() - 0.5) * 1.5;
                 double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
-
-                Vec3 speed = getSpeedVector();
-                level().addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
-                if (getHealth() < 0.5) {
-                    level().addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
-                }
+                this.level().addParticle(ParticleTypes.BUBBLE, x, y, z, 0.0, 0.0, 0.0);
             }
         }
     }
 
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
-            if (entity instanceof Player player) {
+            if (entity instanceof LocalPlayer player) {
                 if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
                     player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
                 }
@@ -547,41 +560,40 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private Vec3 getDismountOffset(double vehicleWidth, double passengerWidth) {
-        double d = (vehicleWidth + passengerWidth + (double) 1.0E-5f) / 2.0;
+        double offset = (vehicleWidth + passengerWidth + (double) 1.0E-5f) / 2.0;
         float yaw = getYRot() + 90.0f;
-        float f = -Mth.sin(yaw * ((float) Math.PI / 180));
-        float g = Mth.cos(yaw * ((float) Math.PI / 180));
-        float h = Math.max(Math.abs(f), Math.abs(g));
-        return new Vec3((double) f * d / (double) h, 0.0, (double) g * d / (double) h);
+        float x = -Mth.sin(yaw * ((float) Math.PI / 180));
+        float z = Mth.cos(yaw * ((float) Math.PI / 180));
+        float n = Math.max(Math.abs(x), Math.abs(z));
+        return new Vec3((double) x * offset / (double) n, 0.0, (double) z * offset / (double) n);
     }
 
     @Override
-    public Vec3 getDismountLocationForPassenger(@NotNull LivingEntity passenger) {
-        if (getDeltaMovement().lengthSqr() < 0.1f) {
-            double e;
-            Vec3 vec3d = getDismountOffset(getBbWidth() * Mth.SQRT_OF_TWO, passenger.getBbWidth());
-            double d = getX() + vec3d.x;
-            BlockPos blockPos = BlockPos.containing(d, getBoundingBox().maxY, e = getZ() + vec3d.z);
-            BlockPos blockPos2 = blockPos.below();
-            if (!level().isWaterAt(blockPos2)) {
-                double g;
-                ArrayList<Vec3> list = Lists.newArrayList();
-                double f = level().getBlockFloorHeight(blockPos);
-                if (DismountHelper.isBlockFloorValid(f)) {
-                    list.add(new Vec3(d, (double) blockPos.getY() + f, e));
-                }
-                if (DismountHelper.isBlockFloorValid(g = level().getBlockFloorHeight(blockPos2))) {
-                    list.add(new Vec3(d, (double) blockPos2.getY() + g, e));
-                }
-                for (Pose entityPose : passenger.getDismountPoses()) {
-                    for (Vec3 vec3d2 : list) {
-                        if (!DismountHelper.canDismountTo(level(), vec3d2, passenger, entityPose)) continue;
-                        passenger.setPose(entityPose);
-                        return vec3d2;
-                    }
+    public Vec3 getDismountLocationForPassenger(LivingEntity passenger) {
+        Vec3 vec3d = getDismountOffset(getBbWidth() * Mth.SQRT_OF_TWO, passenger.getBbWidth() * Mth.SQRT_OF_TWO);
+        double ox = getX() + vec3d.x;
+        double oz = getZ() + vec3d.z;
+        BlockPos exitPos = new BlockPos((int) ox, (int) getY(), (int) oz);
+        BlockPos floorPos = exitPos.below();
+        if (!level().isWaterAt(floorPos)) {
+            ArrayList<Vec3> list = Lists.newArrayList();
+            double exitHeight = level().getBlockFloorHeight(exitPos);
+            if (DismountHelper.isBlockFloorValid(exitHeight)) {
+                list.add(new Vec3(ox, (double) exitPos.getY() + exitHeight, oz));
+            }
+            double floorHeight = level().getBlockFloorHeight(floorPos);
+            if (DismountHelper.isBlockFloorValid(floorHeight)) {
+                list.add(new Vec3(ox, (double) floorPos.getY() + floorHeight, oz));
+            }
+            for (Pose entityPose : passenger.getDismountPoses()) {
+                for (Vec3 vec3d2 : list) {
+                    if (!DismountHelper.canDismountTo(level(), vec3d2, passenger, entityPose)) continue;
+                    passenger.setPose(entityPose);
+                    return vec3d2;
                 }
             }
         }
+
         return super.getDismountLocationForPassenger(passenger);
     }
 
@@ -859,7 +871,30 @@ public abstract class VehicleEntity extends Entity {
         return AircraftDataLoader.get(identifier).getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
     }
 
+    public List<AABB> getShapes() {
+        List<AABB> shapes = new ArrayList<>(getAdditionalShapes());
+        shapes.add(getBoundingBox());
+        return shapes;
+    }
+
     public Vec3 getSpeedVector() {
         return new Vec3((lastX - secondLastX) / 10.0f, (lastY - secondLastY) / 10.0f, (lastZ - secondLastZ) / 10.0f);
+    }
+
+    public boolean isPilotCreative() {
+        return getControllingPassenger() instanceof Player player && player.isCreative();
+    }
+
+    public double getZoom() {
+        return 0.0;
+    }
+
+    @Override
+    public AABB getBoundingBoxForCulling() {
+        AABB box = super.getBoundingBoxForCulling();
+        for (AABB additionalShape : getAdditionalShapes()) {
+            box = box.minmax(additionalShape);
+        }
+        return box;
     }
 }
