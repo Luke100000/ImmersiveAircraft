@@ -1,3 +1,7 @@
+# 0.7.4
+
+* Fixed issues with building
+
 # 0.7.3
 
 * Added camera offset, especially for larger aircraft
