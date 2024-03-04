@@ -25,7 +25,7 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:${rei_version}"
 
-    // modCompileOnly "earth.terrarium.adastra:ad_astra-api-$minecraft_version:${ad_astra_version}-api"
+    modCompileOnly "earth.terrarium.adastra:ad_astra-common-$minecraft_version:${ad_astra_version}"
     // modRuntimeOnly "earth.terrarium.adastra:ad_astra-common-$minecraft_version:${ad_astra_version}"
 }
 

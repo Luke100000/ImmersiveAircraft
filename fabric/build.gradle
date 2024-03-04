@@ -43,7 +43,7 @@ dependencies {
     //modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
 
-    // modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
+    modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
     // modRuntimeOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
 }
 

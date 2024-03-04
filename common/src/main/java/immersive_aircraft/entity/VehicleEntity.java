@@ -507,7 +507,7 @@ public abstract class VehicleEntity extends Entity {
     protected abstract void updateVelocity();
 
     protected float getGravity() {
-        return -0.04f;
+        return -0.04f;// * GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition()));
     }
 
     protected abstract void updateController();
