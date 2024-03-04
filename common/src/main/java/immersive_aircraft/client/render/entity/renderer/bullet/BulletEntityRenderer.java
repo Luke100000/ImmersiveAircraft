@@ -27,6 +27,7 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
         matrixStack.pushPose();
         float scale = entity.getScale();
         matrixStack.scale(scale, scale, scale);
+        matrixStack.translate(0.0, 0.5, 0.0);
         matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         matrixStack.mulPose(Axis.YP.rotationDegrees(180.0f));
         PoseStack.Pose pose = matrixStack.last();

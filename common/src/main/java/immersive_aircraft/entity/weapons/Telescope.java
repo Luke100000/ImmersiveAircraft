@@ -1,12 +1,12 @@
 package immersive_aircraft.entity.weapons;
 
+import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
-import immersive_aircraft.util.Utils;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class Telescope extends Weapon {
@@ -37,13 +37,6 @@ public class Telescope extends Weapon {
         // pass
     }
 
-    public Quaternionf getHeadTransform(float tickDelta) {
-        Quaternionf quaternion = Utils.fromXYZ(0.0f, 0.0f, (float) (-getEntity().getRoll(tickDelta) / 180.0 * Math.PI));
-        quaternion.mul(Utils.fromXYZ(0.0f, -rotationalManager.getYaw(tickDelta), 0.0f));
-        quaternion.mul(Utils.fromXYZ(rotationalManager.getPitch(tickDelta), 0.0f, 0.0f));
-        return quaternion;
-    }
-
     @Override
     public void clientFire(int index) {
         Entity pilot = getEntity().getControllingPassenger();
@@ -56,5 +49,13 @@ public class Telescope extends Weapon {
 
     public Boolean isScoping() {
         return lastFireTick > 0;
+    }
+
+    @Override
+    public <T extends AircraftEntity> void setAnimationVariables(T entity, float time) {
+        float tickDelta = time % 1.0f;
+        BBAnimationVariables.set("pitch", (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
+        BBAnimationVariables.set("yaw", (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));
+        BBAnimationVariables.set("roll", (float) (rotationalManager.getRoll(tickDelta) / Math.PI * 180.0f));
     }
 }

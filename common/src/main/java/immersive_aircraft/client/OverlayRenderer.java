@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class OverlayRenderer extends GuiComponent {
-    static OverlayRenderer INSTANCE = new OverlayRenderer();
+    static final OverlayRenderer INSTANCE = new OverlayRenderer();
 
     private static final ResourceLocation ENGINE_TEX = Main.locate("textures/gui/engine.png");
     private static final ResourceLocation POWER_TEX = Main.locate("textures/gui/power.png");
@@ -23,7 +23,7 @@ public class OverlayRenderer extends GuiComponent {
     public static void renderOverlay(PoseStack matrices, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
         if (!client.options.hideGui && client.gameMode != null && client.player != null) {
-            if (client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
+            if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
                 INSTANCE.renderAircraftGui(client, matrices, tickDelta, aircraft);
             }
             if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {

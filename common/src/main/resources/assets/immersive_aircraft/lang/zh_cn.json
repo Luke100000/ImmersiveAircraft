@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "推动控制杆",
   "key.immersive_aircraft.multi_dismount": "离开载具",
   "key.immersive_aircraft.multi_boost": "火箭助推",
+  "key.immersive_aircraft.multi_use": "使用武器/坐骑",
   "key.immersive_aircraft.fallback_control_left": "向左移动",
   "key.immersive_aircraft.fallback_control_right": "向右移动",
   "key.immersive_aircraft.fallback_control_forward": "向前移动",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "推动控制杆",
   "key.immersive_aircraft.fallback_dismount": "离开载具",
   "key.immersive_aircraft.fallback_boost": "火箭助推",
+  "key.immersive_aircraft.fallback_use": "使用武器/坐骑",
   "entity.immersive_aircraft.airship": "飞艇",
   "entity.immersive_aircraft.cargo_airship": "货运飞船",
   "entity.immersive_aircraft.biplane": "双翼机",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "在创造模式中燃烧燃料",
   "option.immersive_aircraft.acceptVanillaFuel": "接受原生燃料。",
   "option.immersive_aircraft.useCustomKeybindSystem": "使用多按键绑定可能导致某些模组出现问题。",
+  "option.immersive_aircraft.showHotbarEngineGauge": "在热栏上渲染引擎仪表。",
   "option.immersive_aircraft.enableCrashExplosion": "启用爆炸。",
   "option.immersive_aircraft.enableCrashBlockDestruction": "启用破坏性爆炸。",
   "option.immersive_aircraft.enableCrashFire": "使炽热的爆炸成为可能。",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% 起飞速度",
   "immersive_aircraft.upgrade.durability": "%s%% 耐久度",
   "immersive_aircraft.upgrade.fuel": "%s%% 燃料消耗",
-  "immersive_aircraft.upgrade.wind": "%s%% 风的影响"
+  "immersive_aircraft.upgrade.wind": "%s%% 风的影响",
+  "immersive_aircraft.upgrade.stabilizer": "%s%%稳定"
 }

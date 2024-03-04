@@ -9,8 +9,6 @@ import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 
 public class ClientNetworkManager implements NetworkManager {
@@ -44,9 +42,6 @@ public class ClientNetworkManager implements NetworkManager {
         ClientLevel level = Minecraft.getInstance().level;
 
         if (level != null) {
-            // Sound
-            level.playLocalSound(fireResponse.x, fireResponse.y, fireResponse.z, SoundEvents.CROSSBOW_SHOOT, SoundSource.NEUTRAL, 1.0f, 1.0f, true);
-
             // Particles
             RandomSource random = level.getRandom();
             double r = 0.1;

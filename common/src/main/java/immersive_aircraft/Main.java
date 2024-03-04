@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mariuszgromada.math.mxparser.License;
 
 public final class Main {
     public static final String SHORT_MOD_ID = "ic_air";
@@ -13,6 +14,10 @@ public final class Main {
     public static NetworkManager networkManager;
     public static CameraGetter cameraGetter = () -> Vec3.ZERO;
     public static FirstPersonGetter firstPersonGetter = () -> false;
+
+    static {
+        License.iConfirmNonCommercialUse("Conczin");
+    }
 
     public static ResourceLocation locate(String path) {
         return new ResourceLocation(MOD_ID, path);

@@ -6,6 +6,7 @@ import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.item.upgrade.AircraftStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.chat.Component;
@@ -15,7 +16,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -76,14 +76,6 @@ public abstract class EngineAircraft extends AircraftEntity {
         return 1.0f;
     }
 
-    protected float getStabilizer() {
-        return 0.0f;
-    }
-
-    protected float getBaseFuelConsumption() {
-        return 0.75f;
-    }
-
     protected float getEngineReactionSpeed() {
         return 20.0f;
     }
@@ -102,7 +94,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.tick();
 
         // adapt engine reaction time
-        enginePower.setSteps(getEngineReactionSpeed() / getTotalUpgrade(AircraftStat.ACCELERATION));
+        enginePower.setSteps(getEngineReactionSpeed() / getProperties().get(AircraftStat.ACCELERATION));
 
         // spin up the engine
         enginePower.update(getEngineTarget() * (wasTouchingWater ? 0.1f : 1.0f));
@@ -172,6 +164,10 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     protected boolean isFuelLow() {
+        if (!Config.getInstance().burnFuelInCreative && isPilotCreative()) {
+            return false;
+        }
+
         if (level.isClientSide) {
             return entityData.get(LOW_ON_FUEL);
         } else {
@@ -192,12 +188,12 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     float getFuelConsumption() {
-        return getEngineTarget() * getTotalUpgrade(AircraftStat.FUEL) * getBaseFuelConsumption() * Config.getInstance().fuelConsumption;
+        return getEngineTarget() * getProperties().get(AircraftStat.FUEL) * Config.getInstance().fuelConsumption;
     }
 
     private void refuel(int i) {
-        while (fuel[i] <= TARGET_FUEL) {
-            List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
+        List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
+        while (fuel[i] <= TARGET_FUEL && i < slots.size()) {
             ItemStack stack = getInventory().getItem(slots.get(i).index());
             int time = Utils.getFuelTime(stack);
             if (time > 0) {
@@ -205,8 +201,8 @@ public abstract class EngineAircraft extends AircraftEntity {
                 Item item = stack.getItem();
                 stack.shrink(1);
                 if (stack.isEmpty()) {
-                    Item item2 = item.getCraftingRemainingItem();
-                    getInventory().setItem(slots.get(i).index(), item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
+                    Item remainingItem = item.getCraftingRemainingItem();
+                    getInventory().setItem(slots.get(i).index(), remainingItem == null ? ItemStack.EMPTY : new ItemStack(remainingItem));
                 }
             } else {
                 break;
@@ -229,7 +225,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (!onGround) {
             setXRot(getXRot() + getProperties().get(AircraftStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
-        setXRot(getXRot() * (1.0f - getStabilizer()));
+        setXRot(getXRot() * (1.0f - getProperties().getAdditive(AircraftStat.STABILIZER)));
     }
 
     @Override
@@ -268,7 +264,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         if (Config.getInstance().fuelConsumption == 0) {
             return 1.0f;
         }
-        if (!Config.getInstance().burnFuelInCreative && getControllingPassenger() instanceof Player player && player.isCreative()) {
+        if (!Config.getInstance().burnFuelInCreative && isPilotCreative()) {
             return 1.0f;
         }
         if (level.isClientSide) {
@@ -284,5 +280,12 @@ public abstract class EngineAircraft extends AircraftEntity {
             entityData.set(UTILIZATION, utilization);
             return utilization;
         }
+    }
+
+    @Override
+    public void setAnimationVariables(float tickDelta) {
+        super.setAnimationVariables(tickDelta);
+
+        BBAnimationVariables.set("engine_rotation", engineRotation.getSmooth(tickDelta));
     }
 }

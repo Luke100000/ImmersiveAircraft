@@ -55,7 +55,7 @@ public class RotationalManager {
     public Matrix3f getCamera(VehicleEntity vehicle, Entity pilot) {
         Matrix3f camera = new Matrix3f();
 
-        if (Main.firstPersonGetter.isFirstPerson()) {
+        if (vehicle.adaptPlayerRotation && Main.firstPersonGetter.isFirstPerson()) {
             camera.rotate(Axis.ZP.rotationDegrees(vehicle.getRoll()));
             camera.rotate(Axis.XP.rotationDegrees(vehicle.getXRot()));
         }

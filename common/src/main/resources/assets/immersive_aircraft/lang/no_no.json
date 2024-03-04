@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Trykk styreenhet",
   "key.immersive_aircraft.multi_dismount": "Stiga av",
   "key.immersive_aircraft.multi_boost": "Rakettforsterkning",
+  "key.immersive_aircraft.multi_use": "Bruk våpen/feste",
   "key.immersive_aircraft.fallback_control_left": "Venstre",
   "key.immersive_aircraft.fallback_control_right": "Høyre",
   "key.immersive_aircraft.fallback_control_forward": "Forover",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Trykk styreenhet",
   "key.immersive_aircraft.fallback_dismount": "Stiga av",
   "key.immersive_aircraft.fallback_boost": "Rakettforsterkning",
+  "key.immersive_aircraft.fallback_use": "Bruk våpen/feste",
   "entity.immersive_aircraft.airship": "Luftskip",
   "entity.immersive_aircraft.cargo_airship": "Lasteluftskip",
   "entity.immersive_aircraft.biplane": "Biplan",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Brenn drivstoff i kreativ modus",
   "option.immersive_aircraft.acceptVanillaFuel": "Tillat vanilladrivstoff",
   "option.immersive_aircraft.useCustomKeybindSystem": "Bruk flere tastebindinger (kan ødelegge noen modder)",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Gjengi motormåleren over hotbaren.",
   "option.immersive_aircraft.enableCrashExplosion": "Aktiver eksplosjon.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Aktiver destruktiv eksplosjon.",
   "option.immersive_aircraft.enableCrashFire": "Aktiver brennende eksplosjon.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% starthastighet",
   "immersive_aircraft.upgrade.durability": "%s% % holdbarhet",
   "immersive_aircraft.upgrade.fuel": "%s% % drivstoffbehov",
-  "immersive_aircraft.upgrade.wind": "%s%% vindpåvirkning"
+  "immersive_aircraft.upgrade.wind": "%s%% vindpåvirkning",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliserende"
 }

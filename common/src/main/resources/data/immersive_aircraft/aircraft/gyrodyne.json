@@ -1,5 +1,6 @@
 {
   "properties": {
+    "stabilizer": 0.3,
     "yawSpeed": 5.0,
     "pitchSpeed": 5.0,
     "engineSpeed": 0.3,
@@ -45,5 +46,13 @@
     ]
   ],
   "boundingBoxes": [
+    {"width": 1.0, "height": 0.1, "x": 1.0, "y": 0.25, "z": 0.125},
+    {"width": 1.0, "height": 0.1, "x": 1.85, "y": 0.25, "z": 0.125},
+    {"width": 1.0, "height": 0.1, "x": 0.0, "y": 0.25, "z": 0.125},
+    {"width": 1.0, "height": 0.1, "x": -1.0, "y": 0.25, "z": 0.125},
+    {"width": 1.0, "height": 0.1, "x": -1.85, "y": 0.25, "z": 0.125},
+    {"width": 0.8, "height": 0.4, "x": 0.0, "y": 0.2, "z": 1.1},
+    {"width": 0.4, "height": 0.3, "x": 0.0, "y": 0.15, "z": 1.6},
+    {"width": 0.4, "height": 0.3, "x": 0.0, "y": 0.15, "z": 2.1}
   ]
 }

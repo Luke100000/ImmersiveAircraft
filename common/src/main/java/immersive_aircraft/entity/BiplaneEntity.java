@@ -19,23 +19,18 @@ public class BiplaneEntity extends AirplaneEntity {
         super(entityType, world, true);
     }
 
-    @Override
-    protected float getBaseFuelConsumption() {
-        return 1.25f;
-    }
-
     private final List<Trail> trails = List.of(new Trail(40), new Trail(40));
 
     public List<Trail> getTrails() {
         return trails;
     }
 
-    private void trail(Matrix4f transform, int index, float x, float y, float z) {
+    protected void trail(Matrix4f transform, int index, float x, float y, float z) {
         Vector4f p0 = transformPosition(transform, x, y - 0.15f, z);
         Vector4f p1 = transformPosition(transform, x, y + 0.15f, z);
 
         float trailStrength = Math.max(0.0f, Math.min(1.0f, (float) (Math.sqrt(getDeltaMovement().length()) * (0.5f + (pressingInterpolatedX.getSmooth() * x) * 0.025f) - 0.25f)));
-        trails.get(index).add(p0, p1, trailStrength);
+        getTrails().get(index).add(p0, p1, trailStrength);
     }
 
     @Override
@@ -69,5 +64,10 @@ public class BiplaneEntity extends AirplaneEntity {
                 trails.get(1).add(ZERO_VEC4, ZERO_VEC4, 0.0f);
             }
         }
+    }
+
+    @Override
+    public double getZoom() {
+        return 3.0;
     }
 }

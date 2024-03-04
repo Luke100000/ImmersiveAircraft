@@ -14,6 +14,7 @@ public interface Sounds {
     Supplier<SoundEvent> PROPELLER_TINY = register("propeller_tiny");
     Supplier<SoundEvent> WOOSH = register("woosh");
     Supplier<SoundEvent> REPAIR = register("repair");
+    Supplier<SoundEvent> CANNON = register("cannon");
 
     static void bootstrap() {
     }

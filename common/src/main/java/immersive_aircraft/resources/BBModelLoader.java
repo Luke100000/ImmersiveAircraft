@@ -22,9 +22,8 @@ import java.util.Map;
 public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLocation, JsonElement>> {
     protected static final int PATH_SUFFIX_LENGTH = 8;
     protected static final int PATH_PREFIX_LENGTH = 8;
-    protected static final ResourceLocation ID = Main.locate("objects");
 
-    public static final Map<ResourceLocation, BBModel> objects = new HashMap<>();
+    public static final Map<ResourceLocation, BBModel> MODELS = new HashMap<>();
     private final Gson gson;
 
     public BBModelLoader() {
@@ -42,10 +41,7 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLo
                 BufferedReader reader = entry.getValue().openAsReader();
                 try {
                     JsonElement jsonElement = GsonHelper.fromJson(this.gson, reader, JsonElement.class);
-                    if (jsonElement != null) {
-                        map.put(id, jsonElement);
-                    }
-                    Main.LOGGER.error("Couldn't load data file {} from {} as it's null or empty", id, location);
+                    map.put(id, jsonElement);
                 } finally {
                     ((Reader) reader).close();
                 }
@@ -58,9 +54,8 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLo
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager resourceManager, ProfilerFiller profiler) {
-        objects.clear();
-        jsonMap.forEach((identifier, jsonElement) -> {
-            objects.put(identifier, new BBModel(jsonElement.getAsJsonObject()));
-        });
+        MODELS.clear();
+        jsonMap.forEach((identifier, jsonElement) -> MODELS.put(identifier, new BBModel(jsonElement.getAsJsonObject(), identifier)));
+        System.out.printf("Loaded %d BBModels\n", MODELS.size());
     }
 }

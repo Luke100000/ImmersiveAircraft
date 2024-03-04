@@ -8,6 +8,7 @@ import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.weapons.Telescope;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.Utils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public abstract class AircraftEntity extends InventoryVehicleEntity {
     private final AircraftProperties properties;
-    private float lastY;
+    protected double lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
@@ -73,13 +74,13 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
     // Considers gravity and upgrades to modify decay
     protected float falloffGroundVelocityDecay(float original) {
         float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
-        float upgrade = Math.min(1.0f, getTotalUpgrade(AircraftStat.ACCELERATION) * 0.5f);
+        float upgrade = Math.min(1.0f, getProperties().get(AircraftStat.ACCELERATION) * 0.5f);
         return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }
 
     @Override
     protected void updateVelocity() {
-        float decay = 1.0f - 0.015f * getTotalUpgrade(AircraftStat.FRICTION);
+        float decay = 1.0f - getProperties().get(AircraftStat.FRICTION);
         float gravity = getGravity();
         if (wasTouchingWater) {
             gravity *= 0.25f;
@@ -159,6 +160,12 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
             }
         }
         return false;
+    }
+
+    public void setAnimationVariables(float tickDelta) {
+        BBAnimationVariables.set("pressing_interpolated_x", pressingInterpolatedX.getSmooth(tickDelta));
+        BBAnimationVariables.set("pressing_interpolated_y", pressingInterpolatedY.getSmooth(tickDelta));
+        BBAnimationVariables.set("pressing_interpolated_z", pressingInterpolatedZ.getSmooth(tickDelta));
     }
 }
 

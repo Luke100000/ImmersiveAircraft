@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "コントローラーを押す",
   "key.immersive_aircraft.multi_dismount": "降りる",
   "key.immersive_aircraft.multi_boost": "ロケットブーストー",
+  "key.immersive_aircraft.multi_use": "武器/マウントの使用",
   "key.immersive_aircraft.fallback_control_left": "左",
   "key.immersive_aircraft.fallback_control_right": "右",
   "key.immersive_aircraft.fallback_control_forward": "前進",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "コントローラーを押す",
   "key.immersive_aircraft.fallback_dismount": "降りる",
   "key.immersive_aircraft.fallback_boost": "ロケットブーストー",
+  "key.immersive_aircraft.fallback_use": "武器/マウントの使用",
   "entity.immersive_aircraft.airship": "飛行船",
   "entity.immersive_aircraft.cargo_airship": "貨物飛行船",
   "entity.immersive_aircraft.biplane": "複葉機",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "クリエイティブモードで燃料を燃やす",
   "option.immersive_aircraft.acceptVanillaFuel": "バニラ燃料を許可する",
   "option.immersive_aircraft.useCustomKeybindSystem": "複数のキー割り当てを使用する（一部のmodが壊れる可能性がある）",
+  "option.immersive_aircraft.showHotbarEngineGauge": "エンジンゲージをホットバーの上に表示する。",
   "option.immersive_aircraft.enableCrashExplosion": "爆発を有効にする。",
   "option.immersive_aircraft.enableCrashBlockDestruction": "破壊的な爆発を可能にする。",
   "option.immersive_aircraft.enableCrashFire": "燃えるような爆発を可能にする。",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%%離陸速度",
   "immersive_aircraft.upgrade.durability": "%s%%耐久値",
   "immersive_aircraft.upgrade.fuel": "%s%%必要な燃料",
-  "immersive_aircraft.upgrade.wind": "%s%%風影響"
+  "immersive_aircraft.upgrade.wind": "%s%%風影響",
+  "immersive_aircraft.upgrade.stabilizer": "%s安定化"
 }

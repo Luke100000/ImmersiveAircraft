@@ -53,7 +53,7 @@ public class JsonConfig {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(this, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.LOGGER.error(e);
         }
     }
 

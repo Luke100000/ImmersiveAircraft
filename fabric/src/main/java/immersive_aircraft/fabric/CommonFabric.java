@@ -13,12 +13,14 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class CommonFabric implements ModInitializer {
-    @Override
-    public void onInitialize() {
+    static {
         new RegistrationImpl();
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
+    }
 
+    @Override
+    public void onInitialize() {
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();

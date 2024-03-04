@@ -17,11 +17,6 @@ public class CargoAirshipEntity extends AirshipEntity {
     }
 
     @Override
-    protected float getBaseFuelConsumption() {
-        return 1.25f;
-    }
-
-    @Override
     public Item asItem() {
         return Items.CARGO_AIRSHIP.get();
     }

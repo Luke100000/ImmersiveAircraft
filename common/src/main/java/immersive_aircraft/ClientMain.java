@@ -32,8 +32,16 @@ public class ClientMain {
     private static boolean isInVehicle;
     private static CameraType lastPerspective;
 
+    private static long lastTime;
+
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
+
+        // Only tick once per tick
+        if (client.level == null || client.level.getGameTime() == lastTime) {
+            return;
+        }
+        lastTime = client.level.getGameTime();
 
         // Toggle view when entering a vehicle
         if (Config.getInstance().separateCamera) {

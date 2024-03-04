@@ -10,6 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "Нажимной контроллер",
   "key.immersive_aircraft.multi_dismount": "Демонтаж",
   "key.immersive_aircraft.multi_boost": "Ракетный форсаж",
+  "key.immersive_aircraft.multi_use": "Используй оружие/маунт",
   "key.immersive_aircraft.fallback_control_left": "Слева",
   "key.immersive_aircraft.fallback_control_right": "Правильно",
   "key.immersive_aircraft.fallback_control_forward": "Вперед",
@@ -20,6 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "Нажимной контроллер",
   "key.immersive_aircraft.fallback_dismount": "Демонтаж",
   "key.immersive_aircraft.fallback_boost": "Ракетный форсаж",
+  "key.immersive_aircraft.fallback_use": "Используй оружие/маунт",
   "entity.immersive_aircraft.airship": "Дирижабль",
   "entity.immersive_aircraft.cargo_airship": "Грузовой дирижабль",
   "entity.immersive_aircraft.biplane": "Кукурузник",
@@ -85,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Сжигай топливо в творческом режиме.",
   "option.immersive_aircraft.acceptVanillaFuel": "Прими ванильное топливо.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Используй многоключевые привязки, может сломать некоторые моды.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Изобразите индикатор двигателя над хотбаром.",
   "option.immersive_aircraft.enableCrashExplosion": "Включи взрыв.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Включи разрушительный взрыв.",
   "option.immersive_aircraft.enableCrashFire": "Включи огненный взрыв.",
@@ -104,5 +107,6 @@
   "immersive_aircraft.upgrade.acceleration": "%s%% взлетной скорости",
   "immersive_aircraft.upgrade.durability": "%s%% долговечность",
   "immersive_aircraft.upgrade.fuel": "%s%% потребность в топливе",
-  "immersive_aircraft.upgrade.wind": "%s%% эффект ветра"
+  "immersive_aircraft.upgrade.wind": "%s%% эффект ветра",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизации"
 }
