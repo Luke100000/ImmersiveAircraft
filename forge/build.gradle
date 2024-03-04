@@ -2,19 +2,20 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
     forge {
-        mixinConfig "immersive_aircraft.mixins.json"
-
+        convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-    }
-}
 
-architectury {
-    platformSetupLoomIde()
-    forge()
+        mixinConfig "immersive_aircraft.mixins.json"
+    }
 }
 
 configurations {
@@ -49,40 +50,30 @@ dependencies {
 }
 
 processResources {
+    inputs.property "version", project.version
+
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
-    inputs.property "META-INF/mods.toml", project.version
 }
 
 shadowJar {
     exclude "fabric.mod.json"
-    exclude "immersive_aircraft.accessWidener"
+    exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
-}
-
-jar {
-    classifier "dev"
 }
 
 sourcesJar {
-    afterEvaluate {
-        [":common"].forEach {
-            def depSources = project(it).sourcesJar
-            dependsOn depSources
-            from(depSources.archiveFile.map { zipTree(it) }) {
-                exclude "immersive_aircraft.accessWidener"
-            }
-        }
-    }
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
 }
 
 components.java {

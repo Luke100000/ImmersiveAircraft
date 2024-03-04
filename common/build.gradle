@@ -1,3 +1,7 @@
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
 loom {
     accessWidenerPath = file("src/main/resources/immersive_aircraft.accessWidener")
 }
@@ -6,8 +10,6 @@ dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-
-    implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
     modApi "com.terraformersmc:modmenu:${mod_menu_version}"
 
@@ -23,10 +25,6 @@ dependencies {
 
     // modCompileOnly "earth.terrarium.adastra:ad_astra-api-$minecraft_version:${ad_astra_version}-api"
     // modRuntimeOnly "earth.terrarium.adastra:ad_astra-common-$minecraft_version:${ad_astra_version}"
-}
-
-architectury {
-    common(true)
 }
 
 publishing {

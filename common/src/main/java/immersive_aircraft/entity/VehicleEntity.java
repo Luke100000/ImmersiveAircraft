@@ -18,6 +18,7 @@ import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -444,7 +445,7 @@ public abstract class VehicleEntity extends Entity {
 
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
-            if (entity instanceof Player player) {
+            if (entity instanceof LocalPlayer player) {
                 if (KeyBindings.down.isDown() && isOnGround() && getDeltaMovement().length() < 0.01) {
                     player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
                 }

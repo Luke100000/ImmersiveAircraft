@@ -6,8 +6,7 @@ buildscript {
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "dev.architectury.loom" version "1.3-SNAPSHOT" apply false
 }
 
 architectury {
@@ -37,6 +36,9 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_version}@zip")
         }
+
+        implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+        include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
     }
 }
 
@@ -66,7 +68,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 16
+        options.release = 17
     }
 
     java {
