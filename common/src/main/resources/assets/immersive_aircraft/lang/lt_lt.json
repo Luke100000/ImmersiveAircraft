@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Kūrybiniu režimu deginkite degalus.",
   "option.immersive_aircraft.acceptVanillaFuel": "Priimkite vanilinius degalus.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Naudokite daugkartinius keybindings, gali sugadinti tam tikrus modus.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Atvaizduokite variklio matuoklį virš karštosios juostos.",
   "option.immersive_aircraft.enableCrashExplosion": "Įgalinti sprogimą.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Įgalinkite griaunamąjį sprogimą.",
   "option.immersive_aircraft.enableCrashFire": "Įgalinti ugninį sprogimą.",

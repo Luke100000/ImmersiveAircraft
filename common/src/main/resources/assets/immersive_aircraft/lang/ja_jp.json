@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "クリエイティブモードで燃料を燃やす",
   "option.immersive_aircraft.acceptVanillaFuel": "バニラ燃料を許可する",
   "option.immersive_aircraft.useCustomKeybindSystem": "複数のキー割り当てを使用する（一部のmodが壊れる可能性がある）",
+  "option.immersive_aircraft.showHotbarEngineGauge": "エンジンゲージをホットバーの上に表示する。",
   "option.immersive_aircraft.enableCrashExplosion": "爆発を有効にする。",
   "option.immersive_aircraft.enableCrashBlockDestruction": "破壊的な爆発を可能にする。",
   "option.immersive_aircraft.enableCrashFire": "燃えるような爆発を可能にする。",

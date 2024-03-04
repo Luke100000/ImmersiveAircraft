@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Brûlez du carburant en mode créatif.",
   "option.immersive_aircraft.acceptVanillaFuel": "Accepter le carburant vanille.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Utilise des liaisons multi-key, peut casser certains mods.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Rendre la jauge du moteur au-dessus de la barre de chauffe.",
   "option.immersive_aircraft.enableCrashExplosion": "Activer l'explosion.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Permet une explosion destructrice.",
   "option.immersive_aircraft.enableCrashFire": "Permettre une explosion ardente.",

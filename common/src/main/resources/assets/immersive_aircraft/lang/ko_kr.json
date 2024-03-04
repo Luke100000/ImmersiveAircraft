@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "크리에이티브 모드에서 연료를 태우세요.",
   "option.immersive_aircraft.acceptVanillaFuel": "바닐라 연료를 수락합니다.",
   "option.immersive_aircraft.useCustomKeybindSystem": "멀티 키 바인딩을 사용하면 특정 모드가 손상될 수 있습니다.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "핫바 위에 엔진 게이지를 렌더링합니다.",
   "option.immersive_aircraft.enableCrashExplosion": "폭발을 활성화합니다.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "파괴적 폭발을 활성화합니다.",
   "option.immersive_aircraft.enableCrashFire": "화염 폭발을 활성화합니다.",

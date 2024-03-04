@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Polta polttoainetta luovassa tilassa.",
   "option.immersive_aircraft.acceptVanillaFuel": "Hyväksy vaniljainen polttoaine.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Käytä useita avainsidoksia, saattaa rikkoa tiettyjä modeja.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Renderöi moottorin mittari kuumapalkin yläpuolelle.",
   "option.immersive_aircraft.enableCrashExplosion": "Ota räjähdys käyttöön.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Tuhoavan räjähdyksen mahdollistaminen.",
   "option.immersive_aircraft.enableCrashFire": "Mahdollistaa tulisen räjähdyksen.",

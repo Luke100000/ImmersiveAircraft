@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Κάψτε καύσιμα στη δημιουργική λειτουργία.",
   "option.immersive_aircraft.acceptVanillaFuel": "Αποδεχτείτε καύσιμα βανίλιας.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Χρήση πολλαπλών συνδέσμων κλειδιών, μπορεί να σπάσει ορισμένα mods.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Αποδώστε το μετρητή κινητήρα πάνω από τη γραμμή θερμότητας.",
   "option.immersive_aircraft.enableCrashExplosion": "Ενεργοποίηση της έκρηξης.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Ενεργοποίηση καταστροφικής έκρηξης.",
   "option.immersive_aircraft.enableCrashFire": "Ενεργοποίηση πύρινης έκρηξης.",

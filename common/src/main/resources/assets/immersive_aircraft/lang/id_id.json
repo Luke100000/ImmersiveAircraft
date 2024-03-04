@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Membakar bahan bakar dalam mode kreatif.",
   "option.immersive_aircraft.acceptVanillaFuel": "Menerima bahan bakar vanila.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Menggunakan multi-keybinding, dapat merusak mod tertentu.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Render pengukur mesin di atas hotbar.",
   "option.immersive_aircraft.enableCrashExplosion": "Aktifkan ledakan.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Mengaktifkan ledakan yang merusak.",
   "option.immersive_aircraft.enableCrashFire": "Mengaktifkan ledakan yang berapi-api.",

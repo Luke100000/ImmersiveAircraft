@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Spalaj paliwo w trybie kreatywnym.",
   "option.immersive_aircraft.acceptVanillaFuel": "Przyjmij paliwo waniliowe.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Użycie wielu powiązań między kluczami może spowodować uszkodzenie niektórych modów.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Wyrenderuj wskaźnik silnika nad paskiem skrótów.",
   "option.immersive_aircraft.enableCrashExplosion": "Włącz eksplozję.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Włącz niszczycielską eksplozję.",
   "option.immersive_aircraft.enableCrashFire": "Włącz ognistą eksplozję.",

@@ -87,6 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "Verbrand brandstof in de creatieve modus.",
   "option.immersive_aircraft.acceptVanillaFuel": "Accepteer vanillebrandstof.",
   "option.immersive_aircraft.useCustomKeybindSystem": "Gebruik multi-keybindings, kan bepaalde mods breken.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "Geef de motormeter weer boven de hotbar.",
   "option.immersive_aircraft.enableCrashExplosion": "Explosie inschakelen.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "Destructieve explosie inschakelen.",
   "option.immersive_aircraft.enableCrashFire": "Vurige explosie mogelijk maken.",
