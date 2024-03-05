@@ -5,10 +5,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.bbmodel.*;
+import immersive_aircraft.util.Utils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -39,14 +39,14 @@ public class BBModelRenderer {
 
                 Vector3f rotation = animation.sample(object.uuid, BBAnimator.Channel.ROTATION, time);
                 rotation.mul(1.0f / 180.0f * (float) Math.PI);
-                matrixStack.mulPose(Quaternion.fromXYZ(rotation));
+                matrixStack.mulPose(Utils.fromZYX(rotation));
 
                 Vector3f scale = animation.sample(object.uuid, BBAnimator.Channel.SCALE, time);
                 matrixStack.scale(scale.x(), scale.y(), scale.z());
             }
         }
 
-        matrixStack.mulPose(Quaternion.fromXYZ(object.rotation));
+        matrixStack.mulPose(Utils.fromZYX(object.rotation));
 
         if (object instanceof BBBone bone && modelPartRenderer != null) {
             modelPartRenderer.animate(bone.name, entity, matrixStack, time);

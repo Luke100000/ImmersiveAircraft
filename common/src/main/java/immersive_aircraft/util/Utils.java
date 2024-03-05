@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
@@ -114,5 +115,17 @@ public class Utils {
                 array.get(1).getAsFloat(),
                 array.get(2).getAsFloat()
         );
+    }
+
+    public static Quaternion fromZYX(float pitch, float yaw, float roll) {
+        Quaternion quaternion = Quaternion.ONE.copy();
+        quaternion.mul(new Quaternion(0.0F, 0.0F, (float)Math.sin(roll / 2.0F), (float)Math.cos(roll / 2.0F)));
+        quaternion.mul(new Quaternion(0.0F, (float)Math.sin(yaw / 2.0F), 0.0F, (float)Math.cos(yaw / 2.0F)));
+        quaternion.mul(new Quaternion((float)Math.sin(pitch / 2.0F), 0.0F, 0.0F, (float)Math.cos(pitch / 2.0F)));
+        return quaternion;
+    }
+
+    public static Quaternion fromZYX(Vector3f rotation) {
+        return fromZYX(rotation.x(), rotation.y(), rotation.z());
     }
 }

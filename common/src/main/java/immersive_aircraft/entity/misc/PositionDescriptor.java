@@ -38,7 +38,7 @@ public record PositionDescriptor(float x, float y, float z, float yaw, float pit
 
     public Matrix4f matrix() {
         Matrix4f matrix = Matrix4f.createTranslateMatrix(x, y, z);
-        Quaternion quaternion = Quaternion.fromXYZ(yaw, pitch, roll);
+        Quaternion quaternion = Utils.fromZYX(yaw, pitch, roll);
         matrix.multiply(new Matrix4f(quaternion));
         return matrix;
     }
