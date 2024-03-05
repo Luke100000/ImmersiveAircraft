@@ -38,7 +38,7 @@ public record PositionDescriptor(float x, float y, float z, float yaw, float pit
     public Matrix4f matrix() {
         Matrix4f matrix = new Matrix4f();
         matrix.translate(x, y, z);
-        matrix.rotate(Utils.fromXYZ(0.0f, 0.0f, roll));
+        matrix.rotate(Utils.fromZYX(0.0f, 0.0f, roll));
         return matrix;
     }
 }

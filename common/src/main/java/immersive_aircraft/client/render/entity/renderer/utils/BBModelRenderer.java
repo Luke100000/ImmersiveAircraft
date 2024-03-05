@@ -39,14 +39,14 @@ public class BBModelRenderer {
 
                 Vector3f rotation = animation.sample(object.uuid, BBAnimator.Channel.ROTATION, time);
                 rotation.mul(1.0f / 180.0f * (float) Math.PI);
-                matrixStack.mulPose(Utils.fromXYZ(rotation));
+                matrixStack.mulPose(Utils.fromZYX(rotation));
 
                 Vector3f scale = animation.sample(object.uuid, BBAnimator.Channel.SCALE, time);
                 matrixStack.scale(scale.x(), scale.y(), scale.z());
             }
         }
 
-        matrixStack.mulPose(Utils.fromXYZ(object.rotation));
+        matrixStack.mulPose(Utils.fromZYX(object.rotation));
 
         if (object instanceof BBBone bone && modelPartRenderer != null) {
             modelPartRenderer.animate(bone.name, entity, matrixStack, time);
