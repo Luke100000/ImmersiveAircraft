@@ -133,9 +133,10 @@ public class BBCube extends BBObject implements BBFaceContainer {
         Vector3f adjustedFrom = this.from;
         Vector3f adjustedTo = this.to;
 
-        Vector3f inflate = new Vector3f(this.inflate, this.inflate, this.inflate);
+        float antiZFighting = 0.001f;
+        Vector3f inflate = new Vector3f(this.inflate + antiZFighting, this.inflate + antiZFighting, this.inflate + antiZFighting);
         adjustedFrom.sub(inflate);
-        adjustedTo.sub(inflate);
+        adjustedTo.add(inflate);
 
         adjustedFrom.mul(1.0f / 16.0f);
         adjustedTo.mul(1.0f / 16.0f);

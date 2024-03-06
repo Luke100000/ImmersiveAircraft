@@ -21,8 +21,8 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
                     "wings",
                     (entity, yaw, time, matrixStack) -> {
                         float wind = entity.isOnGround() ? 0.0f : 1.0f;
-                        float nx = (float) (Utils.cosNoise(time / 18.0)) * wind;
-                        float ny = (float) (Utils.cosNoise(time / 19.0)) * wind;
+                        float nx = (float) (Utils.cosNoise(time / 3.0)) * wind;
+                        float ny = (float) (Utils.cosNoise(time / 4.0)) * wind;
 
                         matrixStack.mulPose(Vector3f.XP.rotationDegrees(ny));
                         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(nx));
