@@ -81,7 +81,7 @@ public class BBModelRenderer {
         Matrix4f positionMatrix = last.pose();
         Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
-            VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(face.texture.location)) : overrideVertexConsumer;
+            VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(cube.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location)) : overrideVertexConsumer;
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
                 vertexConsumer

@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.bullet;
 
+import immersive_aircraft.config.Config;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -38,6 +39,6 @@ public class TinyTNT extends PrimedTnt {
     }
 
     private void boom() {
-        this.level.explode(this, this.getX(), this.getY(0.0625), this.getZ(), 4.0f, Explosion.BlockInteraction.NONE);
+        this.level.explode(this, this.getX(), this.getY(0.0625), this.getZ(), 4.0f, Config.getInstance().weaponsAreDestructive ? Explosion.BlockInteraction.BREAK : Explosion.BlockInteraction.NONE);
     }
 }

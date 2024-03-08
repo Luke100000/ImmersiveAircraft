@@ -35,6 +35,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
     public final Vector3f to;
     public final int inflate;
     public final List<BBFace> faces;
+    private final boolean degenerate;
 
     public BBCube(JsonObject element, BBModel model) {
         super(element);
@@ -126,6 +127,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
                 faces.remove(i);
             }
         }
+        degenerate = faces.size() != 6;
     }
 
     @NotNull
@@ -133,7 +135,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
         Vector3f adjustedFrom = this.from;
         Vector3f adjustedTo = this.to;
 
-        float antiZFighting = 0.001f;
+        float antiZFighting = 0.00f;
         Vector3f inflate = new Vector3f(this.inflate + antiZFighting, this.inflate + antiZFighting, this.inflate + antiZFighting);
         adjustedFrom.sub(inflate);
         adjustedTo.add(inflate);
@@ -167,5 +169,10 @@ public class BBCube extends BBObject implements BBFaceContainer {
     @Override
     public Iterable<BBFace> getFaces() {
         return faces;
+    }
+
+    @Override
+    public boolean enableCulling() {
+        return degenerate;
     }
 }
