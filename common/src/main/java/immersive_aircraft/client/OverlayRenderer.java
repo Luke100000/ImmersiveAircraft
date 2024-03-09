@@ -31,35 +31,24 @@ public class OverlayRenderer {
         }
     }
 
-    private static int getVehicleMaxHearts(VehicleEntity vehicle) {
-        return (int) Math.ceil(10.0 / vehicle.getDurability());
-    }
-
     private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-        int maxHearts = getVehicleMaxHearts(vehicle);
+        int maxHearts = 10;
         int health = (int) Math.ceil(vehicle.getHealth() * maxHearts * 2);
 
         int y = screenHeight - 49 - Config.getInstance().healthBarRow * 10;
         int ox = screenWidth / 2 + 91;
-        int hearts = 0;
-        while (maxHearts > 0) {
-            int heartsInRow = Math.min(maxHearts, 10);
-            maxHearts -= heartsInRow;
-            for (int i = 0; i < heartsInRow; i++) {
-                int u = 52;
-                int x = ox - i * 8 - 9;
-                context.blit(ICONS_TEX, x, y, u, 9, 9, 9, 64, 64);
-                if (i * 2 + 1 + hearts < health) {
-                    context.blit(ICONS_TEX, x, y, 0, 0, 9, 9, 64, 64);
-                }
-                if (i * 2 + 1 + hearts != health) continue;
-                context.blit(ICONS_TEX, x, y, 10, 0, 9, 9, 64, 64);
+        for (int i = 0; i < maxHearts; i++) {
+            int u = 52;
+            int x = ox - i * 8 - 9;
+            context.blit(ICONS_TEX, x, y, u, 9, 9, 9, 64, 64);
+            if (i * 2 + 1 < health) {
+                context.blit(ICONS_TEX, x, y, 0, 0, 9, 9, 64, 64);
             }
-            y -= 10;
-            hearts += 20;
+            if (i * 2 + 1 != health) continue;
+            context.blit(ICONS_TEX, x, y, 10, 0, 9, 9, 64, 64);
         }
     }
 

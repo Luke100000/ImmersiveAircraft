@@ -39,14 +39,14 @@ public class BBModelRenderer {
 
                 Vector3f rotation = animation.sample(object.uuid, BBAnimator.Channel.ROTATION, time);
                 rotation.mul(1.0f / 180.0f * (float) Math.PI);
-                matrixStack.mulPose(Utils.fromZYX(rotation));
+                matrixStack.mulPose(Utils.fromXYZ(rotation));
 
                 Vector3f scale = animation.sample(object.uuid, BBAnimator.Channel.SCALE, time);
                 matrixStack.scale(scale.x(), scale.y(), scale.z());
             }
         }
 
-        matrixStack.mulPose(Utils.fromZYX(object.rotation));
+        matrixStack.mulPose(Utils.fromXYZ(object.rotation));
 
         if (object instanceof BBBone bone && modelPartRenderer != null) {
             modelPartRenderer.animate(bone.name, entity, matrixStack, time);
@@ -81,7 +81,7 @@ public class BBModelRenderer {
         Matrix4f positionMatrix = last.pose();
         Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
-            VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(RenderType.entityCutout(face.texture.location)) : overrideVertexConsumer;
+            VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(cube.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location)) : overrideVertexConsumer;
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
                 vertexConsumer

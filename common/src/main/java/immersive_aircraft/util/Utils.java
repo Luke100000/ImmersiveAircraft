@@ -117,13 +117,13 @@ public class Utils {
         );
     }
 
-    public static Quaternionf fromZYX(float yaw, float pitch, float roll) {
+    public static Quaternionf fromXYZ(float yaw, float pitch, float roll) {
         Quaternionf quaternion = new Quaternionf();
         quaternion.rotationZYX(roll, pitch, yaw);
         return quaternion;
     }
 
-    public static Quaternionf fromZYX(Vector3f rotation) {
-        return fromZYX(rotation.x, rotation.y, rotation.z);
+    public static Quaternionf fromXYZ(Vector3f rotation) {
+        return fromXYZ(rotation.x, rotation.y, rotation.z);
     }
 }

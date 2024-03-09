@@ -45,7 +45,10 @@ public class HeavyCrossbow extends BulletWeapon {
         arrow.pickup = AbstractArrow.Pickup.ALLOWED;
         arrow.setOwner(getEntity().getControllingPassenger());
         arrow.shoot(direction.x(), direction.y() + 0.1f, direction.z(), getVelocity(), getInaccuracy());
-        arrow.setEffectsFromItem(getAmmoStack());
+        ItemStack ammoStack = getAmmoStack();
+        if (ammoStack != null) {
+            arrow.setEffectsFromItem(ammoStack);
+        }
         return arrow;
     }
 
