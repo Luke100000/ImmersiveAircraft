@@ -84,6 +84,9 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean showHotbarEngineGauge;
 
+    @BooleanConfigEntry(false)
+    public boolean weaponsAreDestructive;
+
     public Map<String, Integer> fuelList = Map.of(
             "minecraft:blaze_powder", 1200
     );

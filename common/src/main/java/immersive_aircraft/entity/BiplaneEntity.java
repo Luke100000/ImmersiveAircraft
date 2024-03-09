@@ -54,10 +54,17 @@ public class BiplaneEntity extends AirplaneEntity {
                 // Smoke
                 float power = getEnginePower();
                 if (power > 0.05) {
-                    Vector4f p = transformPosition(transform, 0.325f * (tickCount % 4 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
-                    Vector3f vel = transformVector(normalTransform, 0.2f * (tickCount % 4 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
-                    Vec3 velocity = getDeltaMovement();
-                    level.addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
+                    for (int i = 0; i < 1 + engineSpinUpStrength * 4; i++) {
+                        Vector4f p = transformPosition(transform, 0.325f * (tickCount % 2 == 0 ? -1.0f : 1.0f), 0.5f, 0.8f);
+                        Vector3f vel = transformVector(normalTransform, 0.2f * (tickCount % 2 == 0 ? -1.0f : 1.0f), 0.0f, 0.0f);
+                        Vec3 velocity = getDeltaMovement();
+                        if (random.nextFloat() < engineSpinUpStrength * 0.1) {
+                            vel.mul(0.5f);
+                            level.addParticle(ParticleTypes.SMALL_FLAME, p.x(), p.y(), p.z(), vel.x() + velocity.x, vel.y() + velocity.y, vel.z() + velocity.z);
+                        } else {
+                            level.addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
+                        }
+                    }
                 }
             } else {
                 trails.get(0).add(ZERO_VEC4, ZERO_VEC4, 0.0f);

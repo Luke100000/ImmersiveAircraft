@@ -1,3 +1,10 @@
+# 0.7.5
+
+* Various smaller fixes
+* Added config flag to allow block damage for bomb bay
+* Fixed heavy crossbow in creative
+* Durability upgrades no longer mess with vehicle health bar
+
 # 0.7.4
 
 * Fixed issues with building
