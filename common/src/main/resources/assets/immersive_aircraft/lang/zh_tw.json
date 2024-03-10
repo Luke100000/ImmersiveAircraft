@@ -10,7 +10,7 @@
   "key.immersive_aircraft.multi_control_push": "向前推杆",
   "key.immersive_aircraft.multi_dismount": "離開载具",
   "key.immersive_aircraft.multi_boost": "火箭助推",
-  "key.immersive_aircraft.multi_use": "Use weapon/mount",
+  "key.immersive_aircraft.multi_use": "使用武器/載具",
   "key.immersive_aircraft.fallback_control_left": "向左",
   "key.immersive_aircraft.fallback_control_right": "向右",
   "key.immersive_aircraft.fallback_control_forward": "前進",
@@ -21,7 +21,7 @@
   "key.immersive_aircraft.fallback_control_push": "向前推杆",
   "key.immersive_aircraft.fallback_dismount": "離開载具",
   "key.immersive_aircraft.fallback_boost": "火箭助推",
-  "key.immersive_aircraft.fallback_use": "Use weapon/mount",
+  "key.immersive_aircraft.fallback_use": "使用武器/載具",
   "entity.immersive_aircraft.airship": "飛艇",
   "entity.immersive_aircraft.cargo_airship": "貨運飛艇",
   "entity.immersive_aircraft.biplane": "雙翼飛機",
@@ -87,7 +87,7 @@
   "option.immersive_aircraft.burnFuelInCreative": "在創造模式中需要燃燒燃料。",
   "option.immersive_aircraft.acceptVanillaFuel": "接受原版燃料。",
   "option.immersive_aircraft.useCustomKeybindSystem": "使用多鍵绑定，可能會破壞某些模組。",
-  "option.immersive_aircraft.showHotbarEngineGauge": "Render the engine gauge over the hotbar.",
+  "option.immersive_aircraft.showHotbarEngineGauge": "在快捷欄上顯示引擎儀表",
   "option.immersive_aircraft.enableCrashExplosion": "啟用爆炸.",
   "option.immersive_aircraft.enableCrashBlockDestruction": "啟用破壞性爆炸",
   "option.immersive_aircraft.enableCrashFire": "啟用火焰爆炸",
@@ -108,5 +108,5 @@
   "immersive_aircraft.upgrade.durability": "%s％的堅硬度",
   "immersive_aircraft.upgrade.fuel": "%s所需燃料的百分比",
   "immersive_aircraft.upgrade.wind": "%s％的升力",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizing"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定化"
 }
