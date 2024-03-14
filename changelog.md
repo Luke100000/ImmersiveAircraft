@@ -1,3 +1,7 @@
+# 0.7.6
+
+* Fixed fuel consumption bugged to 0
+
 # 0.7.5
 
 * Various smaller fixes

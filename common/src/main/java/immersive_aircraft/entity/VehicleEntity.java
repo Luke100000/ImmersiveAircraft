@@ -413,7 +413,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private void tickDamageParticles() {
-        if (level.isClientSide && random.nextFloat() > getHealth()) {
+        if (level.isClientSide && random.nextFloat() * 0.9f > getHealth()) {
             // Damage particles
             List<AABB> shapes = getShapes();
             AABB shape = shapes.get(random.nextInt(shapes.size()));
