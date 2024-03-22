@@ -90,7 +90,7 @@
   "option.immersive_aircraft.showHotbarEngineGauge": "在热栏上渲染引擎仪表。",
   "option.immersive_aircraft.enableCrashExplosion": "启用爆炸。",
   "option.immersive_aircraft.enableCrashBlockDestruction": "启用破坏性爆炸。",
-  "option.immersive_aircraft.enableCrashFire": "使炽热的爆炸成为可能。",
+  "option.immersive_aircraft.enableCrashFire": "启用炽热爆炸。",
   "option.immersive_aircraft.crashExplosionRadius": "碰撞爆炸的大小。",
   "option.immersive_aircraft.crashDamage": "碰撞时对玩家造成伤害",
   "option.immersive_aircraft.preventKillThroughCrash": "崩溃时不会杀死玩家。",
