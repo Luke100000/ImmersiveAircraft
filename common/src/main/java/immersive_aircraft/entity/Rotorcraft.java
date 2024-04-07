@@ -1,6 +1,6 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -35,8 +35,8 @@ public abstract class Rotorcraft extends EngineAircraft {
         Vec3 velocity = getDeltaMovement().multiply(1.0f, 0.0f, 1.0f);
         double drag = Math.abs(direction.dot(velocity.normalize()));
         Vec3 newVelocity = velocity.normalize()
-                .lerp(direction, getProperties().get(AircraftStat.LIFT))
-                .scale(velocity.length() * (drag * getProperties().get(AircraftStat.FRICTION) + (1.0 - getProperties().get(AircraftStat.FRICTION))));
+                .lerp(direction, getProperties().get(VehicleStat.LIFT))
+                .scale(velocity.length() * (drag * getProperties().get(VehicleStat.FRICTION) + (1.0 - getProperties().get(VehicleStat.FRICTION))));
         setDeltaMovement(
                 newVelocity.x,
                 getDeltaMovement().y,

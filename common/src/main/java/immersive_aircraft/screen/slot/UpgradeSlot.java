@@ -2,7 +2,7 @@ package immersive_aircraft.screen.slot;
 
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription.SlotType;
-import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
+import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ public class UpgradeSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return AircraftUpgradeRegistry.INSTANCE.hasUpgrade(stack.getItem()) && vehicle.getSlots(SlotType.UPGRADE).stream().noneMatch(s -> s.getItem() == stack.getItem());
+        return VehicleUpgradeRegistry.INSTANCE.hasUpgrade(stack.getItem()) && vehicle.getSlots(SlotType.UPGRADE).stream().noneMatch(s -> s.getItem() == stack.getItem());
     }
 
     @Override

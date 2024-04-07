@@ -4,9 +4,9 @@ import immersive_aircraft.ClientMain;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
-import immersive_aircraft.item.upgrade.AircraftStat;
-import immersive_aircraft.item.upgrade.AircraftUpgrade;
-import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
+import immersive_aircraft.item.upgrade.VehicleStat;
+import immersive_aircraft.item.upgrade.VehicleUpgrade;
+import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -42,11 +42,11 @@ public final class ClientFabric implements ClientModInitializer {
      * Handles adding ToolTips to aircraft upgrades.
      */
     private void itemTooltipCallback(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
-        AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
+        VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
         if (upgrade != null) {
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY));
 
-            for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
+            for (Map.Entry<VehicleStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
                 ).withStyle(entry.getValue() * (entry.getKey().positive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));

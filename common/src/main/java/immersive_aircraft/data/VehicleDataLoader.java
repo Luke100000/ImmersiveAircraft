@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import immersive_aircraft.Main;
-import immersive_aircraft.entity.misc.AircraftData;
+import immersive_aircraft.entity.misc.VehicleData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -12,13 +12,13 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AircraftDataLoader extends DataLoader {
-    public static final Map<ResourceLocation, AircraftData> REGISTRY = new HashMap<>();
-    public static final Map<ResourceLocation, AircraftData> CLIENT_REGISTRY = new HashMap<>();
+public class VehicleDataLoader extends DataLoader {
+    public static final Map<ResourceLocation, VehicleData> REGISTRY = new HashMap<>();
+    public static final Map<ResourceLocation, VehicleData> CLIENT_REGISTRY = new HashMap<>();
 
-    private static final AircraftData EMPTY = new AircraftData();
+    private static final VehicleData EMPTY = new VehicleData();
 
-    public AircraftDataLoader() {
+    public VehicleDataLoader() {
         super(new Gson(), "aircraft");
     }
 
@@ -28,7 +28,7 @@ public class AircraftDataLoader extends DataLoader {
 
         jsonMap.forEach((identifier, jsonElement) -> {
             try {
-                AircraftData data = new AircraftData(jsonElement.getAsJsonObject());
+                VehicleData data = new VehicleData(jsonElement.getAsJsonObject());
                 REGISTRY.put(identifier, data);
             } catch (IllegalArgumentException | JsonParseException exception) {
                 Main.LOGGER.error("Parsing error on aircraft {}: {}", identifier, exception.getMessage());
@@ -40,7 +40,7 @@ public class AircraftDataLoader extends DataLoader {
         CLIENT_REGISTRY.putAll(REGISTRY);
     }
 
-    public static AircraftData get(ResourceLocation identifier) {
+    public static VehicleData get(ResourceLocation identifier) {
         return CLIENT_REGISTRY.getOrDefault(identifier, EMPTY);
     }
 }

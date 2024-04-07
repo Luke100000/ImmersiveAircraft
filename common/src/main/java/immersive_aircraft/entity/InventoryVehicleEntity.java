@@ -2,15 +2,16 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
-import immersive_aircraft.data.AircraftDataLoader;
+import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.misc.VehicleProperties;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.WeaponItem;
-import immersive_aircraft.item.upgrade.AircraftStat;
-import immersive_aircraft.item.upgrade.AircraftUpgrade;
-import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
+import immersive_aircraft.item.upgrade.VehicleStat;
+import immersive_aircraft.item.upgrade.VehicleUpgrade;
+import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
@@ -39,11 +40,24 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
+    private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected Map<Integer, List<Weapon>> weapons = new HashMap<>();
 
+    public InventoryVehicleEntity(EntityType<? extends InventoryVehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
+        super(entityType, world, canExplodeOnCrash);
+
+        this.initInventory();
+
+        this.properties = new VehicleProperties(VehicleDataLoader.get(identifier).getProperties(), this);
+    }
+
+    public VehicleProperties getProperties() {
+        return properties;
+    }
+
     public VehicleInventoryDescription getInventoryDescription() {
-        return AircraftDataLoader.get(identifier).getInventoryDescription();
+        return VehicleDataLoader.get(identifier).getInventoryDescription();
     }
 
     private static final List<WeaponMount> EMPTY_WEAPONS = List.of(WeaponMount.EMPTY);
@@ -52,7 +66,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     public List<WeaponMount> getWeaponMounts(int slot) {
         ItemStack stack = getSlot(slot).get();
         if (stack.getItem() instanceof WeaponItem weaponItem) {
-            return AircraftDataLoader.get(identifier).getWeaponMounts().getOrDefault(slot, EMPTY_WEAPONS_MAP).getOrDefault(weaponItem.getMountType(), EMPTY_WEAPONS);
+            return VehicleDataLoader.get(identifier).getWeaponMounts().getOrDefault(slot, EMPTY_WEAPONS_MAP).getOrDefault(weaponItem.getMountType(), EMPTY_WEAPONS);
         }
         return EMPTY_WEAPONS;
     }
@@ -67,12 +81,12 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     }
 
     //todo cache?
-    public float getTotalUpgrade(AircraftStat stat) {
+    public float getTotalUpgrade(VehicleStat stat) {
         float value = 1.0f;
         List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
-                AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
+                VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
                 if (upgrade != null) {
                     float u = upgrade.get(stat);
 
@@ -84,11 +98,6 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
             }
         }
         return Math.max(0.0f, value);
-    }
-
-    public InventoryVehicleEntity(EntityType<? extends InventoryVehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
-        super(entityType, world, canExplodeOnCrash);
-        this.initInventory();
     }
 
     protected void initInventory() {

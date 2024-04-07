@@ -4,11 +4,11 @@ import immersive_aircraft.ClientMain;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl.DataLoaderRegister;
-import immersive_aircraft.item.upgrade.AircraftStat;
-import immersive_aircraft.item.upgrade.AircraftUpgrade;
-import immersive_aircraft.item.upgrade.AircraftUpgradeRegistry;
+import immersive_aircraft.item.upgrade.VehicleStat;
+import immersive_aircraft.item.upgrade.VehicleUpgrade;
+import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
-import immersive_aircraft.network.s2c.AircraftUpgradesMessage;
+import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -58,11 +58,11 @@ public class ForgeBusEvents {
     @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
         if (event.getPlayer() != null) { // Syncing aircraft upgrades to players.
-            NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), event.getPlayer());
+            NetworkHandler.sendToPlayer(new VehicleUpgradesMessage(), event.getPlayer());
             NetworkHandler.sendToPlayer(new AircraftDataMessage(), event.getPlayer());
         } else {
             for (ServerPlayer player : event.getPlayerList().getPlayers()) {
-                NetworkHandler.sendToPlayer(new AircraftUpgradesMessage(), player);
+                NetworkHandler.sendToPlayer(new VehicleUpgradesMessage(), player);
                 NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
             }
         }
@@ -70,13 +70,13 @@ public class ForgeBusEvents {
 
     @SubscribeEvent
     public static void onItemTooltips(ItemTooltipEvent event) {
-        AircraftUpgrade upgrade = AircraftUpgradeRegistry.INSTANCE.getUpgrade(event.getItemStack().getItem());
+        VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(event.getItemStack().getItem());
         if (upgrade != null) {
             List<Component> tooltip = event.getToolTip();
 
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
 
-            for (Map.Entry<AircraftStat, Float> entry : upgrade.getAll().entrySet()) {
+            for (Map.Entry<VehicleStat, Float> entry : upgrade.getAll().entrySet()) {
                 tooltip.add(Component.translatable("immersive_aircraft.upgrade." + entry.getKey().name().toLowerCase(Locale.ROOT),
                         fmt.format(entry.getValue() * 100)
                 ).withStyle(entry.getValue() * (entry.getKey().positive() ? 1 : -1) > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));

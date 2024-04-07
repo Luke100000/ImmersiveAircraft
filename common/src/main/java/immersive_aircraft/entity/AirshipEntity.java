@@ -4,7 +4,7 @@ import com.mojang.math.Axis;
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.Trail;
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -66,13 +66,13 @@ public class AirshipEntity extends Rotorcraft {
         setEngineTarget(1.0f);
 
         // up and down
-        setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * getProperties().get(AircraftStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth(), 0.0f));
+        setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * getProperties().get(VehicleStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // get pointing direction
         Vector3f direction = getForwardDirection();
 
         // accelerate
-        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(AircraftStat.ENGINE_SPEED)) * pressingInterpolatedZ.getSmooth();
+        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(VehicleStat.ENGINE_SPEED)) * pressingInterpolatedZ.getSmooth();
         Vector3f f = direction.mul(thrust);
         setDeltaMovement(getDeltaMovement().add(f.x, f.y, f.z));
     }

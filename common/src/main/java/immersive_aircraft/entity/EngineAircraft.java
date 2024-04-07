@@ -4,7 +4,7 @@ import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
@@ -94,7 +94,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         super.tick();
 
         // adapt engine reaction time
-        enginePower.setSteps(getEngineReactionSpeed() / getProperties().get(AircraftStat.ACCELERATION));
+        enginePower.setSteps(getEngineReactionSpeed() / getProperties().get(VehicleStat.ACCELERATION));
 
         // spin up the engine
         enginePower.update(getEngineTarget() * (wasTouchingWater ? 0.1f : 1.0f));
@@ -188,7 +188,7 @@ public abstract class EngineAircraft extends AircraftEntity {
     }
 
     float getFuelConsumption() {
-        return getEngineTarget() * getProperties().get(AircraftStat.FUEL) * Config.getInstance().fuelConsumption;
+        return getEngineTarget() * getProperties().get(VehicleStat.FUEL) * Config.getInstance().fuelConsumption;
     }
 
     private void refuel(int i) {
@@ -219,22 +219,20 @@ public abstract class EngineAircraft extends AircraftEntity {
     @Override
     protected void updateController() {
         // left-right
-        setYRot(getYRot() - getProperties().get(AircraftStat.YAW_SPEED) * pressingInterpolatedX.getSmooth());
+        setYRot(getYRot() - getProperties().get(VehicleStat.YAW_SPEED) * pressingInterpolatedX.getSmooth());
 
         // forwards-backwards
         if (!onGround()) {
-            setXRot(getXRot() + getProperties().get(AircraftStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
+            setXRot(getXRot() + getProperties().get(VehicleStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
-        setXRot(getXRot() * (1.0f - getProperties().getAdditive(AircraftStat.STABILIZER)));
+        setXRot(getXRot() * (1.0f - getProperties().getAdditive(VehicleStat.STABILIZER)));
     }
 
     @Override
     protected void updateVelocity() {
-        super.updateVelocity();
-
         // landing
         if (onGround()) {
-            setXRot((getXRot() + getProperties().get(AircraftStat.GROUND_PITCH)) * 0.9f - getProperties().get(AircraftStat.GROUND_PITCH));
+            setXRot((getXRot() + getProperties().get(VehicleStat.GROUND_PITCH)) * 0.9f - getProperties().get(VehicleStat.GROUND_PITCH));
         }
     }
 

@@ -2,7 +2,7 @@ package immersive_aircraft.entity.misc;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -11,22 +11,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class AircraftData {
-    private final Map<AircraftStat, Float> properties = new HashMap<>();
+public class VehicleData {
+    private final Map<VehicleStat, Float> properties = new HashMap<>();
     private final VehicleInventoryDescription inventoryDescription;
     private final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = new HashMap<>();
     private final List<BoundingBoxDescriptor> boundingBoxes = new LinkedList<>();
     private final List<List<PositionDescriptor>> passengerPositions = new LinkedList<>();
 
 
-    public AircraftData() {
+    public VehicleData() {
         inventoryDescription = new VehicleInventoryDescription();
     }
 
-    public AircraftData(JsonObject json) {
+    public VehicleData(JsonObject json) {
         // Load properties
         JsonObject propertyJson = json.getAsJsonObject("properties");
-        AircraftStat.STATS.values().forEach(stat -> properties.put(stat, Utils.getFloatElement(propertyJson, stat.name(), stat.defaultValue())));
+        VehicleStat.STATS.values().forEach(stat -> properties.put(stat, Utils.getFloatElement(propertyJson, stat.name(), stat.defaultValue())));
 
         // Load inventory slots
         inventoryDescription = new VehicleInventoryDescription(json.getAsJsonArray("inventorySlots"));
@@ -65,11 +65,11 @@ public class AircraftData {
         json.getAsJsonArray("boundingBoxes").forEach(e -> boundingBoxes.add(BoundingBoxDescriptor.fromJson(e.getAsJsonObject())));
     }
 
-    public AircraftData(FriendlyByteBuf byteBuf) {
+    public VehicleData(FriendlyByteBuf byteBuf) {
         // Load properties
         int propertiesCount = byteBuf.readInt();
         for (int i = 0; i < propertiesCount; i++) {
-            AircraftStat stat = AircraftStat.STATS.get(byteBuf.readUtf());
+            VehicleStat stat = VehicleStat.STATS.get(byteBuf.readUtf());
             properties.put(stat, byteBuf.readFloat());
         }
 
@@ -154,7 +154,7 @@ public class AircraftData {
         boundingBoxes.forEach(boundingBox -> boundingBox.encode(buffer));
     }
 
-    public Map<AircraftStat, Float> getProperties() {
+    public Map<VehicleStat, Float> getProperties() {
         return properties;
     }
 

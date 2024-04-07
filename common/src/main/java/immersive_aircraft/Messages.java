@@ -12,7 +12,7 @@ public class Messages {
         NetworkHandler.registerMessage(InventoryUpdateMessage.class, InventoryUpdateMessage::new);
         NetworkHandler.registerMessage(RequestInventory.class, RequestInventory::new);
         NetworkHandler.registerMessage(CollisionMessage.class, CollisionMessage::new);
-        NetworkHandler.registerMessage(AircraftUpgradesMessage.class, AircraftUpgradesMessage::new);
+        NetworkHandler.registerMessage(VehicleUpgradesMessage.class, VehicleUpgradesMessage::new);
         NetworkHandler.registerMessage(AircraftDataMessage.class, AircraftDataMessage::new);
         NetworkHandler.registerMessage(FireMessage.class, FireMessage::new);
         NetworkHandler.registerMessage(FireResponse.class, FireResponse::new);

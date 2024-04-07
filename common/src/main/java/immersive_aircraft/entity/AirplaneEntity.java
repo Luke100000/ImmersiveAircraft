@@ -1,6 +1,6 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
@@ -49,9 +49,9 @@ public abstract class AirplaneEntity extends EngineAircraft {
         Vector3f direction = getForwardDirection();
 
         // speed
-        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED));
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(VehicleStat.ENGINE_SPEED));
         if (onGround() && getEngineTarget() < 1.0) {
-            thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
+            thrust = getProperties().get(VehicleStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
         }
 
         // accelerate

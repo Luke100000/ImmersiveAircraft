@@ -2,8 +2,8 @@ package immersive_aircraft.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import immersive_aircraft.item.upgrade.AircraftStat;
-import immersive_aircraft.item.upgrade.AircraftUpgrade;
+import immersive_aircraft.item.upgrade.VehicleStat;
+import immersive_aircraft.item.upgrade.VehicleUpgrade;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,10 +13,10 @@ public abstract class DataLoader extends SimpleJsonResourceReloadListener {
     }
 
     @NotNull
-    static AircraftUpgrade getAircraftUpgrade(JsonObject jsonObject) {
-        AircraftUpgrade upgrade = new AircraftUpgrade();
+    static VehicleUpgrade getAircraftUpgrade(JsonObject jsonObject) {
+        VehicleUpgrade upgrade = new VehicleUpgrade();
         for (String key : jsonObject.keySet()) {
-            AircraftStat stat = AircraftStat.STATS.get(key);
+            VehicleStat stat = VehicleStat.STATS.get(key);
             if (stat != null) {
                 upgrade.set(stat, jsonObject.get(key).getAsFloat());
             }

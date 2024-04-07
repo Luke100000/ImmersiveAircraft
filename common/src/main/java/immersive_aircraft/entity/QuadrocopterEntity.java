@@ -2,7 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -43,12 +43,12 @@ public class QuadrocopterEntity extends Rotorcraft {
 
         // forwards-backwards
         if (!onGround()) {
-            setXRot(getXRot() + getProperties().get(AircraftStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
+            setXRot(getXRot() + getProperties().get(VehicleStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
-        setXRot(getXRot() * (1.0f - getProperties().getAdditive(AircraftStat.STABILIZER)));
+        setXRot(getXRot() * (1.0f - getProperties().getAdditive(VehicleStat.STABILIZER)));
 
         // up and down
-        setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * getProperties().get(AircraftStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth(), 0.0f));
+        setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * getProperties().get(VehicleStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth(), 0.0f));
 
         // Rotate to pilot's head rotation
         Entity pilot = getControllingPassenger();
@@ -59,11 +59,11 @@ public class QuadrocopterEntity extends Rotorcraft {
             } else if (diff < -180.0f) {
                 diff += 360.0f;
             }
-            diff = diff * getProperties().get(AircraftStat.YAW_SPEED);
+            diff = diff * getProperties().get(VehicleStat.YAW_SPEED);
             setYRot(getYRot() + diff);
         }
 
-        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(AircraftStat.ENGINE_SPEED));
+        float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(VehicleStat.ENGINE_SPEED));
 
         // left and right
         Vector3f direction = getRightDirection().mul(thrust * pressingInterpolatedX.getSmooth());

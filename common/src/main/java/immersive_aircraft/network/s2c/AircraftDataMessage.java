@@ -1,8 +1,8 @@
 package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.cobalt.network.Message;
-import immersive_aircraft.data.AircraftDataLoader;
-import immersive_aircraft.entity.misc.AircraftData;
+import immersive_aircraft.data.VehicleDataLoader;
+import immersive_aircraft.entity.misc.VehicleData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AircraftDataMessage extends Message {
-    private final Map<ResourceLocation, AircraftData> data;
+    private final Map<ResourceLocation, VehicleData> data;
 
     public AircraftDataMessage() {
-        this.data = AircraftDataLoader.REGISTRY;
+        this.data = VehicleDataLoader.REGISTRY;
     }
 
     public AircraftDataMessage(FriendlyByteBuf buffer) {
@@ -23,7 +23,7 @@ public class AircraftDataMessage extends Message {
         int dataCount = buffer.readInt();
         for (int i = 0; i < dataCount; i++) {
             ResourceLocation identifier = buffer.readResourceLocation();
-            data.put(identifier, new AircraftData(buffer));
+            data.put(identifier, new VehicleData(buffer));
         }
     }
 
@@ -39,7 +39,7 @@ public class AircraftDataMessage extends Message {
 
     @Override
     public void receive(Player player) {
-        AircraftDataLoader.CLIENT_REGISTRY.clear();
-        AircraftDataLoader.CLIENT_REGISTRY.putAll(data);
+        VehicleDataLoader.CLIENT_REGISTRY.clear();
+        VehicleDataLoader.CLIENT_REGISTRY.putAll(data);
     }
 }

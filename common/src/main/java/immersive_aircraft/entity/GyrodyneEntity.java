@@ -2,7 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
-import immersive_aircraft.item.upgrade.AircraftStat;
+import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -75,7 +75,7 @@ public class GyrodyneEntity extends Rotorcraft {
         }
 
         // up and down
-        float power = getEnginePower() * getProperties().get(AircraftStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth();
+        float power = getEnginePower() * getProperties().get(VehicleStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth();
         Vector3f f = getTopDirection().mul(power);
         setDeltaMovement(getDeltaMovement().add(f.x, f.y, f.z));
 
@@ -84,9 +84,9 @@ public class GyrodyneEntity extends Rotorcraft {
 
         // speed
         float sin = Mth.sin(getXRot() * ((float) Math.PI / 180));
-        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(AircraftStat.ENGINE_SPEED)) * sin;
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(VehicleStat.ENGINE_SPEED)) * sin;
         if (onGround() && getEngineTarget() < 1.0) {
-            thrust = getProperties().get(AircraftStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
+            thrust = getProperties().get(VehicleStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (pressingInterpolatedZ.getSmooth() > 0.0 ? 1.0f : 0.5f) * getEnginePower();
         }
 
         // accelerate

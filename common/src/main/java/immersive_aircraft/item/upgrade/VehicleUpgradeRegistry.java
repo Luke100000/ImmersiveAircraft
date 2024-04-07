@@ -5,20 +5,20 @@ import net.minecraft.world.item.Item;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AircraftUpgradeRegistry {
-    public static final AircraftUpgradeRegistry INSTANCE = new AircraftUpgradeRegistry();
+public class VehicleUpgradeRegistry {
+    public static final VehicleUpgradeRegistry INSTANCE = new VehicleUpgradeRegistry();
 
-    private final Map<Item, AircraftUpgrade> itemUpgrades = new HashMap<>();
+    private final Map<Item, VehicleUpgrade> itemUpgrades = new HashMap<>();
 
-    public AircraftUpgrade getUpgrade(Item item) {
+    public VehicleUpgrade getUpgrade(Item item) {
         return itemUpgrades.get(item);
     }
 
-    public void setUpgrade(Item item, AircraftUpgrade upgrade) {
+    public void setUpgrade(Item item, VehicleUpgrade upgrade) {
         itemUpgrades.put(item, upgrade);
     }
 
-    public void replace(Map<Item, AircraftUpgrade> itemUpgrades) {
+    public void replace(Map<Item, VehicleUpgrade> itemUpgrades) {
         this.itemUpgrades.clear();
         this.itemUpgrades.putAll(itemUpgrades);
     }
@@ -27,7 +27,7 @@ public class AircraftUpgradeRegistry {
         itemUpgrades.clear();
     }
 
-    public Map<Item, AircraftUpgrade> getAll() {
+    public Map<Item, VehicleUpgrade> getAll() {
         return itemUpgrades;
     }
 

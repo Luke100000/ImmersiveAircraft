@@ -7,7 +7,7 @@ import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.data.AircraftDataLoader;
+import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
 import immersive_aircraft.entity.misc.PositionDescriptor;
 import immersive_aircraft.network.c2s.CollisionMessage;
@@ -145,7 +145,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected List<List<PositionDescriptor>> getPassengerPositions() {
-        return AircraftDataLoader.get(identifier).getPassengerPositions();
+        return VehicleDataLoader.get(identifier).getPassengerPositions();
     }
 
     protected int getPassengerSpace() {
@@ -190,7 +190,7 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public boolean canCollideWith(@NotNull Entity other) {
-        return AircraftEntity.canCollide(this, other);
+        return canCollide(this, other);
     }
 
     public static boolean canCollide(Entity entity, Entity other) {
@@ -870,7 +870,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public List<AABB> getAdditionalShapes() {
-        return AircraftDataLoader.get(identifier).getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
+        return VehicleDataLoader.get(identifier).getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
     }
 
     public List<AABB> getShapes() {
