@@ -14,8 +14,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public class ConfigScreen {
-    public static Screen getScreen() {
-        Config config = Config.getInstance();
+    public static Screen getScreen(Config config) {
 
         ConfigBuilder builder = ConfigBuilder.create()
                 .setTitle(Component.translatable("itemGroup." + Main.MOD_ID + "." + Main.MOD_ID + "_tab"))

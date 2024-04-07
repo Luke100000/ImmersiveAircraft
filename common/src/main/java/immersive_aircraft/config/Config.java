@@ -1,5 +1,6 @@
 package immersive_aircraft.config;
 
+import immersive_aircraft.Main;
 import immersive_aircraft.config.configEntries.BooleanConfigEntry;
 import immersive_aircraft.config.configEntries.FloatConfigEntry;
 import immersive_aircraft.config.configEntries.IntegerConfigEntry;
@@ -7,7 +8,11 @@ import immersive_aircraft.config.configEntries.IntegerConfigEntry;
 import java.util.Map;
 
 public final class Config extends JsonConfig {
-    private static final Config INSTANCE = loadOrCreate();
+    private static final Config INSTANCE = loadOrCreate(new Config(Main.MOD_ID), Config.class);
+
+    public Config(String name) {
+        super(name);
+    }
 
     public static Config getInstance() {
         return INSTANCE;
