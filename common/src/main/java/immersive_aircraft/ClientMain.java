@@ -17,9 +17,6 @@ public class ClientMain {
     private static int activeTicks;
 
     public static void postLoad() {
-        //finish the items
-        ItemsClient.postLoad();
-
         Main.networkManager = new ClientNetworkManager();
 
         Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
