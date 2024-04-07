@@ -144,13 +144,15 @@ public abstract class VehicleEntity extends Entity {
         return entityData.get(BOOST);
     }
 
-    protected abstract List<List<PositionDescriptor>> getPassengerPositions();
+    protected List<List<PositionDescriptor>> getPassengerPositions() {
+        return AircraftDataLoader.get(identifier).getPassengerPositions();
+    }
 
     protected int getPassengerSpace() {
         return getPassengerPositions().size();
     }
 
-    public VehicleEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
+    public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world);
         this.canExplodeOnCrash = canExplodeOnCrash;
         blocksBuilding = true;

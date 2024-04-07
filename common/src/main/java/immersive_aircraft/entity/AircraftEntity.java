@@ -42,10 +42,6 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         return properties;
     }
 
-    protected List<List<PositionDescriptor>> getPassengerPositions() {
-        return AircraftDataLoader.get(identifier).getPassengerPositions();
-    }
-
     @Override
     public void tick() {
         // rolling interpolation

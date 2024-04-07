@@ -1,15 +1,15 @@
 package immersive_aircraft.client.render.entity.renderer.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ModelPartRenderHandler<T extends AircraftEntity> {
+public class ModelPartRenderHandler<T extends Entity> {
     private final Map<String, ModelPartRenderer<T>> objects = new HashMap<>();
 
     public ModelPartRenderHandler<T> add(String id, ModelPartRenderer.AnimationConsumer<T> animationConsumer) {
