@@ -89,15 +89,4 @@ publishing {
             from components.java
         }
     }
-
-    repositories {
-        maven {
-            name = "reposiliteRepository"
-            url = uri("https://maven.conczin.net/Artifacts")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_TOKEN")
-            }
-        }
-    }
 }

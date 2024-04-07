@@ -6,7 +6,7 @@ buildscript {
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.3-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.5-SNAPSHOT" apply false
 }
 
 architectury {
@@ -71,5 +71,18 @@ allprojects {
 
     java {
         withSourcesJar()
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "reposiliteRepository"
+                url = uri("https://maven.conczin.net/Artifacts")
+                credentials {
+                    username = System.getenv("MAVEN_USERNAME")
+                    password = System.getenv("MAVEN_TOKEN")
+                }
+            }
+        }
     }
 }
