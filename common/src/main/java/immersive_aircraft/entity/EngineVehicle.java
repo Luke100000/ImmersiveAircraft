@@ -58,7 +58,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         return GUI_STYLE.ENGINE;
     }
 
-    public EngineVehicle(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
+    public EngineVehicle(EntityType<? extends EngineVehicle> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
 
         fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER).size()];

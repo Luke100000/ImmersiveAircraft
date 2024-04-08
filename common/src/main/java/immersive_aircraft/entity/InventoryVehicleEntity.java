@@ -252,4 +252,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     public Map<Integer, List<Weapon>> getWeapons() {
         return weapons;
     }
+
+    @Override
+    public float getDurability() {
+        return getProperties().get(VehicleStat.DURABILITY);
+    }
 }

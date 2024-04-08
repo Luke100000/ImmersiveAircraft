@@ -130,11 +130,6 @@ public abstract class AircraftEntity extends EngineVehicle {
         lastY = 0.0f;
     }
 
-    @Override
-    public float getDurability() {
-        return getProperties().get(VehicleStat.DURABILITY);
-    }
-
     public float getWindStrength() {
         float sensitivity = getProperties().get(VehicleStat.WIND);
         float thundering = level().getRainLevel(0.0f);
