@@ -48,7 +48,7 @@ def getAppVersion = { ->
             commandLine 'git', 'tag', '--points-at', 'HEAD'
             standardOutput = stdout
         }
-        tag = stdout.toString().trim()
+        def tag = stdout.toString().trim()
         if (tag.isEmpty()) {
             return rootProject.minecraft_version + "-SNAPSHOT"
         }
