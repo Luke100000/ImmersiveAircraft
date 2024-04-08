@@ -1,6 +1,5 @@
 package immersive_aircraft.entity.weapons;
 
-import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
@@ -52,7 +51,7 @@ public class Telescope extends Weapon {
     }
 
     @Override
-    public <T extends AircraftEntity> void setAnimationVariables(T entity, float time) {
+    public <T extends VehicleEntity> void setAnimationVariables(T entity, float time) {
         float tickDelta = time % 1.0f;
         BBAnimationVariables.set("pitch", (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
         BBAnimationVariables.set("yaw", (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));

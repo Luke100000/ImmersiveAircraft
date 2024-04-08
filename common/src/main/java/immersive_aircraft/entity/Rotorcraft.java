@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public abstract class Rotorcraft extends EngineAircraft {
+public abstract class Rotorcraft extends AircraftEntity {
     public Rotorcraft(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }

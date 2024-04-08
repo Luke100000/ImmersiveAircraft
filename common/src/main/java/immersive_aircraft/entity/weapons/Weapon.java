@@ -1,7 +1,6 @@
 package immersive_aircraft.entity.weapons;
 
 import org.joml.Vector3f;
-import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +49,7 @@ public abstract class Weapon {
 
     public abstract void clientFire(int index);
 
-    public <T extends AircraftEntity> void setAnimationVariables(T entity, float time) {
+    public <T extends VehicleEntity> void setAnimationVariables(T entity, float time) {
         // nop
     }
 }

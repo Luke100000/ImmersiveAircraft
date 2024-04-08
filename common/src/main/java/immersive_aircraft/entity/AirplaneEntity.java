@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 /**
  * Implements airplane like physics properties and accelerated towards
  */
-public abstract class AirplaneEntity extends EngineAircraft {
+public abstract class AirplaneEntity extends AircraftEntity {
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }

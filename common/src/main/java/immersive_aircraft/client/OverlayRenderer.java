@@ -3,7 +3,7 @@ package immersive_aircraft.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.entity.EngineAircraft;
+import immersive_aircraft.entity.EngineVehicle;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,7 +22,7 @@ public class OverlayRenderer {
     public static void renderOverlay(GuiGraphics context, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
         if (!client.options.hideGui && client.gameMode != null && client.player != null) {
-            if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineAircraft aircraft) {
+            if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
             }
             if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
@@ -52,10 +52,10 @@ public class OverlayRenderer {
         }
     }
 
-    private void renderAircraftGui(Minecraft client, GuiGraphics context, float tickDelta, EngineAircraft aircraft) {
+    private void renderAircraftGui(Minecraft client, GuiGraphics context, float tickDelta, EngineVehicle aircraft) {
         assert client.level != null;
 
-        if (aircraft.getGuiStyle() == EngineAircraft.GUI_STYLE.ENGINE) {
+        if (aircraft.getGuiStyle() == EngineVehicle.GUI_STYLE.ENGINE) {
             float time = client.level.getGameTime() % 65536 + tickDelta;
             float delta = time - lastTime;
             lastTime = time;

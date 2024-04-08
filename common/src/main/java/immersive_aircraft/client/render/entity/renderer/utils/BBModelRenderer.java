@@ -3,7 +3,7 @@ package immersive_aircraft.client.render.entity.renderer.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
-import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.bbmodel.*;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,11 +22,11 @@ import org.joml.Vector3f;
 import java.util.List;
 
 public class BBModelRenderer {
-    public static <T extends AircraftEntity> void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
+    public static <T extends VehicleEntity> void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         model.root.forEach(object -> renderObject(model, object, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha));
     }
 
-    public static <T extends AircraftEntity> void renderObject(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
+    public static <T extends VehicleEntity> void renderObject(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         matrixStack.pushPose();
         matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
 

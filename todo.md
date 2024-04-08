@@ -6,3 +6,5 @@
 * More aircraft!
 * Rockets (this is 1.20.1+)
 * Drop as item
+* Don't shift-right when within
+* Name tags on hull

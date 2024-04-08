@@ -25,10 +25,10 @@ import java.util.List;
 /**
  * Simulated engine behavior
  */
-public abstract class EngineAircraft extends AircraftEntity {
-    protected static final EntityDataAccessor<Float> ENGINE = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> UTILIZATION = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Boolean> LOW_ON_FUEL = SynchedEntityData.defineId(EngineAircraft.class, EntityDataSerializers.BOOLEAN);
+public abstract class EngineVehicle extends InventoryVehicleEntity {
+    protected static final EntityDataAccessor<Float> ENGINE = SynchedEntityData.defineId(EngineVehicle.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> UTILIZATION = SynchedEntityData.defineId(EngineVehicle.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> LOW_ON_FUEL = SynchedEntityData.defineId(EngineVehicle.class, EntityDataSerializers.BOOLEAN);
 
     public final InterpolatedFloat engineRotation = new InterpolatedFloat();
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
@@ -58,7 +58,7 @@ public abstract class EngineAircraft extends AircraftEntity {
         return GUI_STYLE.ENGINE;
     }
 
-    public EngineAircraft(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
+    public EngineVehicle(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
 
         fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER).size()];
@@ -213,26 +213,6 @@ public abstract class EngineAircraft extends AircraftEntity {
     private void refuel() {
         for (int i = 0; i < fuel.length; i++) {
             refuel(i);
-        }
-    }
-
-    @Override
-    protected void updateController() {
-        // left-right
-        setYRot(getYRot() - getProperties().get(VehicleStat.YAW_SPEED) * pressingInterpolatedX.getSmooth());
-
-        // forwards-backwards
-        if (!onGround()) {
-            setXRot(getXRot() + getProperties().get(VehicleStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
-        }
-        setXRot(getXRot() * (1.0f - getProperties().getAdditive(VehicleStat.STABILIZER)));
-    }
-
-    @Override
-    protected void updateVelocity() {
-        // landing
-        if (onGround()) {
-            setXRot((getXRot() + getProperties().get(VehicleStat.GROUND_PITCH)) * 0.9f - getProperties().get(VehicleStat.GROUND_PITCH));
         }
     }
 

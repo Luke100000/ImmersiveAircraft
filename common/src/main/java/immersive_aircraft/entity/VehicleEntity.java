@@ -12,6 +12,7 @@ import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
 import immersive_aircraft.entity.misc.PositionDescriptor;
 import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
@@ -898,5 +899,11 @@ public abstract class VehicleEntity extends Entity {
             box = box.minmax(additionalShape);
         }
         return box;
+    }
+
+    public void setAnimationVariables(float tickDelta) {
+        BBAnimationVariables.set("pressing_interpolated_x", pressingInterpolatedX.getSmooth(tickDelta));
+        BBAnimationVariables.set("pressing_interpolated_y", pressingInterpolatedY.getSmooth(tickDelta));
+        BBAnimationVariables.set("pressing_interpolated_z", pressingInterpolatedZ.getSmooth(tickDelta));
     }
 }

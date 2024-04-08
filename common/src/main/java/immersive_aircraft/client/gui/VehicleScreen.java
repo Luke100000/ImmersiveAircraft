@@ -2,7 +2,7 @@ package immersive_aircraft.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
-import immersive_aircraft.entity.EngineAircraft;
+import immersive_aircraft.entity.EngineVehicle;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import immersive_aircraft.util.Rect2iCommon;
@@ -91,7 +91,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
                         drawImage(context, this.leftPos + slot.x() - 1, this.topPos + titleHeight + slot.y() - 1, 284, 0, 18, 18);
                 case BOILER -> {
                     drawImage(context, this.leftPos + slot.x() - 4, this.topPos + titleHeight + slot.y() - 18, 318, 0, 24, 39);
-                    if (menu.getVehicle() instanceof EngineAircraft engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
+                    if (menu.getVehicle() instanceof EngineVehicle engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
                         drawImage(context, this.leftPos + slot.x() - 4, this.topPos + titleHeight + slot.y() - 18, 318 + 30, 0, 24, 39);
                     }
                 }

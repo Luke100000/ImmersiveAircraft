@@ -5,7 +5,6 @@ import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.weapons.Telescope;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.upgrade.VehicleStat;
-import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.Utils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * Abstract aircraft, which performs basic physics
  */
-public abstract class AircraftEntity extends InventoryVehicleEntity {
+public abstract class AircraftEntity extends EngineVehicle {
     protected double lastY;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -65,6 +64,18 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
     }
 
     @Override
+    protected void updateController() {
+        // left-right
+        setYRot(getYRot() - getProperties().get(VehicleStat.YAW_SPEED) * pressingInterpolatedX.getSmooth());
+
+        // forwards-backwards
+        if (!onGround()) {
+            setXRot(getXRot() + getProperties().get(VehicleStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
+        }
+        setXRot(getXRot() * (1.0f - getProperties().getAdditive(VehicleStat.STABILIZER)));
+    }
+
+    @Override
     protected void updateVelocity() {
         float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
         float gravity = getGravity();
@@ -101,8 +112,11 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
         pressingInterpolatedX.decay(0.0f, 1.0f - rf);
         pressingInterpolatedZ.decay(0.0f, 1.0f - rf);
 
-        // wind
-        if (!onGround()) {
+        if (onGround()) {
+            // Landing
+            setXRot((getXRot() + getProperties().get(VehicleStat.GROUND_PITCH)) * 0.9f - getProperties().get(VehicleStat.GROUND_PITCH));
+        } else {
+            // Wind
             Vector3f effect = getWindEffect();
             setXRot(getXRot() + effect.x);
             setYRot(getYRot() + effect.z);
@@ -146,12 +160,6 @@ public abstract class AircraftEntity extends InventoryVehicleEntity {
             }
         }
         return false;
-    }
-
-    public void setAnimationVariables(float tickDelta) {
-        BBAnimationVariables.set("pressing_interpolated_x", pressingInterpolatedX.getSmooth(tickDelta));
-        BBAnimationVariables.set("pressing_interpolated_y", pressingInterpolatedY.getSmooth(tickDelta));
-        BBAnimationVariables.set("pressing_interpolated_z", pressingInterpolatedZ.getSmooth(tickDelta));
     }
 }
 

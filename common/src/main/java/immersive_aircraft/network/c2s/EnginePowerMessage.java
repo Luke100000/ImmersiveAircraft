@@ -1,7 +1,7 @@
 package immersive_aircraft.network.c2s;
 
 import immersive_aircraft.cobalt.network.Message;
-import immersive_aircraft.entity.EngineAircraft;
+import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
@@ -23,7 +23,7 @@ public class EnginePowerMessage extends Message {
 
     @Override
     public void receive(Player e) {
-        if (e.getRootVehicle() instanceof EngineAircraft entity) {
+        if (e.getRootVehicle() instanceof EngineVehicle entity) {
             entity.setEngineTarget(engineTarget);
         }
     }
