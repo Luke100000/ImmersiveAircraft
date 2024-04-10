@@ -46,7 +46,8 @@ dependencies {
     modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
     // modRuntimeOnly "earth.terrarium.adastra:ad_astra-fabric-$minecraft_version:${ad_astra_version}"
 
-    modRuntimeOnly "curse.maven:${man_of_many_planes_version}"
+    // modRuntimeOnly "net.conczin:man_of_many_planes:${man_of_many_planes_version}+fabric"
+    // modRuntimeOnly "net.conczin:immersive_machinery:${immersive_machinery}+fabric"
 }
 
 processResources {
