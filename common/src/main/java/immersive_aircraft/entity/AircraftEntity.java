@@ -56,11 +56,11 @@ public abstract class AircraftEntity extends EngineVehicle {
                 .scale(velocity.length() * (drag * getProperties().get(VehicleStat.FRICTION) + (1.0 - getProperties().get(VehicleStat.FRICTION)))));
     }
 
-    // Considers gravity and upgrades to modify decay
-    protected float falloffGroundVelocityDecay(float original) {
+    @Override
+    protected float getGroundDecay() {
         float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
         float upgrade = Math.min(1.0f, getProperties().get(VehicleStat.ACCELERATION) * 0.5f);
-        return (original * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
+        return (super.getGroundDecay() * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }
 
     @Override
@@ -77,19 +77,6 @@ public abstract class AircraftEntity extends EngineVehicle {
 
     @Override
     protected void updateVelocity() {
-        float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
-        float gravity = getGravity();
-        if (wasTouchingWater) {
-            gravity *= 0.25f;
-            decay = 0.9f;
-        } else if (onGround()) {
-            if (isVehicle()) {
-                decay = falloffGroundVelocityDecay(getProperties().get(VehicleStat.GROUND_FRICTION));
-            } else {
-                decay = 0.75f;
-            }
-        }
-
         // get direction
         Vector3f direction = getForwardDirection();
 
@@ -104,13 +91,7 @@ public abstract class AircraftEntity extends EngineVehicle {
         convertPower(toVec3d(direction));
 
         // friction
-        Vec3 velocity = getDeltaMovement();
-        float hd = getProperties().get(VehicleStat.HORIZONTAL_DECAY);
-        float vd = getProperties().get(VehicleStat.VERTICAL_DECAY);
-        setDeltaMovement(velocity.x * decay * hd, velocity.y * decay * vd + gravity, velocity.z * decay * hd);
-        float rf = decay * getProperties().get(VehicleStat.ROTATION_DECAY);
-        pressingInterpolatedX.decay(0.0f, 1.0f - rf);
-        pressingInterpolatedZ.decay(0.0f, 1.0f - rf);
+        applyFriction();
 
         if (onGround()) {
             // Landing

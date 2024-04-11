@@ -244,6 +244,37 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         super.tick();
     }
 
+    protected float getGroundDecay() {
+        return getProperties().get(VehicleStat.GROUND_FRICTION);
+    }
+
+    protected void applyFriction() {
+        // Decay is the basic factor of friction, basically the density of the material slowing down the vehicle
+        float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
+        float gravity = getGravity();
+        if (wasTouchingWater) {
+            gravity *= 0.25f;
+            decay = 0.9f;
+        } else if (onGround()) {
+            if (isVehicle()) {
+                decay = getGroundDecay();
+            } else {
+                decay = 0.75f;
+            }
+        }
+
+        // Velocity decay
+        Vec3 velocity = getDeltaMovement();
+        float hd = getProperties().get(VehicleStat.HORIZONTAL_DECAY);
+        float vd = getProperties().get(VehicleStat.VERTICAL_DECAY);
+        setDeltaMovement(velocity.x * decay * hd, velocity.y * decay * vd + gravity, velocity.z * decay * hd);
+
+        // Rotation decay
+        float rf = decay * getProperties().get(VehicleStat.ROTATION_DECAY);
+        pressingInterpolatedX.decay(0.0f, 1.0f - rf);
+        pressingInterpolatedZ.decay(0.0f, 1.0f - rf);
+    }
+
     @Override
     public SlotAccess getSlot(int slot) {
         return SlotAccess.forContainer(getInventory(), slot);

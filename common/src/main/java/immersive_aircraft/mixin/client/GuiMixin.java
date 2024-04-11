@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Gui.class)
 public class GuiMixin {
     @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;F)V", at = @At("TAIL"))
-    private void renderInject(GuiGraphics guiGraphics, float partialTick, CallbackInfo ci) {
+    private void ic_air$renderInject(GuiGraphics guiGraphics, float partialTick, CallbackInfo ci) {
         OverlayRenderer.renderOverlay(guiGraphics, partialTick);
     }
 }
