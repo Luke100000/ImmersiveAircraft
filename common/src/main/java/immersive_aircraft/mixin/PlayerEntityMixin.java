@@ -1,6 +1,7 @@
 package immersive_aircraft.mixin;
 
-import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -20,21 +21,21 @@ public abstract class PlayerEntityMixin extends Entity {
 
     @Inject(method = "wantsToStopRiding", at = @At("HEAD"), cancellable = true)
     void shouldDismountInjection(CallbackInfoReturnable<Boolean> cir) {
-        if (this.getRootVehicle() instanceof AircraftEntity) {
+        if (this.getRootVehicle() instanceof VehicleEntity) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "updatePlayerPose()V", at = @At("TAIL"))
     void updatePostInjection(CallbackInfo ci) {
-        if (getRootVehicle() instanceof AircraftEntity) {
+        if (getRootVehicle() instanceof VehicleEntity) {
             this.setPose(Pose.STANDING);
         }
     }
 
     @Inject(method = "isScoping()Z", at = @At("HEAD"), cancellable = true)
     void isScopingInjection(CallbackInfoReturnable<Boolean> cir) {
-        if (this.getRootVehicle() instanceof AircraftEntity aircraft && aircraft.isScoping()) {
+        if (this.getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
             cir.setReturnValue(true);
         }
     }

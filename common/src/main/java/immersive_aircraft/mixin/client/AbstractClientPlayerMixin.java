@@ -1,7 +1,7 @@
 package immersive_aircraft.mixin.client;
 
 import com.mojang.authlib.GameProfile;
-import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.entity.InventoryVehicleEntity;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ public abstract class AbstractClientPlayerMixin extends Player {
 
     @Inject(method = "getFieldOfViewModifier()F", at = @At("HEAD"), cancellable = true)
     public void ia$getFieldOfViewModifier(CallbackInfoReturnable<Float> cir) {
-        if (getRootVehicle() instanceof AircraftEntity aircraft && aircraft.isScoping()) {
+        if (getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
             cir.setReturnValue(0.05f);
         }
     }

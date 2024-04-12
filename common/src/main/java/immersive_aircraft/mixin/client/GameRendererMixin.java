@@ -2,7 +2,7 @@ package immersive_aircraft.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +24,7 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"))
     public void renderWorld(float tickDelta, long limitTime, PoseStack matrices, CallbackInfo ci) {
         Entity entity = mainCamera.getEntity();
-        if (!mainCamera.isDetached() && entity != null && entity.getRootVehicle() instanceof AircraftEntity vehicle) {
+        if (!mainCamera.isDetached() && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
             // rotate camera
             if (vehicle.adaptPlayerRotation) {
                 matrices.mulPose(Axis.ZP.rotationDegrees(vehicle.getRoll(tickDelta)));

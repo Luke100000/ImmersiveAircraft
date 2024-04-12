@@ -7,6 +7,7 @@ import immersive_aircraft.entity.misc.SparseSimpleInventory;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
 import immersive_aircraft.entity.misc.VehicleProperties;
 import immersive_aircraft.entity.misc.WeaponMount;
+import immersive_aircraft.entity.weapons.Telescope;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.item.upgrade.VehicleStat;
@@ -34,10 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
     private final VehicleProperties properties;
@@ -287,5 +285,17 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     @Override
     public float getDurability() {
         return getProperties().get(VehicleStat.DURABILITY);
+    }
+
+    public boolean isScoping() {
+        Collection<List<Weapon>> values = getWeapons().values();
+        for (List<Weapon> weapons : values) {
+            for (Weapon weapon : weapons) {
+                if (weapon instanceof Telescope telescope && telescope.isScoping()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
