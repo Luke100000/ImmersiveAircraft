@@ -192,7 +192,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     private void refuel(int i) {
-        List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
+        List<VehicleInventoryDescription.SlotDescription> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
         while (fuel[i] <= TARGET_FUEL && i < slots.size()) {
             ItemStack stack = getInventory().getItem(slots.get(i).index());
             int time = Utils.getFuelTime(stack);

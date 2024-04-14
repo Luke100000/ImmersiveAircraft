@@ -2,9 +2,19 @@ package immersive_aircraft.entity.misc;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.item.WeaponItem;
+import immersive_aircraft.screen.slot.FuelSlot;
+import immersive_aircraft.screen.slot.TypedSlot;
+import immersive_aircraft.screen.slot.UpgradeSlot;
 import immersive_aircraft.util.Rect2iCommon;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.FireworkRocketItem;
 
 import java.util.EnumMap;
 import java.util.LinkedList;
@@ -53,7 +63,7 @@ public class VehicleInventoryDescription {
 
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(slots.size());
-        for (Slot slot : slots) {
+        for (SlotDescription slot : slots) {
             buffer.writeInt(slot.type.ordinal());
             buffer.writeInt(slot.x);
             buffer.writeInt(slot.y);
@@ -77,11 +87,28 @@ public class VehicleInventoryDescription {
         DYE
     }
 
-    public record Slot(int x, int y, int index, SlotType type) {
+    public record SlotDescription(int x, int y, int index, SlotType type) {
+        public Slot getSlot(InventoryVehicleEntity vehicle, Container inventory, int titleHeight) {
+            if (type() == VehicleInventoryDescription.SlotType.BOILER) {
+                return new FuelSlot(inventory, index(), x(), y() + titleHeight);
+            } else if (type() == VehicleInventoryDescription.SlotType.WEAPON) {
+                return new TypedSlot(WeaponItem.class, 1, inventory, index(), x(), y() + titleHeight);
+            } else if (type() == VehicleInventoryDescription.SlotType.UPGRADE) {
+                return new UpgradeSlot(vehicle, 1, inventory, index(), x(), y() + titleHeight);
+            } else if (type() == VehicleInventoryDescription.SlotType.BOOSTER) {
+                return new TypedSlot(FireworkRocketItem.class, 64, inventory, index(), x(), y() + titleHeight);
+            } else if (type() == VehicleInventoryDescription.SlotType.BANNER) {
+                return new TypedSlot(BannerItem.class, 1, inventory, index(), x(), y() + titleHeight);
+            } else if (type() == VehicleInventoryDescription.SlotType.DYE) {
+                return new TypedSlot(DyeItem.class, 1, inventory, index(), x(), y() + titleHeight);
+            } else {
+                return new net.minecraft.world.inventory.Slot(inventory, index(), x(), y() + titleHeight);
+            }
+        }
     }
 
-    final EnumMap<SlotType, List<Slot>> slotMap = new EnumMap<>(SlotType.class);
-    final List<Slot> slots = new LinkedList<>();
+    final EnumMap<SlotType, List<SlotDescription>> slotMap = new EnumMap<>(SlotType.class);
+    final List<SlotDescription> slots = new LinkedList<>();
 
     {
         for (SlotType value : SlotType.values()) {
@@ -93,16 +120,16 @@ public class VehicleInventoryDescription {
         return slots.size();
     }
 
-    public List<Slot> getSlots() {
+    public List<SlotDescription> getSlots() {
         return slots;
     }
 
-    public List<Slot> getSlots(SlotType type) {
+    public List<SlotDescription> getSlots(SlotType type) {
         return slotMap.get(type);
     }
 
     public VehicleInventoryDescription addSlot(SlotType type, int x, int y) {
-        Slot slot = new Slot(x, y, lastIndex++, type);
+        SlotDescription slot = new SlotDescription(x, y, lastIndex++, type);
         slotMap.get(type).add(slot);
         slots.add(slot);
 
@@ -131,7 +158,7 @@ public class VehicleInventoryDescription {
     }
 
     public VehicleInventoryDescription build() {
-        for (Slot slot : slots) {
+        for (SlotDescription slot : slots) {
             if (slot.x >= 0 && slot.x < 176) {
                 height = Math.max(height, slot.y + 28);
             }

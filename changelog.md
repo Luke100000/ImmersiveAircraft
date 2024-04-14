@@ -1,3 +1,8 @@
+# 0.8.0
+
+* Changes to core, keep addons up to date!
+* Vehicles now implement inventory interface, thus working with hoppers etc
+
 # 0.7.5
 
 * Various smaller fixes

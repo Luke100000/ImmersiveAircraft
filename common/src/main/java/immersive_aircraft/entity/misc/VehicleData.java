@@ -35,9 +35,9 @@ public class VehicleData {
         populateWeaponMounts();
 
         // Load weapon mounts
-        List<VehicleInventoryDescription.Slot> weaponSlots = new java.util.ArrayList<>(inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON));
+        List<VehicleInventoryDescription.SlotDescription> weaponSlots = new java.util.ArrayList<>(inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON));
         json.getAsJsonArray("weaponMounts").forEach(weaponMountsJson -> {
-            VehicleInventoryDescription.Slot slot = weaponSlots.remove(0);
+            VehicleInventoryDescription.SlotDescription slot = weaponSlots.remove(0);
             weaponMountsJson.getAsJsonObject().entrySet().forEach(entry -> {
                 WeaponMount.Type type = WeaponMount.Type.valueOf(entry.getKey());
                 JsonArray mounts = entry.getValue().getAsJsonArray();
@@ -112,7 +112,7 @@ public class VehicleData {
     }
 
     private void populateWeaponMounts() {
-        List<VehicleInventoryDescription.Slot> weaponSlots = inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON);
+        List<VehicleInventoryDescription.SlotDescription> weaponSlots = inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON);
         weaponSlots.forEach(slot -> {
             for (WeaponMount.Type type : WeaponMount.Type.values()) {
                 weaponMounts.computeIfAbsent(slot.index(), integer -> new HashMap<>()).put(type, new LinkedList<>());

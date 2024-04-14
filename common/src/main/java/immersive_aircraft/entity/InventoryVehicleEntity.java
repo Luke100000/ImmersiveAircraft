@@ -27,6 +27,7 @@ import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -37,7 +38,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider {
+public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider, Container {
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected Map<Integer, List<Weapon>> weapons = new HashMap<>();
@@ -70,9 +71,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     }
 
     public List<ItemStack> getSlots(VehicleInventoryDescription.SlotType slotType) {
-        List<VehicleInventoryDescription.Slot> slots = getInventoryDescription().getSlots(slotType);
+        List<VehicleInventoryDescription.SlotDescription> slots = getInventoryDescription().getSlots(slotType);
         List<ItemStack> list = new ArrayList<>(slots.size());
-        for (VehicleInventoryDescription.Slot slot : slots) {
+        for (VehicleInventoryDescription.SlotDescription slot : slots) {
             list.add(getInventory().getItem(slot.index()));
         }
         return list;
@@ -213,7 +214,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         getInventory().tick(this);
 
         // Check and recreate weapon slots
-        for (VehicleInventoryDescription.Slot slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
+        for (VehicleInventoryDescription.SlotDescription slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
             ItemStack weaponItemStack = getSlot(slot.index()).get();
             List<Weapon> weapon = weapons.get(slot.index());
 
@@ -297,5 +298,65 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
             }
         }
         return false;
+    }
+
+    // Inventory proxy methods
+
+    @Override
+    public int getContainerSize() {
+        return inventory.getContainerSize();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        return inventory.getItem(slot);
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        return inventory.removeItem(slot, amount);
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        return inventory.removeItemNoUpdate(slot);
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        inventory.setItem(slot, stack);
+    }
+
+    @Override
+    public void setChanged() {
+        inventory.setChanged();
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return inventory.stillValid(player);
+    }
+
+    @Override
+    public void clearContent() {
+        inventory.clearContent();
+    }
+
+    @Override
+    public boolean canPlaceItem(int index, ItemStack stack) {
+        VehicleInventoryDescription.SlotDescription slotType = getInventoryDescription().getSlots().get(index);
+        Slot slot = slotType.getSlot(this, inventory, 0);
+        return slot.mayPlace(stack);
+    }
+
+    @Override
+    public boolean canTakeItem(Container target, int index, ItemStack stack) {
+        VehicleInventoryDescription.SlotDescription slotType = getInventoryDescription().getSlots().get(index);
+        return slotType.type() == VehicleInventoryDescription.SlotType.INVENTORY;
     }
 }

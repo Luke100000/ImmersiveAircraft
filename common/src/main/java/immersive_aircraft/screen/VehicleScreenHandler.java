@@ -2,18 +2,11 @@ package immersive_aircraft.screen;
 
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.misc.VehicleInventoryDescription;
-import immersive_aircraft.item.WeaponItem;
-import immersive_aircraft.screen.slot.FuelSlot;
-import immersive_aircraft.screen.slot.TypedSlot;
-import immersive_aircraft.screen.slot.UpgradeSlot;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
 
 public class VehicleScreenHandler extends AbstractContainerMenu {
@@ -32,22 +25,8 @@ public class VehicleScreenHandler extends AbstractContainerMenu {
         int titleHeight = 10;
 
         // Vehicle inventory
-        for (VehicleInventoryDescription.Slot slot : this.vehicle.getInventoryDescription().getSlots()) {
-            if (slot.type() == VehicleInventoryDescription.SlotType.BOILER) {
-                this.addSlot(new FuelSlot(inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            } else if (slot.type() == VehicleInventoryDescription.SlotType.WEAPON) {
-                this.addSlot(new TypedSlot(WeaponItem.class, 1, inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            } else if (slot.type() == VehicleInventoryDescription.SlotType.UPGRADE) {
-                this.addSlot(new UpgradeSlot(vehicle, 1, inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            } else if (slot.type() == VehicleInventoryDescription.SlotType.BOOSTER) {
-                this.addSlot(new TypedSlot(FireworkRocketItem.class, 64, inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            } else if (slot.type() == VehicleInventoryDescription.SlotType.BANNER) {
-                this.addSlot(new TypedSlot(BannerItem.class, 1, inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            } else if (slot.type() == VehicleInventoryDescription.SlotType.DYE) {
-                this.addSlot(new TypedSlot(DyeItem.class, 1, inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            } else {
-                this.addSlot(new Slot(inventory, slot.index(), slot.x(), slot.y() + titleHeight));
-            }
+        for (VehicleInventoryDescription.SlotDescription slot : this.vehicle.getInventoryDescription().getSlots()) {
+            this.addSlot(slot.getSlot(vehicle, inventory, titleHeight));
         }
 
         int h = this.vehicle.getInventoryDescription().getHeight() + titleHeight * 2;

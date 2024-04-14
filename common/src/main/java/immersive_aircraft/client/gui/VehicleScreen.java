@@ -85,7 +85,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
         int titleHeight = 10;
 
-        for (VehicleInventoryDescription.Slot slot : menu.getVehicle().getInventoryDescription().getSlots()) {
+        for (VehicleInventoryDescription.SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
             switch (slot.type()) {
                 case INVENTORY ->
                         drawImage(context, this.leftPos + slot.x() - 1, this.topPos + titleHeight + slot.y() - 1, 284, 0, 18, 18);
@@ -120,7 +120,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
         // Slot tooltip
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {
-            VehicleInventoryDescription.Slot slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
+            VehicleInventoryDescription.SlotDescription slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
             if (slot.type() == VehicleInventoryDescription.SlotType.DYE || slot.type() == VehicleInventoryDescription.SlotType.BOOSTER || slot.type() == VehicleInventoryDescription.SlotType.BOILER || slot.type() == VehicleInventoryDescription.SlotType.UPGRADE || slot.type() == VehicleInventoryDescription.SlotType.BANNER || slot.type() == VehicleInventoryDescription.SlotType.WEAPON) {
                 context.renderTooltip(this.font, List.of(Component.translatable("immersive_aircraft.slot." + slot.type().name().toLowerCase(Locale.ROOT))), Optional.empty(), mouseX, mouseY);
             }

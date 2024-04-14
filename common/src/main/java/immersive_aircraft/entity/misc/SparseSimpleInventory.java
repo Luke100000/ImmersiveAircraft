@@ -44,7 +44,6 @@ public class SparseSimpleInventory extends SimpleContainer {
         }
     }
 
-
     public void tick(InventoryVehicleEntity entity) {
         if (entity.level().isClientSide) {
             // Sync initial inventory
