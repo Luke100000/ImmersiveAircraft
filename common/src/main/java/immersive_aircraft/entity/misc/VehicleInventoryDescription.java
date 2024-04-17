@@ -142,7 +142,7 @@ public class VehicleInventoryDescription {
 
     public VehicleInventoryDescription addSlots(SlotType type, int x, int y, int cols, int rows, boolean boxed) {
         if (boxed) {
-            addRectangle(x - 8, y + 2, cols * 18 + 14, rows * 18 + 14);
+            addRectangle(x - 8, y + 2, rows * 18 + 14, cols * 18 + 14);
         }
         for (int sx = 0; sx < cols; sx++) {
             for (int sy = 0; sy < rows; sy++) {
