@@ -2,8 +2,7 @@ package immersive_aircraft.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
-import immersive_aircraft.entity.EngineVehicle;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import immersive_aircraft.util.Rect2iCommon;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,15 +13,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/gui/container/inventory.png");
 
-    public static int titleHeight = 10;
-    public static int baseHeight = 86;
+    public static final int titleHeight = 10;
+    public static final int baseHeight = 86;
 
     public int containerSize;
 
@@ -69,7 +66,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         }
     }
 
-    private void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
+    public void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
         context.blit(TEXTURE, x, y, u, v, w, h, 512, 256);
     }
 
@@ -83,47 +80,18 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        int titleHeight = 10;
-
-        for (VehicleInventoryDescription.SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
-            switch (slot.type()) {
-                case INVENTORY ->
-                        drawImage(context, this.leftPos + slot.x() - 1, this.topPos + titleHeight + slot.y() - 1, 284, 0, 18, 18);
-                case BOILER -> {
-                    drawImage(context, this.leftPos + slot.x() - 4, this.topPos + titleHeight + slot.y() - 18, 318, 0, 24, 39);
-                    if (menu.getVehicle() instanceof EngineVehicle engineAircraft && engineAircraft.getFuelUtilization() > 0.0) {
-                        drawImage(context, this.leftPos + slot.x() - 4, this.topPos + titleHeight + slot.y() - 18, 318 + 30, 0, 24, 39);
-                    }
-                }
-                default -> {
-                    if (menu.getVehicle().getInventory().getItem(slot.index()).isEmpty()) {
-                        switch (slot.type()) {
-                            case WEAPON ->
-                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22, 22, 22);
-                            case UPGRADE ->
-                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 2, 22, 22);
-                            case BANNER ->
-                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 3, 22, 22);
-                            case DYE ->
-                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 4, 22, 22);
-                            case BOOSTER ->
-                                    drawImage(context, leftPos + slot.x() - 3, topPos + titleHeight + slot.y() - 3, 262, 22 * 5, 22, 22);
-                        }
-                    } else {
-                        drawImage(context, this.leftPos + slot.x() - 3, this.topPos + titleHeight + slot.y() - 3, 262, 0, 22, 22);
-                    }
-                }
-            }
+        for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
+            SlotRenderer.get(slot.type()).render(this, context, slot, mouseX, mouseY, delta);
         }
 
         super.render(context, mouseX, mouseY, delta);
 
         // Slot tooltip
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {
-            VehicleInventoryDescription.SlotDescription slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
-            if (slot.type() == VehicleInventoryDescription.SlotType.DYE || slot.type() == VehicleInventoryDescription.SlotType.BOOSTER || slot.type() == VehicleInventoryDescription.SlotType.BOILER || slot.type() == VehicleInventoryDescription.SlotType.UPGRADE || slot.type() == VehicleInventoryDescription.SlotType.BANNER || slot.type() == VehicleInventoryDescription.SlotType.WEAPON) {
-                context.renderTooltip(this.font, List.of(Component.translatable("immersive_aircraft.slot." + slot.type().name().toLowerCase(Locale.ROOT))), Optional.empty(), mouseX, mouseY);
-            }
+            SlotDescription slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
+            slot.getToolTip().ifPresent(
+                tooltip -> context.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY)
+            );
         } else {
             renderTooltip(context, mouseX, mouseY);
         }

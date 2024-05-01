@@ -1,4 +1,4 @@
-package immersive_aircraft.entity.misc;
+package immersive_aircraft.entity.inventory;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.InventoryVehicleEntity;

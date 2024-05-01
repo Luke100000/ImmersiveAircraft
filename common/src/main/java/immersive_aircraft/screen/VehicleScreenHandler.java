@@ -1,7 +1,7 @@
 package immersive_aircraft.screen;
 
 import immersive_aircraft.entity.InventoryVehicleEntity;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,14 +22,12 @@ public class VehicleScreenHandler extends AbstractContainerMenu {
 
         inventory.startOpen(playerInventory.player);
 
-        int titleHeight = 10;
-
         // Vehicle inventory
-        for (VehicleInventoryDescription.SlotDescription slot : this.vehicle.getInventoryDescription().getSlots()) {
-            this.addSlot(slot.getSlot(vehicle, inventory, titleHeight));
+        for (SlotDescription slot : this.vehicle.getInventoryDescription().getSlots()) {
+            this.addSlot(slot.getSlot(vehicle, inventory));
         }
 
-        int h = this.vehicle.getInventoryDescription().getHeight() + titleHeight * 2;
+        int h = this.vehicle.getInventoryDescription().getHeight() + 20;
 
         // The player inventory
         for (int y = 0; y < 3; ++y) {

@@ -3,7 +3,8 @@ package immersive_aircraft.entity;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
@@ -61,7 +62,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     public EngineVehicle(EntityType<? extends EngineVehicle> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
 
-        fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER).size()];
+        fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER).size()];
     }
 
     protected SoundEvent getEngineStartSound() {
@@ -192,7 +193,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     private void refuel(int i) {
-        List<VehicleInventoryDescription.SlotDescription> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.BOILER);
+        List<SlotDescription> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER);
         while (fuel[i] <= TARGET_FUEL && i < slots.size()) {
             ItemStack stack = getInventory().getItem(slots.get(i).index());
             int time = Utils.getFuelTime(stack);

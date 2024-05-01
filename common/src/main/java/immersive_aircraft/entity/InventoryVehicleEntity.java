@@ -3,8 +3,9 @@ package immersive_aircraft.entity;
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.data.VehicleDataLoader;
-import immersive_aircraft.entity.misc.SparseSimpleInventory;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.SparseSimpleInventory;
+import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.entity.misc.VehicleProperties;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapons.Telescope;
@@ -41,7 +42,7 @@ import java.util.*;
 public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider, Container {
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
-    protected Map<Integer, List<Weapon>> weapons = new HashMap<>();
+    protected final Map<Integer, List<Weapon>> weapons = new HashMap<>();
 
     public InventoryVehicleEntity(EntityType<? extends InventoryVehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
@@ -70,10 +71,10 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         return EMPTY_WEAPONS;
     }
 
-    public List<ItemStack> getSlots(VehicleInventoryDescription.SlotType slotType) {
-        List<VehicleInventoryDescription.SlotDescription> slots = getInventoryDescription().getSlots(slotType);
+    public List<ItemStack> getSlots(String slotType) {
+        List<SlotDescription> slots = getInventoryDescription().getSlots(slotType);
         List<ItemStack> list = new ArrayList<>(slots.size());
-        for (VehicleInventoryDescription.SlotDescription slot : slots) {
+        for (SlotDescription slot : slots) {
             list.add(getInventory().getItem(slot.index()));
         }
         return list;
@@ -82,7 +83,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     //todo cache?
     public float getTotalUpgrade(VehicleStat stat) {
         float value = 1.0f;
-        List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.SlotType.UPGRADE);
+        List<ItemStack> upgrades = getSlots(VehicleInventoryDescription.UPGRADE);
         for (int step = 0; step < 2; step++) {
             for (ItemStack stack : upgrades) {
                 VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
@@ -184,7 +185,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
     public void boost() {
         super.boost();
 
-        getSlots(VehicleInventoryDescription.SlotType.BOOSTER).forEach(s -> s.shrink(1));
+        getSlots(VehicleInventoryDescription.BOOSTER).forEach(s -> s.shrink(1));
     }
 
     @Override
@@ -206,7 +207,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     public boolean canBoost() {
-        return getSlots(VehicleInventoryDescription.SlotType.BOOSTER).stream().anyMatch(v -> !v.isEmpty()) && getBoost() <= 0;
+        return getSlots(VehicleInventoryDescription.BOOSTER).stream().anyMatch(v -> !v.isEmpty()) && getBoost() <= 0;
     }
 
     @Override
@@ -214,7 +215,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         getInventory().tick(this);
 
         // Check and recreate weapon slots
-        for (VehicleInventoryDescription.SlotDescription slot : getInventoryDescription().getSlots(VehicleInventoryDescription.SlotType.WEAPON)) {
+        for (SlotDescription slot : getInventoryDescription().getSlots(VehicleInventoryDescription.WEAPON)) {
             ItemStack weaponItemStack = getSlot(slot.index()).get();
             List<Weapon> weapon = weapons.get(slot.index());
 
@@ -349,14 +350,14 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     public boolean canPlaceItem(int index, ItemStack stack) {
-        VehicleInventoryDescription.SlotDescription slotType = getInventoryDescription().getSlots().get(index);
-        Slot slot = slotType.getSlot(this, inventory, 0);
+        SlotDescription slotType = getInventoryDescription().getSlots().get(index);
+        Slot slot = slotType.getSlot(this, inventory);
         return slot.mayPlace(stack);
     }
 
     @Override
     public boolean canTakeItem(Container target, int index, ItemStack stack) {
-        VehicleInventoryDescription.SlotDescription slotType = getInventoryDescription().getSlots().get(index);
-        return slotType.type() == VehicleInventoryDescription.SlotType.INVENTORY;
+        SlotDescription slotType = getInventoryDescription().getSlots().get(index);
+        return slotType.type().equals(VehicleInventoryDescription.INVENTORY);
     }
 }

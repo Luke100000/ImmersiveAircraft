@@ -17,10 +17,10 @@
     "verticalDecay": 0.8
   },
   "inventorySlots": [
-    {"type": "boiler", "x": 17, "y": 22},
-    {"type": "weapon", "x": 50, "y": 14},
-    {"type": "upgrade", "x": 72, "y": 14},
-    {"type": "inventory", "x": 98, "y": 8, "cols": 3, "rows": 2}
+    {"type": "boiler", "x": 17, "y": 32},
+    {"type": "weapon", "x": 50, "y": 24},
+    {"type": "upgrade", "x": 72, "y": 24},
+    {"type": "inventory", "x": 98, "y": 18, "cols": 3, "rows": 2}
   ],
   "weaponMounts": [
     {

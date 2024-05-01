@@ -13,18 +13,18 @@
     "mass": 8.0
   },
   "inventorySlots": [
-    {"type": "upgrade", "x": 50, "y": 14},
-    {"type": "upgrade", "x": 72, "y": 14},
-    {"type": "upgrade", "x": 50, "y": 36},
-    {"type": "upgrade", "x": 72, "y": 36},
-    {"type": "banner", "x": 50, "y": 58},
-    {"type": "dye", "x": 72, "y": 58},
-    {"type": "boiler", "x": 17, "y": 44},
-    {"type": "inventory", "x": 98, "y": 8, "cols": 4, "rows": 4},
-    {"type": "inventory", "x": -80, "y": 8, "cols": 4, "rows": 4, "boxed": true},
-    {"type": "inventory", "x": 186, "y": 8, "cols": 4, "rows": 4, "boxed": true},
-    {"type": "inventory", "x": -80, "y": 96, "cols": 4, "rows": 4, "boxed": true},
-    {"type": "inventory", "x": 186, "y": 96, "cols": 4, "rows": 4, "boxed": true}
+    {"type": "upgrade", "x": 50, "y": 24},
+    {"type": "upgrade", "x": 72, "y": 24},
+    {"type": "upgrade", "x": 50, "y": 46},
+    {"type": "upgrade", "x": 72, "y": 46},
+    {"type": "banner", "x": 50, "y": 68},
+    {"type": "dye", "x": 72, "y": 68},
+    {"type": "boiler", "x": 17, "y": 54},
+    {"type": "inventory", "x": 98, "y": 18, "cols": 4, "rows": 4},
+    {"type": "inventory", "x": -80, "y": 18, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 186, "y": 18, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": -80, "y": 106, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 186, "y": 106, "cols": 4, "rows": 4, "boxed": true}
   ],
   "weaponMounts": [
   ],

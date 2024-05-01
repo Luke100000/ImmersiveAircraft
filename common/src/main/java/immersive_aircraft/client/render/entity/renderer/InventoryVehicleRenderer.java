@@ -8,7 +8,7 @@ import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.InventoryVehicleEntity;
-import immersive_aircraft.entity.misc.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.weapons.Weapon;
 import immersive_aircraft.resources.bbmodel.BBFaceContainer;
 import immersive_aircraft.resources.bbmodel.BBMesh;
@@ -53,7 +53,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
 
 
     public void renderBanners(BBModel model, BBObject ignoredObject, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
-        List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.SlotType.BANNER);
+        List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);
         int i = 0;
         for (ItemStack slot : slots) {
             if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
@@ -67,7 +67,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
     }
 
     public void renderSails(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
-        ItemStack stack = entity.getSlots(VehicleInventoryDescription.SlotType.DYE).get(0);
+        ItemStack stack = entity.getSlots(VehicleInventoryDescription.DYE).get(0);
         DyeColor color;
         if (stack.getItem() instanceof DyeItem item) {
             color = item.getDyeColor();

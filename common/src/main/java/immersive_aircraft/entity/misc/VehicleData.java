@@ -2,6 +2,8 @@ package immersive_aircraft.entity.misc;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
+import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,9 +37,9 @@ public class VehicleData {
         populateWeaponMounts();
 
         // Load weapon mounts
-        List<VehicleInventoryDescription.SlotDescription> weaponSlots = new java.util.ArrayList<>(inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON));
+        List<SlotDescription> weaponSlots = new java.util.ArrayList<>(inventoryDescription.getSlots(VehicleInventoryDescription.WEAPON));
         json.getAsJsonArray("weaponMounts").forEach(weaponMountsJson -> {
-            VehicleInventoryDescription.SlotDescription slot = weaponSlots.remove(0);
+            SlotDescription slot = weaponSlots.remove(0);
             weaponMountsJson.getAsJsonObject().entrySet().forEach(entry -> {
                 WeaponMount.Type type = WeaponMount.Type.valueOf(entry.getKey());
                 JsonArray mounts = entry.getValue().getAsJsonArray();
@@ -112,7 +114,7 @@ public class VehicleData {
     }
 
     private void populateWeaponMounts() {
-        List<VehicleInventoryDescription.SlotDescription> weaponSlots = inventoryDescription.getSlots(VehicleInventoryDescription.SlotType.WEAPON);
+        List<SlotDescription> weaponSlots = inventoryDescription.getSlots(VehicleInventoryDescription.WEAPON);
         weaponSlots.forEach(slot -> {
             for (WeaponMount.Type type : WeaponMount.Type.values()) {
                 weaponMounts.computeIfAbsent(slot.index(), integer -> new HashMap<>()).put(type, new LinkedList<>());
