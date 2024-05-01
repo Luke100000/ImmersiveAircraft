@@ -130,7 +130,11 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public void boost() {
-        entityData.set(BOOST, 100);
+        boost(100);
+    }
+
+    public void boost(int ticks) {
+        entityData.set(BOOST, ticks);
     }
 
     protected void applyBoost() {

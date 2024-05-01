@@ -91,7 +91,7 @@ public class VehicleInventoryDescription {
             (type, buffer) -> new TypedSlotDescription(type, buffer, WeaponItem.class));
     public static final String UPGRADE = registerSlotType("upgrade", UpgradeSlotDescription::new, UpgradeSlotDescription::new);
     public static final String BOOSTER = registerSlotType("booster",
-            (type, index, x, y, json) -> new TypedSlotDescription(type, index, x, y, json, FireworkRocketItem.class, 1),
+            (type, index, x, y, json) -> new TypedSlotDescription(type, index, x, y, json, FireworkRocketItem.class, 64),
             (type, buffer) -> new TypedSlotDescription(type, buffer, FireworkRocketItem.class));
     public static final String BANNER = registerSlotType("banner",
             (type, index, x, y, json) -> new TypedSlotDescription(type, index, x, y, json, BannerItem.class, 1),
@@ -136,7 +136,7 @@ public class VehicleInventoryDescription {
 
     public VehicleInventoryDescription addSlots(String type, int x, int y, int cols, int rows, boolean boxed, JsonObject json) {
         if (boxed) {
-            addRectangle(x - 8, y + 2, rows * 18 + 14, cols * 18 + 14);
+            addRectangle(x - 8, y - 8, rows * 18 + 14, cols * 18 + 14);
         }
         for (int sx = 0; sx < cols; sx++) {
             for (int sy = 0; sy < rows; sy++) {

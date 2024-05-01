@@ -183,9 +183,13 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     public void boost() {
-        super.boost();
+        int length = getSlots(VehicleInventoryDescription.BOOSTER).stream().mapToInt(s -> {
+            byte l = s.getOrCreateTagElement("Fireworks").getByte("Flight");
+            s.shrink(1);
+            return l;
+        }).sum();
 
-        getSlots(VehicleInventoryDescription.BOOSTER).forEach(s -> s.shrink(1));
+        super.boost(length * 50);
     }
 
     @Override

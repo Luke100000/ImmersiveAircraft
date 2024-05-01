@@ -1,7 +1,9 @@
-# 0.8.0
+# 1.0.0
 
 * Changes to core, keep addons up to date!
+  * Made many changes to allow easier addons
 * Vehicles now implement inventory interface, thus working with hoppers etc
+* Rockets now boost based on duration
 
 # 0.7.5
 
