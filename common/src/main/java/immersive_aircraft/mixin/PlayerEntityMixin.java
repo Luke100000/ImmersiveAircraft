@@ -1,6 +1,7 @@
 package immersive_aircraft.mixin;
 
 import immersive_aircraft.entity.AircraftEntity;
+import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -40,11 +41,11 @@ public abstract class PlayerEntityMixin extends Entity {
         }
     }
 
-    @Redirect(method = "getDestroySpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;onGround()Z"))
+    @Redirect(method = "getDestroySpeed", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/player/Player;onGround:Z"))
     public boolean immersive_aircraft$patchedGetDestroySpeed(Player player) {
         if (player.getRootVehicle() instanceof VehicleEntity) {
             return true;
         }
-        return player.onGround();
+        return player.isOnGround();
     }
 }

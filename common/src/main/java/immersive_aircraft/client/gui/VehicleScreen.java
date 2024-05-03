@@ -68,7 +68,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         blit(matrices, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
 
         for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
-            drawRectangle(matrices, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+            drawRectangle(matrices, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
         }
     }
 
