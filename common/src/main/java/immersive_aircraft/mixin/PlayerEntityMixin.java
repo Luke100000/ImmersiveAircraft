@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -38,5 +39,13 @@ public abstract class PlayerEntityMixin extends Entity {
         if (this.getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
             cir.setReturnValue(true);
         }
+    }
+
+    @Redirect(method = "getDestroySpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;onGround()Z"))
+    public boolean immersive_aircraft$patchedGetDestroySpeed(Player player) {
+        if (player.getRootVehicle() instanceof VehicleEntity) {
+            return true;
+        }
+        return player.onGround();
     }
 }
