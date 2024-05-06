@@ -21,7 +21,7 @@ public class OverlayRenderer {
 
     public static void renderOverlay(GuiGraphics context, float tickDelta) {
         Minecraft client = Minecraft.getInstance();
-        if (!client.options.hideGui && client.gameMode != null && client.player != null) {
+        if (client.gameMode != null && client.player != null) {
             if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
             }
@@ -98,6 +98,7 @@ public class OverlayRenderer {
             context.blit(POWER_TEX, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
             context.blit(POWER_TEX, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
     }
 }
