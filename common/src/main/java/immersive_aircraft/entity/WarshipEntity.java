@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import com.mojang.math.Axis;
 import immersive_aircraft.Items;
+import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.WeaponMount;
@@ -223,6 +224,6 @@ public class WarshipEntity extends AirshipEntity {
 
     @Override
     public double getZoom() {
-        return 10.0f;
+        return 5.0f + enginePower.getSmooth(Main.frameTime) * 5.0f;
     }
 }

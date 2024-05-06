@@ -1,10 +1,12 @@
 # 1.0.0
 
+* Added the Warship (thanks Maugwei!)
 * Changes to core, keep addons up to date!
     * Made many changes to allow easier addons
 * Vehicles now implement inventory interface, thus working with hoppers etc
 * Rockets now boost based on duration
 * You no longer yeet yourself out of the aircraft when sneak-right clicking
+* No more mining slowdown while in aircraft
 
 # 0.7.5
 

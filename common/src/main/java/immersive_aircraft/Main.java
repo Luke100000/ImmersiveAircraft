@@ -15,6 +15,8 @@ public final class Main {
     public static CameraGetter cameraGetter = () -> Vec3.ZERO;
     public static FirstPersonGetter firstPersonGetter = () -> false;
 
+    public static float frameTime = 0.0f;
+
     static {
         License.iConfirmNonCommercialUse("Conczin");
     }
