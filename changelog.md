@@ -1,3 +1,12 @@
+# 0.7.7
+
+* You no longer yeet yourself out of the aircraft when sneak-right clicking
+* No more mining slowdown while in aircraft
+
+# 0.7.6
+
+* Fixed fuel consumption bugged to 0
+
 # 0.7.5
 
 * Various smaller fixes

@@ -140,7 +140,7 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (!player.level.isClientSide && player.isSecondaryUseActive()) {
+        if (!player.level.isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
             Entity primaryPassenger = getFirstPassenger();
             if (primaryPassenger != null) {
                 // Kick out the first passenger

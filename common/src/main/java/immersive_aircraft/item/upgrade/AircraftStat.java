@@ -14,7 +14,7 @@ public record AircraftStat(String name, boolean positive, float defaultValue) {
 
     public static final AircraftStat ACCELERATION = register("acceleration", true, 1.0f);
     public static final AircraftStat DURABILITY = register("durability", true, 1.0f);
-    public static final AircraftStat FUEL = register("fuel", false);
+    public static final AircraftStat FUEL = register("fuel", false, 1.0f);
 
     public static final AircraftStat FRICTION = register("friction", false, 0.015f);
     public static final AircraftStat GLIDE_FACTOR = register("glideFactor", true);
