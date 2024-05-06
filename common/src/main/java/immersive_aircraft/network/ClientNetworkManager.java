@@ -1,11 +1,10 @@
 package immersive_aircraft.network;
 
-import immersive_aircraft.client.gui.VehicleScreen;
+import immersive_aircraft.client.gui.VehicleScreenRegistry;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.s2c.FireResponse;
 import immersive_aircraft.network.s2c.InventoryUpdateMessage;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
-import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,10 +17,9 @@ public class ClientNetworkManager implements NetworkManager {
         if (client.level != null && client.player != null) {
             InventoryVehicleEntity vehicle = (InventoryVehicleEntity) client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
-                VehicleScreenHandler handler = (VehicleScreenHandler) vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
-                VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName());
-                client.player.containerMenu = screen.getMenu();
-                client.setScreen(screen);
+                VehicleScreenRegistry.GUI_OPEN_HANDLERS
+                        .getOrDefault(vehicle.getClass(), VehicleScreenRegistry.DEFAULT)
+                        .handle(vehicle, client.player, message);
             }
         }
     }
