@@ -60,7 +60,9 @@ public class QuadrocopterEntity extends Rotorcraft {
                 diff += 360.0f;
             }
             diff = diff * getProperties().get(VehicleStat.YAW_SPEED);
-            setYRot(getYRot() + diff);
+            if (Math.abs(diff) < 60f) {
+                setYRot(getYRot() + diff);
+            }
         }
 
         float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(VehicleStat.ENGINE_SPEED));
