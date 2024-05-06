@@ -8,3 +8,5 @@
 * Drop as item
 * Don't shift-right when within
 * Name tags on hull
+* Quadrocropter infinite spin
+* No rockets warning

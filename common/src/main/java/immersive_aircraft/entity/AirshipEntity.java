@@ -47,8 +47,12 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     void trail(Matrix4f transform, int index) {
-        Vector4f p0 = transformPosition(transform, (float) 0.0 - 0.15f, 0.0f, 0.0f);
-        Vector4f p1 = transformPosition(transform, (float) 0.0 + 0.15f, 0.0f, 0.0f);
+        trail(transform, index, 0.15f);
+    }
+
+    void trail(Matrix4f transform, int index, float thickness) {
+        Vector4f p0 = transformPosition(transform, -thickness, 0.0f, 0.0f);
+        Vector4f p1 = transformPosition(transform, thickness, 0.0f, 0.0f);
 
         float trailStrength = Math.max(0.0f, Math.min(1.0f, (float) (getDeltaMovement().length() - 0.05f)));
         getTrails().get(index).add(p0, p1, trailStrength);
@@ -112,5 +116,10 @@ public class AirshipEntity extends Rotorcraft {
     @Override
     public double getZoom() {
         return 5.0;
+    }
+
+    @Override
+    protected float getPropellerSpeed() {
+        return super.getPropellerSpeed() * (0.25f + Math.abs(pressingInterpolatedZ.get(0.0f)));
     }
 }

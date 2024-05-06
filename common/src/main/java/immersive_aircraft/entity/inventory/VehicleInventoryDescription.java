@@ -33,6 +33,7 @@ public class VehicleInventoryDescription {
             String type = buffer.readUtf();
             addSlot(SLOT_DECODER.get(type).decode(type, buffer));
         }
+
         int rectCount = buffer.readInt();
         for (int i = 0; i < rectCount; i++) {
             addRectangle(buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt());
@@ -136,7 +137,7 @@ public class VehicleInventoryDescription {
 
     public VehicleInventoryDescription addSlots(String type, int x, int y, int cols, int rows, boolean boxed, JsonObject json) {
         if (boxed) {
-            addRectangle(x - 8, y - 8, rows * 18 + 14, cols * 18 + 14);
+            addRectangle(x - 8, y - 8, cols * 18 + 14, rows * 18 + 14);
         }
         for (int sx = 0; sx < cols; sx++) {
             for (int sy = 0; sy < rows; sy++) {
@@ -154,7 +155,7 @@ public class VehicleInventoryDescription {
     public VehicleInventoryDescription build() {
         for (SlotDescription slot : slots) {
             if (slot.x() >= 0 && slot.x() < 176) {
-                height = Math.max(height, slot.y() + 28);
+                height = Math.max(height, slot.y() + 18);
             }
         }
         return this;

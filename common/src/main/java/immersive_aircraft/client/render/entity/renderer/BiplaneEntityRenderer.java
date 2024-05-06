@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEntityRenderer<T> {
     private static final ResourceLocation ID = Main.locate("biplane");
@@ -35,10 +34,5 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     @Override
     protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
         return model;
-    }
-
-    @Override
-    protected Vector3f getPivot(AircraftEntity entity) {
-        return new Vector3f(0.0f, 0.4f, 0.05f);
     }
 }

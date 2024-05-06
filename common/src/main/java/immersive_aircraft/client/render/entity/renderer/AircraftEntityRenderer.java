@@ -16,12 +16,6 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends I
     // Because this is used in plugins, changing to generic T is no longer possible
     protected abstract ModelPartRenderHandler<T> getModel(AircraftEntity entity);
 
-    @SuppressWarnings("RedundantMethodOverride")
-    @Override
-    protected Vector3f getPivot(AircraftEntity entity) {
-        return new Vector3f(0.0f, 0.0f, 0.0f);
-    }
-
     public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
         // Wind effect
         Vector3f effect = entity.onGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();

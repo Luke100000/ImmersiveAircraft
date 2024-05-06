@@ -18,8 +18,8 @@ import java.util.Optional;
 public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/gui/container/inventory.png");
 
-    public static final int titleHeight = 10;
-    public static final int baseHeight = 86;
+    public static final int TITLE_HEIGHT = 10;
+    public static final int BASE_HEIGHT = 86;
 
     public int containerSize;
 
@@ -28,8 +28,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
         containerSize = handler.getVehicle().getInventoryDescription().getHeight();
 
-        imageHeight = baseHeight + containerSize + titleHeight * 2;
-        inventoryLabelY = containerSize + titleHeight;
+        imageHeight = BASE_HEIGHT + containerSize + TITLE_HEIGHT * 2;
+        inventoryLabelY = containerSize + TITLE_HEIGHT;
     }
 
     @Override
@@ -58,11 +58,11 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        context.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + titleHeight * 2, 512, 256);
-        context.blit(TEXTURE, leftPos, topPos + containerSize + titleHeight * 2 - 4, 0, 222 - baseHeight, imageWidth, baseHeight, 512, 256);
+        context.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
+        context.blit(TEXTURE, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
 
         for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
-            drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+            drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
         }
     }
 

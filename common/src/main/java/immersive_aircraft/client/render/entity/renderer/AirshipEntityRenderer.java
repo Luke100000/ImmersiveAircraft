@@ -6,7 +6,6 @@ import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirshipEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Vector3f;
 
 public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEntityRenderer<T> {
     private static final ResourceLocation ID = Main.locate("airship");
@@ -29,10 +28,5 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     @Override
     protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
         return model;
-    }
-
-    @Override
-    protected Vector3f getPivot(AircraftEntity entity) {
-        return new Vector3f(0.0f, 0.2f, 0.0f);
     }
 }

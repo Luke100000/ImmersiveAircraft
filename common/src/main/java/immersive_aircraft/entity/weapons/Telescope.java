@@ -52,6 +52,8 @@ public class Telescope extends Weapon {
 
     @Override
     public <T extends VehicleEntity> void setAnimationVariables(T entity, float time) {
+        super.setAnimationVariables(entity, time);
+
         float tickDelta = time % 1.0f;
         BBAnimationVariables.set("pitch", (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
         BBAnimationVariables.set("yaw", (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));

@@ -17,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends EntityRenderer<T> {
     public VehicleEntityRenderer(EntityRendererProvider.Context context) {
@@ -27,10 +26,6 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
     protected abstract ModelPartRenderHandler<T> getModel(T entity);
 
     protected abstract ResourceLocation getModelId();
-
-    protected Vector3f getPivot(T entity) {
-        return new Vector3f(0.0f, 0.0f, 0.0f);
-    }
 
 
     @Override
@@ -62,9 +57,6 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         if (h > 0.0f) {
             matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getDamageWobbleSide()));
         }
-
-        Vector3f pivot = getPivot(entity);
-        matrixStack.translate(pivot.x, pivot.y, pivot.z);
 
         // Updated variables
         float time = (entity.level().getGameTime() % 24000 + tickDelta) / 20.0f;

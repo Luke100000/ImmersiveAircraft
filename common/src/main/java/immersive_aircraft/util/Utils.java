@@ -81,6 +81,10 @@ public class Utils {
         return element.getAsBoolean();
     }
 
+    public static boolean isNull(JsonObject object, String member) {
+        return object.has(member) && object.get(member).isJsonNull();
+    }
+
     public static int getIntElement(JsonObject object, String member) {
         return getIntElement(object, member, 0);
     }
@@ -117,9 +121,9 @@ public class Utils {
         );
     }
 
-    public static Quaternionf fromXYZ(float yaw, float pitch, float roll) {
+    public static Quaternionf fromXYZ(float pitch, float yaw, float roll) {
         Quaternionf quaternion = new Quaternionf();
-        quaternion.rotationZYX(roll, pitch, yaw);
+        quaternion.rotationZYX(roll, yaw, pitch);
         return quaternion;
     }
 

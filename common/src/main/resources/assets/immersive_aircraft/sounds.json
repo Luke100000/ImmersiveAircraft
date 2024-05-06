@@ -4,6 +4,16 @@
       "immersive_aircraft:engine_start"
     ]
   },
+  "engine_start_warship": {
+    "sounds": [
+      "immersive_aircraft:engine_start_warship"
+    ]
+  },
+  "warship": {
+    "sounds": [
+      "immersive_aircraft:warship"
+    ]
+  },
   "propeller": {
     "sounds": [
       "immersive_aircraft:propeller"

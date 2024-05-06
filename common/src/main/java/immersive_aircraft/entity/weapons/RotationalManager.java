@@ -78,6 +78,11 @@ public class RotationalManager {
         vehicleTransform.invert();
         normal.mul(vehicleTransform);
 
+        // Convert into weapon space
+        Matrix3f weaponTransform = new Matrix3f(weapon.getMount().transform());
+        weaponTransform.invert();
+        normal.mul(weaponTransform);
+
         yaw = (float) -Math.atan2(normal.x(), normal.z());
         pitch = (float) -Math.atan2(normal.y(), Math.sqrt(normal.x() * normal.x() + normal.z() * normal.z()));
     }

@@ -43,7 +43,7 @@ public class FireMessage extends Message {
     @Override
     public void receive(Player e) {
         if (e.getVehicle() instanceof InventoryVehicleEntity vehicle) {
-            vehicle.getWeapons().get(slot).get(index).fire(direction);
+            vehicle.fireWeapon(slot, index, direction);
         }
     }
 }

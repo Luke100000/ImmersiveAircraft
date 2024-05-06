@@ -21,6 +21,16 @@ public class BBAnimationVariables {
         register("yaw");
         register("pitch");
         register("roll");
+        register("velocity_x");
+        register("velocity_y");
+        register("velocity_z");
+        register("turret_yaw");
+        register("turret_pitch");
+        register("turret_cooldown");
+        register("balloon_pitch");
+        register("balloon_roll");
+        register("chest");
+        register("turret_cooldown");
     }
 
     public static Argument[] getArgumentArray() {

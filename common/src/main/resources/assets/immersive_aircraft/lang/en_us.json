@@ -27,6 +27,7 @@
 
   "entity.immersive_aircraft.airship": "Airship",
   "entity.immersive_aircraft.cargo_airship": "Cargo Airship",
+  "entity.immersive_aircraft.warship": "Warship",
   "entity.immersive_aircraft.biplane": "Biplane",
   "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "entity.immersive_aircraft.quadrocopter": "Quadrocopter",
@@ -62,12 +63,14 @@
 
   "item.immersive_aircraft.airship": "Airship",
   "item.immersive_aircraft.cargo_airship": "Cargo Airship",
+  "item.immersive_aircraft.warship": "Warship",
   "item.immersive_aircraft.biplane": "Biplane",
   "item.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.quadrocopter": "Quadrocopter",
 
   "item.immersive_aircraft.airship.description": "Slow but easy to maneuver.",
   "item.immersive_aircraft.cargo_airship.description": "Slow and fuel hungry but carries an entire storage.",
+  "item.immersive_aircraft.warship.description": "A flying fortress, slow but heavily armed.",
   "item.immersive_aircraft.biplane.description": "Fast and rather reliable. Make sure your runway is long enough.",
   "item.immersive_aircraft.gyrodyne.description": "Muscle-powered copter. Give it a good push and off it flies!",
   "item.immersive_aircraft.quadrocopter.description": "Perfect for building, and that's about it.",

@@ -111,6 +111,10 @@ public class BBModelRenderer {
     }
 
     public static void renderSailObject(BBMesh cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha) {
+        renderSailObject(cube, matrixStack, vertexConsumerProvider, light, time, red, green, blue, alpha, 0.025f, 0.0f);
+    }
+
+    public static void renderSailObject(BBMesh cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha, float distanceScale, float baseScale) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
         Matrix3f normalMatrix = last.normal();
@@ -118,10 +122,15 @@ public class BBModelRenderer {
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(face.texture.location));
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
-
-                float distance = (float) Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+                float distance = Math.max(
+                        Math.max(
+                                Math.abs(v.x),
+                                Math.abs(v.y)
+                        ),
+                        Math.abs(v.z)
+                );
                 double angle = (v.x + v.z + v.y * 0.25) * 4.0f + time * 4.0f;
-                double scale = 0.025 * distance;
+                double scale = distanceScale * distance + baseScale;
                 float x = (float) ((Math.cos(angle) + Math.cos(angle * 1.7)) * scale);
                 float z = (float) ((Math.sin(angle) + Math.sin(angle * 1.7)) * scale);
 

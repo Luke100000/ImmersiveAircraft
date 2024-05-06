@@ -41,6 +41,13 @@ public interface Entities {
             .fireImmune()
     );
 
+    Supplier<EntityType<WarshipEntity>> WARSHIP = register("warship", EntityType.Builder
+            .of(WarshipEntity::new, MobCategory.MISC)
+            .sized(5.0f, 6.5f)
+            .clientTrackingRange(16)
+            .fireImmune()
+    );
+
     Supplier<EntityType<QuadrocopterEntity>> QUADROCOPTER = register("quadrocopter", EntityType.Builder
             .of(QuadrocopterEntity::new, MobCategory.MISC)
             .sized(1.5f, 0.5f)

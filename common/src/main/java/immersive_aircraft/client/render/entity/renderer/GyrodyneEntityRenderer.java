@@ -8,7 +8,6 @@ import immersive_aircraft.entity.GyrodyneEntity;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Vector3f;
 
 public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEntityRenderer<T> {
     private static final ResourceLocation ID = Main.locate("gyrodyne");
@@ -38,10 +37,5 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     @Override
     protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
         return model;
-    }
-
-    @Override
-    protected Vector3f getPivot(AircraftEntity entity) {
-        return new Vector3f(0.0f, 0.2f, 0.05f);
     }
 }

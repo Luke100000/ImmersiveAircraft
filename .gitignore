@@ -41,6 +41,7 @@ forge*changelog.txt
 *.mtl
 *.png~
 *.aup3
+*.aup3-wal
 .xdp-*
 *.kate-swp
 /models/custom_model.java

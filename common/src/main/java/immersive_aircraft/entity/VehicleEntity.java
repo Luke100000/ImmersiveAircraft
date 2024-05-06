@@ -348,9 +348,16 @@ public abstract class VehicleEntity extends Entity {
             secondLastX = lastX;
             secondLastY = lastY;
             secondLastZ = lastZ;
+
             lastX = getX();
             lastY = getY();
             lastZ = getZ();
+
+            if (secondLastX == 0 && secondLastY == 0 && secondLastZ == 0) {
+                secondLastX = lastX;
+                secondLastY = lastY;
+                secondLastZ = lastZ;
+            }
         }
 
         // pilot
@@ -604,7 +611,7 @@ public abstract class VehicleEntity extends Entity {
         return super.getDismountLocationForPassenger(passenger);
     }
 
-    protected void copyEntityData(Entity entity) {
+    public void copyEntityData(Entity entity) {
         entity.setYBodyRot(getYRot());
         float f = Mth.wrapDegrees(entity.getYRot() - getYRot());
         float g = Mth.clamp(f, -105.0f, 105.0f);
@@ -909,5 +916,10 @@ public abstract class VehicleEntity extends Entity {
         BBAnimationVariables.set("pressing_interpolated_x", pressingInterpolatedX.getSmooth(tickDelta));
         BBAnimationVariables.set("pressing_interpolated_y", pressingInterpolatedY.getSmooth(tickDelta));
         BBAnimationVariables.set("pressing_interpolated_z", pressingInterpolatedZ.getSmooth(tickDelta));
+
+        Vec3 speed = getSpeedVector();
+        BBAnimationVariables.set("velocity_x", (float) speed.x);
+        BBAnimationVariables.set("velocity_y", (float) speed.y);
+        BBAnimationVariables.set("velocity_z", (float) speed.z);
     }
 }

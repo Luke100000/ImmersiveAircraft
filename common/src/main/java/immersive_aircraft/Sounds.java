@@ -9,6 +9,8 @@ import java.util.function.Supplier;
 
 public interface Sounds {
     Supplier<SoundEvent> ENGINE_START = register("engine_start");
+    Supplier<SoundEvent> ENGINE_START_WARSHIP = register("engine_start_warship");
+    Supplier<SoundEvent> WARSHIP = register("warship");
     Supplier<SoundEvent> PROPELLER = register("propeller");
     Supplier<SoundEvent> PROPELLER_SMALL = register("propeller_small");
     Supplier<SoundEvent> PROPELLER_TINY = register("propeller_tiny");

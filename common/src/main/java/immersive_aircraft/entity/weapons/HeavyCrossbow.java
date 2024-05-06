@@ -17,8 +17,18 @@ public class HeavyCrossbow extends BulletWeapon {
     private static final float MAX_COOLDOWN = 1.0f;
     private float cooldown = 0.0f;
 
+    private final float velocity;
+    private final float inaccuracy;
+
     public HeavyCrossbow(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
+        this(entity, stack, mount, slot, 3.0f, 0.0f);
+    }
+
+    public HeavyCrossbow(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot, float velocity, float inaccuracy) {
         super(entity, stack, mount, slot);
+
+        this.velocity = velocity;
+        this.inaccuracy = inaccuracy;
     }
 
     @Override
@@ -32,11 +42,11 @@ public class HeavyCrossbow extends BulletWeapon {
     }
 
     public float getVelocity() {
-        return 3.0f;
+        return velocity;
     }
 
     public float getInaccuracy() {
-        return 0.0f;
+        return inaccuracy;
     }
 
     @Override
@@ -77,5 +87,9 @@ public class HeavyCrossbow extends BulletWeapon {
         direction.mul(new Matrix3f(getMount().transform()));
         direction.mul(getEntity().getVehicleNormalTransform());
         return direction;
+    }
+
+    public float getCooldown() {
+        return Math.max(0.0f, cooldown / MAX_COOLDOWN);
     }
 }

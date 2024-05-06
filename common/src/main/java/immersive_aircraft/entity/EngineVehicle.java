@@ -105,7 +105,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
 
         // rotate propeller
         if (level().isClientSide()) {
-            engineRotation.update((engineRotation.getValue() + getEnginePower()) % 1000);
+            engineRotation.update((engineRotation.getValue() + getPropellerSpeed()) % 1000);
         }
 
         // shutdown
@@ -121,7 +121,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                 if (isFuelLow()) {
                     engineSound -= random.nextInt(2);
                 }
-                level().playLocalSound(getX(), getY(), getZ(), getEngineSound(), getSoundSource(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
+                level().playLocalSound(getX(), getY() + getBbHeight() * 0.5, getZ(), getEngineSound(), getSoundSource(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
             }
         }
 
@@ -162,6 +162,10 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         } else {
             lastFuelState = FuelState.NEVER;
         }
+    }
+
+    protected float getPropellerSpeed() {
+        return getEnginePower();
     }
 
     protected boolean isFuelLow() {
@@ -232,7 +236,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                     NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
                 }
                 if (getFuelUtilization() > 0 && getEngineTarget() == 0.0 && engineTarget > 0) {
-                    level().playLocalSound(getX(), getY(), getZ(), getEngineStartSound(), getSoundSource(), 1.0f, getEnginePitch(), false);
+                    level().playLocalSound(getX(), getY() + getBbHeight() * 0.5, getZ(), getEngineStartSound(), getSoundSource(), 1.5f, getEnginePitch(), false);
                 }
             }
             entityData.set(ENGINE, engineTarget);

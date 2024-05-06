@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SHS",
+    "EAE",
+    "HGH"
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "immersive_aircraft:sail"
+      }
+    ],
+    "H": [
+      {
+        "item": "immersive_aircraft:hull"
+      }
+    ],
+    "E": [
+      {
+        "item": "immersive_aircraft:engine"
+      }
+    ],
+    "G": [
+      {
+        "item": "immersive_aircraft:industrial_gears"
+      }
+    ],
+    "A": [
+      {
+        "item": "immersive_aircraft:cargo_airship"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:warship"
+  }
+}
