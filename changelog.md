@@ -1,3 +1,7 @@
+# 0.7.8
+
+* Fixed Mixins being drunk
+
 # 0.7.7
 
 * You no longer yeet yourself out of the aircraft when sneak-right clicking
