@@ -1,3 +1,7 @@
+# 0.7.9
+
+* Fixed Forge being drunk
+
 # 0.7.8
 
 * Fixed Mixins being drunk
