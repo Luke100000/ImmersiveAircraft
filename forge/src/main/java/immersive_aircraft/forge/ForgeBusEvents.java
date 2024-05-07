@@ -3,6 +3,7 @@ package immersive_aircraft.forge;
 import immersive_aircraft.ClientMain;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl.DataLoaderRegister;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
@@ -17,6 +18,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -84,4 +86,10 @@ public class ForgeBusEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void onPlayerBreakSpeed(PlayerEvent.BreakSpeed event) {
+        if (event.getEntity().getRootVehicle() instanceof VehicleEntity) {
+            event.setNewSpeed(event.getOriginalSpeed() * 5.0f);
+        }
+    }
 }

@@ -40,17 +40,6 @@ public abstract class PlayerEntityMixin extends Entity {
         }
     }
 
-    /*
-    @Redirect(method = "getDestroySpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;onGround()Z"))
-    public boolean immersive_aircraft$patchedGetDestroySpeed(Player player) {
-        if (player.getRootVehicle() instanceof VehicleEntity) {
-            return true;
-        }
-        return player.onGround();
-    }
-    */
-
-    // This does not work on Forge but idc
     @Inject(method = "getDestroySpeed", at = @At("RETURN"), cancellable = true)
     public void immersive_aircraft$getDestroySpeed(CallbackInfoReturnable<Float> cir) {
         if (this.getRootVehicle() instanceof VehicleEntity) {
