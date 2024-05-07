@@ -50,6 +50,7 @@ public abstract class PlayerEntityMixin extends Entity {
     }
     */
 
+    // This does not work on Forge but idc
     @Inject(method = "getDestroySpeed", at = @At("RETURN"), cancellable = true)
     public void immersive_aircraft$getDestroySpeed(CallbackInfoReturnable<Float> cir) {
         if (this.getRootVehicle() instanceof VehicleEntity) {
