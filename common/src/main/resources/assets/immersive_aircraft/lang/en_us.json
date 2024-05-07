@@ -9,8 +9,6 @@
   "key.immersive_aircraft.multi_control_down": "Down",
   "key.immersive_aircraft.multi_control_pull": "Pull Controller",
   "key.immersive_aircraft.multi_control_push": "Push Controller",
-  "key.immersive_aircraft.multi_dismount": "Dismount",
-  "key.immersive_aircraft.multi_boost": "Rocket boost",
   "key.immersive_aircraft.multi_use": "Use weapon/mount",
 
   "key.immersive_aircraft.fallback_control_left": "Left",
@@ -21,9 +19,10 @@
   "key.immersive_aircraft.fallback_control_down": "Down",
   "key.immersive_aircraft.fallback_control_pull": "Pull Controller",
   "key.immersive_aircraft.fallback_control_push": "Push Controller",
-  "key.immersive_aircraft.fallback_dismount": "Dismount",
-  "key.immersive_aircraft.fallback_boost": "Rocket boost",
   "key.immersive_aircraft.fallback_use": "Use weapon/mount",
+
+  "key.immersive_aircraft.dismount": "Dismount",
+  "key.immersive_aircraft.boost": "Rocket boost",
 
   "entity.immersive_aircraft.airship": "Airship",
   "entity.immersive_aircraft.cargo_airship": "Cargo Airship",

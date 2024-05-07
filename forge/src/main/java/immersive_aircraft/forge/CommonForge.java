@@ -16,7 +16,9 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 @Mod(Main.MOD_ID)
 @Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Bus.MOD)
 public final class CommonForge {
-     static {
+    static {
+        Main.MOD_LOADER = "forge";
+
         new RegistrationImpl();
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();

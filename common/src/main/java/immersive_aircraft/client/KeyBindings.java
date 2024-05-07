@@ -1,6 +1,7 @@
 package immersive_aircraft.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ public class KeyBindings {
     public static final KeyMapping dismount, boost, use;
 
     static {
-        if (Config.getInstance().useCustomKeybindSystem) {
+        if (Config.getInstance().useCustomKeybindSystem && Main.MOD_LOADER.equals("fabric")) {
             left = newMultiKey("multi_control_left", GLFW.GLFW_KEY_A);
             right = newMultiKey("multi_control_right", GLFW.GLFW_KEY_D);
             forward = newMultiKey("multi_control_forward", GLFW.GLFW_KEY_W);
@@ -28,9 +29,6 @@ public class KeyBindings {
             push = newMultiKey("multi_control_push", GLFW.GLFW_KEY_W);
 
             use = newMultiKey("multi_use", GLFW.GLFW_MOUSE_BUTTON_2, InputConstants.Type.MOUSE);
-
-            dismount = newMultiKey("multi_dismount", GLFW.GLFW_KEY_R);
-            boost = newMultiKey("multi_boost", GLFW.GLFW_KEY_B);
         } else {
             Minecraft client = Minecraft.getInstance();
 
@@ -44,10 +42,10 @@ public class KeyBindings {
             push = newFallbackKey("fallback_control_push", () -> client.options.keyDown);
 
             use = newFallbackKey("fallback_use", () -> client.options.keyUse);
-
-            dismount = newKey("fallback_dismount", GLFW.GLFW_KEY_R);
-            boost = newKey("fallback_boost", GLFW.GLFW_KEY_B);
         }
+
+        dismount = newKey("dismount", GLFW.GLFW_KEY_R);
+        boost = newKey("boost", GLFW.GLFW_KEY_B);
     }
 
     private static KeyMapping newFallbackKey(String name, Supplier<KeyMapping> fallback) {
