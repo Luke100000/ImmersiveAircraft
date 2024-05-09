@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "충돌 시 플레이어를 죽이지 않습니다.",
   "option.immersive_aircraft.healthBarRow": "전차의 체력 바를 상쇄합니다.",
   "option.immersive_aircraft.damagePerHealthPoint": "값이 높을수록 항공기의 내구성이 높아집니다.",
+  "option.immersive_aircraft.weaponsAreDestructive": "일부 무기로 블록을 파괴할 수 있도록 허용합니다.",
+  "option.immersive_aircraft.dropInventory": "인벤토리를 항공기 아이템에 저장하지 않고 삭제합니다.",
+  "option.immersive_aircraft.dropUpgrades": "업그레이드 및 커스터마이징을 항공기 아이템에 저장하는 대신 삭제합니다.",
   "immersive_aircraft.slot.booster": "부스트 로켓",
   "immersive_aircraft.slot.weapon": "무기 슬롯",
   "immersive_aircraft.slot.boiler": "연료 슬롯",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% 내구성",
   "immersive_aircraft.upgrade.fuel": "%s연료 요구량 %%",
   "immersive_aircraft.upgrade.wind": "%s바람 효과 %%",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% 안정화 중"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% 안정화 중",
+  "immersive_aircraft.tooltip.inventory": "%s 항목이 포함되어 있습니다."
 }
