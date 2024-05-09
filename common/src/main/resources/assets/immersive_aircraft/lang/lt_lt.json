@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Žaidėjas nebus nužudytas, jei įvyks avarija.",
   "option.immersive_aircraft.healthBarRow": "Kompensuoti transporto priemonių sveikatos juostą.",
   "option.immersive_aircraft.damagePerHealthPoint": "Dėl didesnių verčių orlaiviai yra patvaresni.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Leiskite kai kuriais ginklais naikinti blokus.",
+  "option.immersive_aircraft.dropInventory": "Išmeskite inventorių, užuot išsaugoję jį orlaivio elemente.",
+  "option.immersive_aircraft.dropUpgrades": "Išmeskite patobulinimus ir pritaikymą, užuot išsaugoję juos orlaivio elemente.",
   "immersive_aircraft.slot.booster": "Padidinti raketas",
   "immersive_aircraft.slot.weapon": "Ginklo lizdas",
   "immersive_aircraft.slot.boiler": "Kuro lizdas",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% ilgaamžiškumas",
   "immersive_aircraft.upgrade.fuel": "%s%% degalų poreikis",
   "immersive_aircraft.upgrade.wind": "%s%% vėjo poveikis",
-  "immersive_aircraft.upgrade.stabilizer": "%s% % stabilizavimas"
+  "immersive_aircraft.upgrade.stabilizer": "%s% % stabilizavimas",
+  "immersive_aircraft.tooltip.inventory": "Sudėtyje yra %s elementų."
 }
