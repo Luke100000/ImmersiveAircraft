@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Няма да убие играча при срив.",
   "option.immersive_aircraft.healthBarRow": "Компенсиране на лентата на здравето на превозните средства.",
   "option.immersive_aircraft.damagePerHealthPoint": "По-високите стойности правят самолета по-издръжлив.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Позволете на някои оръжия да унищожават блокове.",
+  "option.immersive_aircraft.dropInventory": "Изхвърлете инвентара, вместо да го запазвате в елемента на самолета.",
+  "option.immersive_aircraft.dropUpgrades": "Изхвърлете подобренията и персонализацията, вместо да ги запазвате в елемента на самолета.",
   "immersive_aircraft.slot.booster": "Увеличаване на ракетите",
   "immersive_aircraft.slot.weapon": "Слот за оръжие",
   "immersive_aircraft.slot.boiler": "Слот за гориво",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% издръжливост",
   "immersive_aircraft.upgrade.fuel": "%s%% необходимост от гориво",
   "immersive_aircraft.upgrade.wind": "%s%% ефект на вятъра",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизиране"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизиране",
+  "immersive_aircraft.tooltip.inventory": "Съдържа %s елементи."
 }
