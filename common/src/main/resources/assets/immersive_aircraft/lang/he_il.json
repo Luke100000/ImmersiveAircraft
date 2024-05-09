@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Will not kill the player on a crash.",
   "option.immersive_aircraft.healthBarRow": "Offset the health bar of vehicles.",
   "option.immersive_aircraft.damagePerHealthPoint": "Higher values make aircraft more durable.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Allow some weapons to destroy blocks.",
+  "option.immersive_aircraft.dropInventory": "Drop the inventory, instead of saving it within the aircraft item.",
+  "option.immersive_aircraft.dropUpgrades": "Drop the upgrades and customization, instead of saving it within the aircraft item.",
   "immersive_aircraft.slot.booster": "Boost rockets",
   "immersive_aircraft.slot.weapon": "מקום לנשק",
   "immersive_aircraft.slot.boiler": "Fuel slot",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% durability",
   "immersive_aircraft.upgrade.fuel": "%s%% fuel requirement",
   "immersive_aircraft.upgrade.wind": "%s%% wind effect",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% מתייצב"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% מתייצב",
+  "immersive_aircraft.tooltip.inventory": "Contains %s items."
 }
