@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Не будет убивать игрока при аварии.",
   "option.immersive_aircraft.healthBarRow": "Смещай полоску здоровья транспортных средств.",
   "option.immersive_aircraft.damagePerHealthPoint": "Более высокие значения делают самолеты более прочными.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Разреши некоторым видам оружия разрушать блоки.",
+  "option.immersive_aircraft.dropInventory": "Брось инвентарь, вместо того чтобы сохранять его внутри авиационного предмета.",
+  "option.immersive_aircraft.dropUpgrades": "Сбрасывай апгрейды и кастомизацию, вместо того чтобы сохранять их внутри элемента самолета.",
   "immersive_aircraft.slot.booster": "Форсированные ракеты",
   "immersive_aircraft.slot.weapon": "Оружейный слот",
   "immersive_aircraft.slot.boiler": "Топливная щель",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% долговечность",
   "immersive_aircraft.upgrade.fuel": "%s%% потребность в топливе",
   "immersive_aircraft.upgrade.wind": "%s%% эффект ветра",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизации"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизации",
+  "immersive_aircraft.tooltip.inventory": "Содержит %s предметов."
 }
