@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Ei tapa mängijat kokkupõrke korral.",
   "option.immersive_aircraft.healthBarRow": "Kompenseerib sõidukite terviseriba.",
   "option.immersive_aircraft.damagePerHealthPoint": "Suuremad väärtused muudavad õhusõiduki vastupidavamaks.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Luba mõnedel relvadel plokke hävitada.",
+  "option.immersive_aircraft.dropInventory": "Jäta inventar, selle asemel, et salvestada see õhusõiduki eseme sees.",
+  "option.immersive_aircraft.dropUpgrades": "Jätke uuendused ja kohandamine, selle asemel, et salvestada see õhusõiduki eseme sees.",
   "immersive_aircraft.slot.booster": "Boost-raketid",
   "immersive_aircraft.slot.weapon": "Relvapesa",
   "immersive_aircraft.slot.boiler": "Kütusepesa",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% vastupidavus",
   "immersive_aircraft.upgrade.fuel": "%s%% kütusevajadus",
   "immersive_aircraft.upgrade.wind": "%s%% tuule mõju",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseeriv"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseeriv",
+  "immersive_aircraft.tooltip.inventory": "Sisaldab %s ."
 }
