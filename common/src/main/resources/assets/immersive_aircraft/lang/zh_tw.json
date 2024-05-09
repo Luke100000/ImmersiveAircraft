@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "墜毀時不會殺死玩家.",
   "option.immersive_aircraft.healthBarRow": "抵消載具的生命值。",
   "option.immersive_aircraft.damagePerHealthPoint": "數值越高，飛機越耐用。",
+  "option.immersive_aircraft.weaponsAreDestructive": "Allow some weapons to destroy blocks.",
+  "option.immersive_aircraft.dropInventory": "Drop the inventory, instead of saving it within the aircraft item.",
+  "option.immersive_aircraft.dropUpgrades": "Drop the upgrades and customization, instead of saving it within the aircraft item.",
   "immersive_aircraft.slot.booster": "助推火箭",
   "immersive_aircraft.slot.weapon": "裝備槽",
   "immersive_aircraft.slot.boiler": "燃料欄",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s％的堅硬度",
   "immersive_aircraft.upgrade.fuel": "%s所需燃料的百分比",
   "immersive_aircraft.upgrade.wind": "%s％的升力",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定化"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定化",
+  "immersive_aircraft.tooltip.inventory": "Contains %s items."
 }
