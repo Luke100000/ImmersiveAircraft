@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Não mata o jogador em caso de colisão.",
   "option.immersive_aircraft.healthBarRow": "Compensa a barra de saúde dos veículos.",
   "option.immersive_aircraft.damagePerHealthPoint": "Valores mais elevados tornam as aeronaves mais duradouras.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Permite que algumas armas destruam blocos.",
+  "option.immersive_aircraft.dropInventory": "Larga o inventário, em vez de o guardares no item da aeronave.",
+  "option.immersive_aircraft.dropUpgrades": "Deixa cair as actualizações e a personalização, em vez de as guardar no item da aeronave.",
   "immersive_aircraft.slot.booster": "Lançar foguetes",
   "immersive_aircraft.slot.weapon": "Ranhura da arma",
   "immersive_aircraft.slot.boiler": "Ranhura de combustível",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% durabilidade",
   "immersive_aircraft.upgrade.fuel": "%s%% necessidade de combustível",
   "immersive_aircraft.upgrade.wind": "%s%% efeito do vento",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% estabilização"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% estabilização",
+  "immersive_aircraft.tooltip.inventory": "Contém %s itens."
 }
