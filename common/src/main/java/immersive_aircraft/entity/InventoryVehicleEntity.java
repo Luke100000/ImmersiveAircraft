@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.inventory.SparseSimpleInventory;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
@@ -30,7 +31,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -120,12 +120,13 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
 
     @Override
     protected void dropInventory() {
-        //drop inventory
-        if (getInventory() != null) {
-            for (int i = 0; i < getInventory().getContainerSize(); ++i) {
-                ItemStack itemStack = getInventory().getItem(i);
-                if (itemStack.isEmpty() || EnchantmentHelper.hasVanishingCurse(itemStack)) continue;
-                this.spawnAtLocation(itemStack);
+        for (SlotDescription slot : getInventoryDescription().getSlots()) {
+            boolean isCargo = slot.type().equals(VehicleInventoryDescription.INVENTORY);
+            if (isCargo && Config.getInstance().dropInventory || !isCargo && Config.getInstance().dropUpgrades) {
+                ItemStack stack = getSlot(slot.index()).get();
+                if (!stack.isEmpty()) {
+                    this.spawnAtLocation(stack.copyAndClear());
+                }
             }
         }
     }
@@ -163,22 +164,34 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
         return super.interact(player, hand);
     }
 
+    @Override
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+
+        tag.put("Inventory", getInventory().writeNbt(new ListTag()));
+    }
 
     @Override
-    public void load(@NotNull CompoundTag nbt) {
-        super.load(nbt);
+    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
 
-        ListTag nbtList = nbt.getList("Inventory", 10);
+        ListTag nbtList = tag.getList("Inventory", 10);
         getInventory().readNbt(nbtList);
     }
 
     @Override
-    public CompoundTag saveWithoutId(@NotNull CompoundTag nbt) {
-        super.saveWithoutId(nbt);
+    protected void addItemTag(@NotNull CompoundTag tag) {
+        super.addItemTag(tag);
 
-        nbt.put("Inventory", getInventory().writeNbt(new ListTag()));
+        tag.put("Inventory", getInventory().writeNbt(new ListTag()));
+    }
 
-        return nbt;
+    @Override
+    protected void readItemTag(@NotNull CompoundTag tag) {
+        super.readItemTag(tag);
+
+        ListTag nbtList = tag.getList("Inventory", 10);
+        getInventory().readNbt(nbtList);
     }
 
     @Override

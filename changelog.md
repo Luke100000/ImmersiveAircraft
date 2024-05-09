@@ -7,6 +7,9 @@
 * Rockets now boost based on duration
 * You no longer yeet yourself out of the aircraft when sneak-right clicking
 * No more mining slowdown while in aircraft
+* Added config flags to:
+    * Drop the inventory (default true to stay faithful to e.g., boats)
+    * Drop the equipment/customization (default false, as that's just annoying)
 
 # 0.7.5
 

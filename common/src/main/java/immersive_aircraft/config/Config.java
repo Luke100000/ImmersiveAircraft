@@ -10,6 +10,10 @@ import java.util.Map;
 public final class Config extends JsonConfig {
     private static final Config INSTANCE = loadOrCreate(new Config(Main.MOD_ID), Config.class);
 
+    public Config() {
+        super("default");
+    }
+
     public Config(String name) {
         super(name);
     }
@@ -91,6 +95,12 @@ public final class Config extends JsonConfig {
 
     @BooleanConfigEntry(false)
     public boolean weaponsAreDestructive;
+
+    @BooleanConfigEntry(true)
+    public boolean dropInventory;
+
+    @BooleanConfigEntry(false)
+    public boolean dropUpgrades;
 
     public Map<String, Integer> fuelList = Map.of(
             "minecraft:blaze_powder", 1200

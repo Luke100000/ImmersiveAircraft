@@ -24,9 +24,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -159,6 +156,7 @@ public abstract class VehicleEntity extends Entity {
 
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world);
+
         this.canExplodeOnCrash = canExplodeOnCrash;
         blocksBuilding = true;
         setMaxUpStep(0.55f);
@@ -168,6 +166,13 @@ public abstract class VehicleEntity extends Entity {
         pressingInterpolatedZ = new InterpolatedFloat(getInputInterpolationSteps());
 
         identifier = BuiltInRegistries.ENTITY_TYPE.getKey(getType());
+    }
+
+    public void fromItemStack(ItemStack stack) {
+        if (stack.hasTag()) {
+            assert stack.getTag() != null;
+            readItemTag(stack.getTag());
+        }
     }
 
     protected float getInputInterpolationSteps() {
@@ -268,8 +273,8 @@ public abstract class VehicleEntity extends Entity {
 
             // Drop stuff if enabled
             if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
-                drop();
                 dropInventory();
+                drop();
             }
 
             discard();
@@ -289,7 +294,10 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected void drop() {
-        spawnAtLocation(asItem());
+        ItemStack stack = new ItemStack(asItem());
+        CompoundTag tag = stack.getOrCreateTag();
+        addItemTag(tag);
+        spawnAtLocation(stack);
     }
 
     protected void dropInventory() {
@@ -626,15 +634,23 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag nbt) {
-        nbt.putFloat("VehicleHealth", getHealth());
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        tag.putFloat("VehicleHealth", getHealth());
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag nbt) {
-        if (nbt.contains("VehicleHealth")) {
-            setHealth(nbt.getFloat("VehicleHealth"));
+    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        if (tag.contains("VehicleHealth")) {
+            setHealth(tag.getFloat("VehicleHealth"));
         }
+    }
+
+    protected void addItemTag(@NotNull CompoundTag tag) {
+        // nop
+    }
+
+    protected void readItemTag(@NotNull CompoundTag tag) {
+        // nop
     }
 
     @Override
@@ -775,11 +791,6 @@ public abstract class VehicleEntity extends Entity {
         this.movementX = x;
         this.movementY = y;
         this.movementZ = z;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
     }
 
     @Override

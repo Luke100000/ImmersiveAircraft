@@ -2,6 +2,9 @@ package immersive_aircraft.item;
 
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -16,6 +20,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -59,6 +64,8 @@ public class VehicleItem extends DescriptionItem {
         if (((HitResult) hitResult).getType() == HitResult.Type.BLOCK) {
             VehicleEntity entity = constructor.create(world);
 
+            entity.fromItemStack(itemStack);
+
             entity.setPos(hitResult.getLocation().x, hitResult.getLocation().y, hitResult.getLocation().z);
             entity.setYRot(user.getYRot());
 
@@ -80,5 +87,18 @@ public class VehicleItem extends DescriptionItem {
         }
 
         return InteractionResultHolder.pass(itemStack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+        super.appendHoverText(stack, world, tooltip, context);
+
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            if (tag.contains("Inventory")) {
+                ListTag nbtList = tag.getList("Inventory", 10);
+                tooltip.add(Component.translatable("immersive_aircraft.tooltip.inventory", nbtList.size()));
+            }
+        }
     }
 }
