@@ -26,7 +26,7 @@
   "entity.immersive_aircraft.biplane": "複葉機",
   "entity.immersive_aircraft.gyrodyne": "ジャイロダイン",
   "entity.immersive_aircraft.quadrocopter": "クワッドローター",
-  "item.immersive_aircraft.hull": "胴体",
+  "item.immersive_aircraft.hull": "船体",
   "item.immersive_aircraft.engine": "機関",
   "item.immersive_aircraft.sail": "帆",
   "item.immersive_aircraft.propeller": "プロペラ",
@@ -38,7 +38,7 @@
   "item.immersive_aircraft.industrial_gears": "産業用歯車",
   "item.immersive_aircraft.sturdy_pipes": "頑丈なパイプ",
   "item.immersive_aircraft.gyroscope": "ジャイロスコープ",
-  "item.immersive_aircraft.hull_reinforcement": "胴体補強",
+  "item.immersive_aircraft.hull_reinforcement": "船体補強",
   "item.immersive_aircraft.improved_landing_gear": "改良型の降着装置",
   "item.immersive_aircraft.rotary_cannon": "ロータリー・キャノン",
   "item.immersive_aircraft.bomb_bay": "ボムベイ",
@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "クラッシュしてもプレイヤーは死なない。",
   "option.immersive_aircraft.healthBarRow": "車両のヘルスバーを相殺する。",
   "option.immersive_aircraft.damagePerHealthPoint": "数値が高いほど、航空機の耐久性が高くなる。",
+  "option.immersive_aircraft.weaponsAreDestructive": "いくつかの武器でブロックを破壊できるようにする。",
+  "option.immersive_aircraft.dropInventory": "機体アイテム内に保存する代わりに、インベントリをドロップする。",
+  "option.immersive_aircraft.dropUpgrades": "アップグレードやカスタマイズを、機体アイテム内に保存するのではなく、ドロップする。",
   "immersive_aircraft.slot.booster": "ブースター",
   "immersive_aircraft.slot.weapon": "武器スロット",
   "immersive_aircraft.slot.boiler": "燃料スロット",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%%耐久値",
   "immersive_aircraft.upgrade.fuel": "%s%%必要な燃料",
   "immersive_aircraft.upgrade.wind": "%s%%風影響",
-  "immersive_aircraft.upgrade.stabilizer": "%s安定化"
+  "immersive_aircraft.upgrade.stabilizer": "%s安定化",
+  "immersive_aircraft.tooltip.inventory": "%s 。"
 }
