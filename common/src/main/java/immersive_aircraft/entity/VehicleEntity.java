@@ -422,7 +422,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // interpolate keys for visual feedback
-        if (level().isClientSide) {
+        if (isControlledByLocalInstance()) {
             pressingInterpolatedX.update(movementX);
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);

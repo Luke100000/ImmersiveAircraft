@@ -28,7 +28,7 @@ public class JsonConfig {
     public JsonConfig(String name) {
         this.name = name;
 
-        for (Field field : Config.class.getDeclaredFields()) {
+        for (Field field : this.getClass().getDeclaredFields()) {
             for (Annotation annotation : field.getAnnotations()) {
                 try {
                     if (annotation instanceof IntegerConfigEntry entry) {
@@ -76,8 +76,7 @@ public class JsonConfig {
                 return defaultConfig;
             }
         } else {
-            Config config = new Config(name);
-            config.save();
+            defaultConfig.save();
             return defaultConfig;
         }
     }
