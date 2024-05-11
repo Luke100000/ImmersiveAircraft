@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Δεν θα σκοτώσει τον παίκτη σε περίπτωση συντριβής.",
   "option.immersive_aircraft.healthBarRow": "Αντισταθμίστε τη γραμμή υγείας των οχημάτων.",
   "option.immersive_aircraft.damagePerHealthPoint": "Οι υψηλότερες τιμές καθιστούν τα αεροσκάφη πιο ανθεκτικά.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Επιτρέψτε σε ορισμένα όπλα να καταστρέφουν μπλοκ.",
+  "option.immersive_aircraft.dropInventory": "Αφήστε το απόθεμα, αντί να το αποθηκεύσετε μέσα στο αντικείμενο του αεροσκάφους.",
+  "option.immersive_aircraft.dropUpgrades": "Απορρίψτε τις αναβαθμίσεις και την προσαρμογή, αντί να τις αποθηκεύετε μέσα στο στοιχείο του αεροσκάφους.",
   "immersive_aircraft.slot.booster": "Ρουκέτες ώθησης",
   "immersive_aircraft.slot.weapon": "Υποδοχή όπλου",
   "immersive_aircraft.slot.boiler": "Υποδοχή καυσίμου",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% ανθεκτικότητα",
   "immersive_aircraft.upgrade.fuel": "%s%% απαίτηση καυσίμου",
   "immersive_aircraft.upgrade.wind": "%s%% επίδραση του ανέμου",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% σταθεροποίηση"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% σταθεροποίηση",
+  "immersive_aircraft.tooltip.inventory": "Περιέχει στοιχεία %s ."
 }

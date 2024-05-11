@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Ei tapa pelaajaa kaatumisen yhteydessä.",
   "option.immersive_aircraft.healthBarRow": "Poistaa ajoneuvojen terveyspalkin.",
   "option.immersive_aircraft.damagePerHealthPoint": "Suuremmat arvot tekevät lentokoneesta kestävämmän.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Salli joidenkin aseiden tuhota lohkoja.",
+  "option.immersive_aircraft.dropInventory": "Pudota inventaario sen sijaan, että tallentaisit sen lentokoneen kohteeseen.",
+  "option.immersive_aircraft.dropUpgrades": "Pudota päivitykset ja räätälöinnit sen sijaan, että tallentaisit ne lentokoneen kohteen sisään.",
   "immersive_aircraft.slot.booster": "Boost-raketit",
   "immersive_aircraft.slot.weapon": "Asepaikka",
   "immersive_aircraft.slot.boiler": "Polttoainepaikka",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% kestävyys",
   "immersive_aircraft.upgrade.fuel": "%s% % polttoaineen tarve",
   "immersive_aircraft.upgrade.wind": "%s%% tuulen vaikutus",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% vakauttaminen"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% vakauttaminen",
+  "immersive_aircraft.tooltip.inventory": "Sisältää %s ."
 }

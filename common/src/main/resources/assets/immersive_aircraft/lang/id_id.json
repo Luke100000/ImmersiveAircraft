@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Tidak akan membunuh pemain saat jatuh.",
   "option.immersive_aircraft.healthBarRow": "Mengimbangi bar kesehatan kendaraan.",
   "option.immersive_aircraft.damagePerHealthPoint": "Nilai yang lebih tinggi membuat pesawat lebih tahan lama.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Izinkan beberapa senjata untuk menghancurkan blok.",
+  "option.immersive_aircraft.dropInventory": "Jatuhkan inventaris, alih-alih menyimpannya di dalam item pesawat.",
+  "option.immersive_aircraft.dropUpgrades": "Jatuhkan peningkatan dan penyesuaian, alih-alih menyimpannya di dalam item pesawat.",
   "immersive_aircraft.slot.booster": "Meningkatkan roket",
   "immersive_aircraft.slot.weapon": "Slot senjata",
   "immersive_aircraft.slot.boiler": "Slot bahan bakar",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% daya tahan",
   "immersive_aircraft.upgrade.fuel": "%s%% kebutuhan bahan bakar",
   "immersive_aircraft.upgrade.wind": "%s%% efek angin",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% menstabilkan"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% menstabilkan",
+  "immersive_aircraft.tooltip.inventory": "Berisi item %s ."
 }

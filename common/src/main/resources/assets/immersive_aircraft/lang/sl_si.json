@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Igralec ne bo ubit ob nesreči.",
   "option.immersive_aircraft.healthBarRow": "Izravnajte zdravstveno vrstico vozil.",
   "option.immersive_aircraft.damagePerHealthPoint": "Z višjimi vrednostmi je letalo bolj vzdržljivo.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Dovolite nekaterim orožjem, da uničijo bloke.",
+  "option.immersive_aircraft.dropInventory": "Spustite inventar, namesto da bi ga shranili v element letala.",
+  "option.immersive_aircraft.dropUpgrades": "Spustite nadgradnje in prilagoditve, namesto da bi jih shranili v element letala.",
   "immersive_aircraft.slot.booster": "Spodbujanje raket",
   "immersive_aircraft.slot.weapon": "Reža za orožje",
   "immersive_aircraft.slot.boiler": "Reža za gorivo",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% vzdržljivost",
   "immersive_aircraft.upgrade.fuel": "%s% % potrebe po gorivu",
   "immersive_aircraft.upgrade.wind": "%s%% učinek vetra",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija",
+  "immersive_aircraft.tooltip.inventory": "Vsebuje %s elementov."
 }

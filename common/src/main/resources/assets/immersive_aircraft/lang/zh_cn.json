@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "崩溃时不会杀死玩家。",
   "option.immersive_aircraft.healthBarRow": "抵消车辆的健康条。",
   "option.immersive_aircraft.damagePerHealthPoint": "数值越高，飞机越耐用。",
+  "option.immersive_aircraft.weaponsAreDestructive": "允许某些武器摧毁积木。",
+  "option.immersive_aircraft.dropInventory": "删除库存，而不是将其保存在飞行器项目中。",
+  "option.immersive_aircraft.dropUpgrades": "放弃升级和定制，而不是将其保存在飞机项目中。",
   "immersive_aircraft.slot.booster": "助推火箭槽",
   "immersive_aircraft.slot.weapon": "武器插槽",
   "immersive_aircraft.slot.boiler": "燃料槽",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% 耐久度",
   "immersive_aircraft.upgrade.fuel": "%s%% 燃料消耗",
   "immersive_aircraft.upgrade.wind": "%s%% 风的影响",
-  "immersive_aircraft.upgrade.stabilizer": "%s%%稳定"
+  "immersive_aircraft.upgrade.stabilizer": "%s%%稳定",
+  "immersive_aircraft.tooltip.inventory": "包含 %s 项目。"
 }

@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "˙ɥsɐɹɔ ɐ uo ɹǝʎɐꞁd ǝɥʇ ꞁꞁᴉʞ ʇou ꞁꞁᴉM",
   "option.immersive_aircraft.healthBarRow": "˙sǝꞁɔᴉɥǝʌ ɟo ɹɐq ɥʇꞁɐǝɥ ǝɥʇ ʇǝsɟɟO",
   "option.immersive_aircraft.damagePerHealthPoint": "˙ǝꞁqɐɹnp ǝɹoɯ ʇɟɐɹɔɹᴉɐ ǝʞɐɯ sǝnꞁɐʌ ɹǝɥᵷᴉH",
+  "option.immersive_aircraft.weaponsAreDestructive": "Allow some weapons to destroy blocks.",
+  "option.immersive_aircraft.dropInventory": "Drop the inventory, instead of saving it within the aircraft item.",
+  "option.immersive_aircraft.dropUpgrades": "Drop the upgrades and customization, instead of saving it within the aircraft item.",
   "immersive_aircraft.slot.booster": "sʇǝʞɔoɹ ʇsooᗺ",
   "immersive_aircraft.slot.weapon": "ʇoꞁs uodɐǝM",
   "immersive_aircraft.slot.boiler": "ʇoꞁs ꞁǝnℲ",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "ʎʇᴉꞁᴉqɐɹnp %%%s",
   "immersive_aircraft.upgrade.fuel": "ʇuǝɯǝɹᴉnbǝɹ ꞁǝnɟ %%%s",
   "immersive_aircraft.upgrade.wind": "ʇɔǝɟɟǝ puᴉʍ %%%s",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizing"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizing",
+  "immersive_aircraft.tooltip.inventory": "Contains %s items."
 }

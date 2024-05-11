@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Kommer inte att döda spelaren vid en krasch.",
   "option.immersive_aircraft.healthBarRow": "Kompensera för fordonens hälsopåverkan.",
   "option.immersive_aircraft.damagePerHealthPoint": "Högre värden gör flygplanet mer hållbart.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Tillåt vissa vapen att förstöra block.",
+  "option.immersive_aircraft.dropInventory": "Släpp inventeringen istället för att spara den i flygplansobjektet.",
+  "option.immersive_aircraft.dropUpgrades": "Släpp uppgraderingarna och anpassningen, istället för att spara den i flygplansobjektet.",
   "immersive_aircraft.slot.booster": "Hjälpraketer",
   "immersive_aircraft.slot.weapon": "Vapenplats",
   "immersive_aircraft.slot.boiler": "Bränsle",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% hållbarhet",
   "immersive_aircraft.upgrade.fuel": "%s%% bränslebehov",
   "immersive_aircraft.upgrade.wind": "%s%% vindpåverkan",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisering"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisering",
+  "immersive_aircraft.tooltip.inventory": "Innehåller %s artiklar."
 }

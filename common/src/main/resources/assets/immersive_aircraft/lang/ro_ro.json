@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Nu va ucide jucătorul în caz de accident.",
   "option.immersive_aircraft.healthBarRow": "Compensează bara de sănătate a vehiculelor.",
   "option.immersive_aircraft.damagePerHealthPoint": "Valorile mai mari fac ca aeronavele să fie mai durabile.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Permiteți ca unele arme să distrugă blocuri.",
+  "option.immersive_aircraft.dropInventory": "Aruncă inventarul, în loc să îl salvezi în cadrul elementului de aeronavă.",
+  "option.immersive_aircraft.dropUpgrades": "Aruncați upgrade-urile și personalizarea, în loc să le salvați în cadrul elementului de aeronavă.",
   "immersive_aircraft.slot.booster": "Rachete de propulsie",
   "immersive_aircraft.slot.weapon": "Fantă pentru armă",
   "immersive_aircraft.slot.boiler": "Fantă pentru combustibil",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% durabilitate",
   "immersive_aircraft.upgrade.fuel": "%s%% necesar de combustibil",
   "immersive_aircraft.upgrade.wind": "%s%% efect de vânt",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizare"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizare",
+  "immersive_aircraft.tooltip.inventory": "Conține %s articole."
 }

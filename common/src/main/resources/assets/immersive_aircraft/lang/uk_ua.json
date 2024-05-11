@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Не вб'є гравця при падінні.",
   "option.immersive_aircraft.healthBarRow": "Змістити індикатор здоров'я транспортних засобів.",
   "option.immersive_aircraft.damagePerHealthPoint": "Вищі значення роблять літаки довговічнішими.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Дозвольте деяким видам зброї руйнувати блоки.",
+  "option.immersive_aircraft.dropInventory": "Скидайте інвентар, замість того, щоб зберігати його в об'єкті \"Літак\".",
+  "option.immersive_aircraft.dropUpgrades": "Видаліть модернізацію та кастомізацію, замість того, щоб зберігати її в елементі літака.",
   "immersive_aircraft.slot.booster": "Відсік для прискорювальних ракети",
   "immersive_aircraft.slot.weapon": "Відсік зброї",
   "immersive_aircraft.slot.boiler": "Паливний відсік",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% витривалість",
   "immersive_aircraft.upgrade.fuel": "%s%% вимога в палеві",
   "immersive_aircraft.upgrade.wind": "%s%% ефект вітру",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% стабілізація"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% стабілізація",
+  "immersive_aircraft.tooltip.inventory": "Містить %s елементів."
 }

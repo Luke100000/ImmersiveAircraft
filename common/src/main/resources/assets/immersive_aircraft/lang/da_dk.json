@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Vil ikke dræbe spilleren ved et crash.",
   "option.immersive_aircraft.healthBarRow": "Udligner køretøjernes helbredslinje.",
   "option.immersive_aircraft.damagePerHealthPoint": "Højere værdier gør flyet mere holdbart.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Lad nogle våben ødelægge blokke.",
+  "option.immersive_aircraft.dropInventory": "Slip inventaret i stedet for at gemme det i flyelementet.",
+  "option.immersive_aircraft.dropUpgrades": "Drop opgraderingerne og tilpasningen i stedet for at gemme dem i flyelementet.",
   "immersive_aircraft.slot.booster": "Hjælperaket",
   "immersive_aircraft.slot.weapon": "Våbenplads",
   "immersive_aircraft.slot.boiler": "Brændstof",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% holdbarhed",
   "immersive_aircraft.upgrade.fuel": "%s%% brændstofbehov",
   "immersive_aircraft.upgrade.wind": "%s%% vindpåvirkning",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliserende"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliserende",
+  "immersive_aircraft.tooltip.inventory": "Indeholder %s elementer."
 }

@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Neiznīcina spēlētāju avārijas gadījumā.",
   "option.immersive_aircraft.healthBarRow": "Kompensē transportlīdzekļu veselības joslu.",
   "option.immersive_aircraft.damagePerHealthPoint": "Lielākas vērtības padara gaisa kuģi izturīgāku.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Ļaujiet dažiem ieročiem iznīcināt blokus.",
+  "option.immersive_aircraft.dropInventory": "Izmetiet inventāru, nevis saglabājiet to lidaparāta vienībā.",
+  "option.immersive_aircraft.dropUpgrades": "Izmetiet uzlabojumus un pielāgojumus, nevis saglabājiet tos lidaparāta vienībā.",
   "immersive_aircraft.slot.booster": "Palielināt raķetes",
   "immersive_aircraft.slot.weapon": "Ieroču slots",
   "immersive_aircraft.slot.boiler": "Degvielas slots",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% ilgmūžība",
   "immersive_aircraft.upgrade.fuel": "%s%% degvielas nepieciešamība",
   "immersive_aircraft.upgrade.wind": "%s%% vēja ietekme",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizē"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizē",
+  "immersive_aircraft.tooltip.inventory": "Satur %s vienumus."
 }

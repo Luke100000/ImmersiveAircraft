@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Doodt de speler niet bij een crash.",
   "option.immersive_aircraft.healthBarRow": "Compenseer de gezondheidsbalk van voertuigen.",
   "option.immersive_aircraft.damagePerHealthPoint": "Hogere waarden maken vliegtuigen duurzamer.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Sta toe dat sommige wapens blokken vernietigen.",
+  "option.immersive_aircraft.dropInventory": "Laat de inventaris vallen, in plaats van hem op te slaan in het vliegtuigitem.",
+  "option.immersive_aircraft.dropUpgrades": "Laat de upgrades en aanpassingen vallen, in plaats van ze op te slaan in het vliegtuigitem.",
   "immersive_aircraft.slot.booster": "Aanjaagraketten",
   "immersive_aircraft.slot.weapon": "Wapensleuf",
   "immersive_aircraft.slot.boiler": "Brandstofsleuf",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% duurzaamheid",
   "immersive_aircraft.upgrade.fuel": "%s%% brandstofbehoefte",
   "immersive_aircraft.upgrade.wind": "%s%% windeffect",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseren"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseren",
+  "immersive_aircraft.tooltip.inventory": "Bevat %s items."
 }

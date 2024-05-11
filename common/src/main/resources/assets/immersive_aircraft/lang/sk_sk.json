@@ -97,6 +97,9 @@
   "option.immersive_aircraft.preventKillThroughCrash": "Hráč nebude pri páde zabitý.",
   "option.immersive_aircraft.healthBarRow": "Posunutie lišty zdravia vozidiel.",
   "option.immersive_aircraft.damagePerHealthPoint": "Pri vyšších hodnotách sú lietadlá odolnejšie.",
+  "option.immersive_aircraft.weaponsAreDestructive": "Povoľte niektorým zbraniam ničiť bloky.",
+  "option.immersive_aircraft.dropInventory": "Upustite od inventára namiesto toho, aby ste ho uložili v rámci položky lietadla.",
+  "option.immersive_aircraft.dropUpgrades": "Upustite od vylepšení a prispôsobení namiesto toho, aby ste ich uložili v rámci položky lietadla.",
   "immersive_aircraft.slot.booster": "Zosilňovacie rakety",
   "immersive_aircraft.slot.weapon": "Slot na zbraň",
   "immersive_aircraft.slot.boiler": "Slot na palivo",
@@ -109,5 +112,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% trvanlivosť",
   "immersive_aircraft.upgrade.fuel": "%s%% potreba paliva",
   "immersive_aircraft.upgrade.wind": "%s%% vplyv vetra",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizácia"
+  "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizácia",
+  "immersive_aircraft.tooltip.inventory": "Obsahuje %s položky."
 }
