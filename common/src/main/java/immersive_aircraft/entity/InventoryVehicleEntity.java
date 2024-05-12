@@ -148,6 +148,9 @@ public abstract class InventoryVehicleEntity extends VehicleEntity implements Co
                 openInventory((ServerPlayer) player);
             }
             return InteractionResult.CONSUME;
+        } else if (getPassengerSpace() == 0 && player instanceof ServerPlayer serverPlayer) {
+            // For vehicles without passengers, just open inventory
+            openInventory(serverPlayer);
         }
         return super.interact(player, hand);
     }
