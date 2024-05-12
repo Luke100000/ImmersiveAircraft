@@ -717,8 +717,8 @@ public abstract class VehicleEntity extends Entity {
             double maxPossibleError = movement.length();
             double error = prediction.distanceTo(position());
             if (error <= maxPossibleError) {
-                float collision = (float) (error - (verticalCollision ? Math.abs(getGravity()) : 0.0));
-                if (collision > 0.05f) {
+                float collision = (float) (error - (verticalCollision ? Math.abs(getGravity()) : 0.0)) - 0.05f;
+                if (collision > 0) {
                     float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
                         float damage = collision * 40 * repeat * repeat;
