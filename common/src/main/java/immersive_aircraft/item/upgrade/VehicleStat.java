@@ -14,7 +14,7 @@ public record VehicleStat(String name, boolean positive, float defaultValue) {
 
     public static final VehicleStat ACCELERATION = register("acceleration", true, 1.0f);
     public static final VehicleStat DURABILITY = register("durability", true, 1.0f);
-    public static final VehicleStat FUEL = register("fuel", false);
+    public static final VehicleStat FUEL = register("fuel", false, 1.0f);
 
     public static final VehicleStat FRICTION = register("friction", false, 0.015f);
     public static final VehicleStat GLIDE_FACTOR = register("glideFactor", true);

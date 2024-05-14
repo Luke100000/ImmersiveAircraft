@@ -1,3 +1,7 @@
+# 1.0.1
+
+* Fixed infinite fuel airship
+
 # 1.0.0
 
 * Added the Warship (thanks Maugwei!)
