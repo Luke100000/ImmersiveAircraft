@@ -97,6 +97,12 @@ public class BBModelRenderer {
     }
 
     public static void renderBanner(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
+        matrixStack.pushPose();
+
+        if (cube instanceof BBObject object) {
+            matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
+        }
+
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
             Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
             float[] fs = pair.getSecond().getTextureDiffuseColors();
@@ -108,6 +114,8 @@ public class BBModelRenderer {
                 renderFaces(cube, matrixStack, vertexConsumers, light, fs[0], fs[1], fs[2], 1.0f, (sprite.getU1() - sprite.getU0()), (sprite.getV1() - sprite.getV0()), sprite.getU0(), sprite.getV0(), vertexConsumer);
             });
         }
+
+        matrixStack.popPose();
     }
 
     public static void renderSailObject(BBMesh cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha) {
