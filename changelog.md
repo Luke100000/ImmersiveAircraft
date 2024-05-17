@@ -1,6 +1,7 @@
 # 1.0.1
 
 * Fixed infinite fuel airship
+* Fixed wrong keybinds on Forge
 
 # 1.0.0
 

@@ -38,8 +38,8 @@ public class KeyBindings {
             backward = newFallbackKey("fallback_control_backward", () -> client.options.keyDown);
             up = newFallbackKey("fallback_control_up", () -> client.options.keyJump);
             down = newFallbackKey("fallback_control_down", () -> client.options.keyShift);
-            pull = newFallbackKey("fallback_control_pull", () -> client.options.keyUp);
-            push = newFallbackKey("fallback_control_push", () -> client.options.keyDown);
+            pull = newFallbackKey("fallback_control_pull", () -> client.options.keyDown);
+            push = newFallbackKey("fallback_control_push", () -> client.options.keyUp);
 
             use = newFallbackKey("fallback_use", () -> client.options.keyUse);
         }
