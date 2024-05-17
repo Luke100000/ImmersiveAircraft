@@ -97,7 +97,7 @@
   "option.immersive_aircraft.preventKillThroughCrash": "崩溃时不会杀死玩家。",
   "option.immersive_aircraft.healthBarRow": "抵消车辆的健康条。",
   "option.immersive_aircraft.damagePerHealthPoint": "数值越高，飞机越耐用。",
-  "option.immersive_aircraft.weaponsAreDestructive": "允许某些武器摧毁积木。",
+  "option.immersive_aircraft.weaponsAreDestructive": "允许某些武器摧毁方块。",
   "option.immersive_aircraft.dropInventory": "删除库存，而不是将其保存在飞行器项目中。",
   "option.immersive_aircraft.dropUpgrades": "放弃升级和定制，而不是将其保存在飞机项目中。",
   "immersive_aircraft.slot.booster": "助推火箭槽",
