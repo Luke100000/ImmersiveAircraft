@@ -90,8 +90,12 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         if (!entity.shouldRender(x, y, z)) {
             return false;
         }
-        AABB box = entity.getBoundingBoxForCulling().inflate(1.0);
+        AABB box = entity.getBoundingBoxForCulling().inflate(getCullingBoundingBoxInflation());
         return frustum.isVisible(box);
+    }
+
+    protected double getCullingBoundingBoxInflation() {
+        return 1.0;
     }
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("invalid");

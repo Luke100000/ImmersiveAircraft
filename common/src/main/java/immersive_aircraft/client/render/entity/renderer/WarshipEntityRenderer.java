@@ -32,4 +32,9 @@ public class WarshipEntityRenderer<T extends WarshipEntity> extends AirshipEntit
         super(context);
         this.shadowRadius = 2.5f;
     }
+
+    @Override
+    protected double getCullingBoundingBoxInflation() {
+        return 5.0;
+    }
 }

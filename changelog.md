@@ -3,6 +3,7 @@
 * Fixed infinite fuel airship
 * Fixed wrong keybinds on Forge
 * Fixed offset weapons
+* Increased culling box of warship so avoid popping in and out
 
 # 1.0.0
 
