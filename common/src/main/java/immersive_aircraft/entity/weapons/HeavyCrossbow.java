@@ -38,7 +38,7 @@ public class HeavyCrossbow extends BulletWeapon {
 
     @Override
     protected Vector4f getBarrelOffset() {
-        return new Vector4f(0.0f, 0.7f, 0.0f, 1.0f);
+        return new Vector4f(0.0f, 0.3f, 0.0f, 1.0f);
     }
 
     public float getVelocity() {

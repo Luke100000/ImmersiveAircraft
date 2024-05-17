@@ -52,7 +52,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
     }
 
 
-    public void renderBanners(BBModel model, BBObject ignoredObject, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
+    public void renderBanners(BBModel model, BBObject ignoredObject, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float ignoredTime, ModelPartRenderHandler<T> ignoredModelPartRenderer) {
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);
         int i = 0;
         for (ItemStack slot : slots) {

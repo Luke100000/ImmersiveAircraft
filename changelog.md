@@ -2,6 +2,7 @@
 
 * Fixed infinite fuel airship
 * Fixed wrong keybinds on Forge
+* Fixed offset weapons
 
 # 1.0.0
 

@@ -26,7 +26,7 @@ public class RotaryCannon extends BulletWeapon {
 
     @Override
     protected Vector4f getBarrelOffset() {
-        return new Vector4f(0.0f, 1.125f, 0.0f, 1.0f);
+        return new Vector4f(0.0f, 0.825f, -0.375f, 1.0f);
     }
 
     public float getVelocity() {
