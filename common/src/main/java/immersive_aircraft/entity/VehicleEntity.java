@@ -146,11 +146,11 @@ public abstract class VehicleEntity extends Entity {
         return entityData.get(BOOST);
     }
 
-    protected List<List<PositionDescriptor>> getPassengerPositions() {
+    public List<List<PositionDescriptor>> getPassengerPositions() {
         return VehicleDataLoader.get(identifier).getPassengerPositions();
     }
 
-    protected int getPassengerSpace() {
+    public int getPassengerSpace() {
         return getPassengerPositions().size();
     }
 
@@ -369,7 +369,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // pilot
-        if (level().isClientSide() && !getPassengers().isEmpty()) {
+        if (!getPassengers().isEmpty()) {
             tickPilot();
         }
 
@@ -400,9 +400,7 @@ public abstract class VehicleEntity extends Entity {
                 applyBoost();
             }
 
-            if (level().isClientSide) {
-                updateController();
-            }
+            updateController();
 
             move(MoverType.SELF, getDeltaMovement());
         }
@@ -502,6 +500,8 @@ public abstract class VehicleEntity extends Entity {
                             useAirplaneControls() ? KeyBindings.pull.isDown() : KeyBindings.backward.isDown()
                     )
             );
+        } else {
+            setInputs(0, 0, 0);
         }
     }
 
@@ -791,6 +791,10 @@ public abstract class VehicleEntity extends Entity {
         this.movementX = x;
         this.movementY = y;
         this.movementZ = z;
+    }
+
+    public boolean canTurnOnEngine(Entity pilot) {
+        return pilot instanceof Player;
     }
 
     @Override

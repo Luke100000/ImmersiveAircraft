@@ -39,7 +39,9 @@ public class QuadrocopterEntity extends Rotorcraft {
 
     @Override
     protected void updateController() {
-        setEngineTarget(1.0f);
+        if (canTurnOnEngine(getControllingPassenger())) {
+            setEngineTarget(1.0f);
+        }
 
         // forwards-backwards
         if (!onGround()) {

@@ -1,3 +1,7 @@
+# 1.0.2
+
+* Internal changes for addons
+
 # 1.0.1
 
 * Fixed infinite fuel airship

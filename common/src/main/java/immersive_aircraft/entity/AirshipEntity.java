@@ -67,7 +67,9 @@ public class AirshipEntity extends Rotorcraft {
     protected void updateController() {
         super.updateController();
 
-        setEngineTarget(1.0f);
+        if (canTurnOnEngine(getControllingPassenger())) {
+            setEngineTarget(1.0f);
+        }
 
         // up and down
         setDeltaMovement(getDeltaMovement().add(0.0f, getEnginePower() * getProperties().get(VehicleStat.VERTICAL_SPEED) * pressingInterpolatedY.getSmooth(), 0.0f));
