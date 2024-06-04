@@ -1,32 +1,50 @@
 {
   "engine_start": {
     "sounds": [
-      "immersive_aircraft:engine_start"
+      {
+        "name": "immersive_aircraft:engine_start",
+        "attenuation_distance": 24
+      }
     ]
   },
   "propeller": {
     "sounds": [
-      "immersive_aircraft:propeller"
+      {
+        "name": "immersive_aircraft:propeller",
+        "attenuation_distance": 24
+      }
     ]
   },
   "propeller_small": {
     "sounds": [
-      "immersive_aircraft:propeller_small"
+      {
+        "name": "immersive_aircraft:propeller_small",
+        "attenuation_distance": 24
+      }
     ]
   },
   "propeller_tiny": {
     "sounds": [
-      "immersive_aircraft:propeller_tiny"
+      {
+        "name": "immersive_aircraft:propeller_tiny",
+        "attenuation_distance": 24
+      }
     ]
   },
   "woosh": {
     "sounds": [
-      "immersive_aircraft:woosh"
+      {
+        "name": "immersive_aircraft:woosh",
+        "attenuation_distance": 24
+      }
     ]
   },
   "cannon": {
     "sounds": [
-      "immersive_aircraft:cannon"
+      {
+        "name": "immersive_aircraft:cannon",
+        "attenuation_distance": 24
+      }
     ]
   },
   "repair": {
