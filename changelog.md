@@ -1,3 +1,7 @@
+# 1.0.3
+
+* Fixed inventory sometimes desyncing
+
 # 1.0.2
 
 * Internal changes for addons
