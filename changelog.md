@@ -1,6 +1,9 @@
-# 1.0.3
+# 1.1.0
 
 * Fixed inventory sometimes desyncing
+* Fixed fuel levels not being saved
+* Arrows shot by the heavy crossbow are no longer picked up by the player as this caused duplication
+* Anvil names are now treated properly (thanks Cibernet83!)
 
 # 1.0.2
 

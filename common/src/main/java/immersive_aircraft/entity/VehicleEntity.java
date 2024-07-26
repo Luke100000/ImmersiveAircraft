@@ -21,6 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -645,11 +646,20 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected void addItemTag(@NotNull CompoundTag tag) {
-        // nop
+        // Store plane's name
+        CompoundTag displayTag = new CompoundTag();
+        tag.put("display", displayTag);
+        if (hasCustomName()) {
+            displayTag.putString("Name", Component.Serializer.toJson(getCustomName()));
+        }
     }
 
     protected void readItemTag(@NotNull CompoundTag tag) {
-        // nop
+        // Read plane's name
+        CompoundTag displayTag = tag.getCompound("display");
+        if (displayTag.contains("Name", Tag.TAG_STRING)) {
+            setCustomName(Component.Serializer.fromJson(displayTag.getString("Name")));
+        }
     }
 
     @Override
@@ -935,5 +945,10 @@ public abstract class VehicleEntity extends Entity {
         BBAnimationVariables.set("velocity_x", (float) speed.x);
         BBAnimationVariables.set("velocity_y", (float) speed.y);
         BBAnimationVariables.set("velocity_z", (float) speed.z);
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return super.getDisplayName();
     }
 }
