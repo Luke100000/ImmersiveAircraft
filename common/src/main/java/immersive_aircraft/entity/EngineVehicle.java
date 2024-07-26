@@ -10,6 +10,7 @@ import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -252,6 +254,9 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         if (!Config.getInstance().burnFuelInCreative && isPilotCreative()) {
             return 1.0f;
         }
+        if (fuel.length == 0) {
+            return 1.0f;
+        }
         if (level().isClientSide) {
             return entityData.get(UTILIZATION);
         } else {
@@ -264,6 +269,24 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
             float utilization = (float) running / fuel.length * (isFuelLow() ? 0.75f : 1.0f);
             entityData.set(UTILIZATION, utilization);
             return utilization;
+        }
+    }
+
+    @Override
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+
+        for (int i = 0; i < fuel.length; i++) {
+            tag.putInt("Fuel" + i, fuel[i]);
+        }
+    }
+
+    @Override
+    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+
+        for (int i = 0; i < fuel.length; i++) {
+            fuel[i] = tag.getInt("Fuel" + i);
         }
     }
 
