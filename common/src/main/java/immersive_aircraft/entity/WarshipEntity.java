@@ -6,7 +6,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.WeaponMount;
-import immersive_aircraft.entity.weapons.HeavyCrossbow;
+import immersive_aircraft.entity.weapon.HeavyCrossbow;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;

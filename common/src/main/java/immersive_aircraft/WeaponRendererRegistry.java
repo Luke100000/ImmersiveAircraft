@@ -1,7 +1,7 @@
 package immersive_aircraft;
 
 import immersive_aircraft.client.render.entity.weaponRenderer.*;
-import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.entity.weapon.Weapon;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 

@@ -1,9 +1,8 @@
-package immersive_aircraft.entity.weapons;
+package immersive_aircraft.entity.weapon;
 
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.bullet.BulletEntity;
 import immersive_aircraft.entity.misc.WeaponMount;

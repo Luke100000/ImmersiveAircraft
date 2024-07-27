@@ -3,7 +3,7 @@ package immersive_aircraft.client.render.entity.weaponRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
 import immersive_aircraft.entity.VehicleEntity;
-import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.entity.weapon.Weapon;
 import immersive_aircraft.resources.BBModelLoader;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import net.minecraft.client.renderer.MultiBufferSource;

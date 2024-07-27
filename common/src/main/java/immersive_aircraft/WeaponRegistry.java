@@ -2,7 +2,7 @@ package immersive_aircraft;
 
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
-import immersive_aircraft.entity.weapons.*;
+import immersive_aircraft.entity.weapon.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

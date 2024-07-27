@@ -1,4 +1,4 @@
-package immersive_aircraft.entity.weapons;
+package immersive_aircraft.entity.weapon;
 
 import immersive_aircraft.Entities;
 import immersive_aircraft.cobalt.network.NetworkHandler;

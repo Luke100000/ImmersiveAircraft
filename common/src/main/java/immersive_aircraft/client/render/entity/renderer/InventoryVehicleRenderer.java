@@ -9,7 +9,7 @@ import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHan
 import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
-import immersive_aircraft.entity.weapons.Weapon;
+import immersive_aircraft.entity.weapon.Weapon;
 import immersive_aircraft.resources.bbmodel.BBFaceContainer;
 import immersive_aircraft.resources.bbmodel.BBMesh;
 import immersive_aircraft.resources.bbmodel.BBModel;

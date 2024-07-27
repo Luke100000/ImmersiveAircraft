@@ -1,4 +1,4 @@
-package immersive_aircraft.entity.weapons;
+package immersive_aircraft.entity.weapon;
 
 import org.joml.Vector3f;
 import immersive_aircraft.entity.VehicleEntity;

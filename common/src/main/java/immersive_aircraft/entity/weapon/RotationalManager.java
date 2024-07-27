@@ -1,4 +1,4 @@
-package immersive_aircraft.entity.weapons;
+package immersive_aircraft.entity.weapon;
 
 import com.mojang.math.Axis;
 import immersive_aircraft.Main;
