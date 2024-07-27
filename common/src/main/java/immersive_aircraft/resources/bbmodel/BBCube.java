@@ -83,8 +83,8 @@ public class BBCube extends BBObject implements BBFaceContainer {
         for (int i = 0; i < 6; i++) {
             JsonObject faceObject = element.getAsJsonObject("faces").getAsJsonObject(SIDES[i]);
 
-            if (!Utils.isNull(faceObject, "texture")) {
-                int id = Utils.getIntElement(element, "texture");
+            if (!Utils.isNullOrFalse(faceObject, "texture")) {
+                int id = Utils.getIntElement(faceObject, "texture");
                 BBTexture texture = model.getTexture(id);
 
                 BBFace f = faces.get(i);
@@ -98,8 +98,8 @@ public class BBCube extends BBObject implements BBFaceContainer {
 
                 int rot = Utils.getIntElement(faceObject, "rotation");
                 while (rot > 0) {
-                    roll(u, i * 4);
-                    roll(v, i * 4);
+                    roll(u, i);
+                    roll(v, i);
                     rot -= 90;
                 }
 
