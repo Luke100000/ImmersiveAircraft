@@ -15,15 +15,15 @@ public class WarshipEntityRenderer<T extends WarshipEntity> extends AirshipEntit
 
     private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
             .add("left_balloon_colored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, true, false))
+                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, false, true))
             .add("left_balloon_uncolored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
                     renderUndyed(object, vertexConsumerProvider, entity, matrixStack, light))
             .add("right_balloon_colored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, true, false))
+                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, false, true))
             .add("right_balloon_uncolored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
                     renderUndyed(object, vertexConsumerProvider, entity, matrixStack, light))
             .add("centre_balloon_colored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, true, false))
+                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, false, true))
             .add("centre_balloon_uncolored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
                     renderUndyed(object, vertexConsumerProvider, entity, matrixStack, light))
             .add("tail_fin_flag", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) -> renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))

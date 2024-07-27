@@ -15,7 +15,7 @@ public abstract class DyeableVehicleEntityRenderer<T extends DyeableVehicleEntit
     }
 
     public void renderUndyed(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light) {
-        if (entity.getDyeColor() > 0 && object instanceof BBFaceContainer faces) {
+        if (entity.getDyeColor() < 0 && object instanceof BBFaceContainer faces) {
             BBModelRenderer.renderFaces(faces, matrixStack, vertexConsumerProvider, light,
                     1.0f, 1.0f, 1.0f, 1.0f,
                     1.0f, 1.0f, 0.0f, 0.0f, null);
@@ -23,7 +23,7 @@ public abstract class DyeableVehicleEntityRenderer<T extends DyeableVehicleEntit
     }
 
     public void renderDyed(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, boolean highlight, boolean hideWhenUndyed) {
-        if (entity.getDyeColor() == 0 && hideWhenUndyed) {
+        if (entity.getDyeColor() < 0 && hideWhenUndyed) {
             return;
         }
         int color = highlight ? entity.getHighlightColor() : entity.getBodyColor();
