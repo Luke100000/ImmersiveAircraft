@@ -3,7 +3,11 @@
 * Fixed inventory sometimes desyncing
 * Fixed fuel levels not being saved
 * Arrows shot by the heavy crossbow are no longer picked up by the player as this caused duplication
-* Anvil names are now treated properly (thanks Cibernet83!)
+* Anvil names are now treated properly (thanks Cibernet!)
+* Added colorable aircraft (thanks Cibernet!) 
+  * Mostly interesting for addons with models designed for it
+  * Added support for Airship, Cargo Airship, and the Warship
+  * Coloring works like leather (combine with dye in crafting, clear with cauldron)
 
 # 1.0.2
 

@@ -3,6 +3,7 @@ package immersive_aircraft.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
@@ -83,6 +84,17 @@ public class Utils {
 
     public static boolean isNull(JsonObject object, String member) {
         return object.has(member) && object.get(member).isJsonNull();
+    }
+
+    public static boolean isFalse(JsonObject object, String member) {
+        if (object.has(member) && object.get(member) instanceof JsonPrimitive primitive) {
+            return primitive.isBoolean() && !primitive.getAsBoolean();
+        }
+        return false;
+    }
+
+    public static boolean isNullOrFalse(JsonObject object, String member) {
+        return isNull(object, member) || isFalse(object, member);
     }
 
     public static int getIntElement(JsonObject object, String member) {

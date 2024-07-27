@@ -16,9 +16,17 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
 
     private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
             .add("banners", this::renderBanners)
-            .add("flag", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) -> renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
-            .add("flag_small", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) -> renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
-            .add("flag_front", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) -> renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time));
+            .add("colored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderDyed(object, vertexConsumerProvider, entity, matrixStack, light, true, false))
+            .add("uncolored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderUndyed(object, vertexConsumerProvider, entity, matrixStack, light))
+            .add("flag", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
+            .add("flag_small", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
+            .add("flag_front", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
+                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time));
+
 
     public AirshipEntityRenderer(EntityRendererProvider.Context context) {
         super(context);

@@ -4,6 +4,7 @@ import immersive_aircraft.cobalt.registration.Registration;
 import immersive_aircraft.entity.*;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.item.AircraftItem;
+import immersive_aircraft.item.DyeableAircraftItem;
 import immersive_aircraft.item.WeaponItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
@@ -22,9 +23,9 @@ public interface Items {
     Supplier<Item> PROPELLER = register("propeller", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> BOILER = register("boiler", () -> new Item(baseProps().stacksTo(8)));
 
-    Supplier<Item> AIRSHIP = register("airship", () -> new AircraftItem(baseProps().stacksTo(1), world -> new AirshipEntity(Entities.AIRSHIP.get(), world)));
-    Supplier<Item> CARGO_AIRSHIP = register("cargo_airship", () -> new AircraftItem(baseProps().stacksTo(1), world -> new CargoAirshipEntity(Entities.CARGO_AIRSHIP.get(), world)));
-    Supplier<Item> WARSHIP = register("warship", () -> new AircraftItem(baseProps().stacksTo(1), world -> new WarshipEntity(Entities.WARSHIP.get(), world)));
+    Supplier<Item> AIRSHIP = register("airship", () -> new DyeableAircraftItem(baseProps().stacksTo(1), world -> new AirshipEntity(Entities.AIRSHIP.get(), world)));
+    Supplier<Item> CARGO_AIRSHIP = register("cargo_airship", () -> new DyeableAircraftItem(baseProps().stacksTo(1), world -> new CargoAirshipEntity(Entities.CARGO_AIRSHIP.get(), world)));
+    Supplier<Item> WARSHIP = register("warship", () -> new DyeableAircraftItem(baseProps().stacksTo(1), world -> new WarshipEntity(Entities.WARSHIP.get(), world)));
     Supplier<Item> BIPLANE = register("biplane", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BiplaneEntity(Entities.BIPLANE.get(), world)));
     Supplier<Item> GYRODYNE = register("gyrodyne", () -> new AircraftItem(baseProps().stacksTo(1), world -> new GyrodyneEntity(Entities.GYRODYNE.get(), world)));
     Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().stacksTo(1), world -> new QuadrocopterEntity(Entities.QUADROCOPTER.get(), world)));

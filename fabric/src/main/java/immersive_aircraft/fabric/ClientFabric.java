@@ -1,6 +1,7 @@
 package immersive_aircraft.fabric;
 
 import immersive_aircraft.ClientMain;
+import immersive_aircraft.ItemColors;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -33,6 +35,8 @@ public final class ClientFabric implements ClientModInitializer {
 
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
+
+        ItemColors.ITEM_COLORS.forEach((item, itemColor) -> ColorProviderRegistry.ITEM.register(itemColor, item));
 
         KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
         ItemTooltipCallback.EVENT.register(this::itemTooltipCallback); // For aircraft upgrade tooltips

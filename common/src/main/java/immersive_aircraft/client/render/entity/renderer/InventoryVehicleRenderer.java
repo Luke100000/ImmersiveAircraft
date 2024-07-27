@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 
 import java.util.List;
 
-public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity> extends VehicleEntityRenderer<T> {
+public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity> extends DyeableVehicleEntityRenderer<T> {
     public InventoryVehicleRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
@@ -50,7 +50,6 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
             }
         }
     }
-
 
     public void renderBanners(BBModel model, BBObject ignoredObject, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float ignoredTime, ModelPartRenderHandler<T> ignoredModelPartRenderer) {
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);

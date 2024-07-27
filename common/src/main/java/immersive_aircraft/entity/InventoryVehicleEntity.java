@@ -39,7 +39,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-public abstract class InventoryVehicleEntity extends VehicleEntity implements ContainerListener, MenuProvider, Container {
+public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements ContainerListener, MenuProvider, Container {
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected final Map<Integer, List<Weapon>> weapons = new HashMap<>();
