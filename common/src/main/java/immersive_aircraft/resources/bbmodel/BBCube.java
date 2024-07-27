@@ -83,7 +83,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
         for (int i = 0; i < 6; i++) {
             JsonObject faceObject = element.getAsJsonObject("faces").getAsJsonObject(SIDES[i]);
 
-            if (!Utils.isNullOrFalse(faceObject, "texture")) {
+            if (!Utils.isNull(faceObject, "texture")) {
                 int id = Utils.getIntElement(faceObject, "texture");
                 BBTexture texture = model.getTexture(id);
 

@@ -58,7 +58,7 @@ public class BBMesh extends BBObject implements BBFaceContainer {
         element.get("faces").getAsJsonObject().entrySet().forEach(face -> {
             JsonObject faceObject = face.getValue().getAsJsonObject();
 
-            if (!Utils.isNullOrFalse(faceObject, "texture")) {
+            if (!Utils.isNull(faceObject, "texture")) {
                 // Get the texture
                 int id = Utils.getIntElement(faceObject, "texture");
                 BBTexture texture = model.getTexture(id);

@@ -86,17 +86,6 @@ public class Utils {
         return object.has(member) && object.get(member).isJsonNull();
     }
 
-    public static boolean isFalse(JsonObject object, String member) {
-        if (object.has(member) && object.get(member) instanceof JsonPrimitive primitive) {
-            return primitive.isBoolean() && !primitive.getAsBoolean();
-        }
-        return false;
-    }
-
-    public static boolean isNullOrFalse(JsonObject object, String member) {
-        return isNull(object, member) || isFalse(object, member);
-    }
-
     public static int getIntElement(JsonObject object, String member) {
         return getIntElement(object, member, 0);
     }
@@ -106,7 +95,10 @@ public class Utils {
         if (element == null) {
             return defaultValue;
         }
-        return element.getAsInt();
+        if (element instanceof JsonPrimitive primitive && primitive.isNumber()) {
+            return primitive.getAsInt();
+        }
+        return defaultValue;
     }
 
     public static float getFloatElement(JsonObject object, String member) {
