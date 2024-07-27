@@ -90,4 +90,21 @@ allprojects {
             }
         }
     }
+
+    // Define reusable exclusion patterns
+    def exclusionPatterns = ['**/*.aup3', '**/.xdp-*', '**/*.kra', '**/*~*']
+
+    // Apply to processResources
+    processResources {
+        exclusionPatterns.each { pattern ->
+            exclude pattern
+        }
+    }
+
+    // Apply to sourcesJar
+    sourcesJar {
+        exclusionPatterns.each { pattern ->
+            exclude pattern
+        }
+    }
 }
