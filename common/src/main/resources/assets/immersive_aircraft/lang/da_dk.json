@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Lad nogle våben ødelægge blokke.",
   "option.immersive_aircraft.dropInventory": "Slip inventaret i stedet for at gemme det i flyelementet.",
   "option.immersive_aircraft.dropUpgrades": "Drop opgraderingerne og tilpasningen i stedet for at gemme dem i flyelementet.",
+  "immersive_aircraft.tooltip.no_target": "Skal samles på gulvet!",
+  "immersive_aircraft.tooltip.no_space": "Ikke nok plads!",
   "immersive_aircraft.slot.booster": "Hjælperaket",
   "immersive_aircraft.slot.weapon": "Våbenplads",
   "immersive_aircraft.slot.boiler": "Brændstof",
