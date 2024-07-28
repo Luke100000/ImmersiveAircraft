@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Επιτρέψτε σε ορισμένα όπλα να καταστρέφουν μπλοκ.",
   "option.immersive_aircraft.dropInventory": "Αφήστε το απόθεμα, αντί να το αποθηκεύσετε μέσα στο αντικείμενο του αεροσκάφους.",
   "option.immersive_aircraft.dropUpgrades": "Απορρίψτε τις αναβαθμίσεις και την προσαρμογή, αντί να τις αποθηκεύετε μέσα στο στοιχείο του αεροσκάφους.",
+  "immersive_aircraft.tooltip.no_target": "Πρέπει να συναρμολογηθεί στο πάτωμα!",
+  "immersive_aircraft.tooltip.no_space": "Δεν υπάρχει αρκετός χώρος!",
   "immersive_aircraft.slot.booster": "Ρουκέτες ώθησης",
   "immersive_aircraft.slot.weapon": "Υποδοχή όπλου",
   "immersive_aircraft.slot.boiler": "Υποδοχή καυσίμου",
