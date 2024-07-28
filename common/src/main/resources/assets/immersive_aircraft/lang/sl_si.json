@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Dovolite nekaterim orožjem, da uničijo bloke.",
   "option.immersive_aircraft.dropInventory": "Spustite inventar, namesto da bi ga shranili v element letala.",
   "option.immersive_aircraft.dropUpgrades": "Spustite nadgradnje in prilagoditve, namesto da bi jih shranili v element letala.",
+  "immersive_aircraft.tooltip.no_target": "Sestaviti ga je treba na tleh!",
+  "immersive_aircraft.tooltip.no_space": "Premalo prostora!",
   "immersive_aircraft.slot.booster": "Spodbujanje raket",
   "immersive_aircraft.slot.weapon": "Reža za orožje",
   "immersive_aircraft.slot.boiler": "Reža za gorivo",
