@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Engedélyezze, hogy egyes fegyverek blokkokat semmisítsenek meg.",
   "option.immersive_aircraft.dropInventory": "Dobja el a leltárt, ahelyett, hogy a repülőgépelemen belül mentené el.",
   "option.immersive_aircraft.dropUpgrades": "Dobja el a frissítéseket és a testreszabást, ahelyett, hogy a repülőgépelemen belül mentené el.",
+  "immersive_aircraft.tooltip.no_target": "A padlón kell összeszerelni!",
+  "immersive_aircraft.tooltip.no_space": "Nincs elég hely!",
   "immersive_aircraft.slot.booster": "Boost rakéták",
   "immersive_aircraft.slot.weapon": "Fegyver nyílás",
   "immersive_aircraft.slot.boiler": "Üzemanyagnyílás",
