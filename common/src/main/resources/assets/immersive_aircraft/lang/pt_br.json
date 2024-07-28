@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Permitir que algumas armas destruam blocos.",
   "option.immersive_aircraft.dropInventory": "Solte o inventário, em vez de salvá-lo no item da aeronave.",
   "option.immersive_aircraft.dropUpgrades": "Elimine as atualizações e a personalização, em vez de salvá-las no item da aeronave.",
+  "immersive_aircraft.tooltip.no_target": "Você precisa ser montado no chão!",
+  "immersive_aircraft.tooltip.no_space": "Você não tem espaço suficiente!",
   "immersive_aircraft.slot.booster": "Impulsionar foguetes",
   "immersive_aircraft.slot.weapon": "Slot para armas",
   "immersive_aircraft.slot.boiler": "Slot de combustível",

@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "อนุญาตให้บางอาวุธทำลายบล็อคได้",
   "option.immersive_aircraft.dropInventory": "ทิ้งสิ่งของแทนที่จะบันทึกไว้ในไอเท็มเครื่องบิน",
   "option.immersive_aircraft.dropUpgrades": "ทิ้งอัพเกรดและการปรับแต่งแทนที่จะบันทึกมันไว้ในไอเท็มเครื่องบิน",
+  "immersive_aircraft.tooltip.no_target": "Needs to be assembled on the floor!",
+  "immersive_aircraft.tooltip.no_space": "Not enough space!",
   "immersive_aircraft.slot.booster": "Boost rockets",
   "immersive_aircraft.slot.weapon": "Weapon slot",
   "immersive_aircraft.slot.boiler": "Fuel slot",

@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Sta toe dat sommige wapens blokken vernietigen.",
   "option.immersive_aircraft.dropInventory": "Laat de inventaris vallen, in plaats van hem op te slaan in het vliegtuigitem.",
   "option.immersive_aircraft.dropUpgrades": "Laat de upgrades en aanpassingen vallen, in plaats van ze op te slaan in het vliegtuigitem.",
+  "immersive_aircraft.tooltip.no_target": "Moet op de vloer in elkaar worden gezet!",
+  "immersive_aircraft.tooltip.no_space": "Niet genoeg ruimte!",
   "immersive_aircraft.slot.booster": "Aanjaagraketten",
   "immersive_aircraft.slot.weapon": "Wapensleuf",
   "immersive_aircraft.slot.boiler": "Brandstofsleuf",

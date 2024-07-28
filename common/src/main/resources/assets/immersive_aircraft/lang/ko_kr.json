@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "일부 무기로 블록을 파괴할 수 있도록 허용합니다.",
   "option.immersive_aircraft.dropInventory": "인벤토리를 항공기 아이템에 저장하지 않고 삭제합니다.",
   "option.immersive_aircraft.dropUpgrades": "업그레이드 및 커스터마이징을 항공기 아이템에 저장하는 대신 삭제합니다.",
+  "immersive_aircraft.tooltip.no_target": "바닥에 조립해야 합니다!",
+  "immersive_aircraft.tooltip.no_space": "공간이 부족합니다!",
   "immersive_aircraft.slot.booster": "부스트 로켓",
   "immersive_aircraft.slot.weapon": "무기 슬롯",
   "immersive_aircraft.slot.boiler": "연료 슬롯",

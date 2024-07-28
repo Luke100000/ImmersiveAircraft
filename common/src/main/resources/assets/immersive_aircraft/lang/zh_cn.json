@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "允许某些武器摧毁方块。",
   "option.immersive_aircraft.dropInventory": "载具摧毁时，掉落物品栏物品，而非保存在载具中",
   "option.immersive_aircraft.dropUpgrades": "载具摧毁时，掉落载具装备，而非保存在载具中",
+  "immersive_aircraft.tooltip.no_target": "需要在地板上组装！",
+  "immersive_aircraft.tooltip.no_space": "空间不够",
   "immersive_aircraft.slot.booster": "助推火箭槽",
   "immersive_aircraft.slot.weapon": "武器插槽",
   "immersive_aircraft.slot.boiler": "燃料槽",

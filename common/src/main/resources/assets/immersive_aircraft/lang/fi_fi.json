@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Salli joidenkin aseiden tuhota lohkoja.",
   "option.immersive_aircraft.dropInventory": "Pudota inventaario sen sijaan, että tallentaisit sen lentokoneen kohteeseen.",
   "option.immersive_aircraft.dropUpgrades": "Pudota päivitykset ja räätälöinnit sen sijaan, että tallentaisit ne lentokoneen kohteen sisään.",
+  "immersive_aircraft.tooltip.no_target": "Pitää koota lattialla!",
+  "immersive_aircraft.tooltip.no_space": "Ei tarpeeksi tilaa!",
   "immersive_aircraft.slot.booster": "Boost-raketit",
   "immersive_aircraft.slot.weapon": "Asepaikka",
   "immersive_aircraft.slot.boiler": "Polttoainepaikka",

@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Povoľte niektorým zbraniam ničiť bloky.",
   "option.immersive_aircraft.dropInventory": "Upustite od inventára namiesto toho, aby ste ho uložili v rámci položky lietadla.",
   "option.immersive_aircraft.dropUpgrades": "Upustite od vylepšení a prispôsobení namiesto toho, aby ste ich uložili v rámci položky lietadla.",
+  "immersive_aircraft.tooltip.no_target": "Musí sa zostaviť na podlahe!",
+  "immersive_aircraft.tooltip.no_space": "Nedostatok miesta!",
   "immersive_aircraft.slot.booster": "Zosilňovacie rakety",
   "immersive_aircraft.slot.weapon": "Slot na zbraň",
   "immersive_aircraft.slot.boiler": "Slot na palivo",

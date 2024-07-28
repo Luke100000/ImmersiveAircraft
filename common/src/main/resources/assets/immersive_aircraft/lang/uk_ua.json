@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Дозвольте деяким видам зброї руйнувати блоки.",
   "option.immersive_aircraft.dropInventory": "Скидайте інвентар, замість того, щоб зберігати його в об'єкті \"Літак\".",
   "option.immersive_aircraft.dropUpgrades": "Видаліть модернізацію та кастомізацію, замість того, щоб зберігати її в елементі літака.",
+  "immersive_aircraft.tooltip.no_target": "Потрібно збирати на підлозі!",
+  "immersive_aircraft.tooltip.no_space": "Замало місця!",
   "immersive_aircraft.slot.booster": "Відсік для прискорювальних ракети",
   "immersive_aircraft.slot.weapon": "Відсік зброї",
   "immersive_aircraft.slot.boiler": "Паливний відсік",

@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Tillat at noen våpen kan ødelegge blokker.",
   "option.immersive_aircraft.dropInventory": "Slipp lagerbeholdningen, i stedet for å lagre den i flygjenstanden.",
   "option.immersive_aircraft.dropUpgrades": "Slipp oppgraderingene og tilpasningen, i stedet for å lagre den i flyelementet.",
+  "immersive_aircraft.tooltip.no_target": "Må monteres på gulvet!",
+  "immersive_aircraft.tooltip.no_space": "Ikke nok plass!",
   "immersive_aircraft.slot.booster": "Booster",
   "immersive_aircraft.slot.weapon": "Våpenspor",
   "immersive_aircraft.slot.boiler": "Drivstoff",

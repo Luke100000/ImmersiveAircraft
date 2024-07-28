@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Erlaube einigen Waffen, Blöcke zu zerstören.",
   "option.immersive_aircraft.dropInventory": "Lass das Inventar fallen, anstatt es im Flugzeugobjekt zu speichern.",
   "option.immersive_aircraft.dropUpgrades": "Lass die Upgrades und Anpassungen weg, anstatt sie im Flugzeugobjekt zu speichern.",
+  "immersive_aircraft.tooltip.no_target": "Muss auf dem Boden montiert werden!",
+  "immersive_aircraft.tooltip.no_space": "Nicht genug Platz!",
   "immersive_aircraft.slot.booster": "Boost-Raketen",
   "immersive_aircraft.slot.weapon": "Waffenplatz",
   "immersive_aircraft.slot.boiler": "Kraftstoffschlitz",

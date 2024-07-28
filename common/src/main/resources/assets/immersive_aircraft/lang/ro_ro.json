@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Permiteți ca unele arme să distrugă blocuri.",
   "option.immersive_aircraft.dropInventory": "Aruncă inventarul, în loc să îl salvezi în cadrul elementului de aeronavă.",
   "option.immersive_aircraft.dropUpgrades": "Aruncați upgrade-urile și personalizarea, în loc să le salvați în cadrul elementului de aeronavă.",
+  "immersive_aircraft.tooltip.no_target": "Trebuie să fie asamblat pe podea!",
+  "immersive_aircraft.tooltip.no_space": "Nu este suficient spațiu!",
   "immersive_aircraft.slot.booster": "Rachete de propulsie",
   "immersive_aircraft.slot.weapon": "Fantă pentru armă",
   "immersive_aircraft.slot.boiler": "Fantă pentru combustibil",

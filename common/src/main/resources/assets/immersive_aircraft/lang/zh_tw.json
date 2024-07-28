@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Allow some weapons to destroy blocks.",
   "option.immersive_aircraft.dropInventory": "Drop the inventory, instead of saving it within the aircraft item.",
   "option.immersive_aircraft.dropUpgrades": "Drop the upgrades and customization, instead of saving it within the aircraft item.",
+  "immersive_aircraft.tooltip.no_target": "Needs to be assembled on the floor!",
+  "immersive_aircraft.tooltip.no_space": "Not enough space!",
   "immersive_aircraft.slot.booster": "助推火箭",
   "immersive_aircraft.slot.weapon": "裝備槽",
   "immersive_aircraft.slot.boiler": "燃料欄",
