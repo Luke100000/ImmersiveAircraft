@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Tillåt vissa vapen att förstöra block.",
   "option.immersive_aircraft.dropInventory": "Släpp inventeringen istället för att spara den i flygplansobjektet.",
   "option.immersive_aircraft.dropUpgrades": "Släpp uppgraderingarna och anpassningen, istället för att spara den i flygplansobjektet.",
+  "immersive_aircraft.tooltip.no_target": "Måste monteras på golvet!",
+  "immersive_aircraft.tooltip.no_space": "Inte tillräckligt med utrymme!",
   "immersive_aircraft.slot.booster": "Hjälpraketer",
   "immersive_aircraft.slot.weapon": "Vapenplats",
   "immersive_aircraft.slot.boiler": "Bränsle",
