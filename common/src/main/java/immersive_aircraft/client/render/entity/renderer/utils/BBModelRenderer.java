@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
@@ -58,7 +56,7 @@ public class BBModelRenderer {
 
         if (modelPartRenderer == null || !modelPartRenderer.render(object.name, model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer)) {
             if (object instanceof BBFaceContainer cube) {
-                renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, 1.0f, 1.0f, 0.0f, 0.0f, null);
+                renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, null);
             } else if (object instanceof BBBone bone) {
                 boolean shouldRender = bone.visibility;
                 if (bone.name.equals("lod0")) {
@@ -76,7 +74,7 @@ public class BBModelRenderer {
         matrixStack.popPose();
     }
 
-    public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float red, float green, float blue, float alpha, float uScale, float vScale, float uOffset, float vOffset, VertexConsumer overrideVertexConsumer) {
+    public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float red, float green, float blue, float alpha, VertexConsumer overrideVertexConsumer) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
         Matrix3f normalMatrix = last.normal();
@@ -84,14 +82,13 @@ public class BBModelRenderer {
             VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(cube.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location)) : overrideVertexConsumer;
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
-                vertexConsumer
-                        .vertex(positionMatrix, v.x, v.y, v.z)
-                        .color(red, green, blue, alpha)
-                        .uv(v.u * uScale + uOffset, v.v * vScale + vOffset)
-                        .overlayCoords(OverlayTexture.NO_OVERLAY)
-                        .uv2(light)
-                        .normal(normalMatrix, v.nx, v.ny, v.nz)
-                        .endVertex();
+                vertexConsumer.vertex(positionMatrix, v.x, v.y, v.z);
+                vertexConsumer.color(red, green, blue, alpha);
+                vertexConsumer.uv(v.u, v.v);
+                vertexConsumer.overlayCoords(OverlayTexture.NO_OVERLAY);
+                vertexConsumer.uv2(light);
+                vertexConsumer.normal(normalMatrix, v.nx, v.ny, v.nz);
+                vertexConsumer.endVertex();
             }
         }
     }
@@ -105,14 +102,16 @@ public class BBModelRenderer {
 
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
             Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
-            float[] fs = pair.getSecond().getTextureDiffuseColors();
             Holder<BannerPattern> bannerPattern = pair.getFirst();
-            bannerPattern.unwrapKey().ifPresent(key -> {
-                Material spriteIdentifier = isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key);
-                VertexConsumer vertexConsumer = spriteIdentifier.buffer(vertexConsumers, RenderType::entityNoOutline);
-                TextureAtlasSprite sprite = spriteIdentifier.sprite();
-                renderFaces(cube, matrixStack, vertexConsumers, light, fs[0], fs[1], fs[2], 1.0f, (sprite.getU1() - sprite.getU0()), (sprite.getV1() - sprite.getV0()), sprite.getU0(), sprite.getV0(), vertexConsumer);
-            });
+            bannerPattern.unwrapKey()
+                    .map(key -> isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key))
+                    .ifPresent(material -> {
+                        VertexConsumer vertexConsumer = material.buffer(vertexConsumers, RenderType::entityNoOutline);
+                        float[] fs = pair.getSecond().getTextureDiffuseColors();
+                        renderFaces(cube, matrixStack, vertexConsumers, light,
+                                fs[0], fs[1], fs[2], 1.0f,
+                                vertexConsumer);
+                    });
         }
 
         matrixStack.popPose();

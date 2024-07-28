@@ -9,6 +9,7 @@
     * Added support for Airship, Cargo Airship, and the Warship
     * Coloring works like leather (combine with dye in crafting, clear with cauldron)
 * Placing a vehicle invalidly now prints an error message
+* Fixed banners sometimes not rendered correctly
 
 # 1.0.2
 

@@ -18,7 +18,7 @@ public abstract class DyeableVehicleEntityRenderer<T extends DyeableVehicleEntit
         if (entity.getDyeColor() < 0 && object instanceof BBFaceContainer faces) {
             BBModelRenderer.renderFaces(faces, matrixStack, vertexConsumerProvider, light,
                     1.0f, 1.0f, 1.0f, 1.0f,
-                    1.0f, 1.0f, 0.0f, 0.0f, null);
+                    null);
         }
     }
 
@@ -31,7 +31,7 @@ public abstract class DyeableVehicleEntityRenderer<T extends DyeableVehicleEntit
         if (object instanceof BBFaceContainer faces) {
             BBModelRenderer.renderFaces(faces, matrixStack, vertexConsumerProvider, light,
                     rgb[0], rgb[1], rgb[2], 1.0f,
-                    1.0f, 1.0f, 0.0f, 0.0f, null);
+                    null);
         }
     }
 }
