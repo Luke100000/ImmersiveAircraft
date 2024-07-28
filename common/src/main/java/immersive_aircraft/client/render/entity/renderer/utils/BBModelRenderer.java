@@ -28,6 +28,7 @@ public class BBModelRenderer {
         matrixStack.pushPose();
         matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
 
+        // Apply animations
         if (!model.animations.isEmpty()) {
             BBAnimation animation = model.animations.get(0);
             if (animation.hasAnimator(object.uuid)) {
@@ -44,34 +45,42 @@ public class BBModelRenderer {
             }
         }
 
+        // Apply object rotation
         matrixStack.mulPose(Utils.fromXYZ(object.rotation));
 
+        // Apply additional, complex animations
         if (object instanceof BBBone bone && modelPartRenderer != null) {
             modelPartRenderer.animate(bone.name, entity, matrixStack, time);
         }
 
+        // The bones origin is only used during transformation
         if (object instanceof BBBone) {
             matrixStack.translate(-object.origin.x(), -object.origin.y(), -object.origin.z());
         }
 
+        // Render the object
         if (modelPartRenderer == null || !modelPartRenderer.render(object.name, model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer)) {
-            if (object instanceof BBFaceContainer cube) {
-                renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, null);
-            } else if (object instanceof BBBone bone) {
-                boolean shouldRender = bone.visibility;
-                if (bone.name.equals("lod0")) {
-                    shouldRender = entity.isWithinParticleRange();
-                } else if (bone.name.equals("lod1")) {
-                    shouldRender = !entity.isWithinParticleRange();
-                }
-
-                if (shouldRender) {
-                    bone.children.forEach(child -> renderObject(model, child, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha));
-                }
-            }
+            renderObjectInner(model, object, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha);
         }
 
         matrixStack.popPose();
+    }
+
+    public static <T extends VehicleEntity> void renderObjectInner(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
+        if (object instanceof BBFaceContainer cube) {
+            renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, null);
+        } else if (object instanceof BBBone bone) {
+            boolean shouldRender = bone.visibility;
+            if (bone.name.equals("lod0")) {
+                shouldRender = entity.isWithinParticleRange();
+            } else if (bone.name.equals("lod1")) {
+                shouldRender = !entity.isWithinParticleRange();
+            }
+
+            if (shouldRender) {
+                bone.children.forEach(child -> renderObject(model, child, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha));
+            }
+        }
     }
 
     public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float red, float green, float blue, float alpha, VertexConsumer overrideVertexConsumer) {
