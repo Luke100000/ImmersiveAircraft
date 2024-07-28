@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "السماح لبعض الأسلحة بتدمير بعض الكتل.",
   "option.immersive_aircraft.dropInventory": "إسقاط المخزون، بدلاً من حفظه داخل عنصر الطائرة.",
   "option.immersive_aircraft.dropUpgrades": "إسقاط الترقيات والتخصيص، بدلاً من حفظها داخل عنصر الطائرة.",
+  "immersive_aircraft.tooltip.no_target": "يجب تجميعها على الأرض!",
+  "immersive_aircraft.tooltip.no_space": "لا توجد مساحة كافية!",
   "immersive_aircraft.slot.booster": "Boost rockets",
   "immersive_aircraft.slot.weapon": "Weapon slot",
   "immersive_aircraft.slot.boiler": "Fuel slot",
