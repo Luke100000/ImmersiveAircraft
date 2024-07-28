@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "いくつかの武器でブロックを破壊できるようにする。",
   "option.immersive_aircraft.dropInventory": "機体アイテム内に保存する代わりに、インベントリをドロップする。",
   "option.immersive_aircraft.dropUpgrades": "アップグレードやカスタマイズを、機体アイテム内に保存するのではなく、ドロップする。",
+  "immersive_aircraft.tooltip.no_target": "床で組み立てる必要がある！",
+  "immersive_aircraft.tooltip.no_space": "スペースが足りない！",
   "immersive_aircraft.slot.booster": "ブースター",
   "immersive_aircraft.slot.weapon": "武器スロット",
   "immersive_aircraft.slot.boiler": "燃料スロット",
