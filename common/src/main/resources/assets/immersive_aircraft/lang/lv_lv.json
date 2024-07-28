@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Ļaujiet dažiem ieročiem iznīcināt blokus.",
   "option.immersive_aircraft.dropInventory": "Izmetiet inventāru, nevis saglabājiet to lidaparāta vienībā.",
   "option.immersive_aircraft.dropUpgrades": "Izmetiet uzlabojumus un pielāgojumus, nevis saglabājiet tos lidaparāta vienībā.",
+  "immersive_aircraft.tooltip.no_target": "Nepieciešams samontēt uz grīdas!",
+  "immersive_aircraft.tooltip.no_space": "Nepietiek vietas!",
   "immersive_aircraft.slot.booster": "Palielināt raķetes",
   "immersive_aircraft.slot.weapon": "Ieroču slots",
   "immersive_aircraft.slot.boiler": "Degvielas slots",
