@@ -100,6 +100,8 @@
   "option.immersive_aircraft.weaponsAreDestructive": "Luba mõnedel relvadel plokke hävitada.",
   "option.immersive_aircraft.dropInventory": "Jäta inventar, selle asemel, et salvestada see õhusõiduki eseme sees.",
   "option.immersive_aircraft.dropUpgrades": "Jätke uuendused ja kohandamine, selle asemel, et salvestada see õhusõiduki eseme sees.",
+  "immersive_aircraft.tooltip.no_target": "Peab olema kokku pandud põrandal!",
+  "immersive_aircraft.tooltip.no_space": "Ruumi ei ole piisavalt!",
   "immersive_aircraft.slot.booster": "Boost-raketid",
   "immersive_aircraft.slot.weapon": "Relvapesa",
   "immersive_aircraft.slot.boiler": "Kütusepesa",
