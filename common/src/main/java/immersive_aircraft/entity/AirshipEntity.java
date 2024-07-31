@@ -121,7 +121,7 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getPropellerSpeed() {
+    public float getPropellerSpeed() {
         return super.getPropellerSpeed() * (0.25f + Math.abs(pressingInterpolatedZ.get(0.0f)));
     }
 }

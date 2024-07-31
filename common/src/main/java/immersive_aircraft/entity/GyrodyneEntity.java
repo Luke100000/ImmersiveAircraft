@@ -48,12 +48,12 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    protected String getFuelType() {
+    public String getFuelType() {
         return "fat";
     }
 
     @Override
-    protected boolean isFuelLow() {
+    public boolean isFuelLow() {
         return false;
     }
 

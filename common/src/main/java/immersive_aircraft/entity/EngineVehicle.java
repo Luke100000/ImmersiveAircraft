@@ -130,14 +130,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         // Fuel
         if (fuel.length > 0 && !level().isClientSide) {
             float consumption = getFuelConsumption();
-            while (consumption > 0 && (consumption >= 1 || random.nextFloat() < consumption)) {
-                for (int i = 0; i < fuel.length; i++) {
-                    if (fuel[i] > 0) {
-                        fuel[i]--;
-                    }
-                }
-                consumption--;
-            }
+            consumeFuel(consumption);
         }
 
         // Refuel
@@ -168,11 +161,23 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         }
     }
 
-    protected float getPropellerSpeed() {
+    public float consumeFuel(float consumption) {
+        while (consumption > 0 && (consumption >= 1 || random.nextFloat() < consumption)) {
+            for (int i = 0; i < fuel.length; i++) {
+                if (fuel[i] > 0) {
+                    fuel[i]--;
+                }
+            }
+            consumption--;
+        }
+        return consumption;
+    }
+
+    public float getPropellerSpeed() {
         return getEnginePower();
     }
 
-    protected boolean isFuelLow() {
+    public boolean isFuelLow() {
         if (!Config.getInstance().burnFuelInCreative && isPilotCreative()) {
             return false;
         }
@@ -192,11 +197,11 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         }
     }
 
-    protected String getFuelType() {
+    public String getFuelType() {
         return "fuel";
     }
 
-    float getFuelConsumption() {
+    public float getFuelConsumption() {
         return getEngineTarget() * getProperties().get(VehicleStat.FUEL) * Config.getInstance().fuelConsumption;
     }
 
