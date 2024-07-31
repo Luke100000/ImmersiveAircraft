@@ -58,7 +58,7 @@ public class SparseSimpleInventory extends SimpleContainer {
             int index = entity.tickCount % lastSyncIndex;
             ItemStack stack = getItem(index);
             ItemStack trackedStack = tracked.get(index);
-            if (ItemStack.isSameItem(stack, trackedStack)) {
+            if (!ItemStack.isSameItem(stack, trackedStack)) {
                 tracked.set(index, stack);
                 entity.level().players().forEach(p -> {
                     if (!(p.containerMenu instanceof VehicleScreenHandler vehicleScreenHandler && vehicleScreenHandler.getVehicle() == entity)) {
