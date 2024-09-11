@@ -2,6 +2,8 @@ package immersive_aircraft.entity;
 
 import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
+import earth.terrarium.adastra.api.systems.GravityApi;
+import immersive_aircraft.CompatUtil;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
@@ -529,7 +531,7 @@ public abstract class VehicleEntity extends Entity {
     protected abstract void updateVelocity();
 
     protected float getGravity() {
-        return -0.04f;// * GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition()));
+        return -0.04f * (CompatUtil.isModLoaded("ad_astra") ? GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition())) : 1);
     }
 
     protected abstract void updateController();
