@@ -241,6 +241,11 @@ public abstract class VehicleEntity extends Entity {
             return true;
         }
 
+        // Player on an empty vehicle is faster
+        if (amount > 0 && source.getEntity() instanceof Player && getPassengers().isEmpty() && !source.isIndirect()) {
+            amount = Math.max(5.0f, amount);
+        }
+
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
 
@@ -287,7 +292,6 @@ public abstract class VehicleEntity extends Entity {
 
     private void repair(float amount) {
         float health = Math.min(1.0f, getHealth() + amount);
-
         setHealth(health);
     }
 
@@ -429,6 +433,14 @@ public abstract class VehicleEntity extends Entity {
         }
 
         tickDamageParticles();
+
+        // Automatic regeneration if requested
+        if (!level().isClientSide) {
+            int t = Config.getInstance().regenerateHealthEveryNTicks;
+            if (t > 0 && level().getGameTime() % t == 0) {
+                repair(0.05f / getDurability());
+            }
+        }
     }
 
     private void tickDamageParticles() {
@@ -671,8 +683,9 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
-        if (getHealth() < 1.0f && !hasPassenger(player)) {
+        if (getHealth() < 1.0f && (player.isShiftKeyDown() || !Config.getInstance().requireShiftForRepair) && !hasPassenger(player)) {
             if (!level().isClientSide) {
+                player.causeFoodExhaustion(Config.getInstance().repairExhaustion);
                 repair(Config.getInstance().repairSpeed);
 
                 // Repair message

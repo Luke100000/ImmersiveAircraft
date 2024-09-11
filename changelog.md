@@ -11,6 +11,12 @@
 * Placing a vehicle invalidly now prints an error message
 * Fixed banners sometimes not rendered correctly
 * Added compat with Destroy
+* Added Ad Astra Compat (Thanks Erdragh!)
+* You can now turn on vehicle health generation in the config (`regenerateHealthEveryNTicks`)
+    * This brings it closer to the vanilla boat mechanic while still having health rather than "wobbliness"
+    * With the second new flag `requireShiftForRepair` you can also require shift to repair the vehicle
+* Added configurable `repairExhaustion` (small hunger cost for repairing)
+* You can now destroy aircraft much quicker with your hand, when they are empty
 
 # 1.0.2
 

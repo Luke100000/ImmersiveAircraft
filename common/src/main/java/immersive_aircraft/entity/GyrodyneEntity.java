@@ -102,7 +102,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
         if (getControllingPassenger() instanceof ServerPlayer player) {
             float consumption = getFuelConsumption() * 0.025f;
-            player.getFoodData().addExhaustion(consumption);
+            player.causeFoodExhaustion(consumption);
         }
     }
 

@@ -150,19 +150,21 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (!player.level().isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
-            Entity primaryPassenger = getFirstPassenger();
-            if (primaryPassenger != null) {
-                // Kick out the first passenger
-                primaryPassenger.stopRiding();
-            } else {
-                // Open inventory instead
-                openInventory((ServerPlayer) player);
+        if (getHealth() >= 1.0) {
+            if (!player.level().isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
+                Entity primaryPassenger = getFirstPassenger();
+                if (primaryPassenger != null) {
+                    // Kick out the first passenger
+                    primaryPassenger.stopRiding();
+                } else {
+                    // Open inventory instead
+                    openInventory((ServerPlayer) player);
+                }
+                return InteractionResult.CONSUME;
+            } else if (getPassengerSpace() == 0 && player instanceof ServerPlayer serverPlayer) {
+                // For vehicles without passengers, just open inventory
+                openInventory(serverPlayer);
             }
-            return InteractionResult.CONSUME;
-        } else if (getPassengerSpace() == 0 && player instanceof ServerPlayer serverPlayer) {
-            // For vehicles without passengers, just open inventory
-            openInventory(serverPlayer);
         }
         return super.interact(player, hand);
     }

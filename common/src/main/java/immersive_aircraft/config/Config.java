@@ -78,6 +78,9 @@ public final class Config extends JsonConfig {
     @FloatConfigEntry(0.025f)
     public float repairSpeed;
 
+    @FloatConfigEntry(0.5f)
+    public float repairExhaustion;
+
     @BooleanConfigEntry(true)
     public boolean collisionDamage;
 
@@ -101,6 +104,12 @@ public final class Config extends JsonConfig {
 
     @BooleanConfigEntry(false)
     public boolean dropUpgrades;
+
+    @IntegerConfigEntry(0)
+    public int regenerateHealthEveryNTicks;
+
+    @BooleanConfigEntry(false)
+    public boolean requireShiftForRepair;
 
     public Map<String, Integer> fuelList = Map.of(
             "minecraft:blaze_powder", 1200
