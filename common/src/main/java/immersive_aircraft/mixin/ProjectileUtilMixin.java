@@ -21,21 +21,21 @@ import java.util.function.Predicate;
 public class ProjectileUtilMixin {
     @Inject(method = "getEntityHitResult(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;D)Lnet/minecraft/world/phys/EntityHitResult;", at = @At("RETURN"), cancellable = true)
     private static void ia$getEntityHitResult(Entity shooter, Vec3 startVec, Vec3 endVec, AABB boundingBox, Predicate<Entity> filter, double distance, CallbackInfoReturnable<EntityHitResult> cir) {
-        ia$vehicleTrace(cir.getReturnValue(), shooter, startVec, endVec, boundingBox,filter, 0.0f, distance).ifPresent(cir::setReturnValue);
+        ia$vehicleTrace(cir.getReturnValue(), shooter.level(), shooter, startVec, endVec, boundingBox,filter, 0.0f, distance).ifPresent(cir::setReturnValue);
     }
 
     @Inject(method = "getEntityHitResult(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;F)Lnet/minecraft/world/phys/EntityHitResult;", at = @At("RETURN"), cancellable = true)
     private static void ia$getEntityHitResult(Level level, Entity projectile, Vec3 startVec, Vec3 endVec, AABB boundingBox, Predicate<Entity> filter, float inflationAmount, CallbackInfoReturnable<EntityHitResult> cir) {
-        ia$vehicleTrace(cir.getReturnValue(), projectile, startVec, endVec, boundingBox, filter, inflationAmount, Double.MAX_VALUE).ifPresent(cir::setReturnValue);
+        ia$vehicleTrace(cir.getReturnValue(), level, projectile, startVec, endVec, boundingBox, filter, inflationAmount, Double.MAX_VALUE).ifPresent(cir::setReturnValue);
     }
 
     @Unique
-    private static Optional<EntityHitResult> ia$vehicleTrace(@Nullable EntityHitResult previous, Entity source, Vec3 startVec, Vec3 endVec, AABB boundingBox, Predicate<Entity> filter, float inflationAmount, double distance) {
+    private static Optional<EntityHitResult> ia$vehicleTrace(@Nullable EntityHitResult previous, Level level, @Nullable Entity source, Vec3 startVec, Vec3 endVec, AABB boundingBox, Predicate<Entity> filter, float inflationAmount, double distance) {
         double bestDistance = previous == null ? distance : previous.getLocation().distanceToSqr(startVec);
         Entity entity = null;
         Vec3 collision = null;
 
-        for (Entity e : source.level().getEntities(source, boundingBox.inflate(16.0), VehicleEntity.class::isInstance)) {
+        for (Entity e : level.getEntities(source, boundingBox.inflate(16.0), VehicleEntity.class::isInstance)) {
             if (e instanceof VehicleEntity vehicle && filter.test(vehicle)) {
                 for (AABB aabb : vehicle.getAdditionalShapes()) {
                     Optional<Vec3> optionalCollision = aabb.inflate(inflationAmount).clip(startVec, endVec);

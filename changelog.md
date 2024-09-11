@@ -10,6 +10,7 @@
     * Coloring works like leather (combine with dye in crafting, clear with cauldron)
 * Placing a vehicle invalidly now prints an error message
 * Fixed banners sometimes not rendered correctly
+* Added compat with Destroy
 
 # 1.0.2
 
