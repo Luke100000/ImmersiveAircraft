@@ -51,16 +51,6 @@ jobs:
         run: ./gradlew :fabric:build
       - name: Publish to Maven
         run: ./gradlew publish
-      - name: Upload Artifacts - Forge
-        uses: actions/upload-artifact@v2
-        with:
-          name: forge_artifacts
-          path: ./forge/build/libs/
-      - name: Upload Artifacts - Fabric
-        uses: actions/upload-artifact@v2
-        with:
-          name: fabric_artifacts
-          path: ./fabric/build/libs/
       - name: Get tag
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         id: tag
