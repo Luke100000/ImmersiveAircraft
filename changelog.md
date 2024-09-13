@@ -1,4 +1,4 @@
-# 1.1.1
+# 1.1.1, 1.1.2
 
 * Forge/Fabric will now complain when an unsupported version of ad astra is used
 
