@@ -1,3 +1,7 @@
+# 1.1.1
+
+* Forge/Fabric will now complain when an unsupported version of ad astra is used
+
 # 1.1.0
 
 * Fixed inventory sometimes desyncing
