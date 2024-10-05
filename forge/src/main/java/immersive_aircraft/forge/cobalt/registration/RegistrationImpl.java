@@ -25,9 +25,13 @@ public class RegistrationImpl extends Registration.Impl {
     private final DataLoaderRegister dataLoaderRegister = new DataLoaderRegister();
     private final DataLoaderRegister resourceLoaderRegister = new DataLoaderRegister();
 
-    public RegistrationImpl() {
+    private final FMLJavaModLoadingContext context;
+
+    public RegistrationImpl(FMLJavaModLoadingContext context) {
         ForgeBusEvents.DATA_REGISTRY = dataLoaderRegister;
         ForgeBusEvents.RESOURCE_REGISTRY = resourceLoaderRegister;
+
+        this.context = context;
     }
 
     private RegistryRepo getRepo(String namespace) {
@@ -56,7 +60,7 @@ public class RegistrationImpl extends Registration.Impl {
         return reg.register(id.getPath(), obj);
     }
 
-    static class RegistryRepo {
+    class RegistryRepo {
         private final Set<ResourceLocation> skipped = new HashSet<>();
         private final Map<ResourceLocation, DeferredRegister<?>> registries = new HashMap<>();
 
@@ -78,7 +82,7 @@ public class RegistrationImpl extends Registration.Impl {
 
                 DeferredRegister def = DeferredRegister.create(Objects.requireNonNull(reg, "Registry=" + id), namespace);
 
-                def.register(FMLJavaModLoadingContext.get().getModEventBus());
+                def.register(context.getModEventBus());
 
                 registries.put(id, def);
             }
@@ -88,7 +92,8 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     public static class DataLoaderRegister {
-        private final List<PreparableReloadListener> dataLoaders = new ArrayList<>(); // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
+        // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
+        private final List<PreparableReloadListener> dataLoaders = new ArrayList<>();
 
         public List<PreparableReloadListener> getLoaders() {
             return dataLoaders;

@@ -52,6 +52,7 @@ public class ForgeBusEvents {
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         if (DATA_REGISTRY != null) {
             for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
+                // TODO: here we have access to registry, pass it to the loader
                 event.addListener(loader);
             }
         }

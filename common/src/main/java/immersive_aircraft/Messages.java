@@ -6,15 +6,16 @@ import immersive_aircraft.network.s2c.*;
 
 public class Messages {
     public static void loadMessages() {
-        NetworkHandler.registerMessage(EnginePowerMessage.class, EnginePowerMessage::new);
-        NetworkHandler.registerMessage(CommandMessage.class, CommandMessage::new);
-        NetworkHandler.registerMessage(OpenGuiRequest.class, OpenGuiRequest::new);
-        NetworkHandler.registerMessage(InventoryUpdateMessage.class, InventoryUpdateMessage::new);
-        NetworkHandler.registerMessage(RequestInventory.class, RequestInventory::new);
-        NetworkHandler.registerMessage(CollisionMessage.class, CollisionMessage::new);
-        NetworkHandler.registerMessage(VehicleUpgradesMessage.class, VehicleUpgradesMessage::new);
-        NetworkHandler.registerMessage(AircraftDataMessage.class, AircraftDataMessage::new);
-        NetworkHandler.registerMessage(FireMessage.class, FireMessage::new);
-        NetworkHandler.registerMessage(FireResponse.class, FireResponse::new);
+        NetworkHandler.registerMessage(AircraftDataMessage.TYPE, AircraftDataMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(FireResponse.TYPE, FireResponse.STREAM_CODEC);
+        NetworkHandler.registerMessage(InventoryUpdateMessage.TYPE, InventoryUpdateMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(OpenGuiRequest.TYPE, OpenGuiRequest.STREAM_CODEC);
+        NetworkHandler.registerMessage(VehicleUpgradesMessage.TYPE, VehicleUpgradesMessage.STREAM_CODEC);
+
+        NetworkHandler.registerMessage(CollisionMessage.TYPE, CollisionMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(CommandMessage.TYPE, CommandMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(EnginePowerMessage.TYPE, EnginePowerMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(FireMessage.TYPE, FireMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(InventoryRequest.TYPE, InventoryRequest.STREAM_CODEC);
     }
 }

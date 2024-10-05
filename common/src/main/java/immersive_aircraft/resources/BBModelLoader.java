@@ -36,7 +36,7 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLo
         for (Map.Entry<ResourceLocation, Resource> entry : resourceManager.listResources("objects", n -> n.getPath().endsWith(".bbmodel")).entrySet()) {
             ResourceLocation location = entry.getKey();
             String name = location.getPath();
-            ResourceLocation id = new ResourceLocation(location.getNamespace(), name.substring(PATH_PREFIX_LENGTH, name.length() - PATH_SUFFIX_LENGTH));
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), name.substring(PATH_PREFIX_LENGTH, name.length() - PATH_SUFFIX_LENGTH));
             try {
                 BufferedReader reader = entry.getValue().openAsReader();
                 try {

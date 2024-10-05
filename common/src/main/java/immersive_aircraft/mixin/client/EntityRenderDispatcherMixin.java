@@ -14,11 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
-    @Inject(method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;F)V", at = @At("HEAD"))
-    private static void ia$inject$renderHitbox(PoseStack matrixStack, VertexConsumer buffer, Entity entity, float partialTicks, CallbackInfo ci) {
+    @Inject(method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", at = @At("HEAD"))
+    private static void ia$inject$renderHitbox(PoseStack poseStack, VertexConsumer buffer, Entity entity, float red, float green, float blue, float alpha, CallbackInfo ci) {
         if (entity instanceof VehicleEntity vehicle) {
             for (AABB aABB : vehicle.getAdditionalShapes()) {
-                LevelRenderer.renderLineBox(matrixStack, buffer, aABB.move(-entity.getX(), -entity.getY(), -entity.getZ()), 1.0f, 1.0f, 1.0f, 1.0f);
+                LevelRenderer.renderLineBox(poseStack, buffer, aABB.move(-entity.getX(), -entity.getY(), -entity.getZ()), 1.0f, 1.0f, 1.0f, 1.0f);
             }
         }
     }

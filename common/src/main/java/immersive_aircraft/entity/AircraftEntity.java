@@ -55,7 +55,7 @@ public abstract class AircraftEntity extends EngineVehicle {
 
     @Override
     protected float getGroundDecay() {
-        float gravity = Math.min(1.0f, Math.max(0.0f, getGravity() / (-0.04f)));
+        float gravity = Math.min(1.0f, Math.max(0.0f, (float) getGravity() / (-0.04f)));
         float upgrade = Math.min(1.0f, getProperties().get(VehicleStat.ACCELERATION) * 0.5f);
         return (super.getGroundDecay() * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }

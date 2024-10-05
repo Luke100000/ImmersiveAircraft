@@ -3,7 +3,7 @@ package immersive_aircraft.entity.inventory.slots;
 import com.google.gson.JsonObject;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.screen.slot.FuelSlot;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 
@@ -12,7 +12,7 @@ public class FuelSlotDescription extends TooltippedSlotDescription {
         super(type, index, x, y, json);
     }
 
-    public FuelSlotDescription(String type, FriendlyByteBuf buffer) {
+    public FuelSlotDescription(String type, RegistryFriendlyByteBuf buffer) {
         super(type, buffer);
     }
 

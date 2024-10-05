@@ -1,7 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.Main;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
@@ -14,17 +13,16 @@ import immersive_aircraft.resources.bbmodel.BBFaceContainer;
 import immersive_aircraft.resources.bbmodel.BBMesh;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
-import immersive_aircraft.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
 import java.util.List;
 
@@ -56,10 +54,12 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         int i = 0;
         for (ItemStack slot : slots) {
             if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
-                List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
-                BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
-                if (bannerObject instanceof BBFaceContainer bannerContainer) {
-                    BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, patterns);
+                BannerPatternLayers banner = slot.get(DataComponents.BANNER_PATTERNS);
+                if (banner != null) {
+                    BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
+                    if (bannerObject instanceof BBFaceContainer bannerContainer) {
+                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, banner.layers());
+                    }
                 }
             }
         }
@@ -73,9 +73,10 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         } else {
             color = DyeColor.WHITE;
         }
-        float r = color.getTextureDiffuseColors()[0];
-        float g = color.getTextureDiffuseColors()[1];
-        float b = color.getTextureDiffuseColors()[2];
+        int c = color.getTextureDiffuseColor();
+        float r = ((c >> 16) & 0xFF) / 255.0f;
+        float g = ((c >> 8) & 0xFF) / 255.0f;
+        float b = (c & 0xFF) / 255.0f;
 
         if (object instanceof BBMesh mesh) {
             BBModelRenderer.renderSailObject(mesh, matrixStack, vertexConsumerProvider, light, time, r, g, b, 1.0f);

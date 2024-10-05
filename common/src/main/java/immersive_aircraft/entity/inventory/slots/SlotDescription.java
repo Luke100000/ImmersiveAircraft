@@ -2,7 +2,7 @@ package immersive_aircraft.entity.inventory.slots;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.entity.InventoryVehicleEntity;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
@@ -23,7 +23,7 @@ public class SlotDescription {
         this.y = y;
     }
 
-    public SlotDescription(String type, FriendlyByteBuf buffer) {
+    public SlotDescription(String type, RegistryFriendlyByteBuf buffer) {
         this.type = type;
         this.index = buffer.readInt();
         this.x = buffer.readInt();
@@ -34,7 +34,7 @@ public class SlotDescription {
         return new Slot(inventory, index, x, y);
     }
 
-    public void encode(FriendlyByteBuf buffer) {
+    public void encode(RegistryFriendlyByteBuf buffer) {
         buffer.writeInt(index);
         buffer.writeInt(x);
         buffer.writeInt(y);
@@ -49,7 +49,7 @@ public class SlotDescription {
     }
 
     public interface SlotDescriptionDecoder {
-        SlotDescription decode(String type, FriendlyByteBuf buffer);
+        SlotDescription decode(String type, RegistryFriendlyByteBuf buffer);
     }
 
     public String type() {

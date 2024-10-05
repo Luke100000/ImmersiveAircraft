@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer<T> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/entity/bullet.png");
@@ -43,13 +44,13 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
     }
 
     private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, Matrix3f matrix3f, int light, float x, float y, float u, float v) {
-        vertexConsumer.vertex(matrix4f, x - 0.5f, y - 0.5f, 0.0f)
-                .color(255, 255, 255, 255)
-                .uv(u, v)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(matrix3f, 0.0f, 1.0f, 0.0f)
-                .endVertex();
+        Vector3f n = matrix3f.transform(new Vector3f(0.0f, 1.0f, 0.0f));
+        vertexConsumer.addVertex(matrix4f, x - 0.5f, y - 0.5f, 0.0f)
+                .setColor(255, 255, 255, 255)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(n.x(), n.y(), n.z());
     }
 
     @Override

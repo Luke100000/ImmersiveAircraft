@@ -5,6 +5,7 @@ pluginManagement {
         maven { url "https://maven.minecraftforge.net/" }
         maven { url "https://maven.shedaniel.me/" }
         maven { url "https://maven.terraformersmc.com/releases/" }
+        maven { url "https://modmaven.dev/" }
         gradlePluginPortal()
     }
 }
@@ -12,5 +13,6 @@ pluginManagement {
 include("common")
 include("fabric")
 include("forge")
+include("neoforge")
 
 rootProject.name = "immersive-aircraft"

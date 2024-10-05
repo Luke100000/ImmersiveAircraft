@@ -21,15 +21,15 @@ public abstract class GameRendererMixin {
     @Final
     private Camera mainCamera;
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"))
-    public void immersiveAircraft$renderWorld(float tickDelta, long limitTime, PoseStack matrices, CallbackInfo ci) {
+    @Inject(method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"), cancellable = false)
+    public void immersiveAircraft$renderWorld(PoseStack poseStack, float partialTicks, CallbackInfo ci) {
         Entity entity = mainCamera.getEntity();
         //noinspection ConstantValue
         if (entity != null && !mainCamera.isDetached() && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
             // rotate camera
             if (vehicle.adaptPlayerRotation) {
-                matrices.mulPose(Axis.ZP.rotationDegrees(vehicle.getRoll(tickDelta)));
-                matrices.mulPose(Axis.XP.rotationDegrees(vehicle.getViewXRot(tickDelta)));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(vehicle.getRoll(partialTicks)));
+                poseStack.mulPose(Axis.XP.rotationDegrees(vehicle.getViewXRot(partialTicks)));
             }
 
             // fetch eye offset
@@ -38,17 +38,17 @@ public abstract class GameRendererMixin {
             // transform eye offset to match aircraft rotation
             Vector3f offset = new Vector3f(0, -eye, 0);
             Quaternionf quaternion = Axis.XP.rotationDegrees(0.0f);
-            quaternion.mul(Axis.YP.rotationDegrees(-vehicle.getViewYRot(tickDelta)));
-            quaternion.mul(Axis.XP.rotationDegrees(vehicle.getViewXRot(tickDelta)));
-            quaternion.mul(Axis.ZP.rotationDegrees(vehicle.getRoll(tickDelta)));
+            quaternion.mul(Axis.YP.rotationDegrees(-vehicle.getViewYRot(partialTicks)));
+            quaternion.mul(Axis.XP.rotationDegrees(vehicle.getViewXRot(partialTicks)));
+            quaternion.mul(Axis.ZP.rotationDegrees(vehicle.getRoll(partialTicks)));
             offset.rotate(quaternion);
 
             // apply camera offset
-            matrices.mulPose(Axis.XP.rotationDegrees(mainCamera.getXRot()));
-            matrices.mulPose(Axis.YP.rotationDegrees(mainCamera.getYRot() + 180.0f));
-            matrices.translate(offset.x(), offset.y() + eye, offset.z());
-            matrices.mulPose(Axis.YP.rotationDegrees(-mainCamera.getYRot() - 180.0f));
-            matrices.mulPose(Axis.XP.rotationDegrees(-mainCamera.getXRot()));
+            poseStack.mulPose(Axis.XP.rotationDegrees(mainCamera.getXRot()));
+            poseStack.mulPose(Axis.YP.rotationDegrees(mainCamera.getYRot() + 180.0f));
+            poseStack.translate(offset.x(), offset.y() + eye, offset.z());
+            poseStack.mulPose(Axis.YP.rotationDegrees(-mainCamera.getYRot() - 180.0f));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-mainCamera.getXRot()));
         }
     }
 }

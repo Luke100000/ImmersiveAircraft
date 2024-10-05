@@ -6,7 +6,7 @@ import immersive_aircraft.entity.inventory.slots.*;
 import immersive_aircraft.item.WeaponItem;
 import immersive_aircraft.util.Rect2iCommon;
 import immersive_aircraft.util.Utils;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.FireworkRocketItem;
@@ -27,7 +27,7 @@ public class VehicleInventoryDescription {
 
     }
 
-    public VehicleInventoryDescription(FriendlyByteBuf buffer) {
+    public VehicleInventoryDescription(RegistryFriendlyByteBuf buffer) {
         int slotCount = buffer.readInt();
         for (int i = 0; i < slotCount; i++) {
             String type = buffer.readUtf();
@@ -60,7 +60,7 @@ public class VehicleInventoryDescription {
         build();
     }
 
-    public void encode(FriendlyByteBuf buffer) {
+    public void encode(RegistryFriendlyByteBuf buffer) {
         buffer.writeInt(slots.size());
         for (SlotDescription slot : slots) {
             buffer.writeUtf(slot.type());

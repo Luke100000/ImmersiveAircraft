@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin<T extends LivingEntity> {
     @Inject(method = "setupRotations", at = @At("TAIL"))
-    public void render(T entity, PoseStack matrices, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo ci) {
+    public void render(T entity, PoseStack poseStack, float bob, float yBodyRot, float partialTick, float scale, CallbackInfo ci) {
         if (entity.getRootVehicle() != entity && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
-            matrices.mulPose(Axis.XP.rotationDegrees(-vehicle.getViewXRot(tickDelta)));
-            matrices.mulPose(Axis.ZP.rotationDegrees(-vehicle.getRoll(tickDelta)));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-vehicle.getViewXRot(partialTick)));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(-vehicle.getRoll(partialTick)));
         }
     }
 }

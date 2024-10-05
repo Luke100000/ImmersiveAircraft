@@ -28,13 +28,9 @@ dependencies {
 
     modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") { transitive false }
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
 
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:$rei_version"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
 
     // Required to run JEI
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
@@ -48,6 +44,9 @@ dependencies {
 
     // modRuntimeOnly "net.conczin:man_of_many_planes:${man_of_many_planes_version}+fabric"
     // modRuntimeOnly "net.conczin:immersive_machinery:${immersive_machinery}+fabric"
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
 processResources {

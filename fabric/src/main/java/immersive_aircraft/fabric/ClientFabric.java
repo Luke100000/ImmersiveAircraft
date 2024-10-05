@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -39,13 +40,13 @@ public final class ClientFabric implements ClientModInitializer {
         ItemColors.ITEM_COLORS.forEach((item, itemColor) -> ColorProviderRegistry.ITEM.register(itemColor, item));
 
         KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
-        ItemTooltipCallback.EVENT.register(this::itemTooltipCallback); // For aircraft upgrade tooltips
+        ItemTooltipCallback.EVENT.register(this::itemTooltipCallback);
     }
 
     /**
      * Handles adding ToolTips to aircraft upgrades.
      */
-    private void itemTooltipCallback(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
+    private void itemTooltipCallback(ItemStack stack, Item.TooltipContext tooltipContext, TooltipFlag tooltipFlag, List<Component> tooltip) {
         VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
         if (upgrade != null) {
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY));

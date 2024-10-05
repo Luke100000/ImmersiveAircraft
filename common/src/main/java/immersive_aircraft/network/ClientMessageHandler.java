@@ -10,8 +10,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 
-public class ClientNetworkManager implements NetworkManager {
-    @Override
+public class ClientMessageHandler implements MessageHandler {
     public void handleOpenGuiRequest(OpenGuiRequest message) {
         Minecraft client = Minecraft.getInstance();
         if (client.level != null && client.player != null) {
@@ -24,18 +23,16 @@ public class ClientNetworkManager implements NetworkManager {
         }
     }
 
-    @Override
     public void handleInventoryUpdate(InventoryUpdateMessage message) {
         Minecraft client = Minecraft.getInstance();
         if (client.level != null && client.player != null) {
             InventoryVehicleEntity vehicle = (InventoryVehicleEntity) client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
-                vehicle.getInventory().setItem(message.getIndex(), message.getStack());
+                vehicle.getInventory().setItem(message.getIndex(), message.getStack(vehicle));
             }
         }
     }
 
-    @Override
     public void handleFire(FireResponse fireResponse) {
         ClientLevel level = Minecraft.getInstance().level;
 

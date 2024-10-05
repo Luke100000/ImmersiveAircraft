@@ -15,13 +15,13 @@ public abstract class CameraMixin {
     @Inject(method = "setup", at = @At("TAIL"))
     public void ia$setup(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
         if (thirdPerson && entity.getVehicle() instanceof VehicleEntity vehicle) {
-            move(-getMaxZoom(vehicle.getZoom()), 0.0, 0.0);
+            move(-getMaxZoom((float) vehicle.getZoom()), 0.0f, 0.0f);
         }
     }
 
     @Shadow
-    protected abstract void move(double x, double y, double z);
+    protected abstract void move(float zoom, float dy, float dx);
 
     @Shadow
-    protected abstract double getMaxZoom(double desiredCameraDistance);
+    protected abstract float getMaxZoom(float maxZoom);
 }

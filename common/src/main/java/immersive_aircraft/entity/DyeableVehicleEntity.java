@@ -1,6 +1,7 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.client.ColorUtils;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -8,6 +9,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,28 +28,28 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
+    protected void defineSynchedData(SynchedEntityData.Builder entityData) {
+        super.defineSynchedData(entityData);
 
         entityData.define(DYE_COLOR, -1);
     }
 
     @Override
-    protected void addItemTag(@NotNull CompoundTag tag) {
-        super.addItemTag(tag);
+    public void addItemTag(ItemStack stack) {
+        super.addItemTag(stack);
 
         if (getDyeColor() >= 0) {
-            tag.getCompound("display").putInt("color", getDyeColor());
+            stack.set(DataComponents.DYED_COLOR, new DyedItemColor(getDyeColor(), true));
         }
     }
 
     @Override
-    protected void readItemTag(@NotNull CompoundTag tag) {
-        super.readItemTag(tag);
+    public void readItemTag(ItemStack stack) {
+        super.readItemTag(stack);
 
-        CompoundTag displayTag = tag.getCompound("display");
-        if (displayTag.contains("color", 99)) {
-            setDyeColor(displayTag.getInt("color"));
+        DyedItemColor dyedColor = stack.get(DataComponents.DYED_COLOR);
+        if (dyedColor != null) {
+            setDyeColor(dyedColor.rgb());
         }
     }
 

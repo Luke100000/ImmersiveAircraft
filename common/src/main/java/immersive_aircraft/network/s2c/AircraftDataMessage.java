@@ -3,7 +3,10 @@ package immersive_aircraft.network.s2c;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.VehicleData;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
@@ -11,13 +14,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AircraftDataMessage extends Message {
+    public static final StreamCodec<RegistryFriendlyByteBuf, AircraftDataMessage> STREAM_CODEC = StreamCodec.ofMember(AircraftDataMessage::encode, AircraftDataMessage::new);
+    public static final CustomPacketPayload.Type<AircraftDataMessage> TYPE = Message.createType("aircraft_data");
+
+    public CustomPacketPayload.Type<AircraftDataMessage> type() {
+        return TYPE;
+    }
+
     private final Map<ResourceLocation, VehicleData> data;
 
     public AircraftDataMessage() {
         this.data = VehicleDataLoader.REGISTRY;
     }
 
-    public AircraftDataMessage(FriendlyByteBuf buffer) {
+    public AircraftDataMessage(RegistryFriendlyByteBuf buffer) {
         data = new HashMap<>();
 
         int dataCount = buffer.readInt();
@@ -28,7 +38,7 @@ public class AircraftDataMessage extends Message {
     }
 
     @Override
-    public void encode(FriendlyByteBuf buffer) {
+    public void encode(RegistryFriendlyByteBuf buffer) {
         buffer.writeInt(data.size());
 
         for (ResourceLocation identifier : data.keySet()) {
@@ -38,7 +48,7 @@ public class AircraftDataMessage extends Message {
     }
 
     @Override
-    public void receive(Player player) {
+    public void receiveClient() {
         VehicleDataLoader.CLIENT_REGISTRY.clear();
         VehicleDataLoader.CLIENT_REGISTRY.putAll(data);
     }

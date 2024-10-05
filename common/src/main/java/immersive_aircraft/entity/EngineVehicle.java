@@ -84,8 +84,8 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
+    protected void defineSynchedData(SynchedEntityData.Builder entityData) {
+        super.defineSynchedData(entityData);
 
         entityData.define(ENGINE, 0.0f);
         entityData.define(UTILIZATION, 0.0f);

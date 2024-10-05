@@ -26,7 +26,7 @@ public class BBTexture {
         this.uvWidth = 16;
         this.uvHeight = 16;
 
-        this.location = new ResourceLocation("missing");
+        this.location = ResourceLocation.parse("missing");
     }
 
     public BBTexture(JsonObject element, ResourceLocation identifier) {
@@ -39,9 +39,9 @@ public class BBTexture {
         this.uvHeight = Utils.getIntElement(element, "uv_height", 16);
 
         if (this.name.contains(":")) {
-            this.location = new ResourceLocation(this.name);
+            this.location = ResourceLocation.parse(this.name);
         } else {
-            this.location = new ResourceLocation(identifier.getNamespace(), "textures/entity/" + this.name);
+            this.location = ResourceLocation.fromNamespaceAndPath(identifier.getNamespace(), "textures/entity/" + this.name);
         }
     }
 }

@@ -32,28 +32,25 @@ dependencies {
     forgeRuntimeLibrary 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
     include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
-
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
 
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:$rei_version"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:$rei_version"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:$rei_version"
 
-    // Required to run JEI
-    // modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
+}
 
-    // Required to run JEI
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:$rei_version"
-
-    // modCompileOnly "earth.terrarium.adastra:ad_astra-forge-${ad_astra_version}"
-    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-forge-${ad_astra_version}"
+afterEvaluate {
+    tasks.runServer {
+        classpath = classpath.filter { !it.toString().contains("\\org.lwjgl\\") }
+    }
 }
 
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/forge.mods.toml") {
         expand "version": project.version
     }
 }

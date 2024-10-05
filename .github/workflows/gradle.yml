@@ -45,10 +45,8 @@ jobs:
           java-version: 17
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle - Forge
-        run: ./gradlew :forge:build
-      - name: Build with Gradle - Fabric
-        run: ./gradlew :fabric:build
+      - name: Build with Gradle
+        run: ./gradlew build
       - name: Publish to Maven
         run: ./gradlew publish
       - name: Get tag
@@ -64,6 +62,8 @@ jobs:
         run: mv "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
       - name: "Rename Forge files"
         run: mv "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
+      - name: "Rename NeoForge files"
+        run: mv "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
       - name: "Upload Fabric"
         uses: Kir-Antipov/mc-publish@v3.3.0
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
@@ -102,6 +102,27 @@ jobs:
           files: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
           loaders: |
             forge
+          game-versions: |
+            ${{steps.split.outputs._1}}
+          java: |
+            Java 17
+
+          fail-mode: skip
+      - name: "Upload NeoForge"
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+        with:
+          modrinth-id: x3HZvrj6
+          modrinth-token: ${{ env.MODRINTH_TOKEN }}
+          curseforge-id: 666014
+          curseforge-token: ${{ env.CURSEFORGE_TOKEN }}
+
+          name: "[NeoForge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
+          changelog-file: changelog.md
+          version-type: release
+          files: "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
+          loaders: |
+            neoforge
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |

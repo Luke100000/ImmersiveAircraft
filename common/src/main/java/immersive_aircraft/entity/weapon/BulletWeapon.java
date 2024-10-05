@@ -24,7 +24,7 @@ import java.util.Random;
 public abstract class BulletWeapon extends Weapon {
     private final Random random = new Random();
 
-    private ItemStack ammoStack;
+    private ItemStack ammoStack = ItemStack.EMPTY;
     private int ammo;
 
     public BulletWeapon(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {

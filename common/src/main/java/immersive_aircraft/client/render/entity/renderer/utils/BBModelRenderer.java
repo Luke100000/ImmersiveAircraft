@@ -2,7 +2,6 @@ package immersive_aircraft.client.render.entity.renderer.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.bbmodel.*;
 import immersive_aircraft.util.Utils;
@@ -10,9 +9,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Holder;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -91,36 +89,34 @@ public class BBModelRenderer {
             VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(cube.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location)) : overrideVertexConsumer;
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
-                vertexConsumer.vertex(positionMatrix, v.x, v.y, v.z);
-                vertexConsumer.color(red, green, blue, alpha);
-                vertexConsumer.uv(v.u, v.v);
-                vertexConsumer.overlayCoords(OverlayTexture.NO_OVERLAY);
-                vertexConsumer.uv2(light);
-                vertexConsumer.normal(normalMatrix, v.nx, v.ny, v.nz);
-                vertexConsumer.endVertex();
+                Vector3f n = normalMatrix.transform(v.nx, v.ny, v.nz, new Vector3f());
+                vertexConsumer.addVertex(positionMatrix, v.x, v.y, v.z)
+                        .setColor(red, green, blue, alpha)
+                        .setUv(v.u, v.v)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(light)
+                        .setNormal(n.x, n.y, n.z);
             }
         }
     }
 
-    public static void renderBanner(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
+    public static void renderBanner(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, boolean isBanner, List<BannerPatternLayers.Layer> patterns) {
         matrixStack.pushPose();
 
         if (cube instanceof BBObject object) {
             matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
         }
 
-        for (int i = 0; i < 17 && i < patterns.size(); ++i) {
-            Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
-            Holder<BannerPattern> bannerPattern = pair.getFirst();
-            bannerPattern.unwrapKey()
-                    .map(key -> isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key))
-                    .ifPresent(material -> {
-                        VertexConsumer vertexConsumer = material.buffer(vertexConsumers, RenderType::entityNoOutline);
-                        float[] fs = pair.getSecond().getTextureDiffuseColors();
-                        renderFaces(cube, matrixStack, vertexConsumers, light,
-                                fs[0], fs[1], fs[2], 1.0f,
-                                vertexConsumer);
-                    });
+        for (BannerPatternLayers.Layer pattern : patterns) {
+            Material material = isBanner ? Sheets.getBannerMaterial(pattern.pattern()) : Sheets.getShieldMaterial(pattern.pattern());
+            VertexConsumer vertexConsumer = material.buffer(vertexConsumers, RenderType::entityNoOutline);
+            int fs = pattern.color().getTextureDiffuseColor();
+            float r = ((fs >> 16) & 0xFF) / 255.0f;
+            float g = ((fs >> 8) & 0xFF) / 255.0f;
+            float b = (fs & 0xFF) / 255.0f;
+            renderFaces(cube, matrixStack, vertexConsumers, light,
+                    r, g, b, 1.0f,
+                    vertexConsumer);
         }
 
         matrixStack.popPose();
@@ -149,15 +145,15 @@ public class BBModelRenderer {
                 double scale = distanceScale * distance + baseScale;
                 float x = (float) ((Math.cos(angle) + Math.cos(angle * 1.7)) * scale);
                 float z = (float) ((Math.sin(angle) + Math.sin(angle * 1.7)) * scale);
+                Vector3f n = normalMatrix.transform(v.nx, v.ny, v.nz, new Vector3f());
 
                 vertexConsumer
-                        .vertex(positionMatrix, v.x + x, v.y, v.z + z)
-                        .color(red, green, blue, alpha)
-                        .uv(v.u, v.v)
-                        .overlayCoords(OverlayTexture.NO_OVERLAY)
-                        .uv2(light)
-                        .normal(normalMatrix, v.nx, v.ny, v.nz)
-                        .endVertex();
+                        .addVertex(positionMatrix, v.x + x, v.y, v.z + z)
+                        .setColor(red, green, blue, alpha)
+                        .setUv(v.u, v.v)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(light)
+                        .setNormal(n.x, n.y, n.z);
             }
         }
     }

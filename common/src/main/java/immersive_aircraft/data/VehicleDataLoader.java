@@ -7,12 +7,13 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.misc.VehicleData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VehicleDataLoader extends DataLoader {
+public class VehicleDataLoader extends SimpleJsonResourceReloadListener {
     public static final Map<ResourceLocation, VehicleData> REGISTRY = new HashMap<>();
     public static final Map<ResourceLocation, VehicleData> CLIENT_REGISTRY = new HashMap<>();
 

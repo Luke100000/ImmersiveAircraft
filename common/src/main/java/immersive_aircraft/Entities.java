@@ -76,7 +76,7 @@ public interface Entities {
     }
 
     static <T extends Entity> Supplier<EntityType<T>> register(String name, EntityType.Builder<T> builder) {
-        ResourceLocation id = new ResourceLocation(Main.MOD_ID, name);
+        ResourceLocation id = Main.locate(name);
         return Registration.register(BuiltInRegistries.ENTITY_TYPE, id, () -> builder.build(id.toString()));
     }
 }

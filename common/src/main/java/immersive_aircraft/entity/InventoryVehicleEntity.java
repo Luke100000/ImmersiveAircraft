@@ -18,6 +18,7 @@ import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -25,12 +26,15 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HasCustomInventoryScreen;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Fireworks;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +43,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements ContainerListener, MenuProvider, Container {
+public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements ContainerListener, MenuProvider, Container, HasCustomInventoryScreen {
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected final Map<Integer, List<Weapon>> weapons = new HashMap<>();
@@ -173,7 +177,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        tag.put("Inventory", getInventory().writeNbt(new ListTag()));
+        tag.put("Inventory", getInventory().createTag(this.registryAccess()));
     }
 
     @Override
@@ -181,28 +185,31 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         super.readAdditionalSaveData(tag);
 
         ListTag nbtList = tag.getList("Inventory", 10);
-        getInventory().readNbt(nbtList);
+        getInventory().fromTag(nbtList, this.registryAccess());
     }
 
     @Override
-    protected void addItemTag(@NotNull CompoundTag tag) {
-        super.addItemTag(tag);
+    public void addItemTag(ItemStack stack) {
+        super.addItemTag(stack);
 
-        tag.put("Inventory", getInventory().writeNbt(new ListTag()));
+        stack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(getInventory().getItems()));
     }
 
     @Override
-    protected void readItemTag(@NotNull CompoundTag tag) {
-        super.readItemTag(tag);
+    public void readItemTag(ItemStack stack) {
+        super.readItemTag(stack);
 
-        ListTag nbtList = tag.getList("Inventory", 10);
-        getInventory().readNbt(nbtList);
+        ItemContainerContents contents = stack.get(DataComponents.CONTAINER);
+        if (contents != null) {
+            contents.copyInto(getInventory().getItems());
+        }
     }
 
     @Override
     public void boost() {
         int length = getSlots(VehicleInventoryDescription.BOOSTER).stream().mapToInt(s -> {
-            byte l = s.getOrCreateTagElement("Fireworks").getByte("Flight");
+            Fireworks fireworks = s.get(DataComponents.FIREWORKS);
+            int l = fireworks == null ? 1 : fireworks.flightDuration();
             s.shrink(1);
             return l;
         }).sum();
@@ -284,7 +291,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     protected void applyFriction() {
         // Decay is the basic factor of friction, basically the density of the material slowing down the vehicle
         float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
-        float gravity = getGravity();
+        double gravity = getGravity();
         if (wasTouchingWater) {
             gravity *= 0.25f;
             decay = 0.9f;
@@ -300,7 +307,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         Vec3 velocity = getDeltaMovement();
         float hd = getProperties().get(VehicleStat.HORIZONTAL_DECAY);
         float vd = getProperties().get(VehicleStat.VERTICAL_DECAY);
-        setDeltaMovement(velocity.x * decay * hd, velocity.y * decay * vd + gravity, velocity.z * decay * hd);
+        setDeltaMovement(velocity.x * decay * hd, velocity.y * decay * vd - gravity, velocity.z * decay * hd);
 
         // Rotation decay
         float rf = decay * getProperties().get(VehicleStat.ROTATION_DECAY);
@@ -408,5 +415,12 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     public void fireWeapon(int slot, int index, Vector3f direction) {
         getWeapons().get(slot).get(index).fire(direction);
+    }
+
+    @Override
+    public void openCustomInventoryScreen(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            openInventory(serverPlayer);
+        }
     }
 }

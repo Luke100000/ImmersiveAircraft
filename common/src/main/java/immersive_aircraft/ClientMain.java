@@ -4,7 +4,7 @@ import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
-import immersive_aircraft.network.ClientNetworkManager;
+import immersive_aircraft.network.ClientMessageHandler;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -14,8 +14,7 @@ public class ClientMain {
     private static int activeTicks;
 
     public static void postLoad() {
-        Main.networkManager = new ClientNetworkManager();
-
+        Main.messageHandler = new ClientMessageHandler();
         Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         Main.firstPersonGetter = () -> Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
     }
@@ -31,7 +30,7 @@ public class ClientMain {
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
 
-        Main.frameTime = client.getFrameTime();
+        Main.frameTime = client.getTimer().getGameTimeDeltaTicks();
 
         // Only tick once per tick
         if (client.level == null || client.level.getGameTime() == lastTime) {

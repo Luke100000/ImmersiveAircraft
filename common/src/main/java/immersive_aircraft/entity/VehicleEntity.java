@@ -20,10 +20,10 @@ import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -161,7 +161,6 @@ public abstract class VehicleEntity extends Entity {
 
         this.canExplodeOnCrash = canExplodeOnCrash;
         blocksBuilding = true;
-        setMaxUpStep(0.55f);
 
         pressingInterpolatedX = new InterpolatedFloat(getInputInterpolationSteps());
         pressingInterpolatedY = new InterpolatedFloat(getInputInterpolationSteps());
@@ -170,20 +169,13 @@ public abstract class VehicleEntity extends Entity {
         identifier = BuiltInRegistries.ENTITY_TYPE.getKey(getType());
     }
 
-    public void fromItemStack(ItemStack stack) {
-        if (stack.hasTag()) {
-            assert stack.getTag() != null;
-            readItemTag(stack.getTag());
-        }
+    @Override
+    public float maxUpStep() {
+        return 0.55f;
     }
 
     protected float getInputInterpolationSteps() {
         return 10;
-    }
-
-    @Override
-    protected float getEyeHeight(@NotNull Pose pose, EntityDimensions dimensions) {
-        return dimensions.height;
     }
 
     @Override
@@ -192,7 +184,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder entityData) {
         entityData.define(DAMAGE_WOBBLE_TICKS, 0);
         entityData.define(DAMAGE_WOBBLE_SIDE, 1);
         entityData.define(DAMAGE_WOBBLE_STRENGTH, 0.0f);
@@ -215,7 +207,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected Vec3 getRelativePortalPosition(Direction.@NotNull Axis portalAxis, BlockUtil.@NotNull FoundRectangle portalRect) {
+    public Vec3 getRelativePortalPosition(Direction.@NotNull Axis portalAxis, BlockUtil.@NotNull FoundRectangle portalRect) {
         return LivingEntity.resetForwardDirectionOfRelativePortalPosition(super.getRelativePortalPosition(portalAxis, portalRect));
     }
 
@@ -242,7 +234,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // Player on an empty vehicle is faster
-        if (amount > 0 && source.getEntity() instanceof Player && getPassengers().isEmpty() && !source.isIndirect()) {
+        if (amount > 0 && source.getEntity() instanceof Player && getPassengers().isEmpty() && source.isDirect()) {
             amount = Math.max(5.0f, amount);
         }
 
@@ -301,8 +293,7 @@ public abstract class VehicleEntity extends Entity {
 
     protected void drop() {
         ItemStack stack = new ItemStack(asItem());
-        CompoundTag tag = stack.getOrCreateTag();
-        addItemTag(tag);
+        addItemTag(stack);
         spawnAtLocation(stack);
     }
 
@@ -336,7 +327,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+    public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -542,8 +533,9 @@ public abstract class VehicleEntity extends Entity {
 
     protected abstract void updateVelocity();
 
-    protected float getGravity() {
-        return -0.04f * (CompatUtil.isModLoaded("ad_astra") ? GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition())) : 1);
+    @Override
+    protected double getDefaultGravity() {
+        return 0.04f * (CompatUtil.isModLoaded("ad_astra") ? GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition())) : 1);
     }
 
     protected abstract void updateController();
@@ -567,12 +559,11 @@ public abstract class VehicleEntity extends Entity {
                 float y = positionDescriptor.y();
                 float z = positionDescriptor.z();
 
-                //animals are thicc
-                if (passenger instanceof Animal) {
-                    z += 0.2f;
-                }
-
-                y += (float) passenger.getMyRidingOffset();
+                // Passenger offset
+                Vec3 vec32 = passenger.getVehicleAttachmentPoint(this);
+                x -= (float) vec32.x;
+                y -= (float) vec32.y;
+                z -= (float) vec32.z;
 
                 Vector4f worldPosition = transformPosition(transform, x, y, z);
 
@@ -659,26 +650,18 @@ public abstract class VehicleEntity extends Entity {
         }
     }
 
-    protected void addItemTag(@NotNull CompoundTag tag) {
+    public void addItemTag(ItemStack stack) {
         // Store plane's name
-        CompoundTag displayTag = new CompoundTag();
-        tag.put("display", displayTag);
         if (hasCustomName()) {
-            displayTag.putString("Name", Component.Serializer.toJson(getCustomName()));
+            stack.set(DataComponents.CUSTOM_NAME, getCustomName());
         }
     }
 
-    protected void readItemTag(@NotNull CompoundTag tag) {
+    public void readItemTag(ItemStack stack) {
         // Read plane's name
-        CompoundTag displayTag = tag.getCompound("display");
-        if (displayTag.contains("Name", Tag.TAG_STRING)) {
-            setCustomName(Component.Serializer.fromJson(displayTag.getString("Name")));
+        if (stack.has(DataComponents.CUSTOM_NAME)) {
+            setCustomName(stack.get(DataComponents.CUSTOM_NAME));
         }
-    }
-
-    @Override
-    public boolean isNoGravity() {
-        return true;
     }
 
     @Override

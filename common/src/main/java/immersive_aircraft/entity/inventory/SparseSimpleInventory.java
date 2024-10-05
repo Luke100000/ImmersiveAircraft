@@ -2,9 +2,10 @@ package immersive_aircraft.entity.inventory;
 
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.InventoryVehicleEntity;
-import immersive_aircraft.network.c2s.RequestInventory;
+import immersive_aircraft.network.c2s.InventoryRequest;
 import immersive_aircraft.network.s2c.InventoryUpdateMessage;
 import immersive_aircraft.screen.VehicleScreenHandler;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -22,37 +23,43 @@ public class SparseSimpleInventory extends SimpleContainer {
         tracked = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
-    public ListTag writeNbt(ListTag nbtList) {
-        for (int i = 0; i < this.getContainerSize(); ++i) {
-            if (this.getItem(i).isEmpty()) continue;
-            CompoundTag nbtCompound = new CompoundTag();
-            nbtCompound.putByte("Slot", (byte) i);
-            this.getItem(i).save(nbtCompound);
-            nbtList.add(nbtCompound);
+    @Override
+    public void fromTag(ListTag tag, HolderLookup.Provider levelRegistry) {
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            this.setItem(i, ItemStack.EMPTY);
         }
-        return nbtList;
+        for (int i = 0; i < tag.size(); i++) {
+            CompoundTag compoundTag = tag.getCompound(i);
+            int j = compoundTag.getByte("Slot") & 255;
+            if (j < this.getContainerSize()) {
+                this.setItem(j, ItemStack.parse(levelRegistry, compoundTag).orElse(ItemStack.EMPTY));
+            }
+        }
     }
 
-    public void readNbt(ListTag nbtList) {
-        this.clearContent();
-        for (int i = 0; i < nbtList.size(); ++i) {
-            CompoundTag nbtCompound = nbtList.getCompound(i);
-            int slot = nbtCompound.getByte("Slot") & 0xFF;
-            ItemStack itemStack = ItemStack.of(nbtCompound);
-            if (itemStack.isEmpty()) continue;
-            this.setItem(slot, itemStack);
+    @Override
+    public ListTag createTag(HolderLookup.Provider levelRegistry) {
+        ListTag listTag = new ListTag();
+        for (int i = 0; i < this.getContainerSize(); i++) {
+            ItemStack itemStack = this.getItem(i);
+            if (!itemStack.isEmpty()) {
+                CompoundTag compoundTag = new CompoundTag();
+                compoundTag.putByte("Slot", (byte) i);
+                listTag.add(itemStack.save(levelRegistry, compoundTag));
+            }
         }
+        return listTag;
     }
 
     public void tick(InventoryVehicleEntity entity) {
         if (entity.level().isClientSide) {
             // Sync initial inventory
             if (!inventoryRequested) {
-                NetworkHandler.sendToServer(new RequestInventory(entity.getId()));
+                NetworkHandler.sendToServer(new InventoryRequest(entity.getId()));
                 inventoryRequested = true;
             }
         } else {
-            // Sync changed slots
+            // Sync changed slots (excluding trailing inventory slots since they won't affect behavior)
             int lastSyncIndex = entity.getInventoryDescription().getLastSyncIndex();
             if (lastSyncIndex == 0) return;
             int index = entity.tickCount % lastSyncIndex;
@@ -62,7 +69,7 @@ public class SparseSimpleInventory extends SimpleContainer {
                 tracked.set(index, stack);
                 entity.level().players().forEach(p -> {
                     if (!(p.containerMenu instanceof VehicleScreenHandler vehicleScreenHandler && vehicleScreenHandler.getVehicle() == entity)) {
-                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity.getId(), index, stack), (ServerPlayer) p);
+                        NetworkHandler.sendToPlayer(new InventoryUpdateMessage(entity, index, stack), (ServerPlayer) p);
                     }
                 });
             }

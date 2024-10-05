@@ -37,8 +37,8 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getGravity() {
-        return (1.0f - getEnginePower()) * super.getGravity();
+    protected double getDefaultGravity() {
+        return (1.0f - getEnginePower()) * super.getDefaultGravity();
     }
 
     private void updateEnginePowerTooltip() {

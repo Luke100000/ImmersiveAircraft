@@ -4,24 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BannerBlockEntity;
-import net.minecraft.world.level.block.entity.BannerPattern;
-import net.minecraft.world.level.block.entity.BannerPatterns;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.List;
 import java.util.Map;
 
 public class Utils {
@@ -36,19 +25,6 @@ public class Utils {
             time *= 1.3;
         }
         return value;
-    }
-
-    public static List<Pair<Holder<BannerPattern>, DyeColor>> parseBannerItem(ItemStack banner) {
-        DyeColor baseColor = ((BannerItem) banner.getItem()).getColor();
-
-        CompoundTag nbtCompound = BlockItem.getBlockEntityData(banner);
-        if (nbtCompound == null || !nbtCompound.contains("Patterns")) {
-            return List.of(Pair.of(BuiltInRegistries.BANNER_PATTERN.getHolderOrThrow(BannerPatterns.BASE), baseColor));
-        }
-
-        ListTag nbtList = nbtCompound.getList("Patterns", 10);
-
-        return BannerBlockEntity.createPatterns(baseColor, nbtList);
     }
 
     public static int getFuelTime(ItemStack fuel) {

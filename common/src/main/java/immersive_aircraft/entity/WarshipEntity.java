@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 import org.joml.*;
@@ -139,7 +140,10 @@ public class WarshipEntity extends AirshipEntity {
             float y = position.y();
             float z = position.z();
 
-            y += (float) passenger.getMyRidingOffset();
+            Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
+            x += (float) attachmentPoint.x;
+            y += (float) attachmentPoint.y;
+            z += (float) attachmentPoint.z;
 
             Vector4f worldPosition = transformPosition(transform, x, y, z);
             positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);

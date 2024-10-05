@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 public abstract class WeaponRenderer<W extends Weapon> {
     public <T extends VehicleEntity> void render(T entity, W weapon, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time) {
         matrixStack.pushPose();
-        matrixStack.mulPoseMatrix(weapon.getMount().transform());
+        matrixStack.mulPose(weapon.getMount().transform());
 
         BBModel model = BBModelLoader.MODELS.get(getModelId());
         weapon.setAnimationVariables(entity, time);

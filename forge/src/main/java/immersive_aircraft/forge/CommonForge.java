@@ -19,12 +19,13 @@ public final class CommonForge {
     static {
         Main.MOD_LOADER = "forge";
 
-        new RegistrationImpl();
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
     }
 
-    public CommonForge() {
+    public CommonForge(FMLJavaModLoadingContext context) {
+        new RegistrationImpl(context);
+
         DataLoaders.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();
@@ -33,7 +34,7 @@ public final class CommonForge {
 
         Messages.loadMessages();
 
-        DEF_REG.register(FMLJavaModLoadingContext.get().getModEventBus());
+        DEF_REG.register(context.getModEventBus());
     }
 
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(CREATIVE_MODE_TAB, Main.MOD_ID);

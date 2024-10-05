@@ -21,11 +21,11 @@ subprojects {
     }
 
     repositories {
-        maven { url = 'https://maven.parchmentmc.org' }
+        maven { url "https://maven.parchmentmc.org" }
         maven { url "https://maven.terraformersmc.com/releases/" }
-        maven { url = "https://dvs1.progwml6.com/files/maven/" }
-        maven { url "<https://maven.shedaniel.me/>" }
-        maven { url "<https://maven.architectury.dev/>" }
+        maven { url "https://dvs1.progwml6.com/files/maven/" }
+        maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.architectury.dev/" }
         maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
         maven { url "https://maven.teamresourceful.com/repository/maven-public/" }
         maven { url "https://cursemaven.com" }
@@ -71,7 +71,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {
@@ -93,18 +93,14 @@ allprojects {
 
     // Define reusable exclusion patterns
     def exclusionPatterns = ['**/*.aup3', '**/.xdp-*', '**/*.kra', '**/*~*']
-
-    // Apply to processResources
     processResources {
-        exclusionPatterns.each { pattern ->
-            exclude pattern
+        exclusionPatterns.each {
+            pattern -> exclude pattern
         }
     }
-
-    // Apply to sourcesJar
     sourcesJar {
-        exclusionPatterns.each { pattern ->
-            exclude pattern
+        exclusionPatterns.each {
+            pattern -> exclude pattern
         }
     }
 }

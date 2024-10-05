@@ -98,7 +98,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         return 1.0;
     }
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("invalid");
+    private static final ResourceLocation TEXTURE = ResourceLocation.parse("invalid");
 
     @Override
     public ResourceLocation getTextureLocation(@NotNull T aircraft) {

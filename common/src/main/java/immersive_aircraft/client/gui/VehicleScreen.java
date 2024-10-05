@@ -32,11 +32,6 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         inventoryLabelY = containerSize + TITLE_HEIGHT;
     }
 
-    @Override
-    protected void renderBg(@NotNull GuiGraphics context, float delta, int mouseX, int mouseY) {
-        //nop
-    }
-
     protected void drawRectangle(GuiGraphics context, int x, int y, int h, int w) {
         //corners
         context.blit(TEXTURE, x, y, 176, 0, 16, 16, 512, 256);
@@ -54,7 +49,12 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         context.blit(TEXTURE, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
     }
 
-    protected void drawCustomBackground(GuiGraphics context) {
+    public void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
+        context.blit(TEXTURE, x, y, u, v, w, h, 512, 256);
+    }
+
+    @Override
+    protected void renderBg(@NotNull GuiGraphics context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -64,26 +64,19 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
             drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
         }
-    }
-
-    public void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
-        context.blit(TEXTURE, x, y, u, v, w, h, 512, 256);
-    }
-
-    @Override
-    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        renderBackground(context);
-
-        drawCustomBackground(context);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
+        // Slots
         for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
             SlotRenderer.get(slot.type()).render(this, context, slot, mouseX, mouseY, delta);
         }
+    }
 
+    @Override
+    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
 
         // Slot tooltip
