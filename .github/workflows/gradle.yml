@@ -17,10 +17,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Fetch Tags
         run: git fetch --unshallow --tags
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
-          java-version: 17
+          java-version: 21
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Publish to Maven
@@ -39,10 +39,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Fetch Tags
         run: git fetch --unshallow --tags
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v1
         with:
-          java-version: 17
+          java-version: 21
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
@@ -82,7 +82,7 @@ jobs:
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 17
+            Java 21
           dependencies: |
             fabric-api | required | *
 
@@ -105,7 +105,7 @@ jobs:
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 17
+            Java 21
 
           fail-mode: skip
       - name: "Upload NeoForge"
@@ -126,6 +126,6 @@ jobs:
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 17
+            Java 21
 
           fail-mode: skip
