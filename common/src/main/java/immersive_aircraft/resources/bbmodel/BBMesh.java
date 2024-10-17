@@ -95,7 +95,15 @@ public class BBMesh extends BBObject implements BBFaceContainer {
                         vd.nz = n[2];
                         vd.u = uv[0] / textureWidth;
                         vd.v = uv[1] / textureHeight;
-                        vertices[index++] = vd;
+                        switch (index) {
+                            case 0, 1:
+                                vertices[index] = vd;
+                                break;
+                            case 2, 3:
+                                vertices[5-index] = vd;
+                                break;
+                        }
+                        index++;
                     }
 
                     BBFace f = new BBFace(vertices);
