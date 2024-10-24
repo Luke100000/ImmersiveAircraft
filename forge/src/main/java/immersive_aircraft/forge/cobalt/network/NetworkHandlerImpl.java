@@ -6,6 +6,7 @@ import immersive_aircraft.cobalt.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -47,4 +48,10 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     public void sendToPlayer(Message m, ServerPlayer e) {
         channel.send(PacketDistributor.PLAYER.with(() -> e), m);
     }
+
+    @Override
+    public void sendToTrackingPlayers(Message m, Entity origin) {
+        channel.send(PacketDistributor.TRACKING_ENTITY.with(() -> origin), m);
+    }
+
 }
