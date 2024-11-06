@@ -2,28 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "CNC",
-    "BEB",
+    "NEN",
     "RRR"
   ],
   "key": {
     "C": [
       {
-        "item": "minecraft:magma_cream"
-      }
-    ],
-    "B": [
-      {
-        "item": "minecraft:blaze_rod"
+        "item": "minecraft:slime_ball"
       }
     ],
     "R": [
       {
-        "item": "minecraft:nether_brick"
+        "item": "minecraft:brick"
       }
     ],
     "N": [
       {
-        "item": "minecraft:netherite_ingot"
+        "item": "minecraft:gold_ingot"
       }
     ],
     "E": [
@@ -33,6 +28,6 @@
     ]
   },
   "result": {
-    "item": "immersive_aircraft:nether_engine"
+    "id": "immersive_aircraft:eco_engine"
   }
 }

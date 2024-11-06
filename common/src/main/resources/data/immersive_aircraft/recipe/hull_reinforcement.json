@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "LLL",
     "III",
-    "LLL"
+    "HHH",
+    "III"
   ],
   "key": {
-    "L": [
+    "H": [
       {
-        "tag": "minecraft:logs"
+        "item": "immersive_aircraft:hull"
       }
     ],
     "I": [
@@ -18,6 +18,6 @@
     ]
   },
   "result": {
-    "item": "immersive_aircraft:hull"
+    "id": "immersive_aircraft:hull_reinforcement"
   }
 }

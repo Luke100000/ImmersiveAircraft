@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "PBP",
-    "BEB",
-    "PBP"
+    " H ",
+    "HEP",
+    " H "
   ],
   "key": {
+    "H": [
+      {
+        "item": "immersive_aircraft:hull"
+      }
+    ],
     "E": [
       {
         "item": "immersive_aircraft:engine"
-      }
-    ],
-    "B": [
-      {
-        "item": "minecraft:bamboo"
       }
     ],
     "P": [
@@ -23,6 +23,6 @@
     ]
   },
   "result": {
-    "item": "immersive_aircraft:quadrocopter"
+    "id": "immersive_aircraft:biplane"
   }
 }

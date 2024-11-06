@@ -1,3 +1,7 @@
+# 1.1.4
+
+* Fixed recipes in 1.21.1
+
 # 1.1.3
 
 * Added damage multiplier in config

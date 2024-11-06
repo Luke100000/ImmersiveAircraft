@@ -1,16 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "III",
-    "HHH",
-    "III"
+    "II ",
+    " I ",
+    " II"
   ],
   "key": {
-    "H": [
-      {
-        "item": "immersive_aircraft:hull"
-      }
-    ],
     "I": [
       {
         "item": "minecraft:iron_ingot"
@@ -18,6 +13,6 @@
     ]
   },
   "result": {
-    "item": "immersive_aircraft:hull_reinforcement"
+    "id": "immersive_aircraft:propeller"
   }
 }

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SSS",
-    "SSS",
-    "HHE"
+    " S ",
+    "HPH",
+    " S "
   ],
   "key": {
     "S": [
@@ -16,13 +16,13 @@
         "item": "immersive_aircraft:hull"
       }
     ],
-    "E": [
+    "P": [
       {
-        "item": "immersive_aircraft:engine"
+        "item": "immersive_aircraft:propeller"
       }
     ]
   },
   "result": {
-    "item": "immersive_aircraft:airship"
+    "id": "immersive_aircraft:gyrodyne"
   }
 }

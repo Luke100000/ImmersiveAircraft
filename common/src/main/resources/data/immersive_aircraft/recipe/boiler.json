@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "CC ",
-    " P ",
-    " CC"
+    "CCC",
+    "C C",
+    "CFC"
   ],
   "key": {
     "C": [
@@ -11,13 +11,13 @@
         "item": "minecraft:copper_ingot"
       }
     ],
-    "P": [
+    "F": [
       {
-        "item": "immersive_aircraft:propeller"
+        "item": "minecraft:furnace"
       }
     ]
   },
   "result": {
-    "item": "immersive_aircraft:enhanced_propeller"
+    "id": "immersive_aircraft:boiler"
   }
 }

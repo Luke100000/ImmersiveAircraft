@@ -2,22 +2,27 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " II",
-    "CCI",
+    "CLI",
     "CC "
   ],
   "key": {
     "C": [
       {
-        "item": "minecraft:coal"
+        "item": "minecraft:copper_ingot"
       }
     ],
     "I": [
       {
         "item": "minecraft:iron_ingot"
       }
+    ],
+    "L": [
+      {
+        "item": "minecraft:lever"
+      }
     ]
   },
   "result": {
-    "item": "immersive_aircraft:improved_landing_gear"
+    "id": "immersive_aircraft:industrial_gears"
   }
 }

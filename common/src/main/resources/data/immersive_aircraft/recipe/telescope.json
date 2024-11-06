@@ -1,24 +1,23 @@
-
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ITI",
-    "I I",
+    "T  ",
+    "C  ",
     "   "
   ],
   "key": {
     "T": [
       {
-        "item": "minecraft:tnt"
+        "item": "minecraft:spyglass"
       }
     ],
-    "I": [
+    "C": [
       {
-        "item": "minecraft:iron_ingot"
+        "item": "minecraft:copper_ingot"
       }
     ]
   },
   "result": {
-    "item": "immersive_aircraft:bomb_bay"
+    "id": "immersive_aircraft:telescope"
   }
 }

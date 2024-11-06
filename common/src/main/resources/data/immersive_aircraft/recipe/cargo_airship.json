@@ -23,6 +23,6 @@
 		]
 	},
 	"result": {
-		"item": "immersive_aircraft:cargo_airship"
+		"id": "immersive_aircraft:cargo_airship"
 	}
 }
