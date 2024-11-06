@@ -84,6 +84,9 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean collisionDamage;
 
+    @FloatConfigEntry(40.0f)
+    public float collisionDamageMultiplier;
+
     @BooleanConfigEntry(false)
     public boolean burnFuelInCreative;
 

@@ -43,6 +43,15 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         ServerPlayNetworking.send(e, msg);
     }
 
+    @Override
+    public void sendToTrackingPlayers(Message msg, Entity origin) {
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        msg.encode(buf);
+        for(ServerPlayer player : PlayerLookup.tracking(origin)) {
+            ServerPlayNetworking.send(player, getMessageIdentifier(msg), buf);
+        }
+    }
+
     // Prevent eager loading client side code
     private static final class ClientProxy {
         private ClientProxy() {

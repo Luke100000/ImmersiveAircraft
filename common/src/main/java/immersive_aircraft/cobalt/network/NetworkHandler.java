@@ -4,6 +4,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 public abstract class NetworkHandler {
     private static Impl INSTANCE;
@@ -40,6 +41,10 @@ public abstract class NetworkHandler {
         INSTANCE.sendToPlayer(m, e);
     }
 
+    public static void sendToTrackingPlayers(Message m, Entity origin) {
+        INSTANCE.sendToTrackingPlayers(m, origin);
+    }
+
     public abstract static class Impl {
         protected Impl() {
             INSTANCE = this;
@@ -50,5 +55,7 @@ public abstract class NetworkHandler {
         public abstract void sendToServer(Message m);
 
         public abstract void sendToPlayer(Message m, ServerPlayer e);
+
+        public abstract void sendToTrackingPlayers(Message m, Entity origin);
     }
 }
