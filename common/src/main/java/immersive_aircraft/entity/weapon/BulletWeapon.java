@@ -58,7 +58,7 @@ public abstract class BulletWeapon extends Weapon {
 
         // Spawn bullets
         for (int i = 0; i < getBulletCount(); i++) {
-            Entity bullet = getBullet(entity, position, direction);
+            Entity bullet = getBullet(position, direction);
             bullet.setDeltaMovement(bullet.getDeltaMovement().add(speed));
             entity.level().addFreshEntity(bullet);
         }
@@ -75,7 +75,7 @@ public abstract class BulletWeapon extends Weapon {
         getEntity().playSound(getSound(), 1.0f, random.nextFloat() * 0.2f + 0.9f);
     }
 
-    protected abstract Entity getBullet(Entity shooter, Vector4f position, Vector3f direction);
+    protected abstract Entity getBullet(Vector4f position, Vector3f direction);
 
     public SoundEvent getSound() {
         return SoundEvents.CROSSBOW_SHOOT;

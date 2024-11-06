@@ -36,8 +36,8 @@ public class BombBay extends BulletWeapon {
     }
 
     @Override
-    protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
-        TinyTNT bullet = new TinyTNT(Entities.TINY_TNT.get(), shooter.level());
+    protected Entity getBullet(Vector4f position, Vector3f direction) {
+        TinyTNT bullet = new TinyTNT(Entities.TINY_TNT.get(), getEntity().level());
         bullet.setPos(position.x(), position.y(), position.z());
         direction.mul(getVelocity());
         bullet.setDeltaMovement(direction.x(), direction.y(), direction.z());

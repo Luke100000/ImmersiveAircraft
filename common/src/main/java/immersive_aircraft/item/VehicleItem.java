@@ -1,11 +1,10 @@
 package immersive_aircraft.item;
 
+import com.google.common.collect.Iterables;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -14,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -83,13 +82,9 @@ public class VehicleItem extends DescriptionItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, List<Component> tooltips, TooltipFlag flags) {
         super.appendHoverText(stack, ctx, tooltips, flags);
 
-        CustomData data = stack.get(DataComponents.CUSTOM_DATA);
+        ItemContainerContents data = stack.get(DataComponents.CONTAINER);
         if (data != null) {
-            CompoundTag tag = data.copyTag();
-            if (tag.contains("Inventory")) {
-                ListTag nbtList = tag.getList("Inventory", 10);
-                tooltips.add(Component.translatable("immersive_aircraft.tooltip.inventory", nbtList.size()));
-            }
+            tooltips.add(Component.translatable("immersive_aircraft.tooltip.inventory", Iterables.size(data.nonEmptyItems())));
         }
     }
 }
