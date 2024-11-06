@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
@@ -45,10 +46,10 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     @Override
     public void sendToTrackingPlayers(Message msg, Entity origin) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), origin.registryAccess());
         msg.encode(buf);
         for(ServerPlayer player : PlayerLookup.tracking(origin)) {
-            ServerPlayNetworking.send(player, getMessageIdentifier(msg), buf);
+            ServerPlayNetworking.send(player, msg);
         }
     }
 

@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
+    @SuppressWarnings("rawtypes")
     record MessageRegistryEntry(CustomPacketPayload.Type type,
                                 StreamCodec codec,
                                 DirectionalPayloadHandler payloadHandler) {
@@ -41,8 +43,14 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         PacketDistributor.sendToPlayer(e, m);
     }
 
+    @Override
+    public void sendToTrackingPlayers(Message m, Entity origin) {
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(origin, m);
+    }
+
     public void register(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
+        //noinspection unchecked
         messageRegistry.forEach(entry -> registrar.playBidirectional(
                 entry.type,
                 entry.codec,
