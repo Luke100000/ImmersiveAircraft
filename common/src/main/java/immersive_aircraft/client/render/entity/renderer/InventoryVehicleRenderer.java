@@ -53,12 +53,13 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);
         int i = 0;
         for (ItemStack slot : slots) {
-            if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
+            if (!slot.isEmpty() && slot.getItem() instanceof BannerItem bannerItem) {
+                DyeColor baseColor = bannerItem.getColor();
                 BannerPatternLayers banner = slot.get(DataComponents.BANNER_PATTERNS);
                 if (banner != null) {
                     BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
                     if (bannerObject instanceof BBFaceContainer bannerContainer) {
-                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, banner.layers());
+                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, baseColor, banner.layers());
                     }
                 }
             }
