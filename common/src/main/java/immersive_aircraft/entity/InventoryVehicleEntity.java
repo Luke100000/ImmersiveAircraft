@@ -143,7 +143,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     public void openInventory(ServerPlayer player) {
         ((ServerPlayerEntityMixin)player).ic$nextContainerCounter();
-        AbstractContainerMenu screenHandler = createMenu(player.containerCounter, player.getInventory(), player);
+        AbstractContainerMenu screenHandler = createMenu(((ServerPlayerEntityMixin)player).getContainerCounter(), player.getInventory(), player);
         if (screenHandler != null) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.containerId), player);
             player.containerMenu = screenHandler;

@@ -1,3 +1,8 @@
+# 1.1.5
+
+* Fixed crash on NeoForge
+* Fixed Banners not rendering correctly
+
 # 1.1.4
 
 * Fixed recipes in 1.21.1
