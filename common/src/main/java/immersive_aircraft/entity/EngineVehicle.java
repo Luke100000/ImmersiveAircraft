@@ -75,6 +75,10 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         return Sounds.PROPELLER.get();
     }
 
+    protected float getEngineVolume() {
+        return 0.25f;
+    }
+
     protected float getEnginePitch() {
         return 1.0f;
     }
@@ -123,7 +127,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                 if (isFuelLow()) {
                     engineSound -= random.nextInt(2);
                 }
-                level().playLocalSound(getX(), getY() + getBbHeight() * 0.5, getZ(), getEngineSound(), getSoundSource(), Math.min(1.0f, 0.25f + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
+                level().playLocalSound(getX(), getY() + getBbHeight() * 0.5, getZ(), getEngineSound(), getSoundSource(), Math.min(1.0f, getEngineVolume() + engineSpinUpStrength), (random.nextFloat() * 0.1f + 0.95f) * getEnginePitch(), false);
             }
         }
 

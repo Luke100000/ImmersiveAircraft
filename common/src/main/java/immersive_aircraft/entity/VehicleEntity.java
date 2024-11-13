@@ -745,7 +745,7 @@ public abstract class VehicleEntity extends Entity {
                 if (collision > 0) {
                     float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
-                        float damage = collision * 40 * repeat * repeat;
+                        float damage = collision * Config.getInstance().collisionDamageMultiplier * repeat * repeat;
                         NetworkHandler.sendToServer(new CollisionMessage(damage));
                     }
                 }

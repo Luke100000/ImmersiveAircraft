@@ -6,11 +6,14 @@ import immersive_aircraft.cobalt.network.NetworkHandler;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -58,6 +61,15 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         msg.encode(buf);
         ServerPlayNetworking.send(e, getMessageIdentifier(msg), buf);
+    }
+
+    @Override
+    public void sendToTrackingPlayers(Message msg, Entity origin) {
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        msg.encode(buf);
+        for(ServerPlayer player : PlayerLookup.tracking(origin)) {
+            ServerPlayNetworking.send(player, getMessageIdentifier(msg), buf);
+        }
     }
 
     // Fabric's APIs are not side-agnostic.
