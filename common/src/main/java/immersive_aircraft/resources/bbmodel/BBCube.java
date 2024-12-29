@@ -82,36 +82,39 @@ public class BBCube extends BBObject implements BBFaceContainer {
         double[] v = new double[24];
         for (int i = 0; i < 6; i++) {
             JsonObject faceObject = element.getAsJsonObject("faces").getAsJsonObject(SIDES[i]);
-            int id = Utils.getIntElement(element, "texture");
-            BBTexture texture = model.getTexture(id);
 
-            BBFace f = faces.get(i);
-            f.texture = texture;
+            if (!Utils.isNull(faceObject, "texture")) {
+                int id = Utils.getIntElement(element, "texture");
+                BBTexture texture = model.getTexture(id);
 
-            float[] uv = new float[4];
-            Iterator<JsonElement> uvArray = faceObject.getAsJsonArray("uv").iterator();
-            for (int j = 0; j < 4; j++) {
-                uv[j] = uvArray.next().getAsFloat();
+                BBFace f = faces.get(i);
+                f.texture = texture;
+
+                float[] uv = new float[4];
+                Iterator<JsonElement> uvArray = faceObject.getAsJsonArray("uv").iterator();
+                for (int j = 0; j < 4; j++) {
+                    uv[j] = uvArray.next().getAsFloat();
+                }
+
+                int rot = Utils.getIntElement(faceObject, "rotation");
+                while (rot > 0) {
+                    roll(u, i * 4);
+                    roll(v, i * 4);
+                    rot -= 90;
+                }
+
+                float textureWidth = model.getTextureWidth(texture);
+                float textureHeight = model.getTextureHeight(texture);
+
+                f.vertices[0].u = uv[0] / textureWidth;
+                f.vertices[0].v = uv[3] / textureHeight;
+                f.vertices[1].u = uv[2] / textureWidth;
+                f.vertices[1].v = uv[3] / textureHeight;
+                f.vertices[2].u = uv[2] / textureWidth;
+                f.vertices[2].v = uv[1] / textureHeight;
+                f.vertices[3].u = uv[0] / textureWidth;
+                f.vertices[3].v = uv[1] / textureHeight;
             }
-
-            int rot = Utils.getIntElement(faceObject, "rotation");
-            while (rot > 0) {
-                roll(u, i * 4);
-                roll(v, i * 4);
-                rot -= 90;
-            }
-
-            float textureWidth = model.getTextureWidth(texture);
-            float textureHeight = model.getTextureHeight(texture);
-
-            f.vertices[0].u = uv[0] / textureWidth;
-            f.vertices[0].v = uv[3] / textureHeight;
-            f.vertices[1].u = uv[2] / textureWidth;
-            f.vertices[1].v = uv[3] / textureHeight;
-            f.vertices[2].u = uv[2] / textureWidth;
-            f.vertices[2].v = uv[1] / textureHeight;
-            f.vertices[3].u = uv[0] / textureWidth;
-            f.vertices[3].v = uv[1] / textureHeight;
         }
 
         // Remove degenerate faces
@@ -134,7 +137,7 @@ public class BBCube extends BBObject implements BBFaceContainer {
     private Vector3f[] getPositions() {
         Vector3f adjustedFrom = this.from;
         Vector3f adjustedTo = this.to;
-        
+
         Vector3f inflate = new Vector3f(this.inflate, this.inflate, this.inflate);
         adjustedFrom.sub(inflate);
         adjustedTo.add(inflate);

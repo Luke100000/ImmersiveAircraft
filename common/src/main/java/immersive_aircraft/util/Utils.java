@@ -3,6 +3,7 @@ package immersive_aircraft.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
@@ -90,7 +91,10 @@ public class Utils {
         if (element == null) {
             return defaultValue;
         }
-        return element.getAsInt();
+        if (element instanceof JsonPrimitive primitive && primitive.isNumber()) {
+            return primitive.getAsInt();
+        }
+        return defaultValue;
     }
 
     public static float getFloatElement(JsonObject object, String member) {
@@ -103,6 +107,10 @@ public class Utils {
             return defaultValue;
         }
         return element.getAsFloat();
+    }
+
+    public static boolean isNull(JsonObject object, String member) {
+        return object.has(member) && object.get(member).isJsonNull();
     }
 
     public static Vector3f parseVector(JsonObject element, String member) {

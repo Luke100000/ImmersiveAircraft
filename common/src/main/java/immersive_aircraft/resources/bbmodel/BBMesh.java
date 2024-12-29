@@ -58,48 +58,50 @@ public class BBMesh extends BBObject implements BBFaceContainer {
         element.get("faces").getAsJsonObject().entrySet().forEach(face -> {
             JsonObject faceObject = face.getValue().getAsJsonObject();
 
-            // Get the texture
-            int id = Utils.getIntElement(faceObject, "texture");
-            BBTexture texture = model.getTexture(id);
+            if (!Utils.isNull(faceObject, "texture")) {
+                // Get the texture
+                int id = Utils.getIntElement(faceObject, "texture");
+                BBTexture texture = model.getTexture(id);
 
-            // Get the uv
-            Map<String, float[]> uvs = getArrayMap(faceObject.get("uv"), 2);
+                // Get the uv
+                Map<String, float[]> uvs = getArrayMap(faceObject.get("uv"), 2);
 
-            // Get the vertex identifiers spanning the face
-            List<String> vertexIdentifiers = new LinkedList<>();
-            for (JsonElement jsonElement : faceObject.getAsJsonArray("vertices")) {
-                vertexIdentifiers.add(jsonElement.getAsString());
-            }
-
-            if (vertexIdentifiers.size() != 4) {
-                Main.LOGGER.warn("Face found, which is not a quad.");
-            } else {
-                // Get normal vector
-                float[] n = getNormal(vertexIdentifiers, positions);
-                int index = 0;
-                BBFace.BBVertex[] vertices = new BBFace.BBVertex[4];
-                for (String identifier : vertexIdentifiers) {
-                    float[] uv = uvs.get(identifier);
-                    float[] pos = positions.get(identifier);
-
-                    float textureWidth = model.getTextureWidth(texture);
-                    float textureHeight = model.getTextureHeight(texture);
-
-                    BBFace.BBVertex vd = new BBFace.BBVertex();
-                    vd.x = pos[0] / 16.0f;
-                    vd.y = pos[1] / 16.0f;
-                    vd.z = pos[2] / 16.0f;
-                    vd.nx = n[0];
-                    vd.ny = n[1];
-                    vd.nz = n[2];
-                    vd.u = uv[0] / textureWidth;
-                    vd.v = uv[1] / textureHeight;
-                    vertices[index++] = vd;
+                // Get the vertex identifiers spanning the face
+                List<String> vertexIdentifiers = new LinkedList<>();
+                for (JsonElement jsonElement : faceObject.getAsJsonArray("vertices")) {
+                    vertexIdentifiers.add(jsonElement.getAsString());
                 }
 
-                BBFace f = new BBFace(vertices);
-                f.texture = texture;
-                this.faces.add(f);
+                if (vertexIdentifiers.size() != 4) {
+                    Main.LOGGER.warn("Face found, which is not a quad.");
+                } else {
+                    // Get normal vector
+                    float[] n = getNormal(vertexIdentifiers, positions);
+                    int index = 0;
+                    BBFace.BBVertex[] vertices = new BBFace.BBVertex[4];
+                    for (String identifier : vertexIdentifiers) {
+                        float[] uv = uvs.get(identifier);
+                        float[] pos = positions.get(identifier);
+
+                        float textureWidth = model.getTextureWidth(texture);
+                        float textureHeight = model.getTextureHeight(texture);
+
+                        BBFace.BBVertex vd = new BBFace.BBVertex();
+                        vd.x = pos[0] / 16.0f;
+                        vd.y = pos[1] / 16.0f;
+                        vd.z = pos[2] / 16.0f;
+                        vd.nx = n[0];
+                        vd.ny = n[1];
+                        vd.nz = n[2];
+                        vd.u = uv[0] / textureWidth;
+                        vd.v = uv[1] / textureHeight;
+                        vertices[index++] = vd;
+                    }
+
+                    BBFace f = new BBFace(vertices);
+                    f.texture = texture;
+                    this.faces.add(f);
+                }
             }
         });
     }
