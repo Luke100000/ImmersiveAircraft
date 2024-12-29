@@ -1,3 +1,7 @@
+# 0.7.10
+
+* Backported various smaller fixes related to models, fueling, damage mechanics, sounds, ...
+
 # 0.7.9
 
 * Fixed Forge being drunk

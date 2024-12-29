@@ -143,7 +143,7 @@ public abstract class EngineAircraft extends AircraftEntity {
 
         // Refuel
         if (isVehicle()) {
-            if (!level().isClientSide()) {
+            if (!level.isClientSide()) {
                 refuel();
 
                 // Fuel notification
