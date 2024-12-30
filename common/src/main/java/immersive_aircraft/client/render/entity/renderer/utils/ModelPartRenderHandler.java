@@ -9,8 +9,12 @@ import net.minecraft.world.entity.Entity;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Provides a way to provide overrides for rendering and animating model parts.
+ */
 public class ModelPartRenderHandler<T extends Entity> {
     private final Map<String, ModelPartRenderer<T>> objects = new HashMap<>();
+    private BBModelRenderer.VertexConsumerProvider vertexConsumerProvider = BBModelRenderer.DEFAULT_VERTEX_CONSUMER_PROVIDER;
 
     public ModelPartRenderHandler<T> add(String id, ModelPartRenderer.AnimationConsumer<T> animationConsumer) {
         return add(id, animationConsumer, null);
@@ -44,5 +48,18 @@ public class ModelPartRenderHandler<T extends Entity> {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Set the vertex consumer provider for this model part renderer, allowing for custom render types.
+     * @param vertexConsumerProvider The mapping between renderable and vertex consumers.
+     */
+    public ModelPartRenderHandler<T> vertexConsumerProvider(BBModelRenderer.VertexConsumerProvider vertexConsumerProvider) {
+        this.vertexConsumerProvider = vertexConsumerProvider;
+        return this;
+    }
+
+    public BBModelRenderer.VertexConsumerProvider getVertexConsumerProvider() {
+        return vertexConsumerProvider;
     }
 }

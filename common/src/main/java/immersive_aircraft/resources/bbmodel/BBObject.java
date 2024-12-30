@@ -30,4 +30,12 @@ public class BBObject {
         this.export = Utils.getBooleanElement(element, "export");
         this.visibility = Utils.getBooleanElement(element, "visibility");
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getColor() {
+        return color;
+    }
 }
