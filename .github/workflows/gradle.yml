@@ -80,7 +80,8 @@ jobs:
           loaders: |
             fabric
           game-versions: |
-            ${{steps.split.outputs._1}}
+            1.21
+            1.21.1
           java: |
             Java 21
           dependencies: |
@@ -124,7 +125,8 @@ jobs:
           loaders: |
             neoforge
           game-versions: |
-            ${{steps.split.outputs._1}}
+            1.21
+            1.21.1
           java: |
             Java 21
 

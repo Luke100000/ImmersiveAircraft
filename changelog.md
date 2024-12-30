@@ -1,3 +1,7 @@
+# 1.1.6
+
+* Sync with 1.20.1 and relaxed versions to include 1.21
+
 # 1.1.5
 
 * Fixed crash on NeoForge
