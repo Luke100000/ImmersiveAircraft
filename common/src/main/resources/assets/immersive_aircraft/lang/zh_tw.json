@@ -117,6 +117,6 @@
   "immersive_aircraft.upgrade.durability": "%s%% 耐久度",
   "immersive_aircraft.upgrade.fuel": "%s%% 燃料消耗",
   "immersive_aircraft.upgrade.wind": "%s%% 風力影響",
-  "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定度",
   "immersive_aircraft.tooltip.inventory": "Contains %s items."
 }
