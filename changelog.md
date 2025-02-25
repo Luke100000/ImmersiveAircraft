@@ -1,3 +1,7 @@
+# 0.7.11
+
+* Fixed some weapon placements
+
 # 0.7.10
 
 * Backported various smaller fixes related to models, fueling, damage mechanics, sounds, ...
