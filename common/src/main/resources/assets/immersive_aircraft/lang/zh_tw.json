@@ -98,12 +98,12 @@
   "option.immersive_aircraft.preventKillThroughCrash": "墜毀時不會殺死玩家.",
   "option.immersive_aircraft.healthBarRow": "抵消載具的生命值。",
   "option.immersive_aircraft.damagePerHealthPoint": "數值越高，飛機越耐用。",
-  "option.immersive_aircraft.weaponsAreDestructive": "Allow some weapons to destroy blocks.",
-  "option.immersive_aircraft.dropInventory": "Drop the inventory, instead of saving it within the aircraft item.",
-  "option.immersive_aircraft.dropUpgrades": "Drop the upgrades and customization, instead of saving it within the aircraft item.",
+  "option.immersive_aircraft.weaponsAreDestructive": "允許特定武器破壞方塊。",
+  "option.immersive_aircraft.dropInventory": "載具損毀時，掉落載具內儲存的物品，而不是保存於載具中。",
+  "option.immersive_aircraft.dropUpgrades": "載具損毀時，掉落載具裝備，而不是保存在載具中。",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "每隔一格自動再生健康值，模擬原版行為。",
   "option.immersive_aircraft.requireShiftForRepair": "只有在保持換檔時才能進行維修，否則只需進入車內即可。",
-  "immersive_aircraft.tooltip.no_target": "Needs to be assembled on the floor!",
+  "immersive_aircraft.tooltip.no_target": "你不能在天上組裝！",
   "immersive_aircraft.tooltip.no_space": "空間不足！",
   "immersive_aircraft.slot.booster": "助推火箭",
   "immersive_aircraft.slot.weapon": "裝備槽",
@@ -118,5 +118,5 @@
   "immersive_aircraft.upgrade.fuel": "%s%% 燃料消耗",
   "immersive_aircraft.upgrade.wind": "%s%% 風力影響",
   "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定度",
-  "immersive_aircraft.tooltip.inventory": "Contains %s items."
+  "immersive_aircraft.tooltip.inventory": "包含 %s 件物品。"
 }
