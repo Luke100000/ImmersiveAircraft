@@ -40,6 +40,7 @@ public class RotaryCannon extends BulletWeapon {
     protected Entity getBullet(Vector4f position, Vector3f direction) {
         BulletEntity bullet = BULLET.get().create(getEntity().level());
         assert bullet != null;
+        bullet.setDamage(Config.getInstance().rotaryCannonDamage);
         bullet.setPos(position.x(), position.y(), position.z());
         bullet.setOwner(getEntity().getControllingPassenger());
         bullet.shoot(direction.x(), direction.y(), direction.z(), getVelocity(), getInaccuracy());

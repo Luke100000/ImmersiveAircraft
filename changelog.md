@@ -1,3 +1,30 @@
+# 1.2.2
+
+* Updated API related stuff
+
+# 1.2.1
+
+* Fixed air bubbles and other bars being offset
+
+# 1.2.0
+
+* Fixed some crashes
+* Fixed health bar position conflicts on Forge (thanks sfiomn!)
+* Added config flags
+    * `dropAircraft` to make aircraft non-pickup-able
+    * `rotaryCannonDamage`
+    * `heavyCrossBowVelocity`
+    * `bombBayEntity` A mapping from ammo item to spawned entity
+
+# 1.1.8
+
+* Maybe fixed concurrent addon loading issues on Forge
+* Maybe fixed multiplayer issues with turning of engines
+
+# 1.1.7
+
+* A dummy update to fix a mess-up with file uploads
+
 # 1.1.6
 
 * Sync with 1.20.1 and relaxed versions to include 1.21

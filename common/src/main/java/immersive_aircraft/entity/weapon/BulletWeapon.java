@@ -82,27 +82,25 @@ public abstract class BulletWeapon extends Weapon {
     }
 
     protected boolean spentAmmo(Map<String, Integer> ammunition, int amount) {
-        if (getEntity().isPilotCreative()) {
-            return true;
-        }
-
         if (ammo < amount && getEntity() instanceof InventoryVehicleEntity vehicle) {
             for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);
-
                 String key = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 
                 if (ammunition.containsKey(key)) {
-                    ammo += ammunition.get(key);
                     ammoStack = stack.copy();
 
-                    stack.shrink(1);
-
-                    if (ammo >= amount) {
-                        break;
+                    if (!getEntity().isPilotCreative()) {
+                        ammo += ammunition.get(key);
+                        stack.shrink(1);
                     }
+                    break;
                 }
             }
+        }
+
+        if (getEntity().isPilotCreative()) {
+            return true;
         }
 
         if (ammo <= 0) {

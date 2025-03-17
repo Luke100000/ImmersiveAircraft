@@ -25,12 +25,12 @@ public abstract class NetworkHandler {
         message.receiveClient();
     }
 
-    public static <T extends Message> void registerMessage(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
-        registerMessage(type, codec, NetworkHandler::handleDefault, NetworkHandler::handleDefault);
+    public static <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
+        registerMessage(namespace, type, codec, NetworkHandler::handleDefault, NetworkHandler::handleDefault);
     }
 
-    public static <T extends Message> void registerMessage(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
-        INSTANCE.registerMessage(type, codec, clientHandler, serverHandler);
+    public static <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
+        INSTANCE.registerMessage(namespace, type, codec, clientHandler, serverHandler);
     }
 
     public static void sendToServer(Message m) {
@@ -50,7 +50,7 @@ public abstract class NetworkHandler {
             INSTANCE = this;
         }
 
-        public abstract <T extends Message> void registerMessage(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler);
+        public abstract <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler);
 
         public abstract void sendToServer(Message m);
 

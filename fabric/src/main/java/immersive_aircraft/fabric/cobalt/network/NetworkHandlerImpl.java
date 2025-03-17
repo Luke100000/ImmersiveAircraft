@@ -19,7 +19,7 @@ import net.minecraft.world.entity.Entity;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     @Override
-    public <T extends Message> void registerMessage(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
+    public <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
         if (clientHandler != null) PayloadTypeRegistry.playS2C().register(type, codec);
         if (serverHandler != null) PayloadTypeRegistry.playC2S().register(type, codec);
 
@@ -45,10 +45,10 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     }
 
     @Override
-    public void sendToTrackingPlayers(Message msg, Entity origin) {
-        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), origin.registryAccess());
+    public void sendToTrackingPlayers(Message msg, Entity e) {
+        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), e.registryAccess());
         msg.encode(buf);
-        for(ServerPlayer player : PlayerLookup.tracking(origin)) {
+        for (ServerPlayer player : PlayerLookup.tracking(e)) {
             ServerPlayNetworking.send(player, msg);
         }
     }
@@ -73,4 +73,5 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         }
     }
 }
+
 

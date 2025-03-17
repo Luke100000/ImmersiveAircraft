@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.inventory;
 
+import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.c2s.InventoryRequest;

@@ -1,17 +1,23 @@
 package immersive_aircraft.entity.weapon;
 
 import immersive_aircraft.Entities;
+import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.bullet.TinyTNT;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import static net.minecraft.world.entity.item.PrimedTnt.TAG_FUSE;
 
 public class BombBay extends BulletWeapon {
     private static final float MAX_COOLDOWN = 1.0f;
@@ -37,11 +43,19 @@ public class BombBay extends BulletWeapon {
 
     @Override
     protected Entity getBullet(Vector4f position, Vector3f direction) {
-        TinyTNT bullet = new TinyTNT(Entities.TINY_TNT.get(), getEntity().level());
-        bullet.setPos(position.x(), position.y(), position.z());
-        direction.mul(getVelocity());
-        bullet.setDeltaMovement(direction.x(), direction.y(), direction.z());
-        return bullet;
+        Vector3f vel = direction.mul(getVelocity(), new Vector3f());
+
+        ItemStack stack = getAmmoStack();
+        String string = stack != null ? BuiltInRegistries.ITEM.getKey(stack.getItem()).toString() : "minecraft:tnt";
+        String identifier = Config.getInstance().bombBayEntity.getOrDefault(string, "immersive_aircraft:tiny_tnt");
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putString("id", identifier);
+        compoundTag.putInt(TAG_FUSE, 80);
+        return EntityType.loadEntityRecursive(compoundTag, getEntity().level(), (e) -> {
+            e.moveTo(position.x(), position.y(), position.z(), e.getYRot(), e.getXRot());
+            e.setDeltaMovement(vel.x(), vel.y(), vel.z());
+            return e;
+        });
     }
 
     @Override

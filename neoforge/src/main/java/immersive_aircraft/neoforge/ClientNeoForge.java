@@ -40,5 +40,6 @@ public final class ClientNeoForge {
     @SubscribeEvent
     public static void initItemColors(RegisterColorHandlersEvent.Item event) {
         ItemColors.ITEM_COLORS.forEach((item, itemColor) -> event.register(itemColor, item));
+        ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> event.register(itemColor, item.get()));
     }
 }

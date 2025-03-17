@@ -45,6 +45,7 @@ public final class CommonFabric implements ModInitializer {
         // Register event for syncing aircraft upgrades.
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(this::onSyncDatapack);
     }
+
     /**
      * Send sync packets for upgrades when datapack is reloaded.
      */

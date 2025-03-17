@@ -6,12 +6,16 @@ import net.minecraft.world.item.component.DyedItemColor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ItemColors {
-    public static Map<Item, ItemColor> ITEM_COLORS = new HashMap<>() {{
-        put(Items.WARSHIP.get(), getDyeColor(0xFFECC88C));
-        put(Items.AIRSHIP.get(), getDyeColor(0xFFECC88C));
-        put(Items.CARGO_AIRSHIP.get(), getDyeColor(0xFFECC88C));
+    // Deprecated, use ITEM_COLOR_PROVIDERS, will get removed in 1.3.0
+    public static Map<Item, ItemColor> ITEM_COLORS = new HashMap<>();
+
+    public static Map<Supplier<Item>, ItemColor> ITEM_COLOR_PROVIDERS = new HashMap<>() {{
+        put(Items.WARSHIP, getDyeColor(0xFFECC88C));
+        put(Items.AIRSHIP, getDyeColor(0xFFECC88C));
+        put(Items.CARGO_AIRSHIP, getDyeColor(0xFFECC88C));
     }};
 
     public static ItemColor getDyeColor(int defaultColor) {

@@ -12,8 +12,10 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     @SuppressWarnings("rawtypes")
@@ -22,15 +24,16 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
                                 DirectionalPayloadHandler payloadHandler) {
     }
 
-    List<MessageRegistryEntry> messageRegistry = new LinkedList<>();
+    Map<String, List<MessageRegistryEntry>> messageRegistry = new HashMap<>();
 
     @Override
-    public <T extends Message> void registerMessage(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
+    public <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
+        messageRegistry.computeIfAbsent(namespace, k -> new LinkedList<>());
         DirectionalPayloadHandler<T> payloadHandler = new DirectionalPayloadHandler<>(
                 (m, c) -> clientHandler.handle(m),
                 (m, c) -> serverHandler.handle(m, (ServerPlayer) c.player())
         );
-        messageRegistry.add(new MessageRegistryEntry(type, codec, payloadHandler));
+        messageRegistry.get(namespace).add(new MessageRegistryEntry(type, codec, payloadHandler));
     }
 
     @Override
@@ -51,10 +54,12 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     public void register(RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
         //noinspection unchecked
-        messageRegistry.forEach(entry -> registrar.playBidirectional(
-                entry.type,
-                entry.codec,
-                entry.payloadHandler
-        ));
+        messageRegistry.values().forEach(channel ->
+                channel.forEach(entry -> registrar.playBidirectional(
+                        entry.type,
+                        entry.codec,
+                        entry.payloadHandler
+                ))
+        );
     }
 }

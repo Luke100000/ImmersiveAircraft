@@ -2,20 +2,20 @@ package immersive_aircraft.neoforge;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.client.OverlayRenderer;
-import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
-@SuppressWarnings("unused")
-@EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class NeoForgeOverlayRenderer {
-    @SubscribeEvent()
-    public static void renderOverlay(RenderGuiLayerEvent.Post event) {
-        if (event.getName() == VanillaGuiLayers.HOTBAR && !Minecraft.getInstance().options.hideGui) {
-            OverlayRenderer.renderOverlay(event.getGuiGraphics(), event.getPartialTick().getGameTimeDeltaTicks());
-        }
+    @SubscribeEvent
+    public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
+        event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Main.locate("ia_overlay"),
+                (graphics, delta) -> {
+                    OverlayRenderer.renderOverlay(graphics, delta.getGameTimeDeltaTicks(), 49);
+                    // TODO: Where is forgeGui.rightHeight += 10;?
+                });
     }
 }
