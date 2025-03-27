@@ -80,7 +80,7 @@
   "option.immersive_aircraft.enableAnimatedSails": "Animierte Segel.",
   "option.immersive_aircraft.renderDistance": "Renderabstand in Blöcken.",
   "option.immersive_aircraft.fuelConsumption": "Kraftstoffverbrennungsgeschwindigkeit.",
-  "option.immersive_aircraft.windClearWeather": "Grund-Wind-Effekt.",
+  "option.immersive_aircraft.windClearWeather": "Basis-Wind-Effekt.",
   "option.immersive_aircraft.windRainWeather": "Wind bei Niederschlag.",
   "option.immersive_aircraft.windThunderWeather": "Extra Wind bei Gewitter.",
   "option.immersive_aircraft.repairSpeed": "Reparatur pro Klick.",
