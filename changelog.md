@@ -1,3 +1,7 @@
+# 1.2.3
+
+* Fixed a crash
+
 # 1.2.2
 
 * Updated API related stuff
