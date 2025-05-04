@@ -1,3 +1,7 @@
+# 1.2.4
+
+* Fixed Fabric networking being a bit funky
+
 # 1.2.3
 
 * Fixed a crash
