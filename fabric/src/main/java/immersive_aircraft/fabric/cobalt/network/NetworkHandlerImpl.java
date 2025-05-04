@@ -28,7 +28,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         }
 
         if (serverHandler != null) {
-            ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> context.server().execute(() -> serverHandler.handle(payload, context.player())));
+            ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> serverHandler.handle(payload, context.player()));
         }
     }
 
@@ -60,7 +60,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         }
 
         public static <T extends Message> void register(CustomPacketPayload.Type<T> type, NetworkHandler.ClientHandler<T> handler) {
-            ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> context.client().execute(() -> handler.handle(payload)));
+            ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> handler.handle(payload));
         }
 
         public static void sendToServer(Message msg) {
