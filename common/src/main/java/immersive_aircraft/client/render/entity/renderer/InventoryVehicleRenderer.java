@@ -66,7 +66,8 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
     }
 
     public void renderSails(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
-        ItemStack stack = entity.getSlots(VehicleInventoryDescription.DYE).get(0);
+        List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.DYE);
+        ItemStack stack = slots.stream().findFirst().orElse(ItemStack.EMPTY);
         DyeColor color;
         if (stack.getItem() instanceof DyeItem item) {
             color = item.getDyeColor();

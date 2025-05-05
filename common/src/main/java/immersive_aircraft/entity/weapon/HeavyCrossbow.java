@@ -21,7 +21,7 @@ public class HeavyCrossbow extends BulletWeapon {
     private final float inaccuracy;
 
     public HeavyCrossbow(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
-        this(entity, stack, mount, slot, 3.0f, 0.0f);
+        this(entity, stack, mount, slot, Config.getInstance().heavyCrossBowVelocity, 0.0f);
     }
 
     public HeavyCrossbow(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot, float velocity, float inaccuracy) {

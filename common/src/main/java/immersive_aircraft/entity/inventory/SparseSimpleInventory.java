@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.inventory;
 
+import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.c2s.RequestInventory;
@@ -40,6 +41,10 @@ public class SparseSimpleInventory extends SimpleContainer {
             int slot = nbtCompound.getByte("Slot") & 0xFF;
             ItemStack itemStack = ItemStack.of(nbtCompound);
             if (itemStack.isEmpty()) continue;
+            if (slot > this.getContainerSize()) {
+                Main.LOGGER.warn("Inventory slot out of bound, {} has been discarded!", itemStack);
+                continue;
+            }
             this.setItem(slot, itemStack);
         }
     }

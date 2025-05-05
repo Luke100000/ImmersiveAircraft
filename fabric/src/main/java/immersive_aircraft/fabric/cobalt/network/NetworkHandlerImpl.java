@@ -1,6 +1,5 @@
 package immersive_aircraft.fabric.cobalt.network;
 
-import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import io.netty.buffer.Unpooled;
@@ -13,7 +12,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -24,10 +22,8 @@ import java.util.function.Function;
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     private final Map<Class<?>, ResourceLocation> identifiers = new HashMap<>();
 
-    private int id = 0;
-
-    private <T> ResourceLocation createMessageIdentifier(Class<T> msg) {
-        return new ResourceLocation(Main.SHORT_MOD_ID, msg.getSimpleName().toLowerCase(Locale.ROOT).substring(0, 8) + id++);
+    private <T> ResourceLocation createMessageIdentifier(String namespace, Class<T> msg) {
+        return new ResourceLocation(namespace, msg.getSimpleName().toLowerCase(Locale.ROOT));
     }
 
     private ResourceLocation getMessageIdentifier(Message msg) {
@@ -35,8 +31,8 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     }
 
     @Override
-    public <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        ResourceLocation identifier = createMessageIdentifier(msg);
+    public <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        ResourceLocation identifier = createMessageIdentifier(namespace, msg);
         identifiers.put(msg, identifier);
 
         ServerPlayNetworking.registerGlobalReceiver(identifier, (server, player, handler, buffer, responder) -> {
@@ -67,7 +63,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     public void sendToTrackingPlayers(Message msg, Entity origin) {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         msg.encode(buf);
-        for(ServerPlayer player : PlayerLookup.tracking(origin)) {
+        for (ServerPlayer player : PlayerLookup.tracking(origin)) {
             ServerPlayNetworking.send(player, getMessageIdentifier(msg), buf);
         }
     }

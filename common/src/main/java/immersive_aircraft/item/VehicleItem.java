@@ -27,17 +27,23 @@ public class VehicleItem extends DescriptionItem {
     }
 
     private final VehicleConstructor constructor;
+    private final boolean onWater;
 
     public VehicleItem(Properties settings, VehicleConstructor constructor) {
+        this(settings, constructor, true);
+    }
+
+    public VehicleItem(Properties settings, VehicleConstructor constructor, boolean onWater) {
         super(settings);
 
         this.constructor = constructor;
+        this.onWater = onWater;
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
         ItemStack itemStack = user.getItemInHand(hand);
-        BlockHitResult hitResult = getPlayerPOVHitResult(world, user, ClipContext.Fluid.ANY);
+        BlockHitResult hitResult = getPlayerPOVHitResult(world, user, onWater ? ClipContext.Fluid.ANY : ClipContext.Fluid.NONE);
         if (((HitResult) hitResult).getType() == HitResult.Type.MISS) {
             error(user, "immersive_aircraft.tooltip.no_target");
             return InteractionResultHolder.pass(itemStack);

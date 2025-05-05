@@ -1,6 +1,6 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Aircraft",
-  "key.immersive_aircraft.multi_control_left": "Left",
+  "key.immersive_aircraft.multi_control_left": "ซ้าย",
   "key.immersive_aircraft.multi_control_right": "Right",
   "key.immersive_aircraft.multi_control_forward": "Forward",
   "key.immersive_aircraft.multi_control_backward": "Backward",
@@ -9,7 +9,7 @@
   "key.immersive_aircraft.multi_control_pull": "Pull Controller",
   "key.immersive_aircraft.multi_control_push": "Push Controller",
   "key.immersive_aircraft.multi_use": "Use weapon/mount",
-  "key.immersive_aircraft.fallback_control_left": "Left",
+  "key.immersive_aircraft.fallback_control_left": "ซ้าย",
   "key.immersive_aircraft.fallback_control_right": "Right",
   "key.immersive_aircraft.fallback_control_forward": "Forward",
   "key.immersive_aircraft.fallback_control_backward": "Backward",

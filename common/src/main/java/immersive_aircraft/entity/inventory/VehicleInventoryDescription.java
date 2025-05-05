@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VehicleInventoryDescription {
     int height = 0;
@@ -76,8 +77,8 @@ public class VehicleInventoryDescription {
         }
     }
 
-    public static final Map<String, SlotDescription.SlotDescriptionFactory> SLOT_TYPES = new HashMap<>();
-    public static final Map<String, SlotDescription.SlotDescriptionDecoder> SLOT_DECODER = new HashMap<>();
+    public static final Map<String, SlotDescription.SlotDescriptionFactory> SLOT_TYPES = new ConcurrentHashMap<>();
+    public static final Map<String, SlotDescription.SlotDescriptionDecoder> SLOT_DECODER = new ConcurrentHashMap<>();
 
     public static String registerSlotType(String name, SlotDescription.SlotDescriptionFactory slotFactory, SlotDescription.SlotDescriptionDecoder slotDecoder) {
         SLOT_TYPES.put(name, slotFactory);
@@ -106,12 +107,6 @@ public class VehicleInventoryDescription {
     final HashMap<String, List<SlotDescription>> slotMap = new HashMap<>();
     final List<SlotDescription> slots = new LinkedList<>();
 
-    {
-        for (String value : SLOT_TYPES.keySet()) {
-            slotMap.put(value, new LinkedList<>());
-        }
-    }
-
     public int getInventorySize() {
         return slots.size();
     }
@@ -121,11 +116,11 @@ public class VehicleInventoryDescription {
     }
 
     public List<SlotDescription> getSlots(String type) {
-        return slotMap.get(type);
+        return slotMap.computeIfAbsent(type, k -> new LinkedList<>());
     }
 
     public VehicleInventoryDescription addSlot(SlotDescription slotDescription) {
-        slotMap.get(slotDescription.type()).add(slotDescription);
+        getSlots(slotDescription.type()).add(slotDescription);
         slots.add(slotDescription);
 
         if (!slotDescription.type().equals("inventory")) {

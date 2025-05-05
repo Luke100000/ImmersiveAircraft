@@ -19,26 +19,28 @@ public class OverlayRenderer {
     private float bootUp = 0.0f;
     private float lastTime = 0.0f;
 
-    public static void renderOverlay(GuiGraphics context, float tickDelta) {
+    public static int renderOverlay(GuiGraphics context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
         if (client.gameMode != null && client.player != null) {
             if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
             }
             if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
-                INSTANCE.renderAircraftHealth(client, context, vehicle);
+                INSTANCE.renderAircraftHealth(client, context, vehicle, barHeightOffset);
+                return 10;
             }
         }
+        return 0;
     }
 
-    private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle) {
+    private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle, int barHeightOffset) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
         int maxHearts = 10;
         int health = (int) Math.ceil(vehicle.getHealth() * maxHearts * 2);
 
-        int y = screenHeight - 49 - Config.getInstance().healthBarRow * 10;
+        int y = screenHeight - barHeightOffset - Config.getInstance().healthBarRow * 10;
         int ox = screenWidth / 2 + 91;
         for (int i = 0; i < maxHearts; i++) {
             int u = 52;

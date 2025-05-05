@@ -45,10 +45,8 @@ jobs:
           java-version: 17
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle - Forge
-        run: ./gradlew :forge:build
-      - name: Build with Gradle - Fabric
-        run: ./gradlew :fabric:build
+      - name: Build with Gradle
+        run: ./gradlew build
       - name: Publish to Maven
         run: ./gradlew publish
       - name: Get tag

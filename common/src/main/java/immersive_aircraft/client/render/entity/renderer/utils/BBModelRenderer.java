@@ -20,10 +20,19 @@ import org.joml.Vector3f;
 import java.util.List;
 
 public class BBModelRenderer {
+    public interface VertexConsumerProvider {
+        VertexConsumer getBuffer(MultiBufferSource source, BBFaceContainer container, BBFace face);
+    }
+
+    public static final VertexConsumerProvider DEFAULT_VERTEX_CONSUMER_PROVIDER = (source, container, face) -> source.getBuffer(container.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location));
+
     public static <T extends VehicleEntity> void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         model.root.forEach(object -> renderObject(model, object, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha));
     }
 
+    /**
+     * Apply transformations, animations, and callbacks, and render the object.
+     */
     public static <T extends VehicleEntity> void renderObject(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         matrixStack.pushPose();
         matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
@@ -66,9 +75,12 @@ public class BBModelRenderer {
         matrixStack.popPose();
     }
 
+    /**
+     * Render the object without applying transformations, animations, or callbacks.
+     */
     public static <T extends VehicleEntity> void renderObjectInner(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         if (object instanceof BBFaceContainer cube) {
-            renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, null);
+            renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, modelPartRenderer == null ? DEFAULT_VERTEX_CONSUMER_PROVIDER : modelPartRenderer.getVertexConsumerProvider());
         } else if (object instanceof BBBone bone) {
             boolean shouldRender = bone.visibility;
             if (bone.name.equals("lod0")) {
@@ -83,12 +95,12 @@ public class BBModelRenderer {
         }
     }
 
-    public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float red, float green, float blue, float alpha, VertexConsumer overrideVertexConsumer) {
+    public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource source, int light, float red, float green, float blue, float alpha, VertexConsumerProvider provider) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
         Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
-            VertexConsumer vertexConsumer = overrideVertexConsumer == null ? vertexConsumerProvider.getBuffer(cube.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location)) : overrideVertexConsumer;
+            VertexConsumer vertexConsumer = provider.getBuffer(source, cube, face);
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
                 vertexConsumer.vertex(positionMatrix, v.x, v.y, v.z);
@@ -115,11 +127,10 @@ public class BBModelRenderer {
             bannerPattern.unwrapKey()
                     .map(key -> isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key))
                     .ifPresent(material -> {
-                        VertexConsumer vertexConsumer = material.buffer(vertexConsumers, RenderType::entityNoOutline);
                         float[] fs = pair.getSecond().getTextureDiffuseColors();
                         renderFaces(cube, matrixStack, vertexConsumers, light,
                                 fs[0], fs[1], fs[2], 1.0f,
-                                vertexConsumer);
+                                (source, container, face) -> material.buffer(vertexConsumers, RenderType::entityNoOutline));
                     });
         }
 

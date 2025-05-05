@@ -87,6 +87,10 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         return 20.0f;
     }
 
+    public boolean worksUnderWater() {
+        return false;
+    }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -104,7 +108,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         enginePower.setSteps(getEngineReactionSpeed() / getProperties().get(VehicleStat.ACCELERATION));
 
         // spin up the engine
-        enginePower.update(getEngineTarget() * (wasTouchingWater ? 0.1f : 1.0f));
+        enginePower.update(getEngineTarget() * (isInWater() && !worksUnderWater() ? 0.1f : 1.0f));
 
         // simulate spin up
         engineSpinUpStrength = Math.max(0.0f, engineSpinUpStrength + enginePower.getDiff() - 0.01f);

@@ -9,19 +9,14 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class BulletEntity extends AbstractHurtingProjectile {
-    private float scale = 0.25f;
-    private float damage = 5.0f;
+    private float damage = 1.0f;
 
     public BulletEntity(EntityType<? extends BulletEntity> entityType, Level level) {
         super(entityType, level);
     }
 
     public float getScale() {
-        return scale;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
+        return 0.25f;
     }
 
     public float getDamage() {
@@ -63,7 +58,7 @@ public class BulletEntity extends AbstractHurtingProjectile {
         if (Double.isNaN(d)) {
             d = 10.0;
         }
-        return distance < (d *= 64.0) * d * scale;
+        return distance < (d *= 64.0) * d * getScale();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package immersive_aircraft.cobalt.network;
 
+import immersive_aircraft.Main;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -10,7 +11,11 @@ public abstract class NetworkHandler {
     private static Impl INSTANCE;
 
     public static <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        INSTANCE.registerMessage(msg, constructor);
+        INSTANCE.registerMessage(Main.SHORT_MOD_ID, msg, constructor);
+    }
+
+    public static <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        INSTANCE.registerMessage(namespace, msg, constructor);
     }
 
     public static void sendToServer(Message m) {
@@ -30,7 +35,7 @@ public abstract class NetworkHandler {
             INSTANCE = this;
         }
 
-        public abstract <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor);
+        public abstract <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor);
 
         public abstract void sendToServer(Message m);
 

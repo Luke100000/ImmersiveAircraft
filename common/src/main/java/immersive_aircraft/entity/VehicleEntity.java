@@ -300,10 +300,12 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected void drop() {
-        ItemStack stack = new ItemStack(asItem());
-        CompoundTag tag = stack.getOrCreateTag();
-        addItemTag(tag);
-        spawnAtLocation(stack);
+        if (Config.getInstance().dropAircraft) {
+            ItemStack stack = new ItemStack(asItem());
+            CompoundTag tag = stack.getOrCreateTag();
+            addItemTag(tag);
+            spawnAtLocation(stack);
+        }
     }
 
     protected void dropInventory() {

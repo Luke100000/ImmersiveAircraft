@@ -11,23 +11,33 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     private static final String PROTOCOL_VERSION = "1";
 
-    private final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(Main.SHORT_MOD_ID, "main"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals
-    );
+    record ChannelHolder(SimpleChannel channel, AtomicInteger id) {
+    }
 
-    private int id = 0;
+    private final Map<String, ChannelHolder> holders = new HashMap<>();
+    private final Map<Class<?>, SimpleChannel> channels = new HashMap<>();
 
     @Override
-    public <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        channel.registerMessage(id++, msg,
+    synchronized public <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        holders.computeIfAbsent(namespace, (n) -> new ChannelHolder(NetworkRegistry.newSimpleChannel(
+                new ResourceLocation(namespace, "main"),
+                () -> PROTOCOL_VERSION,
+                PROTOCOL_VERSION::equals,
+                PROTOCOL_VERSION::equals
+        ), new AtomicInteger(0)));
+
+        ChannelHolder holder = holders.get(namespace);
+        channels.put(msg, holder.channel());
+
+        holder.channel().registerMessage(holder.id().getAndIncrement(), msg,
                 Message::encode,
                 constructor,
                 (m, ctx) -> {
@@ -41,17 +51,16 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     @Override
     public void sendToServer(Message m) {
-        channel.sendToServer(m);
+        channels.get(m.getClass()).sendToServer(m);
     }
 
     @Override
     public void sendToPlayer(Message m, ServerPlayer e) {
-        channel.send(PacketDistributor.PLAYER.with(() -> e), m);
+        channels.get(m.getClass()).send(PacketDistributor.PLAYER.with(() -> e), m);
     }
 
     @Override
     public void sendToTrackingPlayers(Message m, Entity origin) {
-        channel.send(PacketDistributor.TRACKING_ENTITY.with(() -> origin), m);
+        channels.get(m.getClass()).send(PacketDistributor.TRACKING_ENTITY.with(() -> origin), m);
     }
-
 }
