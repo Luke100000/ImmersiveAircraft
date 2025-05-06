@@ -261,14 +261,10 @@ public abstract class VehicleEntity extends Entity {
         float health = getHealth() - amount;
         if (health <= 0) {
             setHealth(0);
-
-            // Explode if destroyed by force
-            if (force && canExplodeOnCrash && Config.getInstance().enableCrashExplosion) {
-                level().explode(this, getX(), getY(), getZ(),
-                        Config.getInstance().crashExplosionRadius,
-                        Config.getInstance().enableCrashFire,
-                        Config.getInstance().enableCrashBlockDestruction ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
-            }
+            // Saving cords for explode (if enabled)
+            double x = getX();
+            double y = getY();
+            double z = getZ();
 
             // Drop stuff if enabled
             if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
@@ -277,6 +273,14 @@ public abstract class VehicleEntity extends Entity {
             }
 
             discard();
+
+            // Explode if destroyed by force
+            if (force && canExplodeOnCrash && Config.getInstance().enableCrashExplosion) {
+                level().explode(this, x, y, z,
+                        Config.getInstance().crashExplosionRadius,
+                        Config.getInstance().enableCrashFire,
+                        Config.getInstance().enableCrashBlockDestruction ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
+            }
         } else {
             setHealth(health);
         }
