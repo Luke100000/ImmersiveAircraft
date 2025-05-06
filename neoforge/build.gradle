@@ -41,7 +41,9 @@ processResources {
     inputs.property "version", project.version
 
     filesMatching("META-INF/neoforge.mods.toml") {
-        expand "version": project.version
+        expand "version": project.version,
+                loader_major: "1",
+                minecraft_version: rootProject.architectury.minecraft
     }
 }
 
@@ -67,17 +69,6 @@ sourcesJar {
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
-    }
-}
-
-// Update mods.toml with the new versions automatically
-// Not using processResources because it is easier to do this manually, and see it reflected immediately
-afterEvaluate {
-    file("src/main/resources/META-INF/neoforge.mods.toml").withOutputStream {
-        it << file("neoforge.mods.toml").text
-                .replaceAll("@LOADER_MAJOR@", "1")
-                .replaceAll("@MINECRAFT_VERSION@", rootProject.architectury.minecraft)
-                .replaceAll("@FORGE_VERSION@", rootProject.neoforge_version)
     }
 }
 

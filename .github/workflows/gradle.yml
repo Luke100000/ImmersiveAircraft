@@ -60,8 +60,6 @@ jobs:
           msg: ${{steps.tag.outputs.tag}}
       - name: "Rename Fabric files"
         run: mv "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
-      #      - name: "Rename Forge files"
-      #        run: mv "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
       - name: "Rename NeoForge files"
         run: mv "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
       - name: "Upload Fabric"
@@ -80,35 +78,13 @@ jobs:
           loaders: |
             fabric
           game-versions: |
-            1.21
-            1.21.1
+            ${{steps.split.outputs._1}}
           java: |
             Java 21
           dependencies: |
             fabric-api | required | *
 
           fail-mode: skip
-      #      - name: "Upload Forge"
-      #        uses: Kir-Antipov/mc-publish@v3.3.0
-      #        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
-      #        with:
-      #          modrinth-id: x3HZvrj6
-      #          modrinth-token: ${{ env.MODRINTH_TOKEN }}
-      #          curseforge-id: 666014
-      #          curseforge-token: ${{ env.CURSEFORGE_TOKEN }}
-      #
-      #          name: "[Forge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
-      #          changelog-file: changelog.md
-      #          version-type: release
-      #          files: "forge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-forge.jar"
-      #          loaders: |
-      #            forge
-      #          game-versions: |
-      #            ${{steps.split.outputs._1}}
-      #          java: |
-      #            Java 21
-      #
-      #          fail-mode: skip
       - name: "Upload NeoForge"
         uses: Kir-Antipov/mc-publish@v3.3.0
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
@@ -125,8 +101,7 @@ jobs:
           loaders: |
             neoforge
           game-versions: |
-            1.21
-            1.21.1
+            ${{steps.split.outputs._1}}
           java: |
             Java 21
 
