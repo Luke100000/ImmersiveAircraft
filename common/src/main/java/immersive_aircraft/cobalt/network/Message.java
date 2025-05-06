@@ -25,7 +25,5 @@ public abstract class Message implements CustomPacketPayload {
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return null;
-    }
+    abstract public Type<? extends CustomPacketPayload> type();
 }

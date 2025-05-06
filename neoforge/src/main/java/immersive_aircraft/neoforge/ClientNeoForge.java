@@ -16,7 +16,6 @@ import net.neoforged.fml.event.lifecycle.FMLConstructModEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
-@SuppressWarnings("unused")
 @Mod(value = Main.MOD_ID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT, modid = Main.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class ClientNeoForge {
@@ -39,7 +38,6 @@ public final class ClientNeoForge {
 
     @SubscribeEvent
     public static void initItemColors(RegisterColorHandlersEvent.Item event) {
-        ItemColors.ITEM_COLORS.forEach((item, itemColor) -> event.register(itemColor, item));
         ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> event.register(itemColor, item.get()));
     }
 }

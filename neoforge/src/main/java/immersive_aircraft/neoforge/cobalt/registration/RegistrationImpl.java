@@ -59,7 +59,6 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     class RegistryRepo {
-        private final Set<ResourceLocation> skipped = new HashSet<>();
         private final Map<ResourceLocation, DeferredRegister<?>> registries = new HashMap<>();
 
         private final String namespace;
@@ -71,7 +70,7 @@ public class RegistrationImpl extends Registration.Impl {
         @SuppressWarnings({"rawtypes"})
         public <T> DeferredRegister get(Registry<? super T> registry) {
             ResourceLocation id = registry.key().location();
-            if (!registries.containsKey(id) && !skipped.contains(id)) {
+            if (!registries.containsKey(id)) {
                 DeferredRegister def = DeferredRegister.create(registry, namespace);
 
                 def.register(modBus);

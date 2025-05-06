@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class ItemColors {
-    // Deprecated, use ITEM_COLOR_PROVIDERS, will get removed in 1.3.0
-    public static Map<Item, ItemColor> ITEM_COLORS = new HashMap<>();
-
     public static Map<Supplier<Item>, ItemColor> ITEM_COLOR_PROVIDERS = new HashMap<>() {{
         put(Items.WARSHIP, getDyeColor(0xFFECC88C));
         put(Items.AIRSHIP, getDyeColor(0xFFECC88C));

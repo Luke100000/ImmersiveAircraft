@@ -28,7 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 
 
-@SuppressWarnings("unused")
 @EventBusSubscriber(modid = Main.MOD_ID)
 public class NeoForgeBusEvents {
     // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl, but it would just be messy
@@ -52,7 +51,6 @@ public class NeoForgeBusEvents {
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         if (DATA_REGISTRY != null) {
             for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
-                // TODO: here we have access to registry, pass it to the loader
                 event.addListener(loader);
             }
         }

@@ -15,7 +15,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
-@SuppressWarnings("unused")
 @Mod(Main.MOD_ID)
 @EventBusSubscriber(modid = Main.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class CommonNeoForge {
@@ -43,6 +42,7 @@ public final class CommonNeoForge {
 
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(CREATIVE_MODE_TAB, Main.MOD_ID);
 
+    @SuppressWarnings("unused")
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = DEF_REG.register(Main.MOD_ID, () -> CreativeModeTab.builder()
             .title(ItemGroups.getDisplayName())
             .icon(ItemGroups::getIcon)
