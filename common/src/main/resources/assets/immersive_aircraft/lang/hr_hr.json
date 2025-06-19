@@ -118,5 +118,5 @@
   "immersive_aircraft.upgrade.fuel": "%s%% potreba za gorivom",
   "immersive_aircraft.upgrade.wind": "%s%% učinak vjetra",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija",
-  "immersive_aircraft.tooltip.inventory": "Contains %s items."
+  "immersive_aircraft.tooltip.inventory": "Sadrži %s stavki."
 }
