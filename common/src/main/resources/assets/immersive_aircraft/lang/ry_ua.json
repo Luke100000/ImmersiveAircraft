@@ -118,5 +118,5 @@
   "immersive_aircraft.upgrade.fuel": "%s%% потреба в паливі",
   "immersive_aircraft.upgrade.wind": "%s%% ефект вітру",
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабілізація",
-  "immersive_aircraft.tooltip.inventory": "Contains %s items."
+  "immersive_aircraft.tooltip.inventory": "Содержить %s предметів."
 }
