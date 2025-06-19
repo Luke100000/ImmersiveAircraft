@@ -118,5 +118,5 @@
   "immersive_aircraft.upgrade.fuel": "%s%% erregai beharrezko",
   "immersive_aircraft.upgrade.wind": "%s%% haize efektua",
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilizatzen",
-  "immersive_aircraft.tooltip.inventory": "Contains %s items."
+  "immersive_aircraft.tooltip.inventory": "%s elementu ditu."
 }
