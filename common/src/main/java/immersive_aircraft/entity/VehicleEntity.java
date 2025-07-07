@@ -883,6 +883,10 @@ public abstract class VehicleEntity extends Entity {
         return transformVector(0.0f, 1.0f, 0.0f);
     }
 
+    // This field is used in some addons!
+    @SuppressWarnings("unused")
+    protected static final Vector4f ZERO_VEC4 = new Vector4f();
+
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         double d = Config.getInstance().renderDistance * getViewScale();
