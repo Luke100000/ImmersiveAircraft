@@ -1,10 +1,8 @@
 package immersive_aircraft.entity;
 
-import com.mojang.math.Axis;
 import immersive_aircraft.Items;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
-import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapon.HeavyCrossbow;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
@@ -19,8 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Math;
 import org.joml.*;
+import org.joml.Math;
 
 import java.util.List;
 
@@ -107,9 +105,9 @@ public class WarshipEntity extends AirshipEntity {
             float z = position.z();
 
             Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
-            x += (float) attachmentPoint.x;
-            y += (float) attachmentPoint.y;
-            z += (float) attachmentPoint.z;
+            x -= (float) attachmentPoint.x;
+            y -= (float) attachmentPoint.y;
+            z -= (float) attachmentPoint.z;
 
             Vector4f worldPosition = transformPosition(transform, x, y, z);
             positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);

@@ -567,10 +567,10 @@ public abstract class VehicleEntity extends Entity {
                 float z = positionDescriptor.z();
 
                 // Passenger offset
-                Vec3 vec32 = passenger.getVehicleAttachmentPoint(this);
-                x -= (float) vec32.x;
-                y -= (float) vec32.y;
-                z -= (float) vec32.z;
+                Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
+                x -= (float) attachmentPoint.x;
+                y -= (float) attachmentPoint.y;
+                z -= (float) attachmentPoint.z;
 
                 Vector4f worldPosition = transformPosition(transform, x, y, z);
 
