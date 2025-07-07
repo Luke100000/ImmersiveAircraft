@@ -1,3 +1,7 @@
+# 1.3.1
+
+* Fixed recipe
+
 # 1.3.0
 
 * Added the Bamboo Hopper
