@@ -1,3 +1,8 @@
+# 1.3.2
+
+* Fixed aircraft sinking on Forge
+* Fixed warship position offset
+
 # 1.3.1
 
 * Fixed recipe
