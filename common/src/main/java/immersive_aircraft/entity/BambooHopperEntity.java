@@ -57,7 +57,7 @@ public class BambooHopperEntity extends AirplaneEntity {
 
     @Override
     protected double getDefaultGravity() {
-        float water = (float) fluidHeight.getDouble(FluidTags.WATER);
+        float water = (float) getFluidHeight(FluidTags.WATER);
         return water > 0 ? -0.04 * water : (1.0 - getEnginePower()) * super.getDefaultGravity();
     }
 
