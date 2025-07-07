@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " B ",
-    "HEP",
-    " B "
+    "PHP",
+    "BEB",
+    "BBB"
   ],
   "key": {
     "B": [
@@ -23,7 +23,7 @@
     ],
     "P": [
       {
-        "item": "immersive_aircraft:propeller"
+        "item": "immersive_aircraft:biplane"
       }
     ]
   },
