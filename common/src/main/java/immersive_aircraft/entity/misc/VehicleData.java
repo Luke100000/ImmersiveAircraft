@@ -15,9 +15,9 @@ public class VehicleData {
     private final Map<VehicleStat, Float> properties = new HashMap<>();
     private final VehicleInventoryDescription inventoryDescription;
     private final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = new HashMap<>();
-    private final List<BoundingBoxDescriptor> boundingBoxes = new LinkedList<>();
     private final List<List<PositionDescriptor>> passengerPositions = new LinkedList<>();
-
+    private final List<BoundingBoxDescriptor> boundingBoxes = new LinkedList<>();
+    private final List<TrailDescriptor> trails = new LinkedList<>();
 
     public VehicleData() {
         inventoryDescription = new VehicleInventoryDescription();
@@ -64,6 +64,12 @@ public class VehicleData {
 
         // Load bounding boxes
         json.getAsJsonArray("boundingBoxes").forEach(e -> boundingBoxes.add(BoundingBoxDescriptor.fromJson(e.getAsJsonObject())));
+
+        // Load trails
+        JsonArray trailJson = json.getAsJsonArray("trails");
+        if (trailJson != null) {
+            trailJson.forEach(e -> trails.add(TrailDescriptor.fromJson(e.getAsJsonObject())));
+        }
     }
 
     public VehicleData(RegistryFriendlyByteBuf byteBuf) {
@@ -110,6 +116,12 @@ public class VehicleData {
         for (int i = 0; i < boundingBoxesCount; i++) {
             boundingBoxes.add(BoundingBoxDescriptor.decode(byteBuf));
         }
+
+        // Load trails
+        int trailsCount = byteBuf.readInt();
+        for (int i = 0; i < trailsCount; i++) {
+            trails.add(TrailDescriptor.decode(byteBuf));
+        }
     }
 
     private void populateWeaponMounts() {
@@ -153,6 +165,10 @@ public class VehicleData {
         // Encode bounding boxes
         buffer.writeInt(boundingBoxes.size());
         boundingBoxes.forEach(boundingBox -> boundingBox.encode(buffer));
+
+        // Encode trails
+        buffer.writeInt(trails.size());
+        trails.forEach(trail -> trail.encode(buffer));
     }
 
     public Map<VehicleStat, Float> getProperties() {
@@ -173,5 +189,9 @@ public class VehicleData {
 
     public List<List<PositionDescriptor>> getPassengerPositions() {
         return passengerPositions;
+    }
+
+    public List<TrailDescriptor> getTrails() {
+        return trails;
     }
 }

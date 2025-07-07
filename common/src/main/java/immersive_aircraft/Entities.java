@@ -55,6 +55,13 @@ public interface Entities {
             .fireImmune()
     );
 
+    Supplier<EntityType<BambooHopperEntity>> BAMBOO_HOPPER = register("bamboo_hopper", EntityType.Builder
+            .of(BambooHopperEntity::new, MobCategory.MISC)
+            .sized(3.0f, 1.5f)
+            .clientTrackingRange(14)
+            .fireImmune()
+    );
+
     Supplier<EntityType<BulletEntity>> BULLET = register("bullet", EntityType.Builder
             .of(BulletEntity::new, MobCategory.MISC)
             .sized(0.25f, 0.25f)

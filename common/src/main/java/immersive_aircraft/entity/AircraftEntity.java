@@ -1,14 +1,20 @@
 package immersive_aircraft.entity;
 
+import com.mojang.math.Axis;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.Trail;
+import immersive_aircraft.entity.misc.TrailDescriptor;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,15 +23,49 @@ import java.util.List;
  */
 public abstract class AircraftEntity extends EngineVehicle {
     protected double lastY;
+    public float inWaterLevel;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
 
-    private static final List<Trail> TRAILS = Collections.emptyList();
+    private List<Trail> trails = Collections.emptyList();
 
     public List<Trail> getTrails() {
-        return TRAILS;
+        if (getVehicleData().getTrails().size() != trails.size()) {
+            trails = new ArrayList<>(getVehicleData().getTrails().size());
+            for (TrailDescriptor trail : getVehicleData().getTrails()) {
+                trails.add(new Trail(trail.length(), trail.gray()));
+            }
+        }
+        return trails;
+    }
+
+    protected float getBaseTrailWidth(Matrix4f transform, int index, TrailDescriptor trail) {
+        return 1.0f;
+    }
+
+    private void recordTrail(Matrix4f transform, int index, TrailDescriptor trail) {
+        Matrix4f t = new Matrix4f(transform);
+        t.translate(trail.x(), trail.y(), trail.z());
+        if (trail.rotate() != 0.0) {
+            t.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * trail.rotate()));
+        }
+
+        Vector4f p0 = mulXVec(t, -trail.size());
+        Vector4f p1 = mulXVec(t, trail.size());
+
+        float trailStrength = Math.max(0.0f, Math.min(1.0f, getBaseTrailWidth(t, index, trail)));
+        getTrails().get(index).add(p0, p1, trailStrength);
+    }
+
+    private Vector4f mulXVec(Matrix4fc mat, float x) {
+        return new Vector4f(
+                Math.fma(mat.m00(), x, mat.m30()),
+                Math.fma(mat.m01(), x, mat.m31()),
+                Math.fma(mat.m02(), x, mat.m32()),
+                Math.fma(mat.m03(), x, mat.m33())
+        );
     }
 
     @Override
@@ -35,11 +75,29 @@ public abstract class AircraftEntity extends EngineVehicle {
         if (onGround()) {
             setZRot(roll * 0.9f);
         } else {
-            setZRot(-pressingInterpolatedX.getSmooth() * getProperties().get(VehicleStat.ROLL_FACTOR));
+            setZRot(-pressingInterpolatedX.getSmooth() * getProperties().get(VehicleStat.ROLL_FACTOR) * (1.0f - inWaterLevel));
         }
 
+        // Fixes broken states
         if (Double.isNaN(getDeltaMovement().x) || Double.isNaN(getDeltaMovement().y) || Double.isNaN(getDeltaMovement().z)) {
             setDeltaMovement(0, 0, 0);
+        }
+
+        // Trails
+        List<TrailDescriptor> trailDescriptors = getVehicleData().getTrails();
+        if (!trailDescriptors.isEmpty()) {
+            Matrix4f vehicleTransform = getVehicleTransform();
+            for (int i = 0; i < trailDescriptors.size(); i++) {
+                TrailDescriptor trail = trailDescriptors.get(i);
+                recordTrail(vehicleTransform, i, trail);
+            }
+        }
+
+        // Water
+        if (wasTouchingWater) {
+            inWaterLevel = Math.min(1.0f, inWaterLevel + 0.05f);
+        } else {
+            inWaterLevel = Math.max(0.0f, inWaterLevel - 0.05f);
         }
 
         super.tick();
@@ -74,7 +132,7 @@ public abstract class AircraftEntity extends EngineVehicle {
 
     @Override
     protected void updateVelocity() {
-        // get direction
+        // get the direction
         Vector3f direction = getForwardDirection();
 
         // glide
@@ -93,7 +151,7 @@ public abstract class AircraftEntity extends EngineVehicle {
         if (onGround()) {
             // Landing
             setXRot((getXRot() + getProperties().get(VehicleStat.GROUND_PITCH)) * 0.9f - getProperties().get(VehicleStat.GROUND_PITCH));
-        } else {
+        } else if (!wasTouchingWater) {
             // Wind
             Vector3f effect = getWindEffect();
             setXRot(getXRot() + effect.x);

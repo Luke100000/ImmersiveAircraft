@@ -15,6 +15,14 @@
       }
     ]
   },
+  "engine_start_bamboo_hopper": {
+    "sounds": [
+      {
+        "name": "immersive_aircraft:engine_start_bamboo_hopper",
+        "attenuation_distance": 24
+      }
+    ]
+  },
   "warship": {
     "sounds": [
       {
@@ -27,6 +35,14 @@
     "sounds": [
       {
         "name": "immersive_aircraft:propeller",
+        "attenuation_distance": 24
+      }
+    ]
+  },
+  "propeller_bamboo_hopper": {
+    "sounds": [
+      {
+        "name": "immersive_aircraft:propeller_bamboo_hopper",
         "attenuation_distance": 24
       }
     ]

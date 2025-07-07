@@ -1,14 +1,16 @@
+# 1.3.0
+
+* Added the Bamboo Hopper
+* Made trails data driven
+* Fixed a crash
+
 # 1.2.4
 
 * Fixed Fabric networking being a bit funky
 
-# 1.2.3
-
-* Fixed a crash
-
 # 1.2.2
 
-* Updated API related stuff
+* Updated API-related stuff
 
 # 1.2.1
 

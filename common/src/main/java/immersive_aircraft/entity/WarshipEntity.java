@@ -41,40 +41,6 @@ public class WarshipEntity extends AirshipEntity {
         return Items.WARSHIP.get();
     }
 
-    private final List<Trail> trails = List.of(
-            new Trail(15, 0.25f),
-            new Trail(15, 0.25f),
-            new Trail(11, 0.25f),
-            new Trail(11, 0.25f)
-    );
-
-    public List<Trail> getTrails() {
-        return trails;
-    }
-
-    @Override
-    protected void addTrails(Matrix4f transform) {
-        Matrix4f tr = new Matrix4f(transform);
-        tr.translate(new Vector3f(0.0f, 1.4f, -2.75f));
-        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 40.0f));
-        trail(tr, 0, 0.2f);
-
-        tr = new Matrix4f(transform);
-        tr.translate(new Vector3f(2.5f, 4.5f, -5.5f));
-        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 40.0f));
-        trail(tr, 1, 0.2f);
-
-        tr = new Matrix4f(transform);
-        tr.translate(new Vector3f(0.0f, 4.5f, -5.5f));
-        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 40.0f));
-        trail(tr, 2, 0.25f);
-
-        tr = new Matrix4f(transform);
-        tr.translate(new Vector3f(-2.5f, 4.5f, -5.5f));
-        tr.rotate(Axis.ZP.rotationDegrees(engineRotation.getSmooth() * 40.0f));
-        trail(tr, 3, 0.2f);
-    }
-
     @Override
     public void setAnimationVariables(float tickDelta) {
         super.setAnimationVariables(tickDelta);

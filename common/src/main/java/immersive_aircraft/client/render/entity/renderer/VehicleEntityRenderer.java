@@ -39,7 +39,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         matrixStack.mulPose(Axis.XP.rotationDegrees(entity.getViewXRot(tickDelta)));
         matrixStack.mulPose(Axis.ZP.rotationDegrees(entity.getRoll(tickDelta)));
 
-        // Render model, weapons, etc
+        // Render model, weapons, etc.
         renderLocal(entity, yaw, tickDelta, matrixStack, peek, vertexConsumerProvider, light);
 
         matrixStack.popPose();

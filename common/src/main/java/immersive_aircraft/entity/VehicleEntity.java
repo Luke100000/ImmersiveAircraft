@@ -12,6 +12,7 @@ import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
 import immersive_aircraft.entity.misc.PositionDescriptor;
+import immersive_aircraft.entity.misc.VehicleData;
 import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
@@ -148,12 +149,12 @@ public abstract class VehicleEntity extends Entity {
         return entityData.get(BOOST);
     }
 
-    public List<List<PositionDescriptor>> getPassengerPositions() {
-        return VehicleDataLoader.get(identifier).getPassengerPositions();
+    public VehicleData getVehicleData() {
+        return VehicleDataLoader.get(identifier);
     }
 
     public int getPassengerSpace() {
-        return getPassengerPositions().size();
+        return getVehicleData().getPassengerPositions().size();
     }
 
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -555,7 +556,7 @@ public abstract class VehicleEntity extends Entity {
         Matrix4f transform = getVehicleTransform();
 
         int size = getPassengers().size() - 1;
-        List<List<PositionDescriptor>> positions = getPassengerPositions();
+        List<List<PositionDescriptor>> positions = getVehicleData().getPassengerPositions();
         if (size < positions.size()) {
             int i = getPassengers().indexOf(passenger);
             if (i >= 0 && i < positions.get(size).size()) {
@@ -592,13 +593,17 @@ public abstract class VehicleEntity extends Entity {
         }
     }
 
-    private Vec3 getDismountOffset(double vehicleWidth, double passengerWidth) {
+    protected Vec3 getDismountOffset(double vehicleWidth, double passengerWidth) {
         double offset = (vehicleWidth + passengerWidth + (double) 1.0E-5f) / 2.0;
-        float yaw = getYRot() + 90.0f;
+        float yaw = getYRot() + getDismountRotation();
         float x = -Mth.sin(yaw * ((float) Math.PI / 180));
         float z = Mth.cos(yaw * ((float) Math.PI / 180));
         float n = Math.max(Math.abs(x), Math.abs(z));
         return new Vec3((double) x * offset / (double) n, 0.0, (double) z * offset / (double) n);
+    }
+
+    protected float getDismountRotation() {
+        return 90.0f;
     }
 
     @Override
@@ -878,8 +883,6 @@ public abstract class VehicleEntity extends Entity {
         return transformVector(0.0f, 1.0f, 0.0f);
     }
 
-    protected static final Vector4f ZERO_VEC4 = new Vector4f();
-
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         double d = Config.getInstance().renderDistance * getViewScale();
@@ -910,7 +913,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public List<AABB> getAdditionalShapes() {
-        return VehicleDataLoader.get(identifier).getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
+        return getVehicleData().getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
     }
 
     public List<AABB> getShapes() {

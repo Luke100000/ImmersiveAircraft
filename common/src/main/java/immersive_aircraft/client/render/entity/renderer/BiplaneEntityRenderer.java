@@ -27,11 +27,6 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    public void render(@NotNull T entity, float yaw, float tickDelta, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource vertexConsumerProvider, int i) {
-        super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, i);
-    }
-
-    @Override
     protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
         return model;
     }

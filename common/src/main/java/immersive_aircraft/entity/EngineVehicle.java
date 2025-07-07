@@ -10,6 +10,7 @@ import immersive_aircraft.network.c2s.EnginePowerMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,7 +22,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
@@ -282,6 +288,30 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
             float utilization = (float) running / fuel.length * (isFuelLow() ? 0.75f : 1.0f);
             entityData.set(UTILIZATION, utilization);
             return utilization;
+        }
+    }
+
+    public void emitSmokeParticle(float x, float y, float z, float nx, float ny, float nz) {
+        if (!isWithinParticleRange() || !level().isClientSide) {
+            return;
+        }
+
+        Matrix4f transform = getVehicleTransform();
+        Matrix3f normalTransform = getVehicleNormalTransform();
+
+        float power = getEnginePower();
+        if (power > 0.05) {
+            for (int i = 0; i < 1 + engineSpinUpStrength * 4; i++) {
+                Vector4f p = transformPosition(transform, x, y, z);
+                Vector3f vel = transformVector(normalTransform, nx, ny, nz);
+                Vec3 velocity = getDeltaMovement();
+                if (random.nextFloat() < engineSpinUpStrength * 0.1) {
+                    vel.mul(0.5f);
+                    level().addParticle(ParticleTypes.SMALL_FLAME, p.x(), p.y(), p.z(), vel.x() + velocity.x, vel.y() + velocity.y, vel.z() + velocity.z);
+                } else {
+                    level().addParticle(ParticleTypes.SMOKE, p.x, p.y, p.z, vel.x + velocity.x, vel.y + velocity.y, vel.z + velocity.z);
+                }
+            }
         }
     }
 
