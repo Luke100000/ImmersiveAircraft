@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "HEP",
+    " B "
+  ],
+  "key": {
+    "B": [
+      {
+        "item": "minecraft:bamboo_block"
+      }
+    ],
+    "H": [
+      {
+        "item": "immersive_aircraft:hull"
+      }
+    ],
+    "E": [
+      {
+        "item": "immersive_aircraft:engine"
+      }
+    ],
+    "P": [
+      {
+        "item": "immersive_aircraft:propeller"
+      }
+    ]
+  },
+  "result": {
+    "id": "immersive_aircraft:biplane"
+  }
+}
