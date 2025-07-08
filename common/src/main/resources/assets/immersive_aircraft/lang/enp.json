@@ -64,7 +64,7 @@
   "item.immersive_aircraft.biplane.description": "Fast and rather trusty. Make sure your runway is long enough.",
   "item.immersive_aircraft.gyrodyne.description": "Who needs an engine if one could power the aircraft with pure brawn? Give it a good push and off it flies!",
   "item.immersive_aircraft.quadrocopter.description": "A masterwork of engineering! 4 rotors strapped to some bamboo. Perfect for building, and that's about it.",
-  "item.immersive_aircraft.bamboo_hopper.description": "A chonky aircraft with three seats and pontoons to land safely on water.",
+  "item.immersive_aircraft.bamboo_hopper.description": "A hefty aircraft with three seats and floaters to land safely on water.",
   "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimum rotor speed reached, ready for takeoff!",
   "immersive_aircraft.invalid_dimension": "This aircraft does not work in this realm.",
