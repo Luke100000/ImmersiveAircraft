@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriaj engrenoj",
   "item.immersive_aircraft.sturdy_pipes": "Fortikaj tuboj",
   "item.immersive_aircraft.gyroscope": "Giroskopio",
+  "item.immersive_aircraft.gyroscope_dials": "Plibonigita gyroskopo",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronika gyroskopo",
   "item.immersive_aircraft.hull_reinforcement": "Hul fortigo",
   "item.immersive_aircraft.improved_landing_gear": "Plibonigita surteriĝo ekipado",
   "item.immersive_aircraft.rotary_cannon": "Rotacia Kanono",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% brulaĵpostulo",
   "immersive_aircraft.upgrade.wind": "%s%% ventefiko",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiligante",
+  "immersive_aircraft.upgrade.dials": "Mekanika panelo",
+  "immersive_aircraft.upgrade.hud": "Elektronika tabulo",
   "immersive_aircraft.tooltip.inventory": "Enhavas %s erojn."
 }
