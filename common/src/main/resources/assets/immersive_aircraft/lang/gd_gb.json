@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Gears Gnìomhach",
   "item.immersive_aircraft.sturdy_pipes": "Pìoban Neartaichte",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscope Adhartach",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscope Leictreonach",
   "item.immersive_aircraft.hull_reinforcement": "Neartachadh Hull",
   "item.immersive_aircraft.improved_landing_gear": "Neartachadh Landing Leasaichte",
   "item.immersive_aircraft.rotary_cannon": "Cannon Rotary",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% feum gas",
   "immersive_aircraft.upgrade.wind": "%s%% èifeachd gaoithe",
   "immersive_aircraft.upgrade.stabilizer": "%s%% a’ deasachadh",
+  "immersive_aircraft.upgrade.dials": "Clár Oibriúcháin Meicniúil",
+  "immersive_aircraft.upgrade.hud": "Clàr-sgrìn dealanach",
   "immersive_aircraft.tooltip.inventory": "Tha %s nithean ann."
 }
