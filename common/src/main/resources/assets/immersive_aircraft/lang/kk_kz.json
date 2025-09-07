@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Өнеркәсіптік берілістер",
   "item.immersive_aircraft.sturdy_pipes": "Берік түтіктер",
   "item.immersive_aircraft.gyroscope": "Гироскоп",
+  "item.immersive_aircraft.gyroscope_dials": "Ал advanced гидроцикл",
+  "item.immersive_aircraft.gyroscope_hud": "Электронды гидроцикл",
   "item.immersive_aircraft.hull_reinforcement": "Корпусты нығайту",
   "item.immersive_aircraft.improved_landing_gear": "Жақсартылған шасси",
   "item.immersive_aircraft.rotary_cannon": "Ротациялық зеңбірек",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% отын талаптары",
   "immersive_aircraft.upgrade.wind": "%s%% жел әсері",
   "immersive_aircraft.upgrade.stabilizer": "%s%% тұрақтандыру",
+  "immersive_aircraft.upgrade.dials": "Механикалық панель",
+  "immersive_aircraft.upgrade.hud": "Электронды бақылау панелі",
   "immersive_aircraft.tooltip.inventory": "%s элементтер бар."
 }
