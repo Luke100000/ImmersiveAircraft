@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "ינדוסטריעלע גירלען",
   "item.immersive_aircraft.sturdy_pipes": "שטערק פּייפן",
   "item.immersive_aircraft.gyroscope": "גיראָזאָפער",
+  "item.immersive_aircraft.gyroscope_dials": "דער אַוואַנסירטער גיראָסקאָפּ",
+  "item.immersive_aircraft.gyroscope_hud": "דזעלעקטראָנישער גיראָסקאָפּ",
   "item.immersive_aircraft.hull_reinforcement": "הול רעפֿאָרסמאַנט",
   "item.immersive_aircraft.improved_landing_gear": "איבערגעאַרבעט פּלאַץ גיומאָן",
   "item.immersive_aircraft.rotary_cannon": "ראָוטער קנאַפּ",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% שטאָף רעקווירעמענ",
   "immersive_aircraft.upgrade.wind": "%s%% ווינד געשירפֿן",
   "immersive_aircraft.upgrade.stabilizer": "%s%% שטאַביליזירן",
+  "immersive_aircraft.upgrade.dials": "מכאנישער דאַשבאָרד",
+  "immersive_aircraft.upgrade.hud": "עלקטראָניש דאַשבורד",
   "immersive_aircraft.tooltip.inventory": "ווערט %s ערעיעס."
 }
