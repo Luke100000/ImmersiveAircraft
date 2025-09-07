@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "औद्योगिक गियर",
   "item.immersive_aircraft.sturdy_pipes": "मजबूत पाइप",
   "item.immersive_aircraft.gyroscope": "जाइरोस्कोप",
+  "item.immersive_aircraft.gyroscope_dials": "उन्नत जिरोस्कोप",
+  "item.immersive_aircraft.gyroscope_hud": "इलेक्ट्रॉनिक जिरोस्कोप",
   "item.immersive_aircraft.hull_reinforcement": "हल सुदृढ़ीकरण",
   "item.immersive_aircraft.improved_landing_gear": "सुधारित लैंडिंग गियर",
   "item.immersive_aircraft.rotary_cannon": "घूर्णन तोप",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% ईंधन आवश्यकता",
   "immersive_aircraft.upgrade.wind": "%s%% हवा प्रभाव",
   "immersive_aircraft.upgrade.stabilizer": "%s%% स्थिर करना",
+  "immersive_aircraft.upgrade.dials": "मैकेनिकल डैशबोर्ड",
+  "immersive_aircraft.upgrade.hud": "इलेक्ट्रॉनिक डैशबोर्ड",
   "immersive_aircraft.tooltip.inventory": "%s आइटम शामिल हैं।"
 }
