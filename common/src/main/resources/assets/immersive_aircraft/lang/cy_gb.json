@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Troi diwydiannol",
   "item.immersive_aircraft.sturdy_pipes": "Pibliniau cadarn",
   "item.immersive_aircraft.gyroscope": "Gyroscop",
+  "item.immersive_aircraft.gyroscope_dials": "Gyrosgop Datblygedig",
+  "item.immersive_aircraft.gyroscope_hud": "Gyrosgop Electronig",
   "item.immersive_aircraft.hull_reinforcement": "Atgyfnerthu Hull",
   "item.immersive_aircraft.improved_landing_gear": "Gyrwr Traws wedi ei wella",
   "item.immersive_aircraft.rotary_cannon": "Cannon Rotari",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% gofyniad tanwydd",
   "immersive_aircraft.upgrade.wind": "%s%% effaith gwynt",
   "immersive_aircraft.upgrade.stabilizer": "%s%% yn sefydlogi",
+  "immersive_aircraft.upgrade.dials": "Dashboard Mecanyddol",
+  "immersive_aircraft.upgrade.hud": "Dashboard electronig",
   "immersive_aircraft.tooltip.inventory": "Mae'n cynnwys %s eitem."
 }
