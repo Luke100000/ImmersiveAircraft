@@ -73,7 +73,7 @@ public class BBMesh extends BBObject implements BBFaceContainer {
                 }
 
                 if (vertexIdentifiers.size() != 4) {
-                    Main.LOGGER.warn("Face found, which is not a quad.");
+                    Main.LOGGER.warn("Non-quad face found in model: {}!", model.id);
                 } else {
                     // Get normal vector
                     float[] n = getNormal(vertexIdentifiers, positions);

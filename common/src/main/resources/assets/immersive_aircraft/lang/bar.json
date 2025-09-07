@@ -64,7 +64,7 @@
   "item.immersive_aircraft.biplane.description": "Schnell und ziemlich zuverlässig. Achte darauf, dass deine Landebahn lang genug ist.",
   "item.immersive_aircraft.gyrodyne.description": "Wer braucht schon einen Motor, wenn man das Flugzeug mit reiner Muskelkraft antreiben kann? Gib ihm einen kräftigen Schubs und schon fliegt es los!",
   "item.immersive_aircraft.quadrocopter.description": "Ein Meisterwerk der Technik! 4 Rotoren, die auf ein Stück Bambus geschnallt sind. Perfekt zum Bauen, und das war's auch schon.",
-  "item.immersive_aircraft.bamboo_hopper.description": "A chonky aircraft with three seats and pontoons to land safely on water.",
+  "item.immersive_aircraft.bamboo_hopper.description": "A chonky Flugzeug mit drei Sitzen und Pontons, um sicher auf Wasser zu landen.",
   "immersive_aircraft.gyrodyne_target": "%d%% Power, mach weiter!",
   "immersive_aircraft.gyrodyne_target_reached": "Minimale Rotordrehzahl erreicht, bereit zum Abheben!",
   "immersive_aircraft.invalid_dimension": "Dieses Flugzeug funktioniert nicht in dieser Dimension.",

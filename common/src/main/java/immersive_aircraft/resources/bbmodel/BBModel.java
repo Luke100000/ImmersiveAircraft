@@ -18,12 +18,14 @@ public class BBModel {
     public final HashMap<String, BBObject> objectsByName;
     public final List<BBAnimation> animations = new LinkedList<>();
     public final float textureWidth, textureHeight;
+    public final ResourceLocation id;
 
     public BBModel(JsonObject model, ResourceLocation identifier) {
         this.meta = new BBMeta(model.get("meta"));
         this.root = new LinkedList<>();
         this.objects = new HashMap<>();
         this.objectsByName = new HashMap<>();
+        this.id = identifier;
 
         JsonObject resolution = model.get("resolution").getAsJsonObject();
         this.textureWidth = resolution.getAsJsonPrimitive("width").getAsFloat();
