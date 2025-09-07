@@ -27,6 +27,9 @@ public record VehicleStat(String name, boolean positive, float defaultValue) {
     public static final VehicleStat WIND = register("wind", false);
     public static final VehicleStat MASS = register("mass", false, 1.0f);
 
+    public static final VehicleStat HUD = register("hud", false, -1.0f);
+    public static final VehicleStat DIALS = register("dials", false, -1.0f);
+
     public static final VehicleStat GROUND_FRICTION = register("groundFriction", false, 0.95f);
     public static final VehicleStat WATER_FRICTION = register("waterFriction", false, 0.9f);
     public static final VehicleStat ROTATION_DECAY = register("rotationDecay", false, 0.97f);

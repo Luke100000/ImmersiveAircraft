@@ -29,6 +29,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import java.util.EnumMap;
 import java.util.List;
 
 /**
@@ -43,12 +44,21 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     public final InterpolatedFloat enginePower = new InterpolatedFloat(20.0f);
     public float engineSpinUpStrength = 0.0f;
     public float engineSound = 0.0f;
+    public int mainWarning = 0;
+    public int mslWarning = 0;
+    public final EnumMap<Cautions, Integer> cautions = new EnumMap<>(Cautions.class);
 
     protected enum FuelState {
         NEVER,
         EMPTY,
         FUELED,
         LOW
+    }
+
+    public enum Cautions {
+        PULL_UP,
+        VOID,
+        DAMAGED
     }
 
     FuelState lastFuelState = FuelState.NEVER;
@@ -71,6 +81,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         super(entityType, world, canExplodeOnCrash);
 
         fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER).size()];
+        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) cautions.compute(c, (cautions, v) -> 0);
     }
 
     protected SoundEvent getEngineStartSound() {
@@ -172,6 +183,28 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
             }
         } else {
             lastFuelState = FuelState.NEVER;
+        }
+        mainWarning = Math.max(0, mainWarning - 1);
+        mslWarning = Math.max(0, mslWarning - 1);
+        for (Cautions caution : Cautions.values()) cautions.compute(caution, (cautions, integer) -> integer == null ? 0 : Math.max(0, --integer));
+        handleWarnings();
+    }
+
+    private void handleWarnings() {
+        // detects sea level. further updates may introduce GPWS that detects actual ground, which needs a radar upgrade.
+        // it is Y-speed relative.
+        double altRate = getSpeedVector().y * 10.0d;
+        // pull-up caution
+        if (getEnginePower() >= 1 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) cautions.put(Cautions.PULL_UP, 40);
+        // void warning
+        if (getY() < level().dimensionType().minY()) {
+            cautions.put(Cautions.VOID, 10);
+            mainWarning = 6;
+        }
+        // damaged warning
+        if (getHealth() * 100 < 20) {
+            cautions.put(Cautions.DAMAGED, 10);
+            mainWarning = 6;
         }
     }
 
