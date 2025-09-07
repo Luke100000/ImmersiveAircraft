@@ -1,6 +1,7 @@
 # 1.4.0
 
 * Added mechanical dials and hud (Thanks donmor!)
+* Fixed keybind related issues
 
 # 1.3.3
 
