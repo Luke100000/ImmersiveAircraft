@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industrial gears",
   "item.immersive_aircraft.sturdy_pipes": "nIgh puqloD",
   "item.immersive_aircraft.gyroscope": "gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "{0} jorwI' wovwI'",
+  "item.immersive_aircraft.gyroscope_hud": "{0} QI' jorwI' wovwI'",
   "item.immersive_aircraft.hull_reinforcement": "nuqneH ghuS",
   "item.immersive_aircraft.improved_landing_gear": "bIghoS 'ej ghuS",
   "item.immersive_aircraft.rotary_cannon": "vaSpu'",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% loS",
   "immersive_aircraft.upgrade.wind": "%s%% TegH",
   "immersive_aircraft.upgrade.stabilizer": "%s%% pIch",
+  "immersive_aircraft.upgrade.dials": "{0} QI' jorwI' lojmIt",
+  "immersive_aircraft.upgrade.hud": "tlhabwI' naQje'",
   "immersive_aircraft.tooltip.inventory": "%s naQmey tu'lu'."
 }
