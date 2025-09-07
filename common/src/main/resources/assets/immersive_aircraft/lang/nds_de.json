@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industrielle Zahnräder",
   "item.immersive_aircraft.sturdy_pipes": "Stabile Rohre",
   "item.immersive_aircraft.gyroscope": "Gyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Fortgeschrittenen Gyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronischen Gyroskop",
   "item.immersive_aircraft.hull_reinforcement": "Rumpfverstärkung",
   "item.immersive_aircraft.improved_landing_gear": "Verbessertes Fahrgestell",
   "item.immersive_aircraft.rotary_cannon": "Rotationskanone",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% Kraftstoff Bedarf",
   "immersive_aircraft.upgrade.wind": "%s%% Wind Effekt",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisieren",
+  "immersive_aircraft.upgrade.dials": "Mechanisches Armaturenbrett",
+  "immersive_aircraft.upgrade.hud": "Elektronisches Dashboard",
   "immersive_aircraft.tooltip.inventory": "Bevat %s Items."
 }
