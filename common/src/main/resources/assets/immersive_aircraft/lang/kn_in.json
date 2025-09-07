@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "ಉದ್ದೇಶ ಭೂಮಿಗಳು",
   "item.immersive_aircraft.sturdy_pipes": "ದೃಢನಿಧಿ",
   "item.immersive_aircraft.gyroscope": "ಜಿರೋಸ್ಕೋಪ್",
+  "item.immersive_aircraft.gyroscope_dials": "ಒಳ್ಳೆಯ ಪ್ರಮಾಣದ ಜೈರೋಸ್ಕೋಪಿ",
+  "item.immersive_aircraft.gyroscope_hud": "ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಜೈರೋಸ್ಕೋಪಿ",
   "item.immersive_aircraft.hull_reinforcement": "ಹುಲ್ಲಿನ ಸಾಂರಕ್ಷಣೆ",
   "item.immersive_aircraft.improved_landing_gear": "ಉತ್ತಮ ಲ್ಯಾಂಡಿಂಗ್ ಗಿಯರ್",
   "item.immersive_aircraft.rotary_cannon": "ರೋಟರಿ ಕೋಟ",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% ಇಂಧನ ಅಗತ್ಯ",
   "immersive_aircraft.upgrade.wind": "%s%% ಗಾಳಿ ಪರಿಣಾಮ",
   "immersive_aircraft.upgrade.stabilizer": "%s%% ಸ್ಥಿರಗೊಳಿಸುವುದು",
+  "immersive_aircraft.upgrade.dials": "ಯಂತ್ರಾಂಶ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+  "immersive_aircraft.upgrade.hud": "ಇಲೆಕ್ಟ್ರಾನಿಕ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
   "immersive_aircraft.tooltip.inventory": "%s ವಸ್ತುಗಳನ್ನು ಒಳಗೊಂಡಿದೆ."
 }
