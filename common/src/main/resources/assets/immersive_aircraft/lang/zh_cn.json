@@ -122,7 +122,7 @@
   "immersive_aircraft.upgrade.durability": "%s%% 耐久度",
   "immersive_aircraft.upgrade.fuel": "%s%% 燃料消耗",
   "immersive_aircraft.upgrade.wind": "%s%% 风的影响",
-  "immersive_aircraft.upgrade.stabilizer": "%s%%稳定",
+  "immersive_aircraft.upgrade.stabilizer": "%s%% 稳定性",
   "immersive_aircraft.upgrade.dials": "机械仪表盘",
   "immersive_aircraft.upgrade.hud": "电子仪表盘",
   "immersive_aircraft.tooltip.inventory": "包含 %s 件物品。"
