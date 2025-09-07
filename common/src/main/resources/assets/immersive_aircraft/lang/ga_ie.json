@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Gears Tionsclaíoch",
   "item.immersive_aircraft.sturdy_pipes": "Píopaí Neamhlisionnaithe",
   "item.immersive_aircraft.gyroscope": "Gyroscoop",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscope Ard",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscope Leictreonach",
   "item.immersive_aircraft.hull_reinforcement": "Neartú Halla",
   "item.immersive_aircraft.improved_landing_gear": "Gears Tuirling Feabhsaithe",
   "item.immersive_aircraft.rotary_cannon": "Póca Rothlach",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% éileamh breosla",
   "immersive_aircraft.upgrade.wind": "%s%% éifeacht gaoithe",
   "immersive_aircraft.upgrade.stabilizer": "%s%% ag stabilizing",
+  "immersive_aircraft.upgrade.dials": "Painéal meicniúil",
+  "immersive_aircraft.upgrade.hud": "Painéal leictreonach",
   "immersive_aircraft.tooltip.inventory": "Tá %s míreanna ann."
 }
