@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Angrenaje industriale",
   "item.immersive_aircraft.sturdy_pipes": "Țevi robuste",
   "item.immersive_aircraft.gyroscope": "Giroscop",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscop avansat",
+  "item.immersive_aircraft.gyroscope_hud": "Giroscop electronic",
   "item.immersive_aircraft.hull_reinforcement": "Armarea corpului navei",
   "item.immersive_aircraft.improved_landing_gear": "Tren de aterizare îmbunătățit",
   "item.immersive_aircraft.rotary_cannon": "Tun rotativ",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% necesar de combustibil",
   "immersive_aircraft.upgrade.wind": "%s%% efect de vânt",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizare",
+  "immersive_aircraft.upgrade.dials": "Panou mecanic",
+  "immersive_aircraft.upgrade.hud": "Panou electronic",
   "immersive_aircraft.tooltip.inventory": "Conține %s articole."
 }
