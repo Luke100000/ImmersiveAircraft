@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Endüstriyel Dişliler",
   "item.immersive_aircraft.sturdy_pipes": "Sağlam Borular",
   "item.immersive_aircraft.gyroscope": "Jiroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Gelişmiş Jiroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronik Jiroskop",
   "item.immersive_aircraft.hull_reinforcement": "Gövde Takviyesi",
   "item.immersive_aircraft.improved_landing_gear": "Geliştirilmiş İniş Takımları",
   "item.immersive_aircraft.rotary_cannon": "Döner Top",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% yakıt ihtiyacı",
   "immersive_aircraft.upgrade.wind": "%s%% rüzgar etkisi",
   "immersive_aircraft.upgrade.stabilizer": "%s% stabilize",
+  "immersive_aircraft.upgrade.dials": "Mekanik gösterge paneli",
+  "immersive_aircraft.upgrade.hud": "Elektronik gösterge paneli",
   "immersive_aircraft.tooltip.inventory": "%s öğelerini içerir."
 }
