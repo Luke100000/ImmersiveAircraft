@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriella kugghjul",
   "item.immersive_aircraft.sturdy_pipes": "Robusta rör",
   "item.immersive_aircraft.gyroscope": "Gyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Avancerat Gyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektroniskt Gyroskop",
   "item.immersive_aircraft.hull_reinforcement": "Flygkroppsförstärkning",
   "item.immersive_aircraft.improved_landing_gear": "Förbättrade landställ",
   "item.immersive_aircraft.rotary_cannon": "Roterande kanon",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% bränslebehov",
   "immersive_aircraft.upgrade.wind": "%s%% vindpåverkan",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisering",
+  "immersive_aircraft.upgrade.dials": "Mekanisk instrumentpanel",
+  "immersive_aircraft.upgrade.hud": "Elektronisk instrumentpanel",
   "immersive_aircraft.tooltip.inventory": "Innehåller %s artiklar."
 }
