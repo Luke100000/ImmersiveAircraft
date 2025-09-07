@@ -267,12 +267,6 @@ public abstract class VehicleEntity extends Entity {
             double y = getY();
             double z = getZ();
 
-            // Drop stuff if enabled
-            if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
-                dropInventory();
-                drop();
-            }
-
             discard();
 
             // Explode if destroyed by force
@@ -281,6 +275,12 @@ public abstract class VehicleEntity extends Entity {
                         Config.getInstance().crashExplosionRadius,
                         Config.getInstance().enableCrashFire,
                         Config.getInstance().enableCrashBlockDestruction ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
+            }
+
+            // Drop stuff if enabled
+            if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
+                dropInventory();
+                drop();
             }
         } else {
             setHealth(health);
