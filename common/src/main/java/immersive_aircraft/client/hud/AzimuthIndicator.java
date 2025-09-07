@@ -9,14 +9,12 @@ import net.minecraft.util.FastColor;
 import java.util.Iterator;
 import java.util.stream.IntStream;
 
+import static immersive_aircraft.client.hud.Colors.*;
+
 public class AzimuthIndicator implements Indicator {
     public static final AzimuthIndicator INSTANCE = new AzimuthIndicator();
     private double lastAz = 0;
     private boolean miniHUD = false;
-    private static final int colorBG = FastColor.ARGB32.color(255, 215, 215, 215);
-    private static final int colorFG = FastColor.ARGB32.color(255, 31, 31, 31);
-    private static final int colorHD1 = FastColor.ARGB32.color(255, 191, 0, 0);
-    private static final int colorSD = FastColor.ARGB32.color(127, 0, 0, 0);
 
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
@@ -31,12 +29,17 @@ public class AzimuthIndicator implements Indicator {
 
     public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         double az = lastAz;
-        while (az < 0) az += 360;
-        while (az >= 360) az -= 360;
-        if (miniHUD)
+        while (az < 0) {
+            az += 360;
+        }
+        while (az >= 360) {
+            az -= 360;
+        }
+        if (miniHUD) {
             StringDrawer.drawString8(context, client, "▽", baseX + 1, baseY - 6, color, miniHUD);
-        else if (edgeCheck(edge, 5, baseX, baseY + 2))
+        } else if (edgeCheck(edge, 5, baseX, baseY + 2)) {
             StringDrawer.drawString2(context, client, "△", baseX + 1, baseY - 1, color, miniHUD);
+        }
         int iz = (int) az;
         int nearest1_5 = Math.floorDiv(iz, 5);
         Iterator<Integer> it = IntStream.range(nearest1_5 - 9, nearest1_5 + 10).iterator();
@@ -54,31 +57,40 @@ public class AzimuthIndicator implements Indicator {
                 case 63 -> "SE";
                 default -> (vl & 1) == 0 ? "|" : "ᛧ";
             };
-            if (width < 200) vp = switch (vl) {
-                case 8, 10 -> nearest1_5 > 0 && nearest1_5 <= 18 ? "" : vp;
-                case 26, 28 -> nearest1_5 > 18 && nearest1_5 <= 36 ? "" : vp;
-                case 44, 46 -> nearest1_5 > 36 && nearest1_5 <= 54 ? "" : vp;
-                case 62, 64 -> nearest1_5 > 54 && nearest1_5 <= 72 ? "" : vp;
-                default -> vp;
-            };
-            if (width < 100) vp = switch (vl) {
-                case 17, 19 -> nearest1_5 > 9 && nearest1_5 <= 27 ? "" : vp;
-                case 35, 37 -> nearest1_5 > 27 && nearest1_5 <= 45 ? "" : vp;
-                case 53, 55 -> nearest1_5 > 45 && nearest1_5 <= 63 ? "" : vp;
-                case 1, 71 -> nearest1_5 > 63 || nearest1_5 <= 9 ? "" : vp;
-                default -> vp;
-            };
+            if (width < 200) {
+                vp = switch (vl) {
+                    case 8, 10 -> nearest1_5 > 0 && nearest1_5 <= 18 ? "" : vp;
+                    case 26, 28 -> nearest1_5 > 18 && nearest1_5 <= 36 ? "" : vp;
+                    case 44, 46 -> nearest1_5 > 36 && nearest1_5 <= 54 ? "" : vp;
+                    case 62, 64 -> nearest1_5 > 54 && nearest1_5 <= 72 ? "" : vp;
+                    default -> vp;
+                };
+            }
+            if (width < 100) {
+                vp = switch (vl) {
+                    case 17, 19 -> nearest1_5 > 9 && nearest1_5 <= 27 ? "" : vp;
+                    case 35, 37 -> nearest1_5 > 27 && nearest1_5 <= 45 ? "" : vp;
+                    case 53, 55 -> nearest1_5 > 45 && nearest1_5 <= 63 ? "" : vp;
+                    case 1, 71 -> nearest1_5 > 63 || nearest1_5 <= 9 ? "" : vp;
+                    default -> vp;
+                };
+            }
             int xx = baseX - (iz - v * 5) * width / 100;
-            if (edgeCheck(edge, 5, xx, baseY))
+            if (edgeCheck(edge, 5, xx, baseY)) {
                 StringDrawer.drawString8(context, client, vp, xx, baseY, color, miniHUD);
+            }
         }
     }
 
     @Override
     public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         double az = lastAz;
-        while (az < 0) az += 360;
-        while (az >= 360) az -= 360;
+        while (az < 0) {
+            az += 360;
+        }
+        while (az >= 360) {
+            az -= 360;
+        }
         // dial 109x19, scale max to 2
         scale = Math.min(scale, 2);
         context.fill(baseX - 54 * scale, baseY - 9 * scale, baseX + 54 * scale + 1, baseY + 9 + 1, colorBG);
@@ -102,17 +114,19 @@ public class AzimuthIndicator implements Indicator {
                 case 63 -> "SE";
                 default -> (vl & 1) == 0 ? "|" : "ᛧ";
             };
-//            if (width < 200)
-            if (scale < 2) vp = switch (vl) {
-                case 8, 10 -> nearest1_5 > 0 && nearest1_5 <= 18 ? "" : vp;
-                case 26, 28 -> nearest1_5 > 18 && nearest1_5 <= 36 ? "" : vp;
-                case 44, 46 -> nearest1_5 > 36 && nearest1_5 <= 54 ? "" : vp;
-                case 62, 64 -> nearest1_5 > 54 && nearest1_5 <= 72 ? "" : vp;
-                default -> vp;
-            };
+            if (scale < 2) {
+                vp = switch (vl) {
+                    case 8, 10 -> nearest1_5 > 0 && nearest1_5 <= 18 ? "" : vp;
+                    case 26, 28 -> nearest1_5 > 18 && nearest1_5 <= 36 ? "" : vp;
+                    case 44, 46 -> nearest1_5 > 36 && nearest1_5 <= 54 ? "" : vp;
+                    case 62, 64 -> nearest1_5 > 54 && nearest1_5 <= 72 ? "" : vp;
+                    default -> vp;
+                };
+            }
             int xx = baseX - (iz - v * 5) * scale;
-            if (edgeCheck(edge, 5, xx, baseY))
+            if (edgeCheck(edge, 5, xx, baseY)) {
                 StringDrawer.drawString5(context, client, vp, xx, baseY, colorFG, miniHUD);
+            }
         }
 
         // border
@@ -135,9 +149,9 @@ public class AzimuthIndicator implements Indicator {
         OverlayRenderer.renderLine(context, baseX, baseY - 5 * scale, baseX, baseY + 5 * scale, colorHD1, false, true);
         StringDrawer.drawString8(context, client, "⏷", baseX + 2, baseY - 6 * scale + 7, colorHD1, false);
         StringDrawer.drawString2(context, client, "⏶", baseX + 2, baseY + 6 * scale - 6, colorHD1, false);
-        if (scale > 1)
+        if (scale > 1) {
             StringDrawer.drawString9(context, client, "AI", baseX + 50 * scale + 1, baseY + 7 * scale + 1, colorFG, false);
-        else {
+        } else {
             {
                 // H
                 int x = baseX + 43, y = baseY + 8;

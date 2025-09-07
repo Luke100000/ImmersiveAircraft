@@ -10,29 +10,34 @@ import net.minecraft.world.level.block.NoteBlock;
 
 import java.util.EnumMap;
 
+import static immersive_aircraft.client.hud.Colors.*;
+
 public class WarningIndicator implements Indicator {
     public static final WarningIndicator INSTANCE = new WarningIndicator();
+
     private boolean miniHUD = false;
     private boolean cWarning = false;
     private boolean cMsl = false;
+
     public EnumMap<EngineVehicle.Cautions, Boolean> cMap = new EnumMap<>(EngineVehicle.Cautions.class);
-    private static final int colorBG = FastColor.ARGB32.color(255, 215, 215, 215);
-    private static final int colorFG = FastColor.ARGB32.color(255, 31, 31, 31);
-    private static final int colorLt0 = FastColor.ARGB32.color(255, 127, 127, 127);
-    private static final int colorLt1 = FastColor.ARGB32.color(255, 255, 0, 0);
-    private static final int colorLt2 = FastColor.ARGB32.color(255, 255, 191, 0);
-    private static final int colorLt3 = FastColor.ARGB32.color(255, 191, 191, 191);
 
     public WarningIndicator() {
-        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) cMap.compute(c, (cautions, v) -> false);
+        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) {
+            cMap.compute(c, (cautions, v) -> false);
+        }
     }
+
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
-        if (!aircraft.level().isClientSide || client.isPaused()) return;
+        if (!aircraft.level().isClientSide || client.isPaused()) {
+            return;
+        }
+
         if (aircraft.mslWarning > 0) {
-            if (OverlayRenderer.INSTANCE.tk % 10 == 0)
+            if (OverlayRenderer.INSTANCE.tick % 10 == 0) {
                 cMsl = !cMsl;
-            if(OverlayRenderer.INSTANCE.tk % 5 == 0) {
+            }
+            if (OverlayRenderer.INSTANCE.tick % 5 == 0) {
                 aircraft.level().playLocalSound(aircraft.getX(), aircraft.getY() + aircraft.getBbHeight() * 0.5, aircraft.getZ(),
                         SoundEvents.NOTE_BLOCK_PLING.value(),
                         aircraft.getSoundSource(), 1.0f, NoteBlock.getPitchFromNote(24), false);
@@ -40,24 +45,36 @@ public class WarningIndicator implements Indicator {
                         SoundEvents.NOTE_BLOCK_PLING.value(),
                         aircraft.getSoundSource(), 1.0f, NoteBlock.getPitchFromNote(22), false);
             }
-        } else cMsl = false;
+        } else {
+            cMsl = false;
+        }
+
         if (aircraft.mainWarning > 0) {
-            if (OverlayRenderer.INSTANCE.tk % 10 == 0) {
+            if (OverlayRenderer.INSTANCE.tick % 10 == 0) {
                 cWarning = !cWarning;
-                if (!cMsl) aircraft.level().playLocalSound(aircraft.getX(), aircraft.getY() + aircraft.getBbHeight() * 0.5, aircraft.getZ(),
-                        SoundEvents.NOTE_BLOCK_BIT.value(),
-                        aircraft.getSoundSource(), 1.0f, NoteBlock.getPitchFromNote(cWarning ? 16 : 24), false);
+                if (!cMsl) {
+                    aircraft.level().playLocalSound(aircraft.getX(), aircraft.getY() + aircraft.getBbHeight() * 0.5, aircraft.getZ(),
+                            SoundEvents.NOTE_BLOCK_BIT.value(),
+                            aircraft.getSoundSource(), 1.0f, NoteBlock.getPitchFromNote(cWarning ? 16 : 24), false);
+                }
             }
-        } else cWarning = false;
+        } else {
+            cWarning = false;
+        }
+
         for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) {
             if (aircraft.cautions.get(c) > 0) {
-                if (OverlayRenderer.INSTANCE.tk % 15 == 0)
+                if (OverlayRenderer.INSTANCE.tick % 15 == 0) {
                     cMap.compute(c, (cautions, v) -> Boolean.FALSE.equals(v));
-                if (aircraft.mainWarning == 0 && aircraft.mslWarning == 0 && OverlayRenderer.INSTANCE.tk % 60 == 0)
+                }
+                if (aircraft.mainWarning == 0 && aircraft.mslWarning == 0 && OverlayRenderer.INSTANCE.tick % 60 == 0) {
                     aircraft.level().playLocalSound(aircraft.getX(), aircraft.getY() + aircraft.getBbHeight() * 0.5, aircraft.getZ(),
                             SoundEvents.NOTE_BLOCK_BIT.value(),
                             aircraft.getSoundSource(), 1.0f, NoteBlock.getPitchFromNote(5), false);
-            } else cMap.put(c, false);
+                }
+            } else {
+                cMap.put(c, false);
+            }
         }
     }
 
@@ -69,26 +86,34 @@ public class WarningIndicator implements Indicator {
 
     public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         if (cMsl) {
-            if (edgeCheck(edge, client.font.width("[MISSILE]") / 4, client.font.lineHeight / 2, baseX + 1, baseY))
+            if (edgeCheck(edge, client.font.width("[MISSILE]") / 4, client.font.lineHeight / 2, baseX + 1, baseY)) {
                 StringDrawer.drawString8(context, client, "[MISSILE]", baseX + 1, baseY, color, miniHUD);
+            }
         } else if (cWarning) {
-            if (edgeCheck(edge, client.font.width("[WARNING]") / 4, client.font.lineHeight / 2, baseX + 1, baseY))
+            if (edgeCheck(edge, client.font.width("[WARNING]") / 4, client.font.lineHeight / 2, baseX + 1, baseY)) {
                 StringDrawer.drawString8(context, client, "[WARNING]", baseX + 1, baseY, color, miniHUD);
+            }
         }
-        if (!cMap.containsValue(true)) return;
+        if (!cMap.containsValue(true)) {
+            return;
+        }
         StringBuilder builder = new StringBuilder();
         cMap.forEach((caution, v) -> {
-            if (v) builder.append('[').append(caution.name().toUpperCase().replace('_', ' ')).append(']');
+            if (v) {
+                builder.append('[').append(caution.name().toUpperCase().replace('_', ' ')).append(']');
+            }
         });
         String s = builder.toString();
-        if (edgeCheck(edge, client.font.width(s) / 4, client.font.lineHeight / 2, baseX + 1, baseY))
+        if (edgeCheck(edge, client.font.width(s) / 4, client.font.lineHeight / 2, baseX + 1, baseY)) {
             StringDrawer.drawString2(context, client, s, baseX + 1, baseY, color, miniHUD);
+        }
     }
 
     @Override
     public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 29x75
         context.fill(baseX - 14, baseY - 37, baseX + 14 + 1, baseY + 37 + 1, colorBG);
+
         // border
         context.fill(baseX - 14, baseY - 37, baseX + 14 + 1, baseY - 35, colorFG);
         context.fill(baseX - 14, baseY - 37, baseX - 12, baseY + 37 + 1, colorFG);
@@ -96,6 +121,7 @@ public class WarningIndicator implements Indicator {
         context.fill(baseX + 12 + 1, baseY - 37, baseX + 14 + 1, baseY + 37 + 1, colorFG);
         OverlayRenderer.drawScrew(context, baseX, baseY - 32, 1, true, colorFG);
         OverlayRenderer.drawScrew(context, baseX, baseY + 32, 1, false, colorFG);
+
         // caution lamp
         context.fill(baseX - 11, baseY - 26, baseX + 11 + 1, baseY - 6 + 1, colorFG);
         context.fill(baseX - 10, baseY - 25, baseX + 10 + 1, baseY - 7 + 1, cWarning ? colorLt1 : colorLt0);

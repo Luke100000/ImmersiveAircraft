@@ -1,3 +1,7 @@
+# 1.4.0
+
+* Added mechanical dials and hud (Thanks donmor!)
+
 # 1.3.3
 
 * Fixed rudder orientation

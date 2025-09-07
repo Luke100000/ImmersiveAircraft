@@ -81,7 +81,10 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         super(entityType, world, canExplodeOnCrash);
 
         fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER).size()];
-        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) cautions.compute(c, (cautions, v) -> 0);
+
+        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) {
+            cautions.compute(c, (cautions, v) -> 0);
+        }
     }
 
     protected SoundEvent getEngineStartSound() {
@@ -184,23 +187,33 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         } else {
             lastFuelState = FuelState.NEVER;
         }
+
         mainWarning = Math.max(0, mainWarning - 1);
         mslWarning = Math.max(0, mslWarning - 1);
-        for (Cautions caution : Cautions.values()) cautions.compute(caution, (cautions, integer) -> integer == null ? 0 : Math.max(0, --integer));
+        for (Cautions caution : Cautions.values()) {
+            cautions.compute(caution, (cautions, integer) -> integer == null ? 0 : Math.max(0, --integer));
+        }
+
         handleWarnings();
     }
 
     private void handleWarnings() {
-        // detects sea level. further updates may introduce GPWS that detects actual ground, which needs a radar upgrade.
-        // it is Y-speed relative.
+        // Detects sea level.
+        // Further updates may introduce GPWS that detects actual ground, which needs a radar upgrade.
+        // It is Y-speed relative.
         double altRate = getSpeedVector().y * 10.0d;
+
         // pull-up caution
-        if (getEnginePower() >= 1 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) cautions.put(Cautions.PULL_UP, 40);
+        if (getEnginePower() >= 0.5 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) {
+            cautions.put(Cautions.PULL_UP, 40);
+        }
+
         // void warning
         if (getY() < level().dimensionType().minY()) {
             cautions.put(Cautions.VOID, 10);
             mainWarning = 6;
         }
+
         // damaged warning
         if (getHealth() * 100 < 20) {
             cautions.put(Cautions.DAMAGED, 10);
