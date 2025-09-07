@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "גלגלי שיניים תעשייתיים",
   "item.immersive_aircraft.sturdy_pipes": "צינורות עמידים",
   "item.immersive_aircraft.gyroscope": "גירוסקופ",
+  "item.immersive_aircraft.gyroscope_dials": "ג'ירוסקופ מתקדם",
+  "item.immersive_aircraft.gyroscope_hud": "ג'ירוסקופ אלקטרוני",
   "item.immersive_aircraft.hull_reinforcement": "חיזוק גוף האוניה",
   "item.immersive_aircraft.improved_landing_gear": "ציוד נחיתה משופר",
   "item.immersive_aircraft.rotary_cannon": "תותח מסתובב",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% דרישות דלק",
   "immersive_aircraft.upgrade.wind": "%s%% השפעת רוח",
   "immersive_aircraft.upgrade.stabilizer": "%s%% מתייצב",
+  "immersive_aircraft.upgrade.dials": "לוח מחוונים מכני",
+  "immersive_aircraft.upgrade.hud": "לוח מחוונים אלקטרוני",
   "immersive_aircraft.tooltip.inventory": "מכיל %s פריטים."
 }
