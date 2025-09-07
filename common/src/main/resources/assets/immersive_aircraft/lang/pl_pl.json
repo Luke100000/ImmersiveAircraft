@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Przekładnie przemysłowe",
   "item.immersive_aircraft.sturdy_pipes": "Mocne rury",
   "item.immersive_aircraft.gyroscope": "Żyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Zaawansowany Żyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroskop elektroniczny",
   "item.immersive_aircraft.hull_reinforcement": "Wzmocnienie kadłuba",
   "item.immersive_aircraft.improved_landing_gear": "Ulepszone podwozie",
   "item.immersive_aircraft.rotary_cannon": "Działo obrotowe",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% zapotrzebowania na paliwo",
   "immersive_aircraft.upgrade.wind": "%s%% efekt wiatru",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacji",
+  "immersive_aircraft.upgrade.dials": "Mechaniczny panel nawigacyjny",
+  "immersive_aircraft.upgrade.hud": "Elektroniczna tablica rozdzielcza",
   "immersive_aircraft.tooltip.inventory": "Zawiera elementy %s ."
 }
