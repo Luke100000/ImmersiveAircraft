@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Engranajes Industriales",
   "item.immersive_aircraft.sturdy_pipes": "Tuberías Resistentes",
   "item.immersive_aircraft.gyroscope": "Giroscopio",
+  "item.immersive_aircraft.gyroscope_dials": "Giroscopu Avanzáu",
+  "item.immersive_aircraft.gyroscope_hud": "Giroscopu Electrónicu",
   "item.immersive_aircraft.hull_reinforcement": "Reforzamiento del Casco",
   "item.immersive_aircraft.improved_landing_gear": "Tren de Aterrizaje Mejorado",
   "item.immersive_aircraft.rotary_cannon": "Cañón rotativo",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% requisitos de combustible",
   "immersive_aircraft.upgrade.wind": "%s%% efecto del viento",
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilizando",
+  "immersive_aircraft.upgrade.dials": "Tablero mecáunic",
+  "immersive_aircraft.upgrade.hud": "Tablero electrónicu",
   "immersive_aircraft.tooltip.inventory": "Contien %s artículos."
 }
