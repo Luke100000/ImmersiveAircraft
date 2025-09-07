@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Промислові шестерні",
   "item.immersive_aircraft.sturdy_pipes": "Міцні труби",
   "item.immersive_aircraft.gyroscope": "Гіроскоп",
+  "item.immersive_aircraft.gyroscope_dials": "Просунутый гіроскоп",
+  "item.immersive_aircraft.gyroscope_hud": "Електронний гіроскоп",
   "item.immersive_aircraft.hull_reinforcement": "Посилення корпусу",
   "item.immersive_aircraft.improved_landing_gear": "Покращене шасі",
   "item.immersive_aircraft.rotary_cannon": "Ротаційна гармата",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% потреба в паливі",
   "immersive_aircraft.upgrade.wind": "%s%% ефект вітру",
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабілізація",
+  "immersive_aircraft.upgrade.dials": "Механічна панель",
+  "immersive_aircraft.upgrade.hud": "Електронне табло",
   "immersive_aircraft.tooltip.inventory": "Содержить %s предметів."
 }
