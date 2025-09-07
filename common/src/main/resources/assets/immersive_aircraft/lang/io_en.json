@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriala Gears",
   "item.immersive_aircraft.sturdy_pipes": "Sturdy Tubos",
   "item.immersive_aircraft.gyroscope": "Gyroscopio",
+  "item.immersive_aircraft.gyroscope_dials": "Avancita Gyroskopo",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronika Gyroskopo",
   "item.immersive_aircraft.hull_reinforcement": "Hulla Reinforcement",
   "item.immersive_aircraft.improved_landing_gear": "Migliorita Landing Gear",
   "item.immersive_aircraft.rotary_cannon": "Rotarie Kanono",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% fuel requerimiento",
   "immersive_aircraft.upgrade.wind": "%s%% vento effecto",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizante",
+  "immersive_aircraft.upgrade.dials": "Mekanika tabulo",
+  "immersive_aircraft.upgrade.hud": "Elektronika tableau",
   "immersive_aircraft.tooltip.inventory": "Contene %s artikli."
 }
