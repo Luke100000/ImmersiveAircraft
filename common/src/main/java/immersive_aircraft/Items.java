@@ -43,6 +43,8 @@ public interface Items {
     Supplier<Item> INDUSTRIAL_GEARS = register("industrial_gears", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> STURDY_PIPES = register("sturdy_pipes", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> GYROSCOPE = register("gyroscope", () -> new Item(baseProps().stacksTo(8)));
+    Supplier<Item> GYROSCOPE_HUD = register("gyroscope_hud", () -> new Item(baseProps().stacksTo(8)));
+    Supplier<Item> GYROSCOPE_DIALS = register("gyroscope_dials", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> HULL_REINFORCEMENT = register("hull_reinforcement", () -> new Item(baseProps().stacksTo(8)));
     Supplier<Item> IMPROVED_LANDING_GEAR = register("improved_landing_gear", () -> new Item(baseProps().stacksTo(8)));
 

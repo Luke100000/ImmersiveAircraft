@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NPN",
+    "ILI",
+    "SGV"
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "minecraft:note_block"
+      }
+    ],
+    "G": [
+      {
+        "item": "immersive_aircraft:gyroscope"
+      }
+    ],
+    "I": [
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
+    "L": [
+      {
+        "item": "minecraft:redstone_lamp"
+      }
+    ],
+    "N": [
+      {
+        "item": "minecraft:gold_nugget"
+      }
+    ],
+    "P": [
+      {
+        "item": "minecraft:glass_pane"
+      }
+    ],
+    "V": [
+      {
+        "item": "minecraft:lever"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:gyroscope_hud"
+  }
+}
