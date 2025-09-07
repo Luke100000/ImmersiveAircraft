@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Tööstuslikud käigud",
   "item.immersive_aircraft.sturdy_pipes": "Tugevad torud",
   "item.immersive_aircraft.gyroscope": "Güroskoop",
+  "item.immersive_aircraft.gyroscope_dials": "Täiustatud güroskoop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektrooniline güroskoop",
   "item.immersive_aircraft.hull_reinforcement": "Kere tugevdamine",
   "item.immersive_aircraft.improved_landing_gear": "Täiustatud maandumisvarustus",
   "item.immersive_aircraft.rotary_cannon": "Pöörlev kahur",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% kütusevajadus",
   "immersive_aircraft.upgrade.wind": "%s%% tuule mõju",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseeriv",
+  "immersive_aircraft.upgrade.dials": "Mehaaniline armatuurlaud",
+  "immersive_aircraft.upgrade.hud": "Elektrooniline armatuurlaud",
   "immersive_aircraft.tooltip.inventory": "Sisaldab %s ."
 }
