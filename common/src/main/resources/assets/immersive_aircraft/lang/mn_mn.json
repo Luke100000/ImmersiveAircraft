@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Аж үйлдвэрийн шүд",
   "item.immersive_aircraft.sturdy_pipes": "Бат бөх хоолойнууд",
   "item.immersive_aircraft.gyroscope": "Гироскоп",
+  "item.immersive_aircraft.gyroscope_dials": "Нарийвчилсан гироскоп",
+  "item.immersive_aircraft.gyroscope_hud": "Цахим гироскоп",
   "item.immersive_aircraft.hull_reinforcement": "Хавтгай бэхжүүлэлт",
   "item.immersive_aircraft.improved_landing_gear": "Сайжруулсан буулт",
   "item.immersive_aircraft.rotary_cannon": "Роторт буу",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% шатахуун шаардлага",
   "immersive_aircraft.upgrade.wind": "%s%% салхины нөлөө",
   "immersive_aircraft.upgrade.stabilizer": "%s%% тогтворжуулж байна",
+  "immersive_aircraft.upgrade.dials": "Механик самбар",
+  "immersive_aircraft.upgrade.hud": "Цахим самбар",
   "immersive_aircraft.tooltip.inventory": "%s зүйлийг агуулсан байна."
 }
