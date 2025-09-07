@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "இண்டஸ்ட்ரியல் கியர்ஸ்",
   "item.immersive_aircraft.sturdy_pipes": "ஸ்டர்டி பைப்புகள்",
   "item.immersive_aircraft.gyroscope": "ஜைரோஸ்கோப்",
+  "item.immersive_aircraft.gyroscope_dials": "மேம்பட்ட ஜையின் மெனு",
+  "item.immersive_aircraft.gyroscope_hud": "எலக్ట్రானிக்ஸ் ஜைரொஸ்கோப்",
   "item.immersive_aircraft.hull_reinforcement": "ஹல் ரெயின்ஃபோர்ஸ்மென்ட்",
   "item.immersive_aircraft.improved_landing_gear": "இம்ப்ரூவ்ட் லேண்டிங் கியர்",
   "item.immersive_aircraft.rotary_cannon": "சுழலும் பீரங்கி",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% எரிபொருள் தேவை",
   "immersive_aircraft.upgrade.wind": "%s%% காற்று விளைவு",
   "immersive_aircraft.upgrade.stabilizer": "%s%% நிலைப்படுத்தல்",
+  "immersive_aircraft.upgrade.dials": "இருப்பு மேடையில்",
+  "immersive_aircraft.upgrade.hud": "அலெக்ட்ரானிக் பட்டியல்",
   "immersive_aircraft.tooltip.inventory": "%s பொருட்கள் உள்ளன."
 }
