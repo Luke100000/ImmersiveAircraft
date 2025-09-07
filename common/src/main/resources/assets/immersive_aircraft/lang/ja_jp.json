@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "産業用歯車",
   "item.immersive_aircraft.sturdy_pipes": "頑丈なパイプ",
   "item.immersive_aircraft.gyroscope": "ジャイロスコープ",
+  "item.immersive_aircraft.gyroscope_dials": "高度なジャイロスコープ",
+  "item.immersive_aircraft.gyroscope_hud": "電子ジャイロスコープ",
   "item.immersive_aircraft.hull_reinforcement": "船体補強",
   "item.immersive_aircraft.improved_landing_gear": "改良型の降着装置",
   "item.immersive_aircraft.rotary_cannon": "ロータリー・キャノン",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%%必要な燃料",
   "immersive_aircraft.upgrade.wind": "%s%%風影響",
   "immersive_aircraft.upgrade.stabilizer": "%s%%安定化",
+  "immersive_aircraft.upgrade.dials": "メカニカルダッシュボード",
+  "immersive_aircraft.upgrade.hud": "電子ダッシュボード",
   "immersive_aircraft.tooltip.inventory": "アイテムを%s スタック保有"
 }
