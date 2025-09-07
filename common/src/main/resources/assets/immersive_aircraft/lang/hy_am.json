@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Ինտերակտիվ մեխանիզմներ",
   "item.immersive_aircraft.sturdy_pipes": "Ժամանակավոր խողովակներ",
   "item.immersive_aircraft.gyroscope": "Գիրոզոն",
+  "item.immersive_aircraft.gyroscope_dials": "Ընդունակ Գիրոսկոպ",
+  "item.immersive_aircraft.gyroscope_hud": "էլեկտրոնային Գիրոսկոպ",
   "item.immersive_aircraft.hull_reinforcement": "Համարիչի ամրացում",
   "item.immersive_aircraft.improved_landing_gear": "Բառա հարծունքների մեջ",
   "item.immersive_aircraft.rotary_cannon": "Ռոտարյան հրաձիգ",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% բենզինի պահանջ",
   "immersive_aircraft.upgrade.wind": "%s%% քամու ազդեցություն",
   "immersive_aircraft.upgrade.stabilizer": "%s%% կայունացում",
+  "immersive_aircraft.upgrade.dials": "Մեխանիկական վահանակ",
+  "immersive_aircraft.upgrade.hud": "Էլեկտրոնային պանել",
   "immersive_aircraft.tooltip.inventory": "Պարունակում է %s իրեր։"
 }
