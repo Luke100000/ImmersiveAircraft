@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Gears nke Ọrụ",
   "item.immersive_aircraft.sturdy_pipes": "Pipes siri ike",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscope Nka",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscope Electronic",
   "item.immersive_aircraft.hull_reinforcement": "Aka na-emezigharị",
   "item.immersive_aircraft.improved_landing_gear": "Mmelite Landing Gear",
   "item.immersive_aircraft.rotary_cannon": "Ngwá ọgụ rotary",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% mkpa mmanu",
   "immersive_aircraft.upgrade.wind": "%s%% mmetụta ikuku",
   "immersive_aircraft.upgrade.stabilizer": "%s%% na-edochapụ",
+  "immersive_aircraft.upgrade.dials": "Ụlọ ọrụ igwe",
+  "immersive_aircraft.upgrade.hud": "Ihu igwe eletrọnịk",
   "immersive_aircraft.tooltip.inventory": "Gụnyere %s ihe."
 }
