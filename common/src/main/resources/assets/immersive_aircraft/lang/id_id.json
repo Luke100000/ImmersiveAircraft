@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Perlengkapan Industri",
   "item.immersive_aircraft.sturdy_pipes": "Pipa Kokoh",
   "item.immersive_aircraft.gyroscope": "Giroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Giroskop Tingkat Lanjut",
+  "item.immersive_aircraft.gyroscope_hud": "Giroskop Elektronik",
   "item.immersive_aircraft.hull_reinforcement": "Penguatan Lambung Kapal",
   "item.immersive_aircraft.improved_landing_gear": "Perlengkapan Pendaratan yang Lebih Baik",
   "item.immersive_aircraft.rotary_cannon": "Meriam Putar",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% kebutuhan bahan bakar",
   "immersive_aircraft.upgrade.wind": "%s%% efek angin",
   "immersive_aircraft.upgrade.stabilizer": "%s%% menstabilkan",
+  "immersive_aircraft.upgrade.dials": "Dasbor mekanis",
+  "immersive_aircraft.upgrade.hud": "Dasbor elektronik",
   "immersive_aircraft.tooltip.inventory": "Berisi item %s ."
 }
