@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Gear Industriali",
   "item.immersive_aircraft.sturdy_pipes": "Pipes bħal ġakkola",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Giroskop Avvanzat",
+  "item.immersive_aircraft.gyroscope_hud": "Giroskop Elettroniku",
   "item.immersive_aircraft.hull_reinforcement": "Reinforcement tal-Hull",
   "item.immersive_aircraft.improved_landing_gear": "Gear tal-Landing Imberreħ",
   "item.immersive_aircraft.rotary_cannon": "Kanun Rotary",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% rekwiżit tal-fuel",
   "immersive_aircraft.upgrade.wind": "%s%% effett tar-riħ",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabbilizzazzjoni",
+  "immersive_aircraft.upgrade.dials": "Dashboard Mechaniku",
+  "immersive_aircraft.upgrade.hud": "Dashboard elettroniku",
   "immersive_aircraft.tooltip.inventory": "Għandha %s prodotti."
 }
