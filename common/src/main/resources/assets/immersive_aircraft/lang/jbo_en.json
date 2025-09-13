@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "se cinmo se kalte",
   "item.immersive_aircraft.sturdy_pipes": "sturdy pa",
   "item.immersive_aircraft.gyroscope": "gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "lu'a jorgeru",
+  "item.immersive_aircraft.gyroscope_hud": "lu'a jorgeru elektroni",
   "item.immersive_aircraft.hull_reinforcement": "rcauje na'e sruri",
   "item.immersive_aircraft.improved_landing_gear": "na'e dykra se mala",
   "item.immersive_aircraft.rotary_cannon": "se skari cago",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% selci krici",
   "immersive_aircraft.upgrade.wind": "%s%% nabmi se nabmi",
   "immersive_aircraft.upgrade.stabilizer": "%s%% se balji",
+  "immersive_aircraft.upgrade.dials": "lu'a dereka mekanik",
+  "immersive_aircraft.upgrade.hud": "rotsa la'e di'u je na'e futycu",
   "immersive_aircraft.tooltip.inventory": "se jarco lo %s se jgari."
 }
