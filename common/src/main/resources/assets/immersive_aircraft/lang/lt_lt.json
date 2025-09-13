@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Pramoniniai krumpliaračiai",
   "item.immersive_aircraft.sturdy_pipes": "Tvirti vamzdžiai",
   "item.immersive_aircraft.gyroscope": "Giroskopas",
+  "item.immersive_aircraft.gyroscope_dials": "Pažangus giroskopas",
+  "item.immersive_aircraft.gyroscope_hud": "Elektroninis giroskopas",
   "item.immersive_aircraft.hull_reinforcement": "Korpuso sutvirtinimas",
   "item.immersive_aircraft.improved_landing_gear": "Patobulinta važiuoklė",
   "item.immersive_aircraft.rotary_cannon": "Rotacinė patranka",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% degalų poreikis",
   "immersive_aircraft.upgrade.wind": "%s%% vėjo poveikis",
   "immersive_aircraft.upgrade.stabilizer": "%s% % stabilizavimas",
+  "immersive_aircraft.upgrade.dials": "Mechaninis prietaisų skydelis",
+  "immersive_aircraft.upgrade.hud": "Elektroninis prietaisų skydelis",
   "immersive_aircraft.tooltip.inventory": "Sudėtyje yra %s elementų."
 }
