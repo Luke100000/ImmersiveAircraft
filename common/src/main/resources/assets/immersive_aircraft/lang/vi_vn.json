@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Bánh răng công nghiệp",
   "item.immersive_aircraft.sturdy_pipes": "Ống dẫn bền",
   "item.immersive_aircraft.gyroscope": "Con quay hồi chuyển",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscope tiên tiến",
+  "item.immersive_aircraft.gyroscope_hud": "Con quay hồi chuyển điện tử",
   "item.immersive_aircraft.hull_reinforcement": "Tăng cường vỏ máy bay",
   "item.immersive_aircraft.improved_landing_gear": "Bộ hạ cánh cải tiến",
   "item.immersive_aircraft.rotary_cannon": "Súng liên thanh",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% yêu cầu nhiên liệu",
   "immersive_aircraft.upgrade.wind": "%s%% hiệu ứng gió",
   "immersive_aircraft.upgrade.stabilizer": "%s%% ổn định",
+  "immersive_aircraft.upgrade.dials": "Bảng điều khiển cơ khí",
+  "immersive_aircraft.upgrade.hud": "Bảng điều khiển điện tử",
   "immersive_aircraft.tooltip.inventory": "Chứa %s vật phẩm."
 }
