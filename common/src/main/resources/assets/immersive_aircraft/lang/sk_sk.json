@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Priemyselné prevody",
   "item.immersive_aircraft.sturdy_pipes": "Robustné rúry",
   "item.immersive_aircraft.gyroscope": "Gyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Pokročilý gyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronický gyroskop",
   "item.immersive_aircraft.hull_reinforcement": "Vystuženie trupu",
   "item.immersive_aircraft.improved_landing_gear": "Vylepšený pristávací podvozok",
   "item.immersive_aircraft.rotary_cannon": "Rotačný kanón",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% potreba paliva",
   "immersive_aircraft.upgrade.wind": "%s%% vplyv vetra",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizácia",
+  "immersive_aircraft.upgrade.dials": "Mechanická prístrojová doska",
+  "immersive_aircraft.upgrade.hud": "Elektronický prístrojový panel",
   "immersive_aircraft.tooltip.inventory": "Obsahuje %s položky."
 }
