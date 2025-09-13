@@ -19,7 +19,6 @@ import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -473,16 +472,6 @@ public abstract class VehicleEntity extends Entity {
         }
     }
 
-    protected boolean consumeClick(KeyMapping keyMapping) {
-        if (keyMapping.isDown() && keyMapping.consumeClick()) {
-            keyMapping.setDown(false);
-            while (keyMapping.consumeClick()) {
-            }
-            return true;
-        }
-        return false;
-    }
-
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
@@ -490,7 +479,7 @@ public abstract class VehicleEntity extends Entity {
                     player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
                 }
 
-                if (consumeClick(KeyBindings.dismount)) {
+                if (Main.debouncingGetter.is(Main.Key.DISMOUNT)) {
                     if (onGround() || tickCount - lastTriedToExit < 20) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
                         player.setJumping(false);
@@ -500,7 +489,7 @@ public abstract class VehicleEntity extends Entity {
                     }
                 }
 
-                if (consumeClick(KeyBindings.boost) && canBoost()) {
+                if (Main.debouncingGetter.is(Main.Key.BOOST) && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));
                     Vec3 p = position();
                     level().playLocalSound(p.x(), p.y(), p.z(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 1.0f, 1.0f, true);

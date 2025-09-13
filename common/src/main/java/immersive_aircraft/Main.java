@@ -14,6 +14,7 @@ public final class Main {
     public static MessageHandler messageHandler;
     public static CameraGetter cameraGetter = () -> Vec3.ZERO;
     public static FirstPersonGetter firstPersonGetter = () -> false;
+    public static DebouncingGetter debouncingGetter = key -> false;
 
     public static float frameTime = 0.0f;
 
@@ -31,5 +32,14 @@ public final class Main {
 
     public interface FirstPersonGetter {
         boolean isFirstPerson();
+    }
+
+    public enum Key {
+        BOOST,
+        DISMOUNT
+    }
+
+    public interface DebouncingGetter {
+        boolean is(Key keybinding);
     }
 }
