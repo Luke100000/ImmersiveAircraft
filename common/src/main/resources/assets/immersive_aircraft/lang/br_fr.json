@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Orazh industrial",
   "item.immersive_aircraft.sturdy_pipes": "Tiñv a raon",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscop a-ben",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscop Elektronik",
   "item.immersive_aircraft.hull_reinforcement": "Adkudenn hull",
   "item.immersive_aircraft.improved_landing_gear": "Gear a-raokdael",
   "item.immersive_aircraft.rotary_cannon": "Tañvezh peoc’h",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% rata war zud",
   "immersive_aircraft.upgrade.wind": "%s%% effet ar goulou",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stablus",
+  "immersive_aircraft.upgrade.dials": "Bod an diaz-mekanik",
+  "immersive_aircraft.upgrade.hud": "Hentenn elektronik",
   "immersive_aircraft.tooltip.inventory": "Kontroll %s owioù."
 }
