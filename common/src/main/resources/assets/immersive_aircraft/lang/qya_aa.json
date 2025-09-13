@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industrial Gears",
   "item.immersive_aircraft.sturdy_pipes": "Dárë Túrë",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Haldaron Gyroskopa",
+  "item.immersive_aircraft.gyroscope_hud": "Elekton Gyroskopa",
   "item.immersive_aircraft.hull_reinforcement": "Hulë Cálë",
   "item.immersive_aircraft.improved_landing_gear": "Restoration Landing Gear",
   "item.immersive_aircraft.rotary_cannon": "Carnilómi",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% fisuë",
   "immersive_aircraft.upgrade.wind": "%s%% venten",
   "immersive_aircraft.upgrade.stabilizer": "%s%% sôyë",
+  "immersive_aircraft.upgrade.dials": "Mekanika falma",
+  "immersive_aircraft.upgrade.hud": "\"elektronil\" alcar",
   "immersive_aircraft.tooltip.inventory": "Contains %s cainen."
 }
