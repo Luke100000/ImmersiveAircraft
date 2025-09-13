@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Teollisuuden hammaspyörät",
   "item.immersive_aircraft.sturdy_pipes": "Tukevat putket",
   "item.immersive_aircraft.gyroscope": "Gyroskooppi",
+  "item.immersive_aircraft.gyroscope_dials": "Kehittynyt Gyroscope",
+  "item.immersive_aircraft.gyroscope_hud": "Elektroninen Gyroskooppi",
   "item.immersive_aircraft.hull_reinforcement": "Rungon vahvistaminen",
   "item.immersive_aircraft.improved_landing_gear": "Parannettu laskuteline",
   "item.immersive_aircraft.rotary_cannon": "Pyörivä tykki",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s% % polttoaineen tarve",
   "immersive_aircraft.upgrade.wind": "%s%% tuulen vaikutus",
   "immersive_aircraft.upgrade.stabilizer": "%s%% vakauttaminen",
+  "immersive_aircraft.upgrade.dials": "Mekaaninen kojelauta",
+  "immersive_aircraft.upgrade.hud": "Sähköinen kojelauta",
   "immersive_aircraft.tooltip.inventory": "Sisältää %s ."
 }
