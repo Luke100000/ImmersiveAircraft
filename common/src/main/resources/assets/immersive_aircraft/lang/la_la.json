@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Cogitationes Industriales",
   "item.immersive_aircraft.sturdy_pipes": "Tubi Validiores",
   "item.immersive_aircraft.gyroscope": "Gyroscopium",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscopium Progressum",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscopium Electronicum",
   "item.immersive_aircraft.hull_reinforcement": "Reinforcamentum Hull",
   "item.immersive_aircraft.improved_landing_gear": "Libriformia Emendata",
   "item.immersive_aircraft.rotary_cannon": "Pila Rotatoria",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% exigentiae combustibilis",
   "immersive_aircraft.upgrade.wind": "%s%% effectus ventorum",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizing",
+  "immersive_aircraft.upgrade.dials": "Tabula Mechanica",
+  "immersive_aircraft.upgrade.hud": "Tabula electronicorum",
   "immersive_aircraft.tooltip.inventory": "Continet %s articuli."
 }
