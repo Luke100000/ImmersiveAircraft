@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "工業齒輪",
   "item.immersive_aircraft.sturdy_pipes": "堅固的管道",
   "item.immersive_aircraft.gyroscope": "陀螺儀",
+  "item.immersive_aircraft.gyroscope_dials": "先進的陀螺儀",
+  "item.immersive_aircraft.gyroscope_hud": "電子陀螺儀",
   "item.immersive_aircraft.hull_reinforcement": "船體強化",
   "item.immersive_aircraft.improved_landing_gear": "改良式起落架",
   "item.immersive_aircraft.rotary_cannon": "旋轉加農炮",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s燃料需求百分比",
   "immersive_aircraft.upgrade.wind": "%s%% 風效應",
   "immersive_aircraft.upgrade.stabilizer": "%s%%穩定",
+  "immersive_aircraft.upgrade.dials": "機械儀表板",
+  "immersive_aircraft.upgrade.hud": "電子儀表板",
   "immersive_aircraft.tooltip.inventory": "包含 %s 項目。"
 }
