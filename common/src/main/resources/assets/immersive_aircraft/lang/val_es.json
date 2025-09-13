@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Engranatges industrials",
   "item.immersive_aircraft.sturdy_pipes": "Tubs robusts",
   "item.immersive_aircraft.gyroscope": "Giròscop",
+  "item.immersive_aircraft.gyroscope_dials": "Giroscopi avançat",
+  "item.immersive_aircraft.gyroscope_hud": "Giroscopi electrònic",
   "item.immersive_aircraft.hull_reinforcement": "Reforç del fusellatge",
   "item.immersive_aircraft.improved_landing_gear": "Sistemes d'aterratge millorat",
   "item.immersive_aircraft.rotary_cannon": "Cànon rotatiu",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% requeriment de combustible",
   "immersive_aircraft.upgrade.wind": "%s%% efecte del vent",
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilitzant",
+  "immersive_aircraft.upgrade.dials": "Tauler mecànic",
+  "immersive_aircraft.upgrade.hud": "Quadre de comandament electrònic",
   "immersive_aircraft.tooltip.inventory": "Conté %s articles."
 }
