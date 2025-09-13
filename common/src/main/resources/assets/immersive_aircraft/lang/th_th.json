@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "เกียร์อุตสาหกรรม",
   "item.immersive_aircraft.sturdy_pipes": "ท่อที่ทนทาน",
   "item.immersive_aircraft.gyroscope": "จานหมุน",
+  "item.immersive_aircraft.gyroscope_dials": "ไจโรสโคปขั้นสูง",
+  "item.immersive_aircraft.gyroscope_hud": "ไจโรสโคปอิเล็กทรอนิกส์",
   "item.immersive_aircraft.hull_reinforcement": "การเสริมความแข็งแรงของเรือ",
   "item.immersive_aircraft.improved_landing_gear": "ภาพสวยงามพร้อมที่จอดที่พัฒนาแล้ว",
   "item.immersive_aircraft.rotary_cannon": "ปืนกลหมุน",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% ความต้องการเชื้อเพลิง",
   "immersive_aircraft.upgrade.wind": "%s%% ผลกระทบจากลม",
   "immersive_aircraft.upgrade.stabilizer": "%s%% เสถียรภาพ",
+  "immersive_aircraft.upgrade.dials": "แผงหน้าปัดแบบกลไก",
+  "immersive_aircraft.upgrade.hud": "แผงควบคุมอิเล็กทรอนิกส์",
   "immersive_aircraft.tooltip.inventory": "มีไอเทม %s ชิ้น"
 }
