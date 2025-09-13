@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Ipari fogaskerekek",
   "item.immersive_aircraft.sturdy_pipes": "Stabil csövek",
   "item.immersive_aircraft.gyroscope": "Gyroszkóp",
+  "item.immersive_aircraft.gyroscope_dials": "Fejlett giroszkóp",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronikus giroszkóp",
   "item.immersive_aircraft.hull_reinforcement": "Hull megerősítés",
   "item.immersive_aircraft.improved_landing_gear": "Továbbfejlesztett futómű",
   "item.immersive_aircraft.rotary_cannon": "Rotációs ágyú",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% üzemanyag-szükséglet",
   "immersive_aircraft.upgrade.wind": "%s%% szélhatás",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizálás",
+  "immersive_aircraft.upgrade.dials": "Mechanikus műszerfal",
+  "immersive_aircraft.upgrade.hud": "Elektronikus műszerfal",
   "immersive_aircraft.tooltip.inventory": "Tartalmazza a %s elemeket."
 }
