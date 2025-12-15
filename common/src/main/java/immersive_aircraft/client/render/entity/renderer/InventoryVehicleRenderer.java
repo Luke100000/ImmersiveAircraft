@@ -16,6 +16,7 @@ import immersive_aircraft.resources.bbmodel.BBObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BannerItem;
@@ -25,50 +26,66 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity> extends DyeableVehicleEntityRenderer<T> {
+public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity, S extends InventoryVehicleEntityRenderState> extends DyeableVehicleEntityRenderer<T, S> {
     public InventoryVehicleRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
-        super.renderLocal(entity, yaw, tickDelta, matrixStack, peek, vertexConsumerProvider, light);
+    public void extractRenderState(T entity, S entityRenderState, float f) {
+        super.extractRenderState(entity, entityRenderState, f);
+        entityRenderState.weapons.clear();
+        entityRenderState.banners.clear();
+        entityRenderState.sailDyes.clear();
+        entityRenderState.weapons.addAll(entity.getWeapons().values().stream().flatMap(List::stream).toList());
+        entityRenderState.banners.addAll(entity.getSlots(VehicleInventoryDescription.BANNER));
+        entityRenderState.sailDyes.addAll(entity.getSlots(VehicleInventoryDescription.DYE));
+    }
 
+    @Override
+    public void renderLocal(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, ModelPartRenderHandler<S> model) {
+        super.renderLocal(entityRenderState, poseStack, submitNodeCollector, model);
         //Render weapons
         LocalPlayer player = Minecraft.getInstance().player;
-        for (List<Weapon> weapons : entity.getWeapons().values()) {
-            for (Weapon weapon : weapons) {
-                if (!weapon.getMount().blocking() || !Main.firstPersonGetter.isFirstPerson() || player == null || !entity.hasPassenger(player)) {
-                    WeaponRenderer<Weapon> renderer = WeaponRendererRegistry.get(weapon);
-                    if (renderer != null) {
-                        renderer.render(entity, weapon, matrixStack, vertexConsumerProvider, light, tickDelta);
-                    }
+        for (Weapon weapon : entityRenderState.weapons) {
+            if (!weapon.getMount().blocking() || !Main.firstPersonGetter.isFirstPerson() || player == null || !entityRenderState.passengers.contains(player)) {
+                WeaponRenderer<Weapon> renderer = WeaponRendererRegistry.get(weapon);
+                if (renderer != null) {
+                    renderer.render(entityRenderState, weapon, poseStack, submitNodeCollector);
                 }
             }
         }
     }
 
-    public void renderBanners(BBModel model, BBObject ignoredObject, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float ignoredTime, ModelPartRenderHandler<T> ignoredModelPartRenderer) {
-        List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);
+    public void renderBanners(BBModel model,
+                              BBObject ignoredObject,
+                              SubmitNodeCollector submitNodeCollector,
+                              S entity,
+                              PoseStack matrixStack,
+                              ModelPartRenderHandler<S> ignoredModelPartRenderer) {
         int i = 0;
-        for (ItemStack slot : slots) {
+        for (ItemStack slot : entity.banners) {
             if (!slot.isEmpty() && slot.getItem() instanceof BannerItem bannerItem) {
                 DyeColor baseColor = bannerItem.getColor();
                 BannerPatternLayers banner = slot.get(DataComponents.BANNER_PATTERNS);
                 if (banner != null) {
                     BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
                     if (bannerObject instanceof BBFaceContainer bannerContainer) {
-                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, baseColor, banner.layers());
+                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, submitNodeCollector, entity.packedLight, true, baseColor, banner.layers());
                     }
                 }
             }
         }
     }
 
-    public void renderSails(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
-        List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.DYE);
-        ItemStack stack = slots.stream().findFirst().orElse(ItemStack.EMPTY);
+    public void renderSails(BBObject object,
+                            SubmitNodeCollector submitNodeCollector,
+                            S entity,
+                            PoseStack matrixStack) {
+        ItemStack stack = entity.sailDyes.stream().findFirst().orElse(ItemStack.EMPTY);
         DyeColor color;
         if (stack.getItem() instanceof DyeItem item) {
             color = item.getDyeColor();
@@ -81,7 +98,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         float b = (c & 0xFF) / 255.0f;
 
         if (object instanceof BBMesh mesh) {
-            BBModelRenderer.renderSailObject(mesh, matrixStack, vertexConsumerProvider, light, time, r, g, b, 1.0f);
+            BBModelRenderer.renderSailObject(mesh, matrixStack, submitNodeCollector, entity.packedLight, entity.time, r, g, b, 1.0f);
         }
     }
 }

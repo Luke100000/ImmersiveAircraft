@@ -7,6 +7,7 @@ import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.network.c2s.EnginePowerMessage;
+import immersive_aircraft.resources.bbmodel.AnimationVariableName;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
@@ -22,6 +23,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
@@ -144,7 +147,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         }
 
         // Engine sounds
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             engineSound += getEnginePower() * 0.25f;
             if (engineSound > 1.0f) {
                 engineSound--;
@@ -156,7 +159,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         }
 
         // Fuel
-        if (fuel.length > 0 && !level().isClientSide) {
+        if (fuel.length > 0 && !level().isClientSide()) {
             float consumption = getFuelConsumption();
             consumeFuel(consumption);
         }
@@ -242,7 +245,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
             return false;
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return entityData.get(LOW_ON_FUEL);
         } else {
             boolean low = true;
@@ -275,8 +278,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                 Item item = stack.getItem();
                 stack.shrink(1);
                 if (stack.isEmpty()) {
-                    Item remainingItem = item.getCraftingRemainingItem();
-                    getInventory().setItem(slots.get(i).index(), remainingItem == null ? ItemStack.EMPTY : new ItemStack(remainingItem));
+                    getInventory().setItem(slots.get(i).index(), item.getCraftingRemainder());
                 }
             } else {
                 break;
@@ -300,7 +302,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
 
     public void setEngineTarget(float engineTarget) {
         if (getFuelUtilization() > 0 || engineTarget == 0) {
-            if (level().isClientSide) {
+            if (level().isClientSide()) {
                 if (getEngineTarget() != engineTarget) {
                     NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
                 }
@@ -322,7 +324,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         if (fuel.length == 0) {
             return 1.0f;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return entityData.get(UTILIZATION);
         } else {
             int running = 0;
@@ -338,7 +340,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     public void emitSmokeParticle(float x, float y, float z, float nx, float ny, float nz) {
-        if (!isWithinParticleRange() || !level().isClientSide) {
+        if (!isWithinParticleRange() || !level().isClientSide()) {
             return;
         }
 
@@ -362,7 +364,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
 
         for (int i = 0; i < fuel.length; i++) {
@@ -371,18 +373,17 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
 
         for (int i = 0; i < fuel.length; i++) {
-            fuel[i] = tag.getInt("Fuel" + i);
+            fuel[i] = tag.getIntOr("Fuel" + i, 0);
         }
     }
 
     @Override
-    public void setAnimationVariables(float tickDelta) {
-        super.setAnimationVariables(tickDelta);
-
-        BBAnimationVariables.set("engine_rotation", engineRotation.getSmooth(tickDelta));
+    public void setAnimationVariables(BBAnimationVariables animationVariables, float tickDelta) {
+        super.setAnimationVariables(animationVariables, tickDelta);
+        animationVariables.set(AnimationVariableName.ENGINE_ROTATION, engineRotation.getSmooth(tickDelta));
     }
 }

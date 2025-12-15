@@ -35,15 +35,9 @@ dependencies {
     // Required to run JEI
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
-    // Required to run REI
-    //modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
-
-    modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-${ad_astra_version}"
-    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-fabric-${ad_astra_version}"
-
-    // modRuntimeOnly "net.conczin:man_of_many_planes:${man_of_many_planes_version}+fabric"
-    // modRuntimeOnly "net.conczin:immersive_machinery:${immersive_machinery}+fabric"
+    // // Required to run REI
+    // modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

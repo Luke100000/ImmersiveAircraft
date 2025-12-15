@@ -38,7 +38,7 @@ public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends Ai
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
+    protected ModelPartRenderHandler<T> getModel() {
         return model;
     }
 }

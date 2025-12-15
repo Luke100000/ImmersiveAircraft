@@ -1,7 +1,6 @@
 package immersive_aircraft.fabric;
 
 import immersive_aircraft.ClientMain;
-import immersive_aircraft.ItemColors;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
@@ -36,8 +35,6 @@ public final class ClientFabric implements ClientModInitializer {
 
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
-
-        ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> ColorProviderRegistry.ITEM.register(itemColor, item.get()));
 
         KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
         ItemTooltipCallback.EVENT.register(this::itemTooltipCallback);

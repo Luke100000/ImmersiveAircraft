@@ -23,7 +23,7 @@ public class BambooHopperEntityRenderer<T extends BambooHopperEntity> extends Ai
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
+    protected ModelPartRenderHandler<T> getModel() {
         return model;
     }
 }

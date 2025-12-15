@@ -36,8 +36,8 @@ public class BBAnimation {
         return animators.containsKey(uuid);
     }
 
-    public Vector3f sample(String uuid, BBAnimator.Channel channel, float time) {
-        return animators.get(uuid).sample(this, channel, time);
+    public Vector3f sample(String uuid, BBAnimator.Channel channel, float time, BBAnimationVariables vars) {
+        return animators.get(uuid).sample(this, channel, time, vars);
     }
 
     public int toFrameIndex(float length) {

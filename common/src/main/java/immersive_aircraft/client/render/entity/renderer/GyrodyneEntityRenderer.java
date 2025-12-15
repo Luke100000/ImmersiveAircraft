@@ -35,7 +35,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
+    protected ModelPartRenderHandler<T> getModel() {
         return model;
     }
 }

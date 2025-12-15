@@ -2,6 +2,7 @@ package immersive_aircraft.entity.weapon;
 
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
+import immersive_aircraft.resources.bbmodel.AnimationVariableName;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -51,12 +52,12 @@ public class Telescope extends Weapon {
     }
 
     @Override
-    public <T extends VehicleEntity> void setAnimationVariables(T entity, float time) {
-        super.setAnimationVariables(entity, time);
+    public void setAnimationVariables(BBAnimationVariables vars, float time) {
+        super.setAnimationVariables(vars, time);
 
         float tickDelta = time % 1.0f;
-        BBAnimationVariables.set("pitch", (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
-        BBAnimationVariables.set("yaw", (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));
-        BBAnimationVariables.set("roll", (float) (rotationalManager.getRoll(tickDelta) / Math.PI * 180.0f));
+        vars.set(AnimationVariableName.PITCH, (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
+        vars.set(AnimationVariableName.YAW, (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));
+        vars.set(AnimationVariableName.ROLL, (float) (rotationalManager.getRoll(tickDelta) / Math.PI * 180.0f));
     }
 }

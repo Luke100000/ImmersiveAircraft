@@ -1,9 +1,12 @@
 package immersive_aircraft.client.render.entity.renderer.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import immersive_aircraft.client.render.entity.renderer.VehicleEntityRenderState;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.Entity;
 
 import java.util.HashMap;
@@ -12,9 +15,8 @@ import java.util.Map;
 /**
  * Provides a way to provide overrides for rendering and animating model parts.
  */
-public class ModelPartRenderHandler<T extends Entity> {
+public class ModelPartRenderHandler<T extends EntityRenderState> {
     private final Map<String, ModelPartRenderer<T>> objects = new HashMap<>();
-    private BBModelRenderer.VertexConsumerProvider vertexConsumerProvider = BBModelRenderer.DEFAULT_VERTEX_CONSUMER_PROVIDER;
 
     public ModelPartRenderHandler<T> add(String id, ModelPartRenderer.AnimationConsumer<T> animationConsumer) {
         return add(id, animationConsumer, null);
@@ -37,29 +39,23 @@ public class ModelPartRenderHandler<T extends Entity> {
     public void animate(String name, T entity, PoseStack matrixStack, float time) {
         ModelPartRenderer<T> o = objects.get(name);
         if (o != null && o.animationConsumer() != null) {
-            o.animationConsumer().run(entity, 0, time, matrixStack);
+            o.animationConsumer().run(entity, matrixStack, time);
         }
     }
 
-    public boolean render(String name, BBModel model, BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
+    public boolean render(String name,
+                          BBModel model,
+                          BBObject object,
+                          SubmitNodeCollector submitNodeCollector,
+                          T entity,
+                          PoseStack matrixStack,
+                          ModelPartRenderHandler<T> modelPartRenderer) {
         ModelPartRenderer<T> o = objects.get(name);
         if (o != null && o.renderConsumer() != null) {
-            o.renderConsumer().run(model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer);
+            o.renderConsumer().run(model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer);
             return true;
         }
         return false;
     }
 
-    /**
-     * Set the vertex consumer provider for this model part renderer, allowing for custom render types.
-     * @param vertexConsumerProvider The mapping between renderable and vertex consumers.
-     */
-    public ModelPartRenderHandler<T> vertexConsumerProvider(BBModelRenderer.VertexConsumerProvider vertexConsumerProvider) {
-        this.vertexConsumerProvider = vertexConsumerProvider;
-        return this;
-    }
-
-    public BBModelRenderer.VertexConsumerProvider getVertexConsumerProvider() {
-        return vertexConsumerProvider;
-    }
 }

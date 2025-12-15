@@ -50,7 +50,7 @@ public class ClientMain {
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
 
-        Main.frameTime = client.getTimer().getGameTimeDeltaTicks();
+        Main.frameTime = client.getDeltaTracker().getGameTimeDeltaTicks();
 
         // Only tick once per tick
         if (client.level == null || client.level.getGameTime() == lastTime) {

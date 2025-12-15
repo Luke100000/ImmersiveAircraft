@@ -23,10 +23,16 @@ public class BBKeyframe {
     }
 
     private static Expression getExpression(JsonObject point, String x) {
-        return new Expression(point.getAsJsonPrimitive(x).getAsString().replace("variable.", "variable_"), BBAnimationVariables.getArgumentArray());
+        return new Expression(point.getAsJsonPrimitive(x).getAsString().replace("variable.", "variable_"));
     }
 
-    public Vector3f evaluate() {
+    public Vector3f evaluate(BBAnimationVariables vars) {
+        this.expressions[0].removeAllArguments();
+        this.expressions[0].addArguments(vars.getArgumentArray());
+        this.expressions[1].removeAllArguments();
+        this.expressions[1].addArguments(vars.getArgumentArray());
+        this.expressions[2].removeAllArguments();
+        this.expressions[2].addArguments(vars.getArgumentArray());
         return new Vector3f(
                 (float) this.expressions[0].calculate(),
                 (float) this.expressions[1].calculate(),

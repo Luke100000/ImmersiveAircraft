@@ -27,7 +27,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
+    protected ModelPartRenderHandler<T> getModel() {
         return model;
     }
 }

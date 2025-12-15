@@ -42,7 +42,7 @@ public class BBAnimator {
         }
     }
 
-    public Vector3f sample(BBAnimation animation, Channel channel, float time) {
+    public Vector3f sample(BBAnimation animation, Channel channel, float time, BBAnimationVariables vars) {
         List<BBKeyframe> keyframes = frames.get(channel);
         if (keyframes.isEmpty()) {
             if (channel == Channel.SCALE) {
@@ -64,13 +64,13 @@ public class BBAnimator {
         BBKeyframe second = keyframes.get((i + 1) % keyframes.size());
 
         if (first.time == second.time) {
-            return first.evaluate();
+            return first.evaluate(vars);
         }
 
         float delta = (time - first.time) / (second.time - first.time);
-        Vector3f firstVector = first.evaluate();
+        Vector3f firstVector = first.evaluate(vars);
         firstVector.mul(1 - delta);
-        Vector3f secondVector = second.evaluate();
+        Vector3f secondVector = second.evaluate(vars);
         secondVector.mul(delta);
         firstVector.add(secondVector);
         return firstVector;

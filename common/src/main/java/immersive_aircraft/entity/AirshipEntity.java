@@ -69,7 +69,7 @@ public class AirshipEntity extends Rotorcraft {
 
         float power = getEnginePower();
 
-        if (level().isClientSide && isWithinParticleRange() && power > 0.01) {
+        if (level().isClientSide() && isWithinParticleRange() && power > 0.01) {
             Matrix4f transform = getVehicleTransform();
 
             // Smoke

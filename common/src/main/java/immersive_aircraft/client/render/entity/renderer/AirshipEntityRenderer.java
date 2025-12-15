@@ -14,18 +14,18 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
         return ID;
     }
 
-    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
+    private final ModelPartRenderHandler<AircraftEntityRenderState> model = new ModelPartRenderHandler<AircraftEntityRenderState>()
             .add("banners", this::renderBanners)
-            .add("colored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderDyed(model, object, vertexConsumerProvider, entity, matrixStack, light, time, false, true))
-            .add("uncolored", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderUndyed(model, object, vertexConsumerProvider, entity, matrixStack, light, time))
-            .add("flag", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
-            .add("flag_small", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
-            .add("flag_front", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time));
+            .add("colored", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
+                    renderDyed(model, object, matrixStack, entity, submitNodeCollector, false, true))
+            .add("uncolored", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
+                    renderUndyed(model, object, matrixStack, entity, submitNodeCollector))
+            .add("flag", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
+                    renderSails(object, submitNodeCollector, entity, matrixStack))
+            .add("flag_small", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
+                    renderSails(object, submitNodeCollector, entity, matrixStack))
+            .add("flag_front", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
+                    renderSails(object, submitNodeCollector, entity, matrixStack));
 
 
     public AirshipEntityRenderer(EntityRendererProvider.Context context) {
@@ -34,7 +34,7 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel(AircraftEntity entity) {
+    protected ModelPartRenderHandler<AircraftEntityRenderState> getModel() {
         return model;
     }
 }

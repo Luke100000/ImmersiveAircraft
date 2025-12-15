@@ -7,9 +7,11 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.bullet.BulletEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
+import immersive_aircraft.resources.bbmodel.AnimationVariableName;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -38,7 +40,7 @@ public class RotaryCannon extends BulletWeapon {
 
     @Override
     protected Entity getBullet(Vector4f position, Vector3f direction) {
-        BulletEntity bullet = BULLET.get().create(getEntity().level());
+        BulletEntity bullet = BULLET.get().create(getEntity().level(), EntitySpawnReason.TRIGGERED);
         assert bullet != null;
         bullet.setDamage(Config.getInstance().rotaryCannonDamage);
         bullet.setPos(position.x(), position.y(), position.z());
@@ -80,12 +82,11 @@ public class RotaryCannon extends BulletWeapon {
     }
 
     @Override
-    public <T extends VehicleEntity> void setAnimationVariables(T entity, float time) {
-        super.setAnimationVariables(entity, time);
-
+    public void setAnimationVariables(BBAnimationVariables vars, float time) {
+        super.setAnimationVariables(vars, time);
         float tickDelta = time % 1.0f;
-        BBAnimationVariables.set("pitch", (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
-        BBAnimationVariables.set("yaw", (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));
-        BBAnimationVariables.set("roll", (float) (rotationalManager.getRoll(tickDelta) / Math.PI * 180.0f));
+        vars.set(AnimationVariableName.PITCH, (float) (rotationalManager.getPitch(tickDelta) / Math.PI * 180.0f));
+        vars.set(AnimationVariableName.YAW, (float) (rotationalManager.getYaw(tickDelta) / Math.PI * 180.0f));
+        vars.set(AnimationVariableName.ROLL, (float) (rotationalManager.getRoll(tickDelta) / Math.PI * 180.0f));
     }
 }

@@ -7,7 +7,10 @@ import immersive_aircraft.screen.VehicleScreenHandler;
 import immersive_aircraft.util.Rect2iCommon;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -40,13 +43,13 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         context.blit(TEXTURE, x, y + h - 16, 176, 32, 16, 16, 512, 256);
 
         //edges
-        context.blit(TEXTURE, x + 16, y, w - 32, 16, 176 + 16, 0, 16, 16, 512, 256);
-        context.blit(TEXTURE, x + 16, y + h - 16, w - 32, 16, 176 + 16, 32, 16, 16, 512, 256);
-        context.blit(TEXTURE, x, y + 16, 16, h - 32, 176, 16, 16, 16, 512, 256);
-        context.blit(TEXTURE, x + w - 16, y + 16, 16, h - 32, 176 + 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, w - 32, 16, 176 + 16, 0, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, w - 32, 16, 176 + 16, 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 16, h - 32, 176, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 16, h - 32, 176 + 32, 16, 16, 16, 512, 256);
 
         //center
-        context.blit(TEXTURE, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
     }
 
     public void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
@@ -55,8 +58,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
     @Override
     protected void renderBg(@NotNull GuiGraphics context, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         context.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
         context.blit(TEXTURE, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
@@ -65,9 +68,9 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
             drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
         }
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShaderTexture(0, TEXTURE);
 
         // Slots
         for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
@@ -83,7 +86,13 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {
             SlotDescription slot = menu.getVehicle().getInventoryDescription().getSlots().get(hoveredSlot.getContainerSlot());
             slot.getToolTip().ifPresent(
-                tooltip -> context.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY)
+                tooltip -> context.renderTooltip(this.font,
+                        tooltip,
+                        mouseX,
+                        mouseY,
+                        DefaultTooltipPositioner.INSTANCE,
+                        null
+                        )
             );
         } else {
             renderTooltip(context, mouseX, mouseY);
@@ -98,8 +107,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     }
 
     @Override
-    protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top, int button) {
-        if (super.hasClickedOutside(mouseX, mouseY, left, top, button)) {
+    protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top) {
+        if (super.hasClickedOutside(mouseX, mouseY, left, top)) {
             for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
                 if (mouseX > rectangle.getX() + leftPos && mouseX < rectangle.getX() + rectangle.getWidth() + leftPos && mouseY > rectangle.getY() + topPos && mouseY < rectangle.getY() + rectangle.getHeight() + topPos) {
                     return false;

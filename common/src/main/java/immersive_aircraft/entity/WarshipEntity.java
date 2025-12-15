@@ -5,6 +5,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapon.HeavyCrossbow;
+import immersive_aircraft.resources.bbmodel.AnimationVariableName;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
@@ -21,6 +22,11 @@ import org.joml.*;
 import org.joml.Math;
 
 import java.util.List;
+
+import static immersive_aircraft.resources.bbmodel.AnimationVariableName.*;
+import static immersive_aircraft.resources.bbmodel.AnimationVariableName.BALLOON_ROLL;
+import static immersive_aircraft.resources.bbmodel.AnimationVariableName.TURRET_PITCH;
+import static immersive_aircraft.resources.bbmodel.AnimationVariableName.TURRET_YAW;
 
 public class WarshipEntity extends AirshipEntity {
     private final HeavyCrossbow turret;
@@ -40,23 +46,23 @@ public class WarshipEntity extends AirshipEntity {
     }
 
     @Override
-    public void setAnimationVariables(float tickDelta) {
-        super.setAnimationVariables(tickDelta);
+    public void setAnimationVariables(BBAnimationVariables animationVariables, float tickDelta) {
+        super.setAnimationVariables(animationVariables, tickDelta);
 
-        BBAnimationVariables.set("turret_yaw", -turretYaw.getSmooth(tickDelta));
-        BBAnimationVariables.set("turret_pitch", -turretPitch.getSmooth(tickDelta));
+        animationVariables.set(TURRET_YAW, -turretYaw.getSmooth(tickDelta));
+        animationVariables.set(TURRET_PITCH, -turretPitch.getSmooth(tickDelta));
 
         if (weapons.isEmpty()) {
-            BBAnimationVariables.set("balloon_roll", (float) Utils.cosNoise((tickCount + tickDelta) * 0.01f) * 0.2f + getRoll(tickDelta) * 0.5f);
-            BBAnimationVariables.set("balloon_pitch", (float) Utils.cosNoise(77.0f + (tickCount + tickDelta) * 0.02f) * 0.2f);
+            animationVariables.set(BALLOON_ROLL, (float) Utils.cosNoise((tickCount + tickDelta) * 0.01f) * 0.2f + getRoll(tickDelta) * 0.5f);
+            animationVariables.set(BALLOON_PITCH, (float) Utils.cosNoise(77.0f + (tickCount + tickDelta) * 0.02f) * 0.2f);
         } else {
             // Weapon mounts would detach the vehicle if the vehicle is not moving
-            BBAnimationVariables.set("balloon_roll", 0.0f);
-            BBAnimationVariables.set("balloon_pitch", 0.0f);
+            animationVariables.set(BALLOON_ROLL, 0.0f);
+            animationVariables.set(BALLOON_PITCH, 0.0f);
         }
 
-        BBAnimationVariables.set("chest", (float) Math.max(0.0, this.getSpeedVector().y));
-        BBAnimationVariables.set("turret_cooldown", turret.getCooldown());
+        animationVariables.set(CHEST, (float) Math.max(0.0, this.getSpeedVector().y));
+        animationVariables.set(TURRET_COOLDOWN, turret.getCooldown());
     }
 
     @Override

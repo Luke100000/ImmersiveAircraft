@@ -1,9 +1,9 @@
 package immersive_aircraft.entity;
 
+import com.mojang.serialization.Codec;
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.inventory.SparseSimpleInventory;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
@@ -22,6 +22,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
@@ -36,6 +37,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -123,13 +126,13 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    protected void dropInventory() {
+    protected void dropInventory(ServerLevel serverLevel) {
         for (SlotDescription slot : getInventoryDescription().getSlots()) {
             boolean isCargo = slot.type().equals(VehicleInventoryDescription.INVENTORY);
             if (isCargo && Config.getInstance().dropInventory || !isCargo && Config.getInstance().dropUpgrades) {
                 ItemStack stack = getSlot(slot.index()).get();
                 if (!stack.isEmpty()) {
-                    this.spawnAtLocation(stack.copyAndClear());
+                    this.spawnAtLocation(serverLevel, stack.copyAndClear());
                 }
             }
         }
@@ -153,9 +156,9 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
         if (getHealth() >= 1.0) {
-            if (!player.level().isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
+            if (!player.level().isClientSide() && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
                 Entity primaryPassenger = getFirstPassenger();
                 if (primaryPassenger != null) {
                     // Kick out the first passenger
@@ -174,18 +177,17 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
-
-        tag.put("Inventory", getInventory().createTag(this.registryAccess()));
+        ValueOutput.TypedOutputList<ItemStack> list = tag.list("Inventory", ItemStack.CODEC);
+        getInventory().storeAsItemList(list);
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
-
-        ListTag nbtList = tag.getList("Inventory", 10);
-        getInventory().fromTag(nbtList, this.registryAccess());
+        ValueInput.TypedInputList<ItemStack> list = tag.listOrEmpty("Inventory", ItemStack.CODEC);
+        getInventory().fromItemList(list);
     }
 
     @Override

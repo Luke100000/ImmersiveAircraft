@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.weapon;
 
+import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import org.joml.Vector3f;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
@@ -49,7 +50,7 @@ public abstract class Weapon {
 
     public abstract void clientFire(int index);
 
-    public <T extends VehicleEntity> void setAnimationVariables(T entity, float time) {
+    public void setAnimationVariables(BBAnimationVariables vars, float time) {
         // nop
     }
 }

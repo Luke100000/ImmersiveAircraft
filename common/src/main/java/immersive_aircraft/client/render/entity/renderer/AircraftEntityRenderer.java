@@ -4,28 +4,45 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.entity.AircraftEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends InventoryVehicleRenderer<T> {
+public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends InventoryVehicleRenderer<T, AircraftEntityRenderState> {
     public AircraftEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     // Because this is used in plugins, changing to generic T is no longer possible
-    protected abstract ModelPartRenderHandler<T> getModel(AircraftEntity entity);
+    protected abstract ModelPartRenderHandler<AircraftEntityRenderState> getModel();
 
-    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
+    @Override
+    public void renderLocal(AircraftEntityRenderState entity, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, ModelPartRenderHandler<AircraftEntityRenderState> modelPartRenderHandler) {
         // Wind effect
-        Vector3f effect = entity.onGround() ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.getWindEffect();
+        Vector3f effect = entity.onGround ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.windEffect;
         matrixStack.mulPose(Axis.XP.rotationDegrees(effect.z));
         matrixStack.mulPose(Axis.ZP.rotationDegrees(effect.x));
 
-        super.renderLocal(entity, yaw, tickDelta, matrixStack, peek, vertexConsumerProvider, light);
+        super.renderLocal(entity, matrixStack, submitNodeCollector, null);
 
         //Render trails
-        entity.getTrails().forEach(t -> TrailRenderer.render(t, vertexConsumerProvider, peek));
+        entity.trails.forEach(t -> TrailRenderer.render(t, submitNodeCollector, matrixStack));
+    }
+
+    @Override
+    public @NotNull AircraftEntityRenderState createRenderState() {
+        return new AircraftEntityRenderState();
+    }
+
+    @Override
+    public void extractRenderState(T entity, AircraftEntityRenderState entityRenderState, float f) {
+        super.extractRenderState(entity, entityRenderState, f);
+        entityRenderState.windEffect = entity.getWindEffect();
+        entityRenderState.trails.clear();
+        entityRenderState.trails.addAll(entity.getTrails());
+
+
     }
 }
 

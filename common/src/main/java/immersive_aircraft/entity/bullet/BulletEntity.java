@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.bullet;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -37,18 +38,13 @@ public class BulletEntity extends AbstractHurtingProjectile {
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.discard();
         }
     }
 
     @Override
     public boolean isPickable() {
-        return false;
-    }
-
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
         return false;
     }
 

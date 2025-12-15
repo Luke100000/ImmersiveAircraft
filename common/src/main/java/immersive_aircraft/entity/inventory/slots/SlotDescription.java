@@ -2,10 +2,12 @@ package immersive_aircraft.entity.inventory.slots;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.entity.InventoryVehicleEntity;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +42,7 @@ public class SlotDescription {
         buffer.writeInt(y);
     }
 
-    public Optional<List<Component>> getToolTip() {
+    public Optional<List<ClientTooltipComponent>> getToolTip() {
         return Optional.empty();
     }
 

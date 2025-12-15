@@ -1,6 +1,5 @@
 package immersive_aircraft.neoforge;
 
-import immersive_aircraft.ItemColors;
 import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
