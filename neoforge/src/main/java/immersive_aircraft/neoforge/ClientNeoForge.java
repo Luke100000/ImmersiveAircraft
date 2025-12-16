@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 @Mod(value = Main.MOD_ID, dist = Dist.CLIENT)
-@EventBusSubscriber(value = Dist.CLIENT, modid = Main.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = Main.MOD_ID)
 public final class ClientNeoForge {
     @SubscribeEvent
     public static void data(FMLConstructModEvent event) {
@@ -33,10 +33,5 @@ public final class ClientNeoForge {
     @SubscribeEvent
     public static void onKeyRegister(RegisterKeyMappingsEvent event) {
         KeyBindings.list.forEach(event::register);
-    }
-
-    @SubscribeEvent
-    public static void initItemColors(RegisterColorHandlersEvent.Item event) {
-        ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> event.register(itemColor, item.get()));
     }
 }

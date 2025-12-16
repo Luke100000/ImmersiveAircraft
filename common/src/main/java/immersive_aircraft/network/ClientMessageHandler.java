@@ -28,7 +28,7 @@ public class ClientMessageHandler implements MessageHandler {
         if (client.level != null && client.player != null) {
             InventoryVehicleEntity vehicle = (InventoryVehicleEntity) client.level.getEntity(message.getVehicle());
             if (vehicle != null) {
-                vehicle.getInventory().setItem(message.getIndex(), message.getStack(vehicle));
+                vehicle.getInventory().setItem(message.getIndex(), message.getStack());
             }
         }
     }

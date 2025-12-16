@@ -17,7 +17,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
         return ID;
     }
 
-    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
+    private final ModelPartRenderHandler<AircraftEntityRenderState> model = new ModelPartRenderHandler<AircraftEntityRenderState>()
             .add("banners", this::renderBanners);
 
     public BiplaneEntityRenderer(EntityRendererProvider.Context context) {
@@ -27,7 +27,7 @@ public class BiplaneEntityRenderer<T extends BiplaneEntity> extends AircraftEnti
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel() {
+    protected ModelPartRenderHandler<AircraftEntityRenderState> getModel() {
         return model;
     }
 }

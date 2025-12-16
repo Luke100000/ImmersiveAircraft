@@ -16,16 +16,16 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
         return ID;
     }
 
-    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
+    private final ModelPartRenderHandler<AircraftEntityRenderState> model = new ModelPartRenderHandler<AircraftEntityRenderState>()
             .add(
                     "wings",
-                    (entity, yaw, time, matrixStack) -> {
-                        float wind = entity.onGround() ? 0.0f : 1.0f;
+                    (entity, poseStack, time) -> {
+                        float wind = entity.onGround ? 0.0f : 1.0f;
                         float nx = (float) (Utils.cosNoise(time / 3.0)) * wind;
                         float ny = (float) (Utils.cosNoise(time / 4.0)) * wind;
 
-                        matrixStack.mulPose(Axis.XP.rotationDegrees(ny));
-                        matrixStack.mulPose(Axis.ZP.rotationDegrees(nx));
+                        poseStack.mulPose(Axis.XP.rotationDegrees(ny));
+                        poseStack.mulPose(Axis.ZP.rotationDegrees(nx));
                     }
             );
 
@@ -35,7 +35,7 @@ public class GyrodyneEntityRenderer<T extends GyrodyneEntity> extends AircraftEn
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel() {
+    protected ModelPartRenderHandler<AircraftEntityRenderState> getModel() {
         return model;
     }
 }

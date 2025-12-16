@@ -2,7 +2,6 @@ package immersive_aircraft.neoforge;
 
 import immersive_aircraft.*;
 import immersive_aircraft.neoforge.cobalt.network.NetworkHandlerImpl;
-import immersive_aircraft.neoforge.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.neoforge.cobalt.registration.RegistrationImpl;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
@@ -16,12 +15,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
 @Mod(Main.MOD_ID)
-@EventBusSubscriber(modid = Main.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Main.MOD_ID)
 public final class CommonNeoForge {
     static {
         Main.MOD_LOADER = "neoforge";
-
-        new CobaltFuelRegistryImpl();
     }
 
     static final NetworkHandlerImpl NETWORK_HANDLER = new NetworkHandlerImpl();

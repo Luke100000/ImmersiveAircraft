@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class AbstractClientPlayerMixin extends Player {
-    public AbstractClientPlayerMixin(Level level, BlockPos blockPos, float f, GameProfile gameProfile) {
-        super(level, blockPos, f, gameProfile);
+    public AbstractClientPlayerMixin(Level level, GameProfile gameProfile) {
+        super(level, gameProfile);
     }
 
-    @Inject(method = "getFieldOfViewModifier()F", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getFieldOfViewModifier", at = @At("HEAD"), cancellable = true)
     public void ia$getFieldOfViewModifier(CallbackInfoReturnable<Float> cir) {
         if (getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
             cir.setReturnValue(0.05f);

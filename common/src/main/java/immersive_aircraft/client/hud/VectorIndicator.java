@@ -99,7 +99,7 @@ public class VectorIndicator implements Indicator {
         x0 -= yawRate * width / 200;
         y0 -= pitchRate * width / 200;
         if (edgeCheck(edge, 5, x0, y0)) {
-            context.renderOutline(x0 - 3, y0 - 2, 5, 5, color);
+            context.submitOutline(x0 - 3, y0 -2 , 5, 5, color);
             OverlayRenderer.renderLine(context, x0 - 1, y0 - 5, x0 - 1, y0 - 2, color);
             OverlayRenderer.renderLine(context, x0 - 6, y0, x0 - 3, y0, color);
             OverlayRenderer.renderLine(context, x0 + 1, y0, x0 + 4, y0, color);
@@ -115,7 +115,7 @@ public class VectorIndicator implements Indicator {
         int yr = baseY - (int) (pitchRate * 0.15d * scale);
         int[] edge0 = new int[]{baseY - 27 * scale, baseY + 27 * scale, baseX - 27 * scale, baseX + 27 * scale};
         if (edgeCheck(edge0, 5, xr, yr)) {
-            context.renderOutline(xr - 2, yr - 2, 5, 5, colorBG);
+            context.submitOutline(xr - 2, yr - 2, 5, 5, colorBG);
             OverlayRenderer.renderLine(context, xr, yr - 5, xr, yr - 2, colorBG);
             OverlayRenderer.renderLine(context, xr - 5, yr, xr - 2, yr, colorBG);
             OverlayRenderer.renderLine(context, xr + 2, yr, xr + 5, yr, colorBG);

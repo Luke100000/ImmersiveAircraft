@@ -3,7 +3,6 @@ package immersive_aircraft.fabric;
 import immersive_aircraft.*;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
-import immersive_aircraft.fabric.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
@@ -21,7 +20,6 @@ public final class CommonFabric implements ModInitializer {
 
         new RegistrationImpl();
         new NetworkHandlerImpl();
-        new CobaltFuelRegistryImpl();
     }
 
     @Override

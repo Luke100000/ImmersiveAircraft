@@ -1,5 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
@@ -9,10 +10,12 @@ import immersive_aircraft.resources.BBModelLoader;
 import immersive_aircraft.resources.bbmodel.AnimationVariableName;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.HitboxRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -96,6 +99,18 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
     }
 
     @Override
+    protected void extractAdditionalHitboxes(T entity, ImmutableList.Builder<HitboxRenderState> builder, float f) {
+        super.extractAdditionalHitboxes(entity, builder, f);
+        for (AABB aABB : entity.getAdditionalShapes()) {
+            AABB moved = aABB.move(-entity.getX(), -entity.getY(), -entity.getZ());
+            HitboxRenderState hitboxRenderState = new HitboxRenderState(
+                    moved.minX, moved.minY, moved.minZ, moved.maxX, moved.maxY, moved.maxZ, 1.0f, 1.0f, 1.0f
+            );
+            builder.add(hitboxRenderState);
+        }
+    }
+
+    @Override
     public void extractRenderState(T entity, S entityRenderState, float f) {
         super.extractRenderState(entity, entityRenderState, f);
         entityRenderState.yRot = entity.getViewYRot(f);
@@ -111,6 +126,10 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
         entityRenderState.passengers.addAll(entity.getPassengers());
         entityRenderState.onGround = entity.onGround();
         entityRenderState.speedVector = entity.getSpeedVector();
+
+        if (entityRenderState.additionalShapes.isEmpty() && !entity.getAdditionalShapes().isEmpty()) {
+            entityRenderState.additionalShapes.addAll(entity.getAdditionalShapes());
+        }
 
         entityRenderState.controllingPassenger = entity.getControllingPassenger();
 

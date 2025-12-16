@@ -6,13 +6,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 import org.mariuszgromada.math.mxparser.Argument;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class VehicleEntityRenderState extends EntityRenderState {
@@ -31,9 +30,11 @@ public class VehicleEntityRenderState extends EntityRenderState {
     public Set<Entity> passengers;
     public LivingEntity controllingPassenger;
     public boolean onGround;
+    public List<AABB> additionalShapes;
 
     public VehicleEntityRenderState() {
         animationVariables = new BBAnimationVariables();
         passengers = new HashSet<>();
+        additionalShapes = new ArrayList<>();
     }
 }

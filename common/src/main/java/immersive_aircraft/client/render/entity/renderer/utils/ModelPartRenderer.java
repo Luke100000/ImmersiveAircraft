@@ -1,6 +1,7 @@
 package immersive_aircraft.client.render.entity.renderer.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import immersive_aircraft.client.render.entity.renderer.VehicleEntityRenderState;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
 import net.minecraft.client.renderer.MultiBufferSource;

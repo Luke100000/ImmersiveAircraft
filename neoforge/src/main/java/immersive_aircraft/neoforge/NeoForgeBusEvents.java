@@ -12,12 +12,13 @@ import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -48,10 +49,10 @@ public class NeoForgeBusEvents {
     }
 
     @SubscribeEvent
-    public static void addReloadListenerEvent(AddReloadListenerEvent event) {
+    public static void addReloadListenerEvent(AddServerReloadListenersEvent event) {
         if (DATA_REGISTRY != null) {
             for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
-                event.addListener(loader);
+                event.addListener(ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, loader.getName()), loader);
             }
         }
     }

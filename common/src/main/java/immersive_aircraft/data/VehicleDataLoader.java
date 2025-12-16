@@ -1,26 +1,27 @@
 package immersive_aircraft.data;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.misc.VehicleData;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VehicleDataLoader extends SimpleJsonResourceReloadListener {
+public class VehicleDataLoader extends SimpleJsonResourceReloadListener<JsonElement> {
     public static final Map<ResourceLocation, VehicleData> REGISTRY = new HashMap<>();
     public static final Map<ResourceLocation, VehicleData> CLIENT_REGISTRY = new HashMap<>();
 
     private static final VehicleData EMPTY = new VehicleData();
 
     public VehicleDataLoader() {
-        super(new Gson(), "aircraft");
+        super(ExtraCodecs.JSON, FileToIdConverter.json("aircraft"));
     }
 
     @Override

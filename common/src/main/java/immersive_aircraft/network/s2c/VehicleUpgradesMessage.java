@@ -4,13 +4,13 @@ import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
 import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class VehicleUpgradesMessage extends Message {
     public static final StreamCodec<RegistryFriendlyByteBuf, VehicleUpgradesMessage> STREAM_CODEC = StreamCodec.ofMember(VehicleUpgradesMessage::encode, VehicleUpgradesMessage::new);
     public static final CustomPacketPayload.Type<VehicleUpgradesMessage> TYPE = Message.createType("vehicle_upgrades");
 
-    public CustomPacketPayload.Type<VehicleUpgradesMessage> type() {
+    public CustomPacketPayload.@NotNull Type<VehicleUpgradesMessage> type() {
         return TYPE;
     }
 
@@ -34,7 +34,7 @@ public class VehicleUpgradesMessage extends Message {
 
         int upgradeCount = buffer.readInt();
         for (int i = 0; i < upgradeCount; i++) {
-            Item item = BuiltInRegistries.ITEM.get(buffer.readResourceLocation());
+            Item item = BuiltInRegistries.ITEM.get(buffer.readResourceLocation()).map(Holder.Reference::value).orElseThrow();
             upgrades.put(item, readUpgrade(buffer));
         }
     }

@@ -14,7 +14,7 @@ public class BambooHopperEntityRenderer<T extends BambooHopperEntity> extends Ai
         return ID;
     }
 
-    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<>();
+    private final ModelPartRenderHandler<AircraftEntityRenderState> model = new ModelPartRenderHandler<>();
 
     public BambooHopperEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -23,7 +23,7 @@ public class BambooHopperEntityRenderer<T extends BambooHopperEntity> extends Ai
     }
 
     @Override
-    protected ModelPartRenderHandler<T> getModel() {
+    protected ModelPartRenderHandler<AircraftEntityRenderState> getModel() {
         return model;
     }
 }

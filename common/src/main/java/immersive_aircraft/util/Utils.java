@@ -4,10 +4,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import dev.architectury.registry.fuel.FuelRegistry;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.registries.VanillaRegistries;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.LeadItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.FuelValues;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -41,7 +49,8 @@ public class Utils {
 
         // Vanilla fuel
         if (Config.getInstance().acceptVanillaFuel) {
-            int fuelTime = CobaltFuelRegistry.INSTANCE.get(fuel);
+            FuelValues fuelValues = FuelValues.vanillaBurnTimes(VanillaRegistries.createLookup(), FeatureFlagSet.of());
+            int fuelTime = FuelRegistry.get(fuel, null, fuelValues);
             if (fuelTime > 0) {
                 return fuelTime;
             }

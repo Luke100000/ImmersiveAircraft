@@ -36,7 +36,7 @@ dependencies {
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
     // // Required to run REI
-    // modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modImplementation "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

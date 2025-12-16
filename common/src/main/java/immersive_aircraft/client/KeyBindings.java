@@ -5,6 +5,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.LinkedList;
@@ -64,7 +65,7 @@ public class KeyBindings {
                 "key.immersive_aircraft." + name,
                 InputConstants.Type.KEYSYM,
                 code,
-                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
+                CATEGORY
         );
         list.add(key);
         return key;
@@ -74,12 +75,15 @@ public class KeyBindings {
         return newMultiKey(name, defaultKey, InputConstants.Type.KEYSYM);
     }
 
+    public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "immersive_aircraft_tab"));
+
     private static KeyMapping newMultiKey(String name, int defaultKey, InputConstants.Type type) {
         KeyMapping key = new MultiKeyMapping(
                 "key.immersive_aircraft." + name,
                 type,
                 defaultKey,
-                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
+                CATEGORY
         );
         list.add(key);
         return key;

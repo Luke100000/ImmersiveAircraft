@@ -41,6 +41,8 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends I
         entityRenderState.windEffect = entity.getWindEffect();
         entityRenderState.trails.clear();
         entityRenderState.trails.addAll(entity.getTrails());
+        entityRenderState.enginePower = entity.enginePower.getSmooth(f);
+        entityRenderState.tickCount = entity.tickCount;
 
 
     }
