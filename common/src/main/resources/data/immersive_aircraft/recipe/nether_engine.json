@@ -6,31 +6,11 @@
     "RRR"
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:magma_cream"
-      }
-    ],
-    "B": [
-      {
-        "item": "minecraft:blaze_rod"
-      }
-    ],
-    "R": [
-      {
-        "item": "minecraft:nether_brick"
-      }
-    ],
-    "N": [
-      {
-        "item": "minecraft:netherite_ingot"
-      }
-    ],
-    "E": [
-      {
-        "item": "immersive_aircraft:engine"
-      }
-    ]
+    "C": "minecraft:magma_cream",
+    "B": "minecraft:blaze_rod",
+    "R": "minecraft:nether_brick",
+    "N": "minecraft:netherite_ingot",
+    "E": "immersive_aircraft:engine"
   },
   "result": {
     "id": "immersive_aircraft:nether_engine"

@@ -6,16 +6,8 @@
     "   "
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:compass"
-      }
-    ],
-    "R": [
-      {
-        "item": "minecraft:comparator"
-      }
-    ]
+    "C": "minecraft:compass",
+    "R": "minecraft:comparator"
   },
   "result": {
     "id": "immersive_aircraft:gyroscope"

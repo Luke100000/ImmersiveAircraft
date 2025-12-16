@@ -6,16 +6,8 @@
     "LLL"
   ],
   "key": {
-    "L": [
-      {
-        "tag": "minecraft:logs"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
+    "L": "#minecraft:logs",
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "immersive_aircraft:hull"

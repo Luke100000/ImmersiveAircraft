@@ -6,16 +6,8 @@
     " CC"
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:copper_ingot"
-      }
-    ],
-    "P": [
-      {
-        "item": "immersive_aircraft:propeller"
-      }
-    ]
+    "C": "minecraft:copper_ingot",
+    "P": "immersive_aircraft:propeller"
   },
   "result": {
     "id": "immersive_aircraft:enhanced_propeller"

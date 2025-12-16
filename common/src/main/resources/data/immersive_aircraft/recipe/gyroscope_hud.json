@@ -6,41 +6,13 @@
     "SGV"
   ],
   "key": {
-    "S": [
-      {
-        "item": "minecraft:note_block"
-      }
-    ],
-    "G": [
-      {
-        "item": "immersive_aircraft:gyroscope"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:gold_ingot"
-      }
-    ],
-    "L": [
-      {
-        "item": "minecraft:redstone_lamp"
-      }
-    ],
-    "N": [
-      {
-        "item": "minecraft:gold_nugget"
-      }
-    ],
-    "P": [
-      {
-        "item": "minecraft:glass_pane"
-      }
-    ],
-    "V": [
-      {
-        "item": "minecraft:lever"
-      }
-    ]
+    "S": "minecraft:note_block",
+    "G": "immersive_aircraft:gyroscope",
+    "I": "minecraft:gold_ingot",
+    "L": "minecraft:redstone_lamp",
+    "N": "minecraft:gold_nugget",
+    "P": "minecraft:glass_pane",
+    "V": "minecraft:lever"
   },
   "result": {
     "id": "immersive_aircraft:gyroscope_hud"

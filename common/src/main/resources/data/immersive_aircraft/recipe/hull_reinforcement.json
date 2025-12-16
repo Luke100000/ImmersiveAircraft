@@ -6,16 +6,8 @@
     "III"
   ],
   "key": {
-    "H": [
-      {
-        "item": "immersive_aircraft:hull"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
+    "H": "immersive_aircraft:hull",
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "immersive_aircraft:hull_reinforcement"

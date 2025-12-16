@@ -6,21 +6,9 @@
     "PBP"
   ],
   "key": {
-    "E": [
-      {
-        "item": "immersive_aircraft:engine"
-      }
-    ],
-    "B": [
-      {
-        "item": "minecraft:bamboo"
-      }
-    ],
-    "P": [
-      {
-        "item": "immersive_aircraft:propeller"
-      }
-    ]
+    "E": "immersive_aircraft:engine",
+    "B": "minecraft:bamboo",
+    "P": "immersive_aircraft:propeller"
   },
   "result": {
     "id": "immersive_aircraft:quadrocopter"

@@ -6,21 +6,9 @@
     "CFC"
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ],
-    "F": [
-      {
-        "item": "minecraft:blast_furnace"
-      }
-    ],
-    "B": [
-      {
-        "item": "immersive_aircraft:boiler"
-      }
-    ]
+    "C": "minecraft:iron_ingot",
+    "F": "minecraft:blast_furnace",
+    "B": "immersive_aircraft:boiler"
   },
   "result": {
     "id": "immersive_aircraft:steel_boiler"
