@@ -6,16 +6,8 @@
     "C  "
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:copper_ingot"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
+    "C": "minecraft:copper_ingot",
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "immersive_aircraft:sturdy_pipes"

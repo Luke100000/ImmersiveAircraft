@@ -6,21 +6,9 @@
     "CC "
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:copper_ingot"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ],
-    "L": [
-      {
-        "item": "minecraft:lever"
-      }
-    ]
+    "C": "minecraft:copper_ingot",
+    "I": "minecraft:iron_ingot",
+    "L": "minecraft:lever"
   },
   "result": {
     "id": "immersive_aircraft:industrial_gears"

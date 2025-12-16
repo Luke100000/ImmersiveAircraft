@@ -6,16 +6,8 @@
     "CC "
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:coal"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
+    "C": "minecraft:coal",
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "immersive_aircraft:improved_landing_gear"

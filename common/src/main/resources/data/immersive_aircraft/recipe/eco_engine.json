@@ -6,26 +6,10 @@
     "RRR"
   ],
   "key": {
-    "C": [
-      {
-        "item": "minecraft:slime_ball"
-      }
-    ],
-    "R": [
-      {
-        "item": "minecraft:brick"
-      }
-    ],
-    "N": [
-      {
-        "item": "minecraft:gold_ingot"
-      }
-    ],
-    "E": [
-      {
-        "item": "immersive_aircraft:engine"
-      }
-    ]
+    "C": "minecraft:slime_ball",
+    "R": "minecraft:brick",
+    "N": "minecraft:gold_ingot",
+    "E": "immersive_aircraft:engine"
   },
   "result": {
     "id": "immersive_aircraft:eco_engine"

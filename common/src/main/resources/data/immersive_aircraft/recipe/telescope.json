@@ -6,16 +6,8 @@
     "   "
   ],
   "key": {
-    "T": [
-      {
-        "item": "minecraft:spyglass"
-      }
-    ],
-    "C": [
-      {
-        "item": "minecraft:copper_ingot"
-      }
-    ]
+    "T": "minecraft:spyglass",
+    "C": "minecraft:copper_ingot"
   },
   "result": {
     "id": "immersive_aircraft:telescope"

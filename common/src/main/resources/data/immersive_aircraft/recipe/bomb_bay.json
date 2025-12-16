@@ -1,4 +1,3 @@
-
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
@@ -7,16 +6,8 @@
     "   "
   ],
   "key": {
-    "T": [
-      {
-        "item": "minecraft:tnt"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
+    "T": "minecraft:tnt",
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "id": "immersive_aircraft:bomb_bay"

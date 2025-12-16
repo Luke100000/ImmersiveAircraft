@@ -6,16 +6,8 @@
     "CCS"
   ],
   "key": {
-    "S": [
-      {
-        "item": "minecraft:string"
-      }
-    ],
-    "C": [
-      {
-        "item": "minecraft:white_carpet"
-      }
-    ]
+    "S": "minecraft:string",
+    "C": "minecraft:white_carpet"
   },
   "result": {
     "id": "immersive_aircraft:sail"
