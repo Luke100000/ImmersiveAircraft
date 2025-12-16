@@ -5,6 +5,7 @@ import immersive_aircraft.fabric.cobalt.data.JsonDataLoaderWrapper;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -18,7 +19,7 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererProvider<T> constructor) {
-        EntityRendererRegistry.register(type, constructor);
+        EntityRenderers.register(type, constructor);
     }
 
     @Override

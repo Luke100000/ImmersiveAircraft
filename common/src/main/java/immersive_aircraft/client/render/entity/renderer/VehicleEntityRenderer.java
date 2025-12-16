@@ -3,6 +3,7 @@ package immersive_aircraft.client.render.entity.renderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import immersive_aircraft.Main;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.entity.VehicleEntity;
@@ -96,6 +97,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
     @Override
     public void submit(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         super.submit(entityRenderState, poseStack, submitNodeCollector, cameraRenderState);
+        render(entityRenderState, poseStack, submitNodeCollector, cameraRenderState);
     }
 
     @Override

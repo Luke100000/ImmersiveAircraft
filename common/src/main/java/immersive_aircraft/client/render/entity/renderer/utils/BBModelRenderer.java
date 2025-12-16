@@ -1,11 +1,9 @@
 package immersive_aircraft.client.render.entity.renderer.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import immersive_aircraft.client.render.entity.renderer.VehicleEntityRenderState;
 import immersive_aircraft.resources.bbmodel.*;
 import immersive_aircraft.util.Utils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.Material;
@@ -165,8 +163,7 @@ public class BBModelRenderer {
         submitNodeCollector.submitCustomGeometry(
                 matrixStack,
                 RenderType.entityNoOutline(material.texture()),
-                (pose, vertexConsumer) -> {
-                    VertexConsumer consumer = Minecraft.getInstance().getAtlasManager().get(material).wrap(vertexConsumer);
+                (pose, consumer) -> {
                     for (BBFace face : cube.getFaces()) {
                         for (int i = 0; i < 4; i++) {
                             BBFace.BBVertex v = face.vertices[i];
