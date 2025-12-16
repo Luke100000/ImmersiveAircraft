@@ -23,6 +23,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -270,9 +271,10 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
 
     private void refuel(int i) {
         List<SlotDescription> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER);
+        FuelValues fuelValues = this.level().fuelValues();
         while (fuel[i] <= TARGET_FUEL && i < slots.size()) {
             ItemStack stack = getInventory().getItem(slots.get(i).index());
-            int time = Utils.getFuelTime(stack);
+            int time = Utils.getFuelTime(stack, fuelValues);
             if (time > 0) {
                 fuel[i] += time;
                 Item item = stack.getItem();

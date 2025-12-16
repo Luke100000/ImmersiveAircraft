@@ -18,6 +18,6 @@ public class FuelSlotDescription extends TooltippedSlotDescription {
 
     @Override
     public Slot getSlot(InventoryVehicleEntity vehicle, Container inventory) {
-        return new FuelSlot(inventory, index, x, y);
+        return new FuelSlot(vehicle, inventory, index, x, y);
     }
 }

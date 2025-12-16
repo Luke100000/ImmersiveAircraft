@@ -7,6 +7,8 @@ import com.google.gson.JsonPrimitive;
 import dev.architectury.registry.fuel.FuelRegistry;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.screen.slot.FuelSlot;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -20,6 +22,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class Utils {
     public static double cosNoise(double time) {
@@ -35,7 +38,7 @@ public class Utils {
         return value;
     }
 
-    public static int getFuelTime(ItemStack fuel) {
+    public static int getFuelTime(ItemStack fuel, FuelValues fuelValues) {
         if (fuel.isEmpty()) {
             return 0;
         }
@@ -49,7 +52,6 @@ public class Utils {
 
         // Vanilla fuel
         if (Config.getInstance().acceptVanillaFuel) {
-            FuelValues fuelValues = FuelValues.vanillaBurnTimes(VanillaRegistries.createLookup(), FeatureFlagSet.of());
             int fuelTime = FuelRegistry.get(fuel, null, fuelValues);
             if (fuelTime > 0) {
                 return fuelTime;
