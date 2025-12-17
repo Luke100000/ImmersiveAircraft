@@ -27,6 +27,9 @@ public class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingE
         }
     }
 
+    /**
+     * Ensure the passenger's bodies rotate properly when their aircraft turns.
+     */
     @Inject(method = "setupRotations", at = @At("TAIL"))
     public void render(S livingEntityRenderState, PoseStack poseStack, float f, float g, CallbackInfo ci) {
         PassengerLivingEntityRenderState rs = (PassengerLivingEntityRenderState) livingEntityRenderState;
