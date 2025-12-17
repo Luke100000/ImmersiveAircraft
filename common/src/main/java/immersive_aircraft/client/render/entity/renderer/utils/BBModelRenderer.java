@@ -107,21 +107,21 @@ public class BBModelRenderer {
     }
 
     public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, int light, float red, float green, float blue, float alpha) {
-        PoseStack.Pose last = matrixStack.last();
-        Matrix4f positionMatrix = last.pose();
-        Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
-            for (int i = 0; i < 4; i++) {
-                BBFace.BBVertex v = face.vertices[i];
-                Vector3f p = positionMatrix.transformPosition(v.x, v.y, v.z, new Vector3f());
-                Vector3f n = normalMatrix.transform(v.nx, v.ny, v.nz, new Vector3f());
-                int color = ARGB.colorFromFloat(alpha, red, green, blue);
-                submitNodeCollector.submitCustomGeometry(
-                        matrixStack,
-                        DEFAULT_RENDER_TYPE.apply(cube, face),
-                        (pose, vertexConsumer) ->
-                                vertexConsumer.addVertex(p.x, p.y, p.z, color, v.u, v.v, OverlayTexture.NO_OVERLAY, light, n.x, n.y, n.z));
-            }
+            submitNodeCollector.submitCustomGeometry(
+                    matrixStack,
+                    DEFAULT_RENDER_TYPE.apply(cube, face),
+                    (pose, vertexConsumer) -> {
+                        Matrix4f positionMatrix = pose.pose();
+                        Matrix3f normalMatrix = pose.normal();
+                        for (int i = 0; i < 4; i++) {
+                            BBFace.BBVertex v = face.vertices[i];
+                            Vector3f p = positionMatrix.transformPosition(v.x, v.y, v.z, new Vector3f());
+                            Vector3f n = normalMatrix.transform(v.nx, v.ny, v.nz, new Vector3f());
+                            int color = ARGB.colorFromFloat(alpha, red, green, blue);
+                                            vertexConsumer.addVertex(p.x, p.y, p.z, color, v.u, v.v, OverlayTexture.NO_OVERLAY, light, n.x, n.y, n.z);
+                        }
+            });
         }
     }
 
@@ -156,25 +156,23 @@ public class BBModelRenderer {
         float r = ((fs >> 16) & 0xFF) / 255.0f;
         float g = ((fs >> 8) & 0xFF) / 255.0f;
         float b = (fs & 0xFF) / 255.0f;
-        float alpha = 1.0f;
-        PoseStack.Pose last = matrixStack.last();
-        Matrix4f positionMatrix = last.pose();
-        Matrix3f normalMatrix = last.normal();
-        submitNodeCollector.submitCustomGeometry(
-                matrixStack,
-                RenderType.entityNoOutline(material.texture()),
-                (pose, consumer) -> {
-                    for (BBFace face : cube.getFaces()) {
+        for (BBFace face : cube.getFaces()) {
+            submitNodeCollector.submitCustomGeometry(
+                    matrixStack,
+                    // TODO: May require actually creating a material buffer.
+                    material.renderType(RenderType::entityNoOutline),
+                    (pose, vertexConsumer) -> {
+                        Matrix4f positionMatrix = pose.pose();
+                        Matrix3f normalMatrix = pose.normal();
                         for (int i = 0; i < 4; i++) {
                             BBFace.BBVertex v = face.vertices[i];
                             Vector3f p = positionMatrix.transformPosition(v.x, v.y, v.z, new Vector3f());
                             Vector3f n = normalMatrix.transform(v.nx, v.ny, v.nz, new Vector3f());
-                            int color1 = ARGB.colorFromFloat(alpha, r, g, b);
-                            consumer.addVertex(p.x, p.y, p.z, color1, v.u, v.v, OverlayTexture.NO_OVERLAY, light, n.x, n.y, n.z);
+                            int c = ARGB.colorFromFloat(1.0f, r, g, b);
+                            vertexConsumer.addVertex(p.x, p.y, p.z, c, v.u, v.v, OverlayTexture.NO_OVERLAY, light, n.x, n.y, n.z);
                         }
-                    }
-
-        });
+                    });
+        }
     }
 
     public static void renderSailObject(BBMesh cube,
@@ -200,13 +198,12 @@ public class BBModelRenderer {
                                         float alpha,
                                         float distanceScale,
                                         float baseScale) {
-        PoseStack.Pose last = matrixStack.last();
-        Matrix4f positionMatrix = last.pose();
-        Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
             submitNodeCollector.submitCustomGeometry(matrixStack,
                     RenderType.entityCutoutNoCull(face.texture.location),
                     (pose, vertexConsumer) -> {
+                        Matrix4f positionMatrix = pose.pose();
+                        Matrix3f normalMatrix = pose.normal();
                         for (int i = 0; i < 4; i++) {
                             BBFace.BBVertex v = face.vertices[i];
                             float distance = Math.max(

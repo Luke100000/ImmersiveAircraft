@@ -17,9 +17,9 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
     private final ModelPartRenderHandler<AircraftEntityRenderState> model = new ModelPartRenderHandler<AircraftEntityRenderState>()
             .add("banners", this::renderBanners)
             .add("colored", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
-                    renderDyed(model, object, matrixStack, entity, submitNodeCollector, false, true))
+                    this.renderDyed(model, object, matrixStack, entity, submitNodeCollector, false, true))
             .add("uncolored", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
-                    renderUndyed(model, object, matrixStack, entity, submitNodeCollector))
+                    this.renderUndyed(model, object, matrixStack, entity, submitNodeCollector))
             .add("flag", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->
                     renderSails(object, submitNodeCollector, entity, matrixStack))
             .add("flag_small", (model, object, submitNodeCollector, entity, matrixStack, modelPartRenderer) ->

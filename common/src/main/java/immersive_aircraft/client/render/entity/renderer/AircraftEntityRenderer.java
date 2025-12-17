@@ -24,7 +24,7 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends I
         matrixStack.mulPose(Axis.XP.rotationDegrees(effect.z));
         matrixStack.mulPose(Axis.ZP.rotationDegrees(effect.x));
 
-        super.renderLocal(entity, matrixStack, submitNodeCollector, null);
+        super.renderLocal(entity, matrixStack, submitNodeCollector, modelPartRenderHandler);
 
         //Render trails
         entity.trails.forEach(t -> TrailRenderer.render(t, submitNodeCollector, matrixStack));
