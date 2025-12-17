@@ -7,7 +7,7 @@
   "tints": [
     {
       "type": "minecraft:dye",
-      "defaultColor": 4293707916
+      "default": -6265536
     }
   ]
 }

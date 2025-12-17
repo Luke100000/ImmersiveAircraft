@@ -1,6 +1,12 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "immersive_aircraft:item/airship"
+    "model": "immersive_aircraft:item/airship",
+    "tints": [
+      {
+        "type": "minecraft:dye",
+        "default": -6265536
+      }
+    ]
   }
 }

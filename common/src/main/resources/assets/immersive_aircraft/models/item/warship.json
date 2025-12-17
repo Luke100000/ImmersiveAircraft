@@ -3,11 +3,5 @@
   "textures": {
     "layer0": "immersive_aircraft:item/warship_color",
     "layer1": "immersive_aircraft:item/warship"
-  },
-  "tints": [
-    {
-      "type": "minecraft:dye",
-      "defaultColor": 4293707916
-    }
-  ]
+  }
 }
