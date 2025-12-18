@@ -18,6 +18,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -46,8 +47,13 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity,
     }
 
     @Override
-    public void renderLocal(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, ModelPartRenderHandler<S> model) {
-        super.renderLocal(entityRenderState, poseStack, submitNodeCollector, model);
+    public void renderLocal(S entityRenderState,
+                            PoseStack poseStack,
+                            SubmitNodeCollector submitNodeCollector,
+                            ModelPartRenderHandler<S> model,
+                            CameraRenderState cameraRenderState,
+                            PoseStack.Pose peek) {
+        super.renderLocal(entityRenderState, poseStack, submitNodeCollector, model, cameraRenderState, peek);
         //Render weapons
         LocalPlayer player = Minecraft.getInstance().player;
         for (Weapon weapon : entityRenderState.weapons) {

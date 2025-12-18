@@ -46,4 +46,19 @@ public class Trail {
         lastIndex = (lastIndex + 1) % size;
         entries++;
     }
+
+    private void setBuffer(float[] buffer) {
+        System.arraycopy(buffer, 0, this.buffer, 0, buffer.length);
+    }
+
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
+    @Override
+    public Trail clone() {
+        Trail newTrail = new Trail(this.size, this.gray);
+        newTrail.setBuffer(this.buffer);
+        newTrail.lastIndex = this.lastIndex;
+        newTrail.entries = this.entries;
+        newTrail.nullEntries = this.nullEntries;
+        return newTrail;
+    }
 }

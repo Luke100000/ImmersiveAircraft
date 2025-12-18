@@ -186,7 +186,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected Entity.@NotNull MovementEmission getMovementEmission() {
+    protected @NotNull MovementEmission getMovementEmission() {
         return Entity.MovementEmission.NONE;
     }
 

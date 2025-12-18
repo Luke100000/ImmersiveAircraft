@@ -38,6 +38,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
     protected abstract ResourceLocation getModelId();
 
     public void render(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        PoseStack.Pose peek = poseStack.last();
         poseStack.pushPose();
 
         // Rotation
@@ -46,12 +47,17 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
         poseStack.mulPose(Axis.ZP.rotationDegrees(entityRenderState.zRot));
 
         // Render model, weapons, etc.
-        renderLocal(entityRenderState, poseStack, submitNodeCollector, getModel());
+        renderLocal(entityRenderState, poseStack, submitNodeCollector, getModel(), cameraRenderState, peek);
 
         poseStack.popPose();
     }
 
-    public void renderLocal(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, ModelPartRenderHandler<S> model) {
+    public void renderLocal(S entityRenderState,
+                            PoseStack poseStack,
+                            SubmitNodeCollector submitNodeCollector,
+                            ModelPartRenderHandler<S> model,
+                            CameraRenderState cameraRenderState,
+                            PoseStack.Pose peek) {
         //Wobble
         float h = entityRenderState.damageWobbleTicks;
         float j = Math.max(0f, entityRenderState.damageWobbleStrength);
@@ -96,8 +102,8 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
 
     @Override
     public void submit(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
-        super.submit(entityRenderState, poseStack, submitNodeCollector, cameraRenderState);
         render(entityRenderState, poseStack, submitNodeCollector, cameraRenderState);
+        super.submit(entityRenderState, poseStack, submitNodeCollector, cameraRenderState);
     }
 
     @Override
