@@ -1,4 +1,4 @@
-package immersive_aircraft;
+package immersive_aircraft.client.render.entity.renderer.utils;
 
 public interface PassengerLivingEntityRenderState {
     Float immersive_aircraft$getVehicleXRot();

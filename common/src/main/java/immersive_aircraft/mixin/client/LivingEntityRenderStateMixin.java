@@ -1,6 +1,6 @@
 package immersive_aircraft.mixin.client;
 
-import immersive_aircraft.PassengerLivingEntityRenderState;
+import immersive_aircraft.client.render.entity.renderer.utils.PassengerLivingEntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

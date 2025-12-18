@@ -2,7 +2,7 @@ package immersive_aircraft.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import immersive_aircraft.PassengerLivingEntityRenderState;
+import immersive_aircraft.client.render.entity.renderer.utils.PassengerLivingEntityRenderState;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;

@@ -5,24 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.architectury.registry.fuel.FuelRegistry;
-import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.screen.slot.FuelSlot;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.registries.VanillaRegistries;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.LeadItem;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.FuelValues;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class Utils {
     public static double cosNoise(double time) {
