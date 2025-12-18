@@ -407,16 +407,14 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // if it's the right side, update the velocity
-        if (isLocalClientAuthoritative()) {
+        if (isLocalInstanceAuthoritative()) {
             updateVelocity();
-
             // boost
             if (boost > 0) {
                 applyBoost();
             }
 
             updateController();
-
             move(MoverType.SELF, getDeltaMovement());
         }
 
