@@ -1,6 +1,11 @@
 package immersive_aircraft.client.gui;
 
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
@@ -17,6 +22,8 @@ import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+
+import static net.minecraft.client.renderer.RenderPipelines.MATRICES_PROJECTION_SNIPPET;
 
 public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler> {
     private static final ResourceLocation TEXTURE = Main.locate("textures/gui/container/inventory.png");
@@ -37,40 +44,35 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
     protected void drawRectangle(GuiGraphics context, int x, int y, int h, int w) {
         //corners
-        context.blit(TEXTURE, x, y, 176, 0, 16, 16, 512, 256);
-        context.blit(TEXTURE, x + w - 16, y, 176 + 32, 0, 16, 16, 512, 256);
-        context.blit(TEXTURE, x + w - 16, y + h - 16, 176 + 32, 32, 16, 16, 512, 256);
-        context.blit(TEXTURE, x, y + h - 16, 176, 32, 16, 16, 512, 256);
+        // renderLayer, texture, x, y, u, v, width, height, regionWidth, regionHeight, textureWidth, textureHeight
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 176, 0, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y, 176 + 32, 0, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + h - 16, 176 + 32, 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + h - 16, 176, 32, 16, 16, 512, 256);
 
         //edges
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, w - 32, 16, 176 + 16, 0, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, w - 32, 16, 176 + 16, 32, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 16, h - 32, 176, 16, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 16, h - 32, 176 + 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, 176 + 16, 0, w - 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, 176 + 16, 32, w - 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 176, 16, 16, h - 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 176 + 32, 16, 16, h - 32, 16, 16, 512, 256);
 
         //center
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, 176 + 16,16,  w - 32, h - 32, 16, 16, 512, 256);
     }
 
     public void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
-        context.blit(TEXTURE, x, y, u, v, w, h, 512, 256);
+        // renderLayer, texture, x, y, u, v, width, height, regionWidth, regionHeight, textureWidth, textureHeight
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, u, v, w, h, w, h, 512, 256);
     }
 
     @Override
     protected void renderBg(@NotNull GuiGraphics context, float delta, int mouseX, int mouseY) {
-//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-        context.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
-        context.blit(TEXTURE, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
 
         for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
             drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
         }
-
-//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//        RenderSystem.setShaderTexture(0, TEXTURE);
 
         // Slots
         for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
