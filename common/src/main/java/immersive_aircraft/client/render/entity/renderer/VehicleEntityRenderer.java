@@ -38,7 +38,9 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
     protected abstract ResourceLocation getModelId();
 
     public void render(S entityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
-        PoseStack.Pose peek = poseStack.last();
+        // Render trails, which need to be rendered relative to an unrotated aircraft.
+        renderBeforeRotation(entityRenderState, poseStack, submitNodeCollector, getModel(), cameraRenderState);
+
         poseStack.pushPose();
 
         // Rotation
@@ -47,17 +49,22 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity, S extends V
         poseStack.mulPose(Axis.ZP.rotationDegrees(entityRenderState.zRot));
 
         // Render model, weapons, etc.
-        renderLocal(entityRenderState, poseStack, submitNodeCollector, getModel(), cameraRenderState, peek);
+        renderLocal(entityRenderState, poseStack, submitNodeCollector, getModel(), cameraRenderState);
 
         poseStack.popPose();
     }
+
+    protected abstract void renderBeforeRotation(S entityRenderState,
+                                                 PoseStack poseStack,
+                                                 SubmitNodeCollector submitNodeCollector,
+                                                 ModelPartRenderHandler<S> model,
+                                                 CameraRenderState cameraRenderState);
 
     public void renderLocal(S entityRenderState,
                             PoseStack poseStack,
                             SubmitNodeCollector submitNodeCollector,
                             ModelPartRenderHandler<S> model,
-                            CameraRenderState cameraRenderState,
-                            PoseStack.Pose peek) {
+                            CameraRenderState cameraRenderState) {
         //Wobble
         float h = entityRenderState.damageWobbleTicks;
         float j = Math.max(0f, entityRenderState.damageWobbleStrength);

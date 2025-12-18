@@ -51,9 +51,8 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity,
                             PoseStack poseStack,
                             SubmitNodeCollector submitNodeCollector,
                             ModelPartRenderHandler<S> model,
-                            CameraRenderState cameraRenderState,
-                            PoseStack.Pose peek) {
-        super.renderLocal(entityRenderState, poseStack, submitNodeCollector, model, cameraRenderState, peek);
+                            CameraRenderState cameraRenderState) {
+        super.renderLocal(entityRenderState, poseStack, submitNodeCollector, model, cameraRenderState);
         //Render weapons
         LocalPlayer player = Minecraft.getInstance().player;
         for (Weapon weapon : entityRenderState.weapons) {

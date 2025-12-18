@@ -2,10 +2,8 @@ package immersive_aircraft.client.render.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.misc.Trail;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -21,17 +19,16 @@ public class TrailRenderer {
     public static void render(Trail trail,
                               SubmitNodeCollector submitNodeCollector,
                               PoseStack poseStack,
-                              CameraRenderState cameraRenderState,
-                              PoseStack.Pose peek) {
+                              CameraRenderState cameraRenderState) {
         if (trail.nullEntries >= trail.size || trail.entries == 0) {
             return;
         }
 
-        submitNodeCollector.submitCustomGeometry(poseStack, RenderType.beaconBeam(identifier, true), ((_pose, lineVertexConsumer) -> {
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderType.beaconBeam(identifier, true), ((pose, lineVertexConsumer) -> {
             int light = 15728640;
 
             Vec3 pos = cameraRenderState.pos;
-            Matrix3f normal = peek.normal();
+            Matrix3f normal = pose.normal();
 
             //todo a custom vertex indexing methode would be beneficial here
             for (int i = 1; i < Math.min(trail.entries, trail.size); i++) {

@@ -21,21 +21,28 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends I
     protected abstract ModelPartRenderHandler<AircraftEntityRenderState> getModel();
 
     @Override
+    protected void renderBeforeRotation(AircraftEntityRenderState entity,
+                            PoseStack matrixStack,
+                            SubmitNodeCollector submitNodeCollector,
+                            ModelPartRenderHandler<AircraftEntityRenderState> modelPartRenderHandler,
+                            CameraRenderState cameraRenderState) {
+        //Render trails
+        entity.trails.forEach(t -> TrailRenderer.render(t, submitNodeCollector, matrixStack, cameraRenderState));
+    }
+
+    @Override
     public void renderLocal(AircraftEntityRenderState entity,
                             PoseStack matrixStack,
                             SubmitNodeCollector submitNodeCollector,
                             ModelPartRenderHandler<AircraftEntityRenderState> modelPartRenderHandler,
-                            CameraRenderState cameraRenderState,
-                            PoseStack.Pose peek) {
-        //Render trails
-        entity.trails.forEach(t -> TrailRenderer.render(t, submitNodeCollector, matrixStack, cameraRenderState, peek));
+                            CameraRenderState cameraRenderState) {
 
         // Wind effect
         Vector3f effect = entity.onGround ? new Vector3f(0.0f, 0.0f, 0.0f) : entity.windEffect;
         matrixStack.mulPose(Axis.XP.rotationDegrees(effect.z));
         matrixStack.mulPose(Axis.ZP.rotationDegrees(effect.x));
 
-        super.renderLocal(entity, matrixStack, submitNodeCollector, modelPartRenderHandler, cameraRenderState, peek);
+        super.renderLocal(entity, matrixStack, submitNodeCollector, modelPartRenderHandler, cameraRenderState);
 
     }
 
