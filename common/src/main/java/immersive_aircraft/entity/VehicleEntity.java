@@ -19,7 +19,6 @@ import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -455,7 +454,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private void tickDamageParticles() {
-        if (level() instanceof ClientLevel clientLevel && random.nextFloat() > getHealth()) {
+        if (level().isClientSide() && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> shapes = getShapes();
             AABB shape = shapes.get(random.nextInt(shapes.size()));
@@ -465,9 +464,9 @@ public abstract class VehicleEntity extends Entity {
             double z = center.z + shape.getZsize() * (random.nextDouble() - 0.5) * 1.5;
 
             Vec3 speed = getSpeedVector();
-            clientLevel.addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
+            level().addParticle(ParticleTypes.SMOKE, x, y, z, speed.x, speed.y, speed.z);
             if (getHealth() < 0.5) {
-                clientLevel.addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
+                level().addParticle(ParticleTypes.SMALL_FLAME, x, y, z, speed.x, speed.y, speed.z);
             }
         }
 
