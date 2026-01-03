@@ -30,14 +30,22 @@ public class InventoryUpdateMessage extends Message {
     public InventoryUpdateMessage(RegistryFriendlyByteBuf b) {
         vehicle = b.readInt();
         index = b.readInt();
-        stack = b.readLenientJsonWithCodec(ItemStack.OPTIONAL_CODEC);
+        boolean isEmpty = b.readBoolean();
+        if (!isEmpty) {
+            stack = b.readLenientJsonWithCodec(ItemStack.CODEC);
+        } else {
+            stack = ItemStack.EMPTY;
+        }
     }
 
     @Override
     public void encode(RegistryFriendlyByteBuf b) {
         b.writeInt(vehicle);
         b.writeInt(index);
-        b.writeJsonWithCodec(ItemStack.OPTIONAL_CODEC, stack);
+        b.writeBoolean(stack.isEmpty());
+        if (!stack.isEmpty()) {
+            b.writeJsonWithCodec(ItemStack.CODEC, stack);
+        }
     }
 
     @Override

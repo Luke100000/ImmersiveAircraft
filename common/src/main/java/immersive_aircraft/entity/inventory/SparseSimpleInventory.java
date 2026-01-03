@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.inventory;
 
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.network.c2s.InventoryRequest;
@@ -22,23 +23,20 @@ public class SparseSimpleInventory extends SimpleContainer {
         tracked = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
-    @Override
-    public void fromItemList(ValueInput.TypedInputList<ItemStack> typedInputList) {
+    public void fromIndexedItemList(ValueInput.TypedInputList<Pair<Integer, ItemStack>> typedInputList) {
         for (int i = 0; i < this.getContainerSize(); i++) {
             this.setItem(i, ItemStack.EMPTY);
         }
 
-        final int[] j = {0};
-        typedInputList.stream().limit(this.getContainerSize()).forEach(stack -> {
-            this.setItem(j[0], stack);
-            j[0]++;
+        typedInputList.stream().limit(this.getContainerSize()).forEach(pair -> {
+            this.setItem(pair.getFirst(), pair.getSecond());
         });
     }
 
-    @Override
-    public void storeAsItemList(ValueOutput.TypedOutputList<ItemStack> typedOutputList) {
-        for (ItemStack itemStack : this.tracked) {
-            typedOutputList.add(itemStack);
+    public void storeAsIndexedItemList(ValueOutput.TypedOutputList<Pair<Integer, ItemStack>> typedOutputList) {
+        for (int i = 0; i < this.tracked.size(); i++) {
+            if (!this.tracked.get(i).isEmpty())
+                typedOutputList.add(Pair.of(i, this.tracked.get(i)));
         }
     }
 

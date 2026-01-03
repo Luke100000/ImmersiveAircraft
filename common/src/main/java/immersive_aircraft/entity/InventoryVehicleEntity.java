@@ -1,5 +1,6 @@
 package immersive_aircraft.entity;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
@@ -47,6 +48,8 @@ import org.joml.Vector3f;
 import java.util.*;
 
 public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements ContainerListener, MenuProvider, Container, HasCustomInventoryScreen {
+    public static Codec<Pair<Integer, ItemStack>> INVENTORY_SLOT = Codec.pair(Codec.INT, ItemStack.CODEC);
+
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected final Map<Integer, List<Weapon>> weapons = new HashMap<>();
@@ -179,14 +182,14 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     @Override
     protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
-        ValueOutput.TypedOutputList<ItemStack> list = tag.list("Inventory", ItemStack.OPTIONAL_CODEC);
+        ValueOutput.TypedOutputList<Pair<Integer, ItemStack>> list = tag.list("Inventory", INVENTORY_SLOT);
         getInventory().storeAsItemList(list);
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        ValueInput.TypedInputList<ItemStack> list = tag.listOrEmpty("Inventory", ItemStack.OPTIONAL_CODEC);
+        ValueInput.TypedInputList<Pair<Integer, ItemStack>> list = tag.listOrEmpty("Inventory", INVENTORY_SLOT);
         getInventory().fromItemList(list);
     }
 
