@@ -179,14 +179,14 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     @Override
     protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
-        ValueOutput.TypedOutputList<ItemStack> list = tag.list("Inventory", ItemStack.CODEC);
+        ValueOutput.TypedOutputList<ItemStack> list = tag.list("Inventory", ItemStack.OPTIONAL_CODEC);
         getInventory().storeAsItemList(list);
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        ValueInput.TypedInputList<ItemStack> list = tag.listOrEmpty("Inventory", ItemStack.CODEC);
+        ValueInput.TypedInputList<ItemStack> list = tag.listOrEmpty("Inventory", ItemStack.OPTIONAL_CODEC);
         getInventory().fromItemList(list);
     }
 
