@@ -12,6 +12,6 @@
     "client.ClientPlayerInteractionManagerMixin", "client.ClientPlayNetworkHandlerMixin",
     "client.EntityRenderDispatcherMixin", "client.GameRendererMixin", "client.GuiMixin",
     "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
-    "client.PlayerEntityRendererMixin"
+    "client.PlayerEntityRendererMixin", "client.state.LivingEntityRenderStateMixin"
   ]
 }

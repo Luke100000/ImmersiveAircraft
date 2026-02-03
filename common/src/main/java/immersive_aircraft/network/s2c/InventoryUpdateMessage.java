@@ -2,7 +2,6 @@ package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -19,29 +18,25 @@ public class InventoryUpdateMessage extends Message {
 
     private final int vehicle;
     private final int index;
-    private final Tag stack;
+    private final ItemStack stack;
 
     public InventoryUpdateMessage(Entity entity, int index, ItemStack stack) {
         this.vehicle = entity.getId();
         this.index = index;
-        if (stack.isEmpty()) {
-            this.stack = null;
-        } else {
-            this.stack = stack.save(entity.registryAccess());
-        }
+        this.stack = stack.copy();
     }
 
     public InventoryUpdateMessage(RegistryFriendlyByteBuf b) {
         vehicle = b.readInt();
         index = b.readInt();
-        stack = b.readNbt();
+        stack = ItemStack.STREAM_CODEC.decode(b);
     }
 
     @Override
     public void encode(RegistryFriendlyByteBuf b) {
         b.writeInt(vehicle);
         b.writeInt(index);
-        b.writeNbt(stack);
+        ItemStack.STREAM_CODEC.encode(b, stack);
     }
 
     @Override
@@ -58,6 +53,6 @@ public class InventoryUpdateMessage extends Message {
     }
 
     public ItemStack getStack(Entity entity) {
-        return this.stack == null ? ItemStack.EMPTY : ItemStack.parse(entity.registryAccess(), stack).orElse(ItemStack.EMPTY);
+        return stack;
     }
 }

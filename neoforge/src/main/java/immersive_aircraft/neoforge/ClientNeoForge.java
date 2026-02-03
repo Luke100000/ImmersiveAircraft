@@ -1,32 +1,32 @@
 package immersive_aircraft.neoforge;
 
-import immersive_aircraft.ItemColors;
 import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import immersive_aircraft.cobalt.registration.ClientRegistration;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLConstructModEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 @Mod(value = Main.MOD_ID, dist = Dist.CLIENT)
-@EventBusSubscriber(value = Dist.CLIENT, modid = Main.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = Main.MOD_ID)
 public final class ClientNeoForge {
     @SubscribeEvent
-    public static void data(FMLConstructModEvent event) {
-        ReloadableResourceManager resourceManager = (ReloadableResourceManager) Minecraft.getInstance().getResourceManager();
-        NeoForgeBusEvents.RESOURCE_REGISTRY.getLoaders().forEach(resourceManager::registerReloadListener);
+    public static void addReloadListeners(AddClientReloadListenersEvent event) {
+        if (NeoForgeBusEvents.RESOURCE_REGISTRY != null) {
+            NeoForgeBusEvents.RESOURCE_REGISTRY.getLoaders().forEach(event::addListener);
+        }
     }
 
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
+        ClientRegistration.setImpl(EntityRenderers::register);
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
     }
@@ -36,8 +36,5 @@ public final class ClientNeoForge {
         KeyBindings.list.forEach(event::register);
     }
 
-    @SubscribeEvent
-    public static void initItemColors(RegisterColorHandlersEvent.Item event) {
-        ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> event.register(itemColor, item.get()));
-    }
+    // Item colors disabled for 1.21.11 (item tinting API changed)
 }

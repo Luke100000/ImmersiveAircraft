@@ -1,24 +1,30 @@
 package immersive_aircraft.cobalt.registration;
 
 import immersive_aircraft.Main;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 
 import java.util.function.Supplier;
 
 public class Registration {
     private static Impl INSTANCE;
+    private static final ThreadLocal<Identifier> CURRENT_ID = new ThreadLocal<>();
 
-    public static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> constructor) {
-        INSTANCE.registerEntityRenderer(type, constructor);
+    public static <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj) {
+        return INSTANCE.register(registry, id, obj);
     }
 
-    public static <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj) {
-        return INSTANCE.register(registry, id, obj);
+    public static Identifier currentId() {
+        return CURRENT_ID.get();
+    }
+
+    public static void pushId(Identifier id) {
+        CURRENT_ID.set(id);
+    }
+
+    public static void clearId() {
+        CURRENT_ID.remove();
     }
 
     public static void registerDataLoader(String id, PreparableReloadListener loader) {
@@ -34,12 +40,11 @@ public class Registration {
             INSTANCE = this;
         }
 
-        public abstract <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererProvider<T> constructor);
+        public abstract void registerDataLoader(Identifier id, PreparableReloadListener loader);
 
-        public abstract void registerDataLoader(ResourceLocation id, PreparableReloadListener loader);
+        public abstract void registerResourceLoader(Identifier id, PreparableReloadListener loader);
 
-        public abstract void registerResourceLoader(ResourceLocation id, PreparableReloadListener loader);
-
-        public abstract <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj);
+        public abstract <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj);
     }
 }
+

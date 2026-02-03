@@ -1,23 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "LLL",
-    "III",
-    "LLL"
-  ],
-  "key": {
-    "L": [
-      {
-        "tag": "minecraft:logs"
-      }
-    ],
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
-  },
-  "result": {
-    "id": "immersive_aircraft:hull"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "LLL",
+                    "III",
+                    "LLL"
+                ],
+    "key":  {
+                "L":  "#minecraft:logs",
+                "I":  "minecraft:iron_ingot"
+            },
+    "result":  {
+                   "id":  "immersive_aircraft:hull"
+               }
 }

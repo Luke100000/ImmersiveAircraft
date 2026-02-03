@@ -4,16 +4,16 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.entity.weapon.*;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class WeaponRegistry {
-    public static final Map<ResourceLocation, WeaponConstructor> REGISTRY = new HashMap<>();
+    public static final Map<Identifier, WeaponConstructor> REGISTRY = new HashMap<>();
 
-    public static void register(ResourceLocation id, WeaponConstructor constructor) {
+    public static void register(Identifier id, WeaponConstructor constructor) {
         REGISTRY.put(id, constructor);
     }
 
@@ -36,3 +36,4 @@ public class WeaponRegistry {
         Weapon create(VehicleEntity entity, ItemStack itemStack, WeaponMount mount, int slot);
     }
 }
+

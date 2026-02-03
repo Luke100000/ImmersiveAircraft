@@ -1,18 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "II ",
-    " I ",
-    " II"
-  ],
-  "key": {
-    "I": [
-      {
-        "item": "minecraft:iron_ingot"
-      }
-    ]
-  },
-  "result": {
-    "id": "immersive_aircraft:propeller"
-  }
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "II ",
+                    " I ",
+                    " II"
+                ],
+    "key":  {
+                "I":  "minecraft:iron_ingot"
+            },
+    "result":  {
+                   "id":  "immersive_aircraft:propeller"
+               }
 }

@@ -21,10 +21,10 @@
     {"type": "dye", "x": 72, "y": 68},
     {"type": "boiler", "x": 17, "y": 54},
     {"type": "inventory", "x": 98, "y": 18, "cols": 4, "rows": 4},
-    {"type": "inventory", "x": -80, "y": 18, "cols": 4, "rows": 4, "boxed": true},
-    {"type": "inventory", "x": 186, "y": 18, "cols": 4, "rows": 4, "boxed": true},
-    {"type": "inventory", "x": -80, "y": 106, "cols": 4, "rows": 4, "boxed": true},
-    {"type": "inventory", "x": 186, "y": 106, "cols": 4, "rows": 4, "boxed": true}
+    {"type": "inventory", "x": -78, "y": 18, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 184, "y": 18, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": -78, "y": 106, "cols": 4, "rows": 4, "boxed": true},
+    {"type": "inventory", "x": 184, "y": 106, "cols": 4, "rows": 4, "boxed": true}
   ],
   "weaponMounts": [
   ],

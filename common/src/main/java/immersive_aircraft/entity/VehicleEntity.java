@@ -6,7 +6,6 @@ import earth.terrarium.adastra.api.systems.GravityApi;
 import immersive_aircraft.CompatUtil;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
-import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
@@ -17,20 +16,20 @@ import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
-import net.minecraft.BlockUtil;
+import net.minecraft.util.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -40,16 +39,18 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -66,7 +67,7 @@ import java.util.List;
  * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-    public final ResourceLocation identifier;
+    public final Identifier identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
 
@@ -108,6 +109,19 @@ public abstract class VehicleEntity extends Entity {
 
     public boolean adaptPlayerRotation = true;
     private int drowning;
+    private boolean clientWasAuthoritative;
+    private int clientAuthorityGraceTicks;
+    private float clientRenderYaw;
+    private float clientRenderYawO;
+    private float clientRenderPitch;
+    private float clientRenderPitchO;
+    private float clientRenderRoll;
+    private float clientRenderRollO;
+    private Vec3 clientCorrection = Vec3.ZERO;
+    private int clientCorrectionTicks;
+    private boolean clientRenderInit;
+
+    private static final int CLIENT_AUTH_GRACE_TICKS = 6;
 
     public float getRoll() {
         return roll;
@@ -199,11 +213,11 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public static boolean canCollide(Entity entity, Entity other) {
-        return (other.canBeCollidedWith() || other.isPushable()) && !entity.isPassengerOfSameVehicle(other);
+        return (other.canBeCollidedWith(entity) || other.isPushable()) && !entity.isPassengerOfSameVehicle(other);
     }
 
     @Override
-    public boolean canBeCollidedWith() {
+    public boolean canBeCollidedWith(@NotNull Entity other) {
         return true;
     }
 
@@ -218,12 +232,12 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
-        if (isInvulnerableTo(source)) {
+    public boolean hurtServer(@NotNull ServerLevel level, @NotNull DamageSource source, float amount) {
+        if (isInvulnerableToBase(source)) {
             return false;
         }
 
-        if (level().isClientSide || isRemoved()) {
+        if (isRemoved()) {
             return true;
         }
 
@@ -278,7 +292,7 @@ public abstract class VehicleEntity extends Entity {
             }
 
             // Drop stuff if enabled
-            if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
+            if (level() instanceof ServerLevel serverLevel && serverLevel.getGameRules().get(GameRules.ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer) {
                 dropInventory();
                 drop();
             }
@@ -300,7 +314,9 @@ public abstract class VehicleEntity extends Entity {
         if (Config.getInstance().dropAircraft) {
             ItemStack stack = new ItemStack(asItem());
             addItemTag(stack);
-            spawnAtLocation(stack);
+            if (level() instanceof ServerLevel serverLevel) {
+                spawnAtLocation(serverLevel, stack);
+            }
         }
     }
 
@@ -309,7 +325,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public void onAboveBubbleCol(boolean drag) {
+    public void onAboveBubbleColumn(boolean drag, @NotNull BlockPos pos) {
         level().addParticle(ParticleTypes.SPLASH, getX() + (double) random.nextFloat(), getY() + 0.7, getZ() + (double) random.nextFloat(), 0.0, 0.0, 0.0);
         if (random.nextInt(20) == 0) {
             level().playLocalSound(getX(), getY(), getZ(), getSwimSplashSound(), getSoundSource(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
@@ -334,13 +350,24 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps) {
+    protected void lerpPositionAndRotationStep(int steps, double x, double y, double z, double yaw, double pitch) {
+        if (level().isClientSide() && !isLocalInstanceAuthoritative() && getPassengers().isEmpty()) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            serverYRot = yaw;
+            serverXRot = pitch;
+            clientCorrection = new Vec3(x - getX(), y - getY(), z - getZ());
+            clientCorrectionTicks = Math.max(1, steps);
+            this.interpolationSteps = 0;
+            return;
+        }
         this.x = x;
         this.y = y;
         this.z = z;
         serverYRot = yaw;
         serverXRot = pitch;
-        this.interpolationSteps = 10;
+        this.interpolationSteps = steps;
     }
 
     private static float getMovementMultiplier(boolean positive, boolean negative) {
@@ -356,6 +383,21 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     public void tick() {
+        boolean localAuthoritative = isLocalInstanceAuthoritative();
+        if (level().isClientSide()) {
+            if (localAuthoritative) {
+                clientAuthorityGraceTicks = 0;
+            } else {
+                if (clientWasAuthoritative) {
+                    clientAuthorityGraceTicks = CLIENT_AUTH_GRACE_TICKS;
+                    interpolationSteps = 0;
+                } else if (clientAuthorityGraceTicks > 0) {
+                    clientAuthorityGraceTicks--;
+                }
+            }
+            clientWasAuthoritative = localAuthoritative;
+        }
+
         if (tickCount % 10 == 0) {
             secondLastX = lastX;
             secondLastY = lastY;
@@ -375,6 +417,8 @@ public abstract class VehicleEntity extends Entity {
         // pilot
         if (!getPassengers().isEmpty()) {
             tickPilot();
+        } else {
+            setInputs(0.0f, 0.0f, 0.0f);
         }
 
         // wobble
@@ -396,7 +440,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // if it's the right side, update the velocity
-        if (isControlledByLocalInstance()) {
+        if (localAuthoritative || (level().isClientSide() && clientAuthorityGraceTicks > 0)) {
             updateVelocity();
 
             // boost
@@ -407,14 +451,31 @@ public abstract class VehicleEntity extends Entity {
             updateController();
 
             move(MoverType.SELF, getDeltaMovement());
+        } else if (level().isClientSide() && interpolationSteps <= 0 && getPassengers().isEmpty()) {
+            // Client-side prediction for unpiloted vehicles to keep deceleration smooth
+            Vec3 velocity = getDeltaMovement();
+            double horizontalSpeedSqr = velocity.x * velocity.x + velocity.z * velocity.z;
+            if (onGround() && horizontalSpeedSqr <= 0.0004) {
+                if (!isVehicle()) {
+                    setDeltaMovement(Vec3.ZERO);
+                }
+            } else {
+                updateVelocity();
+                Vec3 movement = getDeltaMovement();
+                if (clientCorrectionTicks > 0) {
+                    Vec3 correction = clientCorrection.scale(1.0 / (double) clientCorrectionTicks);
+                    movement = movement.add(correction);
+                    clientCorrection = clientCorrection.subtract(correction);
+                    clientCorrectionTicks--;
+                }
+                move(MoverType.SELF, movement);
+            }
         }
-
-        checkInsideBlocks();
 
         // auto enter
         List<Entity> list = level().getEntities(this, getBoundingBox().inflate(0.2f, -0.01f, 0.2f), EntitySelector.pushableBy(this));
         if (!list.isEmpty()) {
-            boolean bl = !level().isClientSide && !(getControllingPassenger() instanceof Player);
+            boolean bl = !level().isClientSide() && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
@@ -424,16 +485,18 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // interpolate keys for visual feedback
-        if (isControlledByLocalInstance()) {
+        if (isLocalInstanceAuthoritative() || level().isClientSide()) {
             pressingInterpolatedX.update(movementX);
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);
         }
 
+        updateClientRenderRotations();
+
         tickDamageParticles();
 
         // Automatic regeneration if requested
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             int t = Config.getInstance().regenerateHealthEveryNTicks;
             if (t > 0 && level().getGameTime() % t == 0) {
                 repair(0.05f / getDurability());
@@ -442,7 +505,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private void tickDamageParticles() {
-        if (level().isClientSide && random.nextFloat() > getHealth()) {
+        if (level().isClientSide() && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> shapes = getShapes();
             AABB shape = shapes.get(random.nextInt(shapes.size()));
@@ -475,8 +538,8 @@ public abstract class VehicleEntity extends Entity {
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
-                if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
-                    player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
+                if (Main.keyStateGetter.isDown(Main.KeyState.DOWN) && onGround() && getDeltaMovement().length() < 0.01) {
+                    player.displayClientMessage(Component.translatable("mount.onboard", Main.keyNameGetter.get(Main.Key.DISMOUNT)), true);
                 }
 
                 if (Main.debouncingGetter.is(Main.Key.DISMOUNT)) {
@@ -501,15 +564,15 @@ public abstract class VehicleEntity extends Entity {
         Entity pilot = getPassengers().get(0);
         if (pilot instanceof Player player && player.isLocalPlayer()) {
             setInputs(getMovementMultiplier(
-                            KeyBindings.left.isDown(),
-                            KeyBindings.right.isDown()
+                            Main.keyStateGetter.isDown(Main.KeyState.LEFT),
+                            Main.keyStateGetter.isDown(Main.KeyState.RIGHT)
                     ), getMovementMultiplier(
-                            KeyBindings.up.isDown(),
-                            KeyBindings.down.isDown()
+                            Main.keyStateGetter.isDown(Main.KeyState.UP),
+                            Main.keyStateGetter.isDown(Main.KeyState.DOWN)
                     ),
                     getMovementMultiplier(
-                            useAirplaneControls() ? KeyBindings.push.isDown() : KeyBindings.forward.isDown(),
-                            useAirplaneControls() ? KeyBindings.pull.isDown() : KeyBindings.backward.isDown()
+                            useAirplaneControls() ? Main.keyStateGetter.isDown(Main.KeyState.PUSH) : Main.keyStateGetter.isDown(Main.KeyState.FORWARD),
+                            useAirplaneControls() ? Main.keyStateGetter.isDown(Main.KeyState.PULL) : Main.keyStateGetter.isDown(Main.KeyState.BACKWARD)
                     )
             );
         } else {
@@ -518,7 +581,10 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private void handleClientSync() {
-        if (isControlledByLocalInstance()) {
+        if (level().isClientSide() && !isLocalInstanceAuthoritative() && clientAuthorityGraceTicks > 0) {
+            return;
+        }
+        if (isLocalInstanceAuthoritative()) {
             interpolationSteps = 0;
             syncPacketPositionCodec(getX(), getY(), getZ());
         }
@@ -546,6 +612,66 @@ public abstract class VehicleEntity extends Entity {
     }
 
     protected abstract void updateController();
+
+    private void updateClientRenderRotations() {
+        if (!level().isClientSide()) {
+            return;
+        }
+
+        if (!clientRenderInit) {
+            clientRenderYaw = getYRot();
+            clientRenderPitch = getXRot();
+            clientRenderRoll = getRoll();
+            clientRenderYawO = clientRenderYaw;
+            clientRenderPitchO = clientRenderPitch;
+            clientRenderRollO = clientRenderRoll;
+            clientRenderInit = true;
+            return;
+        }
+
+        clientRenderYawO = clientRenderYaw;
+        clientRenderPitchO = clientRenderPitch;
+        clientRenderRollO = clientRenderRoll;
+
+        if (isVehicle()) {
+            clientRenderYaw = getYRot();
+            clientRenderPitch = getXRot();
+            clientRenderRoll = getRoll();
+            clientCorrection = Vec3.ZERO;
+            clientCorrectionTicks = 0;
+            return;
+        }
+
+        boolean lockYaw = !onGround();
+        if (!lockYaw) {
+            float yawDiff = Mth.wrapDegrees(getYRot() - clientRenderYaw);
+            clientRenderYaw += yawDiff * 0.25f;
+        }
+
+        clientRenderPitch += (getXRot() - clientRenderPitch) * 0.25f;
+        clientRenderRoll += (0.0f - clientRenderRoll) * (onGround() ? 0.2f : 0.08f);
+    }
+
+    public float getRenderYaw(float tickDelta) {
+        if (level().isClientSide() && !isVehicle()) {
+            return Mth.lerp(tickDelta, clientRenderYawO, clientRenderYaw);
+        }
+        return getViewYRot(tickDelta);
+    }
+
+    public float getRenderPitch(float tickDelta) {
+        if (level().isClientSide() && !isVehicle()) {
+            return Mth.lerp(tickDelta, clientRenderPitchO, clientRenderPitch);
+        }
+        return getViewXRot(tickDelta);
+    }
+
+    public float getRenderRoll(float tickDelta) {
+        if (level().isClientSide() && !isVehicle()) {
+            return Mth.lerp(tickDelta, clientRenderRollO, clientRenderRoll);
+        }
+        return getRoll(tickDelta);
+    }
 
     @Override
     public void positionRider(@NotNull Entity passenger, @NotNull MoveFunction positionUpdater) {
@@ -650,15 +776,13 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        tag.putFloat("VehicleHealth", getHealth());
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        output.putFloat("VehicleHealth", getHealth());
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        if (tag.contains("VehicleHealth")) {
-            setHealth(tag.getFloat("VehicleHealth"));
-        }
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        setHealth(input.getFloatOr("VehicleHealth", getHealth()));
     }
 
     public void addItemTag(ItemStack stack) {
@@ -678,7 +802,7 @@ public abstract class VehicleEntity extends Entity {
     @Override
     public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
         if (getHealth() < 1.0f && (player.isShiftKeyDown() || !Config.getInstance().requireShiftForRepair) && !hasPassenger(player)) {
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 player.causeFoodExhaustion(Config.getInstance().repairExhaustion);
                 repair(Config.getInstance().repairSpeed);
 
@@ -716,7 +840,7 @@ public abstract class VehicleEntity extends Entity {
         if (player.isSecondaryUseActive()) {
             return InteractionResult.PASS;
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
         }
         if (hasPassenger(player)) {
@@ -731,7 +855,7 @@ public abstract class VehicleEntity extends Entity {
         super.move(movementType, movement);
 
         // Collision damage
-        if ((verticalCollision || horizontalCollision) && level().isClientSide && Config.getInstance().collisionDamage) {
+        if ((verticalCollision || horizontalCollision) && level().isClientSide() && Config.getInstance().collisionDamage) {
             double maxPossibleError = movement.length();
             double error = prediction.distanceTo(position());
             if (error <= maxPossibleError) {
@@ -902,7 +1026,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public boolean isValidDimension() {
-        return Config.getInstance().validDimensions.getOrDefault(this.level().dimension().location().toString(), true);
+        return Config.getInstance().validDimensions.getOrDefault(this.level().dimension().identifier().toString(), true);
     }
 
     protected AABB getOffsetBoundingBox(BoundingBoxDescriptor descriptor) {
@@ -936,15 +1060,6 @@ public abstract class VehicleEntity extends Entity {
 
     public double getZoom() {
         return 0.0;
-    }
-
-    @Override
-    public AABB getBoundingBoxForCulling() {
-        AABB box = super.getBoundingBoxForCulling();
-        for (AABB additionalShape : getAdditionalShapes()) {
-            box = box.minmax(additionalShape);
-        }
-        return box;
     }
 
     public void setAnimationVariables(float tickDelta) {

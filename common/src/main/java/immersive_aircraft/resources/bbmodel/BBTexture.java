@@ -2,7 +2,7 @@ package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.util.Utils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class BBTexture {
     public static final BBTexture MISSING = new BBTexture();
@@ -15,7 +15,7 @@ public class BBTexture {
     public final int uvWidth;
     public final int uvHeight;
 
-    public final ResourceLocation location;
+    public final Identifier location;
 
     public BBTexture() {
         this.uuid = "";
@@ -26,10 +26,10 @@ public class BBTexture {
         this.uvWidth = 16;
         this.uvHeight = 16;
 
-        this.location = ResourceLocation.parse("missing");
+        this.location = Identifier.parse("missing");
     }
 
-    public BBTexture(JsonObject element, ResourceLocation identifier) {
+    public BBTexture(JsonObject element, Identifier identifier) {
         this.uuid = element.getAsJsonPrimitive("uuid").getAsString();
         this.id = element.getAsJsonPrimitive("id").getAsString();
         this.name = element.getAsJsonPrimitive("name").getAsString();
@@ -39,9 +39,10 @@ public class BBTexture {
         this.uvHeight = Utils.getIntElement(element, "uv_height", 16);
 
         if (this.name.contains(":")) {
-            this.location = ResourceLocation.parse(this.name);
+            this.location = Identifier.parse(this.name);
         } else {
-            this.location = ResourceLocation.fromNamespaceAndPath(identifier.getNamespace(), "textures/entity/" + this.name);
+            this.location = Identifier.fromNamespaceAndPath(identifier.getNamespace(), "textures/entity/" + this.name);
         }
     }
 }
+

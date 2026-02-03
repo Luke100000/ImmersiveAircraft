@@ -16,7 +16,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
 @Mod(Main.MOD_ID)
-@EventBusSubscriber(modid = Main.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Main.MOD_ID)
 public final class CommonNeoForge {
     static {
         Main.MOD_LOADER = "neoforge";

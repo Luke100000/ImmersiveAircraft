@@ -13,42 +13,43 @@ loom {
 
 configurations {
     common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
 }
 
-repositories {
-    maven { url "https://maven.neoforged.net/releases/" }
-}
-
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
-    forgeRuntimeLibrary 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+    implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
     include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    // Keep @Environment annotations resolvable during compile without bundling fabric loader.
+    compileOnly "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:$rei_version"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 }
 
 processResources {
+    def neoforgeMajor = rootProject.neoforge_version.split("\\.")[0]
+    def fmlMajor = "10"
+
     inputs.property "version", project.version
+    inputs.property "minecraft_version", rootProject.minecraft_version
+    inputs.property "neoforge_major", neoforgeMajor
+    inputs.property "fml_major", fmlMajor
 
     filesMatching("META-INF/neoforge.mods.toml") {
         expand "version": project.version,
-                loader_major: "1",
-                minecraft_version: rootProject.architectury.minecraft
+                "minecraft_version": rootProject.minecraft_version,
+                "neoforge_major": neoforgeMajor,
+                "fml_major": fmlMajor
     }
 }
 
 shadowJar {
-    exclude "fabric.mod.json"
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
@@ -56,6 +57,7 @@ shadowJar {
 }
 
 remapJar {
+    injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
 }

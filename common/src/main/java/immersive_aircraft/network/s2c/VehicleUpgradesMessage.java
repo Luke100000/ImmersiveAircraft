@@ -34,8 +34,10 @@ public class VehicleUpgradesMessage extends Message {
 
         int upgradeCount = buffer.readInt();
         for (int i = 0; i < upgradeCount; i++) {
-            Item item = BuiltInRegistries.ITEM.get(buffer.readResourceLocation());
-            upgrades.put(item, readUpgrade(buffer));
+            var itemId = buffer.readIdentifier();
+            VehicleUpgrade upgrade = readUpgrade(buffer);
+            BuiltInRegistries.ITEM.getOptional(itemId)
+                    .ifPresent(item -> upgrades.put(item, upgrade));
         }
     }
 
@@ -45,7 +47,7 @@ public class VehicleUpgradesMessage extends Message {
         buffer.writeInt(upgrades.size()); // Write upgrade entry count.
 
         for (Item item : upgrades.keySet()) {
-            buffer.writeResourceLocation(BuiltInRegistries.ITEM.getKey(item));
+            buffer.writeIdentifier(BuiltInRegistries.ITEM.getKey(item));
             writeUpgrade(buffer, upgrades.get(item));
         }
     }
@@ -74,3 +76,4 @@ public class VehicleUpgradesMessage extends Message {
         VehicleUpgradeRegistry.INSTANCE.replace(upgrades);
     }
 }
+

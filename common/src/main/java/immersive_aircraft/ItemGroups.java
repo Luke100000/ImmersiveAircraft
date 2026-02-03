@@ -1,11 +1,11 @@
 package immersive_aircraft;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemGroups {
-    public static ResourceLocation getIdentifier() {
+    public static Identifier getIdentifier() {
         return Main.locate(Main.MOD_ID + "_tab");
     }
 
@@ -17,3 +17,4 @@ public class ItemGroups {
         return Items.BIPLANE.get().getDefaultInstance();
     }
 }
+

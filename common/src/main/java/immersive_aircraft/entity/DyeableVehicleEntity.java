@@ -1,8 +1,6 @@
 package immersive_aircraft.entity;
 
-import immersive_aircraft.client.ColorUtils;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,6 +10,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -39,7 +39,7 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
         super.addItemTag(stack);
 
         if (getDyeColor() >= 0) {
-            stack.set(DataComponents.DYED_COLOR, new DyedItemColor(getDyeColor(), true));
+            stack.set(DataComponents.DYED_COLOR, new DyedItemColor(getDyeColor()));
         }
     }
 
@@ -54,19 +54,15 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-
-        if (tag.contains("Color")) {
-            setDyeColor(tag.getInt("Color"));
-        }
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        super.readAdditionalSaveData(input);
+        input.getInt("Color").ifPresent(this::setDyeColor);
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-
-        tag.putInt("Color", getDyeColor());
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("Color", getDyeColor());
     }
 
     public int getDyeColor() {
@@ -79,7 +75,7 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
 
     public int getBodyColor() {
         //Gets dye color and separates it into RGB, then turns that into HSB
-        int[] rgb = ColorUtils.hexToRGB(getDyeColor() < 0 ? getDefaultDyeColor() : getDyeColor());
+        int[] rgb = intToRGB(getDyeColor() < 0 ? getDefaultDyeColor() : getDyeColor());
         float[] hsb = Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], null);
 
         //Clamps Brightness value to prevent color from being too dark
@@ -92,7 +88,7 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
 
     public int getHighlightColor() {
         //Gets dye color and separates it into RGB, then turns that into HSB
-        int[] rgb = ColorUtils.hexToRGB(getBodyColor());
+        int[] rgb = intToRGB(getBodyColor());
         float[] hsb = Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], null);
 
         //Multiplies Saturation (hsb[1]) and Brightness (hsb[2]) by a factor
@@ -106,6 +102,14 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
 
     public int getDefaultDyeColor() {
         return 0xFFFFFF;
+    }
+
+    private static int[] intToRGB(int color) {
+        return new int[]{
+                (color >> 16) & 0xFF,
+                (color >> 8) & 0xFF,
+                color & 0xFF
+        };
     }
 
     @Override

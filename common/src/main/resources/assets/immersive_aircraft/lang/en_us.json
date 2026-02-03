@@ -1,5 +1,6 @@
 {
   "itemGroup.immersive_aircraft.immersive_aircraft_tab": "Immersive Aircraft",
+  "key.category.immersive_aircraft.keybinds": "Immersive Aircraft",
 
   "key.immersive_aircraft.multi_control_left": "Left",
   "key.immersive_aircraft.multi_control_right": "Right",
@@ -62,6 +63,10 @@
 
   "item.immersive_aircraft.item.upgrade": "Aircraft Upgrade",
   "item.immersive_aircraft.item.weapon": "Aircraft Weapon",
+
+  "tag.item.immersive_aircraft.aircraft": "Aircraft",
+  "tag.item.immersive_aircraft.upgrades": "Aircraft Upgrades",
+  "tag.item.immersive_aircraft.weapons": "Aircraft Weapons",
 
   "item.immersive_aircraft.airship": "Airship",
   "item.immersive_aircraft.cargo_airship": "Cargo Airship",

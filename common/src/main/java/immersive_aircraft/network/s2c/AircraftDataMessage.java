@@ -7,7 +7,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class AircraftDataMessage extends Message {
         return TYPE;
     }
 
-    private final Map<ResourceLocation, VehicleData> data;
+    private final Map<Identifier, VehicleData> data;
 
     public AircraftDataMessage() {
         this.data = VehicleDataLoader.REGISTRY;
@@ -32,7 +32,7 @@ public class AircraftDataMessage extends Message {
 
         int dataCount = buffer.readInt();
         for (int i = 0; i < dataCount; i++) {
-            ResourceLocation identifier = buffer.readResourceLocation();
+            Identifier identifier = buffer.readIdentifier();
             data.put(identifier, new VehicleData(buffer));
         }
     }
@@ -41,8 +41,8 @@ public class AircraftDataMessage extends Message {
     public void encode(RegistryFriendlyByteBuf buffer) {
         buffer.writeInt(data.size());
 
-        for (ResourceLocation identifier : data.keySet()) {
-            buffer.writeResourceLocation(identifier);
+        for (Identifier identifier : data.keySet()) {
+            buffer.writeIdentifier(identifier);
             data.get(identifier).encode(buffer);
         }
     }
@@ -53,3 +53,4 @@ public class AircraftDataMessage extends Message {
         VehicleDataLoader.CLIENT_REGISTRY.putAll(data);
     }
 }
+

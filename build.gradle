@@ -5,8 +5,8 @@ buildscript {
 }
 
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
+    id "architectury-plugin" version "3.4.162"
+    id "dev.architectury.loom" version "1.13.467" apply false
 }
 
 architectury {
@@ -21,15 +21,17 @@ subprojects {
     }
 
     repositories {
-        maven { url "https://maven.parchmentmc.org" }
-        maven { url "https://maven.terraformersmc.com/releases/" }
-        maven { url "https://dvs1.progwml6.com/files/maven/" }
-        maven { url "https://maven.shedaniel.me/" }
-        maven { url "https://maven.architectury.dev/" }
-        maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
-        maven { url "https://maven.teamresourceful.com/repository/maven-public/" }
-        maven { url "https://cursemaven.com" }
-        maven { url "https://maven.conczin.net/Artifacts" }
+        maven { url = "https://maven.parchmentmc.org" }
+        maven { url = "https://maven.terraformersmc.com/releases/" }
+        maven { url = "https://dvs1.progwml6.com/files/maven/" }
+        maven { url = "https://maven.blamejared.com" }
+        maven { url = "https://maven.shedaniel.me/" }
+        maven { url = "https://maven.architectury.dev/" }
+        maven { url = "https://maven.neoforged.net/releases" }
+        maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/" }
+        maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }
+        maven { url = "https://cursemaven.com" }
+        maven { url = "https://maven.conczin.net/Artifacts" }
     }
 
     dependencies {
@@ -43,6 +45,11 @@ subprojects {
 
 
 def getAppVersion = { ->
+    // Avoid git calls when this isn't a git checkout (e.g., ZIP download)
+    def gitDir = file(".git")
+    if (!gitDir.exists()) {
+        return rootProject.minecraft_version + "-SNAPSHOT"
+    }
     try {
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -66,7 +73,9 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = rootProject.archives_base_name
+    base {
+        archivesName = rootProject.archives_base_name
+    }
     version = getAppVersion()
 
     tasks.withType(JavaCompile) {

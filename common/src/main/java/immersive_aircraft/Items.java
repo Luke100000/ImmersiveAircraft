@@ -6,7 +6,10 @@ import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.item.AircraftItem;
 import immersive_aircraft.item.DyeableAircraftItem;
 import immersive_aircraft.item.WeaponItem;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -58,7 +61,12 @@ public interface Items {
     }
 
     static Item.Properties baseProps() {
-        return new Item.Properties();
+        Item.Properties props = new Item.Properties();
+        Identifier id = Registration.currentId();
+        if (id != null) {
+            props.setId(ResourceKey.create(Registries.ITEM, id));
+        }
+        return props;
     }
 
     static List<ItemStack> getSortedItems() {

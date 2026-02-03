@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import immersive_aircraft.Main;
 import immersive_aircraft.resources.bbmodel.BBModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
@@ -19,11 +19,11 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLocation, JsonElement>> {
+public class BBModelLoader extends SimplePreparableReloadListener<Map<Identifier, JsonElement>> {
     protected static final int PATH_SUFFIX_LENGTH = 8;
     protected static final int PATH_PREFIX_LENGTH = 8;
 
-    public static final Map<ResourceLocation, BBModel> MODELS = new HashMap<>();
+    public static final Map<Identifier, BBModel> MODELS = new HashMap<>();
     private final Gson gson;
 
     public BBModelLoader() {
@@ -31,12 +31,12 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLo
     }
 
     @Override
-    protected Map<ResourceLocation, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
-        HashMap<ResourceLocation, JsonElement> map = Maps.newHashMap();
-        for (Map.Entry<ResourceLocation, Resource> entry : resourceManager.listResources("objects", n -> n.getPath().endsWith(".bbmodel")).entrySet()) {
-            ResourceLocation location = entry.getKey();
+    protected Map<Identifier, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
+        HashMap<Identifier, JsonElement> map = Maps.newHashMap();
+        for (Map.Entry<Identifier, Resource> entry : resourceManager.listResources("objects", n -> n.getPath().endsWith(".bbmodel")).entrySet()) {
+            Identifier location = entry.getKey();
             String name = location.getPath();
-            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), name.substring(PATH_PREFIX_LENGTH, name.length() - PATH_SUFFIX_LENGTH));
+            Identifier id = Identifier.fromNamespaceAndPath(location.getNamespace(), name.substring(PATH_PREFIX_LENGTH, name.length() - PATH_SUFFIX_LENGTH));
             try {
                 BufferedReader reader = entry.getValue().openAsReader();
                 try {
@@ -53,8 +53,9 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<ResourceLo
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, JsonElement> jsonMap, ResourceManager resourceManager, ProfilerFiller profiler) {
         MODELS.clear();
         jsonMap.forEach((identifier, jsonElement) -> MODELS.put(identifier, new BBModel(jsonElement.getAsJsonObject(), identifier)));
     }
 }
+

@@ -6,8 +6,11 @@ import immersive_aircraft.entity.misc.Trail;
 import immersive_aircraft.entity.misc.TrailDescriptor;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.util.Utils;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
@@ -24,6 +27,7 @@ import java.util.List;
 public abstract class AircraftEntity extends EngineVehicle {
     protected double lastY;
     public float inWaterLevel;
+    private float groundPitchBlend;
 
     public AircraftEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
@@ -70,9 +74,15 @@ public abstract class AircraftEntity extends EngineVehicle {
 
     @Override
     public void tick() {
+        float targetGroundBlend = computeGroundPitchBlend();
+        float delta = targetGroundBlend - groundPitchBlend;
+        if (Math.abs(delta) > 0.02f) {
+            groundPitchBlend += delta * 0.2f;
+        }
+
         // rolling interpolation
         prevRoll = roll;
-        if (onGround()) {
+        if (onGround() || !isVehicle()) {
             setZRot(roll * 0.9f);
         } else {
             setZRot(-pressingInterpolatedX.getSmooth() * getProperties().get(VehicleStat.ROLL_FACTOR) * (1.0f - inWaterLevel));
@@ -101,6 +111,14 @@ public abstract class AircraftEntity extends EngineVehicle {
         }
 
         super.tick();
+
+        if (level().isClientSide() && !isLocalInstanceAuthoritative() && !isVehicle() && groundPitchBlend > 0.0f && interpolationSteps <= 0) {
+            float groundPitch = getProperties().get(VehicleStat.GROUND_PITCH);
+            float targetPitch = (getXRot() + groundPitch) * 0.9f - groundPitch;
+            float newPitch = getXRot() + (targetPitch - getXRot()) * groundPitchBlend;
+            xRotO = getXRot();
+            setXRot(newPitch);
+        }
     }
 
     protected void convertPower(Vec3 direction) {
@@ -148,10 +166,12 @@ public abstract class AircraftEntity extends EngineVehicle {
         // friction
         applyFriction();
 
-        if (onGround()) {
+        if (onGround() || groundPitchBlend > 0.0f) {
             // Landing
-            setXRot((getXRot() + getProperties().get(VehicleStat.GROUND_PITCH)) * 0.9f - getProperties().get(VehicleStat.GROUND_PITCH));
-        } else if (!wasTouchingWater) {
+            float groundPitch = getProperties().get(VehicleStat.GROUND_PITCH);
+            float targetPitch = (getXRot() + groundPitch) * 0.9f - groundPitch;
+            setXRot(getXRot() + (targetPitch - getXRot()) * groundPitchBlend);
+        } else if (!wasTouchingWater && isVehicle()) {
             // Wind
             Vector3f effect = getWindEffect();
             setXRot(getXRot() + effect.x);
@@ -164,6 +184,29 @@ public abstract class AircraftEntity extends EngineVehicle {
 
     public void chill() {
         lastY = 0.0f;
+    }
+
+    private float computeGroundPitchBlend() {
+        if (onGround()) {
+            return 1.0f;
+        }
+
+        Vec3 start = position();
+        Vec3 end = start.add(0.0, -1.5, 0.0);
+        ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
+        HitResult hit = level().clip(context);
+        if (hit.getType() != HitResult.Type.BLOCK) {
+            return 0.0f;
+        }
+
+        double distance = getBoundingBox().minY - hit.getLocation().y;
+        if (distance <= 0.0) {
+            return 1.0f;
+        }
+
+        float range = 1.0f;
+        float t = (float) Mth.clamp(1.0 - distance / range, 0.0, 1.0);
+        return t * t * (3.0f - 2.0f * t);
     }
 
     public float getWindStrength() {
@@ -181,4 +224,3 @@ public abstract class AircraftEntity extends EngineVehicle {
         return new Vector3f(nx, 0.0f, nz);
     }
 }
-

@@ -4,6 +4,14 @@ architectury {
 
 loom {
     accessWidenerPath = file("src/main/resources/immersive_aircraft.accessWidener")
+    splitEnvironmentSourceSets()
+}
+
+sourceSets {
+    client {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
 }
 
 dependencies {
@@ -20,7 +28,8 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    // Use plain compileOnly to avoid Loom mod-version validation on JEI jars
+    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin:${rei_version}"
@@ -38,4 +47,12 @@ publishing {
             from components.java
         }
     }
+}
+
+jar {
+    from(sourceSets.client.output)
+}
+
+sourcesJar {
+    from(sourceSets.client.allSource)
 }

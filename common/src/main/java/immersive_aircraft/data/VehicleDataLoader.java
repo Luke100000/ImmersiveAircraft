@@ -1,30 +1,31 @@
 package immersive_aircraft.data;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.misc.VehicleData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VehicleDataLoader extends SimpleJsonResourceReloadListener {
-    public static final Map<ResourceLocation, VehicleData> REGISTRY = new HashMap<>();
-    public static final Map<ResourceLocation, VehicleData> CLIENT_REGISTRY = new HashMap<>();
+public class VehicleDataLoader extends SimpleJsonResourceReloadListener<JsonElement> {
+    public static final Map<Identifier, VehicleData> REGISTRY = new HashMap<>();
+    public static final Map<Identifier, VehicleData> CLIENT_REGISTRY = new HashMap<>();
 
     private static final VehicleData EMPTY = new VehicleData();
 
     public VehicleDataLoader() {
-        super(new Gson(), "aircraft");
+        super(ExtraCodecs.JSON, FileToIdConverter.json("aircraft"));
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
         REGISTRY.clear();
 
         jsonMap.forEach((identifier, jsonElement) -> {
@@ -41,7 +42,8 @@ public class VehicleDataLoader extends SimpleJsonResourceReloadListener {
         CLIENT_REGISTRY.putAll(REGISTRY);
     }
 
-    public static VehicleData get(ResourceLocation identifier) {
+    public static VehicleData get(Identifier identifier) {
         return CLIENT_REGISTRY.getOrDefault(identifier, EMPTY);
     }
 }
+

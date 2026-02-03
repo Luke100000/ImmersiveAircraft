@@ -44,6 +44,11 @@ public final class CommonFabric implements ModInitializer {
 
         // Register event for syncing aircraft upgrades.
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(this::onSyncDatapack);
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            net.minecraft.server.level.ServerLevel level = server.overworld();
+            CobaltFuelRegistryImpl.setFuelValues(level == null ? null : level.fuelValues());
+        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> CobaltFuelRegistryImpl.setFuelValues(null));
     }
 
     /**
@@ -54,4 +59,3 @@ public final class CommonFabric implements ModInitializer {
         NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
     }
 }
-

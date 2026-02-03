@@ -6,6 +6,7 @@ import immersive_aircraft.entity.misc.TrailDescriptor;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -56,6 +57,7 @@ public class AirshipEntity extends Rotorcraft {
         float thrust = (float) (Math.pow(getEnginePower(), 5.0) * getProperties().get(VehicleStat.ENGINE_SPEED)) * pressingInterpolatedZ.getSmooth();
         Vector3f f = direction.mul(thrust);
         setDeltaMovement(getDeltaMovement().add(f.x, f.y, f.z));
+
     }
 
     @Override
@@ -69,7 +71,7 @@ public class AirshipEntity extends Rotorcraft {
 
         float power = getEnginePower();
 
-        if (level().isClientSide && isWithinParticleRange() && power > 0.01) {
+        if (level().isClientSide() && isWithinParticleRange() && power > 0.01) {
             Matrix4f transform = getVehicleTransform();
 
             // Smoke
@@ -82,6 +84,11 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
+    protected void updateVelocity() {
+        super.updateVelocity();
+    }
+
+    @Override
     public double getZoom() {
         return 5.0;
     }
@@ -90,4 +97,6 @@ public class AirshipEntity extends Rotorcraft {
     public float getPropellerSpeed() {
         return super.getPropellerSpeed() * (0.25f + Math.abs(pressingInterpolatedZ.get(0.0f)));
     }
+
+
 }
