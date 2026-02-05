@@ -26,7 +26,7 @@ public abstract class AirplaneEntity extends AircraftEntity {
     }
 
     protected float getBrakeFactor() {
-        return 0.95f;
+        return getProperties().get(VehicleStat.BRAKE_FACTOR);
     }
 
     @Override

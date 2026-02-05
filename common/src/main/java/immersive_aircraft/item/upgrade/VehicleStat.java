@@ -11,6 +11,7 @@ public record VehicleStat(String name, boolean positive, float defaultValue) {
     public static final VehicleStat YAW_SPEED = register("yawSpeed", true);
     public static final VehicleStat PITCH_SPEED = register("pitchSpeed", true);
     public static final VehicleStat PUSH_SPEED = register("pushSpeed", true);
+    public static final VehicleStat BRAKE_FACTOR = register("brakeFactor", true, 0.95f);
 
     public static final VehicleStat ACCELERATION = register("acceleration", true, 1.0f);
     public static final VehicleStat DURABILITY = register("durability", true, 1.0f);
