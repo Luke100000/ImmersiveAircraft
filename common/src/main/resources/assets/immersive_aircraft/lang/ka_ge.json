@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "ინდუსტრიული სქემა",
   "item.immersive_aircraft.sturdy_pipes": "ყატლილზე მომართული გამჭვირვალე",
   "item.immersive_aircraft.gyroscope": "გიროსკოპი",
+  "item.immersive_aircraft.gyroscope_dials": "წინამძღოლი გიროსკოპი",
+  "item.immersive_aircraft.gyroscope_hud": "ელექტრონული გიროსკოპი",
   "item.immersive_aircraft.hull_reinforcement": "ხლის გამაძლიერებელი",
   "item.immersive_aircraft.improved_landing_gear": "გამოცდილების ხარისხიანობა",
   "item.immersive_aircraft.rotary_cannon": "როტარული თოფი",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% საწვავის მოთხოვნა",
   "immersive_aircraft.upgrade.wind": "%s%% ქარის ეფექტი",
   "immersive_aircraft.upgrade.stabilizer": "%s%% სტაბილიზებულია",
+  "immersive_aircraft.upgrade.dials": "მექანიკური საფირმო დაფა",
+  "immersive_aircraft.upgrade.hud": "ელექტრონული დაფა",
   "immersive_aircraft.tooltip.inventory": "გ يحتوي %s ნივთი."
 }

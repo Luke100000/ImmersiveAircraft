@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "sɹɐǝ⅁ ꞁɐᴉɹʇsnpuI",
   "item.immersive_aircraft.sturdy_pipes": "sǝdᴉԀ ʎpɹnʇS",
   "item.immersive_aircraft.gyroscope": "ǝdoɔsoɹʎ⅁",
+  "item.immersive_aircraft.gyroscope_dials": "ǝɔɐɯɐʍuƃ ǝɔᴉɯoɹʍ",
+  "item.immersive_aircraft.gyroscope_hud": "ǝɔɐƃʍoɹʍ ǝɔɹǝʍɐ ո",
   "item.immersive_aircraft.hull_reinforcement": "ʇuǝɯǝɔɹoɟuᴉǝᴚ ꞁꞁnH",
   "item.immersive_aircraft.improved_landing_gear": "ɹɐǝ⅁ ᵷuᴉpuɐꞀ pǝʌoɹdɯI",
   "item.immersive_aircraft.rotary_cannon": "uouuɐƆ ʎɹɐʇoᴚ",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "ʇuǝɯǝɹᴉnbǝɹ ꞁǝnɟ %%%s",
   "immersive_aircraft.upgrade.wind": "ʇɔǝɟɟǝ puᴉʍ %%%s",
   "immersive_aircraft.upgrade.stabilizer": "gnizilabits %s%%",
+  "immersive_aircraft.upgrade.dials": "ʍuoɐʇɔıɐɯ ɐʍq",
+  "immersive_aircraft.upgrade.hud": "ƃɥʇɐɹɐʍƃƃoɔ cǝɥʇɐɹƃǝʇ",
   "immersive_aircraft.tooltip.inventory": "¹sʇᴉʍɹn sׁʍllᴉɐǝʍ Ǝ,pɐɹ˥ᴉʍ :sǝsǝʍʍɐʞ uʍɐʍ uʍ uᴉ pʍʇoʍ pɹᴉ ʎʇɐ ʞʍɐ sɐlışɐ"
 }

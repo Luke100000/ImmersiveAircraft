@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Fynyres di-organek",
   "item.immersive_aircraft.sturdy_pipes": "Pipes pryv",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Giroskop Avansys",
+  "item.immersive_aircraft.gyroscope_hud": "Giroskop Elektronik",
   "item.immersive_aircraft.hull_reinforcement": "Reinforcement hull",
   "item.immersive_aircraft.improved_landing_gear": "Improved Landing Gear",
   "item.immersive_aircraft.rotary_cannon": "Poul Canna",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% requirement fowl",
   "immersive_aircraft.upgrade.wind": "%s%% effect wind",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilis,",
+  "immersive_aircraft.upgrade.dials": "Dasbord Meur",
+  "immersive_aircraft.upgrade.hud": "Dandonyer electronik",
   "immersive_aircraft.tooltip.inventory": "Gans %s e items."
 }

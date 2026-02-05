@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Sənaye dişliləri",
   "item.immersive_aircraft.sturdy_pipes": "Möhkəm Borular",
   "item.immersive_aircraft.gyroscope": "Gyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "İrəliləmiş girostat",
+  "item.immersive_aircraft.gyroscope_hud": "Elektron girostat",
   "item.immersive_aircraft.hull_reinforcement": "Təyyarə Gücləndirmesi",
   "item.immersive_aircraft.improved_landing_gear": "Təkmilləşdirilmiş R landing Gear",
   "item.immersive_aircraft.rotary_cannon": "Dönmə Topu",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% yanacaq tələbi",
   "immersive_aircraft.upgrade.wind": "%s%% külək təsiri",
   "immersive_aircraft.upgrade.stabilizer": "%s%% sabitləşdirilir",
+  "immersive_aircraft.upgrade.dials": "Mexaniki panel",
+  "immersive_aircraft.upgrade.hud": "Elektron paneel",
   "immersive_aircraft.tooltip.inventory": "%s məhsulunu əhatə edir."
 }

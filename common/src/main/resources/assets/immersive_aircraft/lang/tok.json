@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "palisa pu",
   "item.immersive_aircraft.sturdy_pipes": "palisa wawa",
   "item.immersive_aircraft.gyroscope": "gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "kijetesantakalu",
+  "item.immersive_aircraft.gyroscope_hud": "kijetesantakalu palisa",
   "item.immersive_aircraft.hull_reinforcement": "palisa lukin wawa",
   "item.immersive_aircraft.improved_landing_gear": "palisa lonli wawa",
   "item.immersive_aircraft.rotary_cannon": "kijetesantakalu kili",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% palisa moku",
   "immersive_aircraft.upgrade.wind": "%s%% palisa suli",
   "immersive_aircraft.upgrade.stabilizer": "%s%% li wike.",
+  "immersive_aircraft.upgrade.dials": "palisa pi palisa moku",
+  "immersive_aircraft.upgrade.hud": "\"kijetesantakalu palisa\"",
   "immersive_aircraft.tooltip.inventory": "jo li %s ijo."
 }

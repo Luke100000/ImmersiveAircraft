@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Индустриални зъбни колела",
   "item.immersive_aircraft.sturdy_pipes": "Здрави тръби",
   "item.immersive_aircraft.gyroscope": "Жироскоп",
+  "item.immersive_aircraft.gyroscope_dials": "Усъвършенстван жироскоп",
+  "item.immersive_aircraft.gyroscope_hud": "Електронен жироскоп",
   "item.immersive_aircraft.hull_reinforcement": "Усилване на корпуса",
   "item.immersive_aircraft.improved_landing_gear": "Подобрено шаси за кацане",
   "item.immersive_aircraft.rotary_cannon": "Ротационно оръдие",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% необходимост от гориво",
   "immersive_aircraft.upgrade.wind": "%s%% ефект на вятъра",
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизиране",
+  "immersive_aircraft.upgrade.dials": "Механично арматурно табло",
+  "immersive_aircraft.upgrade.hud": "Електронно табло за управление",
   "immersive_aircraft.tooltip.inventory": "Съдържа %s елементи."
 }

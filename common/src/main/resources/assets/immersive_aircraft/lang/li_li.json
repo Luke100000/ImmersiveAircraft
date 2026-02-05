@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriële Tandwielen",
   "item.immersive_aircraft.sturdy_pipes": "Sterke Buizen",
   "item.immersive_aircraft.gyroscope": "Gyroscoop",
+  "item.immersive_aircraft.gyroscope_dials": "Geavancèrd Gyroscoop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronisch Gyroscoop",
   "item.immersive_aircraft.hull_reinforcement": "Rompw versterking",
   "item.immersive_aircraft.improved_landing_gear": "Verbeterde Landingsgestel",
   "item.immersive_aircraft.rotary_cannon": "Rotonde Kanon",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% brandstof vereiste",
   "immersive_aircraft.upgrade.wind": "%s%% wind effect",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliserend",
+  "immersive_aircraft.upgrade.dials": "Mechanisch dashboard",
+  "immersive_aircraft.upgrade.hud": "Elektronisch dashboard",
   "immersive_aircraft.tooltip.inventory": "Bevat %s items."
 }

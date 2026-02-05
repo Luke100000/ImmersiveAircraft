@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Rūpnieciskie zobrati",
   "item.immersive_aircraft.sturdy_pipes": "Izturīgas caurules",
   "item.immersive_aircraft.gyroscope": "Giroskops",
+  "item.immersive_aircraft.gyroscope_dials": "Uzlabots žiroskops",
+  "item.immersive_aircraft.gyroscope_hud": "Elektroniskais žiroskops",
   "item.immersive_aircraft.hull_reinforcement": "Korpusa pastiprinājums",
   "item.immersive_aircraft.improved_landing_gear": "Uzlabota šasija",
   "item.immersive_aircraft.rotary_cannon": "Rotējošais lielgabals",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% degvielas nepieciešamība",
   "immersive_aircraft.upgrade.wind": "%s%% vēja ietekme",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizē",
+  "immersive_aircraft.upgrade.dials": "Mehāniskais instrumentu panelis",
+  "immersive_aircraft.upgrade.hud": "Elektroniskais mērinstrumentu panelis",
   "immersive_aircraft.tooltip.inventory": "Satur %s vienumus."
 }

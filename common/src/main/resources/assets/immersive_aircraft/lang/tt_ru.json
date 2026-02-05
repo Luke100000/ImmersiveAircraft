@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Сәнәгать Тешләре",
   "item.immersive_aircraft.sturdy_pipes": "Көчле Трубалар",
   "item.immersive_aircraft.gyroscope": "Гироскоп",
+  "item.immersive_aircraft.gyroscope_dials": "Алга киткән гироскоп",
+  "item.immersive_aircraft.gyroscope_hud": "Электрон гироскоп",
   "item.immersive_aircraft.hull_reinforcement": "Ванналы Ныклык",
   "item.immersive_aircraft.improved_landing_gear": "Яхшыртылган Куып алу Җиһазы",
   "item.immersive_aircraft.rotary_cannon": "Ротацион Пушка",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% ягулык таләп иткән",
   "immersive_aircraft.upgrade.wind": "%s%% җил эффекты",
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизация",
+  "immersive_aircraft.upgrade.dials": "Механик панель",
+  "immersive_aircraft.upgrade.hud": "Электрон панель",
   "immersive_aircraft.tooltip.inventory": "Содержит %s предмет."
 }

@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Промышленные механизмы",
   "item.immersive_aircraft.sturdy_pipes": "Прочные трубы",
   "item.immersive_aircraft.gyroscope": "Гироскоп",
+  "item.immersive_aircraft.gyroscope_dials": "Продвинутый гироскоп",
+  "item.immersive_aircraft.gyroscope_hud": "Электронный гироскоп",
   "item.immersive_aircraft.hull_reinforcement": "Усиление корпуса",
   "item.immersive_aircraft.improved_landing_gear": "Улучшенное шасси",
   "item.immersive_aircraft.rotary_cannon": "Вращающаяся пушка",
@@ -87,7 +89,7 @@
   "option.immersive_aircraft.windRainWeather": "Ветер во время дождя.",
   "option.immersive_aircraft.windThunderWeather": "Дополнительный ветер при грозе.",
   "option.immersive_aircraft.repairSpeed": "Ремонт за клик.",
-  "option.immersive_aircraft.repairExhaustion": "Истощение игрока за клик.",
+  "option.immersive_aircraft.repairExhaustion": "Истощение игрока за нажатие.",
   "option.immersive_aircraft.collisionDamage": "Повреждения при столкновении.",
   "option.immersive_aircraft.burnFuelInCreative": "Сжигать топливо в творческом режиме.",
   "option.immersive_aircraft.acceptVanillaFuel": "Принимать ванильное топливо.",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% потребности в топливе",
   "immersive_aircraft.upgrade.wind": "%s%% эффекта ветра",
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизации",
+  "immersive_aircraft.upgrade.dials": "Механическая приборная панель",
+  "immersive_aircraft.upgrade.hud": "Электронная приборная панель",
   "immersive_aircraft.tooltip.inventory": "Содержит %s предметов."
 }

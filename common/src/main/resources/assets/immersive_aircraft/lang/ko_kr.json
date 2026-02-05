@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "산업용 기어",
   "item.immersive_aircraft.sturdy_pipes": "견고한 파이프",
   "item.immersive_aircraft.gyroscope": "자이로스코프",
+  "item.immersive_aircraft.gyroscope_dials": "고급 자이로스코프",
+  "item.immersive_aircraft.gyroscope_hud": "전자 자이로스코프",
   "item.immersive_aircraft.hull_reinforcement": "선체 강화",
   "item.immersive_aircraft.improved_landing_gear": "향상된 랜딩 기어",
   "item.immersive_aircraft.rotary_cannon": "로터리 캐논",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s연료 요구량 %%",
   "immersive_aircraft.upgrade.wind": "%s바람 효과 %%",
   "immersive_aircraft.upgrade.stabilizer": "%s%% 안정화 중",
+  "immersive_aircraft.upgrade.dials": "기계식 대시보드",
+  "immersive_aircraft.upgrade.hud": "전자 대시보드",
   "immersive_aircraft.tooltip.inventory": "%s 항목이 포함되어 있습니다."
 }

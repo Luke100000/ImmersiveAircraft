@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Ingranaggi industriali",
   "item.immersive_aircraft.sturdy_pipes": "Tubi robusti",
   "item.immersive_aircraft.gyroscope": "Giroscopio",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscop Avanzat",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscop Elettronic",
   "item.immersive_aircraft.hull_reinforcement": "Rinforzo dello scafo",
   "item.immersive_aircraft.improved_landing_gear": "Telaio migliorato",
   "item.immersive_aircraft.rotary_cannon": "Cannon Rotante",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% richiesta di carburante",
   "immersive_aircraft.upgrade.wind": "%s%% effetto del vento",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizzando",
+  "immersive_aircraft.upgrade.dials": "Cruscott Meccanich",
+  "immersive_aircraft.upgrade.hud": "Pannello elettronico",
   "immersive_aircraft.tooltip.inventory": "Conten %s oggetti."
 }

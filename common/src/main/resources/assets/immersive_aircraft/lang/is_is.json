@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Iðntannhjól",
   "item.immersive_aircraft.sturdy_pipes": "Traust rör",
   "item.immersive_aircraft.gyroscope": "Snúður",
+  "item.immersive_aircraft.gyroscope_dials": "Fyrirgefandi gyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Rafmagns gyroskop",
   "item.immersive_aircraft.hull_reinforcement": "Bolsstyrking",
   "item.immersive_aircraft.improved_landing_gear": "Endurbættur lendingarbúnaður",
   "item.immersive_aircraft.rotary_cannon": "Snúningaskotvél",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% eldsneytiskraf",
   "immersive_aircraft.upgrade.wind": "%s%% vindáhrif",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stöðugur",
+  "immersive_aircraft.upgrade.dials": "Vélrænn mælaborð",
+  "immersive_aircraft.upgrade.hud": "Rafræn mælaborð",
   "immersive_aircraft.tooltip.inventory": "Inniheldur %s hlutina."
 }

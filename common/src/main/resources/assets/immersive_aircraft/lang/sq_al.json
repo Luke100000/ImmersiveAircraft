@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Ingjenierët industrialë",
   "item.immersive_aircraft.sturdy_pipes": "Tuba të forta",
   "item.immersive_aircraft.gyroscope": "Gyroskopi",
+  "item.immersive_aircraft.gyroscope_dials": "Giroskop i Avancuar",
+  "item.immersive_aircraft.gyroscope_hud": "Giroskop Elektronik",
   "item.immersive_aircraft.hull_reinforcement": "Forcimi i trupit",
   "item.immersive_aircraft.improved_landing_gear": "Ekuipazhi i përmirësuar i uljes",
   "item.immersive_aircraft.rotary_cannon": "Kanon rotativ",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% kërkesa për karburant",
   "immersive_aircraft.upgrade.wind": "%s%% efekti i erës",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizim",
+  "immersive_aircraft.upgrade.dials": "Pult Mekanik",
+  "immersive_aircraft.upgrade.hud": "Pult elektronik",
   "immersive_aircraft.tooltip.inventory": "Përmban %s artikuj."
 }

@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Nā Kaʻi Kiko",
   "item.immersive_aircraft.sturdy_pipes": "Nā Pīpī ʻOlu",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Nā Pā‘ani ʻIke ʻĀkau",
+  "item.immersive_aircraft.gyroscope_hud": "Nā Pā‘ani ʻIke Keleponi",
   "item.immersive_aircraft.hull_reinforcement": "ʻOlu ke Kia",
   "item.immersive_aircraft.improved_landing_gear": "Ka Kākau ʻOlu",
   "item.immersive_aircraft.rotary_cannon": "Kaʻa ʻUhane",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% pono koʻikoʻi",
   "immersive_aircraft.upgrade.wind": "%s%% ka makani",
   "immersive_aircraft.upgrade.stabilizer": "%s%% hoʻomaikaʻi",
+  "immersive_aircraft.upgrade.dials": "Nā Pā‘ani Mekanika",
+  "immersive_aircraft.upgrade.hud": "Ke kōmike ʻelika",
   "immersive_aircraft.tooltip.inventory": "Hoʻolako i nā ʻōlelo %s."
 }

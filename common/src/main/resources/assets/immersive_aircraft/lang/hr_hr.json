@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industrijski zupčanici",
   "item.immersive_aircraft.sturdy_pipes": "Čvrste cijevi",
   "item.immersive_aircraft.gyroscope": "Giroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Napredni žiroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronički žiroskop",
   "item.immersive_aircraft.hull_reinforcement": "Ojačanje trupa",
   "item.immersive_aircraft.improved_landing_gear": "Poboljšani trenja",
   "item.immersive_aircraft.rotary_cannon": "Rotirajući top",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% potreba za gorivom",
   "immersive_aircraft.upgrade.wind": "%s%% učinak vjetra",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija",
+  "immersive_aircraft.upgrade.dials": "Mehanička upravljačka ploča",
+  "immersive_aircraft.upgrade.hud": "Elektronska ploča",
   "immersive_aircraft.tooltip.inventory": "Sadrži %s stavki."
 }

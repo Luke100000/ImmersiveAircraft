@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriyal na Gears",
   "item.immersive_aircraft.sturdy_pipes": "Matitibay na Mga Tubo",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Sopistikadong Gyroscope",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronikong Gyroscope",
   "item.immersive_aircraft.hull_reinforcement": "Hull Reinforcement",
   "item.immersive_aircraft.improved_landing_gear": "Pinahusay na Landing Gear",
   "item.immersive_aircraft.rotary_cannon": "Rotary Cannon",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% kinakailangan na gasolina",
   "immersive_aircraft.upgrade.wind": "%s%% epekto ng hangin",
   "immersive_aircraft.upgrade.stabilizer": "%s%% na nagtatatag",
+  "immersive_aircraft.upgrade.dials": "Mechanical na dashboard",
+  "immersive_aircraft.upgrade.hud": "Elektronik na dashboard",
   "immersive_aircraft.tooltip.inventory": "Naglalaman ng %s mga item."
 }

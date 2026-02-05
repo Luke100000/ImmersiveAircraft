@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Gears Warshad",
   "item.immersive_aircraft.sturdy_pipes": "Tuubbooyinka Adag",
   "item.immersive_aircraft.gyroscope": "Gyroscope",
+  "item.immersive_aircraft.gyroscope_dials": "Gyroscope heer sare ah",
+  "item.immersive_aircraft.gyroscope_hud": "Gyroscope koronto",
   "item.immersive_aircraft.hull_reinforcement": "Xoojinta Jirka",
   "item.immersive_aircraft.improved_landing_gear": "Qalabka Duulista oo La Hagaajiyay",
   "item.immersive_aircraft.rotary_cannon": "Qoryaha Rotary",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% baahida shidaalka",
   "immersive_aircraft.upgrade.wind": "%s%% saamaynta dabaysha",
   "immersive_aircraft.upgrade.stabilizer": "%s%% xasilloon",
+  "immersive_aircraft.upgrade.dials": "Dashboard mashiinka",
+  "immersive_aircraft.upgrade.hud": "Dabagalka elektarooniga",
   "immersive_aircraft.tooltip.inventory": "Waxa ku jira %s walxood."
 }

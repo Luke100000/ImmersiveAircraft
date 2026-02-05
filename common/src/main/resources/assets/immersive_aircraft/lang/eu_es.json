@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriala Gira",
   "item.immersive_aircraft.sturdy_pipes": "Sendatuta Pipak",
   "item.immersive_aircraft.gyroscope": "Gyroskopa",
+  "item.immersive_aircraft.gyroscope_dials": "Aurreratutako Gorputzak",
+  "item.immersive_aircraft.gyroscope_hud": "Elektroniko Gorputz",
   "item.immersive_aircraft.hull_reinforcement": "Hondorazio Sendotua",
   "item.immersive_aircraft.improved_landing_gear": "Hobetu Lurreratze Etxe",
   "item.immersive_aircraft.rotary_cannon": "Biribil Kañon",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% erregai beharrezko",
   "immersive_aircraft.upgrade.wind": "%s%% haize efektua",
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilizatzen",
+  "immersive_aircraft.upgrade.dials": "Mekaniko panela",
+  "immersive_aircraft.upgrade.hud": "Mikroprozesadoreko painel elektronikoa",
   "immersive_aircraft.tooltip.inventory": "%s elementu ditu."
 }

@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "تروس صناعية",
   "item.immersive_aircraft.sturdy_pipes": "أنابيب قوية",
   "item.immersive_aircraft.gyroscope": "جيروسكوب",
+  "item.immersive_aircraft.gyroscope_dials": "الجيروسكوب المتقدم",
+  "item.immersive_aircraft.gyroscope_hud": "الجيروسكوب الإلكتروني",
   "item.immersive_aircraft.hull_reinforcement": "تعزيز الهيكل",
   "item.immersive_aircraft.improved_landing_gear": "معدات هبوط محسنة",
   "item.immersive_aircraft.rotary_cannon": "مدفع دوّار",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% متطلبات الوقود",
   "immersive_aircraft.upgrade.wind": "%s%% تأثير الرياح",
   "immersive_aircraft.upgrade.stabilizer": "%sالنسبة المئوية للاستقرار",
+  "immersive_aircraft.upgrade.dials": "لوحة عدادات ميكانيكية",
+  "immersive_aircraft.upgrade.hud": "لوحة إلكترونية",
   "immersive_aircraft.tooltip.inventory": "يحتوي على %s"
 }

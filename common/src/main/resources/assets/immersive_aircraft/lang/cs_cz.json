@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Průmyslová ozubená kola",
   "item.immersive_aircraft.sturdy_pipes": "Robustní potrubí",
   "item.immersive_aircraft.gyroscope": "Gyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Pokročilý Gyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronický Gyroskop",
   "item.immersive_aircraft.hull_reinforcement": "Zesílení trupu",
   "item.immersive_aircraft.improved_landing_gear": "Vylepšený podvozek",
   "item.immersive_aircraft.rotary_cannon": "Rotační dělo",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% potřeba paliva",
   "immersive_aircraft.upgrade.wind": "%s%% vliv větru",
   "immersive_aircraft.upgrade.stabilizer": "%s% stabilizace",
+  "immersive_aircraft.upgrade.dials": "Mechanická řídicí deska",
+  "immersive_aircraft.upgrade.hud": "Elektronická řídicí deska",
   "immersive_aircraft.tooltip.inventory": "Obsahuje %s položek."
 }

@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Industriell Gears",
   "item.immersive_aircraft.sturdy_pipes": "Stécker Pipes",
   "item.immersive_aircraft.gyroscope": "Gyroskop",
+  "item.immersive_aircraft.gyroscope_dials": "Fortgeschratt Gyroskop",
+  "item.immersive_aircraft.gyroscope_hud": "Elektronescht Gyroskop",
   "item.immersive_aircraft.hull_reinforcement": "Hull Verstäerkung",
   "item.immersive_aircraft.improved_landing_gear": "Verbesserte Landungsgear",
   "item.immersive_aircraft.rotary_cannon": "Rotary Cannon",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% Brennstoff Ufuerderung",
   "immersive_aircraft.upgrade.wind": "%s%% Wand Effekt",
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliséierend",
+  "immersive_aircraft.upgrade.dials": "Mechanescht Dashboard",
+  "immersive_aircraft.upgrade.hud": "Elektronescht Dashboard",
   "immersive_aircraft.tooltip.inventory": "Enthält %s Elementer."
 }

@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "چرخ‌دنده‌های صنعتی",
   "item.immersive_aircraft.sturdy_pipes": "لوله‌های محکم",
   "item.immersive_aircraft.gyroscope": "ژیروسکوپ",
+  "item.immersive_aircraft.gyroscope_dials": "ژیروسکوپ پیشرفته",
+  "item.immersive_aircraft.gyroscope_hud": "ژیروسکوپ الکتریکی",
   "item.immersive_aircraft.hull_reinforcement": "تقویت بدنه",
   "item.immersive_aircraft.improved_landing_gear": "چرخ فرود ارتقایی",
   "item.immersive_aircraft.rotary_cannon": "توپ گردان",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "\"%s%% نیاز به سوخت\"",
   "immersive_aircraft.upgrade.wind": "\"%s%% اثر باد\"",
   "immersive_aircraft.upgrade.stabilizer": "%s%% پایدار",
+  "immersive_aircraft.upgrade.dials": "داشبورد مکانیکی",
+  "immersive_aircraft.upgrade.hud": "داشبورد الکترونیکی",
   "immersive_aircraft.tooltip.inventory": "شامل %s قطعه."
 }

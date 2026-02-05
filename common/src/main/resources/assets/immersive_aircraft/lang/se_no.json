@@ -39,6 +39,8 @@
   "item.immersive_aircraft.industrial_gears": "Teolliset vaihteet",
   "item.immersive_aircraft.sturdy_pipes": "Kestävät putket",
   "item.immersive_aircraft.gyroscope": "Gyroskooppi",
+  "item.immersive_aircraft.gyroscope_dials": "Easkkaš Gíroskopi",
+  "item.immersive_aircraft.gyroscope_hud": "Eleketrónala Gíroskopi",
   "item.immersive_aircraft.hull_reinforcement": "Koppa vahvistus",
   "item.immersive_aircraft.improved_landing_gear": "Parannettu laskeutumisväline",
   "item.immersive_aircraft.rotary_cannon": "Rotorváppe",
@@ -121,5 +123,7 @@
   "immersive_aircraft.upgrade.fuel": "%s%% polttoaineen vaatimus",
   "immersive_aircraft.upgrade.wind": "%s%% tuulen vaikutus",
   "immersive_aircraft.upgrade.stabilizer": "%s%% vamdo",
+  "immersive_aircraft.upgrade.dials": "Mekánala tábla",
+  "immersive_aircraft.upgrade.hud": "Elektronik dashboard",
   "immersive_aircraft.tooltip.inventory": "Gárddin %s varra."
 }
