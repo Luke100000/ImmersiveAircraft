@@ -89,7 +89,7 @@
   "option.immersive_aircraft.windRainWeather": "Ветер во время дождя.",
   "option.immersive_aircraft.windThunderWeather": "Дополнительный ветер при грозе.",
   "option.immersive_aircraft.repairSpeed": "Ремонт за клик.",
-  "option.immersive_aircraft.repairExhaustion": "Истощение игрока за клик.",
+  "option.immersive_aircraft.repairExhaustion": "Истощение игрока за нажатие.",
   "option.immersive_aircraft.collisionDamage": "Повреждения при столкновении.",
   "option.immersive_aircraft.burnFuelInCreative": "Сжигать топливо в творческом режиме.",
   "option.immersive_aircraft.acceptVanillaFuel": "Принимать ванильное топливо.",
