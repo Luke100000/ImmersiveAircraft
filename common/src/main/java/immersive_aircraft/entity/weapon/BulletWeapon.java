@@ -88,7 +88,7 @@ public abstract class BulletWeapon extends Weapon {
                 String key = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 
                 if (ammunition.containsKey(key)) {
-                    ammoStack = stack.copy();
+                    ammoStack = stack.copyWithCount(1);
 
                     if (!getEntity().isPilotCreative()) {
                         ammo += ammunition.get(key);

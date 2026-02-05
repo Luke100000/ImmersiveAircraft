@@ -1,3 +1,8 @@
+# 1.4.1
+
+* Synced translations
+* Fixed arrow stack size
+
 # 1.4.0
 
 * Added mechanical dials and hud (Thanks donmor!)
