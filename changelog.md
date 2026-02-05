@@ -1,7 +1,11 @@
-# 1.4.1
+# 1.4.2
 
 * Synced translations
 * Fixed arrow stack size
+
+# 1.4.1
+
+* Fixed keybind related issues
 
 # 1.4.0
 
