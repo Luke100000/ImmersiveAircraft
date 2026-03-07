@@ -1,5 +1,6 @@
 package immersive_aircraft.resources.bbmodel;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import immersive_aircraft.Main;
 import net.minecraft.resources.ResourceLocation;
@@ -7,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static immersive_aircraft.resources.bbmodel.BBTexture.MISSING;
 
@@ -14,6 +16,7 @@ public class BBModel {
     public final BBMeta meta;
     public final List<BBTexture> textures = new LinkedList<>();
     public final LinkedList<BBObject> root;
+    public final Map<String, JsonObject> uuidToGroup;
     public final HashMap<String, BBObject> objects;
     public final HashMap<String, BBObject> objectsByName;
     public final List<BBAnimation> animations = new LinkedList<>();
@@ -50,6 +53,14 @@ public class BBModel {
                 Main.LOGGER.warn("Unknown object type {}", type);
             }
         });
+
+        uuidToGroup = new HashMap<>();
+        if (model.has("groups")) {
+            model.get("groups").getAsJsonArray().forEach(element -> {
+                String uuid = element.getAsJsonObject().get("uuid").getAsString();
+                uuidToGroup.put(uuid, element.getAsJsonObject());
+            });
+        }
 
         model.get("outliner").getAsJsonArray().forEach(element -> {
             if (element.isJsonPrimitive()) {

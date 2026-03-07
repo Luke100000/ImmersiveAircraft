@@ -1,3 +1,7 @@
+# 1.4.3
+
+* Added support for Blockbench 5.0
+
 # 1.4.2
 
 * Synced translations

@@ -26,8 +26,10 @@ public class BBAnimation {
 
         if (element.has("animators")) {
             element.getAsJsonObject("animators").entrySet().forEach(entry -> {
-                BBAnimator animator = new BBAnimator(entry.getValue().getAsJsonObject(), this);
-                this.animators.put(entry.getKey(), animator);
+                if (entry.getValue().getAsJsonObject().has("keyframes")) {
+                    BBAnimator animator = new BBAnimator(entry.getValue().getAsJsonObject(), this);
+                    this.animators.put(entry.getKey(), animator);
+                }
             });
         }
     }

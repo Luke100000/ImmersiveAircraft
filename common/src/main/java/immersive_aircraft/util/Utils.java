@@ -50,10 +50,10 @@ public class Utils {
         return 0;
     }
 
-    public static boolean getBooleanElement(JsonObject object, String member) {
+    public static boolean getBooleanElement(JsonObject object, String member, boolean defaultValue) {
         JsonElement element = object.getAsJsonPrimitive(member);
         if (element == null) {
-            return false;
+            return defaultValue;
         }
         return element.getAsBoolean();
     }
