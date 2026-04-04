@@ -3,15 +3,15 @@ package immersive_aircraft;
 import immersive_aircraft.client.render.entity.weaponRenderer.*;
 import immersive_aircraft.entity.weapon.Weapon;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class WeaponRendererRegistry {
-    public static final Map<ResourceLocation, WeaponRenderer<? extends Weapon>> REGISTRY = new HashMap<>();
+    public static final Map<Identifier, WeaponRenderer<? extends Weapon>> REGISTRY = new HashMap<>();
 
-    public static void register(ResourceLocation id, WeaponRenderer<? extends Weapon> renderer) {
+    public static void register(Identifier id, WeaponRenderer<? extends Weapon> renderer) {
         REGISTRY.put(id, renderer);
     }
 

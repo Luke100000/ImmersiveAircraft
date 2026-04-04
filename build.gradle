@@ -6,7 +6,7 @@ buildscript {
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.14-SNAPSHOT" apply false
 }
 
 architectury {
@@ -24,6 +24,7 @@ subprojects {
         maven { url "https://maven.parchmentmc.org" }
         maven { url "https://maven.terraformersmc.com/releases/" }
         maven { url "https://dvs1.progwml6.com/files/maven/" }
+        maven { url "https://maven.blamejared.com" }
         maven { url "https://maven.shedaniel.me/" }
         maven { url "https://maven.architectury.dev/" }
         maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }

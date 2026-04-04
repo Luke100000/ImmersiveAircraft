@@ -5,14 +5,14 @@ import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHan
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.QuadrocopterEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Random;
 
 public class QuadrocopterEntityRenderer<T extends QuadrocopterEntity> extends AircraftEntityRenderer<T> {
-    private static final ResourceLocation ID = Main.locate("quadrocopter");
+    private static final Identifier ID = Main.locate("quadrocopter");
 
-    protected ResourceLocation getModelId() {
+    protected Identifier getModelId() {
         return ID;
     }
 

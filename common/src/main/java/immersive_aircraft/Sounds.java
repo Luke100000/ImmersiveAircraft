@@ -2,7 +2,7 @@ package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 import java.util.function.Supplier;
@@ -25,7 +25,7 @@ public interface Sounds {
     }
 
     static Supplier<SoundEvent> register(String name) {
-        ResourceLocation id = Main.locate(name);
+        Identifier id = Main.locate(name);
         return Registration.register(BuiltInRegistries.SOUND_EVENT, id, () -> SoundEvent.createVariableRangeEvent(id));
     }
 }

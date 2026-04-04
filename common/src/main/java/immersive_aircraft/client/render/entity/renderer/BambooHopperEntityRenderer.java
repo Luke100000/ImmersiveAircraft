@@ -5,12 +5,12 @@ import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHan
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.BambooHopperEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class BambooHopperEntityRenderer<T extends BambooHopperEntity> extends AircraftEntityRenderer<T> {
-    private static final ResourceLocation ID = Main.locate("bamboo_hopper");
+    private static final Identifier ID = Main.locate("bamboo_hopper");
 
-    protected ResourceLocation getModelId() {
+    protected Identifier getModelId() {
         return ID;
     }
 

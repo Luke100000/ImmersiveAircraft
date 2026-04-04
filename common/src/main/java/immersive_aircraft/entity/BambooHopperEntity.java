@@ -39,7 +39,7 @@ public class BambooHopperEntity extends AirplaneEntity {
     }
 
     public void emitSplashParticle(float x, float y, float z, float nx, float ny, float nz) {
-        if (!isWithinParticleRange() || !level().isClientSide) {
+        if (!isWithinParticleRange() || !level().isClientSide()) {
             return;
         }
 
