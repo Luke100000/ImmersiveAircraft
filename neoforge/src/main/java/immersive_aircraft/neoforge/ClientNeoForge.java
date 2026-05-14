@@ -27,8 +27,10 @@ public final class ClientNeoForge {
 
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
-        Renderer.bootstrap();
-        WeaponRendererRegistry.bootstrap();
+        event.enqueueWork(() -> {
+            Renderer.bootstrap();
+            WeaponRendererRegistry.bootstrap();
+        });
     }
 
     @SubscribeEvent
