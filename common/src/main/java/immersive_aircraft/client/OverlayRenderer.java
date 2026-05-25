@@ -37,6 +37,7 @@ public class OverlayRenderer {
 
     public static int renderOverlay(GuiGraphics context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
+        if (client.options.hideGui) return 0;
         if (client.gameMode != null && client.player != null) {
             INSTANCE.tick = (INSTANCE.tick + 1) % 60;
 
