@@ -731,7 +731,7 @@ public abstract class VehicleEntity extends Entity {
         super.move(movementType, movement);
 
         // Collision damage
-        if ((verticalCollision || horizontalCollision) && level().isClientSide && Config.getInstance().collisionDamage) {
+        if ((verticalCollision || horizontalCollision) && level().isClientSide) {
             double maxPossibleError = movement.length();
             double error = prediction.distanceTo(position());
             if (error <= maxPossibleError) {
@@ -739,8 +739,7 @@ public abstract class VehicleEntity extends Entity {
                 if (collision > 0) {
                     float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
-                        float damage = collision * Config.getInstance().collisionDamageMultiplier * repeat * repeat;
-                        NetworkHandler.sendToServer(new CollisionMessage(damage));
+                        NetworkHandler.sendToServer(new CollisionMessage(collision * repeat * repeat));
                     }
                 }
             }
