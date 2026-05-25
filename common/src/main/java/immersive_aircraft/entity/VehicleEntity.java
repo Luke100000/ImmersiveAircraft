@@ -2,9 +2,8 @@ package immersive_aircraft.entity;
 
 import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
-import earth.terrarium.adastra.api.systems.GravityApi;
-import immersive_aircraft.CompatUtil;
 import immersive_aircraft.AircraftStats;
+import immersive_aircraft.CompatUtil;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
@@ -18,31 +17,28 @@ import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
-import net.minecraft.util.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.BlockUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.InterpolationHandler;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
@@ -50,10 +46,12 @@ import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +65,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract vehicle, which handles player input, collisions, passengers and destruction
+ * Abstract vehicle, which handles player input, collisions, passengers, and destruction
  */
 public abstract class VehicleEntity extends Entity {
     public final Identifier identifier;
@@ -267,7 +265,7 @@ public abstract class VehicleEntity extends Entity {
         if (health <= 0) {
             setHealth(0);
 
-            if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
+            if (!level().isClientSide() && getControllingPassenger() instanceof Player player) {
                 player.awardStat(AircraftStats.CRASHES, 1);
             }
 
@@ -294,7 +292,7 @@ public abstract class VehicleEntity extends Entity {
         } else {
             setHealth(health);
 
-            if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
+            if (!level().isClientSide() && getControllingPassenger() instanceof Player player) {
                 player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.ceil(amount * 20));
             }
         }
@@ -462,7 +460,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // Statistics tracking
-        if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
+        if (!level().isClientSide() && getControllingPassenger() instanceof Player player) {
             double dist = getDeltaMovement().length() * 100.0;
             player.awardStat(AircraftStats.DISTANCE_TOTAL, Mth.floor(dist));
             player.awardStat(AircraftStats.TIME_IN_AIRCRAFT, 1);
@@ -570,7 +568,7 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     protected double getDefaultGravity() {
-        return 0.04f * (CompatUtil.isModLoaded("ad_astra") ? GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition())) : 1);
+        return 0.04f;
     }
 
     protected abstract void updateController();
@@ -757,7 +755,7 @@ public abstract class VehicleEntity extends Entity {
         super.move(movementType, movement);
 
         // Collision damage
-        if ((verticalCollision || horizontalCollision) && level().isClientSide) {
+        if ((verticalCollision || horizontalCollision) && level().isClientSide()) {
             double maxPossibleError = movement.length();
             double error = prediction.distanceTo(position());
             if (error <= maxPossibleError) {
@@ -966,6 +964,14 @@ public abstract class VehicleEntity extends Entity {
 
     public double getZoom() {
         return 0.0;
+    }
+
+    public AABB getBoundingBoxForCulling() {
+        AABB box = getBoundingBox();
+        for (AABB additionalShape : getAdditionalShapes()) {
+            box = box.minmax(additionalShape);
+        }
+        return box;
     }
 
     public void setAnimationVariables(float tickDelta) {

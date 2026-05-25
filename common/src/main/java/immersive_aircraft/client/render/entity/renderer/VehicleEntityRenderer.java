@@ -121,4 +121,9 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
     protected double getCullingBoundingBoxInflation() {
         return 1.0;
     }
+
+    @Override
+    protected AABB getBoundingBoxForCulling(T entity) {
+        return entity.getBoundingBoxForCulling();
+    }
 }
