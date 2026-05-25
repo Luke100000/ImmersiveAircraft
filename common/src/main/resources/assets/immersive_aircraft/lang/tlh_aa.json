@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% pIch",
   "immersive_aircraft.upgrade.dials": "{0} QI' jorwI' lojmIt",
   "immersive_aircraft.upgrade.hud": "tlhabwI' naQje'",
-  "immersive_aircraft.tooltip.inventory": "%s naQmey tu'lu'."
+  "immersive_aircraft.tooltip.inventory": "%s naQmey tu'lu'.",
+  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
+  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
+  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
+  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
+  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
 }

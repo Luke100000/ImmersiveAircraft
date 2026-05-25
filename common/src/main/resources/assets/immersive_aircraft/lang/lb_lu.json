@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliséierend",
   "immersive_aircraft.upgrade.dials": "Mechanescht Dashboard",
   "immersive_aircraft.upgrade.hud": "Elektronescht Dashboard",
-  "immersive_aircraft.tooltip.inventory": "Enthält %s Elementer."
+  "immersive_aircraft.tooltip.inventory": "Enthält %s Elementer.",
+  "stat.immersive_aircraft.distance_total": "Distanz vum Fliger geflunn",
+  "stat.immersive_aircraft.time_in_aircraft": "Zäit am Fliger",
+  "stat.immersive_aircraft.fuel_burned": "Brennstoff, deen an Fligeren verbrannt gëtt",
+  "stat.immersive_aircraft.damage_received": "Schued un engem Fliger",
+  "stat.immersive_aircraft.crashes": "Abstürzte Fliger"
 }

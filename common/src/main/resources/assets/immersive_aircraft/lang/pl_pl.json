@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacji",
   "immersive_aircraft.upgrade.dials": "Mechaniczna Deska Rozdzielcza",
   "immersive_aircraft.upgrade.hud": "Elektroniczna Deska Rozdzielcza",
-  "immersive_aircraft.tooltip.inventory": "Zawiera %s przedmiotów."
+  "immersive_aircraft.tooltip.inventory": "Zawiera %s przedmiotów.",
+  "stat.immersive_aircraft.distance_total": "Odległość na statku powietrznym",
+  "stat.immersive_aircraft.time_in_aircraft": "Czas w samolotach",
+  "stat.immersive_aircraft.fuel_burned": "Paliwo spalone w samolotach",
+  "stat.immersive_aircraft.damage_received": "Obrażenia spowodowane statkiem powietrznym",
+  "stat.immersive_aircraft.crashes": "Rozbijany statek powietrzny"
 }

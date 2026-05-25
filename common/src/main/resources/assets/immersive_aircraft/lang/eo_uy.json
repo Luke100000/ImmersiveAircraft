@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiligante",
   "immersive_aircraft.upgrade.dials": "Mekanika panelo",
   "immersive_aircraft.upgrade.hud": "Elektronika tabulo",
-  "immersive_aircraft.tooltip.inventory": "Enhavas %s erojn."
+  "immersive_aircraft.tooltip.inventory": "Enhavas %s erojn.",
+  "stat.immersive_aircraft.distance_total": "Distanco flugita per aviadilo",
+  "stat.immersive_aircraft.time_in_aircraft": "Tempodaŭro en aviadilo",
+  "stat.immersive_aircraft.fuel_burned": "Brulaĵo Konsumita en Aviadiloj",
+  "stat.immersive_aircraft.damage_received": "Damaĝo kaŭzita al aviadiloj",
+  "stat.immersive_aircraft.crashes": "Aviadilo kraŝinta"
 }

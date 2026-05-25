@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% menstabil",
   "immersive_aircraft.upgrade.dials": "Papan pemuka mekanikal",
   "immersive_aircraft.upgrade.hud": "Papan pemuka elektronik",
-  "immersive_aircraft.tooltip.inventory": "Mengandungi %s item."
+  "immersive_aircraft.tooltip.inventory": "Mengandungi %s item.",
+  "stat.immersive_aircraft.distance_total": "Jarak Terbang Pesawat",
+  "stat.immersive_aircraft.time_in_aircraft": "Masa dalam pesawat",
+  "stat.immersive_aircraft.fuel_burned": "Bahan Api yang Dibakar dalam Pesawat",
+  "stat.immersive_aircraft.damage_received": "Kerosakan yang Ditimbulkan ke atas Pesawat",
+  "stat.immersive_aircraft.crashes": "Pesawat Tergugur"
 }

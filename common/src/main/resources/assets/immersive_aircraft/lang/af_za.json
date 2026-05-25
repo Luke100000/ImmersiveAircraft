@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisering",
   "immersive_aircraft.upgrade.dials": "Meganiese paneelbord",
   "immersive_aircraft.upgrade.hud": "Elektroniese paneelbord",
-  "immersive_aircraft.tooltip.inventory": "Bevat %s items."
+  "immersive_aircraft.tooltip.inventory": "Bevat %s items.",
+  "stat.immersive_aircraft.distance_total": "Afstand wat met 'n vliegtuig gevlieg is",
+  "stat.immersive_aircraft.time_in_aircraft": "Tyd in vliegtuig",
+  "stat.immersive_aircraft.fuel_burned": "Brandstof verbrand in vliegtuie",
+  "stat.immersive_aircraft.damage_received": "Skade aan vliegtuie",
+  "stat.immersive_aircraft.crashes": "Vlugtuigongeluk"
 }

@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% vakauttaminen",
   "immersive_aircraft.upgrade.dials": "Mekaaninen kojelauta",
   "immersive_aircraft.upgrade.hud": "Sähköinen kojelauta",
-  "immersive_aircraft.tooltip.inventory": "Sisältää %s ."
+  "immersive_aircraft.tooltip.inventory": "Sisältää %s .",
+  "stat.immersive_aircraft.distance_total": "Lentokoneessa lentävä etäisyys",
+  "stat.immersive_aircraft.time_in_aircraft": "Aika ilma-aluksissa",
+  "stat.immersive_aircraft.fuel_burned": "Ilma-aluksissa poltettu polttoaine",
+  "stat.immersive_aircraft.damage_received": "Lentokoneelle aiheutunut vahinko",
+  "stat.immersive_aircraft.crashes": "Kaatuneet Ilma-Alukset"
 }

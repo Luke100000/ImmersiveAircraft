@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизиране",
   "immersive_aircraft.upgrade.dials": "Механично арматурно табло",
   "immersive_aircraft.upgrade.hud": "Електронно табло за управление",
-  "immersive_aircraft.tooltip.inventory": "Съдържа %s елементи."
+  "immersive_aircraft.tooltip.inventory": "Съдържа %s елементи.",
+  "stat.immersive_aircraft.distance_total": "Разстояние, пропътувано със самолет",
+  "stat.immersive_aircraft.time_in_aircraft": "Време в самолета",
+  "stat.immersive_aircraft.fuel_burned": "Изгоряло гориво във въздухоплавателното средство",
+  "stat.immersive_aircraft.damage_received": "Нанесени щети на въздухоплавателното средство",
+  "stat.immersive_aircraft.crashes": "Катастрофирал самолет"
 }

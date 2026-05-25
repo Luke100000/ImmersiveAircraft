@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliser",
   "immersive_aircraft.upgrade.dials": "Tableau de bord mécanique",
   "immersive_aircraft.upgrade.hud": "Tableau de bord électronique",
-  "immersive_aircraft.tooltip.inventory": "Contient %s articles."
+  "immersive_aircraft.tooltip.inventory": "Contient %s articles.",
+  "stat.immersive_aircraft.distance_total": "Flown à distance en avion",
+  "stat.immersive_aircraft.time_in_aircraft": "Temps passé dans l'appareil",
+  "stat.immersive_aircraft.fuel_burned": "Carburant brûlé dans l'appareil",
+  "stat.immersive_aircraft.damage_received": "Dégâts causés à l'appareil",
+  "stat.immersive_aircraft.crashes": "Appareil planté"
 }

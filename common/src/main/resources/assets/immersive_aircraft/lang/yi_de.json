@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% שטאַביליזירן",
   "immersive_aircraft.upgrade.dials": "מכאנישער דאַשבאָרד",
   "immersive_aircraft.upgrade.hud": "עלקטראָניש דאַשבורד",
-  "immersive_aircraft.tooltip.inventory": "ווערט %s ערעיעס."
+  "immersive_aircraft.tooltip.inventory": "ווערט %s ערעיעס.",
+  "stat.immersive_aircraft.distance_total": "דיסטאַנץ געפֿלויגן אין אַ פֿליִגער",
+  "stat.immersive_aircraft.time_in_aircraft": "צײַט אין פֿליִגער",
+  "stat.immersive_aircraft.fuel_burned": "ברענשטאָף פֿאַרברענט אין עראָפּלאַנען",
+  "stat.immersive_aircraft.damage_received": "שאָדן פֿאַר אַעראָפּלאַן",
+  "stat.immersive_aircraft.crashes": "צונדערפֿאַלענע פֿליִער"
 }

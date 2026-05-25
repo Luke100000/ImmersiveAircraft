@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilizatzen",
   "immersive_aircraft.upgrade.dials": "Mekaniko panela",
   "immersive_aircraft.upgrade.hud": "Mikroprozesadoreko painel elektronikoa",
-  "immersive_aircraft.tooltip.inventory": "%s elementu ditu."
+  "immersive_aircraft.tooltip.inventory": "%s elementu ditu.",
+  "stat.immersive_aircraft.distance_total": "Hegazkinek egindako distantzia",
+  "stat.immersive_aircraft.time_in_aircraft": "Hegazkinean igarotako denbora",
+  "stat.immersive_aircraft.fuel_burned": "Hegazkinetan erre den erregaia",
+  "stat.immersive_aircraft.damage_received": "Hegazkinari eragindako kalteak",
+  "stat.immersive_aircraft.crashes": "Istripuz erori den hegazkina"
 }

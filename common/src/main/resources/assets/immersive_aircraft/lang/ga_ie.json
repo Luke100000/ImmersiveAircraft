@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% ag stabilizing",
   "immersive_aircraft.upgrade.dials": "Painéal meicniúil",
   "immersive_aircraft.upgrade.hud": "Painéal leictreonach",
-  "immersive_aircraft.tooltip.inventory": "Tá %s míreanna ann."
+  "immersive_aircraft.tooltip.inventory": "Tá %s míreanna ann.",
+  "stat.immersive_aircraft.distance_total": "Fad a Taistealaíodh san Aerárthach",
+  "stat.immersive_aircraft.time_in_aircraft": "Am san Aerárthach",
+  "stat.immersive_aircraft.fuel_burned": "Breosla Dóite in Aerárthach",
+  "stat.immersive_aircraft.damage_received": "Damáiste do Aerárthach",
+  "stat.immersive_aircraft.crashes": "Aerárthach Tuairteáilte"
 }

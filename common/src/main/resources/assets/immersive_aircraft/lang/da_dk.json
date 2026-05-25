@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliserende",
   "immersive_aircraft.upgrade.dials": "Mekanisk betjeningspanel",
   "immersive_aircraft.upgrade.hud": "Elektronisk betjeningspanel",
-  "immersive_aircraft.tooltip.inventory": "Indeholder %s elementer."
+  "immersive_aircraft.tooltip.inventory": "Indeholder %s elementer.",
+  "stat.immersive_aircraft.distance_total": "Afstand strømmet i fly",
+  "stat.immersive_aircraft.time_in_aircraft": "Tid i drone",
+  "stat.immersive_aircraft.fuel_burned": "Brændstof brændt i fly",
+  "stat.immersive_aircraft.damage_received": "Skade forårsaget af fly",
+  "stat.immersive_aircraft.crashes": "Krassede Fly"
 }
