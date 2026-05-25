@@ -7,13 +7,18 @@ import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
 
 public class AircraftStats {
-    public static final ResourceLocation DISTANCE_TOTAL = makeCustomStat("distance_total", StatFormatter.DISTANCE);
-    public static final ResourceLocation TIME_IN_AIRCRAFT = makeCustomStat("time_in_aircraft", StatFormatter.TIME);
-    public static final ResourceLocation FUEL_BURNED = makeCustomStat("fuel_burned", StatFormatter.DEFAULT);
-    public static final ResourceLocation DAMAGE_RECEIVED = makeCustomStat("damage_received", StatFormatter.DEFAULT);
-    public static final ResourceLocation CRASHES = makeCustomStat("crashes", StatFormatter.DEFAULT);
+    public static ResourceLocation DISTANCE_TOTAL;
+    public static ResourceLocation TIME_IN_AIRCRAFT;
+    public static ResourceLocation FUEL_BURNED;
+    public static ResourceLocation DAMAGE_RECEIVED;
+    public static ResourceLocation CRASHES;
 
     public static void bootstrap() {
+        DISTANCE_TOTAL = makeCustomStat("distance_total", StatFormatter.DISTANCE);
+        TIME_IN_AIRCRAFT = makeCustomStat("time_in_aircraft", StatFormatter.TIME);
+        FUEL_BURNED = makeCustomStat("fuel_burned", StatFormatter.DEFAULT);
+        DAMAGE_RECEIVED = makeCustomStat("damage_received", StatFormatter.DEFAULT);
+        CRASHES = makeCustomStat("crashes", StatFormatter.DEFAULT);
     }
 
     private static ResourceLocation makeCustomStat(String key, StatFormatter formatter) {

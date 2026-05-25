@@ -4,6 +4,7 @@ import immersive_aircraft.*;
 import immersive_aircraft.neoforge.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.neoforge.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.neoforge.cobalt.registration.RegistrationImpl;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,6 +13,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
@@ -29,7 +31,6 @@ public final class CommonNeoForge {
     public CommonNeoForge(IEventBus bus) {
         new RegistrationImpl(bus);
 
-        AircraftStats.bootstrap();
         DataLoaders.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();
@@ -54,5 +55,10 @@ public final class CommonNeoForge {
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
         CommonNeoForge.NETWORK_HANDLER.register(event);
+    }
+
+    @SubscribeEvent
+    public static void onRegister(RegisterEvent event) {
+        event.register(Registries.CUSTOM_STAT, helper -> AircraftStats.bootstrap());
     }
 }

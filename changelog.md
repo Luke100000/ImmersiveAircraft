@@ -1,3 +1,7 @@
+# 1.4.5
+
+* Fixed NeoForge
+
 # 1.4.4
 
 * Fixed ConcurrentModificationException
