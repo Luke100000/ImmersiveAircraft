@@ -38,12 +38,9 @@ public class BBModelLoader extends SimplePreparableReloadListener<Map<Identifier
             String name = location.getPath();
             Identifier id = Identifier.fromNamespaceAndPath(location.getNamespace(), name.substring(PATH_PREFIX_LENGTH, name.length() - PATH_SUFFIX_LENGTH));
             try {
-                BufferedReader reader = entry.getValue().openAsReader();
-                try {
+                try (BufferedReader reader = entry.getValue().openAsReader()) {
                     JsonElement jsonElement = GsonHelper.fromJson(this.gson, reader, JsonElement.class);
                     map.put(id, jsonElement);
-                } finally {
-                    ((Reader) reader).close();
                 }
             } catch (JsonParseException | IOException | IllegalArgumentException exception) {
                 Main.LOGGER.error("Couldn't parse data file {} from {}", id, location, exception);

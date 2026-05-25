@@ -8,7 +8,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
-@EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT)
 public class NeoForgeOverlayRenderer {
     @SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiLayersEvent event) {

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
 public class GuiMixin {
-    @Inject(method = "renderHotbarAndDecorations(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V", at = @At("HEAD"))
+    @Inject(method = "renderItemHotbar(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/DeltaTracker;)V", at = @At("HEAD"))
     private void ia$renderInject(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         if (Main.MOD_LOADER.equals("fabric")) {
             OverlayRenderer.renderOverlay(guiGraphics, deltaTracker.getGameTimeDeltaTicks(), 49);

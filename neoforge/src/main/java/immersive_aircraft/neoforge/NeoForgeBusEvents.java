@@ -7,20 +7,25 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
 import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
+import immersive_aircraft.neoforge.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.neoforge.cobalt.registration.RegistrationImpl.DataLoaderRegister;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -48,12 +53,33 @@ public class NeoForgeBusEvents {
     }
 
     @SubscribeEvent
-    public static void addReloadListenerEvent(AddReloadListenerEvent event) {
+    public static void addReloadListenerEvent(AddServerReloadListenersEvent event) {
         if (DATA_REGISTRY != null) {
             for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
-                event.addListener(loader);
+                event.addListener(Identifier.fromNamespaceAndPath(Main.MOD_ID, loader.getName().toLowerCase(Locale.ROOT)), loader);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onServerStarted(ServerStartedEvent event) {
+        var level = event.getServer().overworld();
+        CobaltFuelRegistryImpl.setFuelValues(level.fuelValues());
+    }
+
+    @SubscribeEvent
+    public static void onServerStopped(ServerStoppedEvent event) {
+        CobaltFuelRegistryImpl.setFuelValues(null);
+    }
+
+    @SubscribeEvent
+    public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
+        CobaltFuelRegistryImpl.setFuelValues(event.getPlayer().level().fuelValues());
+    }
+
+    @SubscribeEvent
+    public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
+        CobaltFuelRegistryImpl.setFuelValues(null);
     }
 
     @SubscribeEvent
