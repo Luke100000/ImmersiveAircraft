@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisera",
   "immersive_aircraft.upgrade.dials": "Mechanisk tæla",
   "immersive_aircraft.upgrade.hud": "Elektroniska dashboard",
-  "immersive_aircraft.tooltip.inventory": "Inniheldur %s lutir."
+  "immersive_aircraft.tooltip.inventory": "Inniheldur %s lutir.",
+  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
+  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
+  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
+  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
+  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
 }
