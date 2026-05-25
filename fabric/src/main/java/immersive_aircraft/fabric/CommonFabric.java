@@ -26,6 +26,7 @@ public final class CommonFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        AircraftStats.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();

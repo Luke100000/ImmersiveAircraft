@@ -1,5 +1,6 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.AircraftStats;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
@@ -157,8 +158,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
 
         // Fuel
         if (fuel.length > 0 && !level().isClientSide) {
-            float consumption = getFuelConsumption();
-            consumeFuel(consumption);
+            consumeFuel(getFuelConsumption());
         }
 
         // Refuel
@@ -274,6 +274,11 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                 fuel[i] += time;
                 Item item = stack.getItem();
                 stack.shrink(1);
+
+                if (getControllingPassenger() instanceof ServerPlayer player) {
+                    player.awardStat(AircraftStats.FUEL_BURNED, time);
+                }
+
                 if (stack.isEmpty()) {
                     Item remainingItem = item.getCraftingRemainingItem();
                     getInventory().setItem(slots.get(i).index(), remainingItem == null ? ItemStack.EMPTY : new ItemStack(remainingItem));

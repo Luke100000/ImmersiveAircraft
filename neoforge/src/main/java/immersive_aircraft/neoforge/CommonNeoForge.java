@@ -29,6 +29,7 @@ public final class CommonNeoForge {
     public CommonNeoForge(IEventBus bus) {
         new RegistrationImpl(bus);
 
+        AircraftStats.bootstrap();
         DataLoaders.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();

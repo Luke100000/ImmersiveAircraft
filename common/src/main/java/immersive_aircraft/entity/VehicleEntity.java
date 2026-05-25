@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
 import earth.terrarium.adastra.api.systems.GravityApi;
 import immersive_aircraft.CompatUtil;
+import immersive_aircraft.AircraftStats;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
@@ -262,6 +263,11 @@ public abstract class VehicleEntity extends Entity {
         float health = getHealth() - amount;
         if (health <= 0) {
             setHealth(0);
+
+            if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
+                player.awardStat(AircraftStats.CRASHES, 1);
+            }
+
             // Saving cords for explode (if enabled)
             double x = getX();
             double y = getY();
@@ -284,6 +290,10 @@ public abstract class VehicleEntity extends Entity {
             }
         } else {
             setHealth(health);
+
+            if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
+                player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.ceil(amount * 20));
+            }
         }
     }
 
@@ -438,6 +448,13 @@ public abstract class VehicleEntity extends Entity {
             if (t > 0 && level().getGameTime() % t == 0) {
                 repair(0.05f / getDurability());
             }
+        }
+
+        // Statistics tracking
+        if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
+            double dist = getDeltaMovement().length() * 100.0;
+            player.awardStat(AircraftStats.DISTANCE_TOTAL, Mth.floor(dist));
+            player.awardStat(AircraftStats.TIME_IN_AIRCRAFT, 1);
         }
     }
 
