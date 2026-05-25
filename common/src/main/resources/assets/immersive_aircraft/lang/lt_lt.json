@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s% % stabilizavimas",
   "immersive_aircraft.upgrade.dials": "Mechaninis prietaisų skydelis",
   "immersive_aircraft.upgrade.hud": "Elektroninis prietaisų skydelis",
-  "immersive_aircraft.tooltip.inventory": "Sudėtyje yra %s elementų."
+  "immersive_aircraft.tooltip.inventory": "Sudėtyje yra %s elementų.",
+  "stat.immersive_aircraft.distance_total": "Atstumas, nuskristas orlaiviu",
+  "stat.immersive_aircraft.time_in_aircraft": "Laikas orlaivyje",
+  "stat.immersive_aircraft.fuel_burned": "Orlaiviuose sudeginti degalai",
+  "stat.immersive_aircraft.damage_received": "Orlaiviui padaryta žala",
+  "stat.immersive_aircraft.crashes": "Sudužęs orlaivis"
 }
