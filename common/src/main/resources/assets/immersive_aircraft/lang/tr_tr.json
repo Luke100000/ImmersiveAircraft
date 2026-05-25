@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s% stabilize",
   "immersive_aircraft.upgrade.dials": "Mekanik gösterge paneli",
   "immersive_aircraft.upgrade.hud": "Elektronik gösterge paneli",
-  "immersive_aircraft.tooltip.inventory": "%s öğelerini içerir."
+  "immersive_aircraft.tooltip.inventory": "%s öğelerini içerir.",
+  "stat.immersive_aircraft.distance_total": "Uçakla Uçulan Mesafe",
+  "stat.immersive_aircraft.time_in_aircraft": "Uçaktaki Zaman",
+  "stat.immersive_aircraft.fuel_burned": "Uçaklarda Yakılan Yakıt",
+  "stat.immersive_aircraft.damage_received": "Hava Aracında Meydana Gelen Hasar",
+  "stat.immersive_aircraft.crashes": "Düşen Uçak"
 }
