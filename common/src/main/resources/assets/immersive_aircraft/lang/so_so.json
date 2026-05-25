@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% xasilloon",
   "immersive_aircraft.upgrade.dials": "Dashboard mashiinka",
   "immersive_aircraft.upgrade.hud": "Dabagalka elektarooniga",
-  "immersive_aircraft.tooltip.inventory": "Waxa ku jira %s walxood."
+  "immersive_aircraft.tooltip.inventory": "Waxa ku jira %s walxood.",
+  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
+  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
+  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
+  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
+  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
 }
