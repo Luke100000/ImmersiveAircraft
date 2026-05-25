@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизации",
   "immersive_aircraft.upgrade.dials": "Механическая приборная панель",
   "immersive_aircraft.upgrade.hud": "Электронная приборная панель",
-  "immersive_aircraft.tooltip.inventory": "Содержит %s предметов."
+  "immersive_aircraft.tooltip.inventory": "Содержит %s предметов.",
+  "stat.immersive_aircraft.distance_total": "Расстояние в полете",
+  "stat.immersive_aircraft.time_in_aircraft": "Время на самолетах",
+  "stat.immersive_aircraft.fuel_burned": "Топливо сожжено в воздушном судне",
+  "stat.immersive_aircraft.damage_received": "Урон, причиненный самолету",
+  "stat.immersive_aircraft.crashes": "Разбитый самолет"
 }
