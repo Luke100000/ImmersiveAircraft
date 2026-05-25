@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% เสถียรภาพ",
   "immersive_aircraft.upgrade.dials": "แผงหน้าปัดแบบกลไก",
   "immersive_aircraft.upgrade.hud": "แผงควบคุมอิเล็กทรอนิกส์",
-  "immersive_aircraft.tooltip.inventory": "มีไอเทม %s ชิ้น"
+  "immersive_aircraft.tooltip.inventory": "มีไอเทม %s ชิ้น",
+  "stat.immersive_aircraft.distance_total": "ระยะทางที่บินในอากาศยาน",
+  "stat.immersive_aircraft.time_in_aircraft": "เวลาในอากาศยาน",
+  "stat.immersive_aircraft.fuel_burned": "เชื้อเพลิงที่ถูกเผาไหม้ในอากาศยาน",
+  "stat.immersive_aircraft.damage_received": "ความเสียหายที่เกิดขึ้นกับอากาศยาน",
+  "stat.immersive_aircraft.crashes": "เครื่องบินตก"
 }
