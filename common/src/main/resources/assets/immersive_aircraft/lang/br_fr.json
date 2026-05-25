@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stablus",
   "immersive_aircraft.upgrade.dials": "Bod an diaz-mekanik",
   "immersive_aircraft.upgrade.hud": "Hentenn elektronik",
-  "immersive_aircraft.tooltip.inventory": "Kontroll %s owioù."
+  "immersive_aircraft.tooltip.inventory": "Kontroll %s owioù.",
+  "stat.immersive_aircraft.distance_total": "Hed nijet gant ur c'harr-nij",
+  "stat.immersive_aircraft.time_in_aircraft": "Amzer er c'harr-nij",
+  "stat.immersive_aircraft.fuel_burned": "Trelosk devet en nijerezioù",
+  "stat.immersive_aircraft.damage_received": "Gwall a zo bet graet d'an nijerez",
+  "stat.immersive_aircraft.crashes": "Karr-nij flastret"
 }
