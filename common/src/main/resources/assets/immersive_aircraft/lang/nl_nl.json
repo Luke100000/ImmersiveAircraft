@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseren",
   "immersive_aircraft.upgrade.dials": "Mechanisch dashboard",
   "immersive_aircraft.upgrade.hud": "Elektronisch dashboard",
-  "immersive_aircraft.tooltip.inventory": "Bevat %s items."
+  "immersive_aircraft.tooltip.inventory": "Bevat %s items.",
+  "stat.immersive_aircraft.distance_total": "Afstand stroomt in toestel",
+  "stat.immersive_aircraft.time_in_aircraft": "Tijd in toestel",
+  "stat.immersive_aircraft.fuel_burned": "Brandstof verbrand in toestel",
+  "stat.immersive_aircraft.damage_received": "Schade toegebracht aan toestel",
+  "stat.immersive_aircraft.crashes": "Crashte toestel"
 }
