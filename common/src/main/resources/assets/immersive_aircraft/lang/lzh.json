@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% 穩定度",
   "immersive_aircraft.upgrade.dials": "機械儀表板",
   "immersive_aircraft.upgrade.hud": "電子儀表板",
-  "immersive_aircraft.tooltip.inventory": "包含 %s 件物品。"
+  "immersive_aircraft.tooltip.inventory": "包含 %s 件物品。",
+  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
+  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
+  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
+  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
+  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
 }
