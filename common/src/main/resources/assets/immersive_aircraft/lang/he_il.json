@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% מתייצב",
   "immersive_aircraft.upgrade.dials": "לוח מחוונים מכני",
   "immersive_aircraft.upgrade.hud": "לוח מחוונים אלקטרוני",
-  "immersive_aircraft.tooltip.inventory": "מכיל %s פריטים."
+  "immersive_aircraft.tooltip.inventory": "מכיל %s פריטים.",
+  "stat.immersive_aircraft.distance_total": "מרחק הטיסה במטוס",
+  "stat.immersive_aircraft.time_in_aircraft": "זמן טיסה",
+  "stat.immersive_aircraft.fuel_burned": "צריכת הדלק במטוסים",
+  "stat.immersive_aircraft.damage_received": "נזק שנגרם למטוס",
+  "stat.immersive_aircraft.crashes": "מטוס שהתרסק"
 }
