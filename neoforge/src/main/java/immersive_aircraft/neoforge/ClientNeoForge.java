@@ -13,6 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLConstructModEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
@@ -26,11 +27,9 @@ public final class ClientNeoForge {
     }
 
     @SubscribeEvent
-    public static void setup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            Renderer.bootstrap();
-            WeaponRendererRegistry.bootstrap();
-        });
+    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        Renderer.bootstrap();
+        WeaponRendererRegistry.bootstrap();
     }
 
     @SubscribeEvent
