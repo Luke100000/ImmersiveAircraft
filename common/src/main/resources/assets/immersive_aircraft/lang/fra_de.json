@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisierend",
   "immersive_aircraft.upgrade.dials": "Mechanisches Armaturenbrett",
   "immersive_aircraft.upgrade.hud": "Elektronisches Armaturenbrett",
-  "immersive_aircraft.tooltip.inventory": "Enthält %s Gegenstände."
+  "immersive_aircraft.tooltip.inventory": "Enthält %s Gegenstände.",
+  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
+  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
+  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
+  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
+  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
 }
