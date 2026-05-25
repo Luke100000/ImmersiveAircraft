@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% na nagtatatag",
   "immersive_aircraft.upgrade.dials": "Mechanical na dashboard",
   "immersive_aircraft.upgrade.hud": "Elektronik na dashboard",
-  "immersive_aircraft.tooltip.inventory": "Naglalaman ng %s mga item."
+  "immersive_aircraft.tooltip.inventory": "Naglalaman ng %s mga item.",
+  "stat.immersive_aircraft.distance_total": "Distansyang naliparan ng sasakyang panghimpapawid",
+  "stat.immersive_aircraft.time_in_aircraft": "Oras sa Sasakyang Panghimpapawid",
+  "stat.immersive_aircraft.fuel_burned": "Mga Pangunahing Gasolina sa Sasakyang Panghimpapawid",
+  "stat.immersive_aircraft.damage_received": "pinsalang idinulot sa sasakyang panghimpapawid",
+  "stat.immersive_aircraft.crashes": "Nabagsak na eroplano"
 }
