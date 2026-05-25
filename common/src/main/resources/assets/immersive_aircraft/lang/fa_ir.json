@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% پایدار",
   "immersive_aircraft.upgrade.dials": "داشبورد مکانیکی",
   "immersive_aircraft.upgrade.hud": "داشبورد الکترونیکی",
-  "immersive_aircraft.tooltip.inventory": "شامل %s قطعه."
+  "immersive_aircraft.tooltip.inventory": "شامل %s قطعه.",
+  "stat.immersive_aircraft.distance_total": "مسافت پروازی هواپیما",
+  "stat.immersive_aircraft.time_in_aircraft": "زمان در هواپیما",
+  "stat.immersive_aircraft.fuel_burned": "سوخت مصرفی هواپیما",
+  "stat.immersive_aircraft.damage_received": "خسارت وارده به هواپیما",
+  "stat.immersive_aircraft.crashes": "هواپیمای سقوط‌کرده"
 }
