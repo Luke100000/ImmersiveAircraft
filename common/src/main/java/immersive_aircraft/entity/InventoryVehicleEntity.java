@@ -20,10 +20,11 @@ import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
@@ -129,7 +130,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
             if (isCargo && Config.getInstance().dropInventory || !isCargo && Config.getInstance().dropUpgrades) {
                 ItemStack stack = getSlot(slot.index()).get();
                 if (!stack.isEmpty()) {
-                    this.spawnAtLocation(stack.copyAndClear());
+                    if (level() instanceof ServerLevel sl) this.spawnAtLocation(sl, stack.copyAndClear());
                 }
             }
         }
@@ -155,7 +156,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (getHealth() >= 1.0) {
-            if (!player.level().isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
+            if (!player.level().isClientSide() && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
                 Entity primaryPassenger = getFirstPassenger();
                 if (primaryPassenger != null) {
                     // Kick out the first passenger
@@ -174,18 +175,17 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
         super.addAdditionalSaveData(tag);
 
-        tag.put("Inventory", getInventory().createTag(this.registryAccess()));
+        getInventory().storeAsInventory(tag, "Inventory");
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void readAdditionalSaveData(@NotNull ValueInput tag) {
         super.readAdditionalSaveData(tag);
 
-        ListTag nbtList = tag.getList("Inventory", 10);
-        getInventory().fromTag(nbtList, this.registryAccess());
+        getInventory().loadFromInventory(tag, "Inventory");
     }
 
     @Override
@@ -321,7 +321,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     @Override
     public SlotAccess getSlot(int slot) {
-        return SlotAccess.forContainer(getInventory(), slot);
+        return SlotAccess.of(() -> getInventory().getItem(slot), (stack) -> getInventory().setItem(slot, stack));
     }
 
     public Map<Integer, List<Weapon>> getWeapons() {

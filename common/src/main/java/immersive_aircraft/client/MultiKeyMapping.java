@@ -18,7 +18,7 @@ public class MultiKeyMapping extends KeyMapping {
 
     public static final Map<InputConstants.Key, List<MultiKeyMapping>> KEY_TO_BINDING = new HashMap<>();
 
-    public MultiKeyMapping(String translationKey, InputConstants.Type type, int code, String category) {
+    public MultiKeyMapping(String translationKey, InputConstants.Type type, int code, KeyMapping.Category category) {
         super(translationKey, type, GLFW.GLFW_KEY_UNKNOWN, category);
 
         // Avoid overwriting other keys

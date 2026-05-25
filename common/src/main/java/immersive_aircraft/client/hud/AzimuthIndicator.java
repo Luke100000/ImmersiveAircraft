@@ -4,7 +4,7 @@ import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 
 import java.util.Iterator;
 import java.util.stream.IntStream;

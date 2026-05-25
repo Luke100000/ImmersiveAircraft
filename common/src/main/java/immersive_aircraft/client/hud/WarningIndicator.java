@@ -5,7 +5,7 @@ import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.NoteBlock;
 
 import java.util.EnumMap;
@@ -29,7 +29,7 @@ public class WarningIndicator implements Indicator {
 
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
-        if (!aircraft.level().isClientSide || client.isPaused()) {
+        if (!aircraft.level().isClientSide() || client.isPaused()) {
             return;
         }
 

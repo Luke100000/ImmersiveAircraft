@@ -5,6 +5,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class KeyBindings {
+    public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("immersive_aircraft", "immersive_aircraft_tab"));
     public static final List<KeyMapping> list = new LinkedList<>();
 
     public static final KeyMapping left, right, forward, backward, up, down, pull, push;
@@ -53,7 +55,7 @@ public class KeyBindings {
                 "key.immersive_aircraft." + name,
                 InputConstants.Type.KEYSYM,
                 fallback,
-                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
+                CATEGORY
         );
         list.add(key);
         return key;
@@ -64,7 +66,7 @@ public class KeyBindings {
                 "key.immersive_aircraft." + name,
                 InputConstants.Type.KEYSYM,
                 code,
-                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
+                CATEGORY
         );
         list.add(key);
         return key;
@@ -79,7 +81,7 @@ public class KeyBindings {
                 "key.immersive_aircraft." + name,
                 type,
                 defaultKey,
-                "itemGroup.immersive_aircraft.immersive_aircraft_tab"
+                CATEGORY
         );
         list.add(key);
         return key;

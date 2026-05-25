@@ -5,42 +5,59 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.bullet.BulletEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer<T> {
-    private static final ResourceLocation TEXTURE = Main.locate("textures/entity/bullet.png");
-    private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(TEXTURE);
+public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer<T, BulletEntityRenderState> {
+    private static final Identifier TEXTURE = Main.locate("textures/entity/bullet.png");
+    private static final RenderType RENDER_TYPE = RenderTypes.entityCutoutNoCull(TEXTURE);
 
     public BulletEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(T entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
+    public @NotNull BulletEntityRenderState createRenderState() {
+        return new BulletEntityRenderState();
+    }
+
+    @Override
+    public void extractRenderState(T entity, BulletEntityRenderState state, float tickDelta) {
+        super.extractRenderState(entity, state, tickDelta);
+        state.scale = entity.getScale();
+    }
+
+    @Override
+    public void submit(BulletEntityRenderState state, PoseStack matrixStack, SubmitNodeCollector collector, CameraRenderState cameraState) {
         matrixStack.pushPose();
-        float scale = entity.getScale();
+        float scale = state.scale;
         matrixStack.scale(scale, scale, scale);
         matrixStack.translate(0.0, 0.5, 0.0);
-        matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+        matrixStack.mulPose(cameraState.orientation);
         matrixStack.mulPose(Axis.YP.rotationDegrees(180.0f));
         PoseStack.Pose pose = matrixStack.last();
         Matrix4f matrix4f = pose.pose();
         Matrix3f matrix3f = pose.normal();
-        VertexConsumer vertexConsumer = buffer.getBuffer(RENDER_TYPE);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 0.0f, 0.0f, 0.0f, 1.0f);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 1.0f, 0.0f, 1.0f, 1.0f);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 1.0f, 1.0f, 1.0f, 0.0f);
-        vertex(vertexConsumer, matrix4f, matrix3f, packedLight, 0.0f, 1.0f, 0.0f, 0.0f);
+
+        collector.submitCustomGeometry(matrixStack, RENDER_TYPE, (poseEntry, vertexConsumer) -> {
+            vertex(vertexConsumer, matrix4f, matrix3f, state.lightCoords, 0.0f, 0.0f, 0.0f, 1.0f);
+            vertex(vertexConsumer, matrix4f, matrix3f, state.lightCoords, 1.0f, 0.0f, 1.0f, 1.0f);
+            vertex(vertexConsumer, matrix4f, matrix3f, state.lightCoords, 1.0f, 1.0f, 1.0f, 0.0f);
+            vertex(vertexConsumer, matrix4f, matrix3f, state.lightCoords, 0.0f, 1.0f, 0.0f, 0.0f);
+        });
+
         matrixStack.popPose();
-        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+        super.submit(state, matrixStack, collector, cameraState);
     }
 
     private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, Matrix3f matrix3f, int light, float x, float y, float u, float v) {
@@ -51,10 +68,5 @@ public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(light)
                 .setNormal(n.x(), n.y(), n.z());
-    }
-
-    @Override
-    public ResourceLocation getTextureLocation(T entity) {
-        return TEXTURE;
     }
 }

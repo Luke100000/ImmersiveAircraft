@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
@@ -27,8 +28,11 @@ import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import java.util.List;
 
 public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity> extends DyeableVehicleEntityRenderer<T> {
+    protected final MaterialSet materialSet;
+
     public InventoryVehicleRenderer(EntityRendererProvider.Context context) {
         super(context);
+        this.materialSet = context.getMaterials();
     }
 
     @Override
@@ -59,7 +63,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
                 if (banner != null) {
                     BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
                     if (bannerObject instanceof BBFaceContainer bannerContainer) {
-                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, baseColor, banner.layers());
+                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, materialSet, light, true, baseColor, banner.layers());
                     }
                 }
             }

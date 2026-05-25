@@ -1,6 +1,5 @@
 package immersive_aircraft.neoforge;
 
-import immersive_aircraft.ItemColors;
 import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
@@ -11,10 +10,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLConstructModEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 @Mod(value = Main.MOD_ID, dist = Dist.CLIENT)
@@ -37,8 +34,4 @@ public final class ClientNeoForge {
         KeyBindings.list.forEach(event::register);
     }
 
-    @SubscribeEvent
-    public static void initItemColors(RegisterColorHandlersEvent.Item event) {
-        ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> event.register(itemColor, item.get()));
-    }
 }

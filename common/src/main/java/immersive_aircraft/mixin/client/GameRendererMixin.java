@@ -23,7 +23,7 @@ public abstract class GameRendererMixin {
 
     @Inject(method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"), cancellable = false)
     public void immersiveAircraft$renderWorld(PoseStack poseStack, float partialTicks, CallbackInfo ci) {
-        Entity entity = mainCamera.getEntity();
+        Entity entity = mainCamera.entity();
         //noinspection ConstantValue
         if (entity != null && !mainCamera.isDetached() && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
             // rotate camera
@@ -44,11 +44,11 @@ public abstract class GameRendererMixin {
             offset.rotate(quaternion);
 
             // apply camera offset
-            poseStack.mulPose(Axis.XP.rotationDegrees(mainCamera.getXRot()));
-            poseStack.mulPose(Axis.YP.rotationDegrees(mainCamera.getYRot() + 180.0f));
+            poseStack.mulPose(Axis.XP.rotationDegrees(mainCamera.xRot()));
+            poseStack.mulPose(Axis.YP.rotationDegrees(mainCamera.yRot() + 180.0f));
             poseStack.translate(offset.x(), offset.y() + eye, offset.z());
-            poseStack.mulPose(Axis.YP.rotationDegrees(-mainCamera.getYRot() - 180.0f));
-            poseStack.mulPose(Axis.XP.rotationDegrees(-mainCamera.getXRot()));
+            poseStack.mulPose(Axis.YP.rotationDegrees(-mainCamera.yRot() - 180.0f));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-mainCamera.xRot()));
         }
     }
 }
