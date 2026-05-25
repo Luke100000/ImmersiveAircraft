@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% тұрақтандыру",
   "immersive_aircraft.upgrade.dials": "Механикалық панель",
   "immersive_aircraft.upgrade.hud": "Электронды бақылау панелі",
-  "immersive_aircraft.tooltip.inventory": "%s элементтер бар."
+  "immersive_aircraft.tooltip.inventory": "%s элементтер бар.",
+  "stat.immersive_aircraft.distance_total": "Ұшақпен ұшып өткен қашықтық",
+  "stat.immersive_aircraft.time_in_aircraft": "Ұшақтағы уақыт",
+  "stat.immersive_aircraft.fuel_burned": "Ұшақта күйдірілген отын",
+  "stat.immersive_aircraft.damage_received": "Ұшаққа келтірілген зиян",
+  "stat.immersive_aircraft.crashes": "Құлаған ұшақ"
 }
