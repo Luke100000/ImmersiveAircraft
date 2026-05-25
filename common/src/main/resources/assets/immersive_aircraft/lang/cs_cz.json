@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s% stabilizace",
   "immersive_aircraft.upgrade.dials": "Mechanická řídicí deska",
   "immersive_aircraft.upgrade.hud": "Elektronická řídicí deska",
-  "immersive_aircraft.tooltip.inventory": "Obsahuje %s položek."
+  "immersive_aircraft.tooltip.inventory": "Obsahuje %s položek.",
+  "stat.immersive_aircraft.distance_total": "Vzdálenost proudění v letadle",
+  "stat.immersive_aircraft.time_in_aircraft": "Čas v letadle",
+  "stat.immersive_aircraft.fuel_burned": "Palivo spálené v letadle",
+  "stat.immersive_aircraft.damage_received": "Poškození letadla",
+  "stat.immersive_aircraft.crashes": "Porušená letadla"
 }
