@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабилизация",
   "immersive_aircraft.upgrade.dials": "Механик панель",
   "immersive_aircraft.upgrade.hud": "Электрон панель",
-  "immersive_aircraft.tooltip.inventory": "Содержит %s предмет."
+  "immersive_aircraft.tooltip.inventory": "Содержит %s предмет.",
+  "stat.immersive_aircraft.distance_total": "Очкычта үтелгән ара",
+  "stat.immersive_aircraft.time_in_aircraft": "Очкычтагы вакыт",
+  "stat.immersive_aircraft.fuel_burned": "Очкычта яндырылган ягулык",
+  "stat.immersive_aircraft.damage_received": "Очкычка килгән зыян",
+  "stat.immersive_aircraft.crashes": "Һәлакәткә очкан очкыч"
 }
