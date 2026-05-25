@@ -748,6 +748,11 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
+    public float getBlockSpeedFactor() {
+        return Math.min(1.0f, super.getBlockSpeedFactor());
+    }
+
+    @Override
     protected void checkFallDamage(double heightDifference, boolean onGround, @NotNull BlockState landedState, @NotNull BlockPos landedPosition) {
 
     }

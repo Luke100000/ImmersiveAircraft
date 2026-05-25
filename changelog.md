@@ -1,3 +1,9 @@
+# 1.4.4
+
+* Fixed ConcurrentModificationException
+* Fixed GUI not hiding in F1
+* Fixed blocks with speed factor > 1
+
 # 1.4.3
 
 * Added support for Blockbench 5.0
