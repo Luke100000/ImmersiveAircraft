@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisering",
   "immersive_aircraft.upgrade.dials": "Mekanisk instrumentpanel",
   "immersive_aircraft.upgrade.hud": "Elektronisk instrumentpanel",
-  "immersive_aircraft.tooltip.inventory": "Innehåller %s artiklar."
+  "immersive_aircraft.tooltip.inventory": "Innehåller %s artiklar.",
+  "stat.immersive_aircraft.distance_total": "Avstånd flygs i flygplan",
+  "stat.immersive_aircraft.time_in_aircraft": "Tid i flygplanet",
+  "stat.immersive_aircraft.fuel_burned": "Bränsle Bränt i flygplan",
+  "stat.immersive_aircraft.damage_received": "Skada orsakad av flygplan",
+  "stat.immersive_aircraft.crashes": "Kraschade flygplan"
 }
