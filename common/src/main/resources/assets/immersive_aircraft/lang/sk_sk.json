@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizácia",
   "immersive_aircraft.upgrade.dials": "Mechanická prístrojová doska",
   "immersive_aircraft.upgrade.hud": "Elektronický prístrojový panel",
-  "immersive_aircraft.tooltip.inventory": "Obsahuje %s položky."
+  "immersive_aircraft.tooltip.inventory": "Obsahuje %s položky.",
+  "stat.immersive_aircraft.distance_total": "Vzdialenosť nalietaná v lietadle",
+  "stat.immersive_aircraft.time_in_aircraft": "Čas v lietadle",
+  "stat.immersive_aircraft.fuel_burned": "Palivo spálené v lietadle",
+  "stat.immersive_aircraft.damage_received": "Škody spôsobené na lietadle",
+  "stat.immersive_aircraft.crashes": "Havarované lietadlo"
 }
