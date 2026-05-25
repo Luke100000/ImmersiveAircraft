@@ -2,8 +2,10 @@
 
 * Fixed ConcurrentModificationException
 * Fixed GUI not hiding in F1
-* Fixed blocks with speed factor > 1
+* Fixed blocks with a speed factor > 1
 * Fixed damage multiplier config on servers
+* Added statistics
+* Fixed issues when mounting while too far away
 
 # 1.4.3
 
