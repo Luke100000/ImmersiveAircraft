@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizing",
   "immersive_aircraft.upgrade.dials": "Tabula Mechanica",
   "immersive_aircraft.upgrade.hud": "Tabula electronicorum",
-  "immersive_aircraft.tooltip.inventory": "Continet %s articuli."
+  "immersive_aircraft.tooltip.inventory": "Continet %s articuli.",
+  "stat.immersive_aircraft.distance_total": "Distantia Volata Aëroplano",
+  "stat.immersive_aircraft.time_in_aircraft": "Tempus in Aëroplano",
+  "stat.immersive_aircraft.fuel_burned": "Fomes in Aëroplanis Consumptus",
+  "stat.immersive_aircraft.damage_received": "Damnum Aeriis Machinis Illatum",
+  "stat.immersive_aircraft.crashes": "Aeroplanum Confractum"
 }
