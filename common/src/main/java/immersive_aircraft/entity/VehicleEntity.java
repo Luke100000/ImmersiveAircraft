@@ -35,6 +35,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.BlockUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -90,6 +91,8 @@ public abstract class VehicleEntity extends Entity {
     protected double serverYRot;
     protected double serverXRot;
 
+    private float unclampedXRot;
+
     protected float movementX;
     protected float movementY;
     protected float movementZ;
@@ -124,7 +127,16 @@ public abstract class VehicleEntity extends Entity {
         float loops = (float) (Math.floor((pitch + 180f) / 360f) * 360f);
         pitch -= loops;
         xRotO -= loops;
-        super.setXRot(pitch);
+        if (!Float.isFinite(pitch)) {
+            Util.logAndPauseIfInIde("Invalid entity rotation: " + pitch + ", discarding.");
+        } else {
+            unclampedXRot = pitch;
+        }
+    }
+
+    @Override
+    public float getXRot() {
+        return unclampedXRot;
     }
 
     public void setZRot(float rot) {
