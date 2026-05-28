@@ -292,7 +292,7 @@ public abstract class VehicleEntity extends Entity {
             setHealth(health);
 
             if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
-                player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.ceil(amount * 20));
+                player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.floor(amount * 20 + 0.5));
             }
         }
     }
@@ -452,8 +452,8 @@ public abstract class VehicleEntity extends Entity {
 
         // Statistics tracking
         if (!level().isClientSide && getControllingPassenger() instanceof Player player) {
-            double dist = getDeltaMovement().length() * 100.0;
-            player.awardStat(AircraftStats.DISTANCE_TOTAL, Mth.floor(dist));
+            double dist = getSpeedVector().length() * 100.0;
+            player.awardStat(AircraftStats.DISTANCE_TOTAL, Mth.floor(dist + 0.5));
             player.awardStat(AircraftStats.TIME_IN_AIRCRAFT, 1);
         }
     }
