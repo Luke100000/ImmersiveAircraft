@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilitzant",
   "immersive_aircraft.upgrade.dials": "Tauler de control mecànic",
   "immersive_aircraft.upgrade.hud": "Tauler de control electrònic",
-  "immersive_aircraft.tooltip.inventory": "Conté %s articles."
+  "immersive_aircraft.tooltip.inventory": "Conté %s articles.",
+  "stat.immersive_aircraft.distance_total": "Distància recorreguda per l'aeronau",
+  "stat.immersive_aircraft.time_in_aircraft": "Temps a bord de l'aeronau",
+  "stat.immersive_aircraft.fuel_burned": "Combustible consumit en avions",
+  "stat.immersive_aircraft.damage_received": "Danys causats a l'aeronau",
+  "stat.immersive_aircraft.crashes": "Avió accidentat"
 }

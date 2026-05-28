@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%%安定化",
   "immersive_aircraft.upgrade.dials": "メカニカルダッシュボード",
   "immersive_aircraft.upgrade.hud": "電子ダッシュボード",
-  "immersive_aircraft.tooltip.inventory": "アイテムを%s スタック保有"
+  "immersive_aircraft.tooltip.inventory": "アイテムを%s スタック保有",
+  "stat.immersive_aircraft.distance_total": "飛行機内の距離",
+  "stat.immersive_aircraft.time_in_aircraft": "飛行機の時間",
+  "stat.immersive_aircraft.fuel_burned": "航空機で燃焼した燃料",
+  "stat.immersive_aircraft.damage_received": "航空機に与えるダメージ",
+  "stat.immersive_aircraft.crashes": "墜落した航空機"
 }

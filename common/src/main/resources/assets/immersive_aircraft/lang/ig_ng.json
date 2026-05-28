@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% na-edochapụ",
   "immersive_aircraft.upgrade.dials": "Ụlọ ọrụ igwe",
   "immersive_aircraft.upgrade.hud": "Ihu igwe eletrọnịk",
-  "immersive_aircraft.tooltip.inventory": "Gụnyere %s ihe."
+  "immersive_aircraft.tooltip.inventory": "Gụnyere %s ihe.",
+  "stat.immersive_aircraft.distance_total": "Ogologo ụgbọelu gara",
+  "stat.immersive_aircraft.time_in_aircraft": "Oge n'ụgbọelu",
+  "stat.immersive_aircraft.fuel_burned": "Mmanụ ọkụ e gbara n'ụgbọelu",
+  "stat.immersive_aircraft.damage_received": "Mmebi e mere ụgbọelu",
+  "stat.immersive_aircraft.crashes": "Ụgbọelu dara ada"
 }

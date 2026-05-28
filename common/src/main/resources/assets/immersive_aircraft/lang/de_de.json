@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilisierend",
   "immersive_aircraft.upgrade.dials": "Mechanisches Dashboard",
   "immersive_aircraft.upgrade.hud": "Elektronisches Dashboard",
-  "immersive_aircraft.tooltip.inventory": "Enthält %s Items."
+  "immersive_aircraft.tooltip.inventory": "Enthält %s Items.",
+  "stat.immersive_aircraft.distance_total": "Distanzfluss im Kopter",
+  "stat.immersive_aircraft.time_in_aircraft": "Zeit im Kopter",
+  "stat.immersive_aircraft.fuel_burned": "Brennstoff im Kopter verbrannt",
+  "stat.immersive_aircraft.damage_received": "Schaden an Kopter verursacht",
+  "stat.immersive_aircraft.crashes": "Abgestürzter Kopter"
 }

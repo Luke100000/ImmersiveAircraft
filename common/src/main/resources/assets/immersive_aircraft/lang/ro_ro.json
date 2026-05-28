@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizare",
   "immersive_aircraft.upgrade.dials": "Panou mecanic",
   "immersive_aircraft.upgrade.hud": "Panou electronic",
-  "immersive_aircraft.tooltip.inventory": "Conține %s articole."
+  "immersive_aircraft.tooltip.inventory": "Conține %s articole.",
+  "stat.immersive_aircraft.distance_total": "Distanța parcursă în aeronavă",
+  "stat.immersive_aircraft.time_in_aircraft": "Timp in drona",
+  "stat.immersive_aircraft.fuel_burned": "Combustibil ars în aeronave",
+  "stat.immersive_aircraft.damage_received": "Daune cauzate aeronavei",
+  "stat.immersive_aircraft.crashes": "Avion prăbușit"
 }

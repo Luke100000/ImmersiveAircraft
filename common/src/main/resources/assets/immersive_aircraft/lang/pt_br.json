@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% estabilização",
   "immersive_aircraft.upgrade.dials": "Painel mecânico",
   "immersive_aircraft.upgrade.hud": "Painel eletrônico",
-  "immersive_aircraft.tooltip.inventory": "Contém %s itens."
+  "immersive_aircraft.tooltip.inventory": "Contém %s itens.",
+  "stat.immersive_aircraft.distance_total": "Fluxo Distante na Aeronave",
+  "stat.immersive_aircraft.time_in_aircraft": "Tempo em Aeronave",
+  "stat.immersive_aircraft.fuel_burned": "Combustível queimado na aeronave",
+  "stat.immersive_aircraft.damage_received": "Dano causado à Aeronave",
+  "stat.immersive_aircraft.crashes": "Aeronave batida"
 }

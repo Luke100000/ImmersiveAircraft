@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizim",
   "immersive_aircraft.upgrade.dials": "Pult Mekanik",
   "immersive_aircraft.upgrade.hud": "Pult elektronik",
-  "immersive_aircraft.tooltip.inventory": "Përmban %s artikuj."
+  "immersive_aircraft.tooltip.inventory": "Përmban %s artikuj.",
+  "stat.immersive_aircraft.distance_total": "Distanca e fluturimit me avion",
+  "stat.immersive_aircraft.time_in_aircraft": "Koha në avion",
+  "stat.immersive_aircraft.fuel_burned": "Karburanti i djegur në avionë",
+  "stat.immersive_aircraft.damage_received": "Dëmi i shkaktuar avionit",
+  "stat.immersive_aircraft.crashes": "Avioni i rrëzuar"
 }

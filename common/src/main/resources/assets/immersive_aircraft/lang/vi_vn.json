@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% ổn định",
   "immersive_aircraft.upgrade.dials": "Bảng điều khiển cơ khí",
   "immersive_aircraft.upgrade.hud": "Bảng điều khiển điện tử",
-  "immersive_aircraft.tooltip.inventory": "Chứa %s vật phẩm."
+  "immersive_aircraft.tooltip.inventory": "Chứa %s vật phẩm.",
+  "stat.immersive_aircraft.distance_total": "Tổng quãng đường bay",
+  "stat.immersive_aircraft.time_in_aircraft": "Thời gian trên máy bay",
+  "stat.immersive_aircraft.fuel_burned": "Lượng nhiên liệu tiêu thụ trên máy bay",
+  "stat.immersive_aircraft.damage_received": "Thiệt hại gây ra cho máy bay",
+  "stat.immersive_aircraft.crashes": "Máy bay gặp nạn"
 }

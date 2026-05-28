@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliseeriv",
   "immersive_aircraft.upgrade.dials": "Mehaaniline armatuurlaud",
   "immersive_aircraft.upgrade.hud": "Elektrooniline armatuurlaud",
-  "immersive_aircraft.tooltip.inventory": "Sisaldab %s ."
+  "immersive_aircraft.tooltip.inventory": "Sisaldab %s .",
+  "stat.immersive_aircraft.distance_total": "Lennukiga läbitud vahemaa",
+  "stat.immersive_aircraft.time_in_aircraft": "Aeg õhusõidukis",
+  "stat.immersive_aircraft.fuel_burned": "Õhusõidukis põletatud kütus",
+  "stat.immersive_aircraft.damage_received": "Õhusõidukile tekitatud kahju",
+  "stat.immersive_aircraft.crashes": "Õnnetusse kukkunud õhusõiduk"
 }

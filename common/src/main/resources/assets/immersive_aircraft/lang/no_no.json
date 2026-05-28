@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabiliserende",
   "immersive_aircraft.upgrade.dials": "Mekanisk dashboard",
   "immersive_aircraft.upgrade.hud": "Elektronisk dashbord",
-  "immersive_aircraft.tooltip.inventory": "Inneholder %s elementer."
+  "immersive_aircraft.tooltip.inventory": "Inneholder %s elementer.",
+  "stat.immersive_aircraft.distance_total": "Avstand flyt i dronen",
+  "stat.immersive_aircraft.time_in_aircraft": "Tid i dronen",
+  "stat.immersive_aircraft.fuel_burned": "Drivstoff forsvidd i dronen",
+  "stat.immersive_aircraft.damage_received": "Skade Caused til fly",
+  "stat.immersive_aircraft.crashes": "Krasjet dronen"
 }

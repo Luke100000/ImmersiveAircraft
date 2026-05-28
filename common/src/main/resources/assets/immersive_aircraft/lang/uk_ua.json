@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% стабілізація",
   "immersive_aircraft.upgrade.dials": "Механічна панель керування",
   "immersive_aircraft.upgrade.hud": "Електронна панель",
-  "immersive_aircraft.tooltip.inventory": "Містить %s елементів."
+  "immersive_aircraft.tooltip.inventory": "Містить %s елементів.",
+  "stat.immersive_aircraft.distance_total": "Відстань Квітів у ЛА",
+  "stat.immersive_aircraft.time_in_aircraft": "Час у літаку",
+  "stat.immersive_aircraft.fuel_burned": "Запалене паливо в літаку",
+  "stat.immersive_aircraft.damage_received": "Пошкодження, що призначене для літака",
+  "stat.immersive_aircraft.crashes": "Аварійний літак"
 }

@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% स्थिर करना",
   "immersive_aircraft.upgrade.dials": "मैकेनिकल डैशबोर्ड",
   "immersive_aircraft.upgrade.hud": "इलेक्ट्रॉनिक डैशबोर्ड",
-  "immersive_aircraft.tooltip.inventory": "%s आइटम शामिल हैं।"
+  "immersive_aircraft.tooltip.inventory": "%s आइटम शामिल हैं।",
+  "stat.immersive_aircraft.distance_total": "विमान द्वारा तय दूरी",
+  "stat.immersive_aircraft.time_in_aircraft": "विमान में समय",
+  "stat.immersive_aircraft.fuel_burned": "विमान में जलाया गया ईंधन",
+  "stat.immersive_aircraft.damage_received": "विमान को हुई क्षति",
+  "stat.immersive_aircraft.crashes": "दुर्घटनाग्रस्त विमान"
 }

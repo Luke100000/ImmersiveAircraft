@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizē",
   "immersive_aircraft.upgrade.dials": "Mehāniskais instrumentu panelis",
   "immersive_aircraft.upgrade.hud": "Elektroniskais mērinstrumentu panelis",
-  "immersive_aircraft.tooltip.inventory": "Satur %s vienumus."
+  "immersive_aircraft.tooltip.inventory": "Satur %s vienumus.",
+  "stat.immersive_aircraft.distance_total": "Ar gaisa kuģi nolidotais attālums",
+  "stat.immersive_aircraft.time_in_aircraft": "Laiks gaisa kuģī",
+  "stat.immersive_aircraft.fuel_burned": "Gaisa kuģos sadedzinātā degviela",
+  "stat.immersive_aircraft.damage_received": "Gaisa kuģim nodarītie bojājumi",
+  "stat.immersive_aircraft.crashes": "Katastrofu cietušais gaisa kuģis"
 }

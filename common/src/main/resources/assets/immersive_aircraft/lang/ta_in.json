@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% நிலைப்படுத்தல்",
   "immersive_aircraft.upgrade.dials": "இருப்பு மேடையில்",
   "immersive_aircraft.upgrade.hud": "அலெக்ட்ரானிக் பட்டியல்",
-  "immersive_aircraft.tooltip.inventory": "%s பொருட்கள் உள்ளன."
+  "immersive_aircraft.tooltip.inventory": "%s பொருட்கள் உள்ளன.",
+  "stat.immersive_aircraft.distance_total": "விமானத்தில் பறந்த தூரம்",
+  "stat.immersive_aircraft.time_in_aircraft": "விமானத்தில் செலவிட்ட நேரம்",
+  "stat.immersive_aircraft.fuel_burned": "விமானத்தில் எரிக்கப்பட்ட எரிபொருள்",
+  "stat.immersive_aircraft.damage_received": "விமானத்திற்கு ஏற்பட்ட சேதம்",
+  "stat.immersive_aircraft.crashes": "விபத்துக்குள்ளான விமானம்"
 }

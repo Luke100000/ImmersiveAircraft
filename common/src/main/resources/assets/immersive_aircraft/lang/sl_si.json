@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija",
   "immersive_aircraft.upgrade.dials": "Mehanska armaturna plošča",
   "immersive_aircraft.upgrade.hud": "Elektronska armaturna plošča",
-  "immersive_aircraft.tooltip.inventory": "Vsebuje %s elementov."
+  "immersive_aircraft.tooltip.inventory": "Vsebuje %s elementov.",
+  "stat.immersive_aircraft.distance_total": "Razdalja, preletena z zrakoplovom",
+  "stat.immersive_aircraft.time_in_aircraft": "Čas v zrakoplovu",
+  "stat.immersive_aircraft.fuel_burned": "Gorivo, izgorelo v zrakoplovu",
+  "stat.immersive_aircraft.damage_received": "Škoda, povzročena zrakoplovu",
+  "stat.immersive_aircraft.crashes": "Strmoglavljen zrakoplov"
 }

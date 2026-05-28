@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizacija",
   "immersive_aircraft.upgrade.dials": "Mehanička kontrolna tabla",
   "immersive_aircraft.upgrade.hud": "Elektronska kontrolna ploča",
-  "immersive_aircraft.tooltip.inventory": "Sadrži %s predmeta."
+  "immersive_aircraft.tooltip.inventory": "Sadrži %s predmeta.",
+  "stat.immersive_aircraft.distance_total": "Preletjeno razdaljine zrakoplovom",
+  "stat.immersive_aircraft.time_in_aircraft": "Vrijeme u avionu",
+  "stat.immersive_aircraft.fuel_burned": "Potrošeno gorivo u avionu",
+  "stat.immersive_aircraft.damage_received": "Šteta nanesena zrakoplovu",
+  "stat.immersive_aircraft.crashes": "Srušeni avion"
 }

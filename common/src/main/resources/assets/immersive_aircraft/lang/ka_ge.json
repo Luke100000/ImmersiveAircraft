@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% სტაბილიზებულია",
   "immersive_aircraft.upgrade.dials": "მექანიკური საფირმო დაფა",
   "immersive_aircraft.upgrade.hud": "ელექტრონული დაფა",
-  "immersive_aircraft.tooltip.inventory": "გ يحتوي %s ნივთი."
+  "immersive_aircraft.tooltip.inventory": "გ يحتوي %s ნივთი.",
+  "stat.immersive_aircraft.distance_total": "საჰაერო ხომალდით გავლილი მანძილი",
+  "stat.immersive_aircraft.time_in_aircraft": "ფრენის დრო",
+  "stat.immersive_aircraft.fuel_burned": "საწვავი თვითმფრინავში",
+  "stat.immersive_aircraft.damage_received": "მთვარეზე მიყენებული ზიანი",
+  "stat.immersive_aircraft.crashes": "შემოვარდნილი თვითმფრინავი"
 }

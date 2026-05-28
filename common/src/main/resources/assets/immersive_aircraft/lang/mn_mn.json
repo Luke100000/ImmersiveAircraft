@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% тогтворжуулж байна",
   "immersive_aircraft.upgrade.dials": "Механик самбар",
   "immersive_aircraft.upgrade.hud": "Цахим самбар",
-  "immersive_aircraft.tooltip.inventory": "%s зүйлийг агуулсан байна."
+  "immersive_aircraft.tooltip.inventory": "%s зүйлийг агуулсан байна.",
+  "stat.immersive_aircraft.distance_total": "Онгоцоор ниссэн зай",
+  "stat.immersive_aircraft.time_in_aircraft": "Онгоцонд өнгөрүүлсэн хугацаа",
+  "stat.immersive_aircraft.fuel_burned": "Онгоцонд шатаасан түлш",
+  "stat.immersive_aircraft.damage_received": "Онгоцонд учирсан хохирол",
+  "stat.immersive_aircraft.crashes": "Онгоц сүйрсэн"
 }

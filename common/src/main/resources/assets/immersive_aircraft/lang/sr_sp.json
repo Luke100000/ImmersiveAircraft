@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "\"%s%% стабилизује",
   "immersive_aircraft.upgrade.dials": "Механичка табла",
   "immersive_aircraft.upgrade.hud": "Електронска табла",
-  "immersive_aircraft.tooltip.inventory": "Садржи %s предмета."
+  "immersive_aircraft.tooltip.inventory": "Садржи %s предмета.",
+  "stat.immersive_aircraft.distance_total": "Прелећена удаљеност ваздухоплова",
+  "stat.immersive_aircraft.time_in_aircraft": "Време у ваздухоплову",
+  "stat.immersive_aircraft.fuel_burned": "Сагорело гориво у ваздухоплову",
+  "stat.immersive_aircraft.damage_received": "Штета на ваздухоплову",
+  "stat.immersive_aircraft.crashes": "Срушен авион"
 }

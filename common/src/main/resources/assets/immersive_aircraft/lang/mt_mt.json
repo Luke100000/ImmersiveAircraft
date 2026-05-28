@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabbilizzazzjoni",
   "immersive_aircraft.upgrade.dials": "Dashboard Mechaniku",
   "immersive_aircraft.upgrade.hud": "Dashboard elettroniku",
-  "immersive_aircraft.tooltip.inventory": "Għandha %s prodotti."
+  "immersive_aircraft.tooltip.inventory": "Għandha %s prodotti.",
+  "stat.immersive_aircraft.distance_total": "Distanza mgħoddija bl-ajruplan",
+  "stat.immersive_aircraft.time_in_aircraft": "Ħin fl-ajruplan",
+  "stat.immersive_aircraft.fuel_burned": "Fjuwil imħaraq fl-ajruplani",
+  "stat.immersive_aircraft.damage_received": "Ħsara kkawżata lil ajruplan",
+  "stat.immersive_aircraft.crashes": "Ajruplanu li waqa'"
 }

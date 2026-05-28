@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stabilizzante",
   "immersive_aircraft.upgrade.dials": "Cruscotto Meccanico",
   "immersive_aircraft.upgrade.hud": "Cruscotto elettronico",
-  "immersive_aircraft.tooltip.inventory": "Contien %s oggetti."
+  "immersive_aircraft.tooltip.inventory": "Contien %s oggetti.",
+  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
+  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
+  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
+  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
+  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
 }

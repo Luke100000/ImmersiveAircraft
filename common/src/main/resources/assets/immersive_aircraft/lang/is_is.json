@@ -125,5 +125,10 @@
   "immersive_aircraft.upgrade.stabilizer": "%s%% stöðugur",
   "immersive_aircraft.upgrade.dials": "Vélrænn mælaborð",
   "immersive_aircraft.upgrade.hud": "Rafræn mælaborð",
-  "immersive_aircraft.tooltip.inventory": "Inniheldur %s hlutina."
+  "immersive_aircraft.tooltip.inventory": "Inniheldur %s hlutina.",
+  "stat.immersive_aircraft.distance_total": "Fjarlægð flogin með flugvél",
+  "stat.immersive_aircraft.time_in_aircraft": "Tími í flugvél",
+  "stat.immersive_aircraft.fuel_burned": "Eldsneytiseyðsla flugvéla",
+  "stat.immersive_aircraft.damage_received": "Skaði sem varð á flugvél",
+  "stat.immersive_aircraft.crashes": "Skeytisveitt flugfar"
 }
