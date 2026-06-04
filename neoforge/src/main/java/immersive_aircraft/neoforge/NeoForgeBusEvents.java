@@ -1,6 +1,5 @@
 package immersive_aircraft.neoforge;
 
-import immersive_aircraft.ClientMain;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.VehicleEntity;
@@ -13,13 +12,10 @@ import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -32,39 +28,33 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
-@EventBusSubscriber(modid = Main.MOD_ID)
 public class NeoForgeBusEvents {
-    // Require access to the DataLoaderRegister here as forge uses events, could put this in RegistrationImpl, but it would just be messy
     public static DataLoaderRegister DATA_REGISTRY;
     public static DataLoaderRegister RESOURCE_REGISTRY;
 
     private static final DecimalFormat fmt = new DecimalFormat("+#;-#");
-    public static boolean firstLoad = true;
 
-    @SubscribeEvent
-    public static void onClientStart(ClientTickEvent.Pre event) {
-        if (firstLoad) {
-            ClientMain.postLoad();
-            firstLoad = false;
-        }
-
-        ClientMain.tick();
+    public static void register() {
+        NeoForge.EVENT_BUS.addListener(NeoForgeBusEvents::addReloadListenerEvent);
+        NeoForge.EVENT_BUS.addListener(NeoForgeBusEvents::onDatapackSync);
+        NeoForge.EVENT_BUS.addListener(NeoForgeBusEvents::onItemTooltips);
+        NeoForge.EVENT_BUS.addListener(NeoForgeBusEvents::onPlayerBreakSpeed);
+        NeoForge.EVENT_BUS.addListener(NeoForgeBusEvents::onServerStarted);
+        NeoForge.EVENT_BUS.addListener(NeoForgeBusEvents::onServerStopped);
     }
 
     @SubscribeEvent
     public static void addReloadListenerEvent(AddServerReloadListenersEvent event) {
         if (DATA_REGISTRY != null) {
-            for (PreparableReloadListener loader : DATA_REGISTRY.getLoaders()) {
-                event.addListener(Identifier.fromNamespaceAndPath(Main.MOD_ID, loader.getName().toLowerCase(Locale.ROOT)), loader);
+            for (DataLoaderRegister.Entry entry : DATA_REGISTRY.getEntries()) {
+                event.addListener(entry.id(), entry.loader());
             }
         }
     }
 
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
-        var level = event.getServer().overworld();
-        CobaltFuelRegistryImpl.setFuelValues(level.fuelValues());
+        CobaltFuelRegistryImpl.setFuelValues(event.getServer().overworld().fuelValues());
     }
 
     @SubscribeEvent
@@ -73,18 +63,9 @@ public class NeoForgeBusEvents {
     }
 
     @SubscribeEvent
-    public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
-        CobaltFuelRegistryImpl.setFuelValues(event.getPlayer().level().fuelValues());
-    }
-
-    @SubscribeEvent
-    public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
-        CobaltFuelRegistryImpl.setFuelValues(null);
-    }
-
-    @SubscribeEvent
     public static void onDatapackSync(OnDatapackSyncEvent event) {
-        if (event.getPlayer() != null) { // Syncing aircraft upgrades to players.
+        CobaltFuelRegistryImpl.setFuelValues(event.getPlayerList().getServer().overworld().fuelValues());
+        if (event.getPlayer() != null) {
             NetworkHandler.sendToPlayer(new VehicleUpgradesMessage(), event.getPlayer());
             NetworkHandler.sendToPlayer(new AircraftDataMessage(), event.getPlayer());
         } else {

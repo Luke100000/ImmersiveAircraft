@@ -5,7 +5,6 @@ import immersive_aircraft.entity.*;
 import immersive_aircraft.entity.bullet.BulletEntity;
 import immersive_aircraft.entity.bullet.TinyTNT;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -86,7 +85,7 @@ public interface Entities {
 
     static <T extends Entity> Supplier<EntityType<T>> register(String name, EntityType.Builder<T> builder) {
         Identifier id = Main.locate(name);
-        ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, id);
+        ResourceKey<EntityType<?>> key = ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(), id);
         return Registration.register(BuiltInRegistries.ENTITY_TYPE, id, () -> builder.build(key));
     }
 }

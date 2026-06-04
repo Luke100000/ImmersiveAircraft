@@ -1,6 +1,7 @@
 package immersive_aircraft.client.render.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.Main;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
@@ -13,26 +14,23 @@ import immersive_aircraft.resources.bbmodel.BBFaceContainer;
 import immersive_aircraft.resources.bbmodel.BBMesh;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
+import immersive_aircraft.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BannerPatternLayers;
+import net.minecraft.world.level.block.entity.BannerPattern;
 
 import java.util.List;
 
 public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity> extends DyeableVehicleEntityRenderer<T> {
-    protected final MaterialSet materialSet;
-
     public InventoryVehicleRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.materialSet = context.getMaterials();
     }
 
     @Override
@@ -57,14 +55,11 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);
         int i = 0;
         for (ItemStack slot : slots) {
-            if (!slot.isEmpty() && slot.getItem() instanceof BannerItem bannerItem) {
-                DyeColor baseColor = bannerItem.getColor();
-                BannerPatternLayers banner = slot.get(DataComponents.BANNER_PATTERNS);
-                if (banner != null) {
-                    BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
-                    if (bannerObject instanceof BBFaceContainer bannerContainer) {
-                        BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, materialSet, light, true, baseColor, banner.layers());
-                    }
+            if (!slot.isEmpty() && slot.getItem() instanceof BannerItem) {
+                List<Pair<Holder<BannerPattern>, DyeColor>> patterns = Utils.parseBannerItem(slot);
+                BBObject bannerObject = model.objectsByName.get("banner_" + (i++));
+                if (bannerObject instanceof BBFaceContainer bannerContainer) {
+                    BBModelRenderer.renderBanner(bannerContainer, matrixStack, vertexConsumerProvider, light, true, patterns);
                 }
             }
         }
@@ -73,16 +68,11 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
     public void renderSails(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.DYE);
         ItemStack stack = slots.stream().findFirst().orElse(ItemStack.EMPTY);
-        DyeColor color;
-        if (stack.getItem() instanceof DyeItem item) {
-            color = item.getDyeColor();
-        } else {
-            color = DyeColor.WHITE;
-        }
-        int c = color.getTextureDiffuseColor();
-        float r = ((c >> 16) & 0xFF) / 255.0f;
-        float g = ((c >> 8) & 0xFF) / 255.0f;
-        float b = (c & 0xFF) / 255.0f;
+        DyeColor color = stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
+        int diffuse = color.getTextureDiffuseColor();
+        float r = ((diffuse >> 16) & 0xFF) / 255.0f;
+        float g = ((diffuse >> 8) & 0xFF) / 255.0f;
+        float b = (diffuse & 0xFF) / 255.0f;
 
         if (object instanceof BBMesh mesh) {
             BBModelRenderer.renderSailObject(mesh, matrixStack, vertexConsumerProvider, light, time, r, g, b, 1.0f);

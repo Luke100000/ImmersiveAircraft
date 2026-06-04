@@ -38,12 +38,12 @@ public class RotaryCannon extends BulletWeapon {
     }
 
     @Override
-    protected Entity getBullet(Vector4f position, Vector3f direction) {
-        BulletEntity bullet = BULLET.get().create(getEntity().level(), EntitySpawnReason.TRIGGERED);
+    protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
+        BulletEntity bullet = BULLET.get().create(shooter.level(), EntitySpawnReason.TRIGGERED);
         assert bullet != null;
         bullet.setDamage(Config.getInstance().rotaryCannonDamage);
         bullet.setPos(position.x(), position.y(), position.z());
-        bullet.setOwner(getEntity().getControllingPassenger());
+        bullet.setOwner(shooter);
         bullet.shoot(direction.x(), direction.y(), direction.z(), getVelocity(), getInaccuracy());
         return bullet;
     }

@@ -52,10 +52,10 @@ public class TrailRenderer {
         Vector3f p = new Vector3f((float) (trail.buffer[index] - pos.x), (float) (trail.buffer[index + 1] - pos.y), (float) (trail.buffer[index + 2] - pos.z));
         matrix.transform(p);
         lineVertexConsumer.addVertex(p.x, p.y, p.z)
-                .setColor(trail.gray, trail.gray, trail.gray, a)
+                .setColor(trail.gray, trail.gray, trail.gray, a / 255.0f)
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(light)
-                .setNormal(1, 0, 0);
+                .setNormal(1.0f, 0.0f, 0.0f);
     }
 }

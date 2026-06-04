@@ -18,9 +18,6 @@ public class CobaltFuelRegistryImpl extends CobaltFuelRegistry {
     @Override
     public int get(ItemStack stack) {
         FuelValues values = fuelValues;
-        if (values == null) {
-            return 0;
-        }
-        return values.burnDuration(stack);
+        return values == null ? 0 : values.burnDuration(stack);
     }
 }

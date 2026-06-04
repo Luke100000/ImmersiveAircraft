@@ -4,13 +4,22 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Utils {
@@ -25,6 +34,19 @@ public class Utils {
             time *= 1.3;
         }
         return value;
+    }
+
+    public static List<Pair<Holder<BannerPattern>, DyeColor>> parseBannerItem(ItemStack banner) {
+        if (!(banner.getItem() instanceof BannerItem)) {
+            return List.of();
+        }
+
+        BannerPatternLayers layers = banner.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+        List<Pair<Holder<BannerPattern>, DyeColor>> patterns = new ArrayList<>();
+        for (BannerPatternLayers.Layer layer : layers.layers()) {
+            patterns.add(Pair.of(layer.pattern(), layer.color()));
+        }
+        return patterns;
     }
 
     public static int getFuelTime(ItemStack fuel) {
@@ -50,10 +72,10 @@ public class Utils {
         return 0;
     }
 
-    public static boolean getBooleanElement(JsonObject object, String member, boolean defaultValue) {
+    public static boolean getBooleanElement(JsonObject object, String member) {
         JsonElement element = object.getAsJsonPrimitive(member);
         if (element == null) {
-            return defaultValue;
+            return false;
         }
         return element.getAsBoolean();
     }

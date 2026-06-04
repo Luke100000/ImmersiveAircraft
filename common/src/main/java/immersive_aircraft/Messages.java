@@ -6,16 +6,15 @@ import immersive_aircraft.network.s2c.*;
 
 public class Messages {
     public static void loadMessages() {
-        NetworkHandler.registerMessage(Main.MOD_ID, AircraftDataMessage.TYPE, AircraftDataMessage.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, FireResponse.TYPE, FireResponse.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, InventoryUpdateMessage.TYPE, InventoryUpdateMessage.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, OpenGuiRequest.TYPE, OpenGuiRequest.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, VehicleUpgradesMessage.TYPE, VehicleUpgradesMessage.STREAM_CODEC);
-
-        NetworkHandler.registerMessage(Main.MOD_ID, CollisionMessage.TYPE, CollisionMessage.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, CommandMessage.TYPE, CommandMessage.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, EnginePowerMessage.TYPE, EnginePowerMessage.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, FireMessage.TYPE, FireMessage.STREAM_CODEC);
-        NetworkHandler.registerMessage(Main.MOD_ID, InventoryRequest.TYPE, InventoryRequest.STREAM_CODEC);
+        NetworkHandler.registerMessage(EnginePowerMessage.class, EnginePowerMessage::new);
+        NetworkHandler.registerMessage(CommandMessage.class, CommandMessage::new);
+        NetworkHandler.registerMessage(OpenGuiRequest.class, OpenGuiRequest::new);
+        NetworkHandler.registerMessage(InventoryUpdateMessage.class, InventoryUpdateMessage::new);
+        NetworkHandler.registerMessage(RequestInventory.class, RequestInventory::new);
+        NetworkHandler.registerMessage(CollisionMessage.class, CollisionMessage::new);
+        NetworkHandler.registerMessage(VehicleUpgradesMessage.class, VehicleUpgradesMessage::new);
+        NetworkHandler.registerMessage(AircraftDataMessage.class, AircraftDataMessage::new);
+        NetworkHandler.registerMessage(FireMessage.class, FireMessage::new);
+        NetworkHandler.registerMessage(FireResponse.class, FireResponse::new);
     }
 }

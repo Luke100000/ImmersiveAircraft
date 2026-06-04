@@ -6,10 +6,12 @@ import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.util.Utils;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class VehicleData {
     private final Map<VehicleStat, Float> properties = new HashMap<>();
@@ -35,9 +37,8 @@ public class VehicleData {
         populateWeaponMounts();
 
         // Load weapon mounts
-        ArrayList<SlotDescription> weaponSlots = new java.util.ArrayList<>(inventoryDescription.getSlots(VehicleInventoryDescription.WEAPON));
+        List<SlotDescription> weaponSlots = new java.util.ArrayList<>(inventoryDescription.getSlots(VehicleInventoryDescription.WEAPON));
         json.getAsJsonArray("weaponMounts").forEach(weaponMountsJson -> {
-            //noinspection SequencedCollectionMethodCanBeUsed
             SlotDescription slot = weaponSlots.remove(0);
             weaponMountsJson.getAsJsonObject().entrySet().forEach(entry -> {
                 WeaponMount.Type type = WeaponMount.Type.valueOf(entry.getKey());
@@ -72,7 +73,7 @@ public class VehicleData {
         }
     }
 
-    public VehicleData(RegistryFriendlyByteBuf byteBuf) {
+    public VehicleData(FriendlyByteBuf byteBuf) {
         // Load properties
         int propertiesCount = byteBuf.readInt();
         for (int i = 0; i < propertiesCount; i++) {
@@ -133,7 +134,7 @@ public class VehicleData {
         });
     }
 
-    public void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         // Encode properties
         buffer.writeInt(properties.size());
         properties.forEach((stat, value) -> {

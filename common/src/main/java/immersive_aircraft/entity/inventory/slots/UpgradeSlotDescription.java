@@ -3,7 +3,7 @@ package immersive_aircraft.entity.inventory.slots;
 import com.google.gson.JsonObject;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.screen.slot.UpgradeSlot;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 
@@ -12,7 +12,7 @@ public class UpgradeSlotDescription extends TooltippedSlotDescription {
         super(type, index, x, y, json);
     }
 
-    public UpgradeSlotDescription(String type, RegistryFriendlyByteBuf buffer) {
+    public UpgradeSlotDescription(String type, FriendlyByteBuf buffer) {
         super(type, buffer);
     }
 
