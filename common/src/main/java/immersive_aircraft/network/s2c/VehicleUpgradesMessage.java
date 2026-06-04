@@ -1,14 +1,11 @@
 package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.cobalt.network.Message;
+import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
-import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
@@ -16,20 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VehicleUpgradesMessage extends Message {
-    public static final StreamCodec<RegistryFriendlyByteBuf, VehicleUpgradesMessage> STREAM_CODEC = StreamCodec.ofMember(VehicleUpgradesMessage::encode, VehicleUpgradesMessage::new);
-    public static final CustomPacketPayload.Type<VehicleUpgradesMessage> TYPE = Message.createType("vehicle_upgrades");
-
-    public CustomPacketPayload.Type<VehicleUpgradesMessage> type() {
-        return TYPE;
-    }
-
     private final Map<Item, VehicleUpgrade> upgrades;
 
     public VehicleUpgradesMessage() {
         this.upgrades = VehicleUpgradeRegistry.INSTANCE.getAll();
     }
 
-    public VehicleUpgradesMessage(RegistryFriendlyByteBuf buffer) {
+    public VehicleUpgradesMessage(FriendlyByteBuf buffer) {
         upgrades = new HashMap<>();
 
         int upgradeCount = buffer.readInt();
@@ -40,7 +30,7 @@ public class VehicleUpgradesMessage extends Message {
     }
 
     @Override
-    public void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         Map<Item, VehicleUpgrade> upgrades = VehicleUpgradeRegistry.INSTANCE.getAll();
         buffer.writeInt(upgrades.size()); // Write upgrade entry count.
 
@@ -50,7 +40,7 @@ public class VehicleUpgradesMessage extends Message {
         }
     }
 
-    protected void writeUpgrade(RegistryFriendlyByteBuf buffer, VehicleUpgrade upgrade) {
+    protected void writeUpgrade(FriendlyByteBuf buffer, VehicleUpgrade upgrade) {
         Map<VehicleStat, Float> upgradeMap = upgrade.getAll();
         buffer.writeInt(upgradeMap.size());
         for (VehicleStat stat : upgradeMap.keySet()) {
@@ -59,7 +49,7 @@ public class VehicleUpgradesMessage extends Message {
         }
     }
 
-    protected VehicleUpgrade readUpgrade(RegistryFriendlyByteBuf buffer) {
+    protected VehicleUpgrade readUpgrade(FriendlyByteBuf buffer) {
         VehicleUpgrade upgrade = new VehicleUpgrade();
         int statCount = buffer.readInt();
         for (int j = 0; j < statCount; j++) {
@@ -69,8 +59,8 @@ public class VehicleUpgradesMessage extends Message {
     }
 
     @Override
-    public void receiveClient() {
-        // Reset and refill the upgrade registry when the server reloads them.
-        VehicleUpgradeRegistry.INSTANCE.replace(upgrades);
+    public void receive(Player player) {
+        VehicleUpgradeRegistry.INSTANCE.replace(upgrades); // Reset and refill the upgrade registry when the server reloads them.
     }
+
 }

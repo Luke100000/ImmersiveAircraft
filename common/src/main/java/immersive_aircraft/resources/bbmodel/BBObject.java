@@ -6,7 +6,7 @@ import immersive_aircraft.util.Utils;
 
 public class BBObject {
     public final String uuid;
-    public String name;
+    public final String name;
 
     public final Vector3f origin;
     public final Vector3f rotation;
@@ -18,7 +18,7 @@ public class BBObject {
 
     public BBObject(JsonObject element) {
         this.uuid = element.getAsJsonPrimitive("uuid").getAsString();
-        this.name = element.get("name") != null ? element.getAsJsonPrimitive("name").getAsString() : uuid;
+        this.name = element.getAsJsonPrimitive("name").getAsString();
 
         this.origin = Utils.parseVector(element, "origin");
         this.origin.mul(1.0f / 16.0f);
@@ -27,8 +27,8 @@ public class BBObject {
 
         this.color = Utils.getIntElement(element, "color");
 
-        this.export = Utils.getBooleanElement(element, "export", true);
-        this.visibility = Utils.getBooleanElement(element, "visibility", true);
+        this.export = Utils.getBooleanElement(element, "export");
+        this.visibility = Utils.getBooleanElement(element, "visibility");
     }
 
     public String getName() {

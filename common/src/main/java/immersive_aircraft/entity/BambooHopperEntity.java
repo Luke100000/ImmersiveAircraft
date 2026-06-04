@@ -31,7 +31,7 @@ public class BambooHopperEntity extends AirplaneEntity {
         emitSmokeParticle(-3.4375f, 1.125f, -0.25f, 0.0f, 0.0f, -0.2f);
 
 
-        float water = (float) fluidHeight.getDouble(FluidTags.WATER);
+        float water = (float) getFluidHeight(FluidTags.WATER);
         if (water > 0) {
             emitSplashParticle(3.4375f, water, -0.5f, 0.0f, 0.0f, 0.0f);
             emitSplashParticle(-3.4375f, water, -0.5f, 0.0f, 0.0f, 0.0f);
@@ -56,9 +56,9 @@ public class BambooHopperEntity extends AirplaneEntity {
     }
 
     @Override
-    protected double getDefaultGravity() {
+    protected float getVehicleGravity() {
         float water = (float) getFluidHeight(FluidTags.WATER);
-        return water > 0 ? -0.04 * water : (1.0 - getEnginePower()) * super.getDefaultGravity();
+        return water > 0 ? 0.04f * water : (1.0f - getEnginePower()) * super.getVehicleGravity();
     }
 
     @Override

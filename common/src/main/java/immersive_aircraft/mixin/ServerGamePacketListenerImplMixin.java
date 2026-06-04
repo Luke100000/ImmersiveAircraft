@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {
     @Redirect(method = "handleInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getBoundingBox()Lnet/minecraft/world/phys/AABB;"))
-    AABB getInteractionBoundingBox(Entity entity) {
+    private AABB immersiveAircraft$getInteractionBoundingBox(Entity entity) {
         if (entity instanceof VehicleEntity vehicle) {
             return vehicle.getBoundingBoxForCulling();
         }

@@ -5,7 +5,7 @@ public interface PassengerLivingEntityRenderState {
 
     Float immersive_aircraft$getVehicleZRot();
 
-    void immersive_aircraft$setVehicleXRot(Float f);
+    void immersive_aircraft$setVehicleXRot(Float value);
 
-    void immersive_aircraft$setVehicleZRot(Float f);
+    void immersive_aircraft$setVehicleZRot(Float value);
 }

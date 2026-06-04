@@ -12,8 +12,7 @@ import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -24,6 +23,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
@@ -83,10 +84,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         super(entityType, world, canExplodeOnCrash);
 
         fuel = new int[getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER).size()];
-
-        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) {
-            cautions.compute(c, (cautions, v) -> 0);
-        }
+        for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) cautions.compute(c, (cautions, v) -> 0);
     }
 
     protected SoundEvent getEngineStartSound() {
@@ -114,12 +112,12 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder entityData) {
-        super.defineSynchedData(entityData);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
 
-        entityData.define(ENGINE, 0.0f);
-        entityData.define(UTILIZATION, 0.0f);
-        entityData.define(LOW_ON_FUEL, false);
+        builder.define(ENGINE, 0.0f);
+        builder.define(UTILIZATION, 0.0f);
+        builder.define(LOW_ON_FUEL, false);
     }
 
     @Override
@@ -159,7 +157,8 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
 
         // Fuel
         if (fuel.length > 0 && !level().isClientSide()) {
-            consumeFuel(getFuelConsumption());
+            float consumption = getFuelConsumption();
+            consumeFuel(consumption);
         }
 
         // Refuel
@@ -172,14 +171,14 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                     float utilization = getFuelUtilization();
                     if (utilization > 0 && isFuelLow()) {
                         if (lastFuelState != FuelState.LOW) {
-                            player.displayClientMessage(Component.translatable("immersive_aircraft." + getFuelType() + ".low"), true);
+                            player.sendOverlayMessage(Component.translatable("immersive_aircraft." + getFuelType() + ".low"));
                             lastFuelState = FuelState.LOW;
                         }
                     } else if (utilization > 0) {
                         lastFuelState = FuelState.FUELED;
                     } else {
                         if (lastFuelState != FuelState.EMPTY) {
-                            player.displayClientMessage(Component.translatable("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")), true);
+                            player.sendOverlayMessage(Component.translatable("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")));
                             lastFuelState = FuelState.EMPTY;
                         }
                     }
@@ -188,33 +187,23 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         } else {
             lastFuelState = FuelState.NEVER;
         }
-
         mainWarning = Math.max(0, mainWarning - 1);
         mslWarning = Math.max(0, mslWarning - 1);
-        for (Cautions caution : Cautions.values()) {
-            cautions.compute(caution, (cautions, integer) -> integer == null ? 0 : Math.max(0, --integer));
-        }
-
+        for (Cautions caution : Cautions.values()) cautions.compute(caution, (cautions, integer) -> integer == null ? 0 : Math.max(0, --integer));
         handleWarnings();
     }
 
     private void handleWarnings() {
-        // Detects sea level.
-        // Further updates may introduce GPWS that detects actual ground, which needs a radar upgrade.
-        // It is Y-speed relative.
+        // detects sea level. further updates may introduce GPWS that detects actual ground, which needs a radar upgrade.
+        // it is Y-speed relative.
         double altRate = getSpeedVector().y * 10.0d;
-
         // pull-up caution
-        if (getEnginePower() >= 0.5 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) {
-            cautions.put(Cautions.PULL_UP, 40);
-        }
-
+        if (getEnginePower() >= 1 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) cautions.put(Cautions.PULL_UP, 40);
         // void warning
         if (getY() < level().dimensionType().minY()) {
             cautions.put(Cautions.VOID, 10);
             mainWarning = 6;
         }
-
         // damaged warning
         if (getHealth() * 100 < 20) {
             cautions.put(Cautions.DAMAGED, 10);
@@ -275,14 +264,11 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                 fuel[i] += time;
                 Item item = stack.getItem();
                 stack.shrink(1);
-
                 if (getControllingPassenger() instanceof ServerPlayer player) {
                     player.awardStat(AircraftStats.FUEL_BURNED, time);
                 }
-
                 if (stack.isEmpty()) {
-                    ItemStack remainingItem = item.getCraftingRemainder();
-                    getInventory().setItem(slots.get(i).index(), remainingItem);
+                    getInventory().setItem(slots.get(i).index(), item.getCraftingRemainder().create());
                 }
             } else {
                 break;
@@ -368,20 +354,20 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
-        super.addAdditionalSaveData(tag);
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        super.addAdditionalSaveData(output);
 
         for (int i = 0; i < fuel.length; i++) {
-            tag.putInt("Fuel" + i, fuel[i]);
+            output.putInt("Fuel" + i, fuel[i]);
         }
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull ValueInput tag) {
-        super.readAdditionalSaveData(tag);
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        super.readAdditionalSaveData(input);
 
         for (int i = 0; i < fuel.length; i++) {
-            fuel[i] = tag.getIntOr("Fuel" + i, 0);
+            fuel[i] = input.getIntOr("Fuel" + i, 0);
         }
     }
 

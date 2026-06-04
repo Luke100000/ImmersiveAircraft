@@ -1,29 +1,14 @@
 package immersive_aircraft.cobalt.network;
 
-import immersive_aircraft.Main;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 
-public abstract class Message implements CustomPacketPayload {
+public abstract class Message {
     protected Message() {
 
     }
 
-    public static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> createType(String id) {
-        return new Type<>(Main.locate(id));
-    }
+    public abstract void encode(FriendlyByteBuf b);
 
-    public abstract void encode(RegistryFriendlyByteBuf b);
-
-    public void receiveServer(ServerPlayer e) {
-        Main.LOGGER.warn("Received an unhandled server message: {}", this);
-    }
-
-    public void receiveClient() {
-        Main.LOGGER.warn("Received an unhandled client message: {}", this);
-    }
-
-    @Override
-    abstract public Type<? extends CustomPacketPayload> type();
+    public abstract void receive(Player e);
 }

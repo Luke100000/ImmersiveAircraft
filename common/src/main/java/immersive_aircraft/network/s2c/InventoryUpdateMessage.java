@@ -2,46 +2,45 @@ package immersive_aircraft.network.s2c;
 
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public class InventoryUpdateMessage extends Message {
-    public static final StreamCodec<RegistryFriendlyByteBuf, InventoryUpdateMessage> STREAM_CODEC = StreamCodec.ofMember(InventoryUpdateMessage::encode, InventoryUpdateMessage::new);
-    public static final CustomPacketPayload.Type<InventoryUpdateMessage> TYPE = Message.createType("inventory_update");
-
-    public CustomPacketPayload.Type<InventoryUpdateMessage> type() {
-        return TYPE;
-    }
-
     private final int vehicle;
     private final int index;
-    private final ItemStack stack;
+    private final CompoundTag stack;
 
-    public InventoryUpdateMessage(Entity entity, int index, ItemStack stack) {
-        this.vehicle = entity.getId();
+    public InventoryUpdateMessage(int id, int index, ItemStack stack) {
+        this.vehicle = id;
         this.index = index;
-        this.stack = stack;
+
+        this.stack = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack)
+                .result()
+                .filter(CompoundTag.class::isInstance)
+                .map(CompoundTag.class::cast)
+                .orElseGet(CompoundTag::new);
     }
 
-    public InventoryUpdateMessage(RegistryFriendlyByteBuf b) {
+    public InventoryUpdateMessage(FriendlyByteBuf b) {
         vehicle = b.readInt();
         index = b.readInt();
-        stack = ItemStack.OPTIONAL_STREAM_CODEC.decode(b);
+        stack = b.readNbt();
     }
 
     @Override
-    public void encode(RegistryFriendlyByteBuf b) {
+    public void encode(FriendlyByteBuf b) {
         b.writeInt(vehicle);
         b.writeInt(index);
-        ItemStack.OPTIONAL_STREAM_CODEC.encode(b, stack);
+        b.writeNbt(stack);
     }
 
     @Override
-    public void receiveClient() {
-        Main.messageHandler.handleInventoryUpdate(this);
+    public void receive(Player e) {
+        Main.networkManager.handleInventoryUpdate(this);
     }
 
     public int getVehicle() {
@@ -52,7 +51,9 @@ public class InventoryUpdateMessage extends Message {
         return index;
     }
 
-    public ItemStack getStack(Entity entity) {
-        return this.stack;
+    public ItemStack getStack() {
+        Tag tag = stack == null ? new CompoundTag() : stack;
+        return ItemStack.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(ItemStack.EMPTY);
     }
+
 }

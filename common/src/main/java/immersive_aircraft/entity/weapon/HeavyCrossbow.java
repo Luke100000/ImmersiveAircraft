@@ -9,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -51,23 +50,14 @@ public class HeavyCrossbow extends BulletWeapon {
     }
 
     @Override
-    protected Entity getBullet(Vector4f position, Vector3f direction) {
-        ItemStack ammo = getAmmoStack();
-        Arrow arrow = new Arrow(getEntity().level(), position.x(), position.y(), position.z(), ammo, null);
+    protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
+        ItemStack ammoStack = getAmmoStack();
+        ItemStack pickupStack = ammoStack == null ? new ItemStack(net.minecraft.world.item.Items.ARROW) : ammoStack;
+        Arrow arrow = new Arrow(shooter.level(), position.x(), position.y(), position.z(), pickupStack, getStack());
         arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
         arrow.setOwner(getEntity().getControllingPassenger());
         arrow.shoot(direction.x(), direction.y() + 0.1f, direction.z(), getVelocity(), getInaccuracy());
         return arrow;
-    }
-
-    @Override
-    public ItemStack getAmmoStack() {
-        ItemStack ammoStack = super.getAmmoStack();
-        if (ammoStack.isEmpty()) {
-            return new ItemStack(Items.ARROW);
-        } else {
-            return ammoStack;
-        }
     }
 
     @Override

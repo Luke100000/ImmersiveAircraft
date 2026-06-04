@@ -2,7 +2,7 @@ package immersive_aircraft.entity.misc;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.util.Utils;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import org.joml.Matrix4f;
 
 public record PositionDescriptor(float x, float y, float z, float yaw, float pitch, float roll) {
@@ -16,7 +16,7 @@ public record PositionDescriptor(float x, float y, float z, float yaw, float pit
         return new PositionDescriptor(x, y, z, yaw, pitch, roll);
     }
 
-    public static PositionDescriptor decode(RegistryFriendlyByteBuf byteBuf) {
+    public static PositionDescriptor decode(FriendlyByteBuf byteBuf) {
         float x = byteBuf.readFloat();
         float y = byteBuf.readFloat();
         float z = byteBuf.readFloat();
@@ -26,7 +26,7 @@ public record PositionDescriptor(float x, float y, float z, float yaw, float pit
         return new PositionDescriptor(x, y, z, yaw, pitch, roll);
     }
 
-    public void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeFloat(x);
         buffer.writeFloat(y);
         buffer.writeFloat(z);

@@ -12,15 +12,11 @@ public class BBBone extends BBObject {
     public final boolean globalRotation;
 
     public BBBone(JsonObject element, BBModel model) {
-        this(model.uuidToGroup.getOrDefault(element.getAsJsonPrimitive("uuid").getAsString(), element), model, element);
-    }
-
-    public BBBone(JsonObject element, BBModel model, JsonObject outlineElement) {
         super(element);
 
-        this.globalRotation = Utils.getBooleanElement(element, "rotation_global", false);
+        this.globalRotation = Utils.getBooleanElement(element, "rotation_global");
 
-        outlineElement.getAsJsonObject().get("children").getAsJsonArray().forEach(child -> {
+        element.getAsJsonObject().get("children").getAsJsonArray().forEach(child -> {
             if (child.isJsonObject()) {
                 this.children.add(new BBBone(child.getAsJsonObject(), model));
             } else {

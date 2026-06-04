@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
@@ -32,8 +33,8 @@ public class TrailRenderer {
             int pre = ((i + trail.lastIndex - 1) % trail.size) * 7;
             int index = ((i + trail.lastIndex) % trail.size) * 7;
 
-            int a1 = (int) ((1.0f - ((float) i) / trail.size * 255) * trail.buffer[pre + 6]);
-            int a2 = i == (trail.size - 1) ? 0 : (int) ((1.0f - ((float) i + 1) / trail.size * 255) * trail.buffer[index + 6]);
+            float a1 = (1.0f - (float) i / trail.size) * trail.buffer[pre + 6];
+            float a2 = i == (trail.size - 1) ? 0.0f : (1.0f - ((float) i + 1.0f) / trail.size) * trail.buffer[index + 6];
 
             vertex(trail, lineVertexConsumer, matrix, 0, 0, pre, pos, a1, light);
             vertex(trail, lineVertexConsumer, matrix, 0, 1, pre + 3, pos, a1, light);
@@ -51,11 +52,16 @@ public class TrailRenderer {
     private static void vertex(Trail trail, VertexConsumer lineVertexConsumer, Matrix3f matrix, float u, float v, int index, Vec3 pos, float a, int light) {
         Vector3f p = new Vector3f((float) (trail.buffer[index] - pos.x), (float) (trail.buffer[index + 1] - pos.y), (float) (trail.buffer[index + 2] - pos.z));
         matrix.transform(p);
+        int gray = colorChannel(trail.gray);
         lineVertexConsumer.addVertex(p.x, p.y, p.z)
-                .setColor(trail.gray, trail.gray, trail.gray, a)
+                .setColor(gray, gray, gray, colorChannel(a))
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(light)
-                .setNormal(1, 0, 0);
+                .setNormal(1.0f, 0.0f, 0.0f);
+    }
+
+    private static int colorChannel(float value) {
+        return Mth.clamp((int) (value * 255.0f), 0, 255);
     }
 }

@@ -2,7 +2,7 @@ package immersive_aircraft.entity.misc;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.util.Utils;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 
 public record BoundingBoxDescriptor(float width, float height, float x, float y, float z) {
     public static BoundingBoxDescriptor fromJson(JsonObject json) {
@@ -14,7 +14,7 @@ public record BoundingBoxDescriptor(float width, float height, float x, float y,
         return new BoundingBoxDescriptor(width, height, x, y, z);
     }
 
-    public void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeFloat(width);
         buffer.writeFloat(height);
         buffer.writeFloat(x);
@@ -22,7 +22,7 @@ public record BoundingBoxDescriptor(float width, float height, float x, float y,
         buffer.writeFloat(z);
     }
 
-    public static BoundingBoxDescriptor decode(RegistryFriendlyByteBuf buffer) {
+    public static BoundingBoxDescriptor decode(FriendlyByteBuf buffer) {
         float width = buffer.readFloat();
         float height = buffer.readFloat();
         float x = buffer.readFloat();

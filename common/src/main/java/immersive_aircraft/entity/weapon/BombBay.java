@@ -18,8 +18,6 @@ import org.joml.Matrix3f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import static net.minecraft.world.entity.item.PrimedTnt.TAG_FUSE;
-
 public class BombBay extends BulletWeapon {
     private static final float MAX_COOLDOWN = 1.0f;
     private float cooldown = 0.0f;
@@ -43,7 +41,7 @@ public class BombBay extends BulletWeapon {
     }
 
     @Override
-    protected Entity getBullet(Vector4f position, Vector3f direction) {
+    protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
         Vector3f vel = direction.mul(getVelocity(), new Vector3f());
 
         ItemStack stack = getAmmoStack();
@@ -51,8 +49,8 @@ public class BombBay extends BulletWeapon {
         String identifier = Config.getInstance().bombBayEntity.getOrDefault(string, "immersive_aircraft:tiny_tnt");
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("id", identifier);
-        compoundTag.putInt(TAG_FUSE, 80);
-        return EntityType.loadEntityRecursive(compoundTag, getEntity().level(), EntitySpawnReason.LOAD, (e) -> {
+        compoundTag.putInt("Fuse", 80);
+        return EntityType.loadEntityRecursive(compoundTag, shooter.level(), EntitySpawnReason.TRIGGERED, (e) -> {
             e.setPos(position.x(), position.y(), position.z());
             e.setDeltaMovement(vel.x(), vel.y(), vel.z());
             return e;
