@@ -3,7 +3,7 @@ package immersive_aircraft.cobalt.registration;
 import immersive_aircraft.Main;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,7 +17,7 @@ public class Registration {
         INSTANCE.registerEntityRenderer(type, constructor);
     }
 
-    public static <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj) {
+    public static <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj) {
         return INSTANCE.register(registry, id, obj);
     }
 
@@ -36,10 +36,10 @@ public class Registration {
 
         public abstract <T extends Entity> void registerEntityRenderer(EntityType<T> type, EntityRendererProvider<T> constructor);
 
-        public abstract void registerDataLoader(ResourceLocation id, PreparableReloadListener loader);
+        public abstract void registerDataLoader(Identifier id, PreparableReloadListener loader);
 
-        public abstract void registerResourceLoader(ResourceLocation id, PreparableReloadListener loader);
+        public abstract void registerResourceLoader(Identifier id, PreparableReloadListener loader);
 
-        public abstract <T> Supplier<T> register(Registry<? super T> registry, ResourceLocation id, Supplier<T> obj);
+        public abstract <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj);
     }
 }

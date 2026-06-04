@@ -9,6 +9,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -25,10 +27,10 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
 
-        entityData.define(DYE_COLOR, -1);
+        builder.define(DYE_COLOR, -1);
     }
 
     @Override
@@ -36,7 +38,9 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
         super.addItemTag(tag);
 
         if (getDyeColor() >= 0) {
-            tag.getCompound("display").putInt("color", getDyeColor());
+            CompoundTag displayTag = tag.getCompoundOrEmpty("display");
+            displayTag.putInt("color", getDyeColor());
+            tag.put("display", displayTag);
         }
     }
 
@@ -44,26 +48,24 @@ public abstract class DyeableVehicleEntity extends VehicleEntity {
     protected void readItemTag(@NotNull CompoundTag tag) {
         super.readItemTag(tag);
 
-        CompoundTag displayTag = tag.getCompound("display");
-        if (displayTag.contains("color", 99)) {
-            setDyeColor(displayTag.getInt("color"));
+        CompoundTag displayTag = tag.getCompoundOrEmpty("display");
+        if (displayTag.contains("color")) {
+            setDyeColor(displayTag.getIntOr("color", -1));
         }
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        super.readAdditionalSaveData(input);
 
-        if (tag.contains("Color")) {
-            setDyeColor(tag.getInt("Color"));
-        }
+        setDyeColor(input.getIntOr("Color", getDyeColor()));
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        super.addAdditionalSaveData(output);
 
-        tag.putInt("Color", getDyeColor());
+        output.putInt("Color", getDyeColor());
     }
 
     public int getDyeColor() {

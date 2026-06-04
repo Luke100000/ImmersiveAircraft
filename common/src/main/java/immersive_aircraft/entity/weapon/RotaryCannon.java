@@ -10,6 +10,7 @@ import immersive_aircraft.network.c2s.FireMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -38,7 +39,7 @@ public class RotaryCannon extends BulletWeapon {
 
     @Override
     protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
-        BulletEntity bullet = BULLET.get().create(shooter.level());
+        BulletEntity bullet = BULLET.get().create(shooter.level(), EntitySpawnReason.TRIGGERED);
         assert bullet != null;
         bullet.setDamage(Config.getInstance().rotaryCannonDamage);
         bullet.setPos(position.x(), position.y(), position.z());

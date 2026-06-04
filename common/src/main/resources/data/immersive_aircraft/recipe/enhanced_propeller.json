@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CC ",
+    " P ",
+    " CC"
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "P": "immersive_aircraft:propeller"
+  },
+  "result": {
+    "id": "immersive_aircraft:enhanced_propeller"
+  }
+}

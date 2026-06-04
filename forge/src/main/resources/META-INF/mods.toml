@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[${loader_major},)"
 issueTrackerURL = "https://github.com/Luke100000/ImmersiveAircraft/issues"
 license = "GPL-3.0-only"
 
@@ -16,20 +16,13 @@ itemIcon = "immersive_aircraft:biplane"
 [[dependencies.immersive_aircraft]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.1,)"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.immersive_aircraft]]
 modId = "forge"
 mandatory = true
-versionRange = "[47,)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.immersive_aircraft]]
-modId = "ad_astra"
-mandatory = false
-versionRange = "[1.15.6,)"
+versionRange = "[${loader_major},)"
 ordering = "NONE"
 side = "BOTH"

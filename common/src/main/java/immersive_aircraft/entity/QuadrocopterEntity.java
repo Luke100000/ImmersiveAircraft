@@ -33,8 +33,8 @@ public class QuadrocopterEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getGravity() {
-        return wasTouchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getGravity();
+    protected float getVehicleGravity() {
+        return wasTouchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getVehicleGravity();
     }
 
     @Override

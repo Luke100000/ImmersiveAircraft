@@ -7,7 +7,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
 import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
@@ -20,14 +20,14 @@ public class UpgradeDataLoader extends DataLoader {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, JsonElement> jsonMap, ResourceManager manager, ProfilerFiller profiler) {
         // Clear existing upgrade values
         VehicleUpgradeRegistry.INSTANCE.reset();
 
         jsonMap.forEach((identifier, jsonElement) -> {
             try {
                 if (BuiltInRegistries.ITEM.containsKey(identifier)) {
-                    Item item = BuiltInRegistries.ITEM.get(identifier);
+                    Item item = BuiltInRegistries.ITEM.getValue(identifier);
                     VehicleUpgrade upgrade = getAircraftUpgrade(jsonElement.getAsJsonObject());
                     VehicleUpgradeRegistry.INSTANCE.setUpgrade(item, upgrade);
                 } else {

@@ -1,6 +1,8 @@
 package immersive_aircraft.entity.inventory.slots;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.mojang.serialization.JsonOps;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.screen.slot.IngredientSlot;
 import net.minecraft.network.FriendlyByteBuf;
@@ -15,7 +17,7 @@ public class IngredientSlotDescription extends TooltippedSlotDescription {
 
     public IngredientSlotDescription(String type, int index, int x, int y, JsonObject json) {
         this(type, index, x, y, json,
-                Ingredient.fromJson(json.get("ingredient")),
+                Ingredient.CODEC.parse(JsonOps.INSTANCE, json.get("ingredient")).getOrThrow(JsonParseException::new),
                 GsonHelper.getAsInt(json, "maxStackSize", 64)
         );
     }
@@ -29,7 +31,7 @@ public class IngredientSlotDescription extends TooltippedSlotDescription {
     public IngredientSlotDescription(String type, FriendlyByteBuf buffer) {
         super(type, buffer);
 
-        this.ingredient = Ingredient.fromNetwork(buffer);
+        this.ingredient = buffer.readLenientJsonWithCodec(Ingredient.CODEC);
         this.maxStackSize = buffer.readInt();
     }
 
@@ -41,7 +43,7 @@ public class IngredientSlotDescription extends TooltippedSlotDescription {
     public void encode(FriendlyByteBuf buffer) {
         super.encode(buffer);
 
-        ingredient.toNetwork(buffer);
+        buffer.writeJsonWithCodec(Ingredient.CODEC, ingredient);
         buffer.writeInt(maxStackSize);
     }
 }

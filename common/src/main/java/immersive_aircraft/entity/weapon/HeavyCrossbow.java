@@ -6,8 +6,8 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
 import immersive_aircraft.network.c2s.FireMessage;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
@@ -51,14 +51,12 @@ public class HeavyCrossbow extends BulletWeapon {
 
     @Override
     protected Entity getBullet(Entity shooter, Vector4f position, Vector3f direction) {
-        Arrow arrow = new Arrow(shooter.level(), position.x(), position.y(), position.z());
+        ItemStack ammoStack = getAmmoStack();
+        ItemStack pickupStack = ammoStack == null ? new ItemStack(net.minecraft.world.item.Items.ARROW) : ammoStack;
+        Arrow arrow = new Arrow(shooter.level(), position.x(), position.y(), position.z(), pickupStack, getStack());
         arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
         arrow.setOwner(getEntity().getControllingPassenger());
         arrow.shoot(direction.x(), direction.y() + 0.1f, direction.z(), getVelocity(), getInaccuracy());
-        ItemStack ammoStack = getAmmoStack();
-        if (ammoStack != null) {
-            arrow.setEffectsFromItem(ammoStack);
-        }
         return arrow;
     }
 

@@ -1,7 +1,6 @@
 package immersive_aircraft.fabric;
 
 import immersive_aircraft.ClientMain;
-import immersive_aircraft.ItemColors;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
@@ -12,10 +11,10 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -36,17 +35,14 @@ public final class ClientFabric implements ClientModInitializer {
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
 
-        ItemColors.ITEM_COLORS.forEach((item, itemColor) -> ColorProviderRegistry.ITEM.register(itemColor, item));
-        ItemColors.ITEM_COLOR_PROVIDERS.forEach((item, itemColor) -> ColorProviderRegistry.ITEM.register(itemColor, item.get()));
-
-        KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
+        KeyBindings.list.forEach(KeyMappingHelper::registerKeyMapping);
         ItemTooltipCallback.EVENT.register(this::itemTooltipCallback); // For aircraft upgrade tooltips
     }
 
     /**
      * Handles adding ToolTips to aircraft upgrades.
      */
-    private void itemTooltipCallback(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
+    private void itemTooltipCallback(ItemStack stack, Item.TooltipContext context, TooltipFlag flag, List<Component> tooltip) {
         VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
         if (upgrade != null) {
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY));

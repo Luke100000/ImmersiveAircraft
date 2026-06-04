@@ -5,10 +5,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class WeaponItem extends DescriptionItem {
     private final WeaponMount.Type mountType;
@@ -20,10 +19,10 @@ public class WeaponItem extends DescriptionItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-        tooltip.add(Component.translatable("item.immersive_aircraft.item.weapon").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("item.immersive_aircraft.item.weapon").withStyle(ChatFormatting.GRAY));
 
-        super.appendHoverText(stack, world, tooltip, context);
+        super.appendHoverText(stack, context, display, tooltip, flag);
     }
 
     public WeaponMount.Type getMountType() {

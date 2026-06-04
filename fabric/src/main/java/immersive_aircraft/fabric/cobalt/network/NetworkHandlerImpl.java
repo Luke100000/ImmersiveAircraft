@@ -6,10 +6,14 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
@@ -20,51 +24,63 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
-    private final Map<Class<?>, ResourceLocation> identifiers = new HashMap<>();
+    private final Map<Class<?>, CustomPacketPayload.Type<CobaltPayload>> types = new HashMap<>();
 
-    private <T> ResourceLocation createMessageIdentifier(String namespace, Class<T> msg) {
-        return new ResourceLocation(namespace, msg.getSimpleName().toLowerCase(Locale.ROOT));
+    private <T> Identifier createMessageIdentifier(String namespace, Class<T> msg) {
+        return Identifier.fromNamespaceAndPath(namespace, msg.getSimpleName().toLowerCase(Locale.ROOT));
     }
 
-    private ResourceLocation getMessageIdentifier(Message msg) {
-        return Objects.requireNonNull(identifiers.get(msg.getClass()), "Used unregistered message!");
+    private CustomPacketPayload.Type<CobaltPayload> getMessageType(Message msg) {
+        return Objects.requireNonNull(types.get(msg.getClass()), "Used unregistered message!");
+    }
+
+    private static FriendlyByteBuf toBuffer(CobaltPayload payload) {
+        return new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.data()));
+    }
+
+    private CobaltPayload createPayload(Message msg) {
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        msg.encode(buf);
+        byte[] data = new byte[buf.readableBytes()];
+        buf.readBytes(data);
+        return new CobaltPayload(getMessageType(msg), data);
     }
 
     @Override
     public <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        ResourceLocation identifier = createMessageIdentifier(namespace, msg);
-        identifiers.put(msg, identifier);
+        Identifier identifier = createMessageIdentifier(namespace, msg);
+        CustomPacketPayload.Type<CobaltPayload> type = new CustomPacketPayload.Type<>(identifier);
+        types.put(msg, type);
 
-        ServerPlayNetworking.registerGlobalReceiver(identifier, (server, player, handler, buffer, responder) -> {
-            Message m = constructor.apply(buffer);
-            server.execute(() -> m.receive(player));
+        StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type);
+        PayloadTypeRegistry.serverboundPlay().register(type, codec);
+        PayloadTypeRegistry.clientboundPlay().register(type, codec);
+
+        ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
+            Message m = constructor.apply(toBuffer(payload));
+            context.server().execute(() -> m.receive(context.player()));
         });
 
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            ClientProxy.register(identifier, constructor);
+            ClientProxy.register(type, constructor);
         }
     }
 
     @Override
     public void sendToServer(Message msg) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        msg.encode(buf);
-        ClientPlayNetworking.send(getMessageIdentifier(msg), buf);
+        ClientPlayNetworking.send(createPayload(msg));
     }
 
     @Override
     public void sendToPlayer(Message msg, ServerPlayer e) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        msg.encode(buf);
-        ServerPlayNetworking.send(e, getMessageIdentifier(msg), buf);
+        ServerPlayNetworking.send(e, createPayload(msg));
     }
 
     @Override
     public void sendToTrackingPlayers(Message msg, Entity origin) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        msg.encode(buf);
+        CobaltPayload payload = createPayload(msg);
         for (ServerPlayer player : PlayerLookup.tracking(origin)) {
-            ServerPlayNetworking.send(player, getMessageIdentifier(msg), buf);
+            ServerPlayNetworking.send(player, payload);
         }
     }
 
@@ -75,11 +91,20 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
             throw new RuntimeException("new ClientProxy()");
         }
 
-        public static <T extends Message> void register(ResourceLocation id, Function<FriendlyByteBuf, T> constructor) {
-            ClientPlayNetworking.registerGlobalReceiver(id, (client, ignore1, buffer, ignore2) -> {
-                Message m = constructor.apply(buffer);
-                client.execute(() -> m.receive(client.player));
+        public static <T extends Message> void register(CustomPacketPayload.Type<CobaltPayload> type, Function<FriendlyByteBuf, T> constructor) {
+            ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
+                Message m = constructor.apply(toBuffer(payload));
+                context.client().execute(() -> m.receive(context.player()));
             });
+        }
+    }
+
+    private record CobaltPayload(CustomPacketPayload.Type<CobaltPayload> type, byte[] data) implements CustomPacketPayload {
+        private static StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec(CustomPacketPayload.Type<CobaltPayload> type) {
+            return CustomPacketPayload.codec(
+                    (payload, buffer) -> buffer.writeByteArray(payload.data()),
+                    buffer -> new CobaltPayload(type, FriendlyByteBuf.readByteArray(buffer))
+            );
         }
     }
 }

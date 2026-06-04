@@ -7,13 +7,12 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.bbmodel.*;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPattern;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -24,7 +23,7 @@ public class BBModelRenderer {
         VertexConsumer getBuffer(MultiBufferSource source, BBFaceContainer container, BBFace face);
     }
 
-    public static final VertexConsumerProvider DEFAULT_VERTEX_CONSUMER_PROVIDER = (source, container, face) -> source.getBuffer(container.enableCulling() ? RenderType.entityCutout(face.texture.location) : RenderType.entityCutoutNoCull(face.texture.location));
+    public static final VertexConsumerProvider DEFAULT_VERTEX_CONSUMER_PROVIDER = (source, container, face) -> source.getBuffer(container.enableCulling() ? RenderTypes.entityCutoutCull(face.texture.location) : RenderTypes.entityCutout(face.texture.location));
 
     public static <T extends VehicleEntity> void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         model.root.forEach(object -> renderObject(model, object, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha));
@@ -98,18 +97,16 @@ public class BBModelRenderer {
     public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource source, int light, float red, float green, float blue, float alpha, VertexConsumerProvider provider) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
-        Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
             VertexConsumer vertexConsumer = provider.getBuffer(source, cube, face);
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
-                vertexConsumer.vertex(positionMatrix, v.x, v.y, v.z);
-                vertexConsumer.color(red, green, blue, alpha);
-                vertexConsumer.uv(v.u, v.v);
-                vertexConsumer.overlayCoords(OverlayTexture.NO_OVERLAY);
-                vertexConsumer.uv2(light);
-                vertexConsumer.normal(normalMatrix, v.nx, v.ny, v.nz);
-                vertexConsumer.endVertex();
+                vertexConsumer.addVertex(positionMatrix, v.x, v.y, v.z)
+                        .setColor(red, green, blue, alpha)
+                        .setUv(v.u, v.v)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(light)
+                        .setNormal(last, v.nx, v.ny, v.nz);
             }
         }
     }
@@ -124,14 +121,13 @@ public class BBModelRenderer {
         for (int i = 0; i < 17 && i < patterns.size(); ++i) {
             Pair<Holder<BannerPattern>, DyeColor> pair = patterns.get(i);
             Holder<BannerPattern> bannerPattern = pair.getFirst();
-            bannerPattern.unwrapKey()
-                    .map(key -> isBanner ? Sheets.getBannerMaterial(key) : Sheets.getShieldMaterial(key))
-                    .ifPresent(material -> {
-                        float[] fs = pair.getSecond().getTextureDiffuseColors();
-                        renderFaces(cube, matrixStack, vertexConsumers, light,
-                                fs[0], fs[1], fs[2], 1.0f,
-                                (source, container, face) -> material.buffer(vertexConsumers, RenderType::entityNoOutline));
-                    });
+            int color = pair.getSecond().getTextureDiffuseColor();
+            float red = ((color >> 16) & 0xFF) / 255.0f;
+            float green = ((color >> 8) & 0xFF) / 255.0f;
+            float blue = (color & 0xFF) / 255.0f;
+            renderFaces(cube, matrixStack, vertexConsumers, light,
+                    red, green, blue, 1.0f,
+                    (source, container, face) -> source.getBuffer(RenderTypes.bannerPattern((isBanner ? Sheets.getBannerSprite(bannerPattern) : Sheets.getShieldSprite(bannerPattern)).texture())));
         }
 
         matrixStack.popPose();
@@ -144,9 +140,8 @@ public class BBModelRenderer {
     public static void renderSailObject(BBMesh cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha, float distanceScale, float baseScale) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
-        Matrix3f normalMatrix = last.normal();
         for (BBFace face : cube.getFaces()) {
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderType.entityCutoutNoCull(face.texture.location));
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderTypes.entityCutout(face.texture.location));
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
                 float distance = Math.max(
@@ -161,14 +156,12 @@ public class BBModelRenderer {
                 float x = (float) ((Math.cos(angle) + Math.cos(angle * 1.7)) * scale);
                 float z = (float) ((Math.sin(angle) + Math.sin(angle * 1.7)) * scale);
 
-                vertexConsumer
-                        .vertex(positionMatrix, v.x + x, v.y, v.z + z)
-                        .color(red, green, blue, alpha)
-                        .uv(v.u, v.v)
-                        .overlayCoords(OverlayTexture.NO_OVERLAY)
-                        .uv2(light)
-                        .normal(normalMatrix, v.nx, v.ny, v.nz)
-                        .endVertex();
+                vertexConsumer.addVertex(positionMatrix, v.x + x, v.y, v.z + z)
+                        .setColor(red, green, blue, alpha)
+                        .setUv(v.u, v.v)
+                        .setOverlay(OverlayTexture.NO_OVERLAY)
+                        .setLight(light)
+                        .setNormal(last, v.nx, v.ny, v.nz);
             }
         }
     }

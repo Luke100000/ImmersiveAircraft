@@ -9,7 +9,7 @@ import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,6 +18,7 @@ import net.minecraft.world.item.CreativeModeTab;
 public final class CommonFabric implements ModInitializer {
     static {
         Main.MOD_LOADER = "fabric";
+        CompatUtil.setModLoadedChecker(CompatUtilImpl::isModLoaded);
 
         new RegistrationImpl();
         new NetworkHandlerImpl();
@@ -26,6 +27,7 @@ public final class CommonFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        AircraftStats.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();
         Entities.bootstrap();
@@ -34,7 +36,7 @@ public final class CommonFabric implements ModInitializer {
 
         Messages.loadMessages();
 
-        CreativeModeTab group = FabricItemGroup.builder()
+        CreativeModeTab group = FabricCreativeModeTab.builder()
                 .title(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
                 .displayItems((enabledFeatures, entries) -> entries.acceptAll(Items.getSortedItems()))
@@ -44,12 +46,15 @@ public final class CommonFabric implements ModInitializer {
 
         // Register event for syncing aircraft upgrades.
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(this::onSyncDatapack);
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> CobaltFuelRegistryImpl.setFuelValues(server.overworld().fuelValues()));
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> CobaltFuelRegistryImpl.setFuelValues(null));
     }
 
     /**
      * Send sync packets for upgrades when datapack is reloaded.
      */
     private void onSyncDatapack(ServerPlayer player, boolean joined) {
+        CobaltFuelRegistryImpl.setFuelValues(player.level().fuelValues());
         NetworkHandler.sendToPlayer(new VehicleUpgradesMessage(), player);
         NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
     }

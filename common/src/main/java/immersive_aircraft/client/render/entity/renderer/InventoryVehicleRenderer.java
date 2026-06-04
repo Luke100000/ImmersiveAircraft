@@ -19,10 +19,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
@@ -68,15 +68,11 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
     public void renderSails(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.DYE);
         ItemStack stack = slots.stream().findFirst().orElse(ItemStack.EMPTY);
-        DyeColor color;
-        if (stack.getItem() instanceof DyeItem item) {
-            color = item.getDyeColor();
-        } else {
-            color = DyeColor.WHITE;
-        }
-        float r = color.getTextureDiffuseColors()[0];
-        float g = color.getTextureDiffuseColors()[1];
-        float b = color.getTextureDiffuseColors()[2];
+        DyeColor color = stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
+        int diffuse = color.getTextureDiffuseColor();
+        float r = ((diffuse >> 16) & 0xFF) / 255.0f;
+        float g = ((diffuse >> 8) & 0xFF) / 255.0f;
+        float b = (diffuse & 0xFF) / 255.0f;
 
         if (object instanceof BBMesh mesh) {
             BBModelRenderer.renderSailObject(mesh, matrixStack, vertexConsumerProvider, light, time, r, g, b, 1.0f);

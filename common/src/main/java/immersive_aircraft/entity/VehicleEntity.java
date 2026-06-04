@@ -2,8 +2,7 @@ package immersive_aircraft.entity;
 
 import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
-import earth.terrarium.adastra.api.systems.GravityApi;
-import immersive_aircraft.CompatUtil;
+import immersive_aircraft.AircraftStats;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
@@ -17,20 +16,21 @@ import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
-import net.minecraft.BlockUtil;
+import net.minecraft.util.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -40,16 +40,19 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -66,7 +69,7 @@ import java.util.List;
  * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends Entity {
-    public final ResourceLocation identifier;
+    public final Identifier identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
 
@@ -162,7 +165,6 @@ public abstract class VehicleEntity extends Entity {
 
         this.canExplodeOnCrash = canExplodeOnCrash;
         blocksBuilding = true;
-        setMaxUpStep(0.55f);
 
         pressingInterpolatedX = new InterpolatedFloat(getInputInterpolationSteps());
         pressingInterpolatedY = new InterpolatedFloat(getInputInterpolationSteps());
@@ -172,19 +174,23 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public void fromItemStack(ItemStack stack) {
-        if (stack.hasTag()) {
-            assert stack.getTag() != null;
-            readItemTag(stack.getTag());
+        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        if (!customData.isEmpty()) {
+            readItemTag(customData.copyTag());
         }
+    }
+
+    @Override
+    public float maxUpStep() {
+        return 0.55f;
     }
 
     protected float getInputInterpolationSteps() {
         return 10;
     }
 
-    @Override
     protected float getEyeHeight(@NotNull Pose pose, EntityDimensions dimensions) {
-        return dimensions.height;
+        return dimensions.height();
     }
 
     @Override
@@ -193,12 +199,12 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        entityData.define(DAMAGE_WOBBLE_TICKS, 0);
-        entityData.define(DAMAGE_WOBBLE_SIDE, 1);
-        entityData.define(DAMAGE_WOBBLE_STRENGTH, 0.0f);
-        entityData.define(DATA_HEALTH, 1.0f);
-        entityData.define(BOOST, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(DAMAGE_WOBBLE_TICKS, 0);
+        builder.define(DAMAGE_WOBBLE_SIDE, 1);
+        builder.define(DAMAGE_WOBBLE_STRENGTH, 0.0f);
+        builder.define(DATA_HEALTH, 1.0f);
+        builder.define(BOOST, 0);
     }
 
     @Override
@@ -207,16 +213,16 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public static boolean canCollide(Entity entity, Entity other) {
-        return (other.canBeCollidedWith() || other.isPushable()) && !entity.isPassengerOfSameVehicle(other);
+        return (other.canBeCollidedWith(entity) || other.isPushable()) && !entity.isPassengerOfSameVehicle(other);
     }
 
     @Override
-    public boolean canBeCollidedWith() {
+    public boolean canBeCollidedWith(@NotNull Entity other) {
         return true;
     }
 
     @Override
-    protected Vec3 getRelativePortalPosition(Direction.@NotNull Axis portalAxis, BlockUtil.@NotNull FoundRectangle portalRect) {
+    public Vec3 getRelativePortalPosition(Direction.@NotNull Axis portalAxis, BlockUtil.@NotNull FoundRectangle portalRect) {
         return LivingEntity.resetForwardDirectionOfRelativePortalPosition(super.getRelativePortalPosition(portalAxis, portalRect));
     }
 
@@ -226,13 +232,9 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource source, float amount) {
-        if (isInvulnerableTo(source)) {
+    public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
+        if (isInvulnerableToBase(source) || isRemoved()) {
             return false;
-        }
-
-        if (level().isClientSide || isRemoved()) {
-            return true;
         }
 
         // Creative player
@@ -243,7 +245,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // Player on an empty vehicle is faster
-        if (amount > 0 && source.getEntity() instanceof Player && getPassengers().isEmpty() && !source.isIndirect()) {
+        if (amount > 0 && source.getEntity() instanceof Player && getPassengers().isEmpty() && source.isDirect()) {
             amount = Math.max(5.0f, amount);
         }
 
@@ -257,12 +259,12 @@ public abstract class VehicleEntity extends Entity {
 
         boolean force = !(source.getDirectEntity() instanceof Player);
 
-        applyDamage(amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
+        applyDamage(serverLevel, amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
 
         return true;
     }
 
-    private void applyDamage(float amount, boolean force) {
+    private void applyDamage(ServerLevel serverLevel, float amount, boolean force) {
         if (isRemoved()) {
             return;
         }
@@ -271,23 +273,36 @@ public abstract class VehicleEntity extends Entity {
         if (health <= 0) {
             setHealth(0);
 
+            if (getControllingPassenger() instanceof Player player) {
+                player.awardStat(AircraftStats.CRASHES, 1);
+            }
+
+            // Save coordinates before discarding; explosion may happen after removal.
+            double x = getX();
+            double y = getY();
+            double z = getZ();
+
+            discard();
+
             // Explode if destroyed by force
             if (force && canExplodeOnCrash && Config.getInstance().enableCrashExplosion) {
-                level().explode(this, getX(), getY(), getZ(),
+                level().explode(this, x, y, z,
                         Config.getInstance().crashExplosionRadius,
                         Config.getInstance().enableCrashFire,
                         Config.getInstance().enableCrashBlockDestruction ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
             }
 
             // Drop stuff if enabled
-            if (level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS) && Config.getInstance().enableDropsForNonPlayer) {
+            if (serverLevel.getGameRules().get(GameRules.ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer) {
                 dropInventory();
                 drop();
             }
-
-            discard();
         } else {
             setHealth(health);
+
+            if (getControllingPassenger() instanceof Player player) {
+                player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.floor(amount * 20 + 0.5f));
+            }
         }
     }
 
@@ -303,10 +318,15 @@ public abstract class VehicleEntity extends Entity {
     protected void drop() {
         if (Config.getInstance().dropAircraft) {
             ItemStack stack = new ItemStack(asItem());
-            CompoundTag tag = stack.getOrCreateTag();
-            addItemTag(tag);
-            spawnAtLocation(stack);
+            addItemComponents(stack);
+            if (level() instanceof ServerLevel serverLevel) {
+                spawnAtLocation(serverLevel, stack);
+            }
         }
+    }
+
+    protected void addItemComponents(ItemStack stack) {
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, this::addItemTag);
     }
 
     protected void dropInventory() {
@@ -314,7 +334,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public void onAboveBubbleCol(boolean drag) {
+    public void onAboveBubbleColumn(boolean drag, @NotNull BlockPos pos) {
         level().addParticle(ParticleTypes.SPLASH, getX() + (double) random.nextFloat(), getY() + 0.7, getZ() + (double) random.nextFloat(), 0.0, 0.0, 0.0);
         if (random.nextInt(20) == 0) {
             level().playLocalSound(getX(), getY(), getZ(), getSwimSplashSound(), getSoundSource(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
@@ -338,7 +358,6 @@ public abstract class VehicleEntity extends Entity {
         return !isRemoved();
     }
 
-    @Override
     public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
         this.x = x;
         this.y = y;
@@ -401,7 +420,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // if it's the right side, update the velocity
-        if (isControlledByLocalInstance()) {
+        if (isClientAuthoritative()) {
             updateVelocity();
 
             // boost
@@ -414,12 +433,12 @@ public abstract class VehicleEntity extends Entity {
             move(MoverType.SELF, getDeltaMovement());
         }
 
-        checkInsideBlocks();
+        applyEffectsFromBlocks();
 
         // auto enter
         List<Entity> list = level().getEntities(this, getBoundingBox().inflate(0.2f, -0.01f, 0.2f), EntitySelector.pushableBy(this));
         if (!list.isEmpty()) {
-            boolean bl = !level().isClientSide && !(getControllingPassenger() instanceof Player);
+            boolean bl = !level().isClientSide() && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
                 if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
@@ -429,7 +448,7 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // interpolate keys for visual feedback
-        if (isControlledByLocalInstance()) {
+        if (isClientAuthoritative()) {
             pressingInterpolatedX.update(movementX);
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);
@@ -438,16 +457,23 @@ public abstract class VehicleEntity extends Entity {
         tickDamageParticles();
 
         // Automatic regeneration if requested
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             int t = Config.getInstance().regenerateHealthEveryNTicks;
             if (t > 0 && level().getGameTime() % t == 0) {
                 repair(0.05f / getDurability());
             }
         }
+
+        // Statistics tracking
+        if (!level().isClientSide() && getControllingPassenger() instanceof Player player) {
+            double dist = getSpeedVector().length() * 100.0;
+            player.awardStat(AircraftStats.DISTANCE_TOTAL, Mth.floor(dist + 0.5));
+            player.awardStat(AircraftStats.TIME_IN_AIRCRAFT, 1);
+        }
     }
 
     private void tickDamageParticles() {
-        if (level().isClientSide && random.nextFloat() > getHealth()) {
+        if (level().isClientSide() && random.nextFloat() > getHealth()) {
             // Damage particles
             List<AABB> shapes = getShapes();
             AABB shape = shapes.get(random.nextInt(shapes.size()));
@@ -481,20 +507,20 @@ public abstract class VehicleEntity extends Entity {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
                 if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
-                    player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
+                    player.sendOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()));
                 }
 
-                if (KeyBindings.dismount.consumeClick()) {
+                if (Main.debouncingGetter.is(Main.Key.DISMOUNT)) {
                     if (onGround() || tickCount - lastTriedToExit < 20) {
                         NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.DISMOUNT, getDeltaMovement()));
                         player.setJumping(false);
                     } else {
                         lastTriedToExit = tickCount;
-                        player.displayClientMessage(Component.translatable("immersive_aircraft.tried_dismount"), true);
+                        player.sendOverlayMessage(Component.translatable("immersive_aircraft.tried_dismount"));
                     }
                 }
 
-                if (KeyBindings.boost.consumeClick() && canBoost()) {
+                if (Main.debouncingGetter.is(Main.Key.BOOST) && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));
                     Vec3 p = position();
                     level().playLocalSound(p.x(), p.y(), p.z(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 1.0f, 1.0f, true);
@@ -523,7 +549,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     private void handleClientSync() {
-        if (isControlledByLocalInstance()) {
+        if (isClientAuthoritative()) {
             interpolationSteps = 0;
             syncPacketPositionCodec(getX(), getY(), getZ());
         }
@@ -545,8 +571,8 @@ public abstract class VehicleEntity extends Entity {
 
     protected abstract void updateVelocity();
 
-    protected float getGravity() {
-        return -0.04f * (CompatUtil.isModLoaded("ad_astra") ? GravityApi.API.getGravity(level(), BlockPos.containing(getEyePosition())) : 1);
+    protected float getVehicleGravity() {
+        return -0.04f;
     }
 
     protected abstract void updateController();
@@ -570,12 +596,11 @@ public abstract class VehicleEntity extends Entity {
                 float y = positionDescriptor.y();
                 float z = positionDescriptor.z();
 
-                //animals are thicc
-                if (passenger instanceof Animal) {
-                    z += 0.2f;
-                }
-
-                y += (float) passenger.getMyRidingOffset();
+                // Passenger offset
+                Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
+                x -= (float) attachmentPoint.x;
+                y -= (float) attachmentPoint.y;
+                z -= (float) attachmentPoint.z;
 
                 Vector4f worldPosition = transformPosition(transform, x, y, z);
 
@@ -655,15 +680,13 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        tag.putFloat("VehicleHealth", getHealth());
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        output.putFloat("VehicleHealth", getHealth());
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        if (tag.contains("VehicleHealth")) {
-            setHealth(tag.getFloat("VehicleHealth"));
-        }
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        setHealth(input.getFloatOr("VehicleHealth", getHealth()));
     }
 
     protected void addItemTag(@NotNull CompoundTag tag) {
@@ -671,15 +694,15 @@ public abstract class VehicleEntity extends Entity {
         CompoundTag displayTag = new CompoundTag();
         tag.put("display", displayTag);
         if (hasCustomName()) {
-            displayTag.putString("Name", Component.Serializer.toJson(getCustomName()));
+            displayTag.putString("Name", getCustomName().getString());
         }
     }
 
     protected void readItemTag(@NotNull CompoundTag tag) {
         // Read plane's name
-        CompoundTag displayTag = tag.getCompound("display");
-        if (displayTag.contains("Name", Tag.TAG_STRING)) {
-            setCustomName(Component.Serializer.fromJson(displayTag.getString("Name")));
+        CompoundTag displayTag = tag.getCompoundOrEmpty("display");
+        if (displayTag.contains("Name")) {
+            setCustomName(Component.literal(displayTag.getStringOr("Name", "")));
         }
     }
 
@@ -689,9 +712,9 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
+    public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand, @NotNull Vec3 hitPos) {
         if (getHealth() < 1.0f && (player.isShiftKeyDown() || !Config.getInstance().requireShiftForRepair) && !hasPassenger(player)) {
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 player.causeFoodExhaustion(Config.getInstance().repairExhaustion);
                 repair(Config.getInstance().repairSpeed);
 
@@ -704,7 +727,7 @@ public abstract class VehicleEntity extends Entity {
                 } else {
                     component.withStyle(ChatFormatting.GREEN);
                 }
-                player.displayClientMessage(component, true);
+                player.sendOverlayMessage(component);
 
                 level().playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
             } else {
@@ -723,13 +746,13 @@ public abstract class VehicleEntity extends Entity {
             return InteractionResult.CONSUME;
         }
         if (!isValidDimension()) {
-            player.displayClientMessage(Component.translatable("immersive_aircraft.invalid_dimension"), true);
+            player.sendOverlayMessage(Component.translatable("immersive_aircraft.invalid_dimension"));
             return InteractionResult.FAIL;
         }
         if (player.isSecondaryUseActive()) {
             return InteractionResult.PASS;
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
         }
         if (hasPassenger(player)) {
@@ -744,20 +767,24 @@ public abstract class VehicleEntity extends Entity {
         super.move(movementType, movement);
 
         // Collision damage
-        if ((verticalCollision || horizontalCollision) && level().isClientSide && Config.getInstance().collisionDamage) {
+        if ((verticalCollision || horizontalCollision) && level().isClientSide()) {
             double maxPossibleError = movement.length();
             double error = prediction.distanceTo(position());
             if (error <= maxPossibleError) {
-                float collision = (float) (error - (verticalCollision ? Math.abs(getGravity()) : 0.0)) - 0.05f;
+                float collision = (float) (error - (verticalCollision ? Math.abs(getVehicleGravity()) : 0.0)) - 0.05f;
                 if (collision > 0) {
                     float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
-                        float damage = collision * Config.getInstance().collisionDamageMultiplier * repeat * repeat;
-                        NetworkHandler.sendToServer(new CollisionMessage(damage));
+                        NetworkHandler.sendToServer(new CollisionMessage(collision * repeat * repeat));
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public float getBlockSpeedFactor() {
+        return Math.min(1.0f, super.getBlockSpeedFactor());
     }
 
     @Override
@@ -915,7 +942,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public boolean isValidDimension() {
-        return Config.getInstance().validDimensions.getOrDefault(this.level().dimension().location().toString(), true);
+        return Config.getInstance().validDimensions.getOrDefault(this.level().dimension().identifier().toString(), true);
     }
 
     protected AABB getOffsetBoundingBox(BoundingBoxDescriptor descriptor) {
@@ -951,9 +978,8 @@ public abstract class VehicleEntity extends Entity {
         return 0.0;
     }
 
-    @Override
     public AABB getBoundingBoxForCulling() {
-        AABB box = super.getBoundingBoxForCulling();
+        AABB box = getBoundingBox();
         for (AABB additionalShape : getAdditionalShapes()) {
             box = box.minmax(additionalShape);
         }

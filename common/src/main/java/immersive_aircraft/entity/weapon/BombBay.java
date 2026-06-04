@@ -11,6 +11,7 @@ import immersive_aircraft.network.c2s.FireMessage;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3f;
@@ -49,8 +50,10 @@ public class BombBay extends BulletWeapon {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("id", identifier);
         compoundTag.putInt("Fuse", 80);
-        return EntityType.loadEntityRecursive(compoundTag, shooter.level(), (e) -> {
-            e.moveTo(position.x(), position.y(), position.z(), e.getYRot(), e.getXRot());
+        return EntityType.loadEntityRecursive(compoundTag, shooter.level(), EntitySpawnReason.TRIGGERED, (e) -> {
+            e.setPos(position.x(), position.y(), position.z());
+            e.setYRot(e.getYRot());
+            e.setXRot(e.getXRot());
             e.setDeltaMovement(vel.x(), vel.y(), vel.z());
             return e;
         });

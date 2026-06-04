@@ -6,6 +6,7 @@ import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.network.ClientNetworkManager;
 import net.minecraft.client.CameraType;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -13,11 +14,29 @@ import net.minecraft.world.InteractionHand;
 public class ClientMain {
     private static int activeTicks;
 
+    protected static boolean consumeClick(KeyMapping keyMapping) {
+        if (keyMapping.isDown() && keyMapping.consumeClick()) {
+            keyMapping.setDown(false);
+            while (keyMapping.consumeClick()) {
+            }
+            return true;
+        }
+        return false;
+    }
+
     public static void postLoad() {
         Main.networkManager = new ClientNetworkManager();
 
-        Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().position();
         Main.firstPersonGetter = () -> Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
+        Main.debouncingGetter = key -> {
+            if (key == Main.Key.BOOST) {
+                return consumeClick(KeyBindings.boost);
+            } else if (key == Main.Key.DISMOUNT) {
+                return consumeClick(KeyBindings.dismount);
+            }
+            return false;
+        };
     }
 
     private static boolean isZooming;
@@ -31,7 +50,7 @@ public class ClientMain {
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
 
-        Main.frameTime = client.getFrameTime();
+        Main.frameTime = client.getDeltaTracker().getGameTimeDeltaPartialTick(false);
 
         // Only tick once per tick
         if (client.level == null || client.level.getGameTime() == lastTime) {

@@ -1,0 +1,102 @@
+plugins {
+    id "java-library"
+    id "idea"
+    id "net.neoforged.moddev" version "${neoforge_moddev_version}"
+}
+
+sourceSets {
+    main {
+        java.srcDir rootProject.file("common/src/main/java")
+        resources.srcDir rootProject.file("common/src/main/resources")
+
+        java.exclude "immersive_aircraft/config/ModMenuIntegration.java"
+        java.exclude "immersive_aircraft/combat/REICombat.java"
+    }
+}
+
+neoForge {
+    version = project.neoforge_version
+    accessTransformers = project.files("src/main/resources/META-INF/accesstransformer.cfg")
+
+    runs {
+        client {
+            client()
+            systemProperty "neoforge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        server {
+            server()
+            programArgument "--nogui"
+            systemProperty "neoforge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty "neoforge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        data {
+            clientData()
+            programArguments.addAll "--mod", "immersive_aircraft", "--all",
+                    "--output", file("src/generated/resources/").absolutePath,
+                    "--existing", file("src/main/resources/").absolutePath
+        }
+
+        configureEach {
+            systemProperty "forge.logging.markers", "REGISTRIES"
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "immersive_aircraft" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    implementation "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
+
+    compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
+
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+}
+
+def generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    def replaceProperties = [
+            minecraft_version_range: rootProject.minecraft_version_range,
+            neoforge_version       : rootProject.neoforge_version,
+            version                : project.version
+    ]
+
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+jar {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${project.name}" }
+    }
+}
+
+publishing {
+    publications {
+        mavenNeoForge(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            version = "${project.version}+neoforge"
+            from components.java
+        }
+    }
+}

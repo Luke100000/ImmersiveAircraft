@@ -1,7 +1,7 @@
 package immersive_aircraft;
 
 import immersive_aircraft.network.NetworkManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +15,7 @@ public final class Main {
     public static NetworkManager networkManager;
     public static CameraGetter cameraGetter = () -> Vec3.ZERO;
     public static FirstPersonGetter firstPersonGetter = () -> false;
+    public static DebouncingGetter debouncingGetter = key -> false;
 
     public static float frameTime = 0.0f;
 
@@ -22,8 +23,8 @@ public final class Main {
         License.iConfirmNonCommercialUse("Conczin");
     }
 
-    public static ResourceLocation locate(String path) {
-        return new ResourceLocation(MOD_ID, path);
+    public static Identifier locate(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public interface CameraGetter {
@@ -32,5 +33,14 @@ public final class Main {
 
     public interface FirstPersonGetter {
         boolean isFirstPerson();
+    }
+
+    public enum Key {
+        BOOST,
+        DISMOUNT
+    }
+
+    public interface DebouncingGetter {
+        boolean is(Key keybinding);
     }
 }

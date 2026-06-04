@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CH ",
+    "W  ",
+    "   "
+  ],
+  "key": {
+    "C": "minecraft:crossbow",
+    "H": "minecraft:tripwire_hook",
+    "W": "#minecraft:logs"
+  },
+  "result": {
+    "id": "immersive_aircraft:heavy_crossbow"
+  }
+}

@@ -3,6 +3,7 @@ package immersive_aircraft.client.render.entity.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
+import immersive_aircraft.client.render.entity.renderer.utils.DeferredRenderBuffer;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.BBModelLoader;
@@ -10,41 +11,64 @@ import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends EntityRenderer<T> {
+public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends EntityRenderer<T, VehicleEntityRenderer.VehicleRenderState<T>> {
     public VehicleEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
-    protected abstract ModelPartRenderHandler<T> getModel(T entity);
+    protected abstract ModelPartRenderHandler<T> getModel(VehicleEntity entity);
 
-    protected abstract ResourceLocation getModelId();
-
+    protected abstract Identifier getModelId();
 
     @Override
-    public void render(T entity, float yaw, float tickDelta, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
+    public VehicleRenderState<T> createRenderState() {
+        return new VehicleRenderState<>();
+    }
+
+    @Override
+    public void extractRenderState(T entity, VehicleRenderState<T> state, float tickDelta) {
+        super.extractRenderState(entity, state, tickDelta);
+        state.entity = entity;
+        state.yaw = entity.getViewYRot(tickDelta);
+        state.tickDelta = tickDelta;
+        state.light = getPackedLightCoords(entity, tickDelta);
+    }
+
+    @Override
+    public void submit(VehicleRenderState<T> state, PoseStack matrixStack, SubmitNodeCollector collector, CameraRenderState cameraState) {
+        T entity = state.entity;
+        if (entity == null) {
+            return;
+        }
+
+        DeferredRenderBuffer vertexConsumerProvider = new DeferredRenderBuffer();
         PoseStack.Pose peek = matrixStack.last();
 
         matrixStack.pushPose();
 
         // Rotation
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-yaw));
-        matrixStack.mulPose(Axis.XP.rotationDegrees(entity.getViewXRot(tickDelta)));
-        matrixStack.mulPose(Axis.ZP.rotationDegrees(entity.getRoll(tickDelta)));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(-state.yaw));
+        matrixStack.mulPose(Axis.XP.rotationDegrees(entity.getViewXRot(state.tickDelta)));
+        matrixStack.mulPose(Axis.ZP.rotationDegrees(entity.getRoll(state.tickDelta)));
 
         // Render model, weapons, etc.
-        renderLocal(entity, yaw, tickDelta, matrixStack, peek, vertexConsumerProvider, light);
+        renderLocal(entity, state.yaw, state.tickDelta, matrixStack, peek, vertexConsumerProvider, state.light);
 
         matrixStack.popPose();
 
-        super.render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
+        vertexConsumerProvider.submit(collector);
+        super.submit(state, matrixStack, collector, cameraState);
     }
 
     public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
@@ -98,11 +122,17 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         return 1.0;
     }
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("invalid");
+    private static final Identifier TEXTURE = Identifier.withDefaultNamespace("invalid");
 
-    @Override
-    public ResourceLocation getTextureLocation(@NotNull T aircraft) {
+    public Identifier getTextureLocation(@NotNull T aircraft) {
         return TEXTURE;
+    }
+
+    public static class VehicleRenderState<T extends VehicleEntity> extends EntityRenderState {
+        public T entity;
+        public float yaw;
+        public float tickDelta;
+        public int light;
     }
 }
 

@@ -3,9 +3,9 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.NoteBlock;
 
 import java.util.EnumMap;
@@ -16,19 +16,19 @@ public class WarningIndicator implements Indicator {
     private boolean cWarning = false;
     private boolean cMsl = false;
     public EnumMap<EngineVehicle.Cautions, Boolean> cMap = new EnumMap<>(EngineVehicle.Cautions.class);
-    private static final int colorBG = FastColor.ARGB32.color(255, 215, 215, 215);
-    private static final int colorFG = FastColor.ARGB32.color(255, 31, 31, 31);
-    private static final int colorLt0 = FastColor.ARGB32.color(255, 127, 127, 127);
-    private static final int colorLt1 = FastColor.ARGB32.color(255, 255, 0, 0);
-    private static final int colorLt2 = FastColor.ARGB32.color(255, 255, 191, 0);
-    private static final int colorLt3 = FastColor.ARGB32.color(255, 191, 191, 191);
+    private static final int colorBG = ARGB.color(255, 215, 215, 215);
+    private static final int colorFG = ARGB.color(255, 31, 31, 31);
+    private static final int colorLt0 = ARGB.color(255, 127, 127, 127);
+    private static final int colorLt1 = ARGB.color(255, 255, 0, 0);
+    private static final int colorLt2 = ARGB.color(255, 255, 191, 0);
+    private static final int colorLt3 = ARGB.color(255, 191, 191, 191);
 
     public WarningIndicator() {
         for (EngineVehicle.Cautions c : EngineVehicle.Cautions.values()) cMap.compute(c, (cautions, v) -> false);
     }
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
-        if (!aircraft.level().isClientSide || client.isPaused()) return;
+        if (!aircraft.level().isClientSide() || client.isPaused()) return;
         if (aircraft.mslWarning > 0) {
             if (OverlayRenderer.INSTANCE.tk % 10 == 0)
                 cMsl = !cMsl;
@@ -61,13 +61,13 @@ public class WarningIndicator implements Indicator {
         }
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
         miniHUD = true;
         drawHUD(context, client, baseX, baseY - 18, 100, aircraft, color, null);
         miniHUD = false;
     }
 
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         if (cMsl) {
             if (edgeCheck(edge, client.font.width("[MISSILE]") / 4, client.font.lineHeight / 2, baseX + 1, baseY))
                 StringDrawer.drawString8(context, client, "[MISSILE]", baseX + 1, baseY, color, miniHUD);
@@ -86,7 +86,7 @@ public class WarningIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 29x75
         context.fill(baseX - 14, baseY - 37, baseX + 14 + 1, baseY + 37 + 1, colorBG);
         // border

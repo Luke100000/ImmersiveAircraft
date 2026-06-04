@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " H ",
+    "HEP",
+    " H "
+  ],
+  "key": {
+    "H": "immersive_aircraft:hull",
+    "E": "immersive_aircraft:engine",
+    "P": "immersive_aircraft:propeller"
+  },
+  "result": {
+    "id": "immersive_aircraft:biplane"
+  }
+}

@@ -1,6 +1,5 @@
 package immersive_aircraft.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
 import immersive_aircraft.client.hud.*;
 import immersive_aircraft.config.Config;
@@ -11,27 +10,31 @@ import immersive_aircraft.entity.WarshipEntity;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor.ARGB32;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 
 import java.util.stream.IntStream;
 
 public class OverlayRenderer {
     public static final OverlayRenderer INSTANCE = new OverlayRenderer();
 
-    private static final ResourceLocation ENGINE_TEX = Main.locate("textures/gui/engine.png");
-    private static final ResourceLocation POWER_TEX = Main.locate("textures/gui/power.png");
-    private static final ResourceLocation ICONS_TEX = Main.locate("textures/gui/icons.png");
+    private static final Identifier ENGINE_TEX = Main.locate("textures/gui/engine.png");
+    private static final Identifier POWER_TEX = Main.locate("textures/gui/power.png");
+    private static final Identifier ICONS_TEX = Main.locate("textures/gui/icons.png");
 
     private float bootUp = 0.0f;
     private float lastTime = 0.0f;
 
     public int tk = 0;
 
-    public static int renderOverlay(GuiGraphics context, float tickDelta, int barHeightOffset) {
+    public static int renderOverlay(GuiGraphicsExtractor context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
+        if (client.options.hideGui) {
+            return 0;
+        }
         if (client.gameMode != null && client.player != null) {
             if (INSTANCE.tk == 60) INSTANCE.tk = 0;
             if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
@@ -60,7 +63,7 @@ public class OverlayRenderer {
         return 0;
     }
 
-    private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle, int barHeightOffset) {
+    private void renderAircraftHealth(Minecraft minecraft, GuiGraphicsExtractor context, VehicleEntity vehicle, int barHeightOffset) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
@@ -72,16 +75,16 @@ public class OverlayRenderer {
         for (int i = 0; i < maxHearts; i++) {
             int u = 52;
             int x = ox - i * 8 - 9;
-            context.blit(ICONS_TEX, x, y, u, 9, 9, 9, 64, 64);
+            context.blit(RenderPipelines.GUI_TEXTURED, ICONS_TEX, x, y, u, 9, 9, 9, 64, 64);
             if (i * 2 + 1 < health) {
-                context.blit(ICONS_TEX, x, y, 0, 0, 9, 9, 64, 64);
+                context.blit(RenderPipelines.GUI_TEXTURED, ICONS_TEX, x, y, 0, 0, 9, 9, 64, 64);
             }
             if (i * 2 + 1 != health) continue;
-            context.blit(ICONS_TEX, x, y, 10, 0, 9, 9, 64, 64);
+            context.blit(RenderPipelines.GUI_TEXTURED, ICONS_TEX, x, y, 10, 0, 9, 9, 64, 64);
         }
     }
 
-    private void renderAircraftGui(Minecraft client, GuiGraphics context, float tickDelta, EngineVehicle aircraft) {
+    private void renderAircraftGui(Minecraft client, GuiGraphicsExtractor context, float tickDelta, EngineVehicle aircraft) {
         assert client.level != null;
 
         if (aircraft.getGuiStyle() == EngineVehicle.GUI_STYLE.ENGINE) {
@@ -119,19 +122,13 @@ public class OverlayRenderer {
                 y += 7;
             }
 
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            context.blit(ENGINE_TEX, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
-
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            RenderSystem.enableBlend();
-            context.blit(POWER_TEX, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 0.5f);
-            context.blit(POWER_TEX, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            context.blit(RenderPipelines.GUI_TEXTURED, ENGINE_TEX, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
+            context.blit(RenderPipelines.GUI_TEXTURED, POWER_TEX, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
+            context.blit(RenderPipelines.GUI_TEXTURED, POWER_TEX, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90, ARGB.color(127, 255, 255, 255));
         }
     }
 
-    private void renderAircraftHUD(Minecraft client, GuiGraphics context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
+    private void renderAircraftHUD(Minecraft client, GuiGraphicsExtractor context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
         int screenWidth = client.getWindow().getGuiScaledWidth();
         int screenHeight = client.getWindow().getGuiScaledHeight();
         LocalPlayer player = client.player;
@@ -175,7 +172,7 @@ public class OverlayRenderer {
 
         if (fullhud) {
             // Draw glasspane
-            int color = ARGB32.color((int) Math.round(alpha * 0.8), 255, 255, 255);
+            int color = ARGB.color((int) Math.round(alpha * 0.8), 255, 255, 255);
             int[] p = vp(rcX, rcY, sqD / 2, (float) Math.toRadians(relXR + 15), (float) Math.toRadians(relYR));
             renderLine(context, p[0], p[1], p[2], p[3], color);    // H1
             renderLine(context, p[0], p[1], p[4], p[5], color);    // V1
@@ -190,7 +187,7 @@ public class OverlayRenderer {
             alpha = (int) Math.max(Math.min(alpha, 255 * 0.8f), 255 * 0.4f);
             if (aircraft.mslWarning > 0 && (Math.floorDiv(tk, 6) & 1) != 0) alpha = alpha * 6 / 5;
             if (aircraft.getEnginePower() <= 0.05f) alpha *= 0.5f;  // the hud is powered by engine
-            color = ARGB32.color(alpha, 239, 195, 134);
+            color = ARGB.color(alpha, 239, 195, 134);
             SpeedIndicator.INSTANCE.drawHUD(context, client, rc2X - sqD * 6 / 16 + 2, rc2Y, sqD * 5 / 6, aircraft, color, edge);
             AltIndicator.INSTANCE.drawHUD(context, client, rc2X + sqD * 6 / 16 + 2, rc2Y, sqD * 5 / 6, aircraft, color, edge);
             AzimuthIndicator.INSTANCE.drawHUD(context, client, rc2X, rc2Y - sqD * 6 / 16, sqD * 5 / 6, aircraft, color, edge);
@@ -199,7 +196,7 @@ public class OverlayRenderer {
             WarningIndicator.INSTANCE.drawHUD(context, client, rc2X, rc2Y + sqD * 3 / 16, sqD * 5 / 6, aircraft, color, edge);
         } else {
             // MiniHUD
-            int color = ARGB32.color(255, 239, 195, 134);
+            int color = ARGB.color(255, 239, 195, 134);
             int dashY = screenHeight - barHeightOffset - Config.getInstance().healthBarRow * 10 - 10;
             for (Indicator i : new Indicator[]{
                     SpeedIndicator.INSTANCE,
@@ -210,7 +207,7 @@ public class OverlayRenderer {
         }
     }
 
-    private void renderAircraftDials(Minecraft client, GuiGraphics context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
+    private void renderAircraftDials(Minecraft client, GuiGraphicsExtractor context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
         int screenWidth = client.getWindow().getGuiScaledWidth();
         int screenHeight = client.getWindow().getGuiScaledHeight();
         int scale = Math.max(1, Math.min(screenWidth / 240, screenHeight / 240));
@@ -222,22 +219,22 @@ public class OverlayRenderer {
         WarningIndicator.INSTANCE.drawDials(context, client, screenWidth - (112 * scale + 14), screenHeight - 88 * scale, scale, aircraft);
     }
 
-    public static void renderLine(GuiGraphics context, int x01, int y01, int x02, int y02, int color) {
+    public static void renderLine(GuiGraphicsExtractor context, int x01, int y01, int x02, int y02, int color) {
         renderLine(context, x01, y01, x02, y02, color, false);
     }
 
-    public static void renderLine(GuiGraphics context, int x01, int y01, int x02, int y02, int color, boolean dotLine) {
+    public static void renderLine(GuiGraphicsExtractor context, int x01, int y01, int x02, int y02, int color, boolean dotLine) {
         renderLine(context, x01, y01, x02, y02, color, dotLine, false);
     }
 
-    public static void renderLine(GuiGraphics context, int x01, int y01, int x02, int y02, int color, boolean dotLine, boolean dropShadow) {
+    public static void renderLine(GuiGraphicsExtractor context, int x01, int y01, int x02, int y02, int color, boolean dotLine, boolean dropShadow) {
         if (Math.abs(y02 - y01) > Math.abs(x02 - x01)) {
             int y1 = Math.min(y01, y02),
                     y2 = Math.max(y01, y02),
                     x1 = y02 > y01 ? x01 : x02,
                     x2 = y02 > y01 ? x02 : x01;
             if (x1 == x2 && !dotLine) {
-                if (dropShadow) context.fill(x01 + 1, y01 + 1, x01 + 2, y02 + 1, ARGB32.color(127, 0, 0, 0));
+                if (dropShadow) context.fill(x01 + 1, y01 + 1, x01 + 2, y02 + 1, ARGB.color(127, 0, 0, 0));
                 context.fill(x01, y01, x01 + 1, y02 + 1, color);
                 return;
             }
@@ -246,7 +243,7 @@ public class OverlayRenderer {
                 int py = it.nextInt();
                 int dx = x1 + (int) ((x2 - x1) * ((py - y1) / (float) (y2 - y1)));
                 if (!dotLine || (py & 1) != 0) {
-                    if (dropShadow) context.fill(dx + 1, py + 1, dx + 2, py + 2, ARGB32.color(127, 0, 0, 0));
+                    if (dropShadow) context.fill(dx + 1, py + 1, dx + 2, py + 2, ARGB.color(127, 0, 0, 0));
                     context.fill(dx, py, dx + 1, py + 1, color);
                 }
             }
@@ -256,7 +253,7 @@ public class OverlayRenderer {
                     y1 = x02 > x01 ? y01 : y02,
                     y2 = x02 > x01 ? y02 : y01;
             if (y1 == y2 && !dotLine) {
-                if (dropShadow) context.fill(x01 + 1, y01 + 1, x02 + 1, y01 + 2, ARGB32.color(127, 0, 0, 0));
+                if (dropShadow) context.fill(x01 + 1, y01 + 1, x02 + 1, y01 + 2, ARGB.color(127, 0, 0, 0));
                 context.fill(x01, y01, x02 + 1, y01 + 1, color);
                 return;
             }
@@ -265,7 +262,7 @@ public class OverlayRenderer {
                 int px = it.nextInt();
                 int dy = y1 + (int) ((y2 - y1) * ((px - x1) / (float) (x2 - x1)));
                 if (!dotLine || (px & 1) != 0) {
-                    if (dropShadow) context.fill(px + 1, dy + 1, px + 2, dy + 2, ARGB32.color(127, 0, 0, 0));
+                    if (dropShadow) context.fill(px + 1, dy + 1, px + 2, dy + 2, ARGB.color(127, 0, 0, 0));
                     context.fill(px, dy, px + 1, dy + 1, color);
                 }
             }
@@ -298,7 +295,7 @@ public class OverlayRenderer {
         return new int[]{ix + x1, iy + y1, ix + x2, iy + y2, ix + x3, iy + y3, ix + x4, iy + y4};
     }
 
-    public static void drawScrew(GuiGraphics context, int x, int y, int scale, boolean r, int color) {
+    public static void drawScrew(GuiGraphicsExtractor context, int x, int y, int scale, boolean r, int color) {
         renderLine(context, x - scale, y - scale * 2, x + scale, y - scale * 2, color);
         renderLine(context, x - scale * 2, y - scale, x - scale * 2, y + scale, color);
         renderLine(context, x - scale, y + scale * 2, x + scale, y + scale * 2, color);

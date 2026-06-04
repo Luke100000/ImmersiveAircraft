@@ -1,81 +1,61 @@
-buildscript {
-    configurations.classpath {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+def getAppVersion = { ->
+    try {
+        def proc = new ProcessBuilder("git", "tag", "--points-at", "HEAD")
+                .directory(rootProject.projectDir)
+                .redirectErrorStream(true)
+                .start()
+        def tag = proc.inputStream.getText("UTF-8").trim()
+        proc.waitFor()
+        return tag.isEmpty() ? "${rootProject.minecraft_version}-SNAPSHOT" : tag
+    } catch (Exception e) {
+        println "Warning: ${e.message}, is git installed?"
+        return "${rootProject.minecraft_version}-DEV"
     }
 }
 
-plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
-}
-
-architectury {
-    minecraft = rootProject.minecraft_version
+allprojects {
+    group = rootProject.group_id
+    version = getAppVersion()
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom"
-
-    loom {
-        silentMojangMappingsLicense()
-    }
-
-    repositories {
-        maven { url = 'https://maven.parchmentmc.org' }
-        maven { url "https://maven.terraformersmc.com/releases/" }
-        maven { url = "https://dvs1.progwml6.com/files/maven/" }
-        maven { url "<https://maven.shedaniel.me/>" }
-        maven { url "<https://maven.architectury.dev/>" }
-        maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
-        maven { url "https://maven.teamresourceful.com/repository/maven-public/" }
-        maven { url "https://cursemaven.com" }
-        maven { url "https://maven.conczin.net/Artifacts" }
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.architectury.minecraft}"
-        mappings loom.layered() {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_version}@zip")
-        }
-    }
-}
-
-
-def getAppVersion = { ->
-    try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'tag', '--points-at', 'HEAD'
-            standardOutput = stdout
-        }
-        def tag = stdout.toString().trim()
-        if (tag.isEmpty()) {
-            return rootProject.minecraft_version + "-SNAPSHOT"
-        }
-        return tag
-    } catch (Exception e) {
-        println "Warning: ${e.message}, is git installed?"
-        return rootProject.minecraft_version + "-DEV"
-    }
-} as Object
-
-
-allprojects {
     apply plugin: "java"
-    apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = rootProject.archives_base_name
-    version = getAppVersion()
+    repositories {
+        maven { name = "Fabric"; url = "https://maven.fabricmc.net/" }
+        maven { name = "Forge"; url = "https://maven.minecraftforge.net/" }
+        maven { name = "NeoForge"; url = "https://maven.neoforged.net/releases/" }
+        maven { name = "BlameJared"; url = "https://maven.blamejared.com/" }
+        maven { name = "Shedaniel"; url = "https://maven.shedaniel.me/" }
+        maven { name = "Terraformers"; url = "https://maven.terraformersmc.com/releases/" }
+        maven { name = "TeamResourceful"; url = "https://maven.teamresourceful.com/repository/maven-public/" }
+        maven { name = "CurseMaven"; url = "https://cursemaven.com" }
+        mavenCentral()
+    }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 17
+    base {
+        archivesName = "${rootProject.archives_base_name}-${project.name}"
     }
 
     java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
         withSourcesJar()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+        options.release = 25
+    }
+
+    tasks.withType(ProcessResources).configureEach {
+        exclude "**/*.aup3", "**/.xdp-*", "**/*.kra", "**/*~*"
+    }
+
+    tasks.named("sourcesJar").configure {
+        exclude "**/*.aup3", "**/.xdp-*", "**/*.kra", "**/*~*"
     }
 
     publishing {
@@ -88,23 +68,6 @@ allprojects {
                     password = System.getenv("MAVEN_TOKEN")
                 }
             }
-        }
-    }
-
-    // Define reusable exclusion patterns
-    def exclusionPatterns = ['**/*.aup3', '**/.xdp-*', '**/*.kra', '**/*~*']
-
-    // Apply to processResources
-    processResources {
-        exclusionPatterns.each { pattern ->
-            exclude pattern
-        }
-    }
-
-    // Apply to sourcesJar
-    sourcesJar {
-        exclusionPatterns.each { pattern ->
-            exclude pattern
         }
     }
 }

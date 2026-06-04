@@ -1,6 +1,5 @@
 package immersive_aircraft.forge;
 
-import immersive_aircraft.ClientMain;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.entity.VehicleEntity;
@@ -16,10 +15,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.text.DecimalFormat;
@@ -35,19 +33,6 @@ public class ForgeBusEvents {
     public static DataLoaderRegister RESOURCE_REGISTRY;
 
     private static final DecimalFormat fmt = new DecimalFormat("+#;-#");
-    public static boolean firstLoad = true;
-
-    @SubscribeEvent
-    public static void onClientStart(TickEvent.ClientTickEvent event) {
-        //forge decided to be funny and won't trigger the client load event
-        if (firstLoad) {
-            ClientMain.postLoad();
-            firstLoad = false;
-        }
-
-        ClientMain.tick();
-    }
-
     @SubscribeEvent
     public static void addReloadListenerEvent(AddReloadListenerEvent event) {
         if (DATA_REGISTRY != null) {

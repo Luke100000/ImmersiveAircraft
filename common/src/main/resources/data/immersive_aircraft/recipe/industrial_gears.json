@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " II",
+    "CLI",
+    "CC "
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "I": "minecraft:iron_ingot",
+    "L": "minecraft:lever"
+  },
+  "result": {
+    "id": "immersive_aircraft:industrial_gears"
+  }
+}

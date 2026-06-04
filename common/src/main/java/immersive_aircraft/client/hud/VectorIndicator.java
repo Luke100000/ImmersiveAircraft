@@ -3,8 +3,8 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.FastColor;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.stream.IntStream;
@@ -18,14 +18,14 @@ public class VectorIndicator implements Indicator {
     private Vec3 iSpeed = new Vec3(0, 0, 0);
     private Vec3 iSpeedRt = new Vec3(0, 0, 0);
     private double hAngle = 0;
-    private static final int colorBG = FastColor.ARGB32.color(255, 215, 215, 215);
-    private static final int colorFG = FastColor.ARGB32.color(255, 31, 31, 31);
-    private static final int colorFG2 = FastColor.ARGB32.color(255, 191, 31, 31);
-    private static final int colorLt0 = FastColor.ARGB32.color(255, 127, 127, 127);
-    private static final int colorHD1 = FastColor.ARGB32.color(255, 191, 0, 0);
-    private static final int colorHD2 = FastColor.ARGB32.color(255, 191, 127, 0);
-    private static final int colorSD = FastColor.ARGB32.color(127, 0, 0, 0);
-    private static final int colorG = FastColor.ARGB32.color(191, 255, 255, 255);
+    private static final int colorBG = ARGB.color(255, 215, 215, 215);
+    private static final int colorFG = ARGB.color(255, 31, 31, 31);
+    private static final int colorFG2 = ARGB.color(255, 191, 31, 31);
+    private static final int colorLt0 = ARGB.color(255, 127, 127, 127);
+    private static final int colorHD1 = ARGB.color(255, 191, 0, 0);
+    private static final int colorHD2 = ARGB.color(255, 191, 127, 0);
+    private static final int colorSD = ARGB.color(127, 0, 0, 0);
+    private static final int colorG = ARGB.color(191, 255, 255, 255);
 
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
@@ -51,11 +51,11 @@ public class VectorIndicator implements Indicator {
         hAngle = Math.toDegrees(Math.asin(mSpeed.normalize().dot(vNormal)));
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
     }
 
     @Override
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         if (edgeCheck(edge, 5, baseX, baseY - width / 10))
             StringDrawer.drawString5(context, client, "¯W¯", baseX + 1, baseY - width * 30 / 100 + 3, color, false);
         if (edgeCheck(edge, 5, baseX - width * 10 / 100, baseY))
@@ -89,7 +89,7 @@ public class VectorIndicator implements Indicator {
         x0 -= yawRate * width / 200;
         y0 -= pitchRate * width / 200;
         if (edgeCheck(edge, 5, x0, y0)) {
-            context.renderOutline(x0 - 3, y0 - 2, 5, 5, color);
+            context.outline(x0 - 3, y0 - 2, 5, 5, color);
             OverlayRenderer.renderLine(context, x0 - 1, y0 - 5, x0 - 1, y0 - 2, color);
             OverlayRenderer.renderLine(context, x0 - 6, y0, x0 - 3, y0, color);
             OverlayRenderer.renderLine(context, x0 + 1, y0, x0 + 4, y0, color);
@@ -97,7 +97,7 @@ public class VectorIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 55x55
         context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorLt0);
         // cursor
@@ -105,7 +105,7 @@ public class VectorIndicator implements Indicator {
         int yr = baseY - (int) (pitchRate * 0.15d * scale);
         int[] edge0 = new int[]{baseY - 27 * scale, baseY + 27 * scale, baseX - 27 * scale, baseX + 27 * scale};
         if (edgeCheck(edge0, 5, xr, yr)) {
-            context.renderOutline(xr - 2, yr - 2, 5, 5, colorBG);
+            context.outline(xr - 2, yr - 2, 5, 5, colorBG);
             OverlayRenderer.renderLine(context, xr, yr - 5, xr, yr - 2, colorBG);
             OverlayRenderer.renderLine(context, xr - 5, yr, xr - 2, yr, colorBG);
             OverlayRenderer.renderLine(context, xr + 2, yr, xr + 5, yr, colorBG);

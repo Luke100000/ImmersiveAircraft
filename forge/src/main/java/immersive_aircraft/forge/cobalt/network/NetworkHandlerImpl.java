@@ -1,15 +1,14 @@
 package immersive_aircraft.forge.cobalt.network;
 
-import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.SimpleChannel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,40 +26,36 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     @Override
     synchronized public <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        holders.computeIfAbsent(namespace, (n) -> new ChannelHolder(NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(namespace, "main"),
-                () -> PROTOCOL_VERSION,
-                PROTOCOL_VERSION::equals,
-                PROTOCOL_VERSION::equals
-        ), new AtomicInteger(0)));
+        holders.computeIfAbsent(namespace, (n) -> new ChannelHolder(
+                ChannelBuilder.named(Identifier.fromNamespaceAndPath(namespace, "main"))
+                        .networkProtocolVersion(Integer.parseInt(PROTOCOL_VERSION))
+                        .simpleChannel(), new AtomicInteger(0)));
 
         ChannelHolder holder = holders.get(namespace);
         channels.put(msg, holder.channel());
 
-        holder.channel().registerMessage(holder.id().getAndIncrement(), msg,
-                Message::encode,
-                constructor,
-                (m, ctx) -> {
-                    ctx.get().enqueueWork(() -> {
-                        ServerPlayer sender = ctx.get().getSender();
-                        m.receive(sender);
-                    });
-                    ctx.get().setPacketHandled(true);
-                });
+        holder.channel().messageBuilder(msg, holder.id().getAndIncrement())
+                .encoder(Message::encode)
+                .decoder(constructor)
+                .consumerMainThread((m, ctx) -> {
+                    ServerPlayer sender = ctx.getSender();
+                    m.receive(sender);
+                })
+                .add();
     }
 
     @Override
     public void sendToServer(Message m) {
-        channels.get(m.getClass()).sendToServer(m);
+        channels.get(m.getClass()).send(m, PacketDistributor.SERVER.noArg());
     }
 
     @Override
     public void sendToPlayer(Message m, ServerPlayer e) {
-        channels.get(m.getClass()).send(PacketDistributor.PLAYER.with(() -> e), m);
+        channels.get(m.getClass()).send(m, PacketDistributor.PLAYER.with(e));
     }
 
     @Override
     public void sendToTrackingPlayers(Message m, Entity origin) {
-        channels.get(m.getClass()).send(PacketDistributor.TRACKING_ENTITY.with(() -> origin), m);
+        channels.get(m.getClass()).send(m, PacketDistributor.TRACKING_ENTITY.with(origin));
     }
 }

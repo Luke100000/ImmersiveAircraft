@@ -9,6 +9,7 @@ import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -26,10 +27,13 @@ public class SparseSimpleInventory extends SimpleContainer {
     public ListTag writeNbt(ListTag nbtList) {
         for (int i = 0; i < this.getContainerSize(); ++i) {
             if (this.getItem(i).isEmpty()) continue;
-            CompoundTag nbtCompound = new CompoundTag();
-            nbtCompound.putByte("Slot", (byte) i);
-            this.getItem(i).save(nbtCompound);
-            nbtList.add(nbtCompound);
+            int slot = i;
+            ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, this.getItem(i)).result().ifPresent(tag -> {
+                if (tag instanceof CompoundTag nbtCompound) {
+                    nbtCompound.putByte("Slot", (byte) slot);
+                    nbtList.add(nbtCompound);
+                }
+            });
         }
         return nbtList;
     }
@@ -37,9 +41,10 @@ public class SparseSimpleInventory extends SimpleContainer {
     public void readNbt(ListTag nbtList) {
         this.clearContent();
         for (int i = 0; i < nbtList.size(); ++i) {
-            CompoundTag nbtCompound = nbtList.getCompound(i);
-            int slot = nbtCompound.getByte("Slot") & 0xFF;
-            ItemStack itemStack = ItemStack.of(nbtCompound);
+            CompoundTag nbtCompound = nbtList.getCompoundOrEmpty(i).copy();
+            int slot = nbtCompound.getByteOr("Slot", (byte) 0) & 0xFF;
+            nbtCompound.remove("Slot");
+            ItemStack itemStack = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbtCompound).result().orElse(ItemStack.EMPTY);
             if (itemStack.isEmpty()) continue;
             if (slot > this.getContainerSize()) {
                 Main.LOGGER.warn("Inventory slot out of bound, {} has been discarded!", itemStack);
@@ -50,7 +55,7 @@ public class SparseSimpleInventory extends SimpleContainer {
     }
 
     public void tick(InventoryVehicleEntity entity) {
-        if (entity.level().isClientSide) {
+        if (entity.level().isClientSide()) {
             // Sync initial inventory
             if (!inventoryRequested) {
                 NetworkHandler.sendToServer(new RequestInventory(entity.getId()));

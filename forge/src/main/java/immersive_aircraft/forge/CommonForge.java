@@ -4,27 +4,29 @@ import immersive_aircraft.*;
 import immersive_aircraft.forge.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.forge.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.forge.cobalt.registration.RegistrationImpl;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraftforge.eventbus.api.bus.BusGroup;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
 @Mod(Main.MOD_ID)
-@Mod.EventBusSubscriber(modid = Main.MOD_ID, bus = Bus.MOD)
 public final class CommonForge {
-    static {
+    public CommonForge(FMLJavaModLoadingContext context) {
+        BusGroup modEventBus = context.getModBusGroup();
         Main.MOD_LOADER = "forge";
+        CompatUtil.setModLoadedChecker(ModList::isLoaded);
 
-        new RegistrationImpl();
+        new RegistrationImpl(modEventBus);
         new NetworkHandlerImpl();
         new CobaltFuelRegistryImpl();
-    }
 
-    public CommonForge() {
         DataLoaders.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();
@@ -33,7 +35,12 @@ public final class CommonForge {
 
         Messages.loadMessages();
 
-        DEF_REG.register(FMLJavaModLoadingContext.get().getModEventBus());
+        RegisterEvent.getBus(modEventBus).addListener(CommonForge::onRegister);
+        DEF_REG.register(modEventBus);
+    }
+
+    private static void onRegister(RegisterEvent event) {
+        event.register(Registries.CUSTOM_STAT, helper -> AircraftStats.bootstrap());
     }
 
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(CREATIVE_MODE_TAB, Main.MOD_ID);

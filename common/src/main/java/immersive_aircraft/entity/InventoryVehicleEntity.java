@@ -18,9 +18,10 @@ import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
 import immersive_aircraft.mixin.ServerPlayerEntityMixin;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
@@ -31,7 +32,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Fireworks;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,7 +44,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements ContainerListener, MenuProvider, Container {
+public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements MenuProvider, Container {
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected final Map<Integer, List<Weapon>> weapons = new HashMap<>();
@@ -102,7 +107,6 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     protected void initInventory() {
         this.inventory = new SparseSimpleInventory(getInventoryDescription().getInventorySize());
-        this.inventory.addListener(this);
     }
 
     public SparseSimpleInventory getInventory() {
@@ -114,18 +118,15 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    public void containerChanged(Container sender) {
-
-    }
-
-    @Override
     protected void dropInventory() {
         for (SlotDescription slot : getInventoryDescription().getSlots()) {
             boolean isCargo = slot.type().equals(VehicleInventoryDescription.INVENTORY);
             if (isCargo && Config.getInstance().dropInventory || !isCargo && Config.getInstance().dropUpgrades) {
                 ItemStack stack = getSlot(slot.index()).get();
                 if (!stack.isEmpty()) {
-                    this.spawnAtLocation(stack.copyAndClear());
+                    if (level() instanceof ServerLevel serverLevel) {
+                        this.spawnAtLocation(serverLevel, stack.copyAndClear());
+                    }
                 }
             }
         }
@@ -138,7 +139,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     public void openInventory(ServerPlayer player) {
-        player.nextContainerCounter();
+        ((ServerPlayerEntityMixin) player).ic$nextContainerCounter();
         AbstractContainerMenu screenHandler = createMenu(player.containerCounter, player.getInventory(), player);
         if (screenHandler != null) {
             NetworkHandler.sendToPlayer(new OpenGuiRequest(this, screenHandler.containerId), player);
@@ -149,9 +150,9 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 hitPos) {
         if (getHealth() >= 1.0) {
-            if (!player.level().isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
+            if (!player.level().isClientSide() && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
                 Entity primaryPassenger = getFirstPassenger();
                 if (primaryPassenger != null) {
                     // Kick out the first passenger
@@ -166,43 +167,53 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
                 openInventory(serverPlayer);
             }
         }
-        return super.interact(player, hand);
+        return super.interact(player, hand, hitPos);
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        super.addAdditionalSaveData(output);
 
-        tag.put("Inventory", getInventory().writeNbt(new ListTag()));
+        getInventory().storeAsItemList(output.list("Inventory", ItemStack.OPTIONAL_CODEC));
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        super.readAdditionalSaveData(input);
 
-        ListTag nbtList = tag.getList("Inventory", 10);
-        getInventory().readNbt(nbtList);
+        getInventory().fromItemList(input.listOrEmpty("Inventory", ItemStack.OPTIONAL_CODEC));
     }
 
     @Override
-    protected void addItemTag(@NotNull CompoundTag tag) {
-        super.addItemTag(tag);
-
-        tag.put("Inventory", getInventory().writeNbt(new ListTag()));
+    protected void addItemComponents(ItemStack stack) {
+        super.addItemComponents(stack);
+        stack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(getInventory().getItems()));
     }
 
     @Override
     protected void readItemTag(@NotNull CompoundTag tag) {
         super.readItemTag(tag);
 
-        ListTag nbtList = tag.getList("Inventory", 10);
-        getInventory().readNbt(nbtList);
+        if (tag.contains("Inventory")) {
+            getInventory().readNbt(tag.getListOrEmpty("Inventory"));
+        }
+    }
+
+    @Override
+    public void fromItemStack(ItemStack stack) {
+        super.fromItemStack(stack);
+
+        ItemContainerContents contents = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
+        if (contents != ItemContainerContents.EMPTY) {
+            getInventory().clearContent();
+            contents.copyInto(getInventory().getItems());
+        }
     }
 
     @Override
     public void boost() {
         int length = getSlots(VehicleInventoryDescription.BOOSTER).stream().mapToInt(s -> {
-            byte l = s.getOrCreateTagElement("Fireworks").getByte("Flight");
+            int l = s.getOrDefault(DataComponents.FIREWORKS, new Fireworks(0, List.of())).flightDuration();
             s.shrink(1);
             return l;
         }).sum();
@@ -288,7 +299,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     protected void applyFriction() {
         // Decay is the basic factor of friction, basically the density of the material slowing down the vehicle
         float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
-        float gravity = getGravity();
+        float gravity = getVehicleGravity();
         if (wasTouchingWater) {
             gravity *= 0.25f;
             decay = getWaterDecay();
@@ -314,7 +325,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     @Override
     public SlotAccess getSlot(int slot) {
-        return SlotAccess.forContainer(getInventory(), slot);
+        return SlotAccess.forListElement(getInventory().getItems(), slot);
     }
 
     public Map<Integer, List<Weapon>> getWeapons() {

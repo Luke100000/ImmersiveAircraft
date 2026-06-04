@@ -6,25 +6,25 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
 
 public class TrailRenderer {
-    private static final ResourceLocation identifier = Main.locate("textures/entity/trail.png");
+    private static final Identifier identifier = Main.locate("textures/entity/trail.png");
 
     public static void render(Trail trail, MultiBufferSource vertexConsumerProvider, PoseStack.Pose matrices) {
         if (trail.nullEntries >= trail.size || trail.entries == 0) {
             return;
         }
 
-        VertexConsumer lineVertexConsumer = vertexConsumerProvider.getBuffer(RenderType.beaconBeam(identifier, true));
+        VertexConsumer lineVertexConsumer = vertexConsumerProvider.getBuffer(RenderTypes.beaconBeam(identifier, true));
         int light = 15728640;
 
-        Vec3 pos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 pos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
         Matrix3f matrix = matrices.normal();
 
         //todo a custom vertex indexing methode would be beneficial here
@@ -51,6 +51,11 @@ public class TrailRenderer {
     private static void vertex(Trail trail, VertexConsumer lineVertexConsumer, Matrix3f matrix, float u, float v, int index, Vec3 pos, float a, int light) {
         Vector3f p = new Vector3f((float) (trail.buffer[index] - pos.x), (float) (trail.buffer[index + 1] - pos.y), (float) (trail.buffer[index + 2] - pos.z));
         matrix.transform(p);
-        lineVertexConsumer.vertex(p.x, p.y, p.z, trail.gray, trail.gray, trail.gray, a, u, v, OverlayTexture.NO_OVERLAY, light, 1, 0, 0);
+        lineVertexConsumer.addVertex(p.x, p.y, p.z)
+                .setColor(trail.gray, trail.gray, trail.gray, a / 255.0f)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(1.0f, 0.0f, 0.0f);
     }
 }

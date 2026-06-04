@@ -3,8 +3,8 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.FastColor;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.stream.IntStream;
@@ -14,14 +14,14 @@ public class AttitudeIndicator implements Indicator {
     private float yawRate = 0;
     private float pitch = 0;
     private float roll = 0;
-    private static final int colorBG = FastColor.ARGB32.color(255, 215, 215, 215);
-    private static final int colorFG = FastColor.ARGB32.color(255, 31, 31, 31);
-    private static final int colorLt0 = FastColor.ARGB32.color(255, 127, 127, 127);
-    private static final int colorHD1 = FastColor.ARGB32.color(255, 191, 0, 0);
-    private static final int colorL1 = FastColor.ARGB32.color(255, 188, 212, 245);
-    private static final int colorL2 = FastColor.ARGB32.color(255, 201, 144, 100);
-    private static final int colorL3 = FastColor.ARGB32.color(255, 172, 230, 130);
-    private static final int colorSD = FastColor.ARGB32.color(127, 0, 0, 0);
+    private static final int colorBG = ARGB.color(255, 215, 215, 215);
+    private static final int colorFG = ARGB.color(255, 31, 31, 31);
+    private static final int colorLt0 = ARGB.color(255, 127, 127, 127);
+    private static final int colorHD1 = ARGB.color(255, 191, 0, 0);
+    private static final int colorL1 = ARGB.color(255, 188, 212, 245);
+    private static final int colorL2 = ARGB.color(255, 201, 144, 100);
+    private static final int colorL3 = ARGB.color(255, 172, 230, 130);
+    private static final int colorSD = ARGB.color(127, 0, 0, 0);
 
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
@@ -31,11 +31,11 @@ public class AttitudeIndicator implements Indicator {
         roll = aircraft.getRoll();
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
     }
 
     @Override
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         // Pitch ladder
         Vec3 vecBase = new Vec3(baseX - 1, baseY, 0);
         float roll2 = (float) Math.toRadians(roll);
@@ -80,7 +80,7 @@ public class AttitudeIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 55x55
         context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorLt0);
         // Pitch ladder

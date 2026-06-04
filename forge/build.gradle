@@ -1,105 +1,89 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "idea"
+    id "eclipse"
+    id "net.minecraftforge.gradle" version "${forge_gradle_version}"
 }
 
-architectury {
-    platformSetupLoomIde()
-    forge()
-}
+sourceSets {
+    main {
+        java.srcDir rootProject.file("common/src/main/java")
+        resources.srcDir rootProject.file("common/src/main/resources")
 
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    forge {
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-
-        mixinConfig "immersive_aircraft.mixins.json"
+        java.exclude "immersive_aircraft/config/ModMenuIntegration.java"
+        java.exclude "immersive_aircraft/config/ConfigScreen.java"
+        java.exclude "immersive_aircraft/combat/JEICCombat.java"
+        java.exclude "immersive_aircraft/combat/REICombat.java"
+        java.exclude "immersive_aircraft/forge/compat/REICombatForge.java"
     }
 }
 
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+minecraft {
+    runs {
+        configureEach {
+            workingDir = layout.projectDirectory.dir("run")
+
+            systemProperty "eventbus.api.strictRuntimeChecks", "true"
+            systemProperty "forge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        register("client")
+
+        register("server") {
+            args "--nogui"
+        }
+
+        register("gameTestServer")
+
+        register("data") {
+            workingDir = layout.projectDirectory.dir("run-data")
+            args "--mod", "immersive_aircraft", "--all",
+                    "--output", layout.projectDirectory.dir("src/generated/resources"),
+                    "--existing", layout.projectDirectory.dir("src/main/resources")
+        }
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+    annotationProcessor "net.minecraftforge:eventbus-validator:7.0.1"
 
-    forgeRuntimeLibrary 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
-    include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
-
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-forge:$rei_version"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-forge:$rei_version"
-
-    // Required to run JEI
-    // modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-
-    // Required to run JEI
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:$rei_version"
-
-    // modCompileOnly "earth.terrarium.adastra:ad_astra-forge-$minecraft_version:${ad_astra_version}"
-    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-forge-$minecraft_version:${ad_astra_version}"
+    implementation "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
 }
 
 processResources {
     inputs.property "version", project.version
+    inputs.property "minecraft_version", rootProject.minecraft_version
+    inputs.property "minecraft_version_range", rootProject.minecraft_version_range
+    inputs.property "forge_version", rootProject.forge_version
+    inputs.property "loader_major", rootProject.forge_version.split("\\.")[0]
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand "version": project.version,
+                "minecraft_version": rootProject.minecraft_version,
+                "minecraft_version_range": rootProject.minecraft_version_range,
+                "forge_version": rootProject.forge_version,
+                "loader_major": rootProject.forge_version.split("\\.")[0]
     }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-// Update mods.toml with the new versions automatically
-// Not using processResources because it is easier to do this manually, and see it reflected immediately
-afterEvaluate {
-    file("src/main/resources/META-INF/mods.toml").withOutputStream {
-        it << file("mods.toml").text
-                .replaceAll("@LOADER_MAJOR@", rootProject.forge_version.split("\\.")[0])
-                .replaceAll("@MINECRAFT_VERSION@", rootProject.architectury.minecraft)
-                .replaceAll("@FORGE_VERSION@", rootProject.forge_version)
+jar {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${project.name}" }
     }
 }
 
 publishing {
     publications {
-        mavenCommon(MavenPublication) {
+        mavenForge(MavenPublication) {
             artifactId = rootProject.archives_base_name
-            groupId = rootProject.group_id
-            version = version + "+forge"
+            version = "${project.version}+forge"
             from components.java
         }
     }

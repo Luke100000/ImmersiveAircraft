@@ -23,7 +23,7 @@ public abstract class GameRendererMixin {
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"))
     public void immersiveAircraft$renderWorld(float tickDelta, long limitTime, PoseStack matrices, CallbackInfo ci) {
-        Entity entity = mainCamera.getEntity();
+        Entity entity = mainCamera.entity();
         //noinspection ConstantValue
         if (entity != null && !mainCamera.isDetached() && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
             // rotate camera
@@ -44,11 +44,11 @@ public abstract class GameRendererMixin {
             offset.rotate(quaternion);
 
             // apply camera offset
-            matrices.mulPose(Axis.XP.rotationDegrees(mainCamera.getXRot()));
-            matrices.mulPose(Axis.YP.rotationDegrees(mainCamera.getYRot() + 180.0f));
+            matrices.mulPose(Axis.XP.rotationDegrees(mainCamera.xRot()));
+            matrices.mulPose(Axis.YP.rotationDegrees(mainCamera.yRot() + 180.0f));
             matrices.translate(offset.x(), offset.y() + eye, offset.z());
-            matrices.mulPose(Axis.YP.rotationDegrees(-mainCamera.getYRot() - 180.0f));
-            matrices.mulPose(Axis.XP.rotationDegrees(-mainCamera.getXRot()));
+            matrices.mulPose(Axis.YP.rotationDegrees(-mainCamera.yRot() - 180.0f));
+            matrices.mulPose(Axis.XP.rotationDegrees(-mainCamera.xRot()));
         }
     }
 }

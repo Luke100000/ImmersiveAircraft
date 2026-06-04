@@ -3,6 +3,8 @@ package immersive_aircraft.network.s2c;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.Message;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -16,9 +18,11 @@ public class InventoryUpdateMessage extends Message {
         this.vehicle = id;
         this.index = index;
 
-        CompoundTag compound = new CompoundTag();
-        stack.save(compound);
-        this.stack = compound;
+        this.stack = ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack)
+                .result()
+                .filter(CompoundTag.class::isInstance)
+                .map(CompoundTag.class::cast)
+                .orElseGet(CompoundTag::new);
     }
 
     public InventoryUpdateMessage(FriendlyByteBuf b) {
@@ -48,7 +52,8 @@ public class InventoryUpdateMessage extends Message {
     }
 
     public ItemStack getStack() {
-        return ItemStack.of(stack);
+        Tag tag = stack == null ? new CompoundTag() : stack;
+        return ItemStack.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(ItemStack.EMPTY);
     }
 
 }

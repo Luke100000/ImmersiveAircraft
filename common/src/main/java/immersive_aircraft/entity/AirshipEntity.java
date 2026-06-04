@@ -34,8 +34,8 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    protected float getGravity() {
-        return wasTouchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getGravity();
+    protected float getVehicleGravity() {
+        return wasTouchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getVehicleGravity();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AirshipEntity extends Rotorcraft {
 
         float power = getEnginePower();
 
-        if (level().isClientSide && isWithinParticleRange() && power > 0.01) {
+        if (level().isClientSide() && isWithinParticleRange() && power > 0.01) {
             Matrix4f transform = getVehicleTransform();
 
             // Smoke

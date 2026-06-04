@@ -81,7 +81,7 @@ public class VehicleScreenHandler extends AbstractContainerMenu {
             while (!stack.isEmpty() && (i < endIndex)) {
                 Slot slot = this.slots.get(i);
                 ItemStack target = slot.getItem();
-                if (!target.isEmpty() && ItemStack.isSameItemSameTags(stack, target)) {
+                if (!target.isEmpty() && ItemStack.isSameItemSameComponents(stack, target)) {
                     int diff = target.getCount() + stack.getCount();
                     int maxCount = slot.getMaxStackSize(stack);
                     if (diff <= maxCount) {

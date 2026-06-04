@@ -3,8 +3,8 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.FastColor;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.util.ARGB;
 
 import java.util.Iterator;
 import java.util.stream.IntStream;
@@ -13,23 +13,23 @@ public class AzimuthIndicator implements Indicator {
     public static final AzimuthIndicator INSTANCE = new AzimuthIndicator();
     private double lastAz = 0;
     private boolean miniHUD = false;
-    private static final int colorBG = FastColor.ARGB32.color(255, 215, 215, 215);
-    private static final int colorFG = FastColor.ARGB32.color(255, 31, 31, 31);
-    private static final int colorHD1 = FastColor.ARGB32.color(255, 191, 0, 0);
-    private static final int colorSD = FastColor.ARGB32.color(127, 0, 0, 0);
+    private static final int colorBG = ARGB.color(255, 215, 215, 215);
+    private static final int colorFG = ARGB.color(255, 31, 31, 31);
+    private static final int colorHD1 = ARGB.color(255, 191, 0, 0);
+    private static final int colorSD = ARGB.color(127, 0, 0, 0);
 
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
         lastAz = aircraft.getYRot();
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
         miniHUD = true;
         drawHUD(context, client, baseX, baseY + 9, 100, aircraft, color, null);
         miniHUD = false;
     }
 
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         double az = lastAz;
         while (az < 0) az += 360;
         while (az >= 360) az -= 360;
@@ -75,7 +75,7 @@ public class AzimuthIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         double az = lastAz;
         while (az < 0) az += 360;
         while (az >= 360) az -= 360;

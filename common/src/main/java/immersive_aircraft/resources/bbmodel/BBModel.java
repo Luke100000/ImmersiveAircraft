@@ -2,7 +2,7 @@ package immersive_aircraft.resources.bbmodel;
 
 import com.google.gson.JsonObject;
 import immersive_aircraft.Main;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,9 +18,9 @@ public class BBModel {
     public final HashMap<String, BBObject> objectsByName;
     public final List<BBAnimation> animations = new LinkedList<>();
     public final float textureWidth, textureHeight;
-    public final ResourceLocation id;
+    public final Identifier id;
 
-    public BBModel(JsonObject model, ResourceLocation identifier) {
+    public BBModel(JsonObject model, Identifier identifier) {
         this.meta = new BBMeta(model.get("meta"));
         this.root = new LinkedList<>();
         this.objects = new HashMap<>();

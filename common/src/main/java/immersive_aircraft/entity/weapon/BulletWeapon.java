@@ -88,7 +88,7 @@ public abstract class BulletWeapon extends Weapon {
                 String key = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 
                 if (ammunition.containsKey(key)) {
-                    ammoStack = stack.copy();
+                    ammoStack = stack.copyWithCount(1);
 
                     if (!getEntity().isPilotCreative()) {
                         ammo += ammunition.get(key);
@@ -105,7 +105,7 @@ public abstract class BulletWeapon extends Weapon {
 
         if (ammo <= 0) {
             if (getEntity().getControllingPassenger() instanceof Player player) {
-                player.displayClientMessage(Component.translatable("immersive_aircraft.out_of_ammo"), true);
+                player.sendOverlayMessage(Component.translatable("immersive_aircraft.out_of_ammo"));
             }
             return false;
         }
