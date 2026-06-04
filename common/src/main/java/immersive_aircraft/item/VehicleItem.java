@@ -90,18 +90,18 @@ public class VehicleItem extends DescriptionItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, display, tooltip, flag);
 
-        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        if (!customData.isEmpty()) {
-            CompoundTag tag = customData.copyTag();
-            if (tag.contains("Inventory")) {
-                ListTag nbtList = tag.getListOrEmpty("Inventory");
-                tooltip.accept(Component.translatable("immersive_aircraft.tooltip.inventory", nbtList.size()));
-            }
-        }
-
         long containerItems = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItemCopyStream().count();
         if (containerItems > 0) {
             tooltip.accept(Component.translatable("immersive_aircraft.tooltip.inventory", containerItems));
+        } else {
+            CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+            if (!customData.isEmpty()) {
+                CompoundTag tag = customData.copyTag();
+                if (tag.contains("Inventory")) {
+                    ListTag nbtList = tag.getListOrEmpty("Inventory");
+                    tooltip.accept(Component.translatable("immersive_aircraft.tooltip.inventory", nbtList.size()));
+                }
+            }
         }
     }
 }

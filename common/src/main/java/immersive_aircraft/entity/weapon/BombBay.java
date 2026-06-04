@@ -52,8 +52,6 @@ public class BombBay extends BulletWeapon {
         compoundTag.putInt("Fuse", 80);
         return EntityType.loadEntityRecursive(compoundTag, shooter.level(), EntitySpawnReason.TRIGGERED, (e) -> {
             e.setPos(position.x(), position.y(), position.z());
-            e.setYRot(e.getYRot());
-            e.setXRot(e.getXRot());
             e.setDeltaMovement(vel.x(), vel.y(), vel.z());
             return e;
         });
