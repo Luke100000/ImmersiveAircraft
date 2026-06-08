@@ -1,3 +1,7 @@
+# 1.4.7
+
+* Fixed airship crafting recipe
+
 # 1.4.6
 
 * Fixed rounding errors in statistics

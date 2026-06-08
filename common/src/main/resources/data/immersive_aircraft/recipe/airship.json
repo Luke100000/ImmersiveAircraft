@@ -6,21 +6,9 @@
     "HHE"
   ],
   "key": {
-    "S": [
-      {
-        "item": "immersive_aircraft:sail"
-      }
-    ],
-    "H": [
-      {
-        "item": "immersive_aircraft:hull"
-      }
-    ],
-    "E": [
-      {
-        "item": "immersive_aircraft:engine"
-      }
-    ]
+    "S": "immersive_aircraft:sail",
+    "H": "immersive_aircraft:hull",
+    "E": "immersive_aircraft:engine"
   },
   "result": {
     "id": "immersive_aircraft:airship"
