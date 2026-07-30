@@ -42,10 +42,10 @@
         {"x": 3.875, "y": 4.625, "z": -1.825, "yaw": -90, "pitch": -90}
       ],
       "FRONT": [
-        {"x": -3.875, "y": 4.625, "z": 1.825, "roll": 90, "pitch": 0},
-        {"x": 3.875, "y": 4.625, "z": 1.825, "roll": -90, "pitch": 0},
-        {"x": -3.875, "y": 4.625, "z": -1.825, "roll": 90, "pitch": 0},
-        {"x": 3.875, "y": 4.625, "z": -1.825, "roll": -90, "pitch": 0}
+        {"x": -3.875, "y": 4.625, "z": 1.825, "roll": 90, "pitch": 0, "enableRotation": true, "minYaw": -180, "maxYaw": 180, "minPitch": 0, "maxPitch": 0},
+        {"x": 3.875, "y": 4.625, "z": 1.825, "roll": -90, "pitch": 0, "enableRotation": true, "minYaw": -180, "maxYaw": 180, "minPitch": 0, "maxPitch": 0},
+        {"x": -3.875, "y": 4.625, "z": -1.825, "roll": 90, "pitch": 0, "enableRotation": true, "minYaw": -180, "maxYaw": 180, "minPitch": 0, "maxPitch": 0},
+        {"x": 3.875, "y": 4.625, "z": -1.825, "roll": -90, "pitch": 0, "enableRotation": true, "minYaw": -180, "maxYaw": 180, "minPitch": 0, "maxPitch": 0}
       ],
       "DROP": [
         {"x": -3.875, "y": 4.625, "z": 1.825, "yaw": 90, "pitch": 90},

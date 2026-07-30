@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
+import immersive_aircraft.config.Config;
+import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.BBModelLoader;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
@@ -111,6 +113,10 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
 
     @Override
     public boolean shouldRender(T entity, Frustum frustum, double x, double y, double z) {
+        // Don't render the vehicle the player is scoping through
+        if (entity instanceof InventoryVehicleEntity inv && inv.isScoping() && Config.getInstance().hideVehicleWhileScoping) {
+            return false;
+        }
         if (!entity.shouldRender(x, y, z)) {
             return false;
         }

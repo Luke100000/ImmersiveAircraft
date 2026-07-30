@@ -1,5 +1,6 @@
 package immersive_aircraft.entity.misc;
 
+import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.item.upgrade.VehicleStat;
 
@@ -19,7 +20,16 @@ public class VehicleProperties {
      * If the base value is 0, an upgrade has no effect, e.g., a vehicle without fuel consumption will never consume fuel.
      */
     public float get(VehicleStat stat) {
-        return baseValues.getOrDefault(stat, 0.0f) * vehicle.getTotalUpgrade(stat);
+        float value = baseValues.getOrDefault(stat, 0.0f) * vehicle.getTotalUpgrade(stat);
+        // Apply global engine speed multiplier
+        if (stat == VehicleStat.ENGINE_SPEED) {
+            value *= Config.getInstance().globalEngineSpeedMultiplier;
+        }
+        // Apply durability multiplier (0.5 = twice as fragile)
+        if (stat == VehicleStat.DURABILITY) {
+            value *= Config.getInstance().durabilityMultiplier;
+        }
+        return value;
     }
 
     /**

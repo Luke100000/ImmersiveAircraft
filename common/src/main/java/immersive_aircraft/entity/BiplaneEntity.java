@@ -1,6 +1,7 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.Items;
+import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.misc.TrailDescriptor;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -25,6 +26,11 @@ public class BiplaneEntity extends AirplaneEntity {
     @Override
     public void tick() {
         super.tick();
+
+        // Fast drag when engine is off in air
+        if (!onGround() && getEngineTarget() <= 0.0f) {
+            setDeltaMovement(getDeltaMovement().scale(Config.getInstance().engineOffDrag));
+        }
 
         // Smoke
         emitSmokeParticle(

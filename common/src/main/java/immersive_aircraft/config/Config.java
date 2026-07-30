@@ -22,6 +22,10 @@ public final class Config extends JsonConfig {
         return INSTANCE;
     }
 
+    @Override
+    int getVersion() {
+        return 3;
+    }
 
     // Crash configs
     @BooleanConfigEntry(true)
@@ -36,10 +40,10 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(false)
     public boolean enableCrashFire = false;
 
-    @FloatConfigEntry(2.0F)
+    @FloatConfigEntry(7.0F)
     public float crashExplosionRadius;
 
-    @FloatConfigEntry(2.0f)
+    @FloatConfigEntry(20.0f)
     public float crashDamage;
 
     @BooleanConfigEntry(true)
@@ -60,25 +64,30 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean enableTrails = true;
 
-    @FloatConfigEntry(192.0f)
+    @FloatConfigEntry(320.0f)
     public float renderDistance;
 
-    @FloatConfigEntry(1.0f)
+    @FloatConfigEntry(30.0f)
     public float fuelConsumption;
 
+    // Engine acceleration multiplier (1.0 = normal, 2.0 = twice as fast spin-up, 0.5 = twice as slow)
+    // Engine spin-down is always 3x slower than spin-up
     @FloatConfigEntry(1.0f)
+    public float engineAccelerationMultiplier;
+
+    @FloatConfigEntry(3.0f)
     public float windClearWeather;
 
-    @FloatConfigEntry(3.0f)
+    @FloatConfigEntry(10.0f)
     public float windRainWeather;
 
-    @FloatConfigEntry(3.0f)
+    @FloatConfigEntry(20.0f)
     public float windThunderWeather;
 
     @FloatConfigEntry(0.025f)
     public float repairSpeed;
 
-    @FloatConfigEntry(0.5f)
+    @FloatConfigEntry(2.0f)
     public float repairExhaustion;
 
     @BooleanConfigEntry(true)
@@ -123,12 +132,55 @@ public final class Config extends JsonConfig {
             "minecraft:egg", "minecraft:chicken"
     );
 
-    @FloatConfigEntry(5.0f)
+    // Weapon settings
+    @FloatConfigEntry(4.0f)
     public float rotaryCannonDamage;
 
     // The velocity also determines the arrow's damage
-    @FloatConfigEntry(3.0f)
+    @FloatConfigEntry(3.75f)
     public float heavyCrossBowVelocity;
+
+    @FloatConfigEntry(0.3f)
+    public float heavyCrossBowInaccuracy;
+
+    @FloatConfigEntry(0.1875f)
+    public float heavyCrossBowCooldown;
+
+    // Spread of arrow velocity (0.25 = ±25%)
+    @FloatConfigEntry(0.375f)
+    public float heavyCrossBowVelocitySpread;
+
+    // Multi-heavy crossbow settings
+    @FloatConfigEntry(2.5f)
+    public float multiHeavyCrossBowVelocity;
+
+    @FloatConfigEntry(1.0f)
+    public float multiHeavyCrossBowInaccuracy;
+
+    @FloatConfigEntry(0.75f)
+    public float multiHeavyCrossBowCooldown;
+
+    @IntegerConfigEntry(7)
+    public int multiHeavyCrossBowBulletCount;
+
+    // Global vehicle speed multiplier (1.0 = normal, 2.0 = double speed)
+    @FloatConfigEntry(1.0f)
+    public float globalEngineSpeedMultiplier;
+
+    // Durability multiplier (0.5 = twice as fragile)
+    @FloatConfigEntry(0.5f)
+    public float durabilityMultiplier;
+
+    // Gravity multiplier (1.0 = normal gravity)
+    @FloatConfigEntry(1.0f)
+    public float gravityMultiplier;
+
+    @FloatConfigEntry(1.0f)
+    public float engineOffDrag;
+
+    // Hide vehicle model when scoping with telescope
+    @BooleanConfigEntry(true)
+    public boolean hideVehicleWhileScoping;
 
     public Map<String, Integer> fuelList = Map.of(
             "minecraft:blaze_powder", 1200
@@ -140,8 +192,8 @@ public final class Config extends JsonConfig {
             "minecraft:the_end", true
     );
 
-    public Map<String, Integer> gunpowderAmmunition = Map.of(
-            "minecraft:gunpowder", 100
+    public Map<String, Integer> copperAmmunition = Map.of(
+            "minecraft:copper_nugget", 100
     );
 
     public Map<String, Integer> arrowAmmunition = Map.of(

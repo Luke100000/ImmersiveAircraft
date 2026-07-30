@@ -153,6 +153,7 @@ public class WarshipEntity extends AirshipEntity {
 
         turret.tick();
 
+        // Built-in turret (slot -1): original behavior (second passenger controls yaw + pitch)
         Entity gunner = getTurretGunner();
         if (gunner != null) {
             turretYaw.update(Math.clamp(-75f, 75f, Mth.wrapDegrees(gunner.getYHeadRot() - getYRot())));
@@ -162,7 +163,7 @@ public class WarshipEntity extends AirshipEntity {
             turretPitch.update(0.0f);
         }
 
-        // Rotate turret
+        // Rotate built-in turret
         Vector3f gunnerPosition = getGunnerPosition();
         Quaternionf turretRot = Utils.fromXYZ(
                 Math.toRadians(turretPitch.get(1.0f)),
@@ -176,6 +177,8 @@ public class WarshipEntity extends AirshipEntity {
     public void clientFireWeapons(Entity entity) {
         if (isTurretGunner(entity)) {
             turret.clientFire(-1);
+            // Second passenger also controls slot weapons
+            super.clientFireWeapons(entity);
         } else {
             super.clientFireWeapons(entity);
         }

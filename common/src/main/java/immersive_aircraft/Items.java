@@ -36,6 +36,7 @@ public interface Items {
 
     Supplier<Item> ROTARY_CANNON = register("rotary_cannon", (name) -> new WeaponItem(baseProps(name).stacksTo(1), WeaponMount.Type.ROTATING));
     Supplier<Item> HEAVY_CROSSBOW = register("heavy_crossbow", (name) -> new WeaponItem(baseProps(name).stacksTo(1), WeaponMount.Type.FRONT));
+    Supplier<Item> MULTI_HEAVY_CROSSBOW = register("multi_heavy_crossbow", (name) -> new WeaponItem(baseProps(name).stacksTo(1), WeaponMount.Type.FRONT));
     Supplier<Item> TELESCOPE = register("telescope", (name) -> new WeaponItem(baseProps(name).stacksTo(1), WeaponMount.Type.ROTATING));
     Supplier<Item> BOMB_BAY = register("bomb_bay", (name) -> new WeaponItem(baseProps(name).stacksTo(1), WeaponMount.Type.DROP));
 

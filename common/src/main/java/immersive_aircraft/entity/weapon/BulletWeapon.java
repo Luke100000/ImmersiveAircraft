@@ -82,25 +82,28 @@ public abstract class BulletWeapon extends Weapon {
     }
 
     protected boolean spentAmmo(Map<String, Integer> ammunition, int amount) {
-        if (ammo < amount && getEntity() instanceof InventoryVehicleEntity vehicle) {
+        if (getEntity().isPilotCreative()) {
+            return true;
+        }
+
+        while (ammo < amount && getEntity() instanceof InventoryVehicleEntity vehicle) {
+            boolean foundAmmo = false;
             for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);
                 String key = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 
-                if (ammunition.containsKey(key)) {
+                if (ammunition.containsKey(key) && !stack.isEmpty()) {
                     ammoStack = stack.copyWithCount(1);
-
-                    if (!getEntity().isPilotCreative()) {
-                        ammo += ammunition.get(key);
-                        stack.shrink(1);
-                    }
+                    ammo += ammunition.get(key);
+                    stack.shrink(1);
+                    foundAmmo = true;
                     break;
                 }
             }
-        }
 
-        if (getEntity().isPilotCreative()) {
-            return true;
+            if (!foundAmmo) {
+                break;
+            }
         }
 
         if (ammo <= 0) {
@@ -111,6 +114,43 @@ public abstract class BulletWeapon extends Weapon {
         }
 
         ammo -= amount;
+        return true;
+    }
+
+    protected boolean spentAmmoItems(Map<String, Integer> ammunition, int itemCount) {
+        if (getEntity().isPilotCreative()) {
+            return true;
+        }
+
+        if (getEntity() instanceof InventoryVehicleEntity vehicle) {
+            for (int spent = 0; spent < itemCount; spent++) {
+                boolean foundAmmo = false;
+                for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
+                    ItemStack stack = vehicle.getInventory().getItem(i);
+                    String key = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+
+                    if (ammunition.containsKey(key) && !stack.isEmpty()) {
+                        ammoStack = stack.copyWithCount(1);
+                        stack.shrink(1);
+                        foundAmmo = true;
+                        break;
+                    }
+                }
+
+                if (!foundAmmo) {
+                    if (getEntity().getControllingPassenger() instanceof Player player) {
+                        player.displayClientMessage(Component.translatable("immersive_aircraft.out_of_ammo"), true);
+                    }
+                    return false;
+                }
+            }
+        } else {
+            if (getEntity().getControllingPassenger() instanceof Player player) {
+                player.displayClientMessage(Component.translatable("immersive_aircraft.out_of_ammo"), true);
+            }
+            return false;
+        }
+
         return true;
     }
 

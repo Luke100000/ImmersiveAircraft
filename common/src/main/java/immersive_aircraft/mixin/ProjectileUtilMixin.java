@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -31,13 +33,24 @@ public class ProjectileUtilMixin {
 
     @Unique
     private static Optional<EntityHitResult> ia$vehicleTrace(@Nullable EntityHitResult previous, Level level, @Nullable Entity source, Vec3 startVec, Vec3 endVec, AABB boundingBox, Predicate<Entity> filter, float inflationAmount, double distance) {
-        double bestDistance = previous == null ? distance : previous.getLocation().distanceToSqr(startVec);
+        // Use squared distance for comparison, since distanceToSqr returns squared distance
+        double bestDistance = previous == null ? Double.MAX_VALUE : previous.getLocation().distanceToSqr(startVec);
         Entity entity = null;
         Vec3 collision = null;
 
-        for (Entity e : level.getEntities(source, boundingBox.inflate(16.0), VehicleEntity.class::isInstance)) {
-            if (e instanceof VehicleEntity vehicle && filter.test(vehicle)) {
-                for (AABB aabb : vehicle.getAdditionalShapes()) {
+        // Apply the filter to properly exclude entities that should not be considered
+        // as hit targets (e.g. the shooter or the shooter's own vehicle).
+        // Without this, the mixin would find hits on the shooter's own vehicle,
+        // which are then blocked by BulletEntity.canHitEntity(), resulting in
+        // no damage being applied at all.
+        Predicate<Entity> combinedFilter = e -> VehicleEntity.class.isInstance(e) && (filter == null || filter.test(e));
+
+        for (Entity e : level.getEntities(source, boundingBox.inflate(16.0), combinedFilter)) {
+            if (e instanceof VehicleEntity vehicle && vehicle.isPickable() && !vehicle.isRemoved()) {
+                // Check both main bounding box and additional shapes
+                List<AABB> allShapes = new ArrayList<>(vehicle.getAdditionalShapes());
+                allShapes.add(vehicle.getBoundingBox());
+                for (AABB aabb : allShapes) {
                     Optional<Vec3> optionalCollision = aabb.inflate(inflationAmount).clip(startVec, endVec);
                     if (optionalCollision.isPresent()) {
                         Vec3 newCollision = optionalCollision.get();

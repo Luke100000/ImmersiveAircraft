@@ -24,7 +24,7 @@ public interface Entities {
 
     Supplier<EntityType<BiplaneEntity>> BIPLANE = register("biplane", EntityType.Builder
             .of(BiplaneEntity::new, MobCategory.MISC)
-            .sized(1.75f, 0.85f)
+            .sized(1.5f, 0.85f)
             .clientTrackingRange(12)
             .fireImmune()
     );
@@ -59,7 +59,7 @@ public interface Entities {
 
     Supplier<EntityType<BambooHopperEntity>> BAMBOO_HOPPER = register("bamboo_hopper", EntityType.Builder
             .of(BambooHopperEntity::new, MobCategory.MISC)
-            .sized(3.0f, 1.5f)
+            .sized(3.0f, 1.2f)
             .clientTrackingRange(14)
             .fireImmune()
     );

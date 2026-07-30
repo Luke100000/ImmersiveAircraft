@@ -40,6 +40,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
@@ -253,6 +254,14 @@ public abstract class VehicleEntity extends Entity {
             amount = Math.max(5.0f, amount);
         }
 
+        // Prevent self-damage from projectiles fired by this vehicle,
+        // but allow arrows to deal damage even if their owner is the vehicle itself
+        if (source.getDirectEntity() instanceof Projectile projectile && projectile.getOwner() == this) {
+            if (!(projectile instanceof net.minecraft.world.entity.projectile.arrow.AbstractArrow)) {
+                return false;
+            }
+        }
+
         setDamageWobbleSide(-getDamageWobbleSide());
         setDamageWobbleTicks(10);
 
@@ -442,17 +451,6 @@ public abstract class VehicleEntity extends Entity {
             move(MoverType.SELF, getDeltaMovement());
         }
 
-        // auto enter
-        List<Entity> list = level().getEntities(this, getBoundingBox().inflate(0.2f, -0.01f, 0.2f), EntitySelector.pushableBy(this));
-        if (!list.isEmpty()) {
-            boolean bl = !level().isClientSide() && !(getControllingPassenger() instanceof Player);
-            for (Entity entity : list) {
-                if (entity.hasPassenger(this)) continue;
-                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
-                    entity.startRiding(this);
-                }
-            }
-        }
 
         // interpolate keys for visual feedback
         if (isLocalInstanceAuthoritative()) {
@@ -580,7 +578,7 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     protected double getDefaultGravity() {
-        return 0.04f;
+        return 0.04f * Config.getInstance().gravityMultiplier;
     }
 
     protected abstract void updateController();

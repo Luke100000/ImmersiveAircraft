@@ -3,7 +3,7 @@
     "fuel": 1.5,
     "yawSpeed": 3.5,
     "pitchSpeed": 3.5,
-    "engineSpeed": 0.03,
+    "engineSpeed": 0.04,
     "pushSpeed": 0.02,
     "glideFactor": 0.075,
     "driftDrag": 0.01,

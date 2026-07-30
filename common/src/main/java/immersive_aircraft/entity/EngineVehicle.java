@@ -127,7 +127,14 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         super.tick();
 
         // adapt engine reaction time
-        enginePower.setSteps(getEngineReactionSpeed() / getProperties().get(VehicleStat.ACCELERATION));
+        float acceleration = Math.max(0.001f, getProperties().get(VehicleStat.ACCELERATION));
+        float base = getEngineReactionSpeed() / acceleration;
+        float steps = base / Config.getInstance().engineAccelerationMultiplier;
+        // Engine spin-down is 3x slower than spin-up
+        if (getEngineTarget() <= enginePower.getValue()) {
+            steps *= 3;
+        }
+        enginePower.setSteps(Math.max(1, steps));
 
         // spin up the engine
         enginePower.update(getEngineTarget() * (isInWater() && !worksUnderWater() ? 0.1f : 1.0f));

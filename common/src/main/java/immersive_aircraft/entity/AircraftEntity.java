@@ -127,7 +127,8 @@ public abstract class AircraftEntity extends EngineVehicle {
         if (!onGround()) {
             setXRot(getXRot() + getProperties().get(VehicleStat.PITCH_SPEED) * pressingInterpolatedZ.getSmooth());
         }
-        setXRot(getXRot() * (1.0f - getProperties().getAdditive(VehicleStat.STABILIZER)));
+        // Stabilizer reduces wind effects by 75% (not 100%)
+        setXRot(getXRot() * (1.0f - getProperties().getAdditive(VehicleStat.STABILIZER) * 0.75f));
     }
 
     @Override

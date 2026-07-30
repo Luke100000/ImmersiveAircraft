@@ -28,7 +28,7 @@
         {"x": 0, "y": 0.075, "z": -1.0}
       ],
       "FRONT": [
-        {"x": 0, "y": 0.2, "z": 1.375}
+        {"x": 0, "y": 0.2, "z": 1.375, "enableRotation": true, "minYaw": -80, "maxYaw": 80, "minPitch": 0, "maxPitch": 0}
       ],
       "DROP": [
         {"x": -1.0, "y": 0.23125, "z": 0.0625},

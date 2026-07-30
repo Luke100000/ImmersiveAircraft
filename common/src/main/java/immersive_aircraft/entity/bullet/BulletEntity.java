@@ -68,7 +68,22 @@ public class BulletEntity extends AbstractHurtingProjectile {
             return false;
         }
         Entity entity = this.getOwner();
-        return entity == null || !entity.isPassengerOfSameVehicle(target);
+        if (entity == null) {
+            return false;
+        }
+        // Нельзя попасть в самого себя
+        if (target == entity) {
+            return false;
+        }
+        // Нельзя попасть в пассажиров того же транспорта
+        if (entity.isPassengerOfSameVehicle(target)) {
+            return false;
+        }
+        // Нельзя попасть в транспорт, в котором сидит стрелок
+        if (target == entity.getVehicle()) {
+            return false;
+        }
+        return true;
     }
 
     @Override

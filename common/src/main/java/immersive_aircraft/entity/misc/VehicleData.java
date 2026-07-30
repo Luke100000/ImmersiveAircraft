@@ -47,7 +47,11 @@ public class VehicleData {
                     JsonObject mount = mountElement.getAsJsonObject();
                     PositionDescriptor position = PositionDescriptor.fromJson(mount);
                     boolean blocking = mount.has("blocking") && mount.get("blocking").getAsBoolean();
-                    weaponMounts.get(slot.index()).get(type).add(new WeaponMount(position.matrix(), blocking));
+                    weaponMounts.get(slot.index()).get(type).add(new WeaponMount(
+                            position.matrix(), blocking,
+                            position.enableRotation(), position.minYaw(), position.maxYaw(),
+                            position.minPitch(), position.maxPitch()
+                    ));
                 });
             });
         });

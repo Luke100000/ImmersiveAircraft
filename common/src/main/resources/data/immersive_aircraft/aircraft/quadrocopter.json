@@ -28,7 +28,7 @@
         {"x": 0, "y": 0.875, "z": -0.5, "blocking": true}
       ],
       "FRONT": [
-        {"x": 0, "y": 0.375, "z": 1.0}
+        {"x": 0, "y": 0.375, "z": 1.0, "enableRotation": true, "minYaw": -60, "maxYaw": 60, "minPitch": -60, "maxPitch": 60}
       ],
       "DROP": [
         {"x": 0, "y": 0.375, "z": 0}

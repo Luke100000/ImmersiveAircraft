@@ -56,7 +56,7 @@ public class RotaryCannon extends BulletWeapon {
 
     @Override
     public void fire(Vector3f direction) {
-        if (spentAmmo(Config.getInstance().gunpowderAmmunition, 10)) {
+        if (spentAmmo(Config.getInstance().copperAmmunition, 10)) {
             super.fire(direction);
         }
     }

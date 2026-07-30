@@ -11,6 +11,7 @@ public abstract class Weapon {
     private final WeaponMount mount;
     private final int slot;
     private int gunnerOffset;
+    protected RotationalManager rotationalManager;
 
     public Weapon(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
         this.entity = entity;
@@ -41,6 +42,10 @@ public abstract class Weapon {
 
     public void setGunnerOffset(int gunnerOffset) {
         this.gunnerOffset = gunnerOffset;
+    }
+
+    public RotationalManager getRotationalManager() {
+        return rotationalManager;
     }
 
     public abstract void tick();

@@ -18,6 +18,8 @@ public class RotationalManager {
     float lastPitch = 0.0f;
     float lastRoll = 0.0f;
 
+    private boolean initialized = false;
+
     public RotationalManager(Weapon weapon) {
         this.weapon = weapon;
     }

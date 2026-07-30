@@ -55,6 +55,10 @@ public class BombBay extends BulletWeapon {
         return EntityType.loadEntityRecursive(compoundTag, getEntity().level(), EntitySpawnReason.LOAD, (e) -> {
             e.setPos(position.x(), position.y(), position.z());
             e.setDeltaMovement(vel.x(), vel.y(), vel.z());
+            // Запоминаем владельца, чтобы бомба не нанесла урон своему самолёту
+            if (e instanceof TinyTNT tinyTNT) {
+                tinyTNT.setOwner(getEntity());
+            }
             return e;
         });
     }
