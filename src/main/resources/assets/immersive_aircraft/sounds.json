@@ -1,0 +1,52 @@
+{
+  "engine_start": {
+    "sounds": [
+      "immersive_aircraft:engine_start"
+    ]
+  },
+  "engine_start_warship": {
+    "sounds": [
+      "immersive_aircraft:engine_start_warship"
+    ]
+  },
+  "engine_start_bamboo_hopper": {
+    "sounds": [
+      "immersive_aircraft:engine_start_bamboo_hopper"
+    ]
+  },
+  "propeller": {
+    "sounds": [
+      "immersive_aircraft:propeller"
+    ]
+  },
+  "propeller_small": {
+    "sounds": [
+      "immersive_aircraft:propeller_small"
+    ]
+  },
+  "propeller_tiny": {
+    "sounds": [
+      "immersive_aircraft:propeller_tiny"
+    ]
+  },
+  "propeller_bamboo_hopper": {
+    "sounds": [
+      "immersive_aircraft:propeller_bamboo_hopper"
+    ]
+  },
+  "warship": {
+    "sounds": [
+      "immersive_aircraft:warship"
+    ]
+  },
+  "woosh": {
+    "sounds": [
+      "immersive_aircraft:woosh"
+    ]
+  },
+  "cannon": {
+    "sounds": [
+      "immersive_aircraft:cannon"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+[
+{
+    "modid": "immersive_aircraft",
+    "name": "Immersive Aircraft",
+    "description": "A minecraft mod that adds a bunch of immersive aircraft to travel and transport your goods with.",
+    "version": "${version}",
+    "mcversion": "1.12.2",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/immersive-aircraft",
+    "updateUrl": "",
+    "authorList": ["conczin", "Luke100000"],
+    "credits": "",
+    "logoFile": "icon.png",
+    "screenshots": [],
+    "dependencies": []
+}
+]

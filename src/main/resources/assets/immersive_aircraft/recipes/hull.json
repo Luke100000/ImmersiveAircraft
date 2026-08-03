@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "III",
+    "LLL"
+  ],
+  "key": {
+    "L": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "logWood"
+      }
+    ],
+    "I": [
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ]
+  },
+  "result": {
+    "item": "immersive_aircraft:hull"
+  }
+}

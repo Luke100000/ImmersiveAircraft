@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CH ",
+    "W  ",
+    "   "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:bow"
+    },
+    "H": {
+      "item": "minecraft:tripwire_hook"
+    },
+    "W": {
+      "type": "forge:ore_dict",
+      "ore": "logWood"
+    }
+  },
+  "result": {
+    "item": "immersive_aircraft:heavy_crossbow"
+  }
+}

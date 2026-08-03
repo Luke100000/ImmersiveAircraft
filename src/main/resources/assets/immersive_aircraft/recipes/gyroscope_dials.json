@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "SGV",
+    "   "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:noteblock"
+    },
+    "G": {
+      "item": "immersive_aircraft:gyroscope"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "V": {
+      "item": "minecraft:lever"
+    }
+  },
+  "result": {
+    "item": "immersive_aircraft:gyroscope_dials"
+  }
+}
