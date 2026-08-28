@@ -1,0 +1,1062 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free"
+  },
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "hull_lower",
+      "from": [
+        -24,
+        5,
+        -10
+      ],
+      "to": [
+        24,
+        10,
+        10
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-hull-lower",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            32,
+            8
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            32,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            32,
+            8
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            32,
+            8
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            32,
+            8
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            32,
+            8
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "hull_upper",
+      "from": [
+        -19,
+        10,
+        -8
+      ],
+      "to": [
+        18,
+        14,
+        8
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-hull-upper",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            8,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            8,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            8,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            8,
+            32,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            8,
+            32,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "cockpit",
+      "from": [
+        0,
+        14,
+        -7
+      ],
+      "to": [
+        17,
+        20,
+        7
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-cockpit",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            16,
+            32,
+            24
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            16,
+            32,
+            24
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            16,
+            32,
+            24
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            16,
+            32,
+            24
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            16,
+            32,
+            24
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            16,
+            32,
+            24
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "tail_cabin",
+      "from": [
+        -18,
+        12,
+        -7
+      ],
+      "to": [
+        0,
+        17,
+        7
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-tail-cabin",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            32,
+            48,
+            40
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            32,
+            48,
+            40
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            32,
+            48,
+            40
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            32,
+            48,
+            40
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            32,
+            48,
+            40
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            32,
+            48,
+            40
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "left_wing",
+      "from": [
+        -13,
+        8,
+        -25
+      ],
+      "to": [
+        12,
+        10,
+        -9
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-left-wing",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "right_wing",
+      "from": [
+        -13,
+        8,
+        9
+      ],
+      "to": [
+        12,
+        10,
+        25
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-right-wing",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            32,
+            32,
+            40
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "nose_light",
+      "from": [
+        23,
+        10,
+        -7
+      ],
+      "to": [
+        25,
+        12,
+        7
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-nose-light",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "tail_light",
+      "from": [
+        -25,
+        11,
+        -7
+      ],
+      "to": [
+        -23,
+        13,
+        7
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-tail-light",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            24,
+            48,
+            28
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            24,
+            48,
+            28
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            24,
+            48,
+            28
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            24,
+            48,
+            28
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            24,
+            48,
+            28
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            24,
+            48,
+            28
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "left_pod",
+      "from": [
+        -7,
+        5,
+        -20
+      ],
+      "to": [
+        9,
+        12,
+        -12
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-left-pod",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "right_pod",
+      "from": [
+        -7,
+        5,
+        12
+      ],
+      "to": [
+        9,
+        12,
+        20
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-right-pod",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            0,
+            64,
+            8
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "engine_0",
+      "from": [
+        -8,
+        6,
+        -4
+      ],
+      "to": [
+        8,
+        8,
+        4
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-engine-off",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            48,
+            24,
+            64,
+            28
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            48,
+            24,
+            64,
+            28
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            48,
+            24,
+            64,
+            28
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            48,
+            24,
+            64,
+            28
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            48,
+            24,
+            64,
+            28
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            48,
+            24,
+            64,
+            28
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "engine_1",
+      "from": [
+        -8,
+        6,
+        -4
+      ],
+      "to": [
+        8,
+        8,
+        4
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-engine-on",
+      "type": "cube",
+      "faces": {
+        "north": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32,
+            16,
+            48,
+            20
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "outliner": [
+    {
+      "name": "body",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-body",
+      "export": true,
+      "visibility": true,
+      "children": [
+        "aero-hull-lower",
+        "aero-hull-upper",
+        "aero-cockpit",
+        "aero-tail-cabin",
+        "aero-left-wing",
+        "aero-right-wing",
+        "aero-nose-light",
+        "aero-tail-light",
+        "aero-left-pod",
+        "aero-right-pod"
+      ]
+    },
+    {
+      "name": "engine",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "uuid": "aero-engine",
+      "export": true,
+      "visibility": true,
+      "children": [
+        "aero-engine-off",
+        "aero-engine-on"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "id": "0",
+      "uuid": "aero-texture",
+      "name": "skyline_aerodyne.png",
+      "width": 64,
+      "height": 64,
+      "uv_width": 64,
+      "uv_height": 64,
+      "visible": true,
+      "saved": true
+    }
+  ],
+  "animations": []
+}

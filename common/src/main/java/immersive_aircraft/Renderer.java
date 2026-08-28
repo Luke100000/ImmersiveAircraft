@@ -12,6 +12,7 @@ public class Renderer {
         Registration.register(Entities.CARGO_AIRSHIP.get(), CargoAirshipEntityRenderer::new);
         Registration.register(Entities.WARSHIP.get(), WarshipEntityRenderer::new);
         Registration.register(Entities.QUADROCOPTER.get(), QuadrocopterEntityRenderer::new);
+        Registration.register(Entities.SKYLINE_AERODYNE.get(), SkylineAerodyneEntityRenderer::new);
         Registration.register(Entities.BAMBOO_HOPPER.get(), BambooHopperEntityRenderer::new);
 
         Registration.register(Entities.BULLET.get(), BulletEntityRenderer::new);

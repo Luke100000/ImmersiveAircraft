@@ -30,6 +30,7 @@
   "entity.immersive_aircraft.biplane": "Biplane",
   "entity.immersive_aircraft.gyrodyne": "Gyrodyne",
   "entity.immersive_aircraft.quadrocopter": "Quadrocopter",
+  "entity.immersive_aircraft.skyline_aerodyne": "Skyline Aerodyne",
   "entity.immersive_aircraft.bamboo_hopper": "Bamboo Hopper",
 
   "item.immersive_aircraft.hull": "Hull",
@@ -73,6 +74,7 @@
   "item.immersive_aircraft.biplane": "Biplane",
   "item.immersive_aircraft.gyrodyne": "Gyrodyne",
   "item.immersive_aircraft.quadrocopter": "Quadrocopter",
+  "item.immersive_aircraft.skyline_aerodyne": "Skyline Aerodyne",
   "item.immersive_aircraft.bamboo_hopper": "Bamboo Hopper",
 
   "item.immersive_aircraft.airship.description": "Slow but easy to maneuver.",
@@ -81,6 +83,7 @@
   "item.immersive_aircraft.biplane.description": "Fast and rather reliable. Make sure your runway is long enough.",
   "item.immersive_aircraft.gyrodyne.description": "Muscle-powered copter. Give it a good push and off it flies!",
   "item.immersive_aircraft.quadrocopter.description": "Perfect for building, and that's about it.",
+  "item.immersive_aircraft.skyline_aerodyne.description": "A compact city aerodyne with responsive vertical lift.",
   "item.immersive_aircraft.bamboo_hopper.description": "A chonky aircraft with three seats and pontoons to land safely on water.",
 
   "immersive_aircraft.gyrodyne_target": "%d%% Power, keep pushing!",
