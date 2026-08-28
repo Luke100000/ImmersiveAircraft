@@ -7,15 +7,11 @@ import immersive_aircraft.entity.SkylineAerodyneEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
-/** Renderer for the original aerodyne; the engine panel brightens while powered. */
+/** Renderer for the original aerodyne model generated from the Img2Blockbench source spec. */
 public class SkylineAerodyneEntityRenderer<T extends SkylineAerodyneEntity> extends AircraftEntityRenderer<T> {
     private static final ResourceLocation ID = Main.locate("skyline_aerodyne");
 
-    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<T>()
-            .add("engine", null, (bbModel, object, buffers, entity, pose, light, time, handler) -> {
-                String state = entity.enginePower.getSmooth() > 0.01 ? "engine_1" : "engine_0";
-                renderOptionalObject(state, bbModel, buffers, entity, pose, light, time);
-            });
+    private final ModelPartRenderHandler<T> model = new ModelPartRenderHandler<>();
 
     public SkylineAerodyneEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
