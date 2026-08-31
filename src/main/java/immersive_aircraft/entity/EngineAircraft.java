@@ -1,5 +1,6 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
@@ -97,9 +98,34 @@ public abstract class EngineAircraft extends AircraftEntity {
         dataManager.register(LOW_ON_FUEL, false);
     }
 
+    /**
+     * Flight-physics trace, off unless the JVM is started with
+     * {@code -Dimmersive_aircraft.debugFlight=true}. Logs the state each side actually
+     * simulates, which is the only way to tell a physics problem apart from a
+     * client/server authority problem.
+     */
+    private static final boolean DEBUG_FLIGHT = Boolean.getBoolean("immersive_aircraft.debugFlight");
+
+    private void debugFlight() {
+        if (ticksExisted % 5 != 0 || !isBeingRidden()) {
+            return;
+        }
+        Main.LOGGER.info(String.format(
+                "[IA] %s steer=%b onGround=%b pitch=%.1f roll=%.1f speed=%.4f motionY=%+.4f engine=%.2f/%.2f fuel=%.2f in=(%.0f,%.0f,%.0f)",
+                world.isRemote ? "CLIENT" : "SERVER",
+                canPassengerSteer(), onGround, getPitch(), getRoll(),
+                getVelocity().length(), motionY,
+                enginePower.getSmooth(), getEngineTarget(), getFuelUtilization(),
+                movementX, movementY, movementZ));
+    }
+
     @Override
     public void onUpdate() {
         super.onUpdate();
+
+        if (DEBUG_FLIGHT) {
+            debugFlight();
+        }
 
         // adapt engine reaction time
         enginePower.setSteps(getEngineReactionSpeed() / getTotalUpgrade(AircraftStat.ACCELERATION));
