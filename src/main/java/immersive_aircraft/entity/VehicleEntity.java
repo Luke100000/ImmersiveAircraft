@@ -345,14 +345,18 @@ public abstract class VehicleEntity extends Entity {
     }
 
     /**
-     * 1.16.5: server always simulates, the client only when the local player is a passenger.
+     * 1.16.5 {@code Entity.isLogicalSideForUpdatingMovement}: a vehicle steered by a player is
+     * simulated by that player's client only, the server takes its position from
+     * CPacketVehicleMove. Simulating on both sides makes the server broadcast its own
+     * (thrustless, gravity-only) motion back through SPacketEntityVelocity, which resets the
+     * pilot's motion every few ticks - planes then never build up the speed needed for lift.
+     * <p>
+     * 1.12.2 already has exactly this predicate as {@link Entity#canPassengerSteer()}, and it is
+     * the same one EntityPlayerSP uses to decide whether to send CPacketVehicleMove, so delegate
+     * to it to keep simulation and position reporting on the same side.
      */
     public boolean isLogicalSideForUpdatingMovement() {
-        if (!world.isRemote) {
-            return true;
-        }
-        EntityPlayerSP player = Minecraft.getMinecraft().player;
-        return player != null && isPassenger(player);
+        return canPassengerSteer();
     }
 
     protected abstract void updateVelocity();
