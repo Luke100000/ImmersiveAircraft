@@ -2,13 +2,16 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
         classpath 'com.anatawa12.forge:ForgeGradle:2.3-1.0.+'
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
 
 version = project.mod_version
@@ -25,6 +28,27 @@ minecraft {
     version = "${project.minecraft_version}-${project.forge_version}"
     runDir = 'run'
     mappings = project.mcp_mappings
+}
+
+repositories {
+    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+}
+
+// The 1.16 mod used Mixin for behaviour that has no Forge event in 1.12.2 (the vehicle
+// anti-fly kick, the first person camera, the sneak state of a rider). Mixin 0.7.11 is the
+// last release that works with the LaunchWrapper based 1.12.2 tool chain.
+dependencies {
+    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'launchwrapper'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
+        exclude module: 'log4j-core'
+    }
+}
+
+mixin {
+    add sourceSets.main, 'mixins.immersive_aircraft.refmap.json'
 }
 
 // FG2.3 quirk: when only resources change, `jar` re-executes during `build` and
@@ -50,7 +74,13 @@ jar {
             'Specification-Vendor'  : 'conczin',
             'Implementation-Title'  : project.name,
             'Implementation-Version': project.version,
-            'Implementation-Vendor' : 'conczin'
+            'Implementation-Vendor' : 'conczin',
+            // Loads the Mixin bootstrap before the mod itself; see MixinLoader.
+            'FMLCorePlugin'                : 'immersive_aircraft.MixinLoader',
+            'FMLCorePluginContainsFMLMod'  : 'true',
+            'ForceLoadAsMod'               : 'true',
+            'TweakOrder'                   : '0',
+            'MixinConfigs'                 : 'mixins.immersive_aircraft.json'
         ])
     }
 }

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "immersive_aircraft.mixin",
+  "refmap": "mixins.immersive_aircraft.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7.11",
+  "mixins": [
+    "EntityPlayerMixin",
+    "NetHandlerPlayServerMixin"
+  ],
+  "client": [
+    "EntityPlayerSPMixin",
+    "RenderLivingBaseMixin",
+    "RenderPlayerMixin"
+  ]
+}
