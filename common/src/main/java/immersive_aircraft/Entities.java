@@ -55,6 +55,13 @@ public interface Entities {
             .fireImmune()
     );
 
+    Supplier<EntityType<SkylineAerodyneEntity>> SKYLINE_AERODYNE = register("skyline_aerodyne", EntityType.Builder
+            .of(SkylineAerodyneEntity::new, MobCategory.MISC)
+            .sized(2.4f, 1.05f)
+            .clientTrackingRange(12)
+            .fireImmune()
+    );
+
     Supplier<EntityType<BambooHopperEntity>> BAMBOO_HOPPER = register("bamboo_hopper", EntityType.Builder
             .of(BambooHopperEntity::new, MobCategory.MISC)
             .sized(3.0f, 1.5f)

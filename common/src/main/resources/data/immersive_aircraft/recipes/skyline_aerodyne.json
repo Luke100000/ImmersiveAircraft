@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["GCG", "HEH", "GPG"],
+  "key": {
+    "G": {"item": "minecraft:glass_pane"},
+    "C": {"item": "minecraft:copper_ingot"},
+    "H": {"item": "immersive_aircraft:hull"},
+    "E": {"item": "immersive_aircraft:engine"},
+    "P": {"item": "immersive_aircraft:propeller"}
+  },
+  "result": {"item": "immersive_aircraft:skyline_aerodyne"}
+}

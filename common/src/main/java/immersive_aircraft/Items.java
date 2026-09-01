@@ -30,6 +30,7 @@ public interface Items {
     Supplier<Item> BIPLANE = register("biplane", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BiplaneEntity(Entities.BIPLANE.get(), world)));
     Supplier<Item> GYRODYNE = register("gyrodyne", () -> new AircraftItem(baseProps().stacksTo(1), world -> new GyrodyneEntity(Entities.GYRODYNE.get(), world)));
     Supplier<Item> QUADROCOPTER = register("quadrocopter", () -> new AircraftItem(baseProps().stacksTo(1), world -> new QuadrocopterEntity(Entities.QUADROCOPTER.get(), world)));
+    Supplier<Item> SKYLINE_AERODYNE = register("skyline_aerodyne", () -> new AircraftItem(baseProps().stacksTo(1), world -> new SkylineAerodyneEntity(Entities.SKYLINE_AERODYNE.get(), world)));
     Supplier<Item> BAMBOO_HOPPER = register("bamboo_hopper", () -> new AircraftItem(baseProps().stacksTo(1), world -> new BambooHopperEntity(Entities.BAMBOO_HOPPER.get(), world)));
 
     Supplier<Item> ROTARY_CANNON = register("rotary_cannon", () -> new WeaponItem(baseProps().stacksTo(1), WeaponMount.Type.ROTATING));
