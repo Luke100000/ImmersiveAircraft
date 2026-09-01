@@ -1,0 +1,8 @@
+{
+  "entity.immersive_aircraft.airship": "Militech AV",
+  "item.immersive_aircraft.airship": "Militech AV",
+  "item.immersive_aircraft.airship.description": "Six-seat armored VTOL aircraft. Hover and fly using airship controls.",
+  "entity.immersive_aircraft.cargo_airship": "Trauma Team Atlus",
+  "item.immersive_aircraft.cargo_airship": "Trauma Team Atlus",
+  "item.immersive_aircraft.cargo_airship.description": "Six-seat emergency-response VTOL. Hover and fly using cargo airship controls."
+}

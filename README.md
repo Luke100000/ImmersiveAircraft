@@ -9,6 +9,12 @@ Hosted on
 [CurseForge](https://www.curseforge.com/minecraft/mc-mods/immersive-aircraft) and
 [Modrinth](https://modrinth.com/mod/immersive-aircraft)
 
+# Optional resource packs
+
+* [Cyberpunk Hovercraft](resourcepacks/cyberpunk_hovercraft) replaces the Airship and Cargo Airship with full-size,
+  six-seat Militech AV and Trauma Team Atlus aircraft while retaining their hovering and flight behavior. The combined
+  resource/data pack makes them Creative-placeable rather than craftable and does not modify the mod source or JAR.
+
 # Contributors
 
 * Favouriteless (Added datapack support and exploding vehicle config)
