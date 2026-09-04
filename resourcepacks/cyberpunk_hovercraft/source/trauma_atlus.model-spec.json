@@ -1,0 +1,8125 @@
+{
+  "bones": [
+    {
+      "name": "root",
+      "parent": null,
+      "pivot": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "chassis",
+      "parent": "root",
+      "pivot": [
+        0,
+        4.5,
+        0
+      ]
+    },
+    {
+      "name": "cargo",
+      "parent": "chassis",
+      "pivot": [
+        0,
+        7.5,
+        -2.25
+      ]
+    },
+    {
+      "name": "cockpit",
+      "parent": "chassis",
+      "pivot": [
+        0,
+        7.5,
+        12
+      ]
+    },
+    {
+      "name": "nose",
+      "parent": "cockpit",
+      "pivot": [
+        0,
+        7.5,
+        18
+      ]
+    },
+    {
+      "name": "rear_hull",
+      "parent": "chassis",
+      "pivot": [
+        0,
+        7.5,
+        -12
+      ]
+    },
+    {
+      "name": "front_left_pod",
+      "parent": "chassis",
+      "pivot": [
+        9.899999999999999,
+        4.5,
+        9.600000000000001
+      ]
+    },
+    {
+      "name": "front_right_pod",
+      "parent": "chassis",
+      "pivot": [
+        -9.899999999999999,
+        4.5,
+        9.600000000000001
+      ]
+    },
+    {
+      "name": "rear_left_pod",
+      "parent": "chassis",
+      "pivot": [
+        9.899999999999999,
+        4.5,
+        -10.8
+      ]
+    },
+    {
+      "name": "rear_right_pod",
+      "parent": "chassis",
+      "pivot": [
+        -9.899999999999999,
+        4.5,
+        -10.8
+      ]
+    },
+    {
+      "name": "roof",
+      "parent": "cargo",
+      "pivot": [
+        0,
+        15,
+        -2.25
+      ]
+    },
+    {
+      "name": "antenna_left",
+      "parent": "roof",
+      "pivot": [
+        4.5,
+        16.200000000000003,
+        -4.199999999999999
+      ]
+    },
+    {
+      "name": "antenna_right",
+      "parent": "roof",
+      "pivot": [
+        -4.5,
+        16.200000000000003,
+        -4.199999999999999
+      ]
+    },
+    {
+      "name": "front_thrusters",
+      "parent": "nose",
+      "pivot": [
+        0,
+        3,
+        22.200000000000003
+      ]
+    },
+    {
+      "name": "interior",
+      "parent": "chassis",
+      "pivot": [
+        0,
+        6.75,
+        0
+      ]
+    },
+    {
+      "name": "driver_seat",
+      "parent": "interior",
+      "pivot": [
+        2.4749999999999996,
+        7.125,
+        11.7
+      ]
+    },
+    {
+      "name": "copilot_seat",
+      "parent": "interior",
+      "pivot": [
+        -2.4749999999999996,
+        7.125,
+        11.7
+      ]
+    },
+    {
+      "name": "rear_front_left_seat",
+      "parent": "interior",
+      "pivot": [
+        2.4749999999999996,
+        7.125,
+        0.15000000000000002
+      ]
+    },
+    {
+      "name": "rear_front_right_seat",
+      "parent": "interior",
+      "pivot": [
+        -2.4749999999999996,
+        7.125,
+        0.15000000000000002
+      ]
+    },
+    {
+      "name": "rear_back_left_seat",
+      "parent": "interior",
+      "pivot": [
+        2.4749999999999996,
+        7.125,
+        -6.1499999999999995
+      ]
+    },
+    {
+      "name": "rear_back_right_seat",
+      "parent": "interior",
+      "pivot": [
+        -2.4749999999999996,
+        7.125,
+        -6.1499999999999995
+      ]
+    }
+  ],
+  "collision": {
+    "eye_height": 2.2199999999999998,
+    "height": 2.625,
+    "width": 3.6750000000000003
+  },
+  "cubes": [
+    {
+      "bone": "chassis",
+      "center": [
+        0,
+        3.0749999999999997,
+        0
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "undercarriage_spine",
+      "origin": [
+        0,
+        4.5,
+        0
+      ],
+      "role": "central undercarriage spine",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        13.799999999999999,
+        1.9500000000000002,
+        36.900000000000006
+      ]
+    },
+    {
+      "bone": "chassis",
+      "center": [
+        0,
+        4.275,
+        -0.30000000000000004
+      ],
+      "faces": {},
+      "material": "teal_dark",
+      "name": "lower_teal_keel",
+      "origin": [
+        0,
+        4.5,
+        0
+      ],
+      "role": "continuous lower teal keel",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        12.299999999999999,
+        1.7249999999999999,
+        37.2
+      ]
+    },
+    {
+      "bone": "chassis",
+      "center": [
+        0,
+        5.25,
+        -1.5
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "lower_floor",
+      "origin": [
+        0,
+        4.5,
+        0
+      ],
+      "role": "lower armored floor",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        15.75,
+        1.5,
+        26.25
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        0,
+        6,
+        -2.55
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "cargo_lower_teal_band",
+      "origin": [
+        0,
+        7.5,
+        -2.25
+      ],
+      "role": "teal lower cargo band",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        15,
+        1.125,
+        16.35
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        0,
+        13.5,
+        -2.55
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "cargo_upper_ledge",
+      "origin": [
+        0,
+        7.5,
+        -2.25
+      ],
+      "role": "upper cargo armor ledge",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        15,
+        1.5,
+        16.5
+      ]
+    },
+    {
+      "bone": "roof",
+      "center": [
+        0,
+        14.625,
+        -2.7
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cargo_roof_base",
+      "origin": [
+        0,
+        15,
+        -2.25
+      ],
+      "role": "cargo roof base",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        14.549999999999999,
+        1.5,
+        16.950000000000003
+      ]
+    },
+    {
+      "bone": "roof",
+      "center": [
+        0,
+        15.524999999999999,
+        -2.7
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cargo_roof_center",
+      "origin": [
+        0,
+        15,
+        -2.25
+      ],
+      "role": "raised roof center panel",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        10.8,
+        0.675,
+        12.600000000000001
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        6.9750000000000005,
+        12.075000000000001,
+        -2.55
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "cargo_left_shoulder",
+      "origin": [
+        7.050000000000001,
+        10.5,
+        -2.55
+      ],
+      "role": "left beveled cargo shoulder",
+      "rotation": [
+        0,
+        0,
+        -8
+      ],
+      "size": [
+        1.875,
+        3.9000000000000004,
+        15
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        -6.9750000000000005,
+        12.075000000000001,
+        -2.55
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "cargo_right_shoulder",
+      "origin": [
+        -7.050000000000001,
+        10.5,
+        -2.55
+      ],
+      "role": "right beveled cargo shoulder",
+      "rotation": [
+        0,
+        0,
+        8
+      ],
+      "size": [
+        1.875,
+        3.9000000000000004,
+        15
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        7.949999999999999,
+        9.675,
+        -2.625
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cargo_door_left",
+      "origin": [
+        7.5,
+        9.75,
+        -8.325
+      ],
+      "role": "closed left medical access door with unobstructed rescue X",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.54,
+        6,
+        11.399999999999999
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        -7.949999999999999,
+        9.675,
+        -2.625
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cargo_door_right",
+      "origin": [
+        -7.5,
+        9.75,
+        -8.325
+      ],
+      "role": "closed right medical access door with unobstructed rescue X",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.54,
+        6,
+        11.399999999999999
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        0,
+        10.8,
+        6.5249999999999995
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "cargo_front_collar",
+      "origin": [
+        0,
+        7.5,
+        -2.25
+      ],
+      "role": "stepped cockpit-to-cargo collar",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        13.799999999999999,
+        6,
+        2.625
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        0,
+        13.5,
+        6.75
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cargo_front_cap",
+      "origin": [
+        0,
+        12.899999999999999,
+        5.699999999999999
+      ],
+      "role": "upper front cargo cap",
+      "rotation": [
+        -8,
+        0,
+        0
+      ],
+      "size": [
+        12.600000000000001,
+        1.7999999999999998,
+        3
+      ]
+    },
+    {
+      "bone": "cargo",
+      "center": [
+        0,
+        10.649999999999999,
+        -10.5
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "cargo_rear_collar",
+      "origin": [
+        0,
+        7.5,
+        -2.25
+      ],
+      "role": "stepped rear cargo collar",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        12.75,
+        6,
+        2.55
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        0,
+        14.100000000000001,
+        11.774999999999999
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cockpit_roof_transition",
+      "origin": [
+        0,
+        13.649999999999999,
+        9.600000000000001
+      ],
+      "role": "cockpit roof transition",
+      "rotation": [
+        -8,
+        0,
+        0
+      ],
+      "size": [
+        11.100000000000001,
+        1.5,
+        6.6000000000000005
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        9.975000000000001,
+        18.225
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "cockpit_hood",
+      "origin": [
+        0,
+        9.3,
+        15.899999999999999
+      ],
+      "role": "sloped armored hood",
+      "rotation": [
+        8,
+        0,
+        0
+      ],
+      "size": [
+        9.75,
+        3.4499999999999997,
+        6.300000000000001
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        6.300000000000001,
+        19.725
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "cockpit_nose_lower",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "front lower nose",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        10.5,
+        5.25,
+        4.199999999999999
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        0,
+        12.225000000000001,
+        18.674999999999997
+      ],
+      "faces": {},
+      "material": "window",
+      "name": "front_windshield",
+      "origin": [
+        0,
+        11.25,
+        17.549999999999997
+      ],
+      "role": "main sloped windshield",
+      "rotation": [
+        13,
+        0,
+        0
+      ],
+      "size": [
+        8.399999999999999,
+        3,
+        0.6000000000000001
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        0,
+        13.5,
+        15.975000000000001
+      ],
+      "faces": {},
+      "material": "window",
+      "name": "upper_windshield",
+      "origin": [
+        0,
+        12.825000000000001,
+        14.100000000000001
+      ],
+      "role": "upper canopy glazing",
+      "rotation": [
+        12,
+        0,
+        0
+      ],
+      "size": [
+        8.55,
+        0.5700000000000001,
+        4.875
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        5.25,
+        12.075000000000001,
+        15.299999999999999
+      ],
+      "faces": {},
+      "material": "window",
+      "name": "left_side_window",
+      "origin": [
+        5.025,
+        11.7,
+        13.799999999999999
+      ],
+      "role": "left cockpit side window",
+      "rotation": [
+        0,
+        -9,
+        0
+      ],
+      "size": [
+        0.5700000000000001,
+        3.375,
+        5.1
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        -5.25,
+        12.075000000000001,
+        15.299999999999999
+      ],
+      "faces": {},
+      "material": "window",
+      "name": "right_side_window",
+      "origin": [
+        -5.025,
+        11.7,
+        13.799999999999999
+      ],
+      "role": "right cockpit side window",
+      "rotation": [
+        0,
+        9,
+        0
+      ],
+      "size": [
+        0.5700000000000001,
+        3.375,
+        5.1
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        0,
+        12.225000000000001,
+        19.5
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "windshield_center_frame",
+      "origin": [
+        0,
+        11.25,
+        17.549999999999997
+      ],
+      "role": "windshield center divider",
+      "rotation": [
+        13,
+        0,
+        0
+      ],
+      "size": [
+        0.39,
+        3.2249999999999996,
+        0.42000000000000004
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        6.2250000000000005,
+        8.774999999999999,
+        15.674999999999999
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "left_cockpit_cheek",
+      "origin": [
+        5.699999999999999,
+        8.399999999999999,
+        13.200000000000001
+      ],
+      "role": "left faceted cockpit cheek",
+      "rotation": [
+        0,
+        -11,
+        0
+      ],
+      "size": [
+        2.7750000000000004,
+        6,
+        7.5
+      ]
+    },
+    {
+      "bone": "cockpit",
+      "center": [
+        -6.2250000000000005,
+        8.774999999999999,
+        15.674999999999999
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "right_cockpit_cheek",
+      "origin": [
+        -5.699999999999999,
+        8.399999999999999,
+        13.200000000000001
+      ],
+      "role": "right faceted cockpit cheek",
+      "rotation": [
+        0,
+        11,
+        0
+      ],
+      "size": [
+        2.7750000000000004,
+        6,
+        7.5
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        6.824999999999999,
+        21.825000000000003
+      ],
+      "faces": {},
+      "material": "mid_metal",
+      "name": "front_grille_frame",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "front grille surround",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        8.850000000000001,
+        4.5,
+        0.8250000000000001
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        6.93,
+        22.32
+      ],
+      "faces": {},
+      "material": "grille",
+      "name": "front_grille_inset",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "recessed radiator grille",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        7.3500000000000005,
+        3.3000000000000003,
+        0.44999999999999996
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        9.3,
+        22.23
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "front_teal_brow",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "teal strip above grille",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        9.375,
+        0.5700000000000001,
+        0.6900000000000001
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        10.575,
+        21.15
+      ],
+      "faces": {},
+      "material": "window",
+      "name": "front_upper_intake",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "upper front intake",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        6.75,
+        1.08,
+        0.5700000000000001
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        0,
+        3.93,
+        22.080000000000002
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "front_bumper_center",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "front teal bumper center",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        8.100000000000001,
+        1.35,
+        1.7249999999999999
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        5.475,
+        3.6750000000000003,
+        22.5
+      ],
+      "faces": {
+        "south": {
+          "material": "dark_metal"
+        }
+      },
+      "material": "mid_metal",
+      "name": "front_bumper_left",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "left front bumper-mounted utility nozzle housing",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.0250000000000004,
+        1.6500000000000001,
+        1.9500000000000002
+      ]
+    },
+    {
+      "bone": "nose",
+      "center": [
+        -5.475,
+        3.6750000000000003,
+        22.5
+      ],
+      "faces": {
+        "south": {
+          "material": "dark_metal"
+        }
+      },
+      "material": "mid_metal",
+      "name": "front_bumper_right",
+      "origin": [
+        0,
+        7.5,
+        18
+      ],
+      "role": "right front bumper-mounted utility nozzle housing",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.0250000000000004,
+        1.6500000000000001,
+        1.9500000000000002
+      ]
+    },
+    {
+      "bone": "rear_hull",
+      "center": [
+        0,
+        9,
+        -14.399999999999999
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "rear_hull_core",
+      "origin": [
+        0,
+        7.5,
+        -12
+      ],
+      "role": "rear hull core",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        13.5,
+        8.25,
+        8.100000000000001
+      ]
+    },
+    {
+      "bone": "rear_hull",
+      "center": [
+        0,
+        13.049999999999999,
+        -15.149999999999999
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "rear_upper_block",
+      "origin": [
+        0,
+        7.5,
+        -12
+      ],
+      "role": "raised rear roof block",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        14.25,
+        2.7,
+        7.800000000000001
+      ]
+    },
+    {
+      "bone": "rear_hull",
+      "center": [
+        0,
+        14.100000000000001,
+        -17.25
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "rear_roof_slope",
+      "origin": [
+        0,
+        13.649999999999999,
+        -15.299999999999999
+      ],
+      "role": "rear roof taper",
+      "rotation": [
+        -10,
+        0,
+        0
+      ],
+      "size": [
+        12.75,
+        1.5,
+        5.4
+      ]
+    },
+    {
+      "bone": "rear_hull",
+      "center": [
+        0,
+        10.425,
+        -18.78
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "rear_service_door",
+      "origin": [
+        0,
+        7.5,
+        -12
+      ],
+      "role": "rear service hatch",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        13.5,
+        6,
+        0.6000000000000001
+      ]
+    },
+    {
+      "bone": "rear_hull",
+      "center": [
+        0,
+        6.375,
+        -19.5
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "rear_service_lower",
+      "origin": [
+        0,
+        7.5,
+        -12
+      ],
+      "role": "rear service hatch lower band",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        13.350000000000001,
+        2.8499999999999996,
+        0.75
+      ]
+    },
+    {
+      "bone": "rear_hull",
+      "center": [
+        0,
+        4.425000000000001,
+        -19.5
+      ],
+      "faces": {},
+      "material": "teal_dark",
+      "name": "rear_teal_bumper",
+      "origin": [
+        0,
+        7.5,
+        -12
+      ],
+      "role": "rear teal bumper",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        14.25,
+        2.25,
+        1.9500000000000002
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        10.5,
+        8.024999999999999,
+        9.45
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "front_left_pod_core",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front left pod main housing",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        6,
+        7.050000000000001,
+        7.800000000000001
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        10.5,
+        12.075000000000001,
+        9.3
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "front_left_pod_top_pad",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front left pod dark top pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.175000000000001,
+        0.9750000000000001,
+        5.1
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        10.5,
+        8.325,
+        13.5
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "front_left_pod_fore_chamfer",
+      "origin": [
+        10.5,
+        7.800000000000001,
+        12.75
+      ],
+      "role": "front left pod forward chamfer",
+      "rotation": [
+        -8,
+        0,
+        0
+      ],
+      "size": [
+        5.550000000000001,
+        5.4,
+        1.5750000000000002
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        7.125,
+        8.25,
+        9.45
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "front_left_pod_inner_mount",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front left pod inner chassis mount",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.5750000000000002,
+        2.25,
+        5.699999999999999
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        12.975000000000001,
+        4.65,
+        9.45
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "front_left_pod_outer_strut",
+      "origin": [
+        11.475000000000001,
+        6.2250000000000005,
+        9.45
+      ],
+      "role": "front left pod angled outer strut",
+      "rotation": [
+        0,
+        0,
+        -18
+      ],
+      "size": [
+        3,
+        5.550000000000001,
+        5.550000000000001
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        13.5,
+        3.6750000000000003,
+        9.45
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "front_left_pod_guard_plate",
+      "origin": [
+        12.75,
+        4.65,
+        9.45
+      ],
+      "role": "front left pod outer guard plate",
+      "rotation": [
+        0,
+        0,
+        -10
+      ],
+      "size": [
+        3.5250000000000004,
+        3.9749999999999996,
+        5.775
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        15.194999999999999,
+        4.5,
+        9.45
+      ],
+      "faces": {},
+      "material": "mid_metal",
+      "name": "front_left_pod_hub",
+      "origin": [
+        15.194999999999999,
+        4.5,
+        9.45
+      ],
+      "role": "front left pod faceted diamond hover hub",
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "size": [
+        0.75,
+        2.175,
+        2.175
+      ]
+    },
+    {
+      "bone": "front_left_pod",
+      "center": [
+        13.125,
+        1.35,
+        9.45
+      ],
+      "faces": {},
+      "material": "rubber",
+      "name": "front_left_pod_hover_pad",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front left pod lower hover pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.025,
+        1.875,
+        6.75
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -10.5,
+        8.024999999999999,
+        9.45
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "front_right_pod_core",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front right pod main housing",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        6,
+        7.050000000000001,
+        7.800000000000001
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -10.5,
+        12.075000000000001,
+        9.3
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "front_right_pod_top_pad",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front right pod dark top pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.175000000000001,
+        0.9750000000000001,
+        5.1
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -10.5,
+        8.325,
+        13.5
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "front_right_pod_fore_chamfer",
+      "origin": [
+        -10.5,
+        7.800000000000001,
+        12.75
+      ],
+      "role": "front right pod forward chamfer",
+      "rotation": [
+        -8,
+        0,
+        0
+      ],
+      "size": [
+        5.550000000000001,
+        5.4,
+        1.5750000000000002
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -7.125,
+        8.25,
+        9.45
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "front_right_pod_inner_mount",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front right pod inner chassis mount",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.5750000000000002,
+        2.25,
+        5.699999999999999
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -12.975000000000001,
+        4.65,
+        9.45
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "front_right_pod_outer_strut",
+      "origin": [
+        -11.475000000000001,
+        6.2250000000000005,
+        9.45
+      ],
+      "role": "front right pod angled outer strut",
+      "rotation": [
+        0,
+        0,
+        18
+      ],
+      "size": [
+        3,
+        5.550000000000001,
+        5.550000000000001
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -13.5,
+        3.6750000000000003,
+        9.45
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "front_right_pod_guard_plate",
+      "origin": [
+        -12.75,
+        4.65,
+        9.45
+      ],
+      "role": "front right pod outer guard plate",
+      "rotation": [
+        0,
+        0,
+        10
+      ],
+      "size": [
+        3.5250000000000004,
+        3.9749999999999996,
+        5.775
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -15.194999999999999,
+        4.5,
+        9.45
+      ],
+      "faces": {},
+      "material": "mid_metal",
+      "name": "front_right_pod_hub",
+      "origin": [
+        -15.194999999999999,
+        4.5,
+        9.45
+      ],
+      "role": "front right pod faceted diamond hover hub",
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "size": [
+        0.75,
+        2.175,
+        2.175
+      ]
+    },
+    {
+      "bone": "front_right_pod",
+      "center": [
+        -13.125,
+        1.35,
+        9.45
+      ],
+      "faces": {},
+      "material": "rubber",
+      "name": "front_right_pod_hover_pad",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        9.600000000000001
+      ],
+      "role": "front right pod lower hover pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.025,
+        1.875,
+        6.75
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        10.5,
+        8.024999999999999,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "rear_left_pod_core",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear left pod main housing",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        6,
+        7.050000000000001,
+        7.800000000000001
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        10.5,
+        12.075000000000001,
+        -10.950000000000001
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "rear_left_pod_top_pad",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear left pod dark top pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.175000000000001,
+        0.9750000000000001,
+        5.1
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        10.5,
+        8.325,
+        -15.150000000000002
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "rear_left_pod_fore_chamfer",
+      "origin": [
+        10.5,
+        7.800000000000001,
+        -14.400000000000002
+      ],
+      "role": "rear left pod forward chamfer",
+      "rotation": [
+        8,
+        0,
+        0
+      ],
+      "size": [
+        5.550000000000001,
+        5.4,
+        1.5750000000000002
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        7.125,
+        8.25,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "rear_left_pod_inner_mount",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear left pod inner chassis mount",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.5750000000000002,
+        2.25,
+        5.699999999999999
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        12.975000000000001,
+        4.65,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "rear_left_pod_outer_strut",
+      "origin": [
+        11.475000000000001,
+        6.2250000000000005,
+        -11.100000000000001
+      ],
+      "role": "rear left pod angled outer strut",
+      "rotation": [
+        0,
+        0,
+        -18
+      ],
+      "size": [
+        3,
+        5.550000000000001,
+        5.550000000000001
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        13.5,
+        3.6750000000000003,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "rear_left_pod_guard_plate",
+      "origin": [
+        12.75,
+        4.65,
+        -11.100000000000001
+      ],
+      "role": "rear left pod outer guard plate",
+      "rotation": [
+        0,
+        0,
+        -10
+      ],
+      "size": [
+        3.5250000000000004,
+        3.9749999999999996,
+        5.775
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        15.194999999999999,
+        4.5,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "mid_metal",
+      "name": "rear_left_pod_hub",
+      "origin": [
+        15.194999999999999,
+        4.5,
+        -11.100000000000001
+      ],
+      "role": "rear left pod faceted diamond hover hub",
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "size": [
+        0.75,
+        2.175,
+        2.175
+      ]
+    },
+    {
+      "bone": "rear_left_pod",
+      "center": [
+        13.125,
+        1.35,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "rubber",
+      "name": "rear_left_pod_hover_pad",
+      "origin": [
+        9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear left pod lower hover pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.025,
+        1.875,
+        6.75
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -10.5,
+        8.024999999999999,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "rear_right_pod_core",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear right pod main housing",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        6,
+        7.050000000000001,
+        7.800000000000001
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -10.5,
+        12.075000000000001,
+        -10.950000000000001
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "rear_right_pod_top_pad",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear right pod dark top pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.175000000000001,
+        0.9750000000000001,
+        5.1
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -10.5,
+        8.325,
+        -15.150000000000002
+      ],
+      "faces": {},
+      "material": "teal_armor",
+      "name": "rear_right_pod_fore_chamfer",
+      "origin": [
+        -10.5,
+        7.800000000000001,
+        -14.400000000000002
+      ],
+      "role": "rear right pod forward chamfer",
+      "rotation": [
+        8,
+        0,
+        0
+      ],
+      "size": [
+        5.550000000000001,
+        5.4,
+        1.5750000000000002
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -7.125,
+        8.25,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "rear_right_pod_inner_mount",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear right pod inner chassis mount",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.5750000000000002,
+        2.25,
+        5.699999999999999
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -12.975000000000001,
+        4.65,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "armor_white",
+      "name": "rear_right_pod_outer_strut",
+      "origin": [
+        -11.475000000000001,
+        6.2250000000000005,
+        -11.100000000000001
+      ],
+      "role": "rear right pod angled outer strut",
+      "rotation": [
+        0,
+        0,
+        18
+      ],
+      "size": [
+        3,
+        5.550000000000001,
+        5.550000000000001
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -13.5,
+        3.6750000000000003,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "rear_right_pod_guard_plate",
+      "origin": [
+        -12.75,
+        4.65,
+        -11.100000000000001
+      ],
+      "role": "rear right pod outer guard plate",
+      "rotation": [
+        0,
+        0,
+        10
+      ],
+      "size": [
+        3.5250000000000004,
+        3.9749999999999996,
+        5.775
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -15.194999999999999,
+        4.5,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "mid_metal",
+      "name": "rear_right_pod_hub",
+      "origin": [
+        -15.194999999999999,
+        4.5,
+        -11.100000000000001
+      ],
+      "role": "rear right pod faceted diamond hover hub",
+      "rotation": [
+        45,
+        0,
+        0
+      ],
+      "size": [
+        0.75,
+        2.175,
+        2.175
+      ]
+    },
+    {
+      "bone": "rear_right_pod",
+      "center": [
+        -13.125,
+        1.35,
+        -11.100000000000001
+      ],
+      "faces": {},
+      "material": "rubber",
+      "name": "rear_right_pod_hover_pad",
+      "origin": [
+        -9.899999999999999,
+        4.5,
+        -10.8
+      ],
+      "role": "rear right pod lower hover pad",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        5.025,
+        1.875,
+        6.75
+      ]
+    },
+    {
+      "bone": "roof",
+      "center": [
+        0,
+        16.424999999999997,
+        4.725
+      ],
+      "faces": {},
+      "material": "red_light",
+      "name": "roof_front_beacon",
+      "origin": [
+        0,
+        15,
+        -2.25
+      ],
+      "role": "front roof emergency beacon",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        3,
+        0.675,
+        1.7249999999999999
+      ]
+    },
+    {
+      "bone": "roof",
+      "center": [
+        5.925000000000001,
+        16.5,
+        1.5
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "roof_left_front_signal_base",
+      "origin": [
+        5.925000000000001,
+        15.524999999999999,
+        1.5
+      ],
+      "role": "left front roof signal housing",
+      "rotation": [
+        0,
+        0,
+        -6
+      ],
+      "size": [
+        1.5,
+        2.0250000000000004,
+        1.5750000000000002
+      ]
+    },
+    {
+      "bone": "roof",
+      "center": [
+        -5.925000000000001,
+        16.5,
+        1.5
+      ],
+      "faces": {},
+      "material": "dark_metal",
+      "name": "roof_right_front_signal_base",
+      "origin": [
+        -5.925000000000001,
+        15.524999999999999,
+        1.5
+      ],
+      "role": "right front roof signal housing",
+      "rotation": [
+        0,
+        0,
+        6
+      ],
+      "size": [
+        1.5,
+        2.0250000000000004,
+        1.5750000000000002
+      ]
+    },
+    {
+      "bone": "antenna_left",
+      "center": [
+        4.5,
+        18.375,
+        -4.949999999999999
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "antenna_left_rod",
+      "origin": [
+        4.5,
+        16.200000000000003,
+        -4.199999999999999
+      ],
+      "role": "left rear-leaning antenna",
+      "rotation": [
+        -20,
+        0,
+        0
+      ],
+      "size": [
+        0.5700000000000001,
+        4.800000000000001,
+        0.5700000000000001
+      ]
+    },
+    {
+      "bone": "antenna_left",
+      "center": [
+        4.5,
+        20.475,
+        -5.7299999999999995
+      ],
+      "faces": {},
+      "material": "cyan_light",
+      "name": "antenna_left_tip",
+      "origin": [
+        4.5,
+        16.200000000000003,
+        -4.199999999999999
+      ],
+      "role": "left antenna cyan tip",
+      "rotation": [
+        -20,
+        0,
+        0
+      ],
+      "size": [
+        0.72,
+        0.8250000000000001,
+        0.72
+      ]
+    },
+    {
+      "bone": "antenna_right",
+      "center": [
+        -4.5,
+        18.375,
+        -4.949999999999999
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "antenna_right_rod",
+      "origin": [
+        -4.5,
+        16.200000000000003,
+        -4.199999999999999
+      ],
+      "role": "right rear-leaning antenna",
+      "rotation": [
+        -20,
+        0,
+        0
+      ],
+      "size": [
+        0.5700000000000001,
+        4.800000000000001,
+        0.5700000000000001
+      ]
+    },
+    {
+      "bone": "antenna_right",
+      "center": [
+        -4.5,
+        20.475,
+        -5.7299999999999995
+      ],
+      "faces": {},
+      "material": "cyan_light",
+      "name": "antenna_right_tip",
+      "origin": [
+        -4.5,
+        16.200000000000003,
+        -4.199999999999999
+      ],
+      "role": "right antenna cyan tip",
+      "rotation": [
+        -20,
+        0,
+        0
+      ],
+      "size": [
+        0.72,
+        0.8250000000000001,
+        0.72
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        0,
+        6.75,
+        12.75
+      ],
+      "faces": {},
+      "material": "interior_floor",
+      "name": "cockpit_interior_floor",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "cockpit walking floor",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        9.75,
+        0.75,
+        9
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        0,
+        6.75,
+        -2.7
+      ],
+      "faces": {},
+      "material": "interior_floor",
+      "name": "rear_cabin_floor",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "rear cabin walking floor and center aisle",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        12,
+        0.75,
+        14.25
+      ]
+    },
+    {
+      "bone": "driver_seat",
+      "center": [
+        2.4749999999999996,
+        7.6499999999999995,
+        13.049999999999999
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "driver_seat_base",
+      "origin": [
+        2.4749999999999996,
+        7.125,
+        11.7
+      ],
+      "role": "left cockpit driver seat cushion",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        0.8999999999999999,
+        3.1500000000000004
+      ]
+    },
+    {
+      "bone": "driver_seat",
+      "center": [
+        2.4749999999999996,
+        9.524999999999999,
+        11.7
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "driver_seat_back",
+      "origin": [
+        2.4749999999999996,
+        7.125,
+        11.7
+      ],
+      "role": "left cockpit driver seat backrest",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        3.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "copilot_seat",
+      "center": [
+        -2.4749999999999996,
+        7.6499999999999995,
+        13.049999999999999
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "copilot_seat_base",
+      "origin": [
+        -2.4749999999999996,
+        7.125,
+        11.7
+      ],
+      "role": "right cockpit copilot seat cushion",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        0.8999999999999999,
+        3.1500000000000004
+      ]
+    },
+    {
+      "bone": "copilot_seat",
+      "center": [
+        -2.4749999999999996,
+        9.524999999999999,
+        11.7
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "copilot_seat_back",
+      "origin": [
+        -2.4749999999999996,
+        7.125,
+        11.7
+      ],
+      "role": "right cockpit copilot seat backrest",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        3.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "rear_front_left_seat",
+      "center": [
+        2.4749999999999996,
+        7.6499999999999995,
+        1.5
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_front_left_seat_base",
+      "origin": [
+        2.4749999999999996,
+        7.125,
+        0.15000000000000002
+      ],
+      "role": "front-row left rear passenger seat cushion",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        0.8999999999999999,
+        3.1500000000000004
+      ]
+    },
+    {
+      "bone": "rear_front_left_seat",
+      "center": [
+        2.4749999999999996,
+        9.524999999999999,
+        0.15000000000000002
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_front_left_seat_back",
+      "origin": [
+        2.4749999999999996,
+        7.125,
+        0.15000000000000002
+      ],
+      "role": "front-row left rear passenger seat backrest",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        3.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "rear_front_right_seat",
+      "center": [
+        -2.4749999999999996,
+        7.6499999999999995,
+        1.5
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_front_right_seat_base",
+      "origin": [
+        -2.4749999999999996,
+        7.125,
+        0.15000000000000002
+      ],
+      "role": "front-row right rear passenger seat cushion",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        0.8999999999999999,
+        3.1500000000000004
+      ]
+    },
+    {
+      "bone": "rear_front_right_seat",
+      "center": [
+        -2.4749999999999996,
+        9.524999999999999,
+        0.15000000000000002
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_front_right_seat_back",
+      "origin": [
+        -2.4749999999999996,
+        7.125,
+        0.15000000000000002
+      ],
+      "role": "front-row right rear passenger seat backrest",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        3.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "rear_back_left_seat",
+      "center": [
+        2.4749999999999996,
+        7.6499999999999995,
+        -4.800000000000001
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_back_left_seat_base",
+      "origin": [
+        2.4749999999999996,
+        7.125,
+        -6.1499999999999995
+      ],
+      "role": "back-row left rear passenger seat cushion",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        0.8999999999999999,
+        3.1500000000000004
+      ]
+    },
+    {
+      "bone": "rear_back_left_seat",
+      "center": [
+        2.4749999999999996,
+        9.524999999999999,
+        -6.1499999999999995
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_back_left_seat_back",
+      "origin": [
+        2.4749999999999996,
+        7.125,
+        -6.1499999999999995
+      ],
+      "role": "back-row left rear passenger seat backrest",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        3.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "rear_back_right_seat",
+      "center": [
+        -2.4749999999999996,
+        7.6499999999999995,
+        -4.800000000000001
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_back_right_seat_base",
+      "origin": [
+        -2.4749999999999996,
+        7.125,
+        -6.1499999999999995
+      ],
+      "role": "back-row right rear passenger seat cushion",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        0.8999999999999999,
+        3.1500000000000004
+      ]
+    },
+    {
+      "bone": "rear_back_right_seat",
+      "center": [
+        -2.4749999999999996,
+        9.524999999999999,
+        -6.1499999999999995
+      ],
+      "faces": {},
+      "material": "seat_cushion",
+      "name": "rear_back_right_seat_back",
+      "origin": [
+        -2.4749999999999996,
+        7.125,
+        -6.1499999999999995
+      ],
+      "role": "back-row right rear passenger seat backrest",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        2.55,
+        3.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        0,
+        9.45,
+        16.5
+      ],
+      "faces": {},
+      "material": "interior_console",
+      "name": "cockpit_dashboard",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "full-width cockpit dashboard",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        8.25,
+        1.5,
+        1.2000000000000002
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        2.4749999999999996,
+        9.975000000000001,
+        17.25
+      ],
+      "faces": {},
+      "material": "cyan_light",
+      "name": "driver_display",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "driver instrument display",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.7999999999999998,
+        0.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        -2.4749999999999996,
+        9.975000000000001,
+        17.25
+      ],
+      "faces": {},
+      "material": "cyan_light",
+      "name": "copilot_display",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "copilot instrument display",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.7999999999999998,
+        0.75,
+        0.75
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        0,
+        7.800000000000001,
+        12.899999999999999
+      ],
+      "faces": {},
+      "material": "interior_console",
+      "name": "cockpit_center_console",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "cockpit center control console",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        1.2000000000000002,
+        1.5,
+        3.9000000000000004
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        0,
+        13.649999999999999,
+        -2.7
+      ],
+      "faces": {},
+      "material": "cyan_light",
+      "name": "rear_overhead_light",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "rear cabin overhead light",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        3,
+        0.44999999999999996,
+        1.5
+      ]
+    },
+    {
+      "bone": "interior",
+      "center": [
+        0,
+        9.3,
+        -9
+      ],
+      "faces": {},
+      "material": "armor_light",
+      "name": "rear_medical_console",
+      "origin": [
+        0,
+        6.75,
+        0
+      ],
+      "role": "rear medical equipment console",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        4.5,
+        3,
+        0.75
+      ]
+    }
+  ],
+  "id": "trauma_atlus",
+  "landmarks": [
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_5",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_6",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.36,
+        0.47
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_7",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_8",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_9",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_10",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_11",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_12",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_medical_pixel_13",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_5",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_6",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.36,
+        0.47
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_7",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_8",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_9",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_10",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_11",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_12",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_medical_pixel_13",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_5",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_6",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.36,
+        0.47
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_7",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_8",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_9",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_10",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_11",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_12",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_medical_pixel_13",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.15999999999999998,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.26,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_5",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_6",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.36,
+        0.47
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_7",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_8",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_9",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_10",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.45999999999999996,
+        0.58
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_11",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.24999999999999997
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_12",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.56,
+        0.69
+      ],
+      "color": "#9e080d",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_medical_pixel_13",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#07898c",
+      "center_uv": [
+        0.5,
+        0.16
+      ],
+      "color": "#07898c",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_upper_teal_stripe",
+      "size": [
+        10,
+        1
+      ]
+    },
+    {
+      "center_color": "#04666a",
+      "center_uv": [
+        0.5,
+        0.84
+      ],
+      "color": "#04666a",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_lower_teal_stripe",
+      "size": [
+        10,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.16,
+        0.27
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_latch_1",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.84,
+        0.27
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_latch_2",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.16,
+        0.74
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_latch_3",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.84,
+        0.74
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_latch_4",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.08
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_seam_top",
+      "size": [
+        16,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.92
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_seam_bottom",
+      "size": [
+        16,
+        1
+      ]
+    },
+    {
+      "center_color": "#07898c",
+      "center_uv": [
+        0.5,
+        0.16
+      ],
+      "color": "#07898c",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_upper_teal_stripe",
+      "size": [
+        10,
+        1
+      ]
+    },
+    {
+      "center_color": "#04666a",
+      "center_uv": [
+        0.5,
+        0.84
+      ],
+      "color": "#04666a",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_lower_teal_stripe",
+      "size": [
+        10,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.16,
+        0.27
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_latch_1",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.84,
+        0.27
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_latch_2",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.16,
+        0.74
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_latch_3",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.84,
+        0.74
+      ],
+      "color": "#6f7679",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_latch_4",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.08
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_seam_top",
+      "size": [
+        16,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.92
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_seam_bottom",
+      "size": [
+        16,
+        1
+      ]
+    },
+    {
+      "center_color": "#d9d9d5",
+      "center_uv": [
+        0.34,
+        0.5
+      ],
+      "color": "#d9d9d5",
+      "cube": "left_side_window",
+      "face": "east",
+      "name": "left_side_window_front_divider",
+      "size": [
+        1,
+        5
+      ]
+    },
+    {
+      "center_color": "#d9d9d5",
+      "center_uv": [
+        0.67,
+        0.5
+      ],
+      "color": "#d9d9d5",
+      "cube": "left_side_window",
+      "face": "east",
+      "name": "left_side_window_rear_divider",
+      "size": [
+        1,
+        5
+      ]
+    },
+    {
+      "center_color": "#d9d9d5",
+      "center_uv": [
+        0.34,
+        0.5
+      ],
+      "color": "#d9d9d5",
+      "cube": "right_side_window",
+      "face": "west",
+      "name": "right_side_window_front_divider",
+      "size": [
+        1,
+        5
+      ]
+    },
+    {
+      "center_color": "#d9d9d5",
+      "center_uv": [
+        0.67,
+        0.5
+      ],
+      "color": "#d9d9d5",
+      "cube": "right_side_window",
+      "face": "west",
+      "name": "right_side_window_rear_divider",
+      "size": [
+        1,
+        5
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#171b1e",
+      "cube": "front_grille_inset",
+      "face": "south",
+      "name": "front_grille_slats_1",
+      "size": [
+        9,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.31
+      ],
+      "color": "#171b1e",
+      "cube": "front_grille_inset",
+      "face": "south",
+      "name": "front_grille_slats_2",
+      "size": [
+        9,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.44
+      ],
+      "color": "#171b1e",
+      "cube": "front_grille_inset",
+      "face": "south",
+      "name": "front_grille_slats_3",
+      "size": [
+        9,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.57
+      ],
+      "color": "#171b1e",
+      "cube": "front_grille_inset",
+      "face": "south",
+      "name": "front_grille_slats_4",
+      "size": [
+        9,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.7
+      ],
+      "color": "#171b1e",
+      "cube": "front_grille_inset",
+      "face": "south",
+      "name": "front_grille_slats_5",
+      "size": [
+        9,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.83
+      ],
+      "color": "#171b1e",
+      "cube": "front_grille_inset",
+      "face": "south",
+      "name": "front_grille_slats_6",
+      "size": [
+        9,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.28,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_line_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.38,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_line_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.48,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_line_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.58,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_line_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.68,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_line_5",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.78,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_line_6",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.5,
+        0.33
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_groove_texture_1",
+      "size": [
+        12,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_groove_texture_2",
+      "size": [
+        10,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.5,
+        0.67
+      ],
+      "color": "#7f8586",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_groove_texture_3",
+      "size": [
+        8,
+        1
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.1,
+        0.52
+      ],
+      "color": "#d3131a",
+      "cube": "rear_service_lower",
+      "face": "north",
+      "name": "rear_left_marker_texture",
+      "size": [
+        2,
+        3
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.9,
+        0.52
+      ],
+      "color": "#d3131a",
+      "cube": "rear_service_lower",
+      "face": "north",
+      "name": "rear_right_marker_texture",
+      "size": [
+        2,
+        3
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.5,
+        0.36
+      ],
+      "color": "#d3131a",
+      "cube": "roof_left_front_signal_base",
+      "face": "east",
+      "name": "roof_left_front_signal_base_red_lens",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#67f5f2",
+      "center_uv": [
+        0.5,
+        0.67
+      ],
+      "color": "#00aeb4",
+      "cube": "roof_left_front_signal_base",
+      "face": "east",
+      "name": "roof_left_front_signal_base_cyan_lens",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.5,
+        0.36
+      ],
+      "color": "#d3131a",
+      "cube": "roof_right_front_signal_base",
+      "face": "west",
+      "name": "roof_right_front_signal_base_red_lens",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#67f5f2",
+      "center_uv": [
+        0.5,
+        0.67
+      ],
+      "color": "#00aeb4",
+      "cube": "roof_right_front_signal_base",
+      "face": "west",
+      "name": "roof_right_front_signal_base_cyan_lens",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_0_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_0_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_0_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_1_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_1_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_1_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_2_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_2_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_2_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_3_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_3_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "front_left_pod_core",
+      "face": "east",
+      "name": "front_left_pod_vent_3_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.34
+      ],
+      "color": "#596164",
+      "cube": "front_left_pod_top_pad",
+      "face": "up",
+      "name": "front_left_top_pad_seam_1",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.66
+      ],
+      "color": "#596164",
+      "cube": "front_left_pod_top_pad",
+      "face": "up",
+      "name": "front_left_top_pad_seam_2",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#41474a",
+      "cube": "front_left_pod_hub",
+      "face": "east",
+      "name": "front_left_hub_center_cap",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_0_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_0_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_0_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_1_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_1_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_1_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_2_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_2_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_2_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_3_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_3_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "front_right_pod_core",
+      "face": "west",
+      "name": "front_right_pod_vent_3_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.34
+      ],
+      "color": "#596164",
+      "cube": "front_right_pod_top_pad",
+      "face": "up",
+      "name": "front_right_top_pad_seam_1",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.66
+      ],
+      "color": "#596164",
+      "cube": "front_right_pod_top_pad",
+      "face": "up",
+      "name": "front_right_top_pad_seam_2",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#41474a",
+      "cube": "front_right_pod_hub",
+      "face": "west",
+      "name": "front_right_hub_center_cap",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_0_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_0_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_0_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_1_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_1_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_1_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_2_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_2_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_2_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_3_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_3_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "rear_left_pod_core",
+      "face": "east",
+      "name": "rear_left_pod_vent_3_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.34
+      ],
+      "color": "#596164",
+      "cube": "rear_left_pod_top_pad",
+      "face": "up",
+      "name": "rear_left_top_pad_seam_1",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.66
+      ],
+      "color": "#596164",
+      "cube": "rear_left_pod_top_pad",
+      "face": "up",
+      "name": "rear_left_top_pad_seam_2",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#41474a",
+      "cube": "rear_left_pod_hub",
+      "face": "east",
+      "name": "rear_left_hub_center_cap",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_0_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_0_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.28
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_0_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_1_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_1_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.43000000000000005
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_1_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_2_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_2_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.5800000000000001
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_2_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.65,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_3_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_3_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.89,
+        0.73
+      ],
+      "color": "#090b0c",
+      "cube": "rear_right_pod_core",
+      "face": "west",
+      "name": "rear_right_pod_vent_3_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.34
+      ],
+      "color": "#596164",
+      "cube": "rear_right_pod_top_pad",
+      "face": "up",
+      "name": "rear_right_top_pad_seam_1",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#858d8f",
+      "center_uv": [
+        0.5,
+        0.66
+      ],
+      "color": "#596164",
+      "cube": "rear_right_pod_top_pad",
+      "face": "up",
+      "name": "rear_right_top_pad_seam_2",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#41474a",
+      "cube": "rear_right_pod_hub",
+      "face": "west",
+      "name": "rear_right_hub_center_cap",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.06,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_vertical_seam_front",
+      "size": [
+        1,
+        7
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.94,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_vertical_seam_rear",
+      "size": [
+        1,
+        7
+      ]
+    },
+    {
+      "center_color": "#a2a6a5",
+      "center_uv": [
+        0.5,
+        0.22
+      ],
+      "color": "#a2a6a5",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_inset_top",
+      "size": [
+        13,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.78
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_inset_bottom",
+      "size": [
+        13,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.1,
+        0.14
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_fastener_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.9,
+        0.14
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_fastener_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.1,
+        0.86
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_fastener_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.9,
+        0.86
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_door_fastener_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#ffd75c",
+      "center_uv": [
+        0.1,
+        0.79
+      ],
+      "color": "#d39316",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_front_amber_marker",
+      "size": [
+        1,
+        2
+      ]
+    },
+    {
+      "center_color": "#ffd75c",
+      "center_uv": [
+        0.9,
+        0.79
+      ],
+      "color": "#d39316",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_rear_amber_marker",
+      "size": [
+        1,
+        2
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.3
+      ],
+      "color": "#24292d",
+      "cube": "cargo_door_left",
+      "face": "west",
+      "name": "cargo_left_inner_grab_handle",
+      "size": [
+        5,
+        1
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#d3131a",
+      "cube": "cargo_door_left",
+      "face": "west",
+      "name": "cargo_left_inner_safety_stripe",
+      "size": [
+        11,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.06,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_vertical_seam_front",
+      "size": [
+        1,
+        7
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.94,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_vertical_seam_rear",
+      "size": [
+        1,
+        7
+      ]
+    },
+    {
+      "center_color": "#a2a6a5",
+      "center_uv": [
+        0.5,
+        0.22
+      ],
+      "color": "#a2a6a5",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_inset_top",
+      "size": [
+        13,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.78
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_inset_bottom",
+      "size": [
+        13,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.1,
+        0.14
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_fastener_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.9,
+        0.14
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_fastener_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.1,
+        0.86
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_fastener_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.9,
+        0.86
+      ],
+      "color": "#41474a",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_door_fastener_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#ffd75c",
+      "center_uv": [
+        0.1,
+        0.79
+      ],
+      "color": "#d39316",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_front_amber_marker",
+      "size": [
+        1,
+        2
+      ]
+    },
+    {
+      "center_color": "#ffd75c",
+      "center_uv": [
+        0.9,
+        0.79
+      ],
+      "color": "#d39316",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_rear_amber_marker",
+      "size": [
+        1,
+        2
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.3
+      ],
+      "color": "#24292d",
+      "cube": "cargo_door_right",
+      "face": "east",
+      "name": "cargo_right_inner_grab_handle",
+      "size": [
+        5,
+        1
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#d3131a",
+      "cube": "cargo_door_right",
+      "face": "east",
+      "name": "cargo_right_inner_safety_stripe",
+      "size": [
+        11,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_0_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_0_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_0_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_0_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_1_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_1_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_1_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_1_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_2_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_2_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_2_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_2_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_3_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_3_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_3_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_vent_3_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#4f565a",
+      "center_uv": [
+        0.25,
+        0.38
+      ],
+      "color": "#24292d",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_marker_housing",
+      "size": [
+        3,
+        6
+      ]
+    },
+    {
+      "center_color": "#ffd75c",
+      "center_uv": [
+        0.25,
+        0.38
+      ],
+      "color": "#d39316",
+      "cube": "left_cockpit_cheek",
+      "face": "east",
+      "name": "left_cheek_amber_lens",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_0_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_0_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_0_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.3
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_0_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_1_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_1_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_1_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.44999999999999996
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_1_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_2_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_2_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_2_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.6
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_2_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.55,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_3_0",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.66,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_3_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.77,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_3_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.8800000000000001,
+        0.75
+      ],
+      "color": "#090b0c",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_vent_3_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#4f565a",
+      "center_uv": [
+        0.25,
+        0.38
+      ],
+      "color": "#24292d",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_marker_housing",
+      "size": [
+        3,
+        6
+      ]
+    },
+    {
+      "center_color": "#ffd75c",
+      "center_uv": [
+        0.25,
+        0.38
+      ],
+      "color": "#d39316",
+      "cube": "right_cockpit_cheek",
+      "face": "west",
+      "name": "right_cheek_amber_lens",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#34393c",
+      "cube": "front_bumper_left",
+      "face": "south",
+      "name": "front_left_nozzle_plate",
+      "size": [
+        5,
+        4
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.28,
+        0.36
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_left",
+      "face": "south",
+      "name": "front_left_nozzle_port_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.5,
+        0.36
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_left",
+      "face": "south",
+      "name": "front_left_nozzle_port_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.72,
+        0.36
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_left",
+      "face": "south",
+      "name": "front_left_nozzle_port_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.5,
+        0.68
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_left",
+      "face": "south",
+      "name": "front_left_nozzle_port_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.5,
+        0.24
+      ],
+      "color": "#24292d",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_top",
+      "size": [
+        4,
+        1
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.5,
+        0.76
+      ],
+      "color": "#24292d",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_bottom",
+      "size": [
+        4,
+        1
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.25,
+        0.5
+      ],
+      "color": "#24292d",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_left",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.75,
+        0.5
+      ],
+      "color": "#24292d",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_right",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.38
+      ],
+      "color": "#171b1e",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_slat_1",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#171b1e",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_slat_2",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.62
+      ],
+      "color": "#171b1e",
+      "cube": "front_left_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_left_pod_front_vent_slat_3",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#34393c",
+      "cube": "front_bumper_right",
+      "face": "south",
+      "name": "front_right_nozzle_plate",
+      "size": [
+        5,
+        4
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.28,
+        0.36
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_right",
+      "face": "south",
+      "name": "front_right_nozzle_port_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.5,
+        0.36
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_right",
+      "face": "south",
+      "name": "front_right_nozzle_port_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.72,
+        0.36
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_right",
+      "face": "south",
+      "name": "front_right_nozzle_port_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#090b0c",
+      "center_uv": [
+        0.5,
+        0.68
+      ],
+      "color": "#090b0c",
+      "cube": "front_bumper_right",
+      "face": "south",
+      "name": "front_right_nozzle_port_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.5,
+        0.24
+      ],
+      "color": "#24292d",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_top",
+      "size": [
+        4,
+        1
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.5,
+        0.76
+      ],
+      "color": "#24292d",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_bottom",
+      "size": [
+        4,
+        1
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.25,
+        0.5
+      ],
+      "color": "#24292d",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_left",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#24292d",
+      "center_uv": [
+        0.75,
+        0.5
+      ],
+      "color": "#24292d",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_right",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.38
+      ],
+      "color": "#171b1e",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_slat_1",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#171b1e",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_slat_2",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.62
+      ],
+      "color": "#171b1e",
+      "cube": "front_right_pod_fore_chamfer",
+      "face": "south",
+      "name": "front_right_pod_front_vent_slat_3",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.16,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "cockpit_nose_lower",
+      "face": "south",
+      "name": "front_nose_left_seam",
+      "size": [
+        1,
+        6
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.84,
+        0.5
+      ],
+      "color": "#7f8586",
+      "cube": "cockpit_nose_lower",
+      "face": "south",
+      "name": "front_nose_right_seam",
+      "size": [
+        1,
+        6
+      ]
+    },
+    {
+      "center_color": "#7f8586",
+      "center_uv": [
+        0.5,
+        0.86
+      ],
+      "color": "#7f8586",
+      "cube": "cockpit_nose_lower",
+      "face": "south",
+      "name": "front_nose_lower_seam",
+      "size": [
+        10,
+        1
+      ]
+    },
+    {
+      "center_color": "#a2a6a5",
+      "center_uv": [
+        0.08,
+        0.5
+      ],
+      "color": "#a2a6a5",
+      "cube": "front_windshield",
+      "face": "south",
+      "name": "windshield_left_edge_frame",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#a2a6a5",
+      "center_uv": [
+        0.92,
+        0.5
+      ],
+      "color": "#a2a6a5",
+      "cube": "front_windshield",
+      "face": "south",
+      "name": "windshield_right_edge_frame",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_roof_base",
+      "face": "up",
+      "name": "roof_base_cross_seam_1",
+      "size": [
+        34,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_roof_base",
+      "face": "up",
+      "name": "roof_base_cross_seam_2",
+      "size": [
+        34,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_roof_base",
+      "face": "up",
+      "name": "roof_base_cross_seam_3",
+      "size": [
+        34,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.16,
+        0.5
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_roof_base",
+      "face": "up",
+      "name": "roof_base_long_seam_1",
+      "size": [
+        1,
+        42
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.84,
+        0.5
+      ],
+      "color": "#8f9595",
+      "cube": "cargo_roof_base",
+      "face": "up",
+      "name": "roof_base_long_seam_2",
+      "size": [
+        1,
+        42
+      ]
+    },
+    {
+      "center_color": "#4f565a",
+      "center_uv": [
+        0.08,
+        0.72
+      ],
+      "color": "#24292d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_left_antenna_foot_texture",
+      "size": [
+        2,
+        3
+      ]
+    },
+    {
+      "center_color": "#4f565a",
+      "center_uv": [
+        0.08,
+        0.28
+      ],
+      "color": "#24292d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_left_rear_signal_housing",
+      "size": [
+        2,
+        3
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.08,
+        0.265
+      ],
+      "color": "#d3131a",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_left_rear_signal_red",
+      "size": [
+        2,
+        1
+      ]
+    },
+    {
+      "center_color": "#67f5f2",
+      "center_uv": [
+        0.08,
+        0.305
+      ],
+      "color": "#00aeb4",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_left_rear_signal_cyan",
+      "size": [
+        2,
+        1
+      ]
+    },
+    {
+      "center_color": "#4f565a",
+      "center_uv": [
+        0.92,
+        0.72
+      ],
+      "color": "#24292d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_right_antenna_foot_texture",
+      "size": [
+        2,
+        3
+      ]
+    },
+    {
+      "center_color": "#4f565a",
+      "center_uv": [
+        0.92,
+        0.28
+      ],
+      "color": "#24292d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_right_rear_signal_housing",
+      "size": [
+        2,
+        3
+      ]
+    },
+    {
+      "center_color": "#ff5a5d",
+      "center_uv": [
+        0.92,
+        0.265
+      ],
+      "color": "#d3131a",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_right_rear_signal_red",
+      "size": [
+        2,
+        1
+      ]
+    },
+    {
+      "center_color": "#67f5f2",
+      "center_uv": [
+        0.92,
+        0.305
+      ],
+      "color": "#00aeb4",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_right_rear_signal_cyan",
+      "size": [
+        2,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.12
+      ],
+      "color": "#8f9595",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_border_top",
+      "size": [
+        15,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.5,
+        0.88
+      ],
+      "color": "#8f9595",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_border_bottom",
+      "size": [
+        15,
+        1
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.08,
+        0.5
+      ],
+      "color": "#8f9595",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_border_left",
+      "size": [
+        1,
+        7
+      ]
+    },
+    {
+      "center_color": "#8f9595",
+      "center_uv": [
+        0.92,
+        0.5
+      ],
+      "color": "#8f9595",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_border_right",
+      "size": [
+        1,
+        7
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.22,
+        0.8
+      ],
+      "color": "#596164",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_left_hinge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#a4aaab",
+      "center_uv": [
+        0.78,
+        0.8
+      ],
+      "color": "#596164",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_right_hinge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#505658",
+      "center_uv": [
+        0.5,
+        0.66
+      ],
+      "color": "#505658",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_handle_shadow",
+      "size": [
+        8,
+        2
+      ]
+    },
+    {
+      "center_color": "#aeb3b3",
+      "center_uv": [
+        0.5,
+        0.64
+      ],
+      "color": "#aeb3b3",
+      "cube": "rear_service_door",
+      "face": "north",
+      "name": "rear_hatch_handle_highlight",
+      "size": [
+        6,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#1c3f43",
+      "cube": "driver_seat_back",
+      "face": "south",
+      "name": "driver_back_center_seam",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#579194",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#579194",
+      "cube": "driver_seat_back",
+      "face": "south",
+      "name": "driver_back_headrest_band",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#1c3f43",
+      "cube": "driver_seat_base",
+      "face": "up",
+      "name": "driver_cushion_edge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#1c3f43",
+      "cube": "copilot_seat_back",
+      "face": "south",
+      "name": "copilot_back_center_seam",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#579194",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#579194",
+      "cube": "copilot_seat_back",
+      "face": "south",
+      "name": "copilot_back_headrest_band",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#1c3f43",
+      "cube": "copilot_seat_base",
+      "face": "up",
+      "name": "copilot_cushion_edge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_front_left_seat_back",
+      "face": "south",
+      "name": "rear_front_left_back_center_seam",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#579194",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#579194",
+      "cube": "rear_front_left_seat_back",
+      "face": "south",
+      "name": "rear_front_left_back_headrest_band",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_front_left_seat_base",
+      "face": "up",
+      "name": "rear_front_left_cushion_edge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_front_right_seat_back",
+      "face": "south",
+      "name": "rear_front_right_back_center_seam",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#579194",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#579194",
+      "cube": "rear_front_right_seat_back",
+      "face": "south",
+      "name": "rear_front_right_back_headrest_band",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_front_right_seat_base",
+      "face": "up",
+      "name": "rear_front_right_cushion_edge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_back_left_seat_back",
+      "face": "south",
+      "name": "rear_back_left_back_center_seam",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#579194",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#579194",
+      "cube": "rear_back_left_seat_back",
+      "face": "south",
+      "name": "rear_back_left_back_headrest_band",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_back_left_seat_base",
+      "face": "up",
+      "name": "rear_back_left_cushion_edge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_back_right_seat_back",
+      "face": "south",
+      "name": "rear_back_right_back_center_seam",
+      "size": [
+        1,
+        4
+      ]
+    },
+    {
+      "center_color": "#579194",
+      "center_uv": [
+        0.5,
+        0.18
+      ],
+      "color": "#579194",
+      "cube": "rear_back_right_seat_back",
+      "face": "south",
+      "name": "rear_back_right_back_headrest_band",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#1c3f43",
+      "center_uv": [
+        0.5,
+        0.82
+      ],
+      "color": "#1c3f43",
+      "cube": "rear_back_right_seat_base",
+      "face": "up",
+      "name": "rear_back_right_cushion_edge",
+      "size": [
+        3,
+        1
+      ]
+    },
+    {
+      "center_color": "#00aeb4",
+      "center_uv": [
+        0.18,
+        0.42
+      ],
+      "color": "#00aeb4",
+      "cube": "cockpit_dashboard",
+      "face": "south",
+      "name": "dashboard_status_light_1",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d3131a",
+      "center_uv": [
+        0.34,
+        0.42
+      ],
+      "color": "#d3131a",
+      "cube": "cockpit_dashboard",
+      "face": "south",
+      "name": "dashboard_status_light_2",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d39316",
+      "center_uv": [
+        0.5,
+        0.42
+      ],
+      "color": "#d39316",
+      "cube": "cockpit_dashboard",
+      "face": "south",
+      "name": "dashboard_status_light_3",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#00aeb4",
+      "center_uv": [
+        0.66,
+        0.42
+      ],
+      "color": "#00aeb4",
+      "cube": "cockpit_dashboard",
+      "face": "south",
+      "name": "dashboard_status_light_4",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#d3131a",
+      "center_uv": [
+        0.82,
+        0.42
+      ],
+      "color": "#d3131a",
+      "cube": "cockpit_dashboard",
+      "face": "south",
+      "name": "dashboard_status_light_5",
+      "size": [
+        1,
+        1
+      ]
+    },
+    {
+      "center_color": "#6f7679",
+      "center_uv": [
+        0.5,
+        0.72
+      ],
+      "color": "#171b1e",
+      "cube": "cockpit_dashboard",
+      "face": "south",
+      "name": "dashboard_lower_control_strip",
+      "size": [
+        8,
+        1
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#9e080d",
+      "cube": "rear_medical_console",
+      "face": "south",
+      "name": "rear_console_medical_horizontal",
+      "size": [
+        5,
+        1
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#9e080d",
+      "cube": "rear_medical_console",
+      "face": "south",
+      "name": "rear_console_medical_vertical",
+      "size": [
+        1,
+        5
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_1",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.43,
+        0.395
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_2",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5700000000000001,
+        0.605
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_3",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.43,
+        0.605
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_4",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5700000000000001,
+        0.395
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_5",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.29000000000000004
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_6",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.64,
+        0.71
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_7",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.71
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_8",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.64,
+        0.29000000000000004
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_9",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.29,
+        0.185
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_10",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.71,
+        0.815
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_11",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.29,
+        0.815
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_12",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.71,
+        0.185
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_left",
+      "face": "east",
+      "name": "cargo_left_visible_red_x_13",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.5,
+        0.5
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_1",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.43,
+        0.395
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_2",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5700000000000001,
+        0.605
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_3",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.43,
+        0.605
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_4",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5700000000000001,
+        0.395
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_5",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.29000000000000004
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_6",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.64,
+        0.71
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_7",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.71
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_8",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.64,
+        0.29000000000000004
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_9",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.29,
+        0.185
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_10",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.71,
+        0.815
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_11",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.29,
+        0.815
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_12",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.71,
+        0.185
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_door_right",
+      "face": "west",
+      "name": "cargo_right_visible_red_x_13",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.21999999999999997,
+        0.24
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_1",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.21999999999999997,
+        0.72
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_2",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.29,
+        0.3
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_3",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.29,
+        0.6599999999999999
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_4",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_5",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.36,
+        0.6
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_6",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.43,
+        0.42
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_7",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.43,
+        0.54
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_8",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.24
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_9",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.3
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_10",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_11",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.42
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_12",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#d62b30",
+      "center_uv": [
+        0.5,
+        0.48
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_13",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.54
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_14",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.6
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_15",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.6599999999999999
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_16",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5,
+        0.72
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_17",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5700000000000001,
+        0.42
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_18",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.5700000000000001,
+        0.54
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_19",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.64,
+        0.36
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_20",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.64,
+        0.6
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_21",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.71,
+        0.3
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_22",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.71,
+        0.6599999999999999
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_23",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.78,
+        0.24
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_24",
+      "size": [
+        2,
+        2
+      ]
+    },
+    {
+      "center_color": "#9e080d",
+      "center_uv": [
+        0.78,
+        0.72
+      ],
+      "color": "#9e080d",
+      "cube": "cargo_roof_center",
+      "face": "up",
+      "name": "roof_medical_pixel_25",
+      "size": [
+        2,
+        2
+      ]
+    }
+  ],
+  "materials": {
+    "amber_light": {
+      "base": "#d39316",
+      "highlight": "#ffd75c",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#774707"
+    },
+    "armor_light": {
+      "base": "#c7c9c7",
+      "highlight": "#ecece7",
+      "pattern": "solid",
+      "pattern_scale": 5,
+      "shade": "#8f9595"
+    },
+    "armor_white": {
+      "base": "#d9d9d5",
+      "highlight": "#f4f3ee",
+      "pattern": "solid",
+      "pattern_scale": 5,
+      "shade": "#a2a6a5"
+    },
+    "cyan_light": {
+      "base": "#00aeb4",
+      "highlight": "#67f5f2",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#006469"
+    },
+    "dark_metal": {
+      "base": "#24292d",
+      "highlight": "#4f565a",
+      "pattern": "solid",
+      "pattern_scale": 4,
+      "shade": "#101316"
+    },
+    "grille": {
+      "base": "#34393c",
+      "highlight": "#636a6d",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#171b1e"
+    },
+    "interior_console": {
+      "base": "#596164",
+      "highlight": "#858d8f",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#343a3d"
+    },
+    "interior_floor": {
+      "base": "#30373a",
+      "highlight": "#555e61",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#171c1f"
+    },
+    "medical_red": {
+      "base": "#9e080d",
+      "highlight": "#d62b30",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#580205"
+    },
+    "mid_metal": {
+      "base": "#6f7679",
+      "highlight": "#a4aaab",
+      "pattern": "solid",
+      "pattern_scale": 4,
+      "shade": "#41474a"
+    },
+    "panel_line": {
+      "base": "#7f8586",
+      "highlight": "#aeb3b3",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#505658"
+    },
+    "red_light": {
+      "base": "#d3131a",
+      "highlight": "#ff5a5d",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#740308"
+    },
+    "rubber": {
+      "base": "#171b1e",
+      "highlight": "#343a3e",
+      "pattern": "solid",
+      "pattern_scale": 3,
+      "shade": "#090b0c"
+    },
+    "seat_cushion": {
+      "base": "#35666a",
+      "highlight": "#579194",
+      "pattern": "solid",
+      "pattern_scale": 2,
+      "shade": "#1c3f43"
+    },
+    "teal_armor": {
+      "base": "#07898c",
+      "highlight": "#21b1b3",
+      "pattern": "solid",
+      "pattern_scale": 5,
+      "shade": "#00575c"
+    },
+    "teal_dark": {
+      "base": "#04666a",
+      "highlight": "#148d91",
+      "pattern": "solid",
+      "pattern_scale": 4,
+      "shade": "#003b40"
+    },
+    "window": {
+      "base": "#071014",
+      "highlight": "#29494e",
+      "pattern": "solid",
+      "pattern_scale": 6,
+      "shade": "#010405"
+    }
+  },
+  "provenance": {
+    "mesh_source": {
+      "axis_mapping": "source -X -> model +Z front; source +Z -> model +X left; source +Y -> model +Y up",
+      "bounds": [
+        [
+          -0.9522910118,
+          -0.3713310063,
+          -0.5616260171
+        ],
+        [
+          0.9511070251,
+          0.3698250055,
+          0.5609700084
+        ]
+      ],
+      "format": "glb",
+      "generator": "meshy-scene",
+      "license": "user-supplied; license not provided",
+      "model": "unrecorded",
+      "path": "/Users/kipiiler/Meshy_AI_minecraft_style_hover_0902184305_image-to-3d-texture.glb",
+      "provider": "Meshy AI",
+      "sha256": "4f89cbd5839b2b01bb2eb1a1967fd058e23f8c45453ebeb2aa2087d15e6e0bdf",
+      "triangles": 1951358,
+      "version": "2.0 asset metadata; generator model version unrecorded",
+      "vertices": 1019460
+    },
+    "pipeline": "Route 1: user-supplied textured GLB -> high-detail solid-color exterior -> agent-designed six-seat interior -> Blockbench Generic Model for the Minecraft Java Immersive Aircraft renderer; authored geometry is 1.5x the reconstruction and the data-pack skin applies its final world scale"
+  },
+  "quality_contract": {
+    "complexity": "complex",
+    "identity_features": [
+      "layered and framed black cockpit glazing",
+      "deep horizontal front grille and twin four-barrel utility thrusters",
+      "large white rescue module with six-spoke red medical marks and door latches",
+      "four teal faceted hover pods with vent arrays, white suspension guards, hubs, and dark pads",
+      "stepped rear service hatch with grooves, lower gray band, and teal bumper",
+      "roof hatch, emergency light modules, red beacon, and twin rear-leaning cyan-tip antennae",
+      "two forward cockpit bucket seats with dashboard displays",
+      "four rear passenger seats arranged in two rows",
+      "closed bilateral cargo doors with retained rear-edge hinge pivots",
+      "rear medical console and overhead cabin light",
+      "layered cargo-door frames with raised latches and amber edge markers",
+      "vented pod armor, segmented top pads, and layered diamond hub caps",
+      "six-bar front grille with paired utility nozzle clusters",
+      "segmented roof plating with four signal housings and antenna feet"
+    ],
+    "required_views": [
+      "front",
+      "back",
+      "left",
+      "right",
+      "top",
+      "isometric"
+    ],
+    "review_targets": [
+      "silhouette",
+      "cockpit glazing",
+      "front grille and thrusters",
+      "cargo doors and markings",
+      "pod mechanics",
+      "rear hatch",
+      "roof equipment",
+      "texture",
+      "six-seat capacity",
+      "cockpit legroom",
+      "rear aisle clearance",
+      "door access",
+      "interior visibility"
+    ],
+    "target_cuboids": [
+      80,
+      96
+    ]
+  },
+  "reference": {
+    "height": 1200,
+    "image": "hover_ambulance_reference.png",
+    "sha256": "581eec727463a696edae88c767d459f5575e9f8b2869ef95c8a4cbfd9a9bb8ae",
+    "width": 1600
+  },
+  "schema_version": 1,
+  "subject": {
+    "capacity": 6,
+    "description": "A six-occupant Minecraft-native armored hover ambulance with two cockpit seats, four rear passenger seats, an aisle, dashboard controls, and closed side cargo doors.",
+    "intended_runtime": "Minecraft Java Edition 1.20.1 through the Immersive Aircraft Blockbench model loader; the Bedrock geometry file is only an optional generated artifact",
+    "seat_layout": "two cockpit seats plus four rear seats in two forward-facing rows",
+    "symmetry": "bilateral",
+    "type": "vehicle",
+    "uncertainties": [
+      "The supplied GLB has no modeled interior, so the six-seat cabin is an inferred functional layout.",
+      "The data-pack skin scales the authored model to 16.32 blocks long and supplies matching final world-space seat positions.",
+      "Cargo doors are closed in the saved variant; their rear-edge hinge pivots are retained for later animation."
+    ]
+  },
+  "texture": {
+    "atlas_size": 512,
+    "density": 2,
+    "gutter": 1,
+    "palette_size": 32,
+    "quantize_source": false
+  }
+}

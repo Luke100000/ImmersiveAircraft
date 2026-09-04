@@ -54,7 +54,7 @@ function elementTransforms(model, podTilt) {
       return;
     }
     const rotation = [...(entry.rotation ?? [0, 0, 0])];
-    if (entry.name?.endsWith("_vtol")) rotation[0] += podTilt;
+    if (entry.name?.endsWith("_vtol") || entry.name?.endsWith("_pod")) rotation[0] += podTilt;
     const transform = {origin: (entry.origin ?? [0, 0, 0]).map((value) => value / 16), rotation};
     for (const child of entry.children ?? []) visit(child, [...ancestors, transform]);
   };

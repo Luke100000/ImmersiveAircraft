@@ -3,7 +3,7 @@
 This optional Minecraft 1.20.1 pack adds two selectable futuristic VTOL skins
 to the Immersive Aircraft Cargo Airship. Its resource-pack half supplies the
 models and textures; its data-pack half registers those skins and supplies a
-six-seat layout and model-sized interaction hitboxes.
+six-seat layout plus skin-specific interaction and projectile hitboxes.
 
 ![Militech AV and Trauma Team Atlus](preview.png)
 
@@ -21,8 +21,8 @@ Live flight check after boarding each aircraft and moving forward/upward:
 
 | Resource-pack vehicle | Immersive Aircraft slot | Flight behavior |
 | --- | --- | --- |
-| Militech AV | Cargo Airship | 13.6 blocks long; fuel-powered hover/flight, six seats, and cargo storage |
-| Trauma Team Atlus | Cargo Airship | 13.6 blocks long; fuel-powered hover/flight, six seats, and cargo storage |
+| Militech AV | Cargo Airship | 16.32 blocks long; fuel-powered hover/flight, six seats, and cargo storage |
+| Trauma Team Atlus | Cargo Airship | 16.32 blocks long; fuel-powered hover/flight, six model-aligned seats, and cargo storage |
 
 The two models are cosmetic choices for the Cargo Airship rather than new
 entities. Controls, sounds, inventory, and saved-vehicle behavior come from
@@ -80,20 +80,31 @@ A skin definition has this shape:
   "translationKey": "vehicle_skin.immersive_aircraft.militech_av",
   "unlockTag": "ia.skin.militech_av",
   "free": false,
-  "default": false
+  "default": false,
+  "scale": 1.0,
+  "seats": [
+    {"x": 0.0, "y": 1.0, "z": 1.0}
+  ],
+  "boundingBoxes": [
+    {"width": 4.0, "height": 2.0, "x": 0.0, "y": 1.0, "z": 0.0}
+  ]
 }
 ```
 
 `default` skins are always available and are used when a vehicle has no saved
 selection. Other skins require either `free: true` or the listed player tag.
 The selected ID is synchronized to nearby clients and saved on the placed
-vehicle and its picked-up item.
+vehicle and its picked-up item. The optional flat `seats` list overrides the
+vehicle's passenger positions for that model; coordinates are measured in
+Minecraft blocks relative to the vehicle origin. The optional positive `scale`
+value uniformly scales only the rendered skin; seat coordinates must therefore
+already contain their final world-space positions. The optional
+`boundingBoxes` list replaces the vehicle's normal interaction and projectile
+hitboxes while that skin is active.
 
-Skins are cosmetic: physics, inventory, seats, weapon mounts, trails, and
-interaction boxes still come from the vehicle's `aircraft/<vehicle>.json`.
-Additional skins for one vehicle type should therefore use the same scale and
-attachment layout. A materially different layout should use another vehicle
-type rather than a paid skin.
+Physics, inventory, weapon mounts, and trails still come from the vehicle's
+`aircraft/<vehicle>.json`; visual scale, passenger positions, and interaction
+hitboxes can vary by skin.
 
 For a local Fabric test, launch `./gradlew :fabric:runClient`, enable this
 directory as a resource pack, and also place it in the test world's `datapacks`
@@ -113,53 +124,46 @@ count of six. Both recipe IDs were also confirmed absent after data-pack reload.
 
 ## Blockbench and source files
 
-The editable sources are in [`source/`](source/). The original Meshy exports
-contained roughly 1.96 million triangles per aircraft, which is too dense for
-Blockbench and real-time entity rendering. The checked-in optimized GLBs and
-1024×1024 textures retain the recognizable source silhouettes, surface panels,
-windows, landing gear, doors, and markings while remaining practical to render.
-
-Blockbench does not import glTF in its core editor. Install the community
-[glTF Importer](https://github.com/JannisX11/blockbench-plugins/tree/master/plugins/gltf_importer)
-from Blockbench's Plugins dialog, then use **File → Import → glTF Model** to
-open either `.glb`. The generated `.bbmodel` files do not need that plugin and
-open directly.
+The editable sources are in [`source/`](source/). Both skins use strict
+Minecraft-native model specifications and generated 512×512 pixel atlases.
+The Militech audit reports 95 cuboids, 19 bones, and 1,140 triangles; the
+Trauma Team audit reports 96 cuboids, 21 bones, and 1,152 triangles. Neither
+audit reports an error.
 
 The runtime files below `assets/immersive_aircraft/objects/vehicle_skins/` are
-native Blockbench `.bbmodel` projects and open directly in Blockbench. The converter retains all
-6,852 Militech and 6,770 Trauma Team source triangles and their original UVs.
-The 1024×1024 maps receive a light, edge-preserving smoothing pass, reducing
-surface noise without repainting or changing the original panel layout.
+native Blockbench `.bbmodel` projects and open directly in Blockbench. Both are
+deliberately low-poly cuboid reconstructions with semantic multipart rigs.
 
 Each aircraft is organized as a multipart Blockbench rig rather than one flat
-mesh. The outliner exposes the hull, cockpit, roof, rear section, landing gear,
-left/right doors, and four VTOL pods. Seven recessed closure pieces sit behind
-the original skin to block see-through seams around the cabin, doors, and pod
-openings. The pod pivots tilt by eight degrees with forward/reverse input. There
-are deliberately no generated rotor blades, fan bones, or fan animations.
-Doors and landing gear remain independently selectable for future animation,
-but the resource pack does not add new key bindings.
+mesh. The outliners expose the hull, cockpit, roof, rear section, interior,
+six seats, and four VTOL pods. Both skins' pods tilt by 25 degrees with
+forward/reverse input. There are deliberately no generated rotor blades or fan
+animations, and the resource pack does not add new key bindings.
 
-The final dimensions are intentionally vehicle-sized rather than player-sized:
-the Militech AV is approximately 13.60 × 6.83 × 4.24 blocks and the Trauma Team
-Atlus is approximately 13.60 × 7.99 × 5.30 blocks. Seat locations, interaction
-hitboxes, weapon mounts, and exhaust trails are scaled with the models.
+The replacement Militech AV is approximately 16.32 × 10.72 × 6.09 blocks,
+matching the default Trauma Team Atlus's length. The default Trauma Team Atlus is the
+Minecraft-native six-seat ambulance from
+`source/trauma_atlus.model-spec.json`. Its 2.75-block authored model is rendered
+at 5.93455×, producing a 16.32-block vehicle with six passenger positions
+aligned to the two cockpit cushions and four rear-cabin
+cushions.
 
 The right-hand renders below use diagnostic colors to show the individual
 Blockbench mesh elements; the left-hand renders use the shipped textures.
 
 ![Textured aircraft and multipart Blockbench diagnostics](multipart_model.png)
 
-To regenerate both runtime models and their panel atlases, run:
+After installing the `img2blockbench` command, regenerate both runtime models
+and their atlases with:
 
 ```bash
 node tools/build_detailed_models.mjs
 ```
 
-The build converts both GLBs, preserves their UV-mapped surfaces, applies the
-1.7× scale, creates the smoothed maps and recessed panel textures, rigs the
-editable parts, and writes both `.bbmodel` files. In both models the cockpit is
-the forward end; the fins, rear deck, and exhaust points are on the back end.
+That script validates and compiles `source/militech_av.model-spec.json` and
+`source/trauma_atlus.model-spec.json`, then copies each generated model, atlas,
+and audit into its runtime location. Skin data makes both models 16.32 blocks
+long in the world.
 
 `tools/render_bbmodel.mjs` creates a transparent preview for visual checks and
 requires `ffmpeg`:
@@ -167,17 +171,19 @@ requires `ffmpeg`:
 ```bash
 node tools/render_bbmodel.mjs \
   --model assets/immersive_aircraft/objects/vehicle_skins/airship/militech_av.bbmodel \
-  --texture assets/immersive_aircraft/textures/entity/militech_av_panels.png \
+  --texture assets/immersive_aircraft/textures/entity/militech_av.png \
   --output /tmp/militech_av.png
 ```
 
 Add `--part-colors true` to replace the texture with one diagnostic color per
 element. This is useful for checking the semantic split and pod seams. Use
-`--pod-tilt -8` to preview the articulated flight pose.
+`--pod-tilt -25` to preview the articulated flight pose.
 
 ## Asset provenance
 
-The Militech AV and Trauma Team Atlus GLBs were supplied by the contributor for
-this pack. They depict third-party fictional designs. No separate license grant
-for those two assets is asserted here; confirm redistribution rights before
-publishing or merging them.
+Both current models are deterministic `img2blockbench` cuboid reconstructions
+based on user-supplied Meshy sources; detailed provenance is stored in their
+model specifications. The legacy optimized GLBs remain in `source/` for
+reference only. These assets depict third-party fictional designs. No separate
+license grant is asserted here; confirm redistribution rights before publishing
+or merging them.

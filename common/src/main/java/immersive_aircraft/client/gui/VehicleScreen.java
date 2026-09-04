@@ -1,12 +1,15 @@
 package immersive_aircraft.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
+import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.data.VehicleSkin;
 import immersive_aircraft.data.VehicleSkinDataLoader;
+import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.network.c2s.SelectVehicleSkinMessage;
 import immersive_aircraft.network.s2c.OpenGuiRequest;
@@ -49,6 +52,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     private static final int SKIN_PANEL_WIDTH = 360;
     private static final int SKIN_BUTTON_WIDTH = 88;
     private static final int MAX_SKINS_PER_PAGE = 5;
+    private static final float HOVER_POD_PREVIEW_TILT = 25.0f;
 
     public int containerSize;
     private final List<ResourceLocation> availableSkins;
@@ -56,6 +60,12 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     private final Map<ResourceLocation, Button> skinButtons = new HashMap<>();
     private final Map<ResourceLocation, ModelBounds> modelBoundsCache = new HashMap<>();
     private final List<Button> skinSelectorButtons = new ArrayList<>();
+    private final ModelPartRenderHandler<InventoryVehicleEntity> skinPreviewModel =
+            new ModelPartRenderHandler<InventoryVehicleEntity>()
+                    .add("front_left_pod", this::animatePreviewHoverPod)
+                    .add("front_right_pod", this::animatePreviewHoverPod)
+                    .add("rear_left_pod", this::animatePreviewHoverPod)
+                    .add("rear_right_pod", this::animatePreviewHoverPod);
     @Nullable
     private ResourceLocation selectedSkin;
     @Nullable
@@ -347,6 +357,11 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         );
     }
 
+    private void animatePreviewHoverPod(InventoryVehicleEntity entity, float yaw, float time, PoseStack matrixStack) {
+        float tilt = (float) Math.sin(time * 2.0f) * HOVER_POD_PREVIEW_TILT;
+        matrixStack.mulPose(Axis.XP.rotationDegrees(tilt));
+    }
+
     private void renderSkinPreview(GuiGraphics context, int previewX, int previewY,
                                    int previewWidth, int previewHeight, float delta) {
         context.fill(previewX, previewY, previewX + previewWidth, previewY + previewHeight, 0xFF101010);
@@ -388,7 +403,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         menu.getVehicle().setAnimationVariables(delta);
         MultiBufferSource.BufferSource buffers = Minecraft.getInstance().renderBuffers().bufferSource();
         BBModelRenderer.renderModel(model, context.pose(), buffers, LightTexture.FULL_BRIGHT, time,
-                menu.getVehicle(), null, 1.0f, 1.0f, 1.0f, 1.0f);
+                menu.getVehicle(), skinPreviewModel, 1.0f, 1.0f, 1.0f, 1.0f);
         buffers.endBatch();
 
         context.pose().popPose();

@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import org.joml.Matrix4f;
 
 public record PositionDescriptor(float x, float y, float z, float yaw, float pitch, float roll) {
-    static PositionDescriptor fromJson(JsonObject json) {
+    public static PositionDescriptor fromJson(JsonObject json) {
         float x = Utils.getFloatElement(json, "x");
         float y = Utils.getFloatElement(json, "y");
         float z = Utils.getFloatElement(json, "z");

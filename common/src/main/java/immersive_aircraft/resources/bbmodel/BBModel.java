@@ -76,11 +76,19 @@ public class BBModel {
     }
 
     public float getTextureWidth(BBTexture texture) {
-        return meta.modelFormat.equals("free") ? texture.uvWidth : textureWidth;
+        // Generic Blockbench files may omit per-texture UV dimensions and use
+        // the project resolution instead.
+        if (meta.modelFormat.equals("free") && texture.uvWidth > 0) {
+            return texture.uvWidth;
+        }
+        return textureWidth;
     }
 
     public float getTextureHeight(BBTexture texture) {
-        return meta.modelFormat.equals("free") ? texture.uvHeight : textureHeight;
+        if (meta.modelFormat.equals("free") && texture.uvHeight > 0) {
+            return texture.uvHeight;
+        }
+        return textureHeight;
     }
 
     public BBTexture getTexture(int id) {

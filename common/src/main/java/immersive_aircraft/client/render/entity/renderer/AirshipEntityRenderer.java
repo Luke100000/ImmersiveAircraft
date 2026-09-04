@@ -1,5 +1,7 @@
 package immersive_aircraft.client.render.entity.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import immersive_aircraft.Main;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.entity.AircraftEntity;
@@ -25,12 +27,21 @@ public class AirshipEntityRenderer<T extends AirshipEntity> extends AircraftEnti
             .add("flag_small", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
                     renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
             .add("flag_front", (model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer) ->
-                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time));
+                    renderSails(object, vertexConsumerProvider, entity, matrixStack, light, time))
+            .add("front_left_pod", this::animateHoverPod)
+            .add("front_right_pod", this::animateHoverPod)
+            .add("rear_left_pod", this::animateHoverPod)
+            .add("rear_right_pod", this::animateHoverPod);
 
 
     public AirshipEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.8f;
+    }
+
+    private void animateHoverPod(T entity, float yaw, float time, PoseStack matrixStack) {
+        float tilt = entity.pressingInterpolatedZ.getSmooth(Main.frameTime) * 25.0f;
+        matrixStack.mulPose(Axis.XP.rotationDegrees(tilt));
     }
 
     @Override

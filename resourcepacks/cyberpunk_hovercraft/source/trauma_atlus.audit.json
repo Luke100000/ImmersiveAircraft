@@ -1,0 +1,14 @@
+{
+  "bones": 21,
+  "cuboids": 96,
+  "errors": [],
+  "estimated_triangles": 1152,
+  "ok": true,
+  "texture_size": [
+    512,
+    512
+  ],
+  "warnings": [
+    "high cuboid count may be expensive in Minecraft"
+  ]
+}

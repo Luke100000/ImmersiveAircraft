@@ -4,5 +4,18 @@
   "translationKey": "vehicle_skin.immersive_aircraft.militech_av",
   "unlockTag": "ia.skin.militech_av",
   "free": false,
-  "default": false
+  "default": false,
+  "scale": 7.794627,
+  "seats": [
+    {"x": 0.974328, "y": 2.785821, "z": 4.140896},
+    {"x": -0.974328, "y": 2.785821, "z": 4.140896},
+    {"x": 0.974328, "y": 2.785821, "z": 0.730746},
+    {"x": -0.974328, "y": 2.785821, "z": 0.730746},
+    {"x": 0.974328, "y": 2.785821, "z": -1.705075},
+    {"x": -0.974328, "y": 2.785821, "z": -1.705075}
+  ],
+  "boundingBoxes": [
+    {"width": 11.4, "height": 6.9, "x": 0.0, "y": 3.45, "z": 3.6},
+    {"width": 11.4, "height": 6.9, "x": 0.0, "y": 3.45, "z": -2.7}
+  ]
 }

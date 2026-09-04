@@ -10,6 +10,7 @@ import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
+import immersive_aircraft.data.VehicleSkin;
 import immersive_aircraft.data.VehicleSkinDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
 import immersive_aircraft.entity.misc.PositionDescriptor;
@@ -166,8 +167,28 @@ public abstract class VehicleEntity extends Entity {
         entityData.set(DATA_VEHICLE_SKIN, skin == null ? "" : skin.toString());
     }
 
+    @Nullable
+    private VehicleSkin getActiveSkin() {
+        return (level().isClientSide
+                ? VehicleSkinDataLoader.getClientSkin(identifier, getVehicleSkin())
+                : VehicleSkinDataLoader.getServerSkin(identifier, getVehicleSkin())).orElse(null);
+    }
+
+    @Nullable
+    private List<PositionDescriptor> getSkinSeats() {
+        VehicleSkin skin = getActiveSkin();
+        return skin == null || skin.seats().isEmpty() ? null : skin.seats();
+    }
+
+    @Nullable
+    private List<BoundingBoxDescriptor> getSkinBoundingBoxes() {
+        VehicleSkin skin = getActiveSkin();
+        return skin == null || skin.boundingBoxes().isEmpty() ? null : skin.boundingBoxes();
+    }
+
     public int getPassengerSpace() {
-        return getVehicleData().getPassengerPositions().size();
+        List<PositionDescriptor> skinSeats = getSkinSeats();
+        return skinSeats == null ? getVehicleData().getPassengerPositions().size() : skinSeats.size();
     }
 
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -591,11 +612,15 @@ public abstract class VehicleEntity extends Entity {
         Matrix4f transform = getVehicleTransform();
 
         int size = getPassengers().size() - 1;
-        List<List<PositionDescriptor>> positions = getVehicleData().getPassengerPositions();
-        if (size < positions.size()) {
+        List<PositionDescriptor> skinSeats = getSkinSeats();
+        List<List<PositionDescriptor>> passengerLayouts = getVehicleData().getPassengerPositions();
+        List<PositionDescriptor> positions = skinSeats != null
+                ? skinSeats
+                : size < passengerLayouts.size() ? passengerLayouts.get(size) : List.of();
+        if (!positions.isEmpty()) {
             int i = getPassengers().indexOf(passenger);
-            if (i >= 0 && i < positions.get(size).size()) {
-                PositionDescriptor positionDescriptor = positions.get(size).get(i);
+            if (i >= 0 && i < positions.size()) {
+                PositionDescriptor positionDescriptor = positions.get(i);
 
                 float x = positionDescriptor.x();
                 float y = positionDescriptor.y();
@@ -975,7 +1000,11 @@ public abstract class VehicleEntity extends Entity {
     }
 
     public List<AABB> getAdditionalShapes() {
-        return getVehicleData().getBoundingBoxes().stream().map(this::getOffsetBoundingBox).toList();
+        List<BoundingBoxDescriptor> skinBoundingBoxes = getSkinBoundingBoxes();
+        List<BoundingBoxDescriptor> boundingBoxes = skinBoundingBoxes == null
+                ? getVehicleData().getBoundingBoxes()
+                : skinBoundingBoxes;
+        return boundingBoxes.stream().map(this::getOffsetBoundingBox).toList();
     }
 
     public List<AABB> getShapes() {

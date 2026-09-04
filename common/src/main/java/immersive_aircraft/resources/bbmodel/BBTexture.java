@@ -33,10 +33,10 @@ public class BBTexture {
         this.uuid = element.getAsJsonPrimitive("uuid").getAsString();
         this.id = element.getAsJsonPrimitive("id").getAsString();
         this.name = element.getAsJsonPrimitive("name").getAsString();
-        this.width = Utils.getIntElement(element, "width", 16);
-        this.height = Utils.getIntElement(element, "height", 16);
-        this.uvWidth = Utils.getIntElement(element, "uv_width", 16);
-        this.uvHeight = Utils.getIntElement(element, "uv_height", 16);
+        this.width = Utils.getIntElement(element, "width", 0);
+        this.height = Utils.getIntElement(element, "height", 0);
+        this.uvWidth = Utils.getIntElement(element, "uv_width", this.width);
+        this.uvHeight = Utils.getIntElement(element, "uv_height", this.height);
 
         if (this.name.contains(":")) {
             this.location = new ResourceLocation(this.name);

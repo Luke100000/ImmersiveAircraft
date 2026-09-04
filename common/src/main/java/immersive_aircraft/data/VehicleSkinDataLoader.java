@@ -76,12 +76,22 @@ public class VehicleSkinDataLoader extends DataLoader {
     }
 
     public static Optional<VehicleSkin> getClientSkin(ResourceLocation vehicle, ResourceLocation selectedSkin) {
-        VehicleSkin selected = selectedSkin == null ? null : CLIENT_REGISTRY.get(selectedSkin);
+        return getSkin(CLIENT_REGISTRY, CLIENT_DEFAULT_SKINS, vehicle, selectedSkin);
+    }
+
+    public static Optional<VehicleSkin> getServerSkin(ResourceLocation vehicle, ResourceLocation selectedSkin) {
+        return getSkin(REGISTRY, DEFAULT_SKINS, vehicle, selectedSkin);
+    }
+
+    private static Optional<VehicleSkin> getSkin(Map<ResourceLocation, VehicleSkin> skins,
+                                                 Map<ResourceLocation, VehicleSkin> defaults,
+                                                 ResourceLocation vehicle, ResourceLocation selectedSkin) {
+        VehicleSkin selected = selectedSkin == null ? null : skins.get(selectedSkin);
         if (selected != null && selected.vehicle().equals(vehicle)) {
             return Optional.of(selected);
         }
 
-        return Optional.ofNullable(CLIENT_DEFAULT_SKINS.get(vehicle));
+        return Optional.ofNullable(defaults.get(vehicle));
     }
 
     public static Optional<ResourceLocation> getActiveServerSkinId(ResourceLocation vehicle, ResourceLocation selectedSkin) {
