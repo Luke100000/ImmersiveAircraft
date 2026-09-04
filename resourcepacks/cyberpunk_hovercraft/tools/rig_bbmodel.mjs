@@ -247,6 +247,11 @@ function main() {
   model.elements = elements;
   model.outliner = [makeBone(seed, "airframe", [0, 0, 0], partBones, scale)];
   model.textures.push(makeTexture(args["fill-texture"], args["fill-texture-name"], seed));
+  const relativeTextureDirectory = path.relative(path.dirname(args.output), path.dirname(args["fill-texture"]))
+    .split(path.sep).join("/");
+  for (const texture of model.textures) {
+    texture.relative_path = `${relativeTextureDirectory}/${texture.name}`;
+  }
   model.animations = [{
     uuid: uuid(`${seed}:animation:flight`), name: "flight", loop: "loop", override: false,
     length: 0, snapping: 24, selected: false, anim_time_update: "", blend_weight: "",

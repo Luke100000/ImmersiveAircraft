@@ -1,9 +1,9 @@
 # Cyberpunk Hovercraft resource/data pack
 
-This optional Minecraft 1.20.1 pack turns two existing Immersive Aircraft
-vehicles into large futuristic VTOL aircraft without changing the mod's Java
-source or JAR. Its resource-pack half supplies the models and textures; its
-data-pack half supplies six-seat layouts and model-sized interaction hitboxes.
+This optional Minecraft 1.20.1 pack adds two selectable futuristic VTOL skins
+to the Immersive Aircraft Cargo Airship. Its resource-pack half supplies the
+models and textures; its data-pack half registers those skins and supplies a
+six-seat layout and model-sized interaction hitboxes.
 
 ![Militech AV and Trauma Team Atlus](preview.png)
 
@@ -21,13 +21,12 @@ Live flight check after boarding each aircraft and moving forward/upward:
 
 | Resource-pack vehicle | Immersive Aircraft slot | Flight behavior |
 | --- | --- | --- |
-| Militech AV | Airship | 13.6 blocks long; fuel-powered hover/flight, six seats, and one weapon slot |
+| Militech AV | Cargo Airship | 13.6 blocks long; fuel-powered hover/flight, six seats, and cargo storage |
 | Trauma Team Atlus | Cargo Airship | 13.6 blocks long; fuel-powered hover/flight, six seats, and cargo storage |
 
-Minecraft resource packs cannot register new entity or item IDs. Reusing these
-two existing slots is what makes the aircraft work with an unmodified Immersive
-Aircraft JAR. Controls, sounds, inventories, and saved-vehicle behavior come
-from the respective base vehicles. The data pack intentionally disables both
+The two models are cosmetic choices for the Cargo Airship rather than new
+entities. Controls, sounds, inventory, and saved-vehicle behavior come from
+the base vehicle. The data pack intentionally disables both
 crafting recipes; obtain the aircraft from Creative inventory or with `/give`,
 then use the item to place the aircraft in the world.
 
@@ -39,18 +38,74 @@ then use the item to place the aircraft in the world.
 3. Put the pack in the Minecraft `resourcepacks` directory and enable
    **Militech AV + Trauma Team Atlus** above the default assets.
 4. Put the same pack in the world's `datapacks` directory, then run `/reload`.
-   This enables all six seats and the full-size interaction hitboxes.
-5. Take an Airship (Militech AV) or Cargo Airship (Trauma Team Atlus) from the
-   Creative inventory, then use the item to place it in the world. They have no
+   This registers the skins, enables all six seats, and adds the full-size
+   interaction hitboxes.
+5. Take a Cargo Airship from the Creative inventory, then use the item to place
+   it in the world. The affected vehicles have no
    crafting recipes while this data pack is enabled.
+6. Board the aircraft, press **E**, then click **Vehicle Skins**. Search the
+   player's available cosmetics, click one to preview it, and click **Use Skin**
+   to apply it.
 
-The model replacement works with only the resource-pack half enabled, but the
-base vehicles remain two-seaters until the same pack's data half is enabled.
-No modified mod JAR is required.
+Both halves are required by the selectable-skin system. If the data pack is not
+enabled, its nested skin models remain installed but are not selected.
+
+## Skin access
+
+Skin definitions live in `data/immersive_aircraft/vehicle_skins/`. Trauma Team
+Atlus is the free default; Militech AV requires its entitlement tag. For a paid skin, set
+`"free": false` and give an entitled player the definition's `unlockTag`, for
+example:
+
+```mcfunction
+/tag PlayerName add ia.skin.militech_av
+```
+
+For development, `/tag PlayerName add ia.skin.all` unlocks every registered
+skin. Remove either tag and reopen the vehicle screen to refresh its list.
+
+The server filters the list shown to the player and validates every selection
+request. This makes vanilla tags a convenient temporary bridge for CustomNPC;
+a payment integration can replace the entitlement provider later without
+putting trust in the client. Whenever the controlling driver changes, the
+server immediately restores the default if the new driver does not own the
+vehicle's currently selected skin.
+
+A skin definition has this shape:
+
+```json
+{
+  "vehicle": "immersive_aircraft:cargo_airship",
+  "model": "immersive_aircraft:vehicle_skins/airship/militech_av",
+  "translationKey": "vehicle_skin.immersive_aircraft.militech_av",
+  "unlockTag": "ia.skin.militech_av",
+  "free": false,
+  "default": false
+}
+```
+
+`default` skins are always available and are used when a vehicle has no saved
+selection. Other skins require either `free: true` or the listed player tag.
+The selected ID is synchronized to nearby clients and saved on the placed
+vehicle and its picked-up item.
+
+Skins are cosmetic: physics, inventory, seats, weapon mounts, trails, and
+interaction boxes still come from the vehicle's `aircraft/<vehicle>.json`.
+Additional skins for one vehicle type should therefore use the same scale and
+attachment layout. A materially different layout should use another vehicle
+type rather than a paid skin.
+
+For a local Fabric test, launch `./gradlew :fabric:runClient`, enable this
+directory as a resource pack, and also place it in the test world's `datapacks`
+directory. After `/reload`, use `/give @s immersive_aircraft:cargo_airship`, board it,
+press **E**, and click **Vehicle Skins**. To test entitlement filtering with a
+new non-default skin, add
+and remove its tag with `/tag @s add <unlockTag>` and
+`/tag @s remove <unlockTag>`, reopening the screen after each change.
 
 ## Controls and verification
 
-Both aircraft inherit the Airship controls: **W/S** moves forward/backward,
+Both skins inherit the Cargo Airship controls: **W/S** moves forward/backward,
 **A/D** turns, **Space** rises, **Left Shift** descends, and **R** dismounts.
 In a Fabric 1.20.1 client, each item was placed in-world, boarded by right-click,
 flown vertically and forward with six occupants, and checked for a passenger
@@ -70,8 +125,8 @@ from Blockbench's Plugins dialog, then use **File → Import → glTF Model** to
 open either `.glb`. The generated `.bbmodel` files do not need that plugin and
 open directly.
 
-The runtime files in `assets/immersive_aircraft/objects/` are native Blockbench
-`.bbmodel` projects and open directly in Blockbench. The converter retains all
+The runtime files below `assets/immersive_aircraft/objects/vehicle_skins/` are
+native Blockbench `.bbmodel` projects and open directly in Blockbench. The converter retains all
 6,852 Militech and 6,770 Trauma Team source triangles and their original UVs.
 The 1024×1024 maps receive a light, edge-preserving smoothing pass, reducing
 surface noise without repainting or changing the original panel layout.
@@ -111,7 +166,7 @@ requires `ffmpeg`:
 
 ```bash
 node tools/render_bbmodel.mjs \
-  --model assets/immersive_aircraft/objects/airship.bbmodel \
+  --model assets/immersive_aircraft/objects/vehicle_skins/airship/militech_av.bbmodel \
   --texture assets/immersive_aircraft/textures/entity/militech_av_panels.png \
   --output /tmp/militech_av.png
 ```

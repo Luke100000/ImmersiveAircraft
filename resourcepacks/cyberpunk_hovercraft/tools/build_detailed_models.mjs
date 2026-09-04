@@ -60,7 +60,7 @@ function makeFillTexture(output, body, recess, accent) {
   fs.rmSync(temporary);
 }
 
-function build(profile, modelName, sourceGlb, sourceTexture, panelTexture, fillTexture, fillColors) {
+function build(profile, vehicleType, sourceGlb, sourceTexture, panelTexture, fillTexture, fillColors) {
   run("ffmpeg", [
     "-hide_banner", "-loglevel", "error", "-y", "-i", sourceTexture,
     "-vf", "bilateral=sigmaS=2:sigmaR=0.06:planes=7", "-frames:v", "1", "-pix_fmt", "rgb24", panelTexture,
@@ -68,7 +68,9 @@ function build(profile, modelName, sourceGlb, sourceTexture, panelTexture, fillT
   makeFillTexture(fillTexture, ...fillColors);
 
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), `${profile}-`));
-  const flat = path.join(temporary, `${modelName}-flat.bbmodel`);
+  const flat = path.join(temporary, `${profile}-flat.bbmodel`);
+  const outputDirectory = path.join(OBJECT_DIR, "vehicle_skins", vehicleType);
+  fs.mkdirSync(outputDirectory, {recursive: true});
   try {
     run(process.execPath, [
       path.join(TOOL_DIR, "glb_to_bbmodel.mjs"),
@@ -83,7 +85,7 @@ function build(profile, modelName, sourceGlb, sourceTexture, panelTexture, fillT
     run(process.execPath, [
       path.join(TOOL_DIR, "rig_bbmodel.mjs"),
       "--input", flat,
-      "--output", path.join(OBJECT_DIR, `${modelName}.bbmodel`),
+      "--output", path.join(outputDirectory, `${profile}.bbmodel`),
       "--profile", profile,
       "--fill-texture", fillTexture,
       "--fill-texture-name", path.basename(fillTexture),
@@ -114,4 +116,4 @@ build(
   [[210, 214, 211], [18, 118, 121], [168, 30, 41]],
 );
 
-console.log(JSON.stringify({scale: BUILD_SCALE, models: ["airship", "cargo_airship"]}, null, 2));
+console.log(JSON.stringify({scale: BUILD_SCALE, models: ["militech_av", "trauma_atlus"]}, null, 2));

@@ -1,8 +1,10 @@
 {
-  "entity.immersive_aircraft.airship": "Militech AV",
-  "item.immersive_aircraft.airship": "Militech AV",
-  "item.immersive_aircraft.airship.description": "Six-seat armored VTOL aircraft. Hover and fly using airship controls.",
-  "entity.immersive_aircraft.cargo_airship": "Trauma Team Atlus",
-  "item.immersive_aircraft.cargo_airship": "Trauma Team Atlus",
-  "item.immersive_aircraft.cargo_airship.description": "Six-seat emergency-response VTOL. Hover and fly using cargo airship controls."
+  "entity.immersive_aircraft.airship": "Flying Car",
+  "item.immersive_aircraft.airship": "Flying Car",
+  "item.immersive_aircraft.airship.description": "A customizable six-seat VTOL using airship controls.",
+  "entity.immersive_aircraft.cargo_airship": "Cargo Flying Car",
+  "item.immersive_aircraft.cargo_airship": "Cargo Flying Car",
+  "item.immersive_aircraft.cargo_airship.description": "A customizable six-seat cargo VTOL using airship controls.",
+  "vehicle_skin.immersive_aircraft.militech_av": "Militech AV",
+  "vehicle_skin.immersive_aircraft.trauma_atlus": "Trauma Team Atlus"
 }

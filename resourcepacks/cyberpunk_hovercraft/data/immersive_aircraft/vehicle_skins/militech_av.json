@@ -1,0 +1,8 @@
+{
+  "vehicle": "immersive_aircraft:cargo_airship",
+  "model": "immersive_aircraft:vehicle_skins/airship/militech_av",
+  "translationKey": "vehicle_skin.immersive_aircraft.militech_av",
+  "unlockTag": "ia.skin.militech_av",
+  "free": false,
+  "default": false
+}

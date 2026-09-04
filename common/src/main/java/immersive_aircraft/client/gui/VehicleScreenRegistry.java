@@ -19,7 +19,7 @@ public class VehicleScreenRegistry {
         Minecraft client = Minecraft.getInstance();
         if (client.level != null && client.player != null) {
             VehicleScreenHandler handler = (VehicleScreenHandler) vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
-            VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName());
+            VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName(), message);
             client.player.containerMenu = screen.getMenu();
             client.setScreen(screen);
         }

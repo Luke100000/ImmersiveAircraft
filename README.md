@@ -11,9 +11,9 @@ Hosted on
 
 # Optional resource packs
 
-* [Cyberpunk Hovercraft](resourcepacks/cyberpunk_hovercraft) replaces the Airship and Cargo Airship with full-size,
-  six-seat Militech AV and Trauma Team Atlus aircraft while retaining their hovering and flight behavior. The combined
-  resource/data pack makes them Creative-placeable rather than craftable and does not modify the mod source or JAR.
+* [Cyberpunk Hovercraft](resourcepacks/cyberpunk_hovercraft) supplies selectable, full-size six-seat Militech AV and
+  Trauma Team Atlus skins for the Airship and Cargo Airship while retaining their hovering and flight behavior. The
+  combined resource/data pack makes them Creative-placeable rather than craftable.
 
 # Contributors
 

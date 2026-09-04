@@ -1,5 +1,6 @@
 package immersive_aircraft.item;
 
+import immersive_aircraft.data.VehicleSkinDataLoader;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -54,6 +55,10 @@ public class VehicleItem extends DescriptionItem {
             VehicleEntity entity = constructor.create(world);
 
             entity.fromItemStack(itemStack);
+            if (!world.isClientSide && entity.getVehicleSkin() != null
+                    && !VehicleSkinDataLoader.canSelect(user, entity.identifier, entity.getVehicleSkin())) {
+                entity.setVehicleSkin(null);
+            }
 
             entity.setPos(hitResult.getLocation().x, hitResult.getLocation().y, hitResult.getLocation().z);
             entity.setYRot(user.getYRot());

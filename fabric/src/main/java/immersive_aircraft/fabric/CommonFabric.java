@@ -6,6 +6,7 @@ import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
+import immersive_aircraft.network.s2c.VehicleSkinDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -42,16 +43,16 @@ public final class CommonFabric implements ModInitializer {
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Main.locate("group"), group);
 
-        // Register event for syncing aircraft upgrades.
+        // Register event for syncing data-pack-driven aircraft data.
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register(this::onSyncDatapack);
     }
 
     /**
-     * Send sync packets for upgrades when datapack is reloaded.
+     * Send sync packets when datapacks are synchronized on join or reload.
      */
     private void onSyncDatapack(ServerPlayer player, boolean joined) {
         NetworkHandler.sendToPlayer(new VehicleUpgradesMessage(), player);
         NetworkHandler.sendToPlayer(new AircraftDataMessage(), player);
+        NetworkHandler.sendToPlayer(new VehicleSkinDataMessage(), player);
     }
 }
-

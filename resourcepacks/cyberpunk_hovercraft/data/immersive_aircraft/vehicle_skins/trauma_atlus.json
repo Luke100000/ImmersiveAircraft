@@ -1,0 +1,8 @@
+{
+  "vehicle": "immersive_aircraft:cargo_airship",
+  "model": "immersive_aircraft:vehicle_skins/cargo_airship/trauma_atlus",
+  "translationKey": "vehicle_skin.immersive_aircraft.trauma_atlus",
+  "unlockTag": "ia.skin.trauma_atlus",
+  "free": true,
+  "default": true
+}

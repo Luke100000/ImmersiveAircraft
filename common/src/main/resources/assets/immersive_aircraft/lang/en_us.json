@@ -151,5 +151,10 @@
   "immersive_aircraft.upgrade.dials": "Mechanical dashboard",
   "immersive_aircraft.upgrade.hud": "Electronic dashboard",
 
-  "immersive_aircraft.tooltip.inventory": "Contains %s items."
+  "immersive_aircraft.tooltip.inventory": "Contains %s items.",
+  "gui.immersive_aircraft.vehicle_skins": "Vehicle Skins",
+  "gui.immersive_aircraft.search_skins": "Search skins...",
+  "gui.immersive_aircraft.use_skin": "Use Skin",
+  "gui.immersive_aircraft.no_skin_results": "No matching skins",
+  "gui.immersive_aircraft.preview_unavailable": "Preview unavailable"
 }

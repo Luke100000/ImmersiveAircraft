@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "immersive_aircraft:item/transparent",
-    "layer1": "immersive_aircraft:item/airship"
-  }
-}

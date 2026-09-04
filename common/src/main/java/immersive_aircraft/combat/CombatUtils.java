@@ -10,12 +10,13 @@ public class CombatUtils {
         final int x = containerScreen.getX();
         final int y = containerScreen.getY();
 
-        return containerScreen.getMenu().getVehicle().getInventoryDescription().getRectangles().stream()
+        Stream<Rect2i> inventoryAreas = containerScreen.getMenu().getVehicle().getInventoryDescription().getRectangles().stream()
                 .map(r -> new Rect2i(
                         x + r.getX(),
                         y + r.getY(),
                         r.getWidth(),
                         r.getHeight()
                 ));
+        return Stream.concat(inventoryAreas, containerScreen.getSkinPanelArea().stream());
     }
 }
