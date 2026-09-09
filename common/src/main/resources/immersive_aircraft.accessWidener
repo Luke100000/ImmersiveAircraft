@@ -1,3 +1,4 @@
-accessWidener	v1	named
+accessWidener	v1	official
 accessible field net/minecraft/server/level/ServerPlayer containerCounter I
 accessible method net/minecraft/server/level/ServerPlayer nextContainerCounter ()V
+accessible method net/minecraft/client/Camera getMaxZoom (F)F

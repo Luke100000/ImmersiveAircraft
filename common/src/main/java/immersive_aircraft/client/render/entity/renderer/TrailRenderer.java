@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
@@ -16,16 +16,16 @@ import org.joml.Vector3f;
 public class TrailRenderer {
     private static final Identifier identifier = Main.locate("textures/entity/trail.png");
 
-    public static void render(Trail trail, MultiBufferSource vertexConsumerProvider, PoseStack.Pose matrices) {
+    public static void render(Trail trail, PoseStack matrixStack, SubmitNodeCollector collector) {
         if (trail.nullEntries >= trail.size || trail.entries == 0) {
             return;
         }
 
-        VertexConsumer lineVertexConsumer = vertexConsumerProvider.getBuffer(RenderTypes.beaconBeam(identifier, true));
-        int light = 15728640;
+        collector.submitCustomGeometry(matrixStack, RenderTypes.beaconBeam(identifier, true), (pose, lineVertexConsumer) -> {
+            int light = 15728640;
 
-        Vec3 pos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
-        Matrix3f matrix = matrices.normal();
+            Vec3 pos = Minecraft.getInstance().gameRenderer.mainCamera().position();
+            Matrix3f matrix = pose.normal();
 
         //todo a custom vertex indexing methode would be beneficial here
         for (int i = 1; i < Math.min(trail.entries, trail.size); i++) {
@@ -46,6 +46,7 @@ public class TrailRenderer {
             vertex(trail, lineVertexConsumer, matrix, 0, 1, pre + 3, pos, a1, light);
             vertex(trail, lineVertexConsumer, matrix, 0, 0, pre, pos, a1, light);
         }
+        });
     }
 
     private static void vertex(Trail trail, VertexConsumer lineVertexConsumer, Matrix3f matrix, float u, float v, int index, Vec3 pos, float a, int light) {

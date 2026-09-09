@@ -4,7 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.entity.Entity;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -21,11 +23,13 @@ public abstract class GameRendererMixin {
     @Final
     private Camera mainCamera;
 
-    @Inject(method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"), cancellable = false)
-    public void immersiveAircraft$renderWorld(PoseStack poseStack, float partialTicks, CallbackInfo ci) {
+    @Inject(method = "bobHurt(Lnet/minecraft/client/renderer/state/level/CameraRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;)V", at = @At("HEAD"))
+    public void immersiveAircraft$renderWorld(CameraRenderState cameraState, PoseStack poseStack, CallbackInfo ci) {
         Entity entity = mainCamera.entity();
         //noinspection ConstantValue
         if (entity != null && !mainCamera.isDetached() && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
+            float partialTicks = mainCamera.getCameraEntityPartialTicks(Minecraft.getInstance().getDeltaTracker());
+
             // rotate camera
             if (vehicle.adaptPlayerRotation) {
                 poseStack.mulPose(Axis.ZP.rotationDegrees(vehicle.getRoll(partialTicks)));

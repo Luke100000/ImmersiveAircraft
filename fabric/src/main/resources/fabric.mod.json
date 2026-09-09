@@ -21,24 +21,15 @@
     ],
     "client": [
       "immersive_aircraft.fabric.ClientFabric"
-    ],
-    "modmenu": [
-      "immersive_aircraft.config.ModMenuIntegration"
-    ],
-    "jei_mod_plugin": [
-      "immersive_aircraft.combat.JEICCombat"
-    ],
-    "rei_client": [
-      "immersive_aircraft.combat.REICombat"
     ]
   },
   "mixins": [
     "immersive_aircraft.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.3",
-    "java": ">=21",
-    "fabric-api-base": ">=0.1.0"
+    "fabricloader": ">=0.19.5",
+    "java": ">=25",
+    "fabric-api": ">=0.160.0"
   },
   "breaks": {
     "ad_astra": "<1.15.6"

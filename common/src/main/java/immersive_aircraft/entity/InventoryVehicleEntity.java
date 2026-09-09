@@ -44,7 +44,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements ContainerListener, MenuProvider, Container, HasCustomInventoryScreen {
+public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implements MenuProvider, Container, HasCustomInventoryScreen {
     private final VehicleProperties properties;
     private SparseSimpleInventory inventory;
     protected final Map<Integer, List<Weapon>> weapons = new HashMap<>();
@@ -107,7 +107,6 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     protected void initInventory() {
         this.inventory = new SparseSimpleInventory(getInventoryDescription().getInventorySize());
-        this.inventory.addListener(this);
     }
 
     public SparseSimpleInventory getInventory() {
@@ -116,11 +115,6 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
             initInventory();
         }
         return inventory;
-    }
-
-    @Override
-    public void containerChanged(Container sender) {
-
     }
 
     @Override
@@ -154,7 +148,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
         if (getHealth() >= 1.0) {
             if (!player.level().isClientSide() && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
                 Entity primaryPassenger = getFirstPassenger();
@@ -171,7 +165,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
                 openInventory(serverPlayer);
             }
         }
-        return super.interact(player, hand);
+        return super.interact(player, hand, location);
     }
 
     @Override

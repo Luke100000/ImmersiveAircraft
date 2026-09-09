@@ -12,6 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntitySpawnRequest;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3f;
@@ -52,7 +53,7 @@ public class BombBay extends BulletWeapon {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putString("id", identifier);
         compoundTag.putInt(TAG_FUSE, 80);
-        return EntityType.loadEntityRecursive(compoundTag, getEntity().level(), EntitySpawnReason.LOAD, (e) -> {
+        return EntityType.loadEntityRecursive(compoundTag, getEntity().level(), new EntitySpawnRequest(EntitySpawnReason.LOAD, false), (e) -> {
             e.setPos(position.x(), position.y(), position.z());
             e.setDeltaMovement(vel.x(), vel.y(), vel.z());
             return e;

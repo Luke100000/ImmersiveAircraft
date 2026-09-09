@@ -1,10 +1,9 @@
 package immersive_aircraft;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class CompatUtil {
-    @ExpectPlatform
     public static boolean isModLoaded(String modid) {
-        throw new AssertionError();
+        return FabricLoader.getInstance().isModLoaded(modid);
     }
 }

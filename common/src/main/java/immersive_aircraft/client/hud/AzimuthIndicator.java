@@ -3,7 +3,7 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.ARGB;
 
 import java.util.Iterator;
@@ -21,13 +21,13 @@ public class AzimuthIndicator implements Indicator {
         lastAz = aircraft.getYRot();
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
         miniHUD = true;
         drawHUD(context, client, baseX, baseY + 9, 100, aircraft, color, null);
         miniHUD = false;
     }
 
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         double az = lastAz;
         while (az < 0) {
             az += 360;
@@ -83,7 +83,7 @@ public class AzimuthIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         double az = lastAz;
         while (az < 0) {
             az += 360;

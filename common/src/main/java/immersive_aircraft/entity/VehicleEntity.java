@@ -514,7 +514,7 @@ public abstract class VehicleEntity extends Entity {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
                 if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
-                    player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
+                    player.sendOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()));
                 }
 
                 if (Main.debouncingGetter.is(Main.Key.DISMOUNT)) {
@@ -523,7 +523,7 @@ public abstract class VehicleEntity extends Entity {
                         player.setJumping(false);
                     } else {
                         lastTriedToExit = tickCount;
-                        player.displayClientMessage(Component.translatable("immersive_aircraft.tried_dismount"), true);
+                        player.sendOverlayMessage(Component.translatable("immersive_aircraft.tried_dismount"));
                     }
                 }
 
@@ -712,7 +712,7 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
-    public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
+    public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand, @NotNull Vec3 location) {
         if (getHealth() < 1.0f && (player.isShiftKeyDown() || !Config.getInstance().requireShiftForRepair) && !hasPassenger(player)) {
             if (!level().isClientSide()) {
                 player.causeFoodExhaustion(Config.getInstance().repairExhaustion);
@@ -727,7 +727,7 @@ public abstract class VehicleEntity extends Entity {
                 } else {
                     component.withStyle(ChatFormatting.GREEN);
                 }
-                player.displayClientMessage(component, true);
+                player.sendOverlayMessage(component);
 
                 level().playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
             } else {
@@ -746,7 +746,7 @@ public abstract class VehicleEntity extends Entity {
             return InteractionResult.CONSUME;
         }
         if (!isValidDimension()) {
-            player.displayClientMessage(Component.translatable("immersive_aircraft.invalid_dimension"), true);
+            player.sendOverlayMessage(Component.translatable("immersive_aircraft.invalid_dimension"));
             return InteractionResult.FAIL;
         }
         if (player.isSecondaryUseActive()) {

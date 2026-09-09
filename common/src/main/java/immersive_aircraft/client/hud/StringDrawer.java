@@ -1,7 +1,7 @@
 package immersive_aircraft.client.hud;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class StringDrawer {
@@ -15,40 +15,40 @@ public abstract class StringDrawer {
             '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉', '₊', '₋', '₌', '₍', '₎'
     };
 
-    static void drawString1(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x + 1, y + 1, color, dropShadow);
+    static void drawString1(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x + 1, y + 1, color, dropShadow);
     }
 
-    static void drawString2(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x - client.font.width(text) / 2 - 1, y + 1, color, dropShadow);
+    static void drawString2(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x - client.font.width(text) / 2 - 1, y + 1, color, dropShadow);
     }
 
-    static void drawString3(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x - client.font.width(text) - 2, y + 1, color, dropShadow);
+    static void drawString3(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x - client.font.width(text) - 2, y + 1, color, dropShadow);
     }
 
-    static void drawString4(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x + 1, y - client.font.lineHeight / 2 + 1, color, dropShadow);
+    static void drawString4(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x + 1, y - client.font.lineHeight / 2 + 1, color, dropShadow);
     }
 
-    static void drawString5(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x - client.font.width(text) / 2 - 1, y - client.font.lineHeight / 2 + 1, color, dropShadow);
+    static void drawString5(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x - client.font.width(text) / 2 - 1, y - client.font.lineHeight / 2 + 1, color, dropShadow);
     }
 
-    static void drawString6(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x - client.font.width(text) - 2, y - client.font.lineHeight / 2 + 1, color, dropShadow);
+    static void drawString6(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x - client.font.width(text) - 2, y - client.font.lineHeight / 2 + 1, color, dropShadow);
     }
 
-    static void drawString7(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x + 1, y - client.font.lineHeight + 1, color, dropShadow);
+    static void drawString7(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x + 1, y - client.font.lineHeight + 1, color, dropShadow);
     }
 
-    static void drawString8(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x - client.font.width(text) / 2 - 1, y - client.font.lineHeight + 1, color, dropShadow);
+    static void drawString8(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x - client.font.width(text) / 2 - 1, y - client.font.lineHeight + 1, color, dropShadow);
     }
 
-    static void drawString9(GuiGraphics context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
-        context.drawString(client.font, text, x - client.font.width(text) - 2, y - client.font.lineHeight + 1, color, dropShadow);
+    static void drawString9(GuiGraphicsExtractor context, Minecraft client, @Nullable String text, int x, int y, int color, boolean dropShadow) {
+        context.text(client.font, text, x - client.font.width(text) - 2, y - client.font.lineHeight + 1, color, dropShadow);
     }
 
     static String toSuperScript(String s) {

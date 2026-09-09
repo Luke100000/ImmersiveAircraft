@@ -3,7 +3,7 @@ package immersive_aircraft.client.render.entity.renderer.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.world.entity.Entity;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ModelPartRenderHandler<T extends Entity> {
     private final Map<String, ModelPartRenderer<T>> objects = new HashMap<>();
-    private BBModelRenderer.VertexConsumerProvider vertexConsumerProvider = BBModelRenderer.DEFAULT_VERTEX_CONSUMER_PROVIDER;
+    private BBModelRenderer.RenderTypeProvider renderTypeProvider = BBModelRenderer.DEFAULT_RENDER_TYPE_PROVIDER;
 
     public ModelPartRenderHandler<T> add(String id, ModelPartRenderer.AnimationConsumer<T> animationConsumer) {
         return add(id, animationConsumer, null);
@@ -41,25 +41,25 @@ public class ModelPartRenderHandler<T extends Entity> {
         }
     }
 
-    public boolean render(String name, BBModel model, BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
+    public boolean render(String name, BBModel model, BBObject object, SubmitNodeCollector collector, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
         ModelPartRenderer<T> o = objects.get(name);
         if (o != null && o.renderConsumer() != null) {
-            o.renderConsumer().run(model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer);
+            o.renderConsumer().run(model, object, collector, entity, matrixStack, light, time, modelPartRenderer);
             return true;
         }
         return false;
     }
 
     /**
-     * Set the vertex consumer provider for this model part renderer, allowing for custom render types.
-     * @param vertexConsumerProvider The mapping between renderable and vertex consumers.
+     * Set the render type provider for this model part renderer, allowing for custom render types.
+     * @param renderTypeProvider The mapping between renderable and render types.
      */
-    public ModelPartRenderHandler<T> vertexConsumerProvider(BBModelRenderer.VertexConsumerProvider vertexConsumerProvider) {
-        this.vertexConsumerProvider = vertexConsumerProvider;
+    public ModelPartRenderHandler<T> renderTypeProvider(BBModelRenderer.RenderTypeProvider renderTypeProvider) {
+        this.renderTypeProvider = renderTypeProvider;
         return this;
     }
 
-    public BBModelRenderer.VertexConsumerProvider getVertexConsumerProvider() {
-        return vertexConsumerProvider;
+    public BBModelRenderer.RenderTypeProvider getRenderTypeProvider() {
+        return renderTypeProvider;
     }
 }
