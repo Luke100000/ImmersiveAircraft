@@ -20,8 +20,8 @@ import net.minecraft.world.entity.Entity;
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     @Override
     public <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
-        if (clientHandler != null) PayloadTypeRegistry.playS2C().register(type, codec);
-        if (serverHandler != null) PayloadTypeRegistry.playC2S().register(type, codec);
+        if (clientHandler != null) PayloadTypeRegistry.clientboundPlay().register(type, codec);
+        if (serverHandler != null) PayloadTypeRegistry.serverboundPlay().register(type, codec);
 
         if (clientHandler != null && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             ClientProxy.register(type, clientHandler);

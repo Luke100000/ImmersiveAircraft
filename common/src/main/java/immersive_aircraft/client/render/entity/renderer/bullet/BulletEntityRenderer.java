@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ import org.joml.Vector3f;
 
 public class BulletEntityRenderer<T extends BulletEntity> extends EntityRenderer<T, BulletEntityRenderState> {
     private static final Identifier TEXTURE = Main.locate("textures/entity/bullet.png");
-    private static final RenderType RENDER_TYPE = RenderTypes.entityCutoutNoCull(TEXTURE);
+    private static final RenderType RENDER_TYPE = RenderTypes.entityCutout(TEXTURE, false);
 
     public BulletEntityRenderer(EntityRendererProvider.Context context) {
         super(context);

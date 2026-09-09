@@ -21,7 +21,7 @@ public class VehicleScreenRegistry {
             VehicleScreenHandler handler = (VehicleScreenHandler) vehicle.createMenu(message.getSyncId(), client.player.getInventory(), client.player);
             VehicleScreen screen = new VehicleScreen(handler, client.player.getInventory(), vehicle.getDisplayName());
             client.player.containerMenu = screen.getMenu();
-            client.setScreen(screen);
+            client.setScreenAndShow(screen);
         }
     };
 

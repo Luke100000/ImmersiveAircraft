@@ -83,7 +83,7 @@ public class VehicleItem extends DescriptionItem {
     }
 
     private static void error(Player user, String message) {
-        user.displayClientMessage(Component.translatable(message).withStyle(ChatFormatting.RED), true);
+        user.sendOverlayMessage(Component.translatable(message).withStyle(ChatFormatting.RED));
     }
 
     @Override

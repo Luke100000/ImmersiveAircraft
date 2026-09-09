@@ -3,7 +3,7 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.level.block.NoteBlock;
@@ -78,13 +78,13 @@ public class WarningIndicator implements Indicator {
         }
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
         miniHUD = true;
         drawHUD(context, client, baseX, baseY - 18, 100, aircraft, color, null);
         miniHUD = false;
     }
 
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         if (cMsl) {
             if (edgeCheck(edge, client.font.width("[MISSILE]") / 4, client.font.lineHeight / 2, baseX + 1, baseY)) {
                 StringDrawer.drawString8(context, client, "[MISSILE]", baseX + 1, baseY, color, miniHUD);
@@ -110,7 +110,7 @@ public class WarningIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 29x75
         context.fill(baseX - 14, baseY - 37, baseX + 14 + 1, baseY + 37 + 1, colorBG);
 

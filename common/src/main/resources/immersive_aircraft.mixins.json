@@ -12,7 +12,7 @@
   "client": [
     "client.AbstractClientPlayerMixin", "client.CameraMixin", "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin", "client.ClientPlayNetworkHandlerMixin", "client.GameRendererMixin",
-    "client.GuiMixin", "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
+    "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
     "client.LivingEntityRenderStateMixin", "client.PlayerEntityRendererMixin"
   ]
 }

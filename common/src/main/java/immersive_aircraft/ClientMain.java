@@ -27,7 +27,7 @@ public class ClientMain {
 
     public static void postLoad() {
         Main.messageHandler = new ClientMessageHandler();
-        Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().position();
+        Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.mainCamera().position();
         Main.firstPersonGetter = () -> Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
         Main.debouncingGetter = key -> {
             if (key == Main.Key.BOOST) {

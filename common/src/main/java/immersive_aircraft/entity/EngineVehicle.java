@@ -172,14 +172,14 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                     float utilization = getFuelUtilization();
                     if (utilization > 0 && isFuelLow()) {
                         if (lastFuelState != FuelState.LOW) {
-                            player.displayClientMessage(Component.translatable("immersive_aircraft." + getFuelType() + ".low"), true);
+                            player.sendOverlayMessage(Component.translatable("immersive_aircraft." + getFuelType() + ".low"));
                             lastFuelState = FuelState.LOW;
                         }
                     } else if (utilization > 0) {
                         lastFuelState = FuelState.FUELED;
                     } else {
                         if (lastFuelState != FuelState.EMPTY) {
-                            player.displayClientMessage(Component.translatable("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")), true);
+                            player.sendOverlayMessage(Component.translatable("immersive_aircraft." + getFuelType() + "." + (lastFuelState == FuelState.FUELED ? "out" : "none")));
                             lastFuelState = FuelState.EMPTY;
                         }
                     }
@@ -281,7 +281,8 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
                 }
 
                 if (stack.isEmpty()) {
-                    ItemStack remainingItem = item.getCraftingRemainder();
+                    net.minecraft.world.item.ItemStackTemplate remainder = item.getCraftingRemainder();
+                    ItemStack remainingItem = remainder != null ? remainder.create() : ItemStack.EMPTY;
                     getInventory().setItem(slots.get(i).index(), remainingItem);
                 }
             } else {

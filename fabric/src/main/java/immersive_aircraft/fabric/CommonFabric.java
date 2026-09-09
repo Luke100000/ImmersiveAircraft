@@ -9,7 +9,7 @@ import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
@@ -35,7 +35,7 @@ public final class CommonFabric implements ModInitializer {
 
         Messages.loadMessages();
 
-        CreativeModeTab group = FabricItemGroup.builder()
+        CreativeModeTab group = FabricCreativeModeTab.builder()
                 .title(ItemGroups.getDisplayName())
                 .icon(ItemGroups::getIcon)
                 .displayItems((enabledFeatures, entries) -> entries.acceptAll(Items.getSortedItems()))

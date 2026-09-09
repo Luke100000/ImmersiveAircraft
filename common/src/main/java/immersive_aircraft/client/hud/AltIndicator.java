@@ -3,7 +3,7 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Iterator;
@@ -40,7 +40,7 @@ public class AltIndicator implements Indicator {
         }
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
         char rt = '-';
         if (vSpeed < -10) {
             rt = '▼';
@@ -55,7 +55,7 @@ public class AltIndicator implements Indicator {
     }
 
     @Override
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         for (int i = -bHeightHalf; i < bHeightHalf; i += 5) {
             if (edgeCheck(edge, 2, baseX, baseY + i * width / 100)) {
                 OverlayRenderer.renderLine(context, baseX, baseY + i * width / 100 - 1, baseX, baseY + (i + 5) * width / 100 + 1, color);
@@ -93,7 +93,7 @@ public class AltIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 55x55
         context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorBG);
 

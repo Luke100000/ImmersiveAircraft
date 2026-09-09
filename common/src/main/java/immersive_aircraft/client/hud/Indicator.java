@@ -2,16 +2,16 @@ package immersive_aircraft.client.hud;
 
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public interface Indicator {
     void update(Minecraft client, EngineVehicle aircraft);
 
-    void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color);
+    void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color);
 
-    void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge);
+    void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge);
 
-    void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft);
+    void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft);
 
     default boolean edgeCheck(int[] edge, int r, int x, int y) {
         return edgeCheck(edge, r, r, x, y);

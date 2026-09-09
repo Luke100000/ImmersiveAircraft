@@ -1,9 +1,11 @@
 package immersive_aircraft.fabric;
 
 import immersive_aircraft.ClientMain;
+import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.fabric.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
@@ -12,10 +14,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -44,7 +48,11 @@ public final class ClientFabric implements ClientModInitializer {
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
 
-        KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
+        KeyBindings.list.forEach(KeyMappingHelper::registerKeyMapping);
+        HudElementRegistry.addLast(
+            Identifier.fromNamespaceAndPath(Main.MOD_ID, "hud"),
+            (graphics, deltaTracker) -> OverlayRenderer.renderOverlay(graphics, deltaTracker.getGameTimeDeltaTicks(), 49)
+        );
         ItemTooltipCallback.EVENT.register(this::itemTooltipCallback);
     }
 

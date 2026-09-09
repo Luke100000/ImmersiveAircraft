@@ -36,7 +36,7 @@ public class ClientPlayNetworkHandlerMixin {
                 minecraft.player.yRotO = entity.getYRot();
                 minecraft.player.setYRot(entity.getYRot());
                 minecraft.player.setYHeadRot(entity.getYRot());
-                minecraft.gui.setOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), false);
+                minecraft.gui.hud.setOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), false);
             }
         }
     }
