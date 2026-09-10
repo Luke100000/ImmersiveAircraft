@@ -139,7 +139,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         }
 
         // shutdown
-        if (!isVehicle() && getEngineTarget() > 0) {
+        if (!level().isClientSide && !isVehicle() && getEngineTarget() > 0) {
             setEngineTarget(0.0f);
         }
 
@@ -301,7 +301,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     public void setEngineTarget(float engineTarget) {
         if (getFuelUtilization() > 0 || engineTarget == 0) {
             if (level().isClientSide) {
-                if (getEngineTarget() != engineTarget) {
+                if (isControlledByLocalInstance() && getEngineTarget() != engineTarget) {
                     NetworkHandler.sendToServer(new EnginePowerMessage(engineTarget));
                 }
                 if (getFuelUtilization() > 0 && getEngineTarget() == 0.0 && engineTarget > 0) {

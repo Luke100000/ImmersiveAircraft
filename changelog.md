@@ -1,3 +1,7 @@
+# 1.4.2
+
+* Fixed engine turning off in Multiplayer for other players
+
 # 1.4.1
 
 * Fixed stack overflow on explosions (again)
