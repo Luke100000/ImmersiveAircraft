@@ -259,12 +259,12 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         // Update gunner offsets
         // The first weapon is assigned to the last passenger, the second to the second last, etc.
         // If more weapons than passengers are available, the remaining weapons are assigned to the driver
-        int gunnerOffset = getPassengers().size();
+        int gunnerOffset = 0;
         for (List<Weapon> weapons : getWeapons().values()) {
-            gunnerOffset--;
             for (Weapon weapon : weapons) {
-                weapon.setGunnerOffset(Math.max(0, gunnerOffset));
+                weapon.setGunnerOffset(gunnerOffset);
             }
+            gunnerOffset++;
         }
 
         // Update weapons
@@ -399,11 +399,10 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     public void clientFireWeapons(Entity entity) {
-        int gunnerIndex = getPassengers().indexOf(entity);
         for (List<Weapon> weapons : getWeapons().values()) {
             int index = 0;
             for (Weapon weapon : weapons) {
-                if (weapon.getGunnerOffset() == gunnerIndex) {
+                if (getGunner(weapon.getGunnerOffset()) == entity) {
                     weapon.clientFire(index++);
                 }
             }

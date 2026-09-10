@@ -1,6 +1,7 @@
 # 1.4.2
 
 * Fixed engine turning off in Multiplayer for other players
+* Fixed gunner controlling wrong gun
 
 # 1.4.1
 
