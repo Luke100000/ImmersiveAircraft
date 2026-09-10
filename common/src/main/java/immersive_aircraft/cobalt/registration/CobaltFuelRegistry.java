@@ -6,4 +6,6 @@ public abstract class CobaltFuelRegistry {
     public static CobaltFuelRegistry INSTANCE = null;
 
     public abstract int get(ItemStack stack);
+
+    public abstract ItemStack getCraftingRemainingItem(ItemStack stack);
 }

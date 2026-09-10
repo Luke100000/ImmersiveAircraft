@@ -2,6 +2,7 @@ package immersive_aircraft.entity;
 
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
@@ -19,7 +20,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -272,11 +272,10 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
             int time = Utils.getFuelTime(stack);
             if (time > 0) {
                 fuel[i] += time;
-                Item item = stack.getItem();
+                ItemStack remainingItem = CobaltFuelRegistry.INSTANCE.getCraftingRemainingItem(stack);
                 stack.shrink(1);
                 if (stack.isEmpty()) {
-                    Item remainingItem = item.getCraftingRemainingItem();
-                    getInventory().setItem(slots.get(i).index(), remainingItem == null ? ItemStack.EMPTY : new ItemStack(remainingItem));
+                    getInventory().setItem(slots.get(i).index(), remainingItem);
                 }
             } else {
                 break;
