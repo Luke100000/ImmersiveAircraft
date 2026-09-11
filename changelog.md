@@ -5,6 +5,7 @@
 * Fuel with containers should now be better supported
 * Improved render performance
 * Fixed aircraft control animations
+* Fixed aircraft camera movement affecting hand
 
 * # 1.4.6
 

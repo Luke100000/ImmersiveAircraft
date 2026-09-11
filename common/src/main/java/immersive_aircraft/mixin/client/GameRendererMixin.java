@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
@@ -21,8 +21,10 @@ public abstract class GameRendererMixin {
     @Final
     private Camera mainCamera;
 
-    @Inject(method = "bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"), cancellable = false)
-    public void immersiveAircraft$renderWorld(PoseStack poseStack, float partialTicks, CallbackInfo ci) {
+    @ModifyArgs(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;bobHurt(Lcom/mojang/blaze3d/vertex/PoseStack;F)V"))
+    public void immersiveAircraft$renderWorld(Args args) {
+        PoseStack poseStack = args.get(0);
+        float partialTicks = args.get(1);
         Entity entity = mainCamera.getEntity();
         //noinspection ConstantValue
         if (entity != null && !mainCamera.isDetached() && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
