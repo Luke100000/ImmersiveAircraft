@@ -6,6 +6,7 @@
 * Improved render performance
 * Fixed aircraft control animations
 * Fixed aircraft camera movement affecting hand
+* Fixed terrain being culled incorrectly while pitching aircraft
 
 * # 1.4.6
 
