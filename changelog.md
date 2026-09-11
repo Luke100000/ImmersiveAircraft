@@ -5,6 +5,7 @@
 * Fuel with containers should now be better supported
 * Improved render performance
 * Fixed aircraft control animations
+* Fixed overlay on fabric being funky with some mods
 
 # 1.4.1
 
