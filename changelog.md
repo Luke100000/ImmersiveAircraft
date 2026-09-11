@@ -8,6 +8,7 @@
 * Fixed aircraft camera movement affecting hand
 * Fixed terrain being culled incorrectly while pitching aircraft
 * Fixed overlay on fabric being funky with some mods
+* Fixed advancements
 
 * # 1.4.6
 
