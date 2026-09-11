@@ -3,6 +3,7 @@
 * Fixed engine turning off in Multiplayer for other players
 * Fixed gunner controlling wrong gun
 * Fuel with containers should now be better supported
+* Improved render performance
 
 # 1.4.1
 
