@@ -66,14 +66,10 @@ import java.util.List;
 /**
  * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
-public abstract class VehicleEntity extends Entity {
+public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEntity {
     public final ResourceLocation identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
-
-    protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_TICKS = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
-    protected static final EntityDataAccessor<Integer> DAMAGE_WOBBLE_SIDE = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
-    protected static final EntityDataAccessor<Float> DAMAGE_WOBBLE_STRENGTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
 
     protected final boolean canExplodeOnCrash;
 
@@ -187,9 +183,8 @@ public abstract class VehicleEntity extends Entity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder entityData) {
-        entityData.define(DAMAGE_WOBBLE_TICKS, 0);
-        entityData.define(DAMAGE_WOBBLE_SIDE, 1);
-        entityData.define(DAMAGE_WOBBLE_STRENGTH, 0.0f);
+        super.defineSynchedData(entityData);
+
         entityData.define(DATA_HEALTH, 1.0f);
         entityData.define(BOOST, 0);
     }
@@ -240,11 +235,11 @@ public abstract class VehicleEntity extends Entity {
             amount = Math.max(5.0f, amount);
         }
 
-        setDamageWobbleSide(-getDamageWobbleSide());
-        setDamageWobbleTicks(10);
+        setHurtDir(-getHurtDir());
+        setHurtTime(10);
 
         // todo different per vehicle
-        setDamageWobbleStrength((float) (getDamageWobbleStrength() + Math.sqrt(amount) * 5.0f / (1.0f + getDamageWobbleStrength() * 0.05f)));
+        setDamage((float) (getDamage() + Math.sqrt(amount) * 5.0f / (1.0f + getDamage() * 0.05f)));
 
         gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
 
@@ -332,10 +327,15 @@ public abstract class VehicleEntity extends Entity {
     }
 
     @Override
+    public Item getDropItem() {
+        return asItem();
+    }
+
+    @Override
     public void animateHurt(float yaw) {
-        setDamageWobbleSide(-getDamageWobbleSide());
-        setDamageWobbleTicks(10);
-        setDamageWobbleStrength(getDamageWobbleStrength() * 11.0f);
+        setHurtDir(-getHurtDir());
+        setHurtTime(10);
+        setDamage(getDamage() * 11.0f);
     }
 
     @Override
@@ -388,11 +388,11 @@ public abstract class VehicleEntity extends Entity {
         }
 
         // wobble
-        if (getDamageWobbleTicks() > 0) {
-            setDamageWobbleTicks(getDamageWobbleTicks() - 1);
+        if (getHurtTime() > 0) {
+            setHurtTime(getHurtTime() - 1);
         }
-        if (getDamageWobbleStrength() > 0.0f) {
-            setDamageWobbleStrength(getDamageWobbleStrength() - 1.0f);
+        if (getDamage() > 0.0f) {
+            setDamage(getDamage() - 1.0f);
         }
 
         super.tick();
@@ -754,7 +754,7 @@ public abstract class VehicleEntity extends Entity {
             if (error <= maxPossibleError) {
                 float collision = (float) (error - (verticalCollision ? Math.abs(getGravity()) : 0.0)) - 0.05f;
                 if (collision > 0) {
-                    float repeat = 1.0f - (getDamageWobbleTicks() + 1) / 10.0f;
+                    float repeat = 1.0f - (getHurtTime() + 1) / 10.0f;
                     if (repeat > 0.0001f) {
                         NetworkHandler.sendToServer(new CollisionMessage(collision * repeat * repeat));
                     }
@@ -771,30 +771,6 @@ public abstract class VehicleEntity extends Entity {
     @Override
     protected void checkFallDamage(double heightDifference, boolean onGround, @NotNull BlockState landedState, @NotNull BlockPos landedPosition) {
 
-    }
-
-    public void setDamageWobbleStrength(float wobbleStrength) {
-        entityData.set(DAMAGE_WOBBLE_STRENGTH, wobbleStrength);
-    }
-
-    public float getDamageWobbleStrength() {
-        return entityData.get(DAMAGE_WOBBLE_STRENGTH);
-    }
-
-    public void setDamageWobbleTicks(int wobbleTicks) {
-        entityData.set(DAMAGE_WOBBLE_TICKS, wobbleTicks);
-    }
-
-    public int getDamageWobbleTicks() {
-        return entityData.get(DAMAGE_WOBBLE_TICKS);
-    }
-
-    public void setDamageWobbleSide(int side) {
-        entityData.set(DAMAGE_WOBBLE_SIDE, side);
-    }
-
-    public int getDamageWobbleSide() {
-        return entityData.get(DAMAGE_WOBBLE_SIDE);
     }
 
     public float getHealth() {
