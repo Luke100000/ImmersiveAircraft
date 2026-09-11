@@ -12,4 +12,9 @@ public class CobaltFuelRegistryImpl extends CobaltFuelRegistry {
     public int get(ItemStack stack) {
         return stack.getBurnTime(null);
     }
+
+    @Override
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
+        return stack.getCraftingRemainingItem();
+    }
 }

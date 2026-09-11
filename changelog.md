@@ -1,4 +1,12 @@
-# 1.4.6
+# 1.5.0
+
+* Fixed engine turning off in Multiplayer for other players
+* Fixed gunner controlling wrong gun
+* Fuel with containers should now be better supported
+* Improved render performance
+* Fixed aircraft control animations
+
+* # 1.4.6
 
 * Fixed rounding errors in statistics
 
