@@ -7,6 +7,7 @@
 * Fixed aircraft control animations
 * Fixed aircraft camera movement affecting hand
 * Fixed terrain being culled incorrectly while pitching aircraft
+* Fixed overlay on fabric being funky with some mods
 
 * # 1.4.6
 
