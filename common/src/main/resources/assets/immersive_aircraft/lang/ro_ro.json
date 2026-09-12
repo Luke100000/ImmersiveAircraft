@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Aruncați upgrade-urile și personalizarea, în loc să le salvați în cadrul elementului de aeronavă.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenerează automat sănătatea la fiecare tic, simulând comportamentul vanilei.",
   "option.immersive_aircraft.requireShiftForRepair": "Reparați numai atunci când mențineți schimbarea, în caz contrar doar intrați în vehicul.",
+  "option.immersive_aircraft.defaultCanEnter": "Permite moburilor să urce automat la bordul aeronavei.",
   "immersive_aircraft.tooltip.no_target": "Trebuie să fie asamblat pe podea!",
   "immersive_aircraft.tooltip.no_space": "Nu este suficient spațiu!",
   "immersive_aircraft.slot.booster": "Rachete de propulsie",
