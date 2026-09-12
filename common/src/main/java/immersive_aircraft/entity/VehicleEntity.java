@@ -33,6 +33,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -231,6 +232,13 @@ public abstract class VehicleEntity extends Entity {
             return false;
         }
 
+        if (source.is(DamageTypeTags.IS_FIRE)) {
+            amount *= 1.0f - Mth.clamp(getFireResistance(), 0.0f, 1.0f);
+            if (amount <= 0.0f) {
+                return false;
+            }
+        }
+
         if (level().isClientSide || isRemoved()) {
             return true;
         }
@@ -260,6 +268,13 @@ public abstract class VehicleEntity extends Entity {
         applyDamage(amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
 
         return true;
+    }
+
+    @Override
+    public void lavaHurt() {
+        if (tickCount % 10 == 0) {
+            hurt(damageSources().lava(), 4.0f);
+        }
     }
 
     private void applyDamage(float amount, boolean force) {
@@ -298,6 +313,10 @@ public abstract class VehicleEntity extends Entity {
 
     public float getDurability() {
         return 1.0f;
+    }
+
+    public float getFireResistance() {
+        return 0.0f;
     }
 
     protected void drop() {

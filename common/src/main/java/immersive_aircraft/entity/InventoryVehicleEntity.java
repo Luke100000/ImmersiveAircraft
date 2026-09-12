@@ -326,6 +326,11 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         return getProperties().get(VehicleStat.DURABILITY);
     }
 
+    @Override
+    public float getFireResistance() {
+        return getProperties().getAdditive(VehicleStat.FIRE_RESISTANCE);
+    }
+
     public boolean isScoping() {
         Collection<List<Weapon>> values = getWeapons().values();
         for (List<Weapon> weapons : values) {
