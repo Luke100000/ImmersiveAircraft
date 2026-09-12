@@ -6,7 +6,7 @@
 * Improved render performance
 * Fixed aircraft control animations
 * Fixed overlay on fabric being funky with some mods
-* Aircraft now take damage in lava
+* Aircraft now take damage and slow down in lava
 
 # 1.4.1
 
