@@ -9,8 +9,12 @@
 * Fixed terrain being culled incorrectly while pitching aircraft
 * Fixed overlay on fabric being funky with some mods
 * Fixed advancements
+* Aircraft now take damage and slow down in lava
+* Fixed Bamboo Hopper floating on modded water-like fluids
+* Added an auto enter blacklist
+* Aircraft now take fire damage
 
-* # 1.4.6
+# 1.4.6
 
 * Fixed rounding errors in statistics
 

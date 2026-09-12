@@ -292,12 +292,19 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         return getProperties().get(VehicleStat.WATER_FRICTION);
     }
 
+    protected float getLavaDecay() {
+        return getProperties().get(VehicleStat.LAVA_FRICTION);
+    }
+
     protected void applyFriction() {
         // Decay is the basic factor of friction, basically the density of the material slowing down the vehicle
         float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
         double gravity = getGravity();
-        if (wasTouchingWater) {
-            gravity *= 0.25f;
+        if (isInLava()) {
+            gravity *= 0.125;
+            decay = getLavaDecay();
+        } else if (wasTouchingWater) {
+            gravity *= 0.25;
             decay = getWaterDecay();
         } else if (onGround()) {
             if (isVehicle()) {
@@ -331,6 +338,11 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     @Override
     public float getDurability() {
         return getProperties().get(VehicleStat.DURABILITY);
+    }
+
+    @Override
+    public float getFireResistance() {
+        return getProperties().getAdditive(VehicleStat.FIRE_RESISTANCE);
     }
 
     public boolean isScoping() {

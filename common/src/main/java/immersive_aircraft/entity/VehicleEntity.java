@@ -9,6 +9,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.AutoEnterRules;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
@@ -34,14 +35,15 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
@@ -105,6 +107,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     public boolean adaptPlayerRotation = true;
     private int drowning;
+    private int inFireDamageCooldown;
 
     public float getRoll() {
         return roll;
@@ -219,8 +222,22 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
             return false;
         }
 
+        if (source.is(DamageTypeTags.IS_FIRE)) {
+            amount *= 1.0f - Mth.clamp(getFireResistance(), 0.0f, 1.0f);
+            if (amount <= 0.0f) {
+                return false;
+            }
+        }
+
         if (level().isClientSide || isRemoved()) {
             return true;
+        }
+
+        if (source.is(DamageTypes.IN_FIRE)) {
+            if (inFireDamageCooldown > 0) {
+                return false;
+            }
+            inFireDamageCooldown = 10;
         }
 
         // Creative player
@@ -248,6 +265,18 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         applyDamage(amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
 
         return true;
+    }
+
+    @Override
+    public void setRemainingFireTicks(int ticks) {
+        super.setRemainingFireTicks(0);
+    }
+
+    @Override
+    public void lavaHurt() {
+        if (tickCount % 10 == 0) {
+            hurt(damageSources().lava(), 4.0f);
+        }
     }
 
     private void applyDamage(float amount, boolean force) {
@@ -299,6 +328,10 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     public float getDurability() {
         return 1.0f;
+    }
+
+    public float getFireResistance() {
+        return 0.0f;
     }
 
     protected void drop() {
@@ -394,6 +427,9 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         if (getDamage() > 0.0f) {
             setDamage(getDamage() - 1.0f);
         }
+        if (inFireDamageCooldown > 0) {
+            inFireDamageCooldown--;
+        }
 
         super.tick();
 
@@ -427,7 +463,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
             boolean bl = !level().isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
-                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
+                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && AutoEnterRules.canAutoEnter(entity.getType())) {
                     entity.startRiding(this);
                 }
             }
