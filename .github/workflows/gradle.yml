@@ -63,7 +63,7 @@ jobs:
       - name: "Rename NeoForge files"
         run: mv "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
       - name: "Upload Fabric"
-        uses: Kir-Antipov/mc-publish@v3.3.0
+        uses: Kira-NT/mc-publish@v3.3.1
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         with:
           modrinth-id: x3HZvrj6
@@ -77,6 +77,7 @@ jobs:
           files: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
           loaders: |
             fabric
+          environment: client | server
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
@@ -86,7 +87,7 @@ jobs:
 
           fail-mode: skip
       - name: "Upload NeoForge"
-        uses: Kir-Antipov/mc-publish@v3.3.0
+        uses: Kira-NT/mc-publish@v3.3.1
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         with:
           modrinth-id: x3HZvrj6
@@ -100,6 +101,7 @@ jobs:
           files: "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
           loaders: |
             neoforge
+          environment: client | server
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
