@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Dilli oahppet ja muohtašaddat, muhto almmatčearruin.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automahtalaid geatkvuohta buohkaid, simulehus vadjamat.",
   "option.immersive_aircraft.requireShiftForRepair": "Bahcandahka go mahkkuvva, muhto gávnnahi vehkihit.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Dáhpáhusa vuordit floor biikkis!",
   "immersive_aircraft.tooltip.no_space": "Ietnalvvi dás sátni!",
   "immersive_aircraft.slot.booster": "Tehosta raketteja",
