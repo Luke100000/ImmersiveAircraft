@@ -8,6 +8,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.config.AutoEnterRules;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
@@ -441,7 +442,7 @@ public abstract class VehicleEntity extends Entity {
             boolean bl = !level().isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
-                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
+                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player) && AutoEnterRules.canAutoEnter(entity.getType())) {
                     entity.startRiding(this);
                 }
             }
