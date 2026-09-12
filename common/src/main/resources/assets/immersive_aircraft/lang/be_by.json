@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Скіньце дапаўненні і наладжванні, замест таго, каб захоўваць іх у прадмеце самалёта.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Аўтаматычна аднаўляе здароўе кожны дадзены такт, імітуючы звыклае паводзіны.",
   "option.immersive_aircraft.requireShiftForRepair": "Рэстаўруйце толькі калі націскаеце клавішу Shift, у адваротным выпадку проста ўвядзіце транспарт.",
+  "option.immersive_aircraft.defaultCanEnter": "Дазваляць мобам аўтаматычна залазіць на лятальныя апараты па змаўчанні.",
   "immersive_aircraft.tooltip.no_target": "Трэба збіраць на падлозе!",
   "immersive_aircraft.tooltip.no_space": "Недастаткова месца!",
   "immersive_aircraft.slot.booster": "Буставыя ракеты",
