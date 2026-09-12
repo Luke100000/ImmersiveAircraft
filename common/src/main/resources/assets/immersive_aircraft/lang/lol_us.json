@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Drop teh upgrades an customization, instead of saving it wifin teh aircraft item.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automagically regenerates health every given tick, simulatin' vanilla behavior, y'all!",
   "option.immersive_aircraft.requireShiftForRepair": "Only repair when holding shift, otherwise just enter teh vehicle.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Needs to be assembled on teh floor!",
   "immersive_aircraft.tooltip.no_space": "Not 'nuff space!",
   "immersive_aircraft.slot.booster": "Boost rockets",
