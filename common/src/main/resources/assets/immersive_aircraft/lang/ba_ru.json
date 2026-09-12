@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Кем һуң меңек иҫәптәрһеҙ ҡалһын.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Шулраҡ, бына кәкре көн ултыра, акы этик эше ярашлы.",
   "option.immersive_aircraft.requireShiftForRepair": "Тинде тотонғанда ғына төҙәтергә, юғиһә генә машинаға инеп кит.",
+  "option.immersive_aircraft.defaultCanEnter": "Мобтарға стандарт рәүештә автоматик рәүештә самолетҡа менәргә рөхсәт итегеҙ.",
   "immersive_aircraft.tooltip.no_target": "Полда ҡоролорға тейеш!",
   "immersive_aircraft.tooltip.no_space": "Утҡа күләме йыш етмәй!",
   "immersive_aircraft.slot.booster": "Арыу эшләү",
