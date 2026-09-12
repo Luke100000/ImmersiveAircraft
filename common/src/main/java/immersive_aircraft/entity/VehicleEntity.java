@@ -478,6 +478,8 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
             move(MoverType.SELF, getDeltaMovement());
         }
 
+        applyEffectsFromBlocks();
+
         // auto enter
         List<Entity> list = level().getEntities(this, getBoundingBox().inflate(0.2f, -0.01f, 0.2f), EntitySelector.pushableBy(this));
         if (!list.isEmpty()) {
