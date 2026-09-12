@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Tuuri casriyeynta iyo habeynta, halkii aad ku badbaadin lahayd item-ka diyaarad.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Si otomaatig ah ayaa caafimaadka dib u soo noqoshada markasta oo tick la siiyo, si u eg dhaqanka vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Kaliya dayactir markaad hayso shift, haddii kale kaliya gal gaadiidka.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Waxaa lagu ururinayaa floor-ka!",
   "immersive_aircraft.tooltip.no_space": "Meel ku filan ma jiraan!",
   "immersive_aircraft.slot.booster": "Kicinta roketka",
