@@ -40,6 +40,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
@@ -109,6 +110,7 @@ public abstract class VehicleEntity extends Entity {
 
     public boolean adaptPlayerRotation = true;
     private int drowning;
+    private int inFireDamageCooldown;
 
     public float getRoll() {
         return roll;
@@ -243,6 +245,13 @@ public abstract class VehicleEntity extends Entity {
             return true;
         }
 
+        if (source.is(DamageTypes.IN_FIRE)) {
+            if (inFireDamageCooldown > 0) {
+                return false;
+            }
+            inFireDamageCooldown = 10;
+        }
+
         // Creative player
         if (source.getEntity() instanceof Player player && player.getAbilities().instabuild) {
             dropInventory();
@@ -268,6 +277,11 @@ public abstract class VehicleEntity extends Entity {
         applyDamage(amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
 
         return true;
+    }
+
+    @Override
+    public void setRemainingFireTicks(int ticks) {
+        super.setRemainingFireTicks(0);
     }
 
     @Override
@@ -407,6 +421,9 @@ public abstract class VehicleEntity extends Entity {
         }
         if (getDamageWobbleStrength() > 0.0f) {
             setDamageWobbleStrength(getDamageWobbleStrength() - 1.0f);
+        }
+        if (inFireDamageCooldown > 0) {
+            inFireDamageCooldown--;
         }
 
         super.tick();

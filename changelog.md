@@ -9,6 +9,7 @@
 * Aircraft now take damage and slow down in lava
 * Fixed Bamboo Hopper floating on modded water-like fluids
 * Added an auto enter blacklist
+* Aircraft now take fire damage
 
 # 1.4.1
 
