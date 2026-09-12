@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Upustite od vylepšení a prispôsobení namiesto toho, aby ste ich uložili v rámci položky lietadla.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automaticky regeneruje zdravie každý tik, čím simuluje správanie vanilky.",
   "option.immersive_aircraft.requireShiftForRepair": "Opravu vykonávajte len pri podržaní radenia, inak len nastupujte do vozidla.",
+  "option.immersive_aircraft.defaultCanEnter": "V predvolenom nastavení povoliť, aby sa moby automaticky nalodili do lietadla.",
   "immersive_aircraft.tooltip.no_target": "Musí sa zostaviť na podlahe!",
   "immersive_aircraft.tooltip.no_space": "Nedostatok miesta!",
   "immersive_aircraft.slot.booster": "Zosilňovacie rakety",
