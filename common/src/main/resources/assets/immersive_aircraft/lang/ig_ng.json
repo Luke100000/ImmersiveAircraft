@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Tinye mmelite na nhazi, kama ịchekwa ya n'isi ụgbọ elu.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Na-emepụta onwe ya mgbe ọ bụla tick enyere, na-eme ihe omume vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Naanị rụgharịa mgbe ị na-ejide shọft, ma ọ bụghị ya, banye n'ịnyịnya ahụ.",
+  "option.immersive_aircraft.defaultCanEnter": "Kwe ka mobs banye n'ụgbọelu akpaghị aka dịka ntọala.",
   "immersive_aircraft.tooltip.no_target": "Ọ dị mkpa ka ahaziri ya na ala!",
   "immersive_aircraft.tooltip.no_space": "Enweghị ebe zuru oke!",
   "immersive_aircraft.slot.booster": "Ịtazie rockets",
