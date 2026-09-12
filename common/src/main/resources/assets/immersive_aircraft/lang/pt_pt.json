@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Deixa cair as actualizações e a personalização, em vez de as guardar no item da aeronave.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenera automaticamente a vida a cada tick, simulando o comportamento do jogo.",
   "option.immersive_aircraft.requireShiftForRepair": "Repara apenas se mantiveres a mudança de velocidades, caso contrário, entra no veículo.",
+  "option.immersive_aircraft.defaultCanEnter": "Permitir que os mobs carreguem automaticamente aeronaves por padrão.",
   "immersive_aircraft.tooltip.no_target": "Necessita de ser montado no chão!",
   "immersive_aircraft.tooltip.no_space": "Não tens espaço suficiente!",
   "immersive_aircraft.slot.booster": "Lançar foguetes",
