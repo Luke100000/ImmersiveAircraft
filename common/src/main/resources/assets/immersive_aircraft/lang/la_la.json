@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Cadere meliorationes et consuetudines, proservet in rem volatus.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatice sanitatem regenerat omni tick dato, simulating mores vanilan.",
   "option.immersive_aircraft.requireShiftForRepair": "Solum reparatio dum tenes shift, aliter simpliciter ingredere in vehiculo.",
+  "option.immersive_aircraft.defaultCanEnter": "Sinite monstra sponte sua aëronaves conscendere.",
   "immersive_aircraft.tooltip.no_target": "In pavimento collocari debet!",
   "immersive_aircraft.tooltip.no_space": "Non satis spatium!",
   "immersive_aircraft.slot.booster": "Rockets impulsus",

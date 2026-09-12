@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Təkmilləşdirmələri və fərdiləşdirmələri at, onu təyyarə əşyasının içində saxlayacağına.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Verilən hər tikdə sağlamlığı avtomatik olaraq yeniləyir, sadə davranışı simulyasiya edir.",
   "option.immersive_aircraft.requireShiftForRepair": "Sadəcə shift düyməsini basarkən təmir et, əks halda yalnız vasitəyə daxil ol.",
+  "option.immersive_aircraft.defaultCanEnter": "Mobsların standart olaraq avtomatik olaraq təyyarələrə mindiyinə icazə verin.",
   "immersive_aircraft.tooltip.no_target": "Yerli olaraq yığılmalıdır!",
   "immersive_aircraft.tooltip.no_space": "Yetərli yer yoxdur!",
   "immersive_aircraft.slot.booster": "Gücləndirici raketlər",

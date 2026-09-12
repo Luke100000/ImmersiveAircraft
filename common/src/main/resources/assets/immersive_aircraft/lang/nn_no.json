@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Dropp oppgraderingane og tilpassingane, i staden for å lagre det innanfor flyet.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenererar automatisk helse for kvar føresett tick, og simulerer vanilja-atferd.",
   "option.immersive_aircraft.requireShiftForRepair": "Reparer berre når du held nede skift, elles berre gå inn i kjøretøyet.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Må assemblerast på golvet!",
   "immersive_aircraft.tooltip.no_space": "Ikkje nok plass!",
   "immersive_aircraft.slot.booster": "Boostraketter",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Deixa caer les millores y personalización, enlloc de salvarles dentro del item d'aviación.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenera la salud automáticamente cada tic determinado, simulando el comportamientu vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Solamente repara cuando mantienes shift, en otro caso entra na vehículo.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "¡Necesita ser assembláu sobre el chanu!",
   "immersive_aircraft.tooltip.no_space": "¡No hai abbastanza espacio!",
   "immersive_aircraft.slot.booster": "Cohetes de impulso",

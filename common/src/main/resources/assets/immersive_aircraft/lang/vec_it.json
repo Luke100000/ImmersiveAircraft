@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Lassa cadere i miglioramenti e le personalizzazioni, invece de salvarli dentro l'oggetto aereo.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Rigenera automaticamente la salute ogni tick dato, simulando il comportamento vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Ripara solo quando tieni premuto il maiuscolo, altrimenti entra solo nel veicolo.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Bisogna montarlo sul pavimento!",
   "immersive_aircraft.tooltip.no_space": "Non gh'è massa spazi!",
   "immersive_aircraft.slot.booster": "Razzi di spinta",

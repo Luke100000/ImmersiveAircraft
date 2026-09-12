@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Thả các nâng cấp và tùy chỉnh, thay vì lưu chúng trong mục máy bay.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Tự động hồi phục máu mỗi lần tích, mô phỏng hành vi gốc.",
   "option.immersive_aircraft.requireShiftForRepair": "Chỉ sửa chữa khi giữ Shift, nếu không chỉ đi vào phương tiện.",
+  "option.immersive_aircraft.defaultCanEnter": "Cho phép quái vật tự động lên máy bay theo mặc định.",
   "immersive_aircraft.tooltip.no_target": "Cần được lắp ráp trên sàn!",
   "immersive_aircraft.tooltip.no_space": "Không đủ không gian!",
   "immersive_aircraft.slot.booster": "Tên lửa tăng tốc",

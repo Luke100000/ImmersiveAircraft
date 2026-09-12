@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "o pana e palisa mute en nasin, ala e jo tawa li ken pona.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "li pali lon wile kute kepeken kili, li wile e palisa.",
   "option.immersive_aircraft.requireShiftForRepair": "pali wan kute kepeken wile pimeja, ala e jo tawa li ken pona.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "o tawa li ken ala e wile jan!",
   "immersive_aircraft.tooltip.no_space": "poki sina li ale",
   "immersive_aircraft.slot.booster": "pali kule",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "dru lo nabmi ke'a kei lo nu spofu lo fijyru lo se aircroft.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "se banli lo nu morsi lo nu tonga pa do ciska, te'a mu.",
   "option.immersive_aircraft.requireShiftForRepair": "na se tirna lo nu spofu so'i co'o mu'e, to'e se tcika lo nu bajra lo terna.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "cu na se tonga lo nunji!",
   "immersive_aircraft.tooltip.no_space": "na mutce lo se sruri!",
   "immersive_aircraft.slot.booster": "boost lo rokli",

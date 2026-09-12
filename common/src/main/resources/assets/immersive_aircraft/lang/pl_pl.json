@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Usuń ulepszenia i personalizację, zamiast zapisywać je w samolocie.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatycznie regeneruje zdrowie co określony czas, symulując zachowanie waniliowe.",
   "option.immersive_aircraft.requireShiftForRepair": "Naprawiaj tylko po przytrzymaniu zmiany biegów, w przeciwnym razie po prostu wejdź do pojazdu.",
+  "option.immersive_aircraft.defaultCanEnter": "Domyślnie zezwalaj mobom na automatyczne wsiadanie do samolotu.",
   "immersive_aircraft.tooltip.no_target": "Wymaga postawienia na podłożu!",
   "immersive_aircraft.tooltip.no_space": "Za mało miejsca!",
   "immersive_aircraft.slot.booster": "Wzmocnij rakiety",

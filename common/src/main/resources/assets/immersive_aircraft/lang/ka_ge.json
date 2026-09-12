@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "ჩაწერეთ გაუმჯობესებები და პერსონალიზაცია, ნაცვლად იმისა, რომ მათი შენახვა მოხდეს თვითმფრინავის ნივთში.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "ძალების ადაპტირებას ყოველ კონკრეტულ ტიკზე, ვანილის ქცევის ასიმულირებას.",
   "option.immersive_aircraft.requireShiftForRepair": "წარმოიდგენეთ მხოლოდ მაშინ, როცა არ თამაშობთShift-ის ღილაკზე, ლამის ვიწირავთ ველოსიპედში.",
+  "option.immersive_aircraft.defaultCanEnter": "მონსტრებს ნაგულისხმევად ავტომატურად შეეძლოთ თვითმფრინავში ასვლა.",
   "immersive_aircraft.tooltip.no_target": "უნდა შეიკვეთოს იატაკზე!",
   "immersive_aircraft.tooltip.no_space": "უძრავი ადგილი არ არის!",
   "immersive_aircraft.slot.booster": "წინამძღოლი სატვირთო",

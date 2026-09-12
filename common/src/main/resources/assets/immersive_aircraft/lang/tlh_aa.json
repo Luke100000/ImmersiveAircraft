@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "puH 'oH je, Hegh retlhbogh 'e' vIneH 'e' vIje' je.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "naHmey HIja'vIS vIghuHmeH tlhej vIghuH 'ej vIghoS naHmey-centric lifestyles.",
   "option.immersive_aircraft.requireShiftForRepair": "vam naHmey vIwIv 'oH jatlhtaH, 'ach legh vIneH 'e' vIje'.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Qo' neH 'oH!",
   "immersive_aircraft.tooltip.no_space": "yuQwIj vIghuHbe'!",
   "immersive_aircraft.slot.booster": "Dubu'pu'",

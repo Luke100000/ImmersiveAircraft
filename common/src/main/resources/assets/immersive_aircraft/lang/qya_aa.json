@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Éka i atarwa ar tarjë, nai savuva nótëan.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Alaqua fala tîre, umë nostë caure vëa.",
   "option.immersive_aircraft.requireShiftForRepair": "Nisenna nénë, nai vo ni ëar, umë nostë i venya.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Cenasse en utúvi!",
   "immersive_aircraft.tooltip.no_space": "Úvë çen!",
   "immersive_aircraft.slot.booster": "Rok pesoht",

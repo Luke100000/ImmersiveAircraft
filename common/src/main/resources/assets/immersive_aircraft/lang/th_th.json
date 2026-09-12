@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "ทิ้งอัพเกรดและการปรับแต่งแทนที่จะบันทึกมันไว้ในไอเท็มเครื่องบิน",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": " regenerates health โดยอัตโนมัติตามจำนวนครั้งที่กำหนด, จำลองพฤติกรรมแบบ vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "ซ่อมแซมได้เฉพาะเมื่อกด shift มิฉะนั้นให้เข้าไปในยานพาหนะ.",
+  "option.immersive_aircraft.defaultCanEnter": "ตั้งค่าให้ม็อบสามารถขึ้นเครื่องบินได้โดยอัตโนมัติตามค่าเริ่มต้น",
   "immersive_aircraft.tooltip.no_target": "ต้องประกอบบนชั้นพื้น!",
   "immersive_aircraft.tooltip.no_space": "ไม่มีพื้นที่เพียงพอ!",
   "immersive_aircraft.slot.booster": "บูสต์จรวด",

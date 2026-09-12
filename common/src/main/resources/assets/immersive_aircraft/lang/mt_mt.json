@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Aħdar l-aġġornamenti u l-personalizzazzjoni, minflok ma jneħħuha fi ħdan l-oġġett tal-ajru.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Tiġġenera awtomatikament saħħa kull tick mogħti, simulating l-imġiba tal-vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Irepair biss meta tkun qiegħed żżomm shift, inkella daħal biss fil-vettura.",
+  "option.immersive_aircraft.defaultCanEnter": "Ħalli lill-mobs jitilgħu awtomatikament fuq l-ajruplani bħala l-issettjar default.",
   "immersive_aircraft.tooltip.no_target": "Hija meħtieġa li tiġi assemblata fuq l-art!",
   "immersive_aircraft.tooltip.no_space": "Hemm projbizzjoni biżżejjed!",
   "immersive_aircraft.slot.booster": "Rockets ta’ boost",

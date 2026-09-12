@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Hobekuntzak eta pertsonalizazioa erori, hegazkin objektuan gorde beharrean.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Autoerregeneratzen du osasuna emandako tike bakoitzean, vanilla portaera simulatuz.",
   "option.immersive_aircraft.requireShiftForRepair": "Saltatzean soilik konpondu, bestela ibilgailura sartu.",
+  "option.immersive_aircraft.defaultCanEnter": "Mobek lehenetsita hegazkinetara automatikoki igotzea ahalbidetu.",
   "immersive_aircraft.tooltip.no_target": "Lurrean muntatu behar da!",
   "immersive_aircraft.tooltip.no_space": "Espazio nahikorik ez!",
   "immersive_aircraft.slot.booster": "Indartzera",

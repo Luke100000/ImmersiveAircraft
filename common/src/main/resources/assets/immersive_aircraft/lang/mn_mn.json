@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Агаарын хөлгийн зүйл дотор хадгалалгүйгээр шинэчлэлтүүд ба тохируулга хаях.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Тодорхой үзэгдлийн үеийн эрүүл мэндийг автоматаар сэргээдэг, ванилын зан үйлийг дуурайж байна.",
   "option.immersive_aircraft.requireShiftForRepair": "Зөвхөн shift барьж байх үед засварлах, бусад тохиолдолд тээвэрлэх хөлгөлт рүү орох.",
+  "option.immersive_aircraft.defaultCanEnter": "Мобуудыг анхдагчаар автоматаар нисэх онгоцонд суухыг зөвшөөрөх.",
   "immersive_aircraft.tooltip.no_target": "Шал дээр угсрах ёстой!",
   "immersive_aircraft.tooltip.no_space": "Хангалттай зай байхгүй!",
   "immersive_aircraft.slot.booster": "Турбо пуужин",

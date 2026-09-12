@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Suelta las mejoras y la personalización, en lugar de guardarla dentro del elemento aeronave.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenera salud automáticamente cada cierto tiempo, simulando el comportamiento vainilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Sólo repara cuando mantengas shift, de lo contrario sólo entra en el vehículo.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "¡Hay que montarlo en el suelo!",
   "immersive_aircraft.tooltip.no_space": "¡No hay espacio suficiente!",
   "immersive_aircraft.slot.booster": "Cohetes propulsores",

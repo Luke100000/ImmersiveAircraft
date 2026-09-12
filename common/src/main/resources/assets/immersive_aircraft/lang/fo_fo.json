@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Kasta upp frástøtt og fyribyrging, í staðin fyri at varðveita tað innan fyri flúgvaren.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatiskt endurnýggjar heilsu hvønn givin tikk, sýnandi vanilju atferð.",
   "option.immersive_aircraft.requireShiftForRepair": "Bara umvæla tá tit halda skift, annað skal bara fara inn í faraskipið.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Má vera samansett á gólvinum!",
   "immersive_aircraft.tooltip.no_space": "Ikki nóg nógv pláss!",
   "immersive_aircraft.slot.booster": "Hjálparrakettir",

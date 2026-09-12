@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Ihulog ang mga pag-upgrade at pasadya, sa halip na itago ito sa loob ng item ng sasakyang panghimpapawid.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Awtomatikong nagre-regenerate ng kalusugan sa bawat ibinigay na tick, na nagsisimulate ng vanilla na pag-uugali.",
   "option.immersive_aircraft.requireShiftForRepair": "Ayusin lamang kapag hawak ang shift, kung hindi ay pumasok lamang sa sasakyan.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Kailangan itong i-assemble sa sahig!",
   "immersive_aircraft.tooltip.no_space": "Hindi sapat ang espasyo!",
   "immersive_aircraft.slot.booster": "Boost rockets",

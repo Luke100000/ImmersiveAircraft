@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Фрли ги надградбите и прилагодувањата, наместо да ги зачува во авионот.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Автоматски регенерира здравје по секоја дадена единица време, симулирајќи ванила однесување.",
   "option.immersive_aircraft.requireShiftForRepair": "Само поправи кога држиш shift, инаку едноставно влезеш во возилото.",
+  "option.immersive_aircraft.defaultCanEnter": "Дозволете на мобовите автоматски да се качуваат на летала по подразбирање.",
   "immersive_aircraft.tooltip.no_target": "Мора да се собере на подот!",
   "immersive_aircraft.tooltip.no_space": "Недоволно место!",
   "immersive_aircraft.slot.booster": "Ракетни поттик",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Thoir às na leasachadh agus freagairtean, na shàbhail e taobh a-staigh an t-adhair.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Ath-nuair a’ cur slàinte gach tick a thèid seachad, a’ simileadh giùlan vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Fulang ri gèir fhad ’s a tha thu a’ cumail shift, mura h-eil, faodaidh tu dìreach a dhol a-steach don chàraichean.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Feumaidh e a bhith air a chuir seachad air an làr!",
   "immersive_aircraft.tooltip.no_space": "Chan eil àite gu leòr!",
   "immersive_aircraft.slot.booster": "Boost rockets",

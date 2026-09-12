@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Выбрасывать модернизации и кастомизации, вместо того чтобы сохранять их внутри предмета летательного аппарата.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Автоматически восстанавливать здоровье при каждом заданном такте, имитируя ванильное поведение.",
   "option.immersive_aircraft.requireShiftForRepair": "Ремонтировать только при удержании Shift, в противном случае просто садиться в транспортное средство.",
+  "option.immersive_aircraft.defaultCanEnter": "Разрешить мобам автоматически переходить на самолет по умолчанию.",
   "immersive_aircraft.tooltip.no_target": "Требуется сборка на полу!",
   "immersive_aircraft.tooltip.no_space": "Не хватает места!",
   "immersive_aircraft.slot.booster": "Разгонные ракеты",
@@ -126,9 +127,9 @@
   "immersive_aircraft.upgrade.dials": "Механическая приборная панель",
   "immersive_aircraft.upgrade.hud": "Электронная приборная панель",
   "immersive_aircraft.tooltip.inventory": "Содержит %s предметов.",
-  "stat.immersive_aircraft.distance_total": "Расстояние в полете",
-  "stat.immersive_aircraft.time_in_aircraft": "Время на самолетах",
-  "stat.immersive_aircraft.fuel_burned": "Топливо сожжено в воздушном судне",
-  "stat.immersive_aircraft.damage_received": "Урон, причиненный самолету",
-  "stat.immersive_aircraft.crashes": "Разбитый самолет"
+  "stat.immersive_aircraft.distance_total": "Преодолено в полёте на воздушном судне",
+  "stat.immersive_aircraft.time_in_aircraft": "Время на воздушном судне",
+  "stat.immersive_aircraft.fuel_burned": "Сожжено топлива для воздушного судна",
+  "stat.immersive_aircraft.damage_received": "Нанесено урона воздушному судну",
+  "stat.immersive_aircraft.crashes": "Разбитое воздушное судно"
 }

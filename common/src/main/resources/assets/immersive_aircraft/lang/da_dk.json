@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Drop opgraderingerne og tilpasningen i stedet for at gemme dem i flyelementet.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenererer automatisk helbred for hvert givet tick og simulerer vanilla-adfærd.",
   "option.immersive_aircraft.requireShiftForRepair": "Reparer kun, når du holder skiftet, ellers skal du bare gå ind i køretøjet.",
+  "option.immersive_aircraft.defaultCanEnter": "Tillad væsner automatisk at gå om bord på fly som standard.",
   "immersive_aircraft.tooltip.no_target": "Skal samles på gulvet!",
   "immersive_aircraft.tooltip.no_space": "Ikke nok plads!",
   "immersive_aircraft.slot.booster": "Hjælperaket",

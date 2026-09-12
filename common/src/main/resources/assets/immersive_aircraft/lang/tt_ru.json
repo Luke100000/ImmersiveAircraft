@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Ярдәмнәрне һәм үзенчәлекләрне ташларга, самолет предметында сакларга караганда.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Сәгать саен сәламәтлекне автоматик рәвештә яңартыр.",
   "option.immersive_aircraft.requireShiftForRepair": "Туктагач, ремонтлау өчен шифты тотып ремонтларга гына мөмкин, югыйсә машинага керергә.",
+  "option.immersive_aircraft.defaultCanEnter": "Мобларга стандарт рәвештә автоматик рәвештә очкычларга утырырга рөхсәт итегез.",
   "immersive_aircraft.tooltip.no_target": "Полда җыелырга кирәк!",
   "immersive_aircraft.tooltip.no_space": "Киңлек җитми!",
   "immersive_aircraft.slot.booster": "Чик кебек иттермәләре",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Gadewch i'r uwchraddiadau a'r addasiadau gael eu gollwng, yn hytrach na'u cadw o fewn eitem yr awyren.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Mae'n adfer iechyd yn awtomatig bob tro penodol, gan simwleiddio ymddygiad vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Dim ond wrth ddal y llift y mae'n adnewyddu, fel arall dim ond mynd i'r cerbyd.",
+  "option.immersive_aircraft.defaultCanEnter": "Caniatáu i fobs fynd ar fwrdd awyrennau yn awtomatig fel y diofyn.",
   "immersive_aircraft.tooltip.no_target": "Mae angen ei chyfuno ar y llawr!",
   "immersive_aircraft.tooltip.no_space": "Nid oes digon o le!",
   "immersive_aircraft.slot.booster": "Rocedau hwb",
