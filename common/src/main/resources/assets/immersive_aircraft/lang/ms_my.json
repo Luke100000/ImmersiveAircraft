@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Tinggalkan peningkatan dan penyesuaian, sebaliknya menyimpannya dalam item pesawat.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Secara automatik memulihkan kesihatan setiap tik yang diberikan, meniru perlakuan asal.",
   "option.immersive_aircraft.requireShiftForRepair": "Hanya perbaiki apabila memegang shift, jika tidak, masuk ke kenderaan sahaja.",
+  "option.immersive_aircraft.defaultCanEnter": "Benarkan mobs menaiki pesawat secara automatik secara lalai.",
   "immersive_aircraft.tooltip.no_target": "Perlu dirakit di lantai!",
   "immersive_aircraft.tooltip.no_space": "Tidak cukup ruang!",
   "immersive_aircraft.slot.booster": "Roket penambah",
