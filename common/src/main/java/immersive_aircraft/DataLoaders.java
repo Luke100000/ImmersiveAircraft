@@ -1,8 +1,8 @@
 package immersive_aircraft;
 
 import immersive_aircraft.cobalt.registration.Registration;
-import immersive_aircraft.data.UpgradeDataLoader;
 import immersive_aircraft.data.VehicleDataLoader;
+import immersive_aircraft.data.UpgradeDataLoader;
 import immersive_aircraft.resources.BBModelLoader;
 
 public class DataLoaders {

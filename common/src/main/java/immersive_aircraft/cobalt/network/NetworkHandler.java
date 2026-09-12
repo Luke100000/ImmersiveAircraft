@@ -1,36 +1,21 @@
 package immersive_aircraft.cobalt.network;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import immersive_aircraft.Main;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+
+import java.util.function.Function;
 
 public abstract class NetworkHandler {
     private static Impl INSTANCE;
 
-    public interface ClientHandler<T extends Message> {
-        void handle(T message);
+    public static <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        INSTANCE.registerMessage(Main.SHORT_MOD_ID, msg, constructor);
     }
 
-    public interface ServerHandler<T extends Message> {
-        void handle(T message, ServerPlayer player);
-    }
-
-    public static <T extends Message> void handleDefault(T message, ServerPlayer e) {
-        message.receiveServer(e);
-    }
-
-    public static <T extends Message> void handleDefault(T message) {
-        message.receiveClient();
-    }
-
-    public static <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec) {
-        registerMessage(namespace, type, codec, NetworkHandler::handleDefault, NetworkHandler::handleDefault);
-    }
-
-    public static <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler) {
-        INSTANCE.registerMessage(namespace, type, codec, clientHandler, serverHandler);
+    public static <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        INSTANCE.registerMessage(namespace, msg, constructor);
     }
 
     public static void sendToServer(Message m) {
@@ -50,7 +35,7 @@ public abstract class NetworkHandler {
             INSTANCE = this;
         }
 
-        public abstract <T extends Message> void registerMessage(String namespace, CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, NetworkHandler.ClientHandler<T> clientHandler, NetworkHandler.ServerHandler<T> serverHandler);
+        public abstract <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor);
 
         public abstract void sendToServer(Message m);
 

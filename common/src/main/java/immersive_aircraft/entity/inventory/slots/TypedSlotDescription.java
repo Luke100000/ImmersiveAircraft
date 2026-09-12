@@ -3,7 +3,7 @@ package immersive_aircraft.entity.inventory.slots;
 import com.google.gson.JsonObject;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.screen.slot.TypedSlot;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
@@ -18,7 +18,7 @@ public class TypedSlotDescription extends TooltippedSlotDescription {
         this.maxStackSize = maxStackSize;
     }
 
-    public TypedSlotDescription(String type, RegistryFriendlyByteBuf buffer, Class<? extends Item> clazz) {
+    public TypedSlotDescription(String type, FriendlyByteBuf buffer, Class<? extends Item> clazz) {
         super(type, buffer);
 
         this.clazz = clazz;
@@ -30,7 +30,7 @@ public class TypedSlotDescription extends TooltippedSlotDescription {
     }
 
     @Override
-    public void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         super.encode(buffer);
 
         buffer.writeInt(maxStackSize);

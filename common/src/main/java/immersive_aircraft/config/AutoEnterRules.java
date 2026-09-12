@@ -36,7 +36,7 @@ public final class AutoEnterRules {
 
         boolean matchedAllow = false;
         for (TagRule rule : TAG_RULES) {
-            if (type.is(rule.tag())) {
+            if (BuiltInRegistries.ENTITY_TYPE.wrapAsHolder(type).is(rule.tag())) {
                 if (!rule.allowed()) {
                     return false;
                 }

@@ -27,7 +27,6 @@ public class ClientPlayNetworkHandlerMixin {
             return;
         }
         Minecraft minecraft = Minecraft.getInstance();
-        assert minecraft.player != null;
         boolean bl = entity.hasIndirectPassenger(minecraft.player);
         for (int i : packet.getPassengers()) {
             Entity entity2 = this.level.getEntity(i);

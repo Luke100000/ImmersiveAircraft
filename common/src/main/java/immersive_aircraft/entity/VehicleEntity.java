@@ -3,7 +3,6 @@ package immersive_aircraft.entity;
 import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
 import immersive_aircraft.AircraftStats;
-import immersive_aircraft.CompatUtil;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.KeyBindings;
@@ -18,12 +17,14 @@ import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
+import net.minecraft.util.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -35,9 +36,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.BlockUtil;
 import net.minecraft.util.Mth;
-import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -49,10 +48,11 @@ import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract vehicle, which handles player input, collisions, passengers, and destruction
+ * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
 public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEntity {
     public final Identifier identifier;
@@ -88,8 +88,6 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     protected double serverYRot;
     protected double serverXRot;
-
-    private float unclampedXRot;
 
     protected float movementX;
     protected float movementY;
@@ -126,16 +124,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         float loops = (float) (Math.floor((pitch + 180f) / 360f) * 360f);
         pitch -= loops;
         xRotO -= loops;
-        if (!Float.isFinite(pitch)) {
-            Util.logAndPauseIfInIde("Invalid entity rotation: " + pitch + ", discarding.");
-        } else {
-            unclampedXRot = pitch;
-        }
-    }
-
-    @Override
-    public float getXRot() {
-        return unclampedXRot;
+        super.setXRot(pitch);
     }
 
     public void setZRot(float rot) {
@@ -183,6 +172,13 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         identifier = BuiltInRegistries.ENTITY_TYPE.getKey(getType());
     }
 
+    public void fromItemStack(ItemStack stack) {
+        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        if (!customData.isEmpty()) {
+            readItemTag(customData.copyTag());
+        }
+    }
+
     @Override
     public float maxUpStep() {
         return 0.55f;
@@ -190,6 +186,10 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     protected float getInputInterpolationSteps() {
         return 10;
+    }
+
+    protected float getEyeHeight(@NotNull Pose pose, EntityDimensions dimensions) {
+        return dimensions.height();
     }
 
     @Override
@@ -215,7 +215,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     @Override
-    public boolean canBeCollidedWith(Entity entity) {
+    public boolean canBeCollidedWith(@NotNull Entity other) {
         return true;
     }
 
@@ -231,7 +231,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     @Override
     public boolean hurtServer(@NotNull ServerLevel serverLevel, @NotNull DamageSource source, float amount) {
-        if (isInvulnerableToBase(source)) {
+        if (isInvulnerableToBase(source) || isRemoved()) {
             return false;
         }
 
@@ -275,7 +275,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
         boolean force = !(source.getDirectEntity() instanceof Player);
 
-        applyDamage(amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
+        applyDamage(serverLevel, amount / getDurability() / Config.getInstance().damagePerHealthPoint, force);
 
         return true;
     }
@@ -292,7 +292,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         }
     }
 
-    private void applyDamage(float amount, boolean force) {
+    private void applyDamage(ServerLevel serverLevel, float amount, boolean force) {
         if (isRemoved() || getHealth() <= 0) {
             return;
         }
@@ -301,11 +301,11 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         if (health <= 0) {
             setHealth(0);
 
-            if (!level().isClientSide() && getControllingPassenger() instanceof Player player) {
+            if (getControllingPassenger() instanceof Player player) {
                 player.awardStat(AircraftStats.CRASHES, 1);
             }
 
-            // Saving cords for explode (if enabled)
+            // Save coordinates before discarding; explosion may happen after removal.
             double x = getX();
             double y = getY();
             double z = getZ();
@@ -321,15 +321,15 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
             }
 
             // Drop stuff if enabled
-            if (level() instanceof ServerLevel sl && sl.getGameRules().get(GameRules.ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer) {
+            if (serverLevel.getGameRules().get(GameRules.ENTITY_DROPS) && Config.getInstance().enableDropsForNonPlayer) {
                 dropInventory();
                 drop();
             }
         } else {
             setHealth(health);
 
-            if (!level().isClientSide() && getControllingPassenger() instanceof Player player) {
-                player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.floor(amount * 20 + 0.5));
+            if (getControllingPassenger() instanceof Player player) {
+                player.awardStat(AircraftStats.DAMAGE_RECEIVED, Mth.floor(amount * 20 + 0.5f));
             }
         }
     }
@@ -350,9 +350,15 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     protected void drop() {
         if (Config.getInstance().dropAircraft) {
             ItemStack stack = new ItemStack(asItem());
-            addItemTag(stack);
-            if (level() instanceof ServerLevel sl) spawnAtLocation(sl, stack);
+            addItemComponents(stack);
+            if (level() instanceof ServerLevel serverLevel) {
+                spawnAtLocation(serverLevel, stack);
+            }
         }
+    }
+
+    protected void addItemComponents(ItemStack stack) {
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, this::addItemTag);
     }
 
     protected void dropInventory() {
@@ -360,7 +366,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     @Override
-    public void onAboveBubbleColumn(boolean drag, BlockPos pos) {
+    public void onAboveBubbleColumn(boolean drag, @NotNull BlockPos pos) {
         level().addParticle(ParticleTypes.SPLASH, getX() + (double) random.nextFloat(), getY() + 0.7, getZ() + (double) random.nextFloat(), 0.0, 0.0, 0.0);
         if (random.nextInt(20) == 0) {
             level().playLocalSound(getX(), getY(), getZ(), getSwimSplashSound(), getSoundSource(), 1.0f, 0.8f + 0.4f * random.nextFloat(), false);
@@ -389,24 +395,13 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         return !isRemoved();
     }
 
-    @Override
-    public InterpolationHandler getInterpolation() {
-        return new InterpolationHandler(this) {
-            @Override
-            public void interpolateTo(Vec3 pos, float yRot, float xRot) {
-                VehicleEntity.this.x = pos.x;
-                VehicleEntity.this.y = pos.y;
-                VehicleEntity.this.z = pos.z;
-                VehicleEntity.this.serverYRot = yRot;
-                VehicleEntity.this.serverXRot = xRot;
-                VehicleEntity.this.interpolationSteps = 10;
-            }
-
-            @Override
-            public void interpolate() {
-                // handled by handleClientSync()
-            }
-        };
+    public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        serverYRot = yaw;
+        serverXRot = pitch;
+        this.interpolationSteps = 10;
     }
 
     private static float getMovementMultiplier(boolean positive, boolean negative) {
@@ -465,7 +460,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         }
 
         // if it's the right side, update the velocity
-        if (isLocalInstanceAuthoritative()) {
+        if (isClientAuthoritative()) {
             updateVelocity();
 
             // boost
@@ -493,7 +488,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         }
 
         // interpolate keys for visual feedback
-        if (isLocalInstanceAuthoritative()) {
+        if (isClientAuthoritative()) {
             pressingInterpolatedX.update(movementX);
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);
@@ -552,7 +547,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
                 if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
-                    player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
+                    player.sendOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()));
                 }
 
                 if (Main.debouncingGetter.is(Main.Key.DISMOUNT)) {
@@ -561,7 +556,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
                         player.setJumping(false);
                     } else {
                         lastTriedToExit = tickCount;
-                        player.displayClientMessage(Component.translatable("immersive_aircraft.tried_dismount"), true);
+                        player.sendOverlayMessage(Component.translatable("immersive_aircraft.tried_dismount"));
                     }
                 }
 
@@ -594,7 +589,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     private void handleClientSync() {
-        if (isLocalInstanceAuthoritative()) {
+        if (isClientAuthoritative()) {
             interpolationSteps = 0;
             syncPacketPositionCodec(getX(), getY(), getZ());
         }
@@ -616,9 +611,8 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     protected abstract void updateVelocity();
 
-    @Override
-    protected double getDefaultGravity() {
-        return 0.04f;
+    protected float getVehicleGravity() {
+        return -0.04f;
     }
 
     protected abstract void updateController();
@@ -726,31 +720,39 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull ValueOutput tag) {
-        tag.putFloat("VehicleHealth", getHealth());
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        output.putFloat("VehicleHealth", getHealth());
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull ValueInput tag) {
-        setHealth(tag.getFloatOr("VehicleHealth", 1.0f));
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        setHealth(input.getFloatOr("VehicleHealth", getHealth()));
     }
 
-    public void addItemTag(ItemStack stack) {
+    protected void addItemTag(@NotNull CompoundTag tag) {
         // Store plane's name
+        CompoundTag displayTag = new CompoundTag();
+        tag.put("display", displayTag);
         if (hasCustomName()) {
-            stack.set(DataComponents.CUSTOM_NAME, getCustomName());
+            displayTag.putString("Name", getCustomName().getString());
         }
     }
 
-    public void readItemTag(ItemStack stack) {
+    protected void readItemTag(@NotNull CompoundTag tag) {
         // Read plane's name
-        if (stack.has(DataComponents.CUSTOM_NAME)) {
-            setCustomName(stack.get(DataComponents.CUSTOM_NAME));
+        CompoundTag displayTag = tag.getCompoundOrEmpty("display");
+        if (displayTag.contains("Name")) {
+            setCustomName(Component.literal(displayTag.getStringOr("Name", "")));
         }
     }
 
     @Override
-    public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
+    public boolean isNoGravity() {
+        return true;
+    }
+
+    @Override
+    public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand, @NotNull Vec3 hitPos) {
         if (getHealth() < 1.0f && (player.isShiftKeyDown() || !Config.getInstance().requireShiftForRepair) && !hasPassenger(player)) {
             if (!level().isClientSide()) {
                 player.causeFoodExhaustion(Config.getInstance().repairExhaustion);
@@ -765,7 +767,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
                 } else {
                     component.withStyle(ChatFormatting.GREEN);
                 }
-                player.displayClientMessage(component, true);
+                player.sendOverlayMessage(component);
 
                 level().playSound(null, getX(), getY(), getZ(), Sounds.REPAIR.get(), SoundSource.NEUTRAL, 1.0f, 0.7f + random.nextFloat() * 0.2f);
             } else {
@@ -784,7 +786,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
             return InteractionResult.CONSUME;
         }
         if (!isValidDimension()) {
-            player.displayClientMessage(Component.translatable("immersive_aircraft.invalid_dimension"), true);
+            player.sendOverlayMessage(Component.translatable("immersive_aircraft.invalid_dimension"));
             return InteractionResult.FAIL;
         }
         if (player.isSecondaryUseActive()) {
@@ -809,7 +811,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
             double maxPossibleError = movement.length();
             double error = prediction.distanceTo(position());
             if (error <= maxPossibleError) {
-                float collision = (float) (error - (verticalCollision ? Math.abs(getGravity()) : 0.0)) - 0.05f;
+                float collision = (float) (error - (verticalCollision ? Math.abs(getVehicleGravity()) : 0.0)) - 0.05f;
                 if (collision > 0) {
                     float repeat = 1.0f - (getHurtTime() + 1) / 10.0f;
                     if (repeat > 0.0001f) {

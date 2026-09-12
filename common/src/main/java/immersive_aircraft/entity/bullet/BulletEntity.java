@@ -1,7 +1,7 @@
 package immersive_aircraft.entity.bullet;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.hurtingprojectile.AbstractHurtingProjectile;
@@ -49,7 +49,7 @@ public class BulletEntity extends AbstractHurtingProjectile {
     }
 
     @Override
-    public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         return false;
     }
 

@@ -13,7 +13,4 @@ public interface ServerPlayerEntityMixin {
 
     @Invoker("nextContainerCounter")
     void ic$nextContainerCounter();
-
-    @Accessor
-    int getContainerCounter();
 }

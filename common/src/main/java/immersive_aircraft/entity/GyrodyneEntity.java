@@ -37,13 +37,13 @@ public class GyrodyneEntity extends Rotorcraft {
     }
 
     @Override
-    protected double getDefaultGravity() {
-        return (1.0f - getEnginePower()) * super.getDefaultGravity();
+    protected float getVehicleGravity() {
+        return (1.0f - getEnginePower()) * super.getVehicleGravity();
     }
 
     private void updateEnginePowerTooltip() {
         if (getControllingPassenger() instanceof Player player && player.level().isClientSide() && getFuelUtilization() > 0.0) {
-            player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target", (int) (getEngineTarget() * 100.f + 0.5f)), true);
+            player.sendOverlayMessage(Component.translatable("immersive_aircraft.gyrodyne_target", (int) (getEngineTarget() * 100.f + 0.5f)));
         }
     }
 
@@ -68,7 +68,7 @@ public class GyrodyneEntity extends Rotorcraft {
 
             if (getEngineTarget() == 1.0) {
                 if (getControllingPassenger() instanceof Player player) {
-                    player.displayClientMessage(Component.translatable("immersive_aircraft.gyrodyne_target_reached"), true);
+                    player.sendOverlayMessage(Component.translatable("immersive_aircraft.gyrodyne_target_reached"));
                 }
                 if (onGround()) {
                     setDeltaMovement(getDeltaMovement().add(0, 0.25f, 0));

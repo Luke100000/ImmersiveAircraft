@@ -27,7 +27,7 @@
   "weaponMounts": [
     {
       "ROTATING": [
-        {"x": 0, "y": 0.9, "z": -1.1875, "blocking": true}
+        {"x": 0, "y": 0.9, "z": -1.1875}
       ],
       "FRONT": [
         {"x": -1.0, "y": 0.3375, "z": 1.125},
@@ -41,7 +41,7 @@
   ],
   "passengerPositions": [
     [
-      {"x": 0.0, "y": 0.375, "z": -0.6}
+      {"x": 0.0, "y": 0.175, "z": -0.6}
     ]
   ],
   "boundingBoxes": [

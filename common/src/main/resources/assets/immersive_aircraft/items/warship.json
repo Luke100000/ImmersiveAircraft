@@ -5,7 +5,11 @@
     "tints": [
       {
         "type": "minecraft:dye",
-        "default": [0.925, 0.784, 0.549]
+        "default": [
+          0.925,
+          0.784,
+          0.549
+        ]
       }
     ]
   }

@@ -3,25 +3,27 @@ package immersive_aircraft.client.hud;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.entity.EngineVehicle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Iterator;
 import java.util.stream.IntStream;
 
-import static immersive_aircraft.client.hud.Colors.*;
-
 public class SpeedIndicator implements Indicator {
     public static final SpeedIndicator INSTANCE = new SpeedIndicator();
-
     private Vec3 lastSpeed = new Vec3(0, 0, 0);
     private Vec3 iSpeed = new Vec3(0, 0, 0);
     private Vec3 iSpeedRt = new Vec3(0, 0, 0);
     private Vec3 mSpeed = new Vec3(0, 0, 0);
     private Vec3 dir = new Vec3(0, 0, 0);
-
     private static final int widthHalf = 100;
     private static final int bHeightHalf = 35;
+    private static final int colorBG = ARGB.color(255, 215, 215, 215);
+    private static final int colorFG = ARGB.color(255, 31, 31, 31);
+    private static final int colorLt0 = ARGB.color(255, 127, 127, 127);
+    private static final int colorLt1 = ARGB.color(255, 255, 0, 0);
+    private static final int colorHD1 = ARGB.color(255, 191, 0, 0);
 
     @Override
     public void update(Minecraft client, EngineVehicle aircraft) {
@@ -32,7 +34,7 @@ public class SpeedIndicator implements Indicator {
             iSpeedRt = iSpeed.scale(-1 / 30.0f);
             lastSpeed = speed;
         }
-        if (iSpeed.add(iSpeedRt).dot(iSpeed) > 0) iSpeed = iSpeed.add(iSpeedRt);
+        if (iSpeed.add(iSpeedRt).dot(iSpeed) > 0 ) iSpeed = iSpeed.add(iSpeedRt);
         else {
             iSpeed = new Vec3(0, 0, 0);
             iSpeedRt = new Vec3(0, 0, 0);
@@ -40,12 +42,12 @@ public class SpeedIndicator implements Indicator {
         mSpeed = lastSpeed.add(iSpeed.reverse());
     }
 
-    public void drawDashboard(GuiGraphics context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
+    public void drawDashboard(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, EngineVehicle aircraft, int color) {
         StringDrawer.drawString1(context, client, String.format("AS %2.1f", lastSpeed.dot(dir)), baseX - widthHalf, baseY, color, true);
     }
 
     @Override
-    public void drawHUD(GuiGraphics context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
+    public void drawHUD(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int width, EngineVehicle aircraft, int color, int[] edge) {
         for (int i = -bHeightHalf; i < bHeightHalf; i += 5)
             if (edgeCheck(edge, 2, baseX - 3, baseY + i * width / 100))
                 OverlayRenderer.renderLine(context, baseX - 3, baseY + i * width / 100 - 1, baseX - 3, baseY + (i + 5) * width / 100 + 1, color);
@@ -58,7 +60,7 @@ public class SpeedIndicator implements Indicator {
         Iterator<Integer> it = IntStream.range(nearest1_10 - 5, nearest1_10 + 6).iterator();
         while (it.hasNext()) {
             int v = it.next();
-            String vp = v % 10 == 0 ? v == nearest1_10 ? "─" : '·' + String.valueOf(v / 10) + '·' : v % 5 == 0 ? "─" : "-";
+            String vp = v % 10 == 0 ? v == nearest1_10 ? "─" : '·' +String.valueOf(v / 10) + '·' : v % 5 == 0 ? "─" : "-";
             int yy = baseY + (iz - v * 10) * width / 100;
             if (edgeCheck(edge, 5, baseX, yy))
                 StringDrawer.drawString6(context, client, vp, baseX, yy, color, false);
@@ -66,10 +68,9 @@ public class SpeedIndicator implements Indicator {
     }
 
     @Override
-    public void drawDials(GuiGraphics context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
+    public void drawDials(GuiGraphicsExtractor context, Minecraft client, int baseX, int baseY, int scale, EngineVehicle aircraft) {
         // dial 55x55
         context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorBG);
-
         Vec3 scale0 = new Vec3(0, 25 * scale, 0);
         Vec3 scale1 = new Vec3(0, 22 * scale, 0);
         Vec3 scale2 = new Vec3(0, 20 * scale, 0);
@@ -85,14 +86,19 @@ public class SpeedIndicator implements Indicator {
             }
         }
         int iz = Double.valueOf(mSpeed.dot(dir) * 10).intValue();
-
         // hands
         float angle = -(float) Math.toRadians(iz * 0.6f);
         Vec3 h1 = scale1.zRot(angle);
         OverlayRenderer.renderLine(context, baseX, baseY, baseX + (int) h1.x, baseY + (int) h1.y, colorHD1, false, true);
-
-        OverlayRenderer.drawDialOutline(context, baseX, baseY, scale);
-
+        // border
+        context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX + 27 * scale + 1, baseY - 25 * scale, colorFG);
+        context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX - 25 * scale, baseY + 27 * scale + 1, colorFG);
+        context.fill(baseX - 27 * scale, baseY + 25 * scale + 1, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorFG);
+        context.fill(baseX + 25 * scale + 1, baseY - 27 * scale, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorFG);
+        OverlayRenderer.drawScrew(context, baseX - 22 * scale, baseY - 22 * scale, scale, true, colorFG);
+        OverlayRenderer.drawScrew(context, baseX + 22 * scale, baseY - 22 * scale, scale, false, colorFG);
+        OverlayRenderer.drawScrew(context, baseX - 22 * scale, baseY + 22 * scale, scale, false, colorFG);
+        OverlayRenderer.drawScrew(context, baseX + 22 * scale, baseY + 22 * scale, scale, true, colorFG);
         if (scale > 1)
             StringDrawer.drawString9(context, client, "AS", baseX + 20 * scale + 1, baseY + 25 * scale + 1, colorFG, false);
         else {
@@ -114,7 +120,6 @@ public class SpeedIndicator implements Indicator {
                 context.fill(x, y - 1, x + 2, y, colorFG);
             }
         }
-
         // out of range lamp
         context.fill(baseX - 3 * scale, baseY - 3 * scale, baseX + 3 * scale + 1, baseY + 3 * scale + 1, colorFG);
         context.fill(baseX - 2 * scale, baseY - 2 * scale, baseX + 2 * scale + 1, baseY + 2 * scale + 1, iz >= 0 && iz < 600 ? colorLt0 : colorLt1);

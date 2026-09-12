@@ -13,6 +13,11 @@ public abstract class AircraftEntityRenderer<T extends AircraftEntity> extends I
         super(context);
     }
 
+    @Override
+    protected ModelPartRenderHandler<T> getModel(immersive_aircraft.entity.VehicleEntity entity) {
+        return getModel((AircraftEntity) entity);
+    }
+
     // Because this is used in plugins, changing to generic T is no longer possible
     protected abstract ModelPartRenderHandler<T> getModel(AircraftEntity entity);
 

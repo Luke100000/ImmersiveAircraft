@@ -26,7 +26,7 @@ public class BBTexture {
         this.uvWidth = 16;
         this.uvHeight = 16;
 
-        this.location = Identifier.parse("missing");
+        this.location = Identifier.withDefaultNamespace("missing");
     }
 
     public BBTexture(JsonObject element, Identifier identifier) {

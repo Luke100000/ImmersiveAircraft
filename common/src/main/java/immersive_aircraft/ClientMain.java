@@ -4,7 +4,7 @@ import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
-import immersive_aircraft.network.ClientMessageHandler;
+import immersive_aircraft.network.ClientNetworkManager;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -14,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 public class ClientMain {
     private static int activeTicks;
 
-    // This is ugly. And wrong. And bad. But it works, and I don't care enough to fix it properly.
     protected static boolean consumeClick(KeyMapping keyMapping) {
         if (keyMapping.isDown() && keyMapping.consumeClick()) {
             keyMapping.setDown(false);
@@ -26,7 +25,8 @@ public class ClientMain {
     }
 
     public static void postLoad() {
-        Main.messageHandler = new ClientMessageHandler();
+        Main.networkManager = new ClientNetworkManager();
+
         Main.cameraGetter = () -> Minecraft.getInstance().gameRenderer.getMainCamera().position();
         Main.firstPersonGetter = () -> Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
         Main.debouncingGetter = key -> {
@@ -50,7 +50,7 @@ public class ClientMain {
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
 
-        Main.frameTime = client.getDeltaTracker().getGameTimeDeltaTicks();
+        Main.frameTime = client.getDeltaTracker().getGameTimeDeltaPartialTick(false);
 
         // Only tick once per tick
         if (client.level == null || client.level.getGameTime() == lastTime) {

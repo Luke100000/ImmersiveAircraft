@@ -4,7 +4,6 @@ import immersive_aircraft.ClientMain;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.KeyBindings;
-import immersive_aircraft.fabric.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.item.upgrade.VehicleUpgrade;
 import immersive_aircraft.item.upgrade.VehicleUpgradeRegistry;
@@ -12,8 +11,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -34,24 +32,17 @@ public final class ClientFabric implements ClientModInitializer {
 
         ClientTickEvents.START_CLIENT_TICK.register(event -> ClientMain.tick());
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (client.level != null) {
-                CobaltFuelRegistryImpl.setFuelValues(client.level.fuelValues());
-            }
-        });
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> CobaltFuelRegistryImpl.setFuelValues(null));
-
         Renderer.bootstrap();
         WeaponRendererRegistry.bootstrap();
 
-        KeyBindings.list.forEach(KeyBindingHelper::registerKeyBinding);
-        ItemTooltipCallback.EVENT.register(this::itemTooltipCallback);
+        KeyBindings.list.forEach(KeyMappingHelper::registerKeyMapping);
+        ItemTooltipCallback.EVENT.register(this::itemTooltipCallback); // For aircraft upgrade tooltips
     }
 
     /**
      * Handles adding ToolTips to aircraft upgrades.
      */
-    private void itemTooltipCallback(ItemStack stack, Item.TooltipContext tooltipContext, TooltipFlag tooltipFlag, List<Component> tooltip) {
+    private void itemTooltipCallback(ItemStack stack, Item.TooltipContext context, TooltipFlag flag, List<Component> tooltip) {
         VehicleUpgrade upgrade = VehicleUpgradeRegistry.INSTANCE.getUpgrade(stack.getItem());
         if (upgrade != null) {
             tooltip.add(Component.translatable("item.immersive_aircraft.item.upgrade").withStyle(ChatFormatting.GRAY));

@@ -1,10 +1,7 @@
 modLoader = "javafml"
-loaderVersion = "[${loader_major},)"
+loaderVersion = "[1,)"
 issueTrackerURL = "https://github.com/Luke100000/ImmersiveAircraft/issues"
 license = "GPL-3.0-only"
-
-[[mixins]]
-config = "immersive_aircraft.mixins.json"
 
 [[mods]]
 modId = "immersive_aircraft"
@@ -16,16 +13,22 @@ description = "A bunch of rustic aircraft to travel, transport, and explore!"
 logoFile = "icon.png"
 itemIcon = "immersive_aircraft:biplane"
 
+[[mixins]]
+config = "immersive_aircraft.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
+
 [[dependencies.immersive_aircraft]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[${minecraft_version},)"
+modId = "neoforge"
+type = "required"
+versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.immersive_aircraft]]
-modId = "neoforge"
-mandatory = true
-versionRange = "[${loader_major},)"
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"

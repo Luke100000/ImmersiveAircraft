@@ -3,20 +3,20 @@ package immersive_aircraft.client;
 import immersive_aircraft.Main;
 import immersive_aircraft.client.hud.*;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.entity.BiplaneEntity;
 import immersive_aircraft.entity.EngineVehicle;
 import immersive_aircraft.entity.VehicleEntity;
+import immersive_aircraft.entity.WarshipEntity;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 
 import java.util.stream.IntStream;
-
-import static immersive_aircraft.client.hud.Colors.colorFG;
 
 public class OverlayRenderer {
     public static final OverlayRenderer INSTANCE = new OverlayRenderer();
@@ -28,48 +28,42 @@ public class OverlayRenderer {
     private float bootUp = 0.0f;
     private float lastTime = 0.0f;
 
-    public int tick = 0;
+    public int tk = 0;
 
-    static final Indicator[] INDICATORS = {
-            SpeedIndicator.INSTANCE, AltIndicator.INSTANCE, AzimuthIndicator.INSTANCE,
-            AttitudeIndicator.INSTANCE, VectorIndicator.INSTANCE, WarningIndicator.INSTANCE
-    };
-
-    public static int renderOverlay(GuiGraphics context, float tickDelta, int barHeightOffset) {
+    public static int renderOverlay(GuiGraphicsExtractor context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
-        if (client.options.hideGui) return 0;
+        if (client.options.hideGui) {
+            return 0;
+        }
         if (client.gameMode != null && client.player != null) {
-            INSTANCE.tick = (INSTANCE.tick + 1) % 60;
-
-            // Engine status
+            if (INSTANCE.tk == 60) INSTANCE.tk = 0;
             if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
             }
-
-            // Upgrade HUDs
             if (client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 if (aircraft.getProperties().get(VehicleStat.HUD) == 0 || aircraft.getProperties().get(VehicleStat.DIALS) == 0) {
-                    for (Indicator i : INDICATORS) i.update(client, aircraft);
-
-                    // TODO: hud currently supports biplane / warship
-                    if (aircraft.getProperties().get(VehicleStat.HUD) == 0)
+                    for (Indicator i : new Indicator[]{SpeedIndicator.INSTANCE, AltIndicator.INSTANCE, AzimuthIndicator.INSTANCE,
+                            AttitudeIndicator.INSTANCE, VectorIndicator.INSTANCE, WarningIndicator.INSTANCE})
+                        i.update(client, aircraft);
+                    if (aircraft.getProperties().get(VehicleStat.HUD) == 0
+                            && (aircraft instanceof BiplaneEntity || aircraft instanceof WarshipEntity)
+                    )   // hud currently supports biplane / warship
                         INSTANCE.renderAircraftHUD(client, context, tickDelta, barHeightOffset, aircraft);
-
-                    if (aircraft.getProperties().get(VehicleStat.DIALS) == 0)
+                    if (aircraft.getProperties().get(VehicleStat.DIALS) == 0)   // dials can be used on any aircraft
                         INSTANCE.renderAircraftDials(client, context, tickDelta, barHeightOffset, aircraft);
                 }
             }
-
-            // Health
             if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
                 INSTANCE.renderAircraftHealth(client, context, vehicle, barHeightOffset);
+                INSTANCE.tk++;
                 return 10;
             }
+            INSTANCE.tk++;
         }
         return 0;
     }
 
-    private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle, int barHeightOffset) {
+    private void renderAircraftHealth(Minecraft minecraft, GuiGraphicsExtractor context, VehicleEntity vehicle, int barHeightOffset) {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
@@ -90,7 +84,7 @@ public class OverlayRenderer {
         }
     }
 
-    private void renderAircraftGui(Minecraft client, GuiGraphics context, float tickDelta, EngineVehicle aircraft) {
+    private void renderAircraftGui(Minecraft client, GuiGraphicsExtractor context, float tickDelta, EngineVehicle aircraft) {
         assert client.level != null;
 
         if (aircraft.getGuiStyle() == EngineVehicle.GUI_STYLE.ENGINE) {
@@ -129,14 +123,12 @@ public class OverlayRenderer {
             }
 
             context.blit(RenderPipelines.GUI_TEXTURED, ENGINE_TEX, x - 9, y - 9, (frame % 5) * 18, Math.floorDiv(frame, 5) * 18, 18, 18, 90, 90);
-
             context.blit(RenderPipelines.GUI_TEXTURED, POWER_TEX, x - 9, y - 9, (powerFrame % 5) * 18, Math.floorDiv(powerFrame, 5) * 18, 18, 18, 90, 90);
             context.blit(RenderPipelines.GUI_TEXTURED, POWER_TEX, x - 9, y - 9, (powerFrameTarget % 5) * 18, Math.floorDiv(powerFrameTarget, 5) * 18, 18, 18, 90, 90, ARGB.color(127, 255, 255, 255));
         }
     }
 
-    @SuppressWarnings("lossy-conversions")
-    private void renderAircraftHUD(Minecraft client, GuiGraphics context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
+    private void renderAircraftHUD(Minecraft client, GuiGraphicsExtractor context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
         int screenWidth = client.getWindow().getGuiScaledWidth();
         int screenHeight = client.getWindow().getGuiScaledHeight();
         LocalPlayer player = client.player;
@@ -193,7 +185,7 @@ public class OverlayRenderer {
                     (p[2] + p[6]) / 2,   // V2
             };
             alpha = (int) Math.max(Math.min(alpha, 255 * 0.8f), 255 * 0.4f);
-            if (aircraft.mslWarning > 0 && (Math.floorDiv(tick, 6) & 1) != 0) alpha = alpha * 6 / 5;
+            if (aircraft.mslWarning > 0 && (Math.floorDiv(tk, 6) & 1) != 0) alpha = alpha * 6 / 5;
             if (aircraft.getEnginePower() <= 0.05f) alpha *= 0.5f;  // the hud is powered by engine
             color = ARGB.color(alpha, 239, 195, 134);
             SpeedIndicator.INSTANCE.drawHUD(context, client, rc2X - sqD * 6 / 16 + 2, rc2Y, sqD * 5 / 6, aircraft, color, edge);
@@ -211,16 +203,15 @@ public class OverlayRenderer {
                     AltIndicator.INSTANCE,
                     AzimuthIndicator.INSTANCE,
                     WarningIndicator.INSTANCE,
-            })
-                i.drawDashboard(context, client, xC, dashY, aircraft, color);
+            }) i.drawDashboard(context, client, xC, dashY, aircraft, color);
         }
     }
 
-    private void renderAircraftDials(Minecraft client, GuiGraphics context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
+    private void renderAircraftDials(Minecraft client, GuiGraphicsExtractor context, float tickDelta, int barHeightOffset, EngineVehicle aircraft) {
         int screenWidth = client.getWindow().getGuiScaledWidth();
         int screenHeight = client.getWindow().getGuiScaledHeight();
         int scale = Math.max(1, Math.min(screenWidth / 240, screenHeight / 240));
-        SpeedIndicator.INSTANCE.drawDials(context, client, screenWidth - 84 * scale, screenHeight - 28 * scale, scale, aircraft);
+        SpeedIndicator.INSTANCE.drawDials(context, client, screenWidth - 84 * scale, screenHeight - 28 * scale, scale,  aircraft);
         AltIndicator.INSTANCE.drawDials(context, client, screenWidth - 28 * scale, screenHeight - 28 * scale, scale, aircraft);
         AzimuthIndicator.INSTANCE.drawDials(context, client, screenWidth - 56 * scale, screenHeight - 120 * scale, scale, aircraft);
         AttitudeIndicator.INSTANCE.drawDials(context, client, screenWidth - 84 * scale, screenHeight - 84 * scale, scale, aircraft);
@@ -228,15 +219,15 @@ public class OverlayRenderer {
         WarningIndicator.INSTANCE.drawDials(context, client, screenWidth - (112 * scale + 14), screenHeight - 88 * scale, scale, aircraft);
     }
 
-    public static void renderLine(GuiGraphics context, int x01, int y01, int x02, int y02, int color) {
+    public static void renderLine(GuiGraphicsExtractor context, int x01, int y01, int x02, int y02, int color) {
         renderLine(context, x01, y01, x02, y02, color, false);
     }
 
-    public static void renderLine(GuiGraphics context, int x01, int y01, int x02, int y02, int color, boolean dotLine) {
+    public static void renderLine(GuiGraphicsExtractor context, int x01, int y01, int x02, int y02, int color, boolean dotLine) {
         renderLine(context, x01, y01, x02, y02, color, dotLine, false);
     }
 
-    public static void renderLine(GuiGraphics context, int x01, int y01, int x02, int y02, int color, boolean dotLine, boolean dropShadow) {
+    public static void renderLine(GuiGraphicsExtractor context, int x01, int y01, int x02, int y02, int color, boolean dotLine, boolean dropShadow) {
         if (Math.abs(y02 - y01) > Math.abs(x02 - x01)) {
             int y1 = Math.min(y01, y02),
                     y2 = Math.max(y01, y02),
@@ -278,7 +269,6 @@ public class OverlayRenderer {
         }
     }
 
-    @SuppressWarnings("lossy-conversions")
     private static int[] vp(int ix, int iy, int r, float rx, float ry) {
         int x1 = -r, y1 = -r;   // p1
         int x2 = r, y2 = -r;   // p2
@@ -305,29 +295,14 @@ public class OverlayRenderer {
         return new int[]{ix + x1, iy + y1, ix + x2, iy + y2, ix + x3, iy + y3, ix + x4, iy + y4};
     }
 
-    public static void drawScrew(GuiGraphics context, int x, int y, int scale, boolean r, int color) {
+    public static void drawScrew(GuiGraphicsExtractor context, int x, int y, int scale, boolean r, int color) {
         renderLine(context, x - scale, y - scale * 2, x + scale, y - scale * 2, color);
         renderLine(context, x - scale * 2, y - scale, x - scale * 2, y + scale, color);
         renderLine(context, x - scale, y + scale * 2, x + scale, y + scale * 2, color);
         renderLine(context, x + scale * 2, y - scale, x + scale * 2, y + scale, color);
-        if (r) {
+        if (r)
             renderLine(context, x - scale, y - scale, x + scale, y + scale, color);
-        } else {
+        else
             renderLine(context, x + scale, y - scale, x - scale, y + scale, color);
-        }
-    }
-
-    public static void drawDialOutline(GuiGraphics context, int baseX, int baseY, int scale) {
-        // border
-        context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX + 27 * scale + 1, baseY - 25 * scale, colorFG);
-        context.fill(baseX - 27 * scale, baseY - 27 * scale, baseX - 25 * scale, baseY + 27 * scale + 1, colorFG);
-        context.fill(baseX - 27 * scale, baseY + 25 * scale + 1, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorFG);
-        context.fill(baseX + 25 * scale + 1, baseY - 27 * scale, baseX + 27 * scale + 1, baseY + 27 * scale + 1, colorFG);
-
-        // screws
-        OverlayRenderer.drawScrew(context, baseX - 22 * scale, baseY - 22 * scale, scale, true, colorFG);
-        OverlayRenderer.drawScrew(context, baseX + 22 * scale, baseY - 22 * scale, scale, false, colorFG);
-        OverlayRenderer.drawScrew(context, baseX - 22 * scale, baseY + 22 * scale, scale, false, colorFG);
-        OverlayRenderer.drawScrew(context, baseX + 22 * scale, baseY + 22 * scale, scale, true, colorFG);
     }
 }

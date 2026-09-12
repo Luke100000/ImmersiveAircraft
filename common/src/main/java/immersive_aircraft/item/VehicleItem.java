@@ -1,18 +1,19 @@
 package immersive_aircraft.item;
 
-import com.google.common.collect.Iterables;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.ClipContext;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class VehicleItem extends DescriptionItem {
@@ -56,7 +56,7 @@ public class VehicleItem extends DescriptionItem {
         if (((HitResult) hitResult).getType() == HitResult.Type.BLOCK) {
             VehicleEntity entity = constructor.create(world);
 
-            entity.readItemTag(itemStack);
+            entity.fromItemStack(itemStack);
 
             entity.setPos(hitResult.getLocation().x, hitResult.getLocation().y, hitResult.getLocation().z);
             entity.setYRot(user.getYRot());
@@ -83,16 +83,25 @@ public class VehicleItem extends DescriptionItem {
     }
 
     private static void error(Player user, String message) {
-        user.displayClientMessage(Component.translatable(message).withStyle(ChatFormatting.RED), true);
+        user.sendOverlayMessage(Component.translatable(message).withStyle(ChatFormatting.RED));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext ctx, TooltipDisplay display, Consumer<Component> tooltips, TooltipFlag flags) {
-        super.appendHoverText(stack, ctx, display, tooltips, flags);
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, display, tooltip, flag);
 
-        ItemContainerContents data = stack.get(DataComponents.CONTAINER);
-        if (data != null) {
-            tooltips.accept(Component.translatable("immersive_aircraft.tooltip.inventory", Iterables.size(data.nonEmptyItems())));
+        long containerItems = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItemCopyStream().count();
+        if (containerItems > 0) {
+            tooltip.accept(Component.translatable("immersive_aircraft.tooltip.inventory", containerItems));
+        } else {
+            CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+            if (!customData.isEmpty()) {
+                CompoundTag tag = customData.copyTag();
+                if (tag.contains("Inventory")) {
+                    ListTag nbtList = tag.getListOrEmpty("Inventory");
+                    tooltip.accept(Component.translatable("immersive_aircraft.tooltip.inventory", nbtList.size()));
+                }
+            }
         }
     }
 }

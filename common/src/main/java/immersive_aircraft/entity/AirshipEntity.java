@@ -34,8 +34,8 @@ public class AirshipEntity extends Rotorcraft {
     }
 
     @Override
-    protected double getDefaultGravity() {
-        return wasTouchingWater ? -0.04f : (1.0f - getEnginePower()) * super.getDefaultGravity();
+    protected float getVehicleGravity() {
+        return wasTouchingWater ? 0.04f : (1.0f - getEnginePower()) * super.getVehicleGravity();
     }
 
     @Override

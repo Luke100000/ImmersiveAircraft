@@ -4,13 +4,12 @@ import immersive_aircraft.Main;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import immersive_aircraft.util.Rect2iCommon;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -23,15 +22,14 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
     public int containerSize;
 
     public VehicleScreen(VehicleScreenHandler handler, Inventory inventory, Component title) {
-        super(handler, inventory, title);
+        super(handler, inventory, title, 176, BASE_HEIGHT + handler.getVehicle().getInventoryDescription().getHeight() + TITLE_HEIGHT * 2);
 
         containerSize = handler.getVehicle().getInventoryDescription().getHeight();
 
-        imageHeight = BASE_HEIGHT + containerSize + TITLE_HEIGHT * 2;
         inventoryLabelY = containerSize + TITLE_HEIGHT;
     }
 
-    protected void drawRectangle(GuiGraphics context, int x, int y, int h, int w) {
+    protected void drawRectangle(GuiGraphicsExtractor context, int x, int y, int h, int w) {
         //corners
         context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 176, 0, 16, 16, 512, 256);
         context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y, 176 + 32, 0, 16, 16, 512, 256);
@@ -39,37 +37,38 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + h - 16, 176, 32, 16, 16, 512, 256);
 
         //edges
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, 176 + 16, 0, w - 32, 16, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, 176 + 16, 32, w - 32, 16, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 176, 16, 16, h - 32, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 176 + 32, 16, 16, h - 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, w - 32, 16, 176 + 16, 0, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, w - 32, 16, 176 + 16, 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 16, h - 32, 176, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 16, h - 32, 176 + 32, 16, 16, 16, 512, 256);
 
         //center
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, 176 + 16, 16, w - 32, h - 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
     }
 
-    public void drawImage(GuiGraphics context, int x, int y, int u, int v, int w, int h) {
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, u, v, w, h, 512, 256);
-    }
-
-    @Override
-    protected void renderBg(@NotNull GuiGraphics context, float delta, int mouseX, int mouseY) {
+    protected void drawCustomBackground(GuiGraphicsExtractor context) {
         context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, containerSize + TITLE_HEIGHT * 2, 512, 256);
         context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + containerSize + TITLE_HEIGHT * 2 - 4, 0, 222 - BASE_HEIGHT, imageWidth, BASE_HEIGHT, 512, 256);
 
         for (Rect2iCommon rectangle : menu.getVehicle().getInventoryDescription().getRectangles()) {
             drawRectangle(context, leftPos + rectangle.getX(), topPos + rectangle.getY(), rectangle.getHeight(), rectangle.getWidth());
         }
+    }
 
-        // Slots
-        for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
-            SlotRenderer.get(slot.type()).render(this, context, slot, mouseX, mouseY, delta);
-        }
+    public void drawImage(GuiGraphicsExtractor context, int x, int y, int u, int v, int w, int h) {
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, u, v, w, h, 512, 256);
     }
 
     @Override
-    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        extractBackground(context, mouseX, mouseY, delta);
+        drawCustomBackground(context);
+
+        for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
+            SlotRenderer.get(slot.type()).render(this, context, slot, mouseX, mouseY, delta);
+        }
+
+        super.extractContents(context, mouseX, mouseY, delta);
 
         // Slot tooltip
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {
@@ -78,7 +77,7 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
                 tooltip -> context.setTooltipForNextFrame(this.font, tooltip, Optional.empty(), mouseX, mouseY)
             );
         } else {
-            renderTooltip(context, mouseX, mouseY);
+            super.extractTooltip(context, mouseX, mouseY);
         }
     }
 

@@ -1,83 +1,101 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "java-library"
+    id "idea"
+    id "net.neoforged.moddev" version "${neoforge_moddev_version}"
 }
 
-architectury {
-    platformSetupLoomIde()
-    neoForge()
-}
+sourceSets {
+    main {
+        java.srcDir rootProject.file("common/src/main/java")
+        resources.srcDir rootProject.file("common/src/main/resources")
 
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-}
-
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
-}
-
-repositories {
-    maven { url "https://maven.neoforged.net/releases/" }
-}
-
-dependencies {
-    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
-
-    forgeRuntimeLibrary 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
-    include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
-
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:$rei_version"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("META-INF/neoforge.mods.toml") {
-        expand "version": project.version,
-                loader_major: "1",
-                minecraft_version: rootProject.architectury.minecraft
+        java.exclude "immersive_aircraft/config/ModMenuIntegration.java"
+        java.exclude "immersive_aircraft/combat/REICombat.java"
     }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
+neoForge {
+    version = project.neoforge_version
+    accessTransformers = project.files("src/main/resources/META-INF/accesstransformer.cfg")
 
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+    runs {
+        client {
+            client()
+            systemProperty "neoforge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        server {
+            server()
+            programArgument "--nogui"
+            systemProperty "neoforge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty "neoforge.enabledGameTestNamespaces", "immersive_aircraft"
+        }
+
+        data {
+            clientData()
+            programArguments.addAll "--mod", "immersive_aircraft", "--all",
+                    "--output", file("src/generated/resources/").absolutePath,
+                    "--existing", file("src/main/resources/").absolutePath
+        }
+
+        configureEach {
+            systemProperty "forge.logging.markers", "REGISTRIES"
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "immersive_aircraft" {
+            sourceSet(sourceSets.main)
+        }
+    }
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
 }
 
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
+dependencies {
+    implementation "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
+
+    compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
+
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 }
 
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
+def generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    def replaceProperties = [
+            minecraft_version_range: rootProject.minecraft_version_range,
+            neoforge_version       : rootProject.neoforge_version,
+            version                : project.version
+    ]
+
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+jar {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${project.name}" }
     }
 }
 
 publishing {
     publications {
-        mavenCommon(MavenPublication) {
+        mavenNeoForge(MavenPublication) {
             artifactId = rootProject.archives_base_name
-            groupId = rootProject.group_id
-            version = version + "+neoforge"
+            version = "${project.version}+neoforge"
             from components.java
         }
     }

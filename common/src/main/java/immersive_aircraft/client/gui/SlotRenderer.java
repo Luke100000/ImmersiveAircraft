@@ -2,7 +2,7 @@ package immersive_aircraft.client.gui;
 
 import immersive_aircraft.entity.EngineVehicle;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class SlotRenderer {
             this.v = v;
         }
 
-        public void render(VehicleScreen screen, @NotNull GuiGraphics context, SlotDescription slot, int mouseX, int mouseY, float delta) {
+        public void render(VehicleScreen screen, @NotNull GuiGraphicsExtractor context, SlotDescription slot, int mouseX, int mouseY, float delta) {
             if (screen.getMenu().getVehicle().getInventory().getItem(slot.index()).isEmpty()) {
                 screen.drawImage(context, screen.getX() + slot.x() - 3, screen.getY() + slot.y() - 3, u, v, 22, 22);
             } else {
@@ -55,6 +55,6 @@ public class SlotRenderer {
     }
 
     public interface Renderer {
-        void render(VehicleScreen screen, @NotNull GuiGraphics context, SlotDescription slot, int mouseX, int mouseY, float delta);
+        void render(VehicleScreen screen, @NotNull GuiGraphicsExtractor context, SlotDescription slot, int mouseX, int mouseY, float delta);
     }
 }

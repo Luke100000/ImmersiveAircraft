@@ -8,9 +8,10 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(LivingEntityRenderState.class)
 public class LivingEntityRenderStateMixin implements PassengerLivingEntityRenderState {
     @Unique
-    public Float immersive_aircraft$vehicleXRot = null;
+    private Float immersive_aircraft$vehicleXRot;
+
     @Unique
-    public Float immersive_aircraft$vehicleZRot = null;
+    private Float immersive_aircraft$vehicleZRot;
 
     @Override
     public Float immersive_aircraft$getVehicleXRot() {
@@ -23,13 +24,12 @@ public class LivingEntityRenderStateMixin implements PassengerLivingEntityRender
     }
 
     @Override
-    public void immersive_aircraft$setVehicleXRot(Float f) {
-        this.immersive_aircraft$vehicleXRot = f;
+    public void immersive_aircraft$setVehicleXRot(Float value) {
+        immersive_aircraft$vehicleXRot = value;
     }
 
     @Override
-    public void immersive_aircraft$setVehicleZRot(Float f) {
-        this.immersive_aircraft$vehicleZRot = f;
+    public void immersive_aircraft$setVehicleZRot(Float value) {
+        immersive_aircraft$vehicleZRot = value;
     }
 }
-

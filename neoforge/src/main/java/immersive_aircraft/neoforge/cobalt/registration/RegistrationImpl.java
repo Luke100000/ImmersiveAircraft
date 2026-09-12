@@ -15,25 +15,20 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.*;
 import java.util.function.Supplier;
 
-/**
- * Contains all the crap required to interface with forge's code
- */
 public class RegistrationImpl extends Registration.Impl {
     private final Map<String, RegistryRepo> repos = new HashMap<>();
     private final DataLoaderRegister dataLoaderRegister = new DataLoaderRegister();
     private final DataLoaderRegister resourceLoaderRegister = new DataLoaderRegister();
+    private final IEventBus modEventBus;
 
-    private final IEventBus modBus;
-
-    public RegistrationImpl(IEventBus modBus) {
+    public RegistrationImpl(IEventBus modEventBus) {
+        this.modEventBus = modEventBus;
         NeoForgeBusEvents.DATA_REGISTRY = dataLoaderRegister;
         NeoForgeBusEvents.RESOURCE_REGISTRY = resourceLoaderRegister;
-
-        this.modBus = modBus;
     }
 
     private RegistryRepo getRepo(String namespace) {
-        return repos.computeIfAbsent(namespace, RegistryRepo::new);
+        return repos.computeIfAbsent(namespace, id -> new RegistryRepo(id, modEventBus));
     }
 
     @Override
@@ -43,38 +38,37 @@ public class RegistrationImpl extends Registration.Impl {
 
     @Override
     public void registerDataLoader(Identifier id, PreparableReloadListener loader) {
-        dataLoaderRegister.dataLoaders.add(loader);
+        dataLoaderRegister.add(id, loader);
     }
 
     @Override
     public void registerResourceLoader(Identifier id, PreparableReloadListener loader) {
-        resourceLoaderRegister.dataLoaders.add(loader);
+        resourceLoaderRegister.add(id, loader);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T> Supplier<T> register(Registry<? super T> registry, Identifier id, Supplier<T> obj) {
         DeferredRegister reg = getRepo(id.getNamespace()).get(registry);
         return reg.register(id.getPath(), obj);
     }
 
-    class RegistryRepo {
+    static class RegistryRepo {
         private final Map<Identifier, DeferredRegister<?>> registries = new HashMap<>();
-
         private final String namespace;
+        private final IEventBus modEventBus;
 
-        public RegistryRepo(String namespace) {
+        public RegistryRepo(String namespace, IEventBus modEventBus) {
             this.namespace = namespace;
+            this.modEventBus = modEventBus;
         }
 
-        @SuppressWarnings({"rawtypes"})
+        @SuppressWarnings({"unchecked", "rawtypes"})
         public <T> DeferredRegister get(Registry<? super T> registry) {
             Identifier id = registry.key().identifier();
             if (!registries.containsKey(id)) {
-                DeferredRegister def = DeferredRegister.create(registry, namespace);
-
-                def.register(modBus);
-
+                DeferredRegister def = DeferredRegister.create(registry.key(), namespace);
+                def.register(modEventBus);
                 registries.put(id, def);
             }
 
@@ -83,11 +77,21 @@ public class RegistrationImpl extends Registration.Impl {
     }
 
     public static class DataLoaderRegister {
-        // Doing no setter means only the RegistrationImpl class can get access to registering more loaders.
-        private final List<PreparableReloadListener> dataLoaders = new ArrayList<>();
+        private final List<Entry> dataLoaders = new ArrayList<>();
+
+        public void add(Identifier id, PreparableReloadListener loader) {
+            dataLoaders.add(new Entry(id, loader));
+        }
 
         public List<PreparableReloadListener> getLoaders() {
+            return dataLoaders.stream().map(Entry::loader).toList();
+        }
+
+        public List<Entry> getEntries() {
             return dataLoaders;
+        }
+
+        public record Entry(Identifier id, PreparableReloadListener loader) {
         }
     }
 }

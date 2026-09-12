@@ -24,7 +24,7 @@ import java.util.Random;
 public abstract class BulletWeapon extends Weapon {
     private final Random random = new Random();
 
-    private ItemStack ammoStack = ItemStack.EMPTY;
+    private ItemStack ammoStack;
     private int ammo;
 
     public BulletWeapon(VehicleEntity entity, ItemStack stack, WeaponMount mount, int slot) {
@@ -58,7 +58,7 @@ public abstract class BulletWeapon extends Weapon {
 
         // Spawn bullets
         for (int i = 0; i < getBulletCount(); i++) {
-            Entity bullet = getBullet(position, direction);
+            Entity bullet = getBullet(entity, position, direction);
             bullet.setDeltaMovement(bullet.getDeltaMovement().add(speed));
             entity.level().addFreshEntity(bullet);
         }
@@ -75,7 +75,7 @@ public abstract class BulletWeapon extends Weapon {
         getEntity().playSound(getSound(), 1.0f, random.nextFloat() * 0.2f + 0.9f);
     }
 
-    protected abstract Entity getBullet(Vector4f position, Vector3f direction);
+    protected abstract Entity getBullet(Entity shooter, Vector4f position, Vector3f direction);
 
     public SoundEvent getSound() {
         return SoundEvents.CROSSBOW_SHOOT;
@@ -105,7 +105,7 @@ public abstract class BulletWeapon extends Weapon {
 
         if (ammo <= 0) {
             if (getEntity().getControllingPassenger() instanceof Player player) {
-                player.displayClientMessage(Component.translatable("immersive_aircraft.out_of_ammo"), true);
+                player.sendOverlayMessage(Component.translatable("immersive_aircraft.out_of_ammo"));
             }
             return false;
         }
