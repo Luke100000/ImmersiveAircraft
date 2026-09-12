@@ -4,16 +4,22 @@ import immersive_aircraft.Items;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.entity.misc.TrailDescriptor;
 import immersive_aircraft.item.upgrade.VehicleStat;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 public class BambooHopperEntity extends AirplaneEntity {
+    private int fluidHeightTick = Integer.MIN_VALUE;
+    private float cachedFluidHeight = 0.0f;
+
     public BambooHopperEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world, true);
     }
@@ -29,13 +35,58 @@ public class BambooHopperEntity extends AirplaneEntity {
 
         emitSmokeParticle(3.4375f, 1.125f, -0.25f, 0.0f, 0.0f, -0.2f);
         emitSmokeParticle(-3.4375f, 1.125f, -0.25f, 0.0f, 0.0f, -0.2f);
-
-
-        float water = (float) fluidHeight.getDouble(FluidTags.WATER);
-        if (water > 0) {
-            emitSplashParticle(3.4375f, water, -0.5f, 0.0f, 0.0f, 0.0f);
-            emitSplashParticle(-3.4375f, water, -0.5f, 0.0f, 0.0f, 0.0f);
+        float fluid = getFluidHeight();
+        if (fluid > 0.0f) {
+            emitSplashParticle(3.4375f, fluid, -0.5f, 0.0f, 0.0f, 0.0f);
+            emitSplashParticle(-3.4375f, fluid, -0.5f, 0.0f, 0.0f, 0.0f);
         }
+    }
+
+    private float getFluidHeight() {
+        if (fluidHeightTick == tickCount) {
+            return cachedFluidHeight;
+        }
+
+        fluidHeightTick = tickCount;
+        cachedFluidHeight = calculateFluidHeight();
+        return cachedFluidHeight;
+    }
+
+    private float calculateFluidHeight() {
+        AABB box = getBoundingBox().deflate(0.001D);
+
+        int minX = Mth.floor(box.minX);
+        int maxX = Mth.ceil(box.maxX);
+        int minY = Mth.floor(box.minY);
+        int maxY = Mth.ceil(box.maxY);
+        int minZ = Mth.floor(box.minZ);
+        int maxZ = Mth.ceil(box.maxZ);
+
+        if (!level().hasChunksAt(minX, minY, minZ, maxX - 1, maxY - 1, maxZ - 1)) {
+            return 0.0f;
+        }
+
+        double height = 0.0D;
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                for (int z = minZ; z < maxZ; z++) {
+                    pos.set(x, y, z);
+
+                    FluidState state = level().getFluidState(pos);
+                    if (state.isEmpty()) {
+                        continue;
+                    }
+
+                    double surface = y + state.getHeight(level(), pos);
+                    if (surface >= box.minY) {
+                        height = Math.max(height, surface - box.minY);
+                    }
+                }
+            }
+        }
+
+        return (float) height;
     }
 
     public void emitSplashParticle(float x, float y, float z, float nx, float ny, float nz) {
@@ -57,8 +108,8 @@ public class BambooHopperEntity extends AirplaneEntity {
 
     @Override
     protected float getGravity() {
-        float water = (float) getFluidHeight(FluidTags.WATER);
-        return water > 0 ? 0.04f * water : (1.0f - getEnginePower()) * super.getGravity();
+        float fluid = getFluidHeight();
+        return fluid > 0.0f ? 0.04f * fluid : (1.0f - getEnginePower()) * super.getGravity();
     }
 
     @Override
