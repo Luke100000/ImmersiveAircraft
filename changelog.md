@@ -8,6 +8,7 @@
 * Fixed overlay on fabric being funky with some mods
 * Aircraft now take damage and slow down in lava
 * Fixed Bamboo Hopper floating on modded water-like fluids
+* Added an auto enter blacklist
 
 # 1.4.1
 

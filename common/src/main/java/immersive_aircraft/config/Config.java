@@ -120,7 +120,10 @@ public final class Config extends JsonConfig {
     @BooleanConfigEntry(true)
     public boolean defaultCanEnter;
 
-    public Map<String, Boolean> canEnter = Map.of();
+    public Map<String, Boolean> canEnter = Map.of(
+            "minecraft:player", false,
+            "#immersive_aircraft:water_animals", false
+    );
 
     // The entity to spawn when triggering the bomb bay
     // The item also needs to be valid ammunition (e.g., set to 100)
