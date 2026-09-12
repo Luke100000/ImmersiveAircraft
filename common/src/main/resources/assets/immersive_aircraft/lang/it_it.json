@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Abbandona i potenziamenti e la personalizzazione, invece di salvarli all'interno dell'oggetto dell'aereo.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Rigenera automaticamente la salute a ogni tick, simulando il comportamento della versione vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Ripara solo se tieni il cambio, altrimenti entra nel veicolo.",
+  "option.immersive_aircraft.defaultCanEnter": "Consenti ai mob di salire automaticamente a bordo dell'aeromobile per impostazione predefinita.",
   "immersive_aircraft.tooltip.no_target": "Deve essere assemblato sul pavimento!",
   "immersive_aircraft.tooltip.no_space": "Non c'è abbastanza spazio!",
   "immersive_aircraft.slot.booster": "Razzi di spinta",
