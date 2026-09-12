@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Laat de upgrades en aanpassingen vallen, in plaats van ze op te slaan in het vliegtuigitem.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Genereert automatisch gezondheid iedere gegeven tik, simuleert vanilla gedrag.",
   "option.immersive_aircraft.requireShiftForRepair": "Repareer alleen als je shift ingedrukt houdt, anders stap gewoon in het voertuig.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Moet op de vloer in elkaar worden gezet!",
   "immersive_aircraft.tooltip.no_space": "Niet genoeg ruimte!",
   "immersive_aircraft.slot.booster": "Aanjaagraketten",
