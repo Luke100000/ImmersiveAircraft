@@ -1,3 +1,19 @@
+# 1.5.0
+
+* Fixed engine turning off in Multiplayer for other players
+* Fixed gunner controlling wrong gun
+* Fuel with containers should now be better supported
+* Improved render performance
+* Fixed aircraft control animations
+* Fixed aircraft camera movement affecting hand
+* Fixed terrain being culled incorrectly while pitching aircraft
+* Fixed overlay on fabric being funky with some mods
+* Fixed advancements
+* Aircraft now take damage and slow down in lava
+* Fixed Bamboo Hopper floating on modded water-like fluids
+* Added an auto enter blacklist
+* Aircraft now take fire damage
+
 # 1.4.7
 
 * Fixed airship crafting recipe

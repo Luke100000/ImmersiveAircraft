@@ -73,13 +73,13 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
 
     public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
         //Wobble
-        float h = (float) entity.getDamageWobbleTicks() - tickDelta;
-        float j = entity.getDamageWobbleStrength() - tickDelta;
+        float h = (float) entity.getHurtTime() - tickDelta;
+        float j = entity.getDamage() - tickDelta;
         if (j < 0.0f) {
             j = 0.0f;
         }
         if (h > 0.0f) {
-            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getDamageWobbleSide()));
+            matrixStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0f * (float) entity.getHurtDir()));
         }
 
         // Updated variables

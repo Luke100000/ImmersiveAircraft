@@ -15,6 +15,7 @@ public record VehicleStat(String name, boolean positive, float defaultValue) {
 
     public static final VehicleStat ACCELERATION = register("acceleration", true, 1.0f);
     public static final VehicleStat DURABILITY = register("durability", true, 1.0f);
+    public static final VehicleStat FIRE_RESISTANCE = register("fireResistance", true, 0.0f);
     public static final VehicleStat FUEL = register("fuel", false, 1.0f);
 
     public static final VehicleStat FRICTION = register("friction", false, 0.015f);
@@ -33,6 +34,7 @@ public record VehicleStat(String name, boolean positive, float defaultValue) {
 
     public static final VehicleStat GROUND_FRICTION = register("groundFriction", false, 0.95f);
     public static final VehicleStat WATER_FRICTION = register("waterFriction", false, 0.9f);
+    public static final VehicleStat LAVA_FRICTION = register("lavaFriction", false, 0.7f);
     public static final VehicleStat ROTATION_DECAY = register("rotationDecay", false, 0.97f);
     public static final VehicleStat HORIZONTAL_DECAY = register("horizontalDecay", false, 0.97f);
     public static final VehicleStat VERTICAL_DECAY = register("verticalDecay", false, 0.97f);

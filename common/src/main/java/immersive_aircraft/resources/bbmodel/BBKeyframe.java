@@ -22,15 +22,26 @@ public class BBKeyframe {
         this.expressions[2] = getExpression(point, "z");
     }
 
-    private static Expression getExpression(JsonObject point, String x) {
-        return new Expression(point.getAsJsonPrimitive(x).getAsString().replace("variable.", "variable_"), BBAnimationVariables.getArgumentArray());
+    private static Expression getExpression(JsonObject point, String axis) {
+        Expression expression = new Expression(
+                point.getAsJsonPrimitive(axis).getAsString().replace("variable.", "variable_"),
+                BBAnimationVariables.getArgumentArray()
+        );
+        if (expression.checkSyntax()) {
+            expression.calculate();
+        }
+        return expression;
     }
 
     public Vector3f evaluate() {
         return new Vector3f(
-                (float) this.expressions[0].calculate(),
-                (float) this.expressions[1].calculate(),
-                (float) this.expressions[2].calculate()
+                calculate(this.expressions[0]),
+                calculate(this.expressions[1]),
+                calculate(this.expressions[2])
         );
+    }
+
+    private static float calculate(Expression expression) {
+        return expression.getSyntaxStatus() ? (float) expression.calculate() : Float.NaN;
     }
 }

@@ -266,12 +266,12 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         // Update gunner offsets
         // The first weapon is assigned to the last passenger, the second to the second last, etc.
         // If more weapons than passengers are available, the remaining weapons are assigned to the driver
-        int gunnerOffset = getPassengers().size();
+        int gunnerOffset = 0;
         for (List<Weapon> weapons : getWeapons().values()) {
-            gunnerOffset--;
             for (Weapon weapon : weapons) {
-                weapon.setGunnerOffset(Math.max(0, gunnerOffset));
+                weapon.setGunnerOffset(gunnerOffset);
             }
+            gunnerOffset++;
         }
 
         // Update weapons
@@ -292,12 +292,19 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         return getProperties().get(VehicleStat.WATER_FRICTION);
     }
 
+    protected float getLavaDecay() {
+        return getProperties().get(VehicleStat.LAVA_FRICTION);
+    }
+
     protected void applyFriction() {
         // Decay is the basic factor of friction, basically the density of the material slowing down the vehicle
         float decay = 1.0f - getProperties().get(VehicleStat.FRICTION);
         double gravity = getGravity();
-        if (wasTouchingWater) {
-            gravity *= 0.25f;
+        if (isInLava()) {
+            gravity *= 0.125;
+            decay = getLavaDecay();
+        } else if (wasTouchingWater) {
+            gravity *= 0.25;
             decay = getWaterDecay();
         } else if (onGround()) {
             if (isVehicle()) {
@@ -331,6 +338,11 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     @Override
     public float getDurability() {
         return getProperties().get(VehicleStat.DURABILITY);
+    }
+
+    @Override
+    public float getFireResistance() {
+        return getProperties().getAdditive(VehicleStat.FIRE_RESISTANCE);
     }
 
     public boolean isScoping() {
@@ -406,11 +418,10 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     public void clientFireWeapons(Entity entity) {
-        int gunnerIndex = getPassengers().indexOf(entity);
         for (List<Weapon> weapons : getWeapons().values()) {
             int index = 0;
             for (Weapon weapon : weapons) {
-                if (weapon.getGunnerOffset() == gunnerIndex) {
+                if (getGunner(weapon.getGunnerOffset()) == entity) {
                     weapon.clientFire(index++);
                 }
             }
