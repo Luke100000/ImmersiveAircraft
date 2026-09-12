@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Faligu la plibonigojn kaj personigojn, anstataŭ konservi ilin ene de la aviadilo.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Aŭtomate regeneras sanon ĉiun donitan takton, simulado de vanila konduto.",
   "option.immersive_aircraft.requireShiftForRepair": "Nur ripari kiam tenante ŝanĝon, alie nur eniru la veturilon.",
+  "option.immersive_aircraft.defaultCanEnter": "Permesu al monstruloj defaŭlte aŭtomate eniri flugilojn.",
   "immersive_aircraft.tooltip.no_target": "Devi esti muntita sur la planko!",
   "immersive_aircraft.tooltip.no_space": "Ne sufiĉe da spaco!",
   "immersive_aircraft.slot.booster": "Puŝraketoj",
