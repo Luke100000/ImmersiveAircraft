@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Deixa caure les millores i personalitzacions, en lloc de guardar-les dins de l'objecte de l'aeronauta.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenera automàticament la salut cada cert temps, simulant el comportament original.",
   "option.immersive_aircraft.requireShiftForRepair": "Només repara quan manté la tecla shift, d'altra manera només entra al vehicle.",
+  "option.immersive_aircraft.defaultCanEnter": "Permetre que els mobs pugin automàticament als avions per defecte.",
   "immersive_aircraft.tooltip.no_target": "Cal muntar-ho a terra!",
   "immersive_aircraft.tooltip.no_space": "No hi ha prou espai!",
   "immersive_aircraft.slot.booster": "Ràfegues de coets",

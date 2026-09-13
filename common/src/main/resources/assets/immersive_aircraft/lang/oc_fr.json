@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Deixar los miglioraments e la personalizacion, en luòc de lo conservar dins l'objet de l'aeronaute.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenera automaticament la santat cada tick donat, simulant lo comportament vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Solament reparar quand se ten lo shift, altrament solament entrar dins lo vehícul.",
+  "option.immersive_aircraft.defaultCanEnter": "Permètz als mobs de montar automaticament dins los aparèlhs aerians per defaut.",
   "immersive_aircraft.tooltip.no_target": "Cal èsser assemblat sus lo sòl!",
   "immersive_aircraft.tooltip.no_space": "Pas sufisant d'espaci!",
   "immersive_aircraft.slot.booster": "Coets de reforç",

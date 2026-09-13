@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Slipp oppgraderingene og tilpasningen, i stedet for å lagre den i flyelementet.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regenererer automatisk helse for hvert gitte tikk, og simulerer vaniljeatferd.",
   "option.immersive_aircraft.requireShiftForRepair": "Reparer bare når du holder skiftet, ellers er det bare å gå inn i kjøretøyet.",
+  "option.immersive_aircraft.defaultCanEnter": "Tillat vesener å automatisk ombord fly som standard.",
   "immersive_aircraft.tooltip.no_target": "Må monteres på gulvet!",
   "immersive_aircraft.tooltip.no_space": "Ikke nok plass!",
   "immersive_aircraft.slot.booster": "Booster",

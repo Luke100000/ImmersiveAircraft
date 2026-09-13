@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Նետի արդիականացումը և հարմարեցումը, փոխարենը պահպանելու ինքնաթիռի առարկայի մեջ։",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Ավտոմատულად վերականգնում է առողջությունը յուրաքանչյուր տրված տիկում, սիմուլացնելով վանիլային վարքը։",
   "option.immersive_aircraft.requireShiftForRepair": "Մաշին միավորում է միայն երբ պահում եք shift-ը, հակառակ դեպքում ուղղակի մտեք մեքենա։",
+  "option.immersive_aircraft.defaultCanEnter": "Թույլ տալ mob-երին նախնական կարգավորմամբ ավտոմատ կերպով նստել օդանավեր։",
   "immersive_aircraft.tooltip.no_target": "Պետք է հավաքվի հատակին։",
   "immersive_aircraft.tooltip.no_space": "Չկա բավականաչափ տարածք։",
   "immersive_aircraft.slot.booster": "Արտերային արկեր",

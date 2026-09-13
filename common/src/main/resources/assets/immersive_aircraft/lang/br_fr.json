@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Derc'hez an adkempenn ha krouiñ, e-lec'h ma vo cheñchet er moñt an aer.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Kement a cheñch evezh mat, keit ma vez ar pal gouestl, simulat broiñvan.",
   "option.immersive_aircraft.requireShiftForRepair": "Skoaz da vañseñ, n'eo ket a-bouez da adkempenn, perak n'emañ nemet e kreiz an tren.",
+  "option.immersive_aircraft.defaultCanEnter": "Aotren d'ar moboù pignat ent emgefreek war ar c'hirri-nij dre ziouer.",
   "immersive_aircraft.tooltip.no_target": "Ret eo krouiñ war an douar!",
   "immersive_aircraft.tooltip.no_space": "N'eo ket digoret a ra!",
   "immersive_aircraft.slot.booster": "Enabled rocket",

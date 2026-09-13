@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "업그레이드 및 커스터마이징을 항공기 아이템에 저장하는 대신 삭제합니다.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "주어진 틱마다 자동으로 체력을 재생성하여 바닐라 동작을 시뮬레이션합니다.",
   "option.immersive_aircraft.requireShiftForRepair": "교대 근무 시에만 수리하고, 그렇지 않으면 그냥 차량에 탑승하세요.",
+  "option.immersive_aircraft.defaultCanEnter": "기본적으로 몬스터가 항공기에 자동으로 탑승할 수 있도록 합니다.",
   "immersive_aircraft.tooltip.no_target": "바닥에 조립해야 합니다!",
   "immersive_aircraft.tooltip.no_space": "공간이 부족합니다!",
   "immersive_aircraft.slot.booster": "부스트 로켓",

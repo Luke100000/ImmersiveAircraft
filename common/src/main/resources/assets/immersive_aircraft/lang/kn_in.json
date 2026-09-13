@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "ವಿಮಾನದ ಐಟಮ್‌ನಲ್ಲಿ сохранить ಮಾಡಲು ಬದಲಾಗಿ ಸುಧಾರಣೆಗಳು ಮತ್ತು ಕಸ್ಟಮೈಸೇಶನ್ ಅನ್ನು ತೋರಿಸಿ.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "ಪ್ರತಿಯೊಂದು ತಟ್ಟೆ ಹೊಡೆಯುವಿಕೆ ಹೆಣ್ಣು ಮೇಲೆ ಆರೋಗ್ಯವನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ, ವಿನ್ಯಾಸ ಬಿಹೇವಿಯರ್ ಅನ್ನು ಶಿಮುಟಿಸುತ್ತದೆ.",
   "option.immersive_aircraft.requireShiftForRepair": "ಶಿಫ್ಟ್ ಅನ್ನು ಹಿಡಿದಾಗ ಮಾತ್ರ ದುರಸ್ತ ಪರಿಣಮ ವೇಲೆ, ಇಲ್ಲವೇ ವಾಹನಕ್ಕೆ ಕೇವಲ ಪ್ರವೇಶಿಸಿ.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "ನೆಲದಲ್ಲಿ ಸೇರಿಸಲಾಗುವುದು!",
   "immersive_aircraft.tooltip.no_space": "ಸಾಮಾನ್ಯ ಸ್ಥಳವೇ ಇಲ್ಲ!",
   "immersive_aircraft.slot.booster": "ಬೂಸ್ಟರ್ ರಾಕೆಟ್ಸ್",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Изхвърлете подобренията и персонализацията, вместо да ги запазвате в елемента на самолета.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Автоматично регенерира здравето на всеки даден тик, симулирайки поведението на играта Vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Ремонтирайте само когато държите предавката, иначе просто влезте в автомобила.",
+  "option.immersive_aircraft.defaultCanEnter": "Позволи на мобовете по подразбиране да се качват автоматично на летателните апарати.",
   "immersive_aircraft.tooltip.no_target": "Трябва да се сглоби на пода!",
   "immersive_aircraft.tooltip.no_space": "Недостатъчно място!",
   "immersive_aircraft.slot.booster": "Увеличаване на ракетите",

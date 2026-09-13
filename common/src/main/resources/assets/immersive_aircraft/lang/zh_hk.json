@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "丟掉升級和客製化，而不是保存在飛機項目中。",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "每隔一格自動再生健康值，模擬原版行為。",
   "option.immersive_aircraft.requireShiftForRepair": "只有在保持換檔時才能進行維修，否則只需進入車輛即可。",
+  "option.immersive_aircraft.defaultCanEnter": "預設允許生物自動登機。",
   "immersive_aircraft.tooltip.no_target": "需要在地板上組裝！",
   "immersive_aircraft.tooltip.no_space": "空間不足！",
   "immersive_aircraft.slot.booster": "推進火箭",

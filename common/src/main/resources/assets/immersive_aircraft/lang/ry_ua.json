@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Скинути вдосконалення та налаштування, замість того щоб зберігати їх у предметі літака.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Автоматично відновлює здоров'я кожні задані такти, імітуючи ванільну поведінку.",
   "option.immersive_aircraft.requireShiftForRepair": "Ремонтувати тільки при триманні Shift, в іншому випадку просто сідати в транспорт.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Потрібно зібрати на підлозі!",
   "immersive_aircraft.tooltip.no_space": "Недостатньо місця!",
   "immersive_aircraft.slot.booster": "Помічні ракети",
