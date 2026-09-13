@@ -14,13 +14,14 @@ jobs:
       MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Fetch Tags
         run: git fetch --unshallow --tags
-      - name: Set up JDK 21
-        uses: actions/setup-java@v1
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          distribution: temurin
+          java-version: 25
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Publish to Maven
@@ -36,13 +37,14 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Fetch Tags
         run: git fetch --unshallow --tags
-      - name: Set up JDK 21
-        uses: actions/setup-java@v1
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          distribution: temurin
+          java-version: 25
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
@@ -58,10 +60,6 @@ jobs:
         with:
           separator: "+"
           msg: ${{steps.tag.outputs.tag}}
-      - name: "Rename Fabric files"
-        run: mv "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
-      - name: "Rename NeoForge files"
-        run: mv "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}.jar" "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
       - name: "Upload Fabric"
         uses: Kira-NT/mc-publish@v3.3.1
         if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
@@ -74,14 +72,14 @@ jobs:
           name: "[Fabric ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
           version-type: release
-          files: "fabric/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-fabric.jar"
+          files: "fabric/build/libs/immersive_aircraft-fabric-${{steps.tag.outputs.tag}}.jar"
           loaders: |
             fabric
           environment: client | server
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 21
+            Java 25
           dependencies: |
             fabric-api | required | *
 
@@ -98,13 +96,13 @@ jobs:
           name: "[NeoForge ${{steps.split.outputs._1}}] Immersive Aircraft - ${{steps.split.outputs._0}}"
           changelog-file: changelog.md
           version-type: release
-          files: "neoforge/build/libs/immersive_aircraft-${{steps.tag.outputs.tag}}-neoforge.jar"
+          files: "neoforge/build/libs/immersive_aircraft-neoforge-${{steps.tag.outputs.tag}}.jar"
           loaders: |
             neoforge
           environment: client | server
           game-versions: |
             ${{steps.split.outputs._1}}
           java: |
-            Java 21
+            Java 25
 
           fail-mode: skip

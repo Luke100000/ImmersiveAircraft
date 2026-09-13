@@ -24,7 +24,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -48,7 +47,6 @@ import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -173,10 +171,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     public void fromItemStack(ItemStack stack) {
-        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        if (!customData.isEmpty()) {
-            readItemTag(customData.copyTag());
-        }
+        readItemTag(stack);
     }
 
     @Override
@@ -358,7 +353,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     protected void addItemComponents(ItemStack stack) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, this::addItemTag);
+        addItemTag(stack);
     }
 
     protected void dropInventory() {
@@ -726,23 +721,20 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
 
     @Override
     protected void readAdditionalSaveData(@NotNull ValueInput input) {
-        setHealth(input.getFloatOr("VehicleHealth", getHealth()));
+        setHealth(input.getFloatOr("VehicleHealth", 1.0f));
     }
 
-    protected void addItemTag(@NotNull CompoundTag tag) {
+    protected void addItemTag(ItemStack stack) {
         // Store plane's name
-        CompoundTag displayTag = new CompoundTag();
-        tag.put("display", displayTag);
         if (hasCustomName()) {
-            displayTag.putString("Name", getCustomName().getString());
+            stack.set(DataComponents.CUSTOM_NAME, getCustomName());
         }
     }
 
-    protected void readItemTag(@NotNull CompoundTag tag) {
+    protected void readItemTag(ItemStack stack) {
         // Read plane's name
-        CompoundTag displayTag = tag.getCompoundOrEmpty("display");
-        if (displayTag.contains("Name")) {
-            setCustomName(Component.literal(displayTag.getStringOr("Name", "")));
+        if (stack.has(DataComponents.CUSTOM_NAME)) {
+            setCustomName(stack.get(DataComponents.CUSTOM_NAME));
         }
     }
 

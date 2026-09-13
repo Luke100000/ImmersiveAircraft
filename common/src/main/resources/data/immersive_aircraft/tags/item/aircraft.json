@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "immersive_aircraft:biplane",
+    "immersive_aircraft:gyrodyne",
+    "immersive_aircraft:quadrocopter",
+    "immersive_aircraft:airship",
+    "immersive_aircraft:cargo_airship",
+    "immersive_aircraft:warship",
+    "immersive_aircraft:bamboo_hopper"
+  ]
+}

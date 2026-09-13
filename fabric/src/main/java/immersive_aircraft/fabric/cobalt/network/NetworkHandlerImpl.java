@@ -2,6 +2,7 @@ package immersive_aircraft.fabric.cobalt.network;
 
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.cobalt.network.NetworkHandler.Direction;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -18,7 +19,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -26,8 +26,8 @@ import java.util.function.Function;
 public class NetworkHandlerImpl extends NetworkHandler.Impl {
     private final Map<Class<?>, CustomPacketPayload.Type<CobaltPayload>> types = new HashMap<>();
 
-    private <T> Identifier createMessageIdentifier(String namespace, Class<T> msg) {
-        return Identifier.fromNamespaceAndPath(namespace, msg.getSimpleName().toLowerCase(Locale.ROOT));
+    private Identifier createMessageIdentifier(String path) {
+        return Identifier.fromNamespaceAndPath(immersive_aircraft.Main.MOD_ID, path);
     }
 
     private CustomPacketPayload.Type<CobaltPayload> getMessageType(Message msg) {
@@ -47,21 +47,23 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     }
 
     @Override
-    public <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        Identifier identifier = createMessageIdentifier(namespace, msg);
+    public <T extends Message> void registerMessage(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor, Direction direction) {
+        Identifier identifier = createMessageIdentifier(path);
         CustomPacketPayload.Type<CobaltPayload> type = new CustomPacketPayload.Type<>(identifier);
         types.put(msg, type);
 
         StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type);
-        PayloadTypeRegistry.serverboundPlay().register(type, codec);
-        PayloadTypeRegistry.clientboundPlay().register(type, codec);
+        if (direction == Direction.SERVERBOUND) {
+            PayloadTypeRegistry.serverboundPlay().register(type, codec);
+            ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
+                Message m = constructor.apply(toBuffer(payload));
+                context.server().execute(() -> m.receive(context.player()));
+            });
+        } else {
+            PayloadTypeRegistry.clientboundPlay().register(type, codec);
+        }
 
-        ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
-            Message m = constructor.apply(toBuffer(payload));
-            context.server().execute(() -> m.receive(context.player()));
-        });
-
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+        if (direction == Direction.CLIENTBOUND && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             ClientProxy.register(type, constructor);
         }
     }
@@ -108,4 +110,3 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         }
     }
 }
-

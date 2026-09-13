@@ -1,6 +1,5 @@
 package immersive_aircraft.cobalt.network;
 
-import immersive_aircraft.Main;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -10,12 +9,17 @@ import java.util.function.Function;
 public abstract class NetworkHandler {
     private static Impl INSTANCE;
 
-    public static <T extends Message> void registerMessage(Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        INSTANCE.registerMessage(Main.SHORT_MOD_ID, msg, constructor);
+    public enum Direction {
+        CLIENTBOUND,
+        SERVERBOUND
     }
 
-    public static <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        INSTANCE.registerMessage(namespace, msg, constructor);
+    public static <T extends Message> void registerClientbound(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        INSTANCE.registerMessage(path, msg, constructor, Direction.CLIENTBOUND);
+    }
+
+    public static <T extends Message> void registerServerbound(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+        INSTANCE.registerMessage(path, msg, constructor, Direction.SERVERBOUND);
     }
 
     public static void sendToServer(Message m) {
@@ -35,7 +39,7 @@ public abstract class NetworkHandler {
             INSTANCE = this;
         }
 
-        public abstract <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor);
+        public abstract <T extends Message> void registerMessage(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor, Direction direction);
 
         public abstract void sendToServer(Message m);
 

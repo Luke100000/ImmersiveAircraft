@@ -6,15 +6,16 @@ import immersive_aircraft.network.s2c.*;
 
 public class Messages {
     public static void loadMessages() {
-        NetworkHandler.registerMessage(EnginePowerMessage.class, EnginePowerMessage::new);
-        NetworkHandler.registerMessage(CommandMessage.class, CommandMessage::new);
-        NetworkHandler.registerMessage(OpenGuiRequest.class, OpenGuiRequest::new);
-        NetworkHandler.registerMessage(InventoryUpdateMessage.class, InventoryUpdateMessage::new);
-        NetworkHandler.registerMessage(RequestInventory.class, RequestInventory::new);
-        NetworkHandler.registerMessage(CollisionMessage.class, CollisionMessage::new);
-        NetworkHandler.registerMessage(VehicleUpgradesMessage.class, VehicleUpgradesMessage::new);
-        NetworkHandler.registerMessage(AircraftDataMessage.class, AircraftDataMessage::new);
-        NetworkHandler.registerMessage(FireMessage.class, FireMessage::new);
-        NetworkHandler.registerMessage(FireResponse.class, FireResponse::new);
+        NetworkHandler.registerClientbound("aircraft_data", AircraftDataMessage.class, AircraftDataMessage::new);
+        NetworkHandler.registerClientbound("fire_response", FireResponse.class, FireResponse::new);
+        NetworkHandler.registerClientbound("inventory_update", InventoryUpdateMessage.class, InventoryUpdateMessage::new);
+        NetworkHandler.registerClientbound("open_gui", OpenGuiRequest.class, OpenGuiRequest::new);
+        NetworkHandler.registerClientbound("vehicle_upgrades", VehicleUpgradesMessage.class, VehicleUpgradesMessage::new);
+
+        NetworkHandler.registerServerbound("collision", CollisionMessage.class, CollisionMessage::new);
+        NetworkHandler.registerServerbound("command", CommandMessage.class, CommandMessage::new);
+        NetworkHandler.registerServerbound("engine_power", EnginePowerMessage.class, EnginePowerMessage::new);
+        NetworkHandler.registerServerbound("fire", FireMessage.class, FireMessage::new);
+        NetworkHandler.registerServerbound("inventory", RequestInventory.class, RequestInventory::new);
     }
 }

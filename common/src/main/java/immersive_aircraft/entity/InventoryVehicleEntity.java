@@ -20,7 +20,6 @@ import immersive_aircraft.network.s2c.OpenGuiRequest;
 import immersive_aircraft.screen.VehicleScreenHandler;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
@@ -191,15 +190,6 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     @Override
-    protected void readItemTag(@NotNull CompoundTag tag) {
-        super.readItemTag(tag);
-
-        if (tag.contains("Inventory")) {
-            getInventory().readNbt(tag.getListOrEmpty("Inventory"));
-        }
-    }
-
-    @Override
     public void fromItemStack(ItemStack stack) {
         super.fromItemStack(stack);
 
@@ -213,7 +203,8 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     @Override
     public void boost() {
         int length = getSlots(VehicleInventoryDescription.BOOSTER).stream().mapToInt(s -> {
-            int l = s.getOrDefault(DataComponents.FIREWORKS, new Fireworks(0, List.of())).flightDuration();
+            Fireworks fireworks = s.get(DataComponents.FIREWORKS);
+            int l = fireworks == null ? 1 : fireworks.flightDuration();
             s.shrink(1);
             return l;
         }).sum();

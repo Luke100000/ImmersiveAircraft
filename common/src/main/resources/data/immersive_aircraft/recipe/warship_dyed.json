@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "category": "misc",
+  "target": "immersive_aircraft:warship",
+  "dye": "#minecraft:dyes",
+  "result": {
+    "id": "immersive_aircraft:warship"
+  }
+}

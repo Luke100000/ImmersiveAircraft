@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.mariuszgromada.math.mxparser.License;
 
 public final class Main {
-    public static final String SHORT_MOD_ID = "ic_air";
     public static final String MOD_ID = "immersive_aircraft";
     public static String MOD_LOADER = "unknown";
     public static final Logger LOGGER = LogManager.getLogger();

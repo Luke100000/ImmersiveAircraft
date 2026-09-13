@@ -2,6 +2,7 @@ package immersive_aircraft.neoforge.cobalt.network;
 
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.cobalt.network.NetworkHandler.Direction;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -19,7 +20,6 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -38,8 +38,8 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         ClientProxy.registerPayloads(modEventBus, registrations);
     }
 
-    private <T> Identifier createMessageIdentifier(String namespace, Class<T> msg) {
-        return Identifier.fromNamespaceAndPath(namespace, msg.getSimpleName().toLowerCase(Locale.ROOT));
+    private Identifier createMessageIdentifier(String path) {
+        return Identifier.fromNamespaceAndPath(immersive_aircraft.Main.MOD_ID, path);
     }
 
     private CustomPacketPayload.Type<CobaltPayload> getMessageType(Message msg) {
@@ -59,10 +59,10 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
     }
 
     @Override
-    public <T extends Message> void registerMessage(String namespace, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
-        CustomPacketPayload.Type<CobaltPayload> type = new CustomPacketPayload.Type<>(createMessageIdentifier(namespace, msg));
+    public <T extends Message> void registerMessage(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor, Direction direction) {
+        CustomPacketPayload.Type<CobaltPayload> type = new CustomPacketPayload.Type<>(createMessageIdentifier(path));
         types.put(msg, type);
-        registrations.add(new MessageRegistration<>(type, constructor));
+        registrations.add(new MessageRegistration<>(type, constructor, direction));
     }
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {
@@ -87,11 +87,16 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     private record MessageRegistration<T extends Message>(
             CustomPacketPayload.Type<CobaltPayload> type,
-            Function<FriendlyByteBuf, T> constructor
+            Function<FriendlyByteBuf, T> constructor,
+            Direction direction
     ) {
         private void register(PayloadRegistrar registrar) {
             StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type);
-            registrar.playBidirectional(type, codec, this::handle);
+            if (direction == Direction.CLIENTBOUND) {
+                registrar.playToClient(type, codec);
+            } else {
+                registrar.playToServer(type, codec, this::handle);
+            }
         }
 
         private void handle(CobaltPayload payload, IPayloadContext context) {
@@ -110,7 +115,9 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
         private static void registerPayloads(IEventBus modEventBus, List<MessageRegistration<?>> registrations) {
             modEventBus.addListener((net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent event) ->
-                    registrations.forEach(registration -> register(event, registration))
+                    registrations.stream()
+                            .filter(registration -> registration.direction() == Direction.CLIENTBOUND)
+                            .forEach(registration -> register(event, registration))
             );
         }
 

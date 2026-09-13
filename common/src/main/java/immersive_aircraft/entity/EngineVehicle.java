@@ -197,7 +197,7 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
         // it is Y-speed relative.
         double altRate = getSpeedVector().y * 10.0d;
         // pull-up caution
-        if (getEnginePower() >= 1 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) cautions.put(Cautions.PULL_UP, 40);
+        if (getEnginePower() >= 0.5 && altRate < -2 && getY() + altRate * 3 < level().getSeaLevel()) cautions.put(Cautions.PULL_UP, 40);
         // void warning
         if (getY() < level().dimensionType().minY()) {
             cautions.put(Cautions.VOID, 10);
@@ -261,7 +261,8 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
             int time = Utils.getFuelTime(stack);
             if (time > 0) {
                 fuel[i] += time;
-                ItemStack remainingItem = stack.getItem().getCraftingRemainder().create();
+                var remainder = stack.getCraftingRemainder();
+                ItemStack remainingItem = remainder == null ? ItemStack.EMPTY : remainder.create();
                 stack.shrink(1);
                 if (getControllingPassenger() instanceof ServerPlayer player) {
                     player.awardStat(AircraftStats.FUEL_BURNED, time);
