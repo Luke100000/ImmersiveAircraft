@@ -1,6 +1,6 @@
 package immersive_aircraft.cobalt.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
@@ -14,11 +14,11 @@ public abstract class NetworkHandler {
         SERVERBOUND
     }
 
-    public static <T extends Message> void registerClientbound(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+    public static <T extends Message> void registerClientbound(String path, Class<T> msg, Function<RegistryFriendlyByteBuf, T> constructor) {
         INSTANCE.registerMessage(path, msg, constructor, Direction.CLIENTBOUND);
     }
 
-    public static <T extends Message> void registerServerbound(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor) {
+    public static <T extends Message> void registerServerbound(String path, Class<T> msg, Function<RegistryFriendlyByteBuf, T> constructor) {
         INSTANCE.registerMessage(path, msg, constructor, Direction.SERVERBOUND);
     }
 
@@ -39,7 +39,7 @@ public abstract class NetworkHandler {
             INSTANCE = this;
         }
 
-        public abstract <T extends Message> void registerMessage(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor, Direction direction);
+        public abstract <T extends Message> void registerMessage(String path, Class<T> msg, Function<RegistryFriendlyByteBuf, T> constructor, Direction direction);
 
         public abstract void sendToServer(Message m);
 

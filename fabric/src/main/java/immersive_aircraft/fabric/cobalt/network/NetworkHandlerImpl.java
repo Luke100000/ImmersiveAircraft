@@ -3,14 +3,12 @@ package immersive_aircraft.fabric.cobalt.network;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.cobalt.network.NetworkHandler.Direction;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -34,37 +32,28 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         return Objects.requireNonNull(types.get(msg.getClass()), "Used unregistered message!");
     }
 
-    private static FriendlyByteBuf toBuffer(CobaltPayload payload) {
-        return new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.data()));
-    }
-
     private CobaltPayload createPayload(Message msg) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        msg.encode(buf);
-        byte[] data = new byte[buf.readableBytes()];
-        buf.readBytes(data);
-        return new CobaltPayload(getMessageType(msg), data);
+        return new CobaltPayload(getMessageType(msg), msg);
     }
 
     @Override
-    public <T extends Message> void registerMessage(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor, Direction direction) {
+    public <T extends Message> void registerMessage(String path, Class<T> msg, Function<RegistryFriendlyByteBuf, T> constructor, Direction direction) {
         Identifier identifier = createMessageIdentifier(path);
         CustomPacketPayload.Type<CobaltPayload> type = new CustomPacketPayload.Type<>(identifier);
         types.put(msg, type);
 
-        StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type);
+        StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type, constructor);
         if (direction == Direction.SERVERBOUND) {
             PayloadTypeRegistry.serverboundPlay().register(type, codec);
             ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
-                Message m = constructor.apply(toBuffer(payload));
-                context.server().execute(() -> m.receive(context.player()));
+                context.server().execute(() -> payload.message().receive(context.player()));
             });
         } else {
             PayloadTypeRegistry.clientboundPlay().register(type, codec);
         }
 
         if (direction == Direction.CLIENTBOUND && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            ClientProxy.register(type, constructor);
+            ClientProxy.register(type);
         }
     }
 
@@ -93,19 +82,20 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
             throw new RuntimeException("new ClientProxy()");
         }
 
-        public static <T extends Message> void register(CustomPacketPayload.Type<CobaltPayload> type, Function<FriendlyByteBuf, T> constructor) {
+        public static void register(CustomPacketPayload.Type<CobaltPayload> type) {
             ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
-                Message m = constructor.apply(toBuffer(payload));
-                context.client().execute(() -> m.receive(context.player()));
+                context.client().execute(() -> payload.message().receive(context.player()));
             });
         }
     }
 
-    private record CobaltPayload(CustomPacketPayload.Type<CobaltPayload> type, byte[] data) implements CustomPacketPayload {
-        private static StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec(CustomPacketPayload.Type<CobaltPayload> type) {
+    private record CobaltPayload(CustomPacketPayload.Type<CobaltPayload> type, Message message) implements CustomPacketPayload {
+        private static <T extends Message> StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec(
+                CustomPacketPayload.Type<CobaltPayload> type, Function<RegistryFriendlyByteBuf, T> constructor
+        ) {
             return CustomPacketPayload.codec(
-                    (payload, buffer) -> buffer.writeByteArray(payload.data()),
-                    buffer -> new CobaltPayload(type, FriendlyByteBuf.readByteArray(buffer))
+                    (payload, buffer) -> payload.message().encode(buffer),
+                    buffer -> new CobaltPayload(type, constructor.apply(buffer))
             );
         }
     }

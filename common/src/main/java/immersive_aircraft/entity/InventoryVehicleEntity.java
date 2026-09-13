@@ -173,14 +173,14 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     protected void addAdditionalSaveData(@NotNull ValueOutput output) {
         super.addAdditionalSaveData(output);
 
-        getInventory().storeAsItemList(output.list("Inventory", ItemStack.OPTIONAL_CODEC));
+        getInventory().storeAsInventory(output, "Inventory");
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull ValueInput input) {
         super.readAdditionalSaveData(input);
 
-        getInventory().fromItemList(input.listOrEmpty("Inventory", ItemStack.OPTIONAL_CODEC));
+        getInventory().loadFromInventory(input, "Inventory");
     }
 
     @Override

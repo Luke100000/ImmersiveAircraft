@@ -37,13 +37,13 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + h - 16, 176, 32, 16, 16, 512, 256);
 
         //edges
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, w - 32, 16, 176 + 16, 0, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, w - 32, 16, 176 + 16, 32, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 16, h - 32, 176, 16, 16, 16, 512, 256);
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 16, h - 32, 176 + 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y, 176 + 16, 0, w - 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + h - 16, 176 + 16, 32, w - 32, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y + 16, 176, 16, 16, h - 32, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + w - 16, y + 16, 176 + 32, 16, 16, h - 32, 16, 16, 512, 256);
 
         //center
-        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, w - 32, h - 32, 176 + 16, 16, 16, 16, 512, 256);
+        context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x + 16, y + 16, 176 + 16, 16, w - 32, h - 32, 16, 16, 512, 256);
     }
 
     protected void drawCustomBackground(GuiGraphicsExtractor context) {
@@ -69,6 +69,8 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
         }
 
         super.extractContents(context, mouseX, mouseY, delta);
+        super.extractCarriedItem(context, mouseX, mouseY);
+        super.extractSnapbackItem(context);
 
         // Slot tooltip
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {

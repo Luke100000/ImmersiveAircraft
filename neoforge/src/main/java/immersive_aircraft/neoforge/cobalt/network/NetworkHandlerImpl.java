@@ -3,8 +3,6 @@ package immersive_aircraft.neoforge.cobalt.network;
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.cobalt.network.NetworkHandler.Direction;
-import io.netty.buffer.Unpooled;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -46,20 +44,12 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         return Objects.requireNonNull(types.get(msg.getClass()), "Used unregistered message!");
     }
 
-    private static FriendlyByteBuf toBuffer(CobaltPayload payload) {
-        return new FriendlyByteBuf(Unpooled.wrappedBuffer(payload.data()));
-    }
-
     private CobaltPayload createPayload(Message msg) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        msg.encode(buf);
-        byte[] data = new byte[buf.readableBytes()];
-        buf.readBytes(data);
-        return new CobaltPayload(getMessageType(msg), data);
+        return new CobaltPayload(getMessageType(msg), msg);
     }
 
     @Override
-    public <T extends Message> void registerMessage(String path, Class<T> msg, Function<FriendlyByteBuf, T> constructor, Direction direction) {
+    public <T extends Message> void registerMessage(String path, Class<T> msg, Function<RegistryFriendlyByteBuf, T> constructor, Direction direction) {
         CustomPacketPayload.Type<CobaltPayload> type = new CustomPacketPayload.Type<>(createMessageIdentifier(path));
         types.put(msg, type);
         registrations.add(new MessageRegistration<>(type, constructor, direction));
@@ -87,11 +77,11 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     private record MessageRegistration<T extends Message>(
             CustomPacketPayload.Type<CobaltPayload> type,
-            Function<FriendlyByteBuf, T> constructor,
+            Function<RegistryFriendlyByteBuf, T> constructor,
             Direction direction
     ) {
         private void register(PayloadRegistrar registrar) {
-            StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type);
+            StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec = CobaltPayload.codec(type, constructor);
             if (direction == Direction.CLIENTBOUND) {
                 registrar.playToClient(type, codec);
             } else {
@@ -100,7 +90,7 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         }
 
         private void handle(CobaltPayload payload, IPayloadContext context) {
-            constructor.apply(toBuffer(payload)).receive(context.player());
+            payload.message().receive(context.player());
         }
     }
 
@@ -129,11 +119,13 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         }
     }
 
-    private record CobaltPayload(CustomPacketPayload.Type<CobaltPayload> type, byte[] data) implements CustomPacketPayload {
-        private static StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec(CustomPacketPayload.Type<CobaltPayload> type) {
+    private record CobaltPayload(CustomPacketPayload.Type<CobaltPayload> type, Message message) implements CustomPacketPayload {
+        private static <T extends Message> StreamCodec<RegistryFriendlyByteBuf, CobaltPayload> codec(
+                CustomPacketPayload.Type<CobaltPayload> type, Function<RegistryFriendlyByteBuf, T> constructor
+        ) {
             return CustomPacketPayload.codec(
-                    (payload, buffer) -> buffer.writeByteArray(payload.data()),
-                    buffer -> new CobaltPayload(type, FriendlyByteBuf.readByteArray(buffer))
+                    (payload, buffer) -> payload.message().encode(buffer),
+                    buffer -> new CobaltPayload(type, constructor.apply(buffer))
             );
         }
     }

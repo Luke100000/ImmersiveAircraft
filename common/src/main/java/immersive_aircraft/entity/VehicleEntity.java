@@ -455,7 +455,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         }
 
         // if it's the right side, update the velocity
-        if (isClientAuthoritative()) {
+        if (isLocalInstanceAuthoritative()) {
             updateVelocity();
 
             // boost
@@ -483,7 +483,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         }
 
         // interpolate keys for visual feedback
-        if (isClientAuthoritative()) {
+        if (isLocalInstanceAuthoritative()) {
             pressingInterpolatedX.update(movementX);
             pressingInterpolatedY.update(movementY);
             pressingInterpolatedZ.update(movementZ);
@@ -584,7 +584,7 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
     }
 
     private void handleClientSync() {
-        if (isClientAuthoritative()) {
+        if (isLocalInstanceAuthoritative()) {
             interpolationSteps = 0;
             syncPacketPositionCodec(getX(), getY(), getZ());
         }
