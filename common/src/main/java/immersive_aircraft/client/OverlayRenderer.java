@@ -32,7 +32,7 @@ public class OverlayRenderer {
 
     public static int renderOverlay(GuiGraphicsExtractor context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
-        if (client.options.hideGui) {
+        if (client.gui.hud.isHidden()) {
             return 0;
         }
         if (client.gameMode != null && client.player != null) {

@@ -70,7 +70,6 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
         super.extractContents(context, mouseX, mouseY, delta);
         super.extractCarriedItem(context, mouseX, mouseY);
-        super.extractSnapbackItem(context);
 
         // Slot tooltip
         if (hoveredSlot != null && !hoveredSlot.hasItem() && hoveredSlot.container == menu.getVehicle().getInventory()) {

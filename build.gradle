@@ -6,7 +6,7 @@ def getAppVersion = { ->
                 .start()
         def tag = proc.inputStream.getText("UTF-8").trim()
         proc.waitFor()
-        return tag.isEmpty() ? "${rootProject.minecraft_version}-SNAPSHOT" : tag
+        return tag.endsWith("+${rootProject.minecraft_version}") ? tag : "${rootProject.minecraft_version}-SNAPSHOT"
     } catch (Exception e) {
         println "Warning: ${e.message}, is git installed?"
         return "${rootProject.minecraft_version}-DEV"

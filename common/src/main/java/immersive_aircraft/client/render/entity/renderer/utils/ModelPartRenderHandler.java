@@ -3,7 +3,6 @@ package immersive_aircraft.client.render.entity.renderer.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
 
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class ModelPartRenderHandler<T extends Entity> {
         }
     }
 
-    public boolean render(String name, BBModel model, BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
+    public boolean render(String name, BBModel model, BBObject object, DeferredRenderBuffer vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, ModelPartRenderHandler<T> modelPartRenderer) {
         ModelPartRenderer<T> o = objects.get(name);
         if (o != null && o.renderConsumer() != null) {
             o.renderConsumer().run(model, object, vertexConsumerProvider, entity, matrixStack, light, time, modelPartRenderer);

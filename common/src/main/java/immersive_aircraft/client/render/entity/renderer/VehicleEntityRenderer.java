@@ -10,7 +10,6 @@ import immersive_aircraft.resources.BBModelLoader;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.resources.bbmodel.BBModel;
 import immersive_aircraft.resources.bbmodel.BBObject;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -71,7 +70,7 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         super.submit(state, matrixStack, collector, cameraState);
     }
 
-    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
+    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, DeferredRenderBuffer vertexConsumerProvider, int light) {
         //Wobble
         float h = (float) entity.getHurtTime() - tickDelta;
         float j = entity.getDamage() - tickDelta;
@@ -98,11 +97,11 @@ public abstract class VehicleEntityRenderer<T extends VehicleEntity> extends Ent
         }
     }
 
-    public void renderOptionalObject(String name, BBModel model, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
+    public void renderOptionalObject(String name, BBModel model, DeferredRenderBuffer vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
         renderOptionalObject(name, model, vertexConsumerProvider, entity, matrixStack, light, time, 1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    public void renderOptionalObject(String name, BBModel model, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, float red, float green, float blue, float alpha) {
+    public void renderOptionalObject(String name, BBModel model, DeferredRenderBuffer vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time, float red, float green, float blue, float alpha) {
         BBObject object = model.objectsByName.get(name);
         if (object != null) {
             BBModelRenderer.renderObject(model, object, matrixStack, vertexConsumerProvider, light, time, entity, null, red, green, blue, alpha);

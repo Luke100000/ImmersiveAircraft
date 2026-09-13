@@ -6,7 +6,6 @@ import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.bbmodel.*;
 import immersive_aircraft.util.Utils;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -21,19 +20,19 @@ import java.util.List;
 
 public class BBModelRenderer {
     public interface VertexConsumerProvider {
-        VertexConsumer getBuffer(MultiBufferSource source, BBFaceContainer container, BBFace face);
+        VertexConsumer getBuffer(DeferredRenderBuffer source, BBFaceContainer container, BBFace face);
     }
 
     public static final VertexConsumerProvider DEFAULT_VERTEX_CONSUMER_PROVIDER = (source, container, face) -> source.getBuffer(container.enableCulling() ? RenderTypes.entityCutoutCull(face.texture.location) : RenderTypes.entityCutout(face.texture.location));
 
-    public static <T extends VehicleEntity> void renderModel(BBModel model, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
+    public static <T extends VehicleEntity> void renderModel(BBModel model, PoseStack matrixStack, DeferredRenderBuffer vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         model.root.forEach(object -> renderObject(model, object, matrixStack, vertexConsumerProvider, light, time, entity, modelPartRenderer, red, green, blue, alpha));
     }
 
     /**
      * Apply transformations, animations, and callbacks, and render the object.
      */
-    public static <T extends VehicleEntity> void renderObject(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
+    public static <T extends VehicleEntity> void renderObject(BBModel model, BBObject object, PoseStack matrixStack, DeferredRenderBuffer vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         matrixStack.pushPose();
         matrixStack.translate(object.origin.x(), object.origin.y(), object.origin.z());
 
@@ -78,7 +77,7 @@ public class BBModelRenderer {
     /**
      * Render the object without applying transformations, animations, or callbacks.
      */
-    public static <T extends VehicleEntity> void renderObjectInner(BBModel model, BBObject object, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
+    public static <T extends VehicleEntity> void renderObjectInner(BBModel model, BBObject object, PoseStack matrixStack, DeferredRenderBuffer vertexConsumerProvider, int light, float time, T entity, ModelPartRenderHandler<T> modelPartRenderer, float red, float green, float blue, float alpha) {
         if (object instanceof BBFaceContainer cube) {
             renderFaces(cube, matrixStack, vertexConsumerProvider, light, red, green, blue, alpha, modelPartRenderer == null ? DEFAULT_VERTEX_CONSUMER_PROVIDER : modelPartRenderer.getVertexConsumerProvider());
         } else if (object instanceof BBBone bone) {
@@ -95,7 +94,7 @@ public class BBModelRenderer {
         }
     }
 
-    public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource source, int light, float red, float green, float blue, float alpha, VertexConsumerProvider provider) {
+    public static void renderFaces(BBFaceContainer cube, PoseStack matrixStack, DeferredRenderBuffer source, int light, float red, float green, float blue, float alpha, VertexConsumerProvider provider) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
         for (BBFace face : cube.getFaces()) {
@@ -112,7 +111,7 @@ public class BBModelRenderer {
         }
     }
 
-    public static void renderBanner(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, boolean isBanner, DyeColor baseColor, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
+    public static void renderBanner(BBFaceContainer cube, PoseStack matrixStack, DeferredRenderBuffer vertexConsumers, int light, boolean isBanner, DyeColor baseColor, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
         matrixStack.pushPose();
 
         if (cube instanceof BBObject object) {
@@ -133,7 +132,7 @@ public class BBModelRenderer {
         matrixStack.popPose();
     }
 
-    private static void renderBannerLayer(BBFaceContainer cube, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, DyeColor color, SpriteId sprite) {
+    private static void renderBannerLayer(BBFaceContainer cube, PoseStack matrixStack, DeferredRenderBuffer vertexConsumers, int light, DyeColor color, SpriteId sprite) {
         int colorValue = color.getTextureDiffuseColor();
         float red = ((colorValue >> 16) & 0xFF) / 255.0f;
         float green = ((colorValue >> 8) & 0xFF) / 255.0f;
@@ -143,11 +142,11 @@ public class BBModelRenderer {
                 (source, container, face) -> source.getBuffer(RenderTypes.bannerPattern(sprite.texture())));
     }
 
-    public static void renderSailObject(BBMesh cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha) {
+    public static void renderSailObject(BBMesh cube, PoseStack matrixStack, DeferredRenderBuffer vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha) {
         renderSailObject(cube, matrixStack, vertexConsumerProvider, light, time, red, green, blue, alpha, 0.025f, 0.0f);
     }
 
-    public static void renderSailObject(BBMesh cube, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha, float distanceScale, float baseScale) {
+    public static void renderSailObject(BBMesh cube, PoseStack matrixStack, DeferredRenderBuffer vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha, float distanceScale, float baseScale) {
         PoseStack.Pose last = matrixStack.last();
         Matrix4f positionMatrix = last.pose();
         for (BBFace face : cube.getFaces()) {

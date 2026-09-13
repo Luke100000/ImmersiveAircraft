@@ -3,9 +3,9 @@ package immersive_aircraft.client.render.entity.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import immersive_aircraft.Main;
+import immersive_aircraft.client.render.entity.renderer.utils.DeferredRenderBuffer;
 import immersive_aircraft.entity.misc.Trail;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
@@ -17,7 +17,7 @@ import org.joml.Vector3f;
 public class TrailRenderer {
     private static final Identifier identifier = Main.locate("textures/entity/trail.png");
 
-    public static void render(Trail trail, MultiBufferSource vertexConsumerProvider, PoseStack.Pose matrices) {
+    public static void render(Trail trail, DeferredRenderBuffer vertexConsumerProvider, PoseStack.Pose matrices) {
         if (trail.nullEntries >= trail.size || trail.entries == 0) {
             return;
         }
@@ -25,7 +25,7 @@ public class TrailRenderer {
         VertexConsumer lineVertexConsumer = vertexConsumerProvider.getBuffer(RenderTypes.beaconBeam(identifier, true));
         int light = 15728640;
 
-        Vec3 pos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
+        Vec3 pos = Minecraft.getInstance().gameRenderer.mainCamera().position();
         Matrix3f matrix = matrices.normal();
 
         //todo a custom vertex indexing methode would be beneficial here

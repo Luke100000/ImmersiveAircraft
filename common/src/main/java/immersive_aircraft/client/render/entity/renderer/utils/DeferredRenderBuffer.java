@@ -1,7 +1,6 @@
 package immersive_aircraft.client.render.entity.renderer.utils;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 
@@ -10,10 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DeferredRenderBuffer implements MultiBufferSource {
+public class DeferredRenderBuffer {
     private final Map<RenderType, RecordingVertexConsumer> buffers = new LinkedHashMap<>();
 
-    @Override
     public VertexConsumer getBuffer(RenderType renderType) {
         return buffers.computeIfAbsent(renderType, ignored -> new RecordingVertexConsumer());
     }

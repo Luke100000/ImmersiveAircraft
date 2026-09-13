@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.Main;
 import immersive_aircraft.WeaponRendererRegistry;
 import immersive_aircraft.client.render.entity.renderer.utils.BBModelRenderer;
+import immersive_aircraft.client.render.entity.renderer.utils.DeferredRenderBuffer;
 import immersive_aircraft.client.render.entity.renderer.utils.ModelPartRenderHandler;
 import immersive_aircraft.client.render.entity.weaponRenderer.WeaponRenderer;
 import immersive_aircraft.entity.InventoryVehicleEntity;
@@ -17,7 +18,6 @@ import immersive_aircraft.resources.bbmodel.BBObject;
 import immersive_aircraft.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Holder;
@@ -34,7 +34,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
     }
 
     @Override
-    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, MultiBufferSource vertexConsumerProvider, int light) {
+    public void renderLocal(T entity, float yaw, float tickDelta, PoseStack matrixStack, PoseStack.Pose peek, DeferredRenderBuffer vertexConsumerProvider, int light) {
         super.renderLocal(entity, yaw, tickDelta, matrixStack, peek, vertexConsumerProvider, light);
 
         //Render weapons
@@ -51,7 +51,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         }
     }
 
-    public void renderBanners(BBModel model, BBObject ignoredObject, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float ignoredTime, ModelPartRenderHandler<T> ignoredModelPartRenderer) {
+    public void renderBanners(BBModel model, BBObject ignoredObject, DeferredRenderBuffer vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float ignoredTime, ModelPartRenderHandler<T> ignoredModelPartRenderer) {
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.BANNER);
         int i = 0;
         for (ItemStack slot : slots) {
@@ -65,7 +65,7 @@ public abstract class InventoryVehicleRenderer<T extends InventoryVehicleEntity>
         }
     }
 
-    public void renderSails(BBObject object, MultiBufferSource vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
+    public void renderSails(BBObject object, DeferredRenderBuffer vertexConsumerProvider, T entity, PoseStack matrixStack, int light, float time) {
         List<ItemStack> slots = entity.getSlots(VehicleInventoryDescription.DYE);
         ItemStack stack = slots.stream().findFirst().orElse(ItemStack.EMPTY);
         DyeColor color = stack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
