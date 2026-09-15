@@ -1,3 +1,7 @@
+# 1.5.1
+
+* Fixed crash regarding missing library
+
 # 1.5.0
 
 * Fixed engine turning off in Multiplayer for other players
