@@ -60,7 +60,12 @@ configurations {
 }
 
 dependencies {
-    implementation "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
+    jarJar(implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")) {
+        version {
+            strictly "[5.2.1]"
+            prefer "5.2.1"
+        }
+    }
 
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
 
