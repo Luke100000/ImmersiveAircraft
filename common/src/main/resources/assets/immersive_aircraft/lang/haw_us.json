@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "E hoʻokuʻu i nā hoʻomaikaʻi a me nā koho, ma ke ʻano e hoʻopaʻa iā ia i loko o ke mea lele.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "E hoʻonui ana i ke olakino i nā huli hoʻi, e hoʻoikaika ana i ka hana vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "E mālama i ka hoʻomaikaʻi i loaʻa ma ke kaʻina, ʻoi aku, e komo wale i ka mokupuni.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Pono e hoʻokumu i ke kumu!",
   "immersive_aircraft.tooltip.no_space": "Aia ʻole i kaʻawale!",
   "immersive_aircraft.slot.booster": "Nā ʻUmi a ke koʻikoʻi",

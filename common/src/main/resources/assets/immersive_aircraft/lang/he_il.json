@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "שחרר את השיפורים והתאמה אישית, במקום לשמור אותם בתוך פריט המטוס.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "מתחדש באופן אוטומטי בריאות בכל טיק נתון, מדמה התנהגות של גרסה רגילה.",
   "option.immersive_aircraft.requireShiftForRepair": "תיקן רק כשמחזיקים במקש שיפט, אחרת פשוט נכנס לרכב.",
+  "option.immersive_aircraft.defaultCanEnter": "לאפשר למפלצות לעלות למטוסים באופן אוטומטי כברירת מחדל.",
   "immersive_aircraft.tooltip.no_target": "צריך להיבנות על הרצפה!",
   "immersive_aircraft.tooltip.no_space": "אין מספיק מקום!",
   "immersive_aircraft.slot.booster": "טילים מערבבים",

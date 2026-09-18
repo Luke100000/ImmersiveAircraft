@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Tíocfaidh na h-uaidh agus an saincheapadh, in ionad é a shábháil laistigh den rud aerártha.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Athghintear sláinte go huathoibríoch gach tacar ama a tugadh, ag simpliú iompar vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Ná déan deisiú nuair a bhíonn tú ag coinneáil shift, ach téigh isteach sa charr.",
+  "option.immersive_aircraft.defaultCanEnter": "Ceadaigh do mhóbaí dul ar bord aerárthaí go huathoibríoch mar réamhshocrú.",
   "immersive_aircraft.tooltip.no_target": "Caithfear é a chur le chéile ar an talamh!",
   "immersive_aircraft.tooltip.no_space": "Níl spás go leor!",
   "immersive_aircraft.slot.booster": "Bóthanna breosla",

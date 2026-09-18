@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Видаліть модернізацію та кастомізацію, замість того, щоб зберігати її в елементі літака.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Автоматично відновлює здоров'я щоразу, імітуючи поведінку ванілі.",
   "option.immersive_aircraft.requireShiftForRepair": "Виконуйте ремонт тільки під час зміни, інакше просто заходьте в автомобіль.",
+  "option.immersive_aircraft.defaultCanEnter": "За замовчуванням мобів дозволяє автоматично сісти у борт.",
   "immersive_aircraft.tooltip.no_target": "Потрібно розташовувати на підлозі!",
   "immersive_aircraft.tooltip.no_space": "Замало місця!",
   "immersive_aircraft.slot.booster": "Відсік для прискорювальних ракети",

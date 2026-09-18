@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Drop the upgrades and tweaking, instead of saving it within the flying device item.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatically restores health every given tick, simulating regular behavior.",
   "option.immersive_aircraft.requireShiftForRepair": "Only repair while holding shift, else just enter the vehicle.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Needs to be built on the ground!",
   "immersive_aircraft.tooltip.no_space": "Not enough room!",
   "immersive_aircraft.slot.booster": "Boost rockets",

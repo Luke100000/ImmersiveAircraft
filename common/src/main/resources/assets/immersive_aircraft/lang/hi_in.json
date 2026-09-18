@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "अपग्रेड और अनुकूलन को छोड़ें, इसके बजाय विमान आइटम के भीतर इसे सहेजने के बजाय।",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "स्वचालित रूप से हर दी गई टिक पर स्वास्थ्य को पुनर्जीवित करता है, वैनिला व्यवहार का अनुकरण करता है।",
   "option.immersive_aircraft.requireShiftForRepair": "केवल शिफ्ट दबाकर मरम्मत करें, अन्यथा बस वाहन में प्रवेश करें।",
+  "option.immersive_aircraft.defaultCanEnter": "डिफ़ॉल्ट रूप से मॉब्स को स्वचालित रूप से विमान में चढ़ने की अनुमति दें।",
   "immersive_aircraft.tooltip.no_target": "फर्श पर इकट्ठा करने की आवश्यकता है!",
   "immersive_aircraft.tooltip.no_space": "पर्याप्त स्थान नहीं!",
   "immersive_aircraft.slot.booster": "बूस्ट रॉकेट",
