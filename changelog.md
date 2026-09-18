@@ -1,3 +1,12 @@
+# 1.5.2
+
+* Relaxed Fabric version
+* Addon related changes
+
+# 1.5.1
+
+* No changes in 1.21.1
+
 # 1.5.0
 
 * Fixed engine turning off in Multiplayer for other players
