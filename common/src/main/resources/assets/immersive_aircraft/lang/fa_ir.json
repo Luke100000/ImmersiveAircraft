@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "به جای ذخیره در هواپیما، ارتقاءها و سفارشی سازی ها را رها کنید.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "به طور خودکار هر گاه کلیک داده شود، سلامت را بازیابی می کند و رفتار ونیل را شبیه سازی می کند.",
   "option.immersive_aircraft.requireShiftForRepair": "فقط وقتی شیفت را نگه داشته باشید، تعمیر کنید، در غیر این صورت فقط وارد وسیله نقلیه شوید.",
+  "option.immersive_aircraft.defaultCanEnter": "اجازه دهید موجودات به‌طور پیش‌فرض به‌طور خودکار سوار هواپیما شوند.",
   "immersive_aircraft.tooltip.no_target": "نیاز به ساخت روی زمین دارد!",
   "immersive_aircraft.tooltip.no_space": "فضای کافی نیست!",
   "immersive_aircraft.slot.booster": "موشک‌های تقویت‌کننده",

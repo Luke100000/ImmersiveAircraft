@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Laat die opgraderings en aanpassings val, in plaas van dit binne die vliegtuig item te stoor.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Herstel outomaties gesondheid elke gegewe tik, simuleer vanieljegedrag.",
   "option.immersive_aircraft.requireShiftForRepair": "Herstel slegs wanneer skuif vasgehou word, anders betree net die voertuig.",
+  "option.immersive_aircraft.defaultCanEnter": "Laat mobs standaard toe om outomaties vliegtuie te bestyg.",
   "immersive_aircraft.tooltip.no_target": "Moet op die vloer saamgestel word!",
   "immersive_aircraft.tooltip.no_space": "Nie genoeg spasie nie!",
   "immersive_aircraft.slot.booster": "Stoot vuurpyle",

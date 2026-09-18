@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Droppa uppfærslum og aðlögun, í stað þess að vista það innan flugvélarinnar.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Endurnýjar sjálfkrafa heilsu á hverju tilteknum tikk, líkjast vanilluhegðun.",
   "option.immersive_aircraft.requireShiftForRepair": "Aldrei lagfærðu nema þú sért með shift, annars farðu bara inn í ökutækið.",
+  "option.immersive_aircraft.defaultCanEnter": "Leyfa skrímslum að stíga sjálfkrafa um borð í flugvélar sem sjálfgefið.",
   "immersive_aircraft.tooltip.no_target": "Þarf að vera saman í gólfinu!",
   "immersive_aircraft.tooltip.no_space": "Ekki nægt pláss!",
   "immersive_aircraft.slot.booster": "Hjálparflaug",

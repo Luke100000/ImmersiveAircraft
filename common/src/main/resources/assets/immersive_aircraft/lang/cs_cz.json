@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Vypustit vylepšení a přizpůsobení namísto ponechání v itemu letadla.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automaticky regeneruje zdraví každé dané tiknutí, čímž simuluje chování vanilky.",
   "option.immersive_aircraft.requireShiftForRepair": "Opravu provádějte pouze při držení řazení, jinak jen nastupte do vozidla.",
+  "option.immersive_aircraft.defaultCanEnter": "Povolit stvoření automaticky do dronu.",
   "immersive_aircraft.tooltip.no_target": "Musí být sestaveno na podlaze!",
   "immersive_aircraft.tooltip.no_space": "Nedostatek místa!",
   "immersive_aircraft.slot.booster": "Posilovací rakety",

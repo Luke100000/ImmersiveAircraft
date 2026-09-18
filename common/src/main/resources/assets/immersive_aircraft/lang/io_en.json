@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Lansu la plibonigon e personalizadon, anstataŭ ke konservi ĝin en la aeron.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Aŭtomate regeneras sanon ĉiu donita intervalo, simulante vanilan konduton.",
   "option.immersive_aircraft.requireShiftForRepair": "Nur riparu kiam tenante ŝift, alie simple eniru la veturilon.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Deve asi sur la planko!",
   "immersive_aircraft.tooltip.no_space": "Ne sufiĉe spac!",
   "immersive_aircraft.slot.booster": "Impulso raketoj",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Izbaci nadogradnje i prilagodbu, umjesto da ih sačuvaš unutar predmeta aviona.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatski regenerira zdravlje svake date sekunde, simulirajući ponašanje u osnovnoj verziji.",
   "option.immersive_aircraft.requireShiftForRepair": "Popravi samo kada držiš shift, inače samo uđi u vozilo.",
+  "option.immersive_aircraft.defaultCanEnter": "Omogućite da se mobovi po zadanom automatski ukrcaju u letjelice.",
   "immersive_aircraft.tooltip.no_target": "Morate ga sastaviti na podu!",
   "immersive_aircraft.tooltip.no_space": "Nema dovoljno prostora!",
   "immersive_aircraft.slot.booster": "Potisni rakete",

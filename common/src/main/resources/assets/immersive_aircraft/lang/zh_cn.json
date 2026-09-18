@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "载具摧毁时，掉落载具装备，而非保存在载具中。",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "模拟原版行为，每隔一定时间自动恢复健康。",
   "option.immersive_aircraft.requireShiftForRepair": "仅在按住Shift时维修，否则进入载具。",
+  "option.immersive_aircraft.defaultCanEnter": "默认允许生物自动登陆飞机。",
   "immersive_aircraft.tooltip.no_target": "需要在地板上组装！",
   "immersive_aircraft.tooltip.no_space": "空间不够！",
   "immersive_aircraft.slot.booster": "助推火箭槽",

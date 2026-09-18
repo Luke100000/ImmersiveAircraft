@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Икемдікті сақтаудың орнына жаңартылымдарды және баптауларды тастау.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Кез келген берілген шаблон сайын денсаулық автоматты түрде қалпына келтіріледі, ванильды мінез-құлықты模拟 жасау.",
   "option.immersive_aircraft.requireShiftForRepair": "Тек Shift ұстап отыратын болсаңыз жөндейді, әйтпесе тек транспортқа отырыңыз.",
+  "option.immersive_aircraft.defaultCanEnter": "Мобтардың әдепкі бойынша ұшаққа автоматты түрде мініп кетуіне рұқсат етіңіз.",
   "immersive_aircraft.tooltip.no_target": "Еденде құрастыру керек!",
   "immersive_aircraft.tooltip.no_space": "Кеңістік жетіспейді!",
   "immersive_aircraft.slot.booster": "Қосымша ракеталар",

@@ -68,7 +68,7 @@ import java.util.List;
 /**
  * Abstract vehicle, which handles player input, collisions, passengers and destruction
  */
-public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEntity {
+public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEntity {
     public final Identifier identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
@@ -604,13 +604,15 @@ public abstract class VehicleEntity extends net.minecraft.world.entity.vehicle.V
         --interpolationSteps;
     }
 
-    protected abstract void updateVelocity();
+    protected void updateVelocity() {
+    }
 
     protected float getVehicleGravity() {
         return -0.04f;
     }
 
-    protected abstract void updateController();
+    protected void updateController() {
+    }
 
     @Override
     public void positionRider(@NotNull Entity passenger, @NotNull MoveFunction positionUpdater) {

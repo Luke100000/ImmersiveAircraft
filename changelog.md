@@ -1,3 +1,8 @@
+# 1.5.2
+
+* Relaxed Fabric version
+* Addon related changes
+
 # 1.5.1
 
 * Fixed crash regarding missing library
