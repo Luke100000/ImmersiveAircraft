@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Pudota päivitykset ja räätälöinnit sen sijaan, että tallentaisit ne lentokoneen kohteen sisään.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Uudistaa automaattisesti terveyttä joka tikillä, mikä simuloi vaniljakäyttäytymistä.",
   "option.immersive_aircraft.requireShiftForRepair": "Korjaa vain, kun pidät vaihdetta painettuna, muuten vain astu ajoneuvoon.",
+  "option.immersive_aircraft.defaultCanEnter": "Salli hirviöiden nousta automaattisesti lentokoneeseen oletusarvoisesti.",
   "immersive_aircraft.tooltip.no_target": "Pitää koota lattialla!",
   "immersive_aircraft.tooltip.no_space": "Ei tarpeeksi tilaa!",
   "immersive_aircraft.slot.booster": "Boost-raketit",

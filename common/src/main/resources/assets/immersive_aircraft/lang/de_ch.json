@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Lass die Upgrades und Anpassungen weg, anstatt sie im Flugzeugobjekt zu speichern.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Stellt die Gesundheit automatisch jeden gegebenen Tick wieder her, wodurch das Vanilla-Verhalten simuliert wird.",
   "option.immersive_aircraft.requireShiftForRepair": "Nur reparieren, wenn die Umschalttaste gedrückt wird, andernfalls nur das Fahrzeug betreten.",
+  "option.immersive_aircraft.defaultCanEnter": "Standardmässig soll es Mobs erlaubt sein, automatisch in Flugzeuge einzusteigen.",
   "immersive_aircraft.tooltip.no_target": "Muss auf dem Boden montiert werden!",
   "immersive_aircraft.tooltip.no_space": "Nicht genug Platz!",
   "immersive_aircraft.slot.booster": "Boost-Raketen",

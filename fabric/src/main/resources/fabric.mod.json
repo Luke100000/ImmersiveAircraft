@@ -36,9 +36,9 @@
     "immersive_aircraft.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": "*",
     "java": ">=21",
-    "fabric-api-base": ">=0.1.0"
+    "fabric-api-base": "*"
   },
   "breaks": {
     "ad_astra": "<1.15.6"

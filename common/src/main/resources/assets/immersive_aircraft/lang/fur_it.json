@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Scambia i potenziaments e le personalizzazions, invece di salvâli dentri al element aéronautic.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regeneri automaticament la salût ogni determinate tick, simuland il comportament vanil.",
   "option.immersive_aircraft.requireShiftForRepair": "A ripara dome cu l'shifti, altrimenti entri dome nel veicul.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "A è da assemblâ sul paviment!",
   "immersive_aircraft.tooltip.no_space": "No è enough spazi!",
   "immersive_aircraft.slot.booster": "Razzi di impulsione",

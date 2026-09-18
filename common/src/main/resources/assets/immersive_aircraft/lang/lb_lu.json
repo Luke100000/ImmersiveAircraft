@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Schéckt d'Upgrade an d'Personalisatioun, amplaz et an der Luchtmäßel ze späicheren.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regeneréiert automatesch d'Gesondheet all gegebene Tick, wa simuléiert d'Verhalen aus der Vanilla.",
   "option.immersive_aircraft.requireShiftForRepair": "Nëmmen réparer wann d'Shift gedréit ass, soss einfach an d'Fuerzeug eintrieden.",
+  "option.immersive_aircraft.defaultCanEnter": "Erlaabt Mobs standardméisseg automatesch an d'Fliger ze bestiechen.",
   "immersive_aircraft.tooltip.no_target": "Muss um Buedem assembléiert ginn!",
   "immersive_aircraft.tooltip.no_space": "Net genuch Plaz!",
   "immersive_aircraft.slot.booster": "Boost Rakëtten",

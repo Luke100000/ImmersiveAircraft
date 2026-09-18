@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Jätke uuendused ja kohandamine, selle asemel, et salvestada see õhusõiduki eseme sees.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Taastab automaatselt tervist iga tiksu järel, simuleerides vanilla käitumist.",
   "option.immersive_aircraft.requireShiftForRepair": "Parandage ainult siis, kui hoiate vahetust, vastasel juhul sisenege lihtsalt sõidukisse.",
+  "option.immersive_aircraft.defaultCanEnter": "Luba mobidel vaikimisi automaatselt õhusõidukisse minna.",
   "immersive_aircraft.tooltip.no_target": "Peab olema kokku pandud põrandal!",
   "immersive_aircraft.tooltip.no_space": "Ruumi ei ole piisavalt!",
   "immersive_aircraft.slot.booster": "Boost-raketid",

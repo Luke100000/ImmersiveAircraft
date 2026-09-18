@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Izmetiet uzlabojumus un pielāgojumus, nevis saglabājiet tos lidaparāta vienībā.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automātiski atjauno veselību ik reizi, imitējot vaniļas uzvedību.",
   "option.immersive_aircraft.requireShiftForRepair": "Remontu veiciet tikai tad, ja turat pārslēgšanas pārslēgšanu, pretējā gadījumā vienkārši iebrauciet transportlīdzeklī.",
+  "option.immersive_aircraft.defaultCanEnter": "Noklusējumā ļaut mobiem automātiski iekāpt gaisa kuģos.",
   "immersive_aircraft.tooltip.no_target": "Nepieciešams samontēt uz grīdas!",
   "immersive_aircraft.tooltip.no_space": "Nepietiek vietas!",
   "immersive_aircraft.slot.booster": "Palielināt raķetes",

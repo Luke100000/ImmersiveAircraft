@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Lit de ferbetteringen en oanpassingen fallen, ynstee fan it opslaan yn 'e fleantúch.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regeneret automatysk sûnens eltse jilde, simulearjende vanilla-gedrach.",
   "option.immersive_aircraft.requireShiftForRepair": "Allinnich reparearje as jo shift hâlde, oars gewoan yn 'e voer.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Moat op 'e grûn montearre wurde!",
   "immersive_aircraft.tooltip.no_space": "Net genôch space!",
   "immersive_aircraft.slot.booster": "Boost raketten",

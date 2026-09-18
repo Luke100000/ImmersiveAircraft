@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "விமானப் பொருளில் சேமிப்பதற்கு பதிலாக, மேம்படுத்தல்கள் மற்றும் தனிப்பயனாக்கல்களை கைவிடுகிறது.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "வெனிலா நடத்தை உருவகப்படுத்தும் ஒவ்வொரு கொடுக்கப்பட்ட டிக்-ஐயும் தானாகவே ஆரோக்கியத்தை மீண்டும் உருவாக்குகிறது.",
   "option.immersive_aircraft.requireShiftForRepair": "Shift ஐ வைத்திருக்கும் போது மட்டுமே பழுது பார்க்கவும், இல்லையெனில் வாகனத்திற்குள் நுழையவும்.",
+  "option.immersive_aircraft.defaultCanEnter": "மொப்கள் இயல்பாகவே விமானங்களில் ஏற அனுமதிக்கவும்.",
   "immersive_aircraft.tooltip.no_target": "மாடியில் கூட்டப்பட வேண்டும்!",
   "immersive_aircraft.tooltip.no_space": "போதுமான இடம் இல்லை!",
   "immersive_aircraft.slot.booster": "விரைவாக்கி ராக்கெட்டுகள்",

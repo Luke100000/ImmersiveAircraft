@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "إسقاط الترقيات والتخصيص، بدلاً من حفظها داخل عنصر الطائرة.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "يعيد توليد الصحة تلقائيًا كل علامة محددة، محاكيًا السلوك الأصلي.",
   "option.immersive_aircraft.requireShiftForRepair": "إصلاح فقط عند الضغط على مفتاح Shift، وإلا فقط ادخل المركبة.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "يجب تجميعها على الأرض!",
   "immersive_aircraft.tooltip.no_space": "لا توجد مساحة كافية!",
   "immersive_aircraft.slot.booster": "تعزيز الصواريخ",

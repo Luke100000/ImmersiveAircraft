@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Dros an upgrades ha customization, yns gans na dhe gewsel gans an aevitem.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Regen answers an health yn termyn cushys, dadleus ow slofors.",
   "option.immersive_aircraft.requireShiftForRepair": "Gans holden shift, gans na fizhyn an veihcly.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Nyns ow kelwel an floyer!",
   "immersive_aircraft.tooltip.no_space": "Nyns yn hager avel!",
   "immersive_aircraft.slot.booster": "Boost rockets",
