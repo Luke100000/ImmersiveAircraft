@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Hidh përmirësimet dhe personalizimin, në vend që ta ruash brenda artikullit të aeroplanit.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Rregjeneron automatikisht shëndetin çdo herë që kalon një tick të caktuar, duke simuluar sjelljen e vanilës.",
   "option.immersive_aircraft.requireShiftForRepair": "Përmirëso vetëm kur mban të shtypur shift, përndryshe thjesht hy në mjet.",
+  "option.immersive_aircraft.defaultCanEnter": "Lejoni që mob-et të hipin automatikisht në avionë si parazgjedhje.",
   "immersive_aircraft.tooltip.no_target": "Duhet të montohet në dysheme!",
   "immersive_aircraft.tooltip.no_space": "Nuk ka mjaft hapësirë!",
   "immersive_aircraft.slot.booster": "Boost raketat",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Släpp uppgraderingarna och anpassningen, istället för att spara den i flygplansobjektet.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Återställer automatiskt hälsan varje given tick, vilket simulerar vaniljbeteende.",
   "option.immersive_aircraft.requireShiftForRepair": "Reparera endast när du håller växeln, annars är det bara att köra in i fordonet.",
+  "option.immersive_aircraft.defaultCanEnter": "Tillåt varelser att automatiskt gå ombord på flygplan som standard.",
   "immersive_aircraft.tooltip.no_target": "Måste monteras på golvet!",
   "immersive_aircraft.tooltip.no_space": "Inte tillräckligt med utrymme!",
   "immersive_aircraft.slot.booster": "Hjälpraketer",

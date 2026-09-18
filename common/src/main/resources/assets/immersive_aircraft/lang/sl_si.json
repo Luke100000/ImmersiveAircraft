@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Spustite nadgradnje in prilagoditve, namesto da bi jih shranili v element letala.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Samodejno obnavlja zdravje vsakič, kar simulira obnašanje vanilije.",
   "option.immersive_aircraft.requireShiftForRepair": "Popravljajte samo, če držite prestavni mehanizem, sicer vstopite v vozilo.",
+  "option.immersive_aircraft.defaultCanEnter": "Privzeto omogoči, da se mobi samodejno vkrcajo na letala.",
   "immersive_aircraft.tooltip.no_target": "Sestaviti ga je treba na tleh!",
   "immersive_aircraft.tooltip.no_space": "Premalo prostora!",
   "immersive_aircraft.slot.booster": "Spodbujanje raket",

@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Να πέφτουν οι αναβαθμίσεις και οι αισθητικές προσαρμογές, αντί να αποθηκεύονται μέσα στο αντικείμενο του αεροσκάφους.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Να αναγεννούν τα αεροσκάφη αυτόματα την ζωή τους κάθε φορά, σαν τη συμπεριφορά του βασικού παιχνιδιού.",
   "option.immersive_aircraft.requireShiftForRepair": "Να επισκευάζεται μόνο όταν πατάτε shift, αλλιώς απλώς να εισέλθετε στο όχημα.",
+  "option.immersive_aircraft.defaultCanEnter": "Να επιτρέπεται σε πλάσματα να επιβιβάζονται αυτόματα από προεπιλογή.",
   "immersive_aircraft.tooltip.no_target": "Πρέπει να συναρμολογηθεί στο έδαφος!",
   "immersive_aircraft.tooltip.no_space": "Δεν υπάρχει αρκετός χώρος!",
   "immersive_aircraft.slot.booster": "Πύραυλοι ώθησης",

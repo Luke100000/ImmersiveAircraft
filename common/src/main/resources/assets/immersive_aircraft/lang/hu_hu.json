@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Dobja el a frissítéseket és a testreszabást, ahelyett, hogy a repülőgépelemen belül mentené el.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatikusan regenerálja az egészséget minden adott ticknél, szimulálva a vanília viselkedést.",
   "option.immersive_aircraft.requireShiftForRepair": "Csak akkor javítson, ha a váltót lenyomva tartja, egyébként csak lépjen be a járműbe.",
+  "option.immersive_aircraft.defaultCanEnter": "Alapértelmezés szerint engedélyezd, hogy a mobok automatikusan felszálljanak a légi járművekre.",
   "immersive_aircraft.tooltip.no_target": "A padlón kell összeszerelni!",
   "immersive_aircraft.tooltip.no_space": "Nincs elég hely!",
   "immersive_aircraft.slot.booster": "Boost rakéták",

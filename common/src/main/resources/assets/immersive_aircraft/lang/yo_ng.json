@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Dá àwọn àtúnṣe àti ìṣápéjù silẹ, dipo fí ẹ́ pamọ́ sínú nkan ọkọ ofurufu.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Ó máa tún ààbọ̀ jọ gbogbo títí, nfi hàn àkúnya ti àkóónú.",
   "option.immersive_aircraft.requireShiftForRepair": "Tún ṣe àtúnṣe nígbà tí o ba ni shift, bíyẹn kó ní kọ̀ láti wọ ọkọ.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Ó nilo láti kópa nírẹ́rẹ́!",
   "immersive_aircraft.tooltip.no_space": "Kò sí àyè tó pọ̀!",
   "immersive_aircraft.slot.booster": "Awọn ọkọ ayọkẹlẹ",

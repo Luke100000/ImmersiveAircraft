@@ -108,6 +108,7 @@
   "option.immersive_aircraft.dropUpgrades": "Lat de Verbeterungen un Anpassungen fallen, anstatt dat innerhalb des Luftfahrt-Items to spekern.",
   "option.immersive_aircraft.regenerateHealthEveryNTicks": "Automatisch verheelt sick alle geewen Ticks, vanilla-Verhalen naahmaakt.",
   "option.immersive_aircraft.requireShiftForRepair": "Reparieren nur, wenn Shift gehalten warrt, anners int Fohrteg stiegen.",
+  "option.immersive_aircraft.defaultCanEnter": "Allow mobs to automatically board aircraft by default.",
   "immersive_aircraft.tooltip.no_target": "Möt op de Grüntog sammelt warrn!",
   "immersive_aircraft.tooltip.no_space": "Nich nog Rüm!",
   "immersive_aircraft.slot.booster": "Boostraketen",
