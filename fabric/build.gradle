@@ -19,9 +19,26 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+repositories {
+    maven {
+        url "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+
+    modLocalRuntime "maven.modrinth:iris:${rootProject.iris_version}"
+    modLocalRuntime "maven.modrinth:sodium:${rootProject.sodium_version}"
+
+    // Loom strips Iris's nested libraries when remapping it for development.
+    localRuntime("org.anarres:jcpp:1.4.14") { transitive false }
+    localRuntime("io.github.douira:glsl-transformer:2.0.1") { transitive false }
+    localRuntime "org.antlr:antlr4-runtime:4.13.1"
 
     implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
     include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
