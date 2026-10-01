@@ -1,3 +1,7 @@
+# 1.5.3
+
+* Fixed first-person aircraft rendering with shaders
+
 # 1.5.2
 
 * Relaxed Fabric version
