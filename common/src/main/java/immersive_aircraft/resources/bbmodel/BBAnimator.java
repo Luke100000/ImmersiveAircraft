@@ -52,6 +52,10 @@ public class BBAnimator {
             }
         }
 
+        if (keyframes.size() == 1) {
+            return keyframes.get(0).evaluate();
+        }
+
         if (animation.length == 0) {
             time = 0.0f;
         } else {
