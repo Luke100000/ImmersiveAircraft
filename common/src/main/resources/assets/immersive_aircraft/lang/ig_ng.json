@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Ngwugwu dye",
   "immersive_aircraft.slot.upgrade": "Ngwugwu melite",
   "immersive_aircraft.upgrade.enginespeed": "%s%% ike igwe",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% ọsọ propeller",
   "immersive_aircraft.upgrade.friction": "%s%% ikuku na-ere ọkụ",
   "immersive_aircraft.upgrade.acceleration": "%s%% ọsọ ịpụta",
   "immersive_aircraft.upgrade.durability": "%s%% ịdịgide",
