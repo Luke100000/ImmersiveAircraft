@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Litevni",
   "immersive_aircraft.slot.upgrade": "Betring",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motoriske makt",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% luftfriktion",
   "immersive_aircraft.upgrade.acceleration": "%s%% bodskihastigheiti",
   "immersive_aircraft.upgrade.durability": "%s%% hald",
