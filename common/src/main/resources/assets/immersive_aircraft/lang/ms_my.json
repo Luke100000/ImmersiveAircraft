@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Slot pewarna",
   "immersive_aircraft.slot.upgrade": "Slot peningkatan",
   "immersive_aircraft.upgrade.enginespeed": "%s%% kuasa enjin",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% kelajuan propeller",
   "immersive_aircraft.upgrade.friction": "%s%% geseran udara",
   "immersive_aircraft.upgrade.acceleration": "%s%% kelajuan lepas landas",
   "immersive_aircraft.upgrade.durability": "%s%% ketahanan",
