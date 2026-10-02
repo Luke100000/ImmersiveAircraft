@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Будгийн орон зай",
   "immersive_aircraft.slot.upgrade": "Шилжүүлэгч орон зай",
   "immersive_aircraft.upgrade.enginespeed": "%s%% хөдөлгүүрийн хүчин чадал",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% пропеллер хурд",
   "immersive_aircraft.upgrade.friction": "%s%% агаарын үрэл",
   "immersive_aircraft.upgrade.acceleration": "%s%% хөөрөх хурд",
   "immersive_aircraft.upgrade.durability": "%s%% бат бөх чанар",
