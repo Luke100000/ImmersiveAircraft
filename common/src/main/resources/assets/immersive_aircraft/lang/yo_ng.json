@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Aaye awọ",
   "immersive_aircraft.slot.upgrade": "Aaye igbesoke",
   "immersive_aircraft.upgrade.enginespeed": "%s%% agbara ẹrọ",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% ija afẹfẹ",
   "immersive_aircraft.upgrade.acceleration": "%s%% iyara gbigbe",
   "immersive_aircraft.upgrade.durability": "%s%% ailagbara",
