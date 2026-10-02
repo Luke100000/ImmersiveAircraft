@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Slot lliw",
   "immersive_aircraft.slot.upgrade": "Slot uwchraddio",
   "immersive_aircraft.upgrade.enginespeed": "%s%% pŵer peiriant",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% cyflymder hwylbont",
   "immersive_aircraft.upgrade.friction": "%s%% ffrithiad aer",
   "immersive_aircraft.upgrade.acceleration": "%s%% cyflymder cymryd oddi",
   "immersive_aircraft.upgrade.durability": "%s%% dygnwch",
