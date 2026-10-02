@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Koloriga fendo",
   "immersive_aircraft.slot.upgrade": "Pliboniga fendo",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motora potenco",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% helica rapido",
   "immersive_aircraft.upgrade.friction": "%s%% aerfrikcio",
   "immersive_aircraft.upgrade.acceleration": "%s%% ekfluga rapido",
   "immersive_aircraft.upgrade.durability": "%s%% daŭripovo",
