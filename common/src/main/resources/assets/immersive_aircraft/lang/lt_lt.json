@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Dažų lizdas",
   "immersive_aircraft.slot.upgrade": "Atnaujinimo lizdas",
   "immersive_aircraft.upgrade.enginespeed": "%s%% variklio galia",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% sraigto sukimosi greitis",
   "immersive_aircraft.upgrade.friction": "%s% % oro trintis",
   "immersive_aircraft.upgrade.acceleration": "%s%% kilimo greitis",
   "immersive_aircraft.upgrade.durability": "%s%% ilgaamžiškumas",
