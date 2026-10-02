@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Barvicí slot",
   "immersive_aircraft.slot.upgrade": "Slot pro aktualizaci",
   "immersive_aircraft.upgrade.enginespeed": "%s% % výkonu motoru",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% rychlost šroubu",
   "immersive_aircraft.upgrade.friction": "%s%% tření vzduchu",
   "immersive_aircraft.upgrade.acceleration": "%s%% vzletová rychlost",
   "immersive_aircraft.upgrade.durability": "%s%% trvanlivost",
