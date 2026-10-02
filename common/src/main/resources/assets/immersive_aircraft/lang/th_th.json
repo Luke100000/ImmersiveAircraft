@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "ช่องใส่สี",
   "immersive_aircraft.slot.upgrade": "ช่องอัปเกรด",
   "immersive_aircraft.upgrade.enginespeed": "%s%% กำลังเครื่องยนต์",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% ความเร็วของใบพัด",
   "immersive_aircraft.upgrade.friction": "%s%% แรงเสียดทานของอากาศ",
   "immersive_aircraft.upgrade.acceleration": "%s%% ความเร็วในการขึ้นบิน",
   "immersive_aircraft.upgrade.durability": "%s%% ความทนทาน",
