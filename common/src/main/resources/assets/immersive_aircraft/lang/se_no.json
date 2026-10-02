@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Väri paikka",
   "immersive_aircraft.slot.upgrade": "Päivityspaikka",
   "immersive_aircraft.upgrade.enginespeed": "%s%% moottorin voima",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% ilman kitka",
   "immersive_aircraft.upgrade.acceleration": "%s%% nousunopeus",
   "immersive_aircraft.upgrade.durability": "%s%% kestävyys",
