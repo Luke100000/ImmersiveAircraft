@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "חריצי צבע",
   "immersive_aircraft.slot.upgrade": "חריצי שדרוג",
   "immersive_aircraft.upgrade.enginespeed": "%s%% כוח מנוע",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% מהירות המדחף",
   "immersive_aircraft.upgrade.friction": "%s%% חיכוך אוויר",
   "immersive_aircraft.upgrade.acceleration": "%s%% מהירות המראה",
   "immersive_aircraft.upgrade.durability": "%s%% עמידות",
