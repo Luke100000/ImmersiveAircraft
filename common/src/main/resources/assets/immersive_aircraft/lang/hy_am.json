@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Ներկի տեղահանման տեղ",
   "immersive_aircraft.slot.upgrade": "Նորոգման տեղահանման տեղ",
   "immersive_aircraft.upgrade.enginespeed": "%s%% շարժիչի ուժ",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% պրոպելլերի արագություն",
   "immersive_aircraft.upgrade.friction": "%s%% օդաբաշխիչ",
   "immersive_aircraft.upgrade.acceleration": "%s%% բարձրացման արագություն",
   "immersive_aircraft.upgrade.durability": "%s%% դիմադրություն",
