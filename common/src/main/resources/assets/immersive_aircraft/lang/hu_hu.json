@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Színezőnyílás",
   "immersive_aircraft.slot.upgrade": "Frissítési nyílás",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motorteljesítmény",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% a propeller fordulatszáma",
   "immersive_aircraft.upgrade.friction": "%s%% légsúrlódás",
   "immersive_aircraft.upgrade.acceleration": "%s%% felszállási sebesség",
   "immersive_aircraft.upgrade.durability": "%s%% tartósság",
