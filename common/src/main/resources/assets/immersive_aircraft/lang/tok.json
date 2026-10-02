@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "pokidye",
   "immersive_aircraft.slot.upgrade": "pokilika",
   "immersive_aircraft.upgrade.enginespeed": "%s%% palisa palisa",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% palisa kule",
   "immersive_aircraft.upgrade.acceleration": "%s%% palisa wawa",
   "immersive_aircraft.upgrade.durability": "%s%% palisa wawa",
