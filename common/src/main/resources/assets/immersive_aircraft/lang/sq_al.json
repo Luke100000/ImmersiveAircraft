@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Hapësira për ngjyrosje",
   "immersive_aircraft.slot.upgrade": "Hapësira për përmirësim",
   "immersive_aircraft.upgrade.enginespeed": "%s%% fuqia e motorit",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% shpejtësia e helikës",
   "immersive_aircraft.upgrade.friction": "%s%% fërkimi ajror",
   "immersive_aircraft.upgrade.acceleration": "%s%% shpejtësia e ngritjes",
   "immersive_aircraft.upgrade.durability": "%s%% qëndrueshmëria",
