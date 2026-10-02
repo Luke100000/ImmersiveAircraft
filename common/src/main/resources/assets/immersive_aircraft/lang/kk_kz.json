@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Дайындық ұясы",
   "immersive_aircraft.slot.upgrade": "Жаңарту ұясы",
   "immersive_aircraft.upgrade.enginespeed": "%s%% қозғалтқыш күші",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% винт жылдамдығы",
   "immersive_aircraft.upgrade.friction": "%s%% ауа кедергісі",
   "immersive_aircraft.upgrade.acceleration": "%s%% ұшуға жіберу жылдамдығы",
   "immersive_aircraft.upgrade.durability": "%s%% төзімділік",
