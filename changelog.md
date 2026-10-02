@@ -1,6 +1,9 @@
-# 1.5.3
+# TBD
 
 * Fixed first-person aircraft rendering with shaders
+* Improved render performance
+* Airplanes have a better lift mechanic (need a bit more runway, don't fall like a feather, ...)
+* Tuned airplane thrust and speed upgrades, with a slower Bamboo Hopper
 
 # 1.5.2
 

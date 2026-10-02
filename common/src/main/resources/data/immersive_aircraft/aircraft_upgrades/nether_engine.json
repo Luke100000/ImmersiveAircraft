@@ -1,4 +1,5 @@
 {
   "engineSpeed": 0.4,
+  "engineMaxSpeed": 0.35,
   "fuel": 0.3
 }

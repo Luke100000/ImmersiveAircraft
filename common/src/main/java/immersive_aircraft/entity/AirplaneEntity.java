@@ -1,8 +1,10 @@
 package immersive_aircraft.entity;
 
 import immersive_aircraft.item.upgrade.VehicleStat;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 /**
@@ -20,9 +22,21 @@ public abstract class AirplaneEntity extends AircraftEntity {
 
     @Override
     protected double getDefaultGravity() {
-        Vector3f direction = getForwardDirection();
-        float speed = (float) getDeltaMovement().length() * (1.0f - Math.abs(direction.y));
-        return Math.max(0.0f, 1.0f - speed * 1.5f) * super.getDefaultGravity();
+        Vec3 direction = toVec3d(getForwardDirection());
+        double lift = getLiftEfficiency(direction, 1.0 - Math.abs(direction.y));
+        return (1.0 - lift) * super.getDefaultGravity();
+    }
+
+    @Override
+    protected float getLiftFactor(Vec3 direction) {
+        return (float) (super.getLiftFactor(direction) * getLiftEfficiency(direction, 1.0));
+    }
+
+    private double getLiftEfficiency(Vec3 direction, double speedFactor) {
+        Vec3 velocity = getDeltaMovement();
+        double forwardSpeed = Math.max(0.0, direction.dot(velocity));
+        double alignment = Math.clamp(direction.dot(velocity.normalize()), 0.0, 1.0);
+        return Math.min(1.0, forwardSpeed * getProperties().get(VehicleStat.LIFT) * 10.0 * speedFactor) * alignment;
     }
 
     protected float getBrakeFactor() {
@@ -50,6 +64,14 @@ public abstract class AirplaneEntity extends AircraftEntity {
 
         // speed
         float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(VehicleStat.ENGINE_SPEED));
+        float maxSpeed = getProperties().get(VehicleStat.ENGINE_MAX_SPEED);
+        if (maxSpeed > 0.0f) {
+            double forwardSpeed = Math.max(0.0, getDeltaMovement().dot(toVec3d(direction))) * 20.0;
+            thrust *= (float) Mth.clamp((1.0 - forwardSpeed / maxSpeed) / 0.25, 0.0, 1.0);
+        }
+        if (onGround()) {
+            thrust *= 0.75f;
+        }
         if (onGround() && getEngineTarget() < 1.0) {
             thrust = getProperties().get(VehicleStat.PUSH_SPEED) / (1.0f + (float) getDeltaMovement().length() * 5.0f) * pressingInterpolatedZ.getSmooth() * (1.0f - getEnginePower());
         }
