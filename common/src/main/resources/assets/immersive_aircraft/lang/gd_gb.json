@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Falaich dath",
   "immersive_aircraft.slot.upgrade": "Falaich adhartachaidh",
   "immersive_aircraft.upgrade.enginespeed": "%s%% cumhachd einnse",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% frithidh a' gaoithe",
   "immersive_aircraft.upgrade.acceleration": "%s%% astar togalach",
   "immersive_aircraft.upgrade.durability": "%s%% seasmhachd",
