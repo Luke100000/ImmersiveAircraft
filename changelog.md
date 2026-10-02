@@ -1,5 +1,6 @@
 # TBD
 
+* Added analog aircraft controls for Controlify, Controllable, and MidnightControls
 * Fixed first-person aircraft rendering with shaders
 * Improved render performance
 * Airplanes have a better lift mechanic (need a bit more runway, don't fall like a feather, ...)

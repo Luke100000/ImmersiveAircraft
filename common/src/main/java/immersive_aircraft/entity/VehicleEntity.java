@@ -7,6 +7,7 @@ import immersive_aircraft.CompatUtil;
 import immersive_aircraft.AircraftStats;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
+import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.AutoEnterRules;
@@ -386,13 +387,6 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         this.interpolationSteps = 10;
     }
 
-    private static float getMovementMultiplier(boolean positive, boolean negative) {
-        if (positive == negative) {
-            return 0.0f;
-        }
-        return positive ? 1.0f : -1.0f;
-    }
-
     protected boolean useAirplaneControls() {
         return false;
     }
@@ -553,18 +547,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         //controls
         Entity pilot = getPassengers().get(0);
         if (pilot instanceof Player player && player.isLocalPlayer()) {
-            setInputs(getMovementMultiplier(
-                            KeyBindings.left.isDown(),
-                            KeyBindings.right.isDown()
-                    ), getMovementMultiplier(
-                            KeyBindings.up.isDown(),
-                            KeyBindings.down.isDown()
-                    ),
-                    getMovementMultiplier(
-                            useAirplaneControls() ? KeyBindings.push.isDown() : KeyBindings.forward.isDown(),
-                            useAirplaneControls() ? KeyBindings.pull.isDown() : KeyBindings.backward.isDown()
-                    )
-            );
+            setInputs(AircraftInput.axis(KeyBindings.left, KeyBindings.right),
+                    AircraftInput.axis(KeyBindings.up, KeyBindings.down),
+                    AircraftInput.axis(useAirplaneControls() ? KeyBindings.push : KeyBindings.forward,
+                            useAirplaneControls() ? KeyBindings.pull : KeyBindings.backward));
         } else {
             setInputs(0, 0, 0);
         }

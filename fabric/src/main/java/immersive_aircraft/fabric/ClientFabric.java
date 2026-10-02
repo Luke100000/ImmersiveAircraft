@@ -1,10 +1,8 @@
 package immersive_aircraft.fabric;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import immersive_aircraft.ClientMain;
-import immersive_aircraft.ItemColors;
-import immersive_aircraft.Renderer;
-import immersive_aircraft.WeaponRendererRegistry;
+import immersive_aircraft.*;
+import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.client.OverlayRenderer;
 import immersive_aircraft.item.upgrade.VehicleStat;
@@ -35,6 +33,7 @@ public final class ClientFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        AircraftInput.registerDefaults();
         ClientLifecycleEvents.CLIENT_STARTED.register(event -> ClientMain.postLoad());
 
         ClientTickEvents.START_CLIENT_TICK.register(event -> ClientMain.tick());

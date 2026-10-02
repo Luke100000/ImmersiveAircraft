@@ -1,0 +1,60 @@
+def platform = project.name
+def controllers = [
+        controlify      : "dev.isxander:controlify:${rootProject.controlify_version}+${rootProject.minecraft_version}-${platform}",
+        controllable    : "curse.maven:controllable-317269:${rootProject.property("controllable_${platform}_version")}",
+        midnightcontrols: "maven.modrinth:midnightcontrols:${rootProject.midnightcontrols_version}-${platform}"
+]
+
+dependencies {
+    def compileConfiguration = platform == "fabric" ? "modCompileOnly" : "compileOnly"
+    controllers.values().each { library ->
+        add(compileConfiguration, library) { transitive false }
+    }
+    add(compileConfiguration, "maven.modrinth:midnightlib:1.6.3-${platform}") { transitive false }
+}
+
+def selected = rootProject.controller_mod
+if (selected != "none" && !controllers.containsKey(selected)) {
+    throw new GradleException("Unknown controller_mod '${selected}'; choose none or ${controllers.keySet().join(', ')}")
+}
+if (selected == "none") return
+
+// Keep controller test mods out of NeoForge's dedicated-server classpath.
+if (platform == "neoforge") {
+    sourceSets {
+        controllerTest {
+            runtimeClasspath += sourceSets.main.runtimeClasspath
+        }
+    }
+    neoForge.runs.client.sourceSet = sourceSets.controllerTest
+}
+def runtimeConfiguration = platform == "fabric" ? "modLocalRuntime" : "controllerTestRuntimeOnly"
+
+dependencies {
+    add(runtimeConfiguration, controllers[selected]) {
+        if (selected == "controlify") {
+            // Upstream runtime metadata also includes optional compatibility test mods and Iris libraries.
+            ["maven.modrinth", "org.anarres", "io.github.douira", "net.lenni0451"].each { exclude group: it }
+        }
+    }
+    if (selected == "controllable") {
+        def framework = platform == "fabric" ? "6531437" : "6531439"
+        add(runtimeConfiguration, "curse.maven:framework-549225:${framework}")
+        if (platform == "fabric") {
+            localRuntime "org.reflections:reflections:0.10.2"
+            localRuntime "com.electronwill.night-config:toml:3.7.1"
+            // Controllable's SDL Maven publication requires GitHub credentials; use its bundled copy.
+            localRuntime files(provider {
+                def bundle = configurations.detachedConfiguration(dependencies.create(controllers[selected]))
+                zipTree(bundle.singleFile).matching { include "META-INF/**/controllable-sdl-*.jar" }.files
+            })
+        }
+    } else if (selected == "midnightcontrols" && platform == "fabric") {
+        modLocalRuntime "maven.modrinth:midnightlib:1.6.3-fabric"
+        modLocalRuntime "maven.modrinth:obsidianui:0.2.7+mc1.21-fabric"
+        localRuntime("org.aperlambda:lambdajcommon:1.8.1") {
+            exclude group: "com.google.code.gson"
+            exclude group: "com.google.guava"
+        }
+    }
+}

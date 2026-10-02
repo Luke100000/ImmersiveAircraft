@@ -1,0 +1,10 @@
+{
+  "defaults": {
+    "fabric-key-binding-api-v1:key.immersive_aircraft.boost": {
+      "button": "controlify:button/left_stick"
+    },
+    "fabric-key-binding-api-v1:key.immersive_aircraft.dismount": {
+      "button": "controlify:button/east"
+    }
+  }
+}

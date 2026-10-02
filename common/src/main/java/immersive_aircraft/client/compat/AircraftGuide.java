@@ -1,0 +1,46 @@
+package immersive_aircraft.client.compat;
+
+import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.entity.AirplaneEntity;
+import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.entity.VehicleEntity;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.Collection;
+import java.util.List;
+
+final class AircraftGuide {
+    static final List<KeyMapping> HINT_ORDER = List.of(
+            KeyBindings.up, KeyBindings.down, KeyBindings.pull, KeyBindings.push,
+            KeyBindings.forward, KeyBindings.backward, KeyBindings.left, KeyBindings.right,
+            KeyBindings.boost, KeyBindings.use, KeyBindings.dismount);
+
+    static String label(KeyMapping key, Player player) {
+        if (!(player.getRootVehicle() instanceof VehicleEntity vehicle)) {
+            return null;
+        }
+        if (key == KeyBindings.use) {
+            return vehicle instanceof InventoryVehicleEntity inventory && player.getMainHandItem().isEmpty()
+                    && inventory.getWeapons().values().stream().flatMap(Collection::stream)
+                    .anyMatch(weapon -> vehicle.getGunner(weapon.getGunnerOffset()) == player)
+                    ? key.getName() : null;
+        }
+        if (key != KeyBindings.dismount && vehicle.getControllingPassenger() != player) {
+            return null;
+        }
+        boolean airplane = vehicle instanceof AirplaneEntity;
+        if ((key == KeyBindings.push || key == KeyBindings.pull) && !airplane
+            || (key == KeyBindings.forward || key == KeyBindings.backward) && airplane
+            || key == KeyBindings.boost && !vehicle.canBoost()) {
+            return null;
+        }
+        if (airplane && key == KeyBindings.up) {
+            return "guide.immersive_aircraft.throttle_up";
+        }
+        if (airplane && key == KeyBindings.down) {
+            return "guide.immersive_aircraft.throttle_down";
+        }
+        return key.getName();
+    }
+}

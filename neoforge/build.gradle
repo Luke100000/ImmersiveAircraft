@@ -58,6 +58,8 @@ dependencies {
     compileOnly("earth.terrarium.adastra:ad_astra-forge-${ad_astra_version}") { transitive false }
 }
 
+apply from: rootProject.file("gradle/controller-dependencies.gradle")
+
 def generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     def replaceProperties = [
             minecraft_version: rootProject.minecraft_version,

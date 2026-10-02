@@ -1,5 +1,6 @@
 package immersive_aircraft;
 
+import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.InventoryVehicleEntity;
@@ -46,6 +47,7 @@ public class ClientMain {
 
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
+        AircraftInput.init();
 
         if (client.screen != null || client.player == null || !(client.player.getRootVehicle() instanceof VehicleEntity)) {
             consumeClick(KeyBindings.boost);
@@ -92,7 +94,7 @@ public class ClientMain {
             // Fire weapons when in a vehicle
             activeTicks++;
 
-            if (activeTicks > 20 && KeyBindings.use.isDown() && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+            if (activeTicks > 20 && AircraftInput.strength(KeyBindings.use) > 0.5f && client.player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
                 vehicle.clientFireWeapons(client.player);
             }
         } else {

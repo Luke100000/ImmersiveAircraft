@@ -41,11 +41,6 @@ public class OverlayRenderer {
         if (client.gameMode != null && client.player != null) {
             INSTANCE.tick = (INSTANCE.tick + 1) % 60;
 
-            // Engine status
-            if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
-                INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
-            }
-
             // Upgrade HUDs
             if (client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 if (aircraft.getProperties().get(VehicleStat.HUD) == 0 || aircraft.getProperties().get(VehicleStat.DIALS) == 0) {
@@ -67,6 +62,15 @@ public class OverlayRenderer {
             }
         }
         return 0;
+    }
+
+    public static void renderEngineGauge(GuiGraphics context, float tickDelta) {
+        Minecraft client = Minecraft.getInstance();
+        if (!client.options.hideGui && client.gameMode != null && client.player != null
+                && Config.getInstance().showHotbarEngineGauge
+                && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
+            INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
+        }
     }
 
     private void renderAircraftHealth(Minecraft minecraft, GuiGraphics context, VehicleEntity vehicle, int barHeightOffset) {

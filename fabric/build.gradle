@@ -12,10 +12,6 @@ sourceSets {
 loom {
     accessWidenerPath = project.rootProject.file("common/src/main/resources/immersive_aircraft.accessWidener")
 
-    mixin {
-        defaultRefmapName = "immersive_aircraft.refmap.json"
-    }
-
     mods {
         "immersive_aircraft" {
             sourceSet sourceSets.main
@@ -59,6 +55,8 @@ dependencies {
 
     modCompileOnly("earth.terrarium.adastra:ad_astra-fabric-${ad_astra_version}") { transitive false }
 }
+
+apply from: rootProject.file("gradle/controller-dependencies.gradle")
 
 processResources {
     inputs.property "version", project.version

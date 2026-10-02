@@ -10,7 +10,8 @@
   "client": [
     "client.AbstractClientPlayerMixin", "client.CameraMixin", "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin", "client.ClientPlayNetworkHandlerMixin",
-    "client.EntityRenderDispatcherMixin", "client.KeyMappingAccessorMixin",
-    "client.KeyMappingMixin", "client.LivingEntityRendererMixin", "client.PlayerEntityRendererMixin"
+    "client.EntityRenderDispatcherMixin", "client.GuiMixin", "client.KeyMappingAccessorMixin",
+    "client.KeyMappingMixin", "client.LivingEntityRendererMixin", "client.PlayerEntityRendererMixin",
+    "client.ControllableHintsMixin", "client.MidnightControlsHintsMixin"
   ]
 }
