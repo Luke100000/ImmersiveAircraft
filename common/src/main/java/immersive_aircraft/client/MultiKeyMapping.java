@@ -11,21 +11,40 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class MultiKeyMapping extends KeyMapping {
     public final InputConstants.Key customDefaultKey;
     public InputConstants.Key customBoundKey;
+    private final Supplier<KeyMapping> fallbackKey;
 
     public static final Map<InputConstants.Key, List<MultiKeyMapping>> KEY_TO_BINDING = new HashMap<>();
 
     public MultiKeyMapping(String translationKey, InputConstants.Type type, int code, String category) {
+        this(translationKey, type, code, () -> null, category);
+    }
+
+    public MultiKeyMapping(String translationKey, InputConstants.Type type, int code, Supplier<KeyMapping> fallbackKey, String category) {
         super(translationKey, type, GLFW.GLFW_KEY_UNKNOWN, category);
+
+        this.fallbackKey = fallbackKey;
 
         // Avoid overwriting other keys
         InputConstants.Key key = type.getOrCreate(code);
         customDefaultKey = customBoundKey = key;
 
         KEY_TO_BINDING.computeIfAbsent(customBoundKey, v -> new LinkedList<>()).add(this);
+    }
+
+    public InputConstants.Key getBoundKey() {
+        validate();
+        return customBoundKey;
+    }
+
+    /** The default vanilla action for input adapters; keyboard events use this binding's own key. */
+    public KeyMapping getFallbackKey() {
+        validate();
+        return isDefault() ? fallbackKey.get() : null;
     }
 
     @Override

@@ -14,15 +14,12 @@ import net.minecraft.world.InteractionHand;
 public class ClientMain {
     private static int activeTicks;
 
-    // This is ugly. And wrong. And bad. But it works, and I don't care enough to fix it properly.
     protected static boolean consumeClick(KeyMapping keyMapping) {
-        if (keyMapping.isDown() && keyMapping.consumeClick()) {
-            keyMapping.setDown(false);
-            while (keyMapping.consumeClick()) {
-            }
-            return true;
+        boolean clicked = false;
+        while (keyMapping.consumeClick()) {
+            clicked = true;
         }
-        return false;
+        return clicked;
     }
 
     public static void postLoad() {
@@ -49,6 +46,11 @@ public class ClientMain {
 
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
+
+        if (client.screen != null || client.player == null || !(client.player.getRootVehicle() instanceof VehicleEntity)) {
+            consumeClick(KeyBindings.boost);
+            consumeClick(KeyBindings.dismount);
+        }
 
         Main.frameTime = client.getTimer().getGameTimeDeltaTicks();
 
