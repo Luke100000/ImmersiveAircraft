@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Слот за боядисване",
   "immersive_aircraft.slot.upgrade": "Слот за надграждане",
   "immersive_aircraft.upgrade.enginespeed": "%s%% мощност на двигателя",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% скорост на витлото",
   "immersive_aircraft.upgrade.friction": "%s%% въздушно триене",
   "immersive_aircraft.upgrade.acceleration": "%s%% скорост на излитане",
   "immersive_aircraft.upgrade.durability": "%s%% издръжливост",

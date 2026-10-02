@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Krāsošanas slots",
   "immersive_aircraft.slot.upgrade": "Jaunināšanas slots",
   "immersive_aircraft.upgrade.enginespeed": "%s%% dzinēja jauda",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propellera apgriezienu skaits",
   "immersive_aircraft.upgrade.friction": "%s%% gaisa berze",
   "immersive_aircraft.upgrade.acceleration": "%s%% pacelšanās ātrums",
   "immersive_aircraft.upgrade.durability": "%s%% ilgmūžība",

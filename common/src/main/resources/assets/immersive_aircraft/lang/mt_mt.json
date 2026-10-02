@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Slot ta' għaġina",
   "immersive_aircraft.slot.upgrade": "Slot ta’ upgrade",
   "immersive_aircraft.upgrade.enginespeed": "%s%% qawwa tal-magni",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% veloċità tal-propeller",
   "immersive_aircraft.upgrade.friction": "%s%% frizzjoni tal-arja",
   "immersive_aircraft.upgrade.acceleration": "%s%% veloċità tat-titjira",
   "immersive_aircraft.upgrade.durability": "%s%% durabilità",

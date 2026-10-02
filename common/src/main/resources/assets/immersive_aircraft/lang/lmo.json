@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Slot tintura",
   "immersive_aircraft.slot.upgrade": "Slot upgrade",
   "immersive_aircraft.upgrade.enginespeed": "%s%% potenza del motore",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% attrito dell'aria",
   "immersive_aircraft.upgrade.acceleration": "%s%% velocità di decollo",
   "immersive_aircraft.upgrade.durability": "%s%% durata",

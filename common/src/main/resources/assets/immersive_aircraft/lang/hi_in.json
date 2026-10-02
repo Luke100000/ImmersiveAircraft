@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "रंग स्लॉट",
   "immersive_aircraft.slot.upgrade": "अपग्रेड स्लॉट",
   "immersive_aircraft.upgrade.enginespeed": "%s%% इंजन पावर",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% प्रोपेलर गति",
   "immersive_aircraft.upgrade.friction": "%s%% हवा घर्षण",
   "immersive_aircraft.upgrade.acceleration": "%s%% टेकऑफ गति",
   "immersive_aircraft.upgrade.durability": "%s%% स्थायित्व",

@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "اسلات رنگ",
   "immersive_aircraft.slot.upgrade": "اسلات ارتقاء",
   "immersive_aircraft.upgrade.enginespeed": "\"%s%% توان موتور\"",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%sسرعت پروانه",
   "immersive_aircraft.upgrade.friction": "\"%s%% اصطکاک هوا\"",
   "immersive_aircraft.upgrade.acceleration": "\"%s%% سرعت برخاست\"",
   "immersive_aircraft.upgrade.durability": "\"%s%% استحکام\"",

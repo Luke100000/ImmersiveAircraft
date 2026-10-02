@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Түстәр уягы",
   "immersive_aircraft.slot.upgrade": "Яңа тоту уягы",
   "immersive_aircraft.upgrade.enginespeed": "%s%% двигатель золе",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% винт тизлеге",
   "immersive_aircraft.upgrade.friction": "%s%% һава трениясен",
   "immersive_aircraft.upgrade.acceleration": "%s%% очу тизлеге",
   "immersive_aircraft.upgrade.durability": "%s%% тоташу",

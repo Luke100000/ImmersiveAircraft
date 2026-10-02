@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Бояу слот",
   "immersive_aircraft.slot.upgrade": "Яңырт слот",
   "immersive_aircraft.upgrade.enginespeed": "%s%% Мотор ҡеүәте",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% винт тиҙлеге",
   "immersive_aircraft.upgrade.friction": "%s%% һауалағы сығым",
   "immersive_aircraft.upgrade.acceleration": "%s%% һыу юлы",
   "immersive_aircraft.upgrade.durability": "%s%% ныҡлыҡ",

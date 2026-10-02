@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Fantă de colorare",
   "immersive_aircraft.slot.upgrade": "Slot de upgrade",
   "immersive_aircraft.upgrade.enginespeed": "%s%% puterea motorului",
+  "immersive_aircraft.upgrade.enginemaxspeed": "Viteza elicei %s%%",
   "immersive_aircraft.upgrade.friction": "%s%% frecarea aerului",
   "immersive_aircraft.upgrade.acceleration": "%s%% viteza de decolare",
   "immersive_aircraft.upgrade.durability": "%s%% durabilitate",

@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Slot de colorant",
   "immersive_aircraft.slot.upgrade": "Slot d'actualització",
   "immersive_aircraft.upgrade.enginespeed": "%s%% potència del motor",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% velocitat de l'hèlix",
   "immersive_aircraft.upgrade.friction": "%s%% fricció de l'aire",
   "immersive_aircraft.upgrade.acceleration": "%s%% velocitat d'enlairament",
   "immersive_aircraft.upgrade.durability": "%s%% durabilitat",

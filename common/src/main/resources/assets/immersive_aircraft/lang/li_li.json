@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Farbplak",
   "immersive_aircraft.slot.upgrade": "Upgrade-slot",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motor kracht",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% lucht wrijving",
   "immersive_aircraft.upgrade.acceleration": "%s%% opstijg snelheid",
   "immersive_aircraft.upgrade.durability": "%s%% duurzaamheid",

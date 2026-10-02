@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Szczelina do farbowania",
   "immersive_aircraft.slot.upgrade": "Gniazdo uaktualnienia",
   "immersive_aircraft.upgrade.enginespeed": "%s%% mocy silnika",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% tarcie powietrza",
   "immersive_aircraft.upgrade.acceleration": "%s%% prędkość startowa",
   "immersive_aircraft.upgrade.durability": "%s%% trwałość",

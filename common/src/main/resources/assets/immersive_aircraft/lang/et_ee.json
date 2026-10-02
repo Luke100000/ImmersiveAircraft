@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Värvipesa",
   "immersive_aircraft.slot.upgrade": "Upgrade pesa",
   "immersive_aircraft.upgrade.enginespeed": "%s%% mootori võimsus",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propelleri pöörlemiskiirus",
   "immersive_aircraft.upgrade.friction": "%s%% õhuhõõrdumine",
   "immersive_aircraft.upgrade.acceleration": "%s%% stardikiirus",
   "immersive_aircraft.upgrade.durability": "%s%% vastupidavus",

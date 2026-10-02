@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Puwang ng Dye",
   "immersive_aircraft.slot.upgrade": "Puwang ng Upgrade",
   "immersive_aircraft.upgrade.enginespeed": "%s%% lakas ng engine",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% bilis ng propeller",
   "immersive_aircraft.upgrade.friction": "%s%% alitan sa hangin",
   "immersive_aircraft.upgrade.acceleration": "%s%% bilis ng pag-takeoff",
   "immersive_aircraft.upgrade.durability": "%s%% tibay",

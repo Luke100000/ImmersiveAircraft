@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Відсік для барвника",
   "immersive_aircraft.slot.upgrade": "Відсік покращення",
   "immersive_aircraft.upgrade.enginespeed": "%s%% потужність двигуна",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% пропелер",
   "immersive_aircraft.upgrade.friction": "%s%% опір повітря",
   "immersive_aircraft.upgrade.acceleration": "%s%% швидкість зльоту",
   "immersive_aircraft.upgrade.durability": "%s%% витривалість",

@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Verf gleuf",
   "immersive_aircraft.slot.upgrade": "Opgradering gleuf",
   "immersive_aircraft.upgrade.enginespeed": "%s%% enjin krag",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% skroefspoed",
   "immersive_aircraft.upgrade.friction": "%s%% lugwrywing",
   "immersive_aircraft.upgrade.acceleration": "%s%% opstygspoed",
   "immersive_aircraft.upgrade.durability": "%s%% duursaamheid",

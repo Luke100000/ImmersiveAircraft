@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Reolenn teud",
   "immersive_aircraft.slot.upgrade": "Reolenn a drezo",
   "immersive_aircraft.upgrade.enginespeed": "%s%% nerzh ar golo",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%sTizh an hélis %%",
   "immersive_aircraft.upgrade.friction": "%s%% matadenn heas",
   "immersive_aircraft.upgrade.acceleration": "%s%% dibab an drol",
   "immersive_aircraft.upgrade.durability": "%s%% zale krazh",

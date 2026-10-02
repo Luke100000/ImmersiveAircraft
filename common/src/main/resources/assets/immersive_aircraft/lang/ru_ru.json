@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Краска",
   "immersive_aircraft.slot.upgrade": "Модернизация",
   "immersive_aircraft.upgrade.enginespeed": "%s%% мощности двигателя",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% скорость винта",
   "immersive_aircraft.upgrade.friction": "%s%% трения о воздух",
   "immersive_aircraft.upgrade.acceleration": "%s%% взлётной скорости",
   "immersive_aircraft.upgrade.durability": "%s%% прочности",

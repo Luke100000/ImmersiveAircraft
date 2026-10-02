@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Ponda dye",
   "immersive_aircraft.slot.upgrade": "Ponda sinomë",
   "immersive_aircraft.upgrade.enginespeed": "%s%% elo",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% aiquë cosad ",
   "immersive_aircraft.upgrade.acceleration": "%s%% tonald",
   "immersive_aircraft.upgrade.durability": "%s%% vónë",

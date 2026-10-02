@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Θήκη για βαφή",
   "immersive_aircraft.slot.upgrade": "Θήκη για αναβάθμιση",
   "immersive_aircraft.upgrade.enginespeed": "%s%% ισχύς κινητήρα",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% Ταχύτητα έλικας",
   "immersive_aircraft.upgrade.friction": "%s%% τριβή αέρα",
   "immersive_aircraft.upgrade.acceleration": "%s%% ταχύτητα απογείωσης",
   "immersive_aircraft.upgrade.durability": "%s%% ανθεκτικότητα",

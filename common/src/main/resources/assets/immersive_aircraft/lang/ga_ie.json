@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Slot dúigh",
   "immersive_aircraft.slot.upgrade": "Slot uasghrád",
   "immersive_aircraft.upgrade.enginespeed": "%s%% foinse inneall",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% luas scéithéadair",
   "immersive_aircraft.upgrade.friction": "%s%% friction aeir",
   "immersive_aircraft.upgrade.acceleration": "%s%% luas eirigh",
   "immersive_aircraft.upgrade.durability": "%s%% durable",

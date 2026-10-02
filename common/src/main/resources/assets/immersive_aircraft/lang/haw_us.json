@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Kaho huakaʻi",
   "immersive_aircraft.slot.upgrade": "Kaho ʻOlu",
   "immersive_aircraft.upgrade.enginespeed": "%s%% mana mīkini",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% malamalama",
   "immersive_aircraft.upgrade.acceleration": "%s%% kiʻekiʻe",
   "immersive_aircraft.upgrade.durability": "%s%% kia",

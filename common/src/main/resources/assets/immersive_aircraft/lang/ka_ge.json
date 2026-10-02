@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "განსაცდელი სლოტი",
   "immersive_aircraft.slot.upgrade": "განახლების სლოტი",
   "immersive_aircraft.upgrade.enginespeed": "%s%% ძრავის სიმძლავრე",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%sპროპელერის სიჩქარე",
   "immersive_aircraft.upgrade.friction": "%s%% ჰაერის ხშირი",
   "immersive_aircraft.upgrade.acceleration": "%s%% აფრენის სიჩქარე",
   "immersive_aircraft.upgrade.durability": "%s%% გამძლეობა",

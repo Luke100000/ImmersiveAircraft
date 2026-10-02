@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Faarf Slot",
   "immersive_aircraft.slot.upgrade": "Upgrade Slot",
   "immersive_aircraft.upgrade.enginespeed": "%s%% Motor Kraaft",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% Schraubgeschwindegkeet",
   "immersive_aircraft.upgrade.friction": "%s%% Loft Reibung",
   "immersive_aircraft.upgrade.acceleration": "%s%% Start Geschwindegkeet",
   "immersive_aircraft.upgrade.durability": "%s%% Haltbarkeet",

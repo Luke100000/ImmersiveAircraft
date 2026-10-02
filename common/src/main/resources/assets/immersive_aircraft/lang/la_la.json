@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Locum tincturae",
   "immersive_aircraft.slot.upgrade": "Slot Upgrade",
   "immersive_aircraft.upgrade.enginespeed": "%s%% potentiae machinae",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%sVelocitas helicis",
   "immersive_aircraft.upgrade.friction": "%s%% frictionis aeris",
   "immersive_aircraft.upgrade.acceleration": "%s%% velocitatis avolandi",
   "immersive_aircraft.upgrade.durability": "%s%% durabilitatis",

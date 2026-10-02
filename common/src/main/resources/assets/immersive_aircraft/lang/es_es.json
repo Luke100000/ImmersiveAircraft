@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Ranura de tinte",
   "immersive_aircraft.slot.upgrade": "Ranura de mejora",
   "immersive_aircraft.upgrade.enginespeed": "%s%% potencia del motor",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% velocidad de la hélice",
   "immersive_aircraft.upgrade.friction": "%s%% rozamiento del aire",
   "immersive_aircraft.upgrade.acceleration": "%s%% velocidad de despegue",
   "immersive_aircraft.upgrade.durability": "%s%% durabilidad",

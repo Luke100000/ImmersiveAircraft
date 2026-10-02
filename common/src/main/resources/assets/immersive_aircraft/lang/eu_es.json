@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Kolore slot",
   "immersive_aircraft.slot.upgrade": "Hobekuntza slot",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motor ezaugarri",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propultsorearen abiadura",
   "immersive_aircraft.upgrade.friction": "%s%% airefriko",
   "immersive_aircraft.upgrade.acceleration": "%s%% abiarazte abiadura",
   "immersive_aircraft.upgrade.durability": "%s%% iraupen",

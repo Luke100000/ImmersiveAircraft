@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Dye slote",
   "immersive_aircraft.slot.upgrade": "Upgrade slote",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motor potentio",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% aero frictio",
   "immersive_aircraft.upgrade.acceleration": "%s%% takeoff veloci",
   "immersive_aircraft.upgrade.durability": "%s%% durabilita",
