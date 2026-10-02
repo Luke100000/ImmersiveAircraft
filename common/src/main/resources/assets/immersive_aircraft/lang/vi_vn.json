@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Chỗ nhuộm",
   "immersive_aircraft.slot.upgrade": "Chỗ nâng cấp",
   "immersive_aircraft.upgrade.enginespeed": "%s%% công suất động cơ",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% tốc độ cánh quạt",
   "immersive_aircraft.upgrade.friction": "%s%% ma sát không khí",
   "immersive_aircraft.upgrade.acceleration": "%s%% tốc độ cất cánh",
   "immersive_aircraft.upgrade.durability": "%s%% độ bền",
