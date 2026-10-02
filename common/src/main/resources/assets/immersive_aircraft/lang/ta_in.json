@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "சாயம் இடம்",
   "immersive_aircraft.slot.upgrade": "மேம்படுத்தல் இடம்",
   "immersive_aircraft.upgrade.enginespeed": "%s%% இயந்திர சக்தி",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% விமானச் சுருளின் வேகம்",
   "immersive_aircraft.upgrade.friction": "%s%% காற்று உராய்வு",
   "immersive_aircraft.upgrade.acceleration": "%s%% ஏற்றுதல் வேகம்",
   "immersive_aircraft.upgrade.durability": "%s%% நீடித்த தன்மை",
