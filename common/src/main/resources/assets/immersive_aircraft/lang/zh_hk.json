@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "染色槽",
   "immersive_aircraft.slot.upgrade": "升級插槽",
   "immersive_aircraft.upgrade.enginespeed": "%s%% 引擎功率",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% 螺旋槳轉速",
   "immersive_aircraft.upgrade.friction": "%s%%空氣摩擦",
   "immersive_aircraft.upgrade.acceleration": "%s%% 起飛速度",
   "immersive_aircraft.upgrade.durability": "%s%%耐久性",
