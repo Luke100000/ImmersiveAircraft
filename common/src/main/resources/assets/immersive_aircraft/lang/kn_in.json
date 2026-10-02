@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "ಬಣ್ಣ ಖಾತೆ",
   "immersive_aircraft.slot.upgrade": "ಅಪ್ಗ್ರೇಡ್ ಖಾತೆ",
   "immersive_aircraft.upgrade.enginespeed": "%s%% ಎಂಜಿನ್ ಶಕ್ತಿ",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% ಗಾಳಿ ಘರ್ಷಣೆ",
   "immersive_aircraft.upgrade.acceleration": "%s%% ತೆಗೆಯುವ ವೇಗ",
   "immersive_aircraft.upgrade.durability": "%s%% ವಾಸ್ತವಿಕತೆ",
