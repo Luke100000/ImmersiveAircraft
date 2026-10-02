@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Boya yuvası",
   "immersive_aircraft.slot.upgrade": "Yükseltme yuvası",
   "immersive_aircraft.upgrade.enginespeed": "%s%% motor gücü",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% pervane hızı",
   "immersive_aircraft.upgrade.friction": "%s%% hava sürtünmesi",
   "immersive_aircraft.upgrade.acceleration": "%s%% kalkış hızı",
   "immersive_aircraft.upgrade.durability": "%s%% dayanıklılık",
