@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Espazo de tinte",
   "immersive_aircraft.slot.upgrade": "Espazo de actualización",
   "immersive_aircraft.upgrade.enginespeed": "%s%% potencia do motor",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% velocidade do hélice",
   "immersive_aircraft.upgrade.friction": "%s%% fricción do aire",
   "immersive_aircraft.upgrade.acceleration": "%s%% velocidade de despegue",
   "immersive_aircraft.upgrade.durability": "%s%% durabilidade",
