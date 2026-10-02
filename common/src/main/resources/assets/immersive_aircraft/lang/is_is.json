@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "Litarefni",
   "immersive_aircraft.slot.upgrade": "Uppfærsla",
   "immersive_aircraft.upgrade.enginespeed": "%s%% vélarafl",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% skrúfuhraði",
   "immersive_aircraft.upgrade.friction": "%s%% loftfriction",
   "immersive_aircraft.upgrade.acceleration": "%s%% brottvinspeki",
   "immersive_aircraft.upgrade.durability": "%s%% ending",
