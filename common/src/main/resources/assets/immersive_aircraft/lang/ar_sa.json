@@ -118,6 +118,7 @@
   "immersive_aircraft.slot.dye": "فتحة الصبغة",
   "immersive_aircraft.slot.upgrade": "فتحة الترقية",
   "immersive_aircraft.upgrade.enginespeed": "%s%% قوة محرك",
+  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% احتكاك هوائي",
   "immersive_aircraft.upgrade.acceleration": "%s%% سرعة الإقلاع",
   "immersive_aircraft.upgrade.durability": "%s%% متانة",
