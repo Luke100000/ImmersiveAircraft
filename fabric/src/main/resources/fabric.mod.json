@@ -36,7 +36,8 @@
     ]
   },
   "mixins": [
-    "immersive_aircraft.mixins.json"
+    "immersive_aircraft.mixins.json",
+    "immersive_aircraft.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",

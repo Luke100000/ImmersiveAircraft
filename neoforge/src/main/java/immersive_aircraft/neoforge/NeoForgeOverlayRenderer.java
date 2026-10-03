@@ -15,6 +15,7 @@ public class NeoForgeOverlayRenderer {
         event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Main.locate("ia_overlay"),
                 (graphics, delta) -> {
                     OverlayRenderer.renderOverlay(graphics, delta.getGameTimeDeltaTicks(), 49);
+                    OverlayRenderer.renderVehicleHealth(graphics, 49);
                     // TODO: Where is forgeGui.rightHeight += 10;?
                 });
     }

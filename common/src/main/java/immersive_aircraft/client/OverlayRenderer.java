@@ -35,9 +35,9 @@ public class OverlayRenderer {
             AttitudeIndicator.INSTANCE, VectorIndicator.INSTANCE, WarningIndicator.INSTANCE
     };
 
-    public static int renderOverlay(GuiGraphics context, float tickDelta, int barHeightOffset) {
+    public static void renderOverlay(GuiGraphics context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
-        if (client.options.hideGui) return 0;
+        if (client.options.hideGui) return;
         if (client.gameMode != null && client.player != null) {
             INSTANCE.tick = (INSTANCE.tick + 1) % 60;
 
@@ -54,14 +54,15 @@ public class OverlayRenderer {
                         INSTANCE.renderAircraftDials(client, context, tickDelta, barHeightOffset, aircraft);
                 }
             }
-
-            // Health
-            if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
-                INSTANCE.renderAircraftHealth(client, context, vehicle, barHeightOffset);
-                return 10;
-            }
         }
-        return 0;
+    }
+
+    public static void renderVehicleHealth(GuiGraphics context, int barHeightOffset) {
+        Minecraft client = Minecraft.getInstance();
+        if (!client.options.hideGui && client.gameMode != null && client.player != null
+                && client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
+            INSTANCE.renderAircraftHealth(client, context, vehicle, barHeightOffset);
+        }
     }
 
     public static void renderEngineGauge(GuiGraphics context, float tickDelta) {
