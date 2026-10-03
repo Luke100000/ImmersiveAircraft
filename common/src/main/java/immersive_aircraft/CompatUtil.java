@@ -1,10 +1,19 @@
 package immersive_aircraft;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-public class CompatUtil {
-    @ExpectPlatform
+public final class CompatUtil {
+    private static Predicate<String> isModLoaded = modid -> false;
+
+    private CompatUtil() {
+    }
+
+    public static void setModLoadedChecker(Predicate<String> checker) {
+        isModLoaded = Objects.requireNonNull(checker);
+    }
+
     public static boolean isModLoaded(String modid) {
-        throw new AssertionError();
+        return isModLoaded.test(modid);
     }
 }

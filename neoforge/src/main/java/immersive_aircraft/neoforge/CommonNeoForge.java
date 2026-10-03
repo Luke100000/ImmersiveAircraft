@@ -22,6 +22,7 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 public final class CommonNeoForge {
     static {
         Main.MOD_LOADER = "neoforge";
+        CompatUtil.setModLoadedChecker(CompatUtilImpl::isModLoaded);
 
         new CobaltFuelRegistryImpl();
     }

@@ -18,6 +18,7 @@ import net.minecraft.world.item.CreativeModeTab;
 public final class CommonFabric implements ModInitializer {
     static {
         Main.MOD_LOADER = "fabric";
+        CompatUtil.setModLoadedChecker(CompatUtilImpl::isModLoaded);
 
         new RegistrationImpl();
         new NetworkHandlerImpl();

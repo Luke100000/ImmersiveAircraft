@@ -1,81 +1,68 @@
-buildscript {
-    configurations.classpath {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+def getAppVersion = { ->
+    try {
+        def proc = new ProcessBuilder("git", "tag", "--points-at", "HEAD")
+                .directory(rootProject.projectDir)
+                .redirectErrorStream(true)
+                .start()
+        def tag = proc.inputStream.getText("UTF-8").trim()
+        proc.waitFor()
+        return tag.endsWith("+${rootProject.minecraft_version}") ? tag : "${rootProject.minecraft_version}-SNAPSHOT"
+    } catch (Exception e) {
+        println "Warning: ${e.message}, is git installed?"
+        return "${rootProject.minecraft_version}-DEV"
     }
 }
 
-plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
-}
-
-architectury {
-    minecraft = rootProject.minecraft_version
+allprojects {
+    group = rootProject.group_id
+    version = getAppVersion()
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom"
-
-    loom {
-        silentMojangMappingsLicense()
-    }
+    apply plugin: "java"
+    apply plugin: "maven-publish"
 
     repositories {
+        mavenCentral()
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.neoforged.net/releases/" }
+        maven { url "https://maven.blamejared.com/" }
+        maven {
+            url "https://api.modrinth.com/maven"
+            content { includeGroup "maven.modrinth" }
+        }
         maven { url "https://maven.parchmentmc.org" }
         maven { url "https://maven.terraformersmc.com/releases/" }
         maven { url "https://dvs1.progwml6.com/files/maven/" }
         maven { url "https://maven.shedaniel.me/" }
-        maven { url "https://maven.architectury.dev/" }
         maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
         maven { url "https://maven.teamresourceful.com/repository/maven-public/" }
         maven { url "https://cursemaven.com" }
         maven { url "https://maven.conczin.net/Artifacts" }
     }
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.architectury.minecraft}"
-        mappings loom.layered() {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}@zip")
-        }
+    base {
+        archivesName = "${rootProject.archives_base_name}-${project.name}"
     }
-}
 
-
-def getAppVersion = { ->
-    try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'tag', '--points-at', 'HEAD'
-            standardOutput = stdout
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
         }
-        def tag = stdout.toString().trim()
-        if (tag.isEmpty()) {
-            return rootProject.minecraft_version + "-SNAPSHOT"
-        }
-        return tag
-    } catch (Exception e) {
-        println "Warning: ${e.message}, is git installed?"
-        return rootProject.minecraft_version + "-DEV"
+        withSourcesJar()
     }
-} as Object
 
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    archivesBaseName = rootProject.archives_base_name
-    version = getAppVersion()
-
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = "UTF-8"
         options.release = 21
     }
 
-    java {
-        withSourcesJar()
+    tasks.withType(ProcessResources).configureEach {
+        exclude "**/*.aup3", "**/.xdp-*", "**/*.kra", "**/*~*"
+    }
+
+    tasks.named("sourcesJar").configure {
+        exclude "**/*.aup3", "**/.xdp-*", "**/*.kra", "**/*~*"
     }
 
     publishing {
@@ -88,19 +75,6 @@ allprojects {
                     password = System.getenv("MAVEN_TOKEN")
                 }
             }
-        }
-    }
-
-    // Define reusable exclusion patterns
-    def exclusionPatterns = ['**/*.aup3', '**/.xdp-*', '**/*.kra', '**/*~*']
-    processResources {
-        exclusionPatterns.each {
-            pattern -> exclude pattern
-        }
-    }
-    sourcesJar {
-        exclusionPatterns.each {
-            pattern -> exclude pattern
         }
     }
 }

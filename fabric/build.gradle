@@ -1,110 +1,83 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "fabric-loom" version "${fabric_loom_version}"
 }
 
-architectury {
-    platformSetupLoomIde()
-    fabric()
+sourceSets {
+    main {
+        java.srcDir rootProject.file("common/src/main/java")
+        resources.srcDir rootProject.file("common/src/main/resources")
+    }
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-}
+    accessWidenerPath = project.rootProject.file("common/src/main/resources/immersive_aircraft.accessWidener")
 
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
-}
+    mixin {
+        defaultRefmapName = "immersive_aircraft.refmap.json"
+    }
 
-repositories {
-    maven {
-        url "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
+    mods {
+        "immersive_aircraft" {
+            sourceSet sourceSets.main
         }
     }
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_version}@zip")
+    }
 
-    modLocalRuntime "maven.modrinth:iris:${rootProject.iris_version}"
-    modLocalRuntime "maven.modrinth:sodium:${rootProject.sodium_version}"
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+
+    modLocalRuntime "maven.modrinth:iris:${iris_version}"
+    modLocalRuntime "maven.modrinth:sodium:${sodium_version}"
 
     // Loom strips Iris's nested libraries when remapping it for development.
     localRuntime("org.anarres:jcpp:1.4.14") { transitive false }
     localRuntime("io.github.douira:glsl-transformer:2.0.1") { transitive false }
     localRuntime "org.antlr:antlr4-runtime:4.13.1"
 
-    implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
-    include 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+    implementation "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
+    include "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
 
-    modCompileOnly("com.terraformersmc:modmenu:${rootProject.mod_menu_version}") { transitive false }
+    modCompileOnly("com.terraformersmc:modmenu:${mod_menu_version}") { transitive false }
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+        exclude(group: "me.shedaniel.cloth", module: "cloth-config")
+    }
 
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    modCompileOnly "mezz.jei:jei-${minecraft_version}-common-api-intermediary:${jei_version}"
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}") { transitive false }
+    modLocalRuntime "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
 
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}") { transitive false }
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin:${rei_version}") { transitive false }
 
-    // Required to run JEI
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
-
-    // Required to run REI
-    //modRuntimeOnly "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
-
-    modCompileOnly "earth.terrarium.adastra:ad_astra-fabric-${ad_astra_version}"
-    // modRuntimeOnly "earth.terrarium.adastra:ad_astra-fabric-${ad_astra_version}"
-
-    // modRuntimeOnly "net.conczin:man_of_many_planes:${man_of_many_planes_version}+fabric"
-    // modRuntimeOnly "net.conczin:immersive_machinery:${immersive_machinery}+fabric"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    modCompileOnly("earth.terrarium.adastra:ad_astra-fabric-${ad_astra_version}") { transitive false }
 }
 
 processResources {
     inputs.property "version", project.version
-
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
 }
 
-shadowJar {
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
-}
-
-remapJar {
-    injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
+jar {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${project.name}" }
     }
 }
 
 publishing {
     publications {
-        mavenCommon(MavenPublication) {
+        mavenFabric(MavenPublication) {
             artifactId = rootProject.archives_base_name
-            groupId = rootProject.group_id
-            version = version + "+fabric"
+            version = "${project.version}+fabric"
             from components.java
         }
     }
