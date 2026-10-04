@@ -4,6 +4,7 @@ import immersive_aircraft.CompatUtil;
 import immersive_aircraft.client.compat.ControllableInput;
 import immersive_aircraft.client.compat.ControlifyInput;
 import immersive_aircraft.client.compat.MidnightControlsInput;
+import immersive_aircraft.entity.AirplaneEntity;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
@@ -36,6 +37,29 @@ public final class AircraftInput {
 
     public static float axis(KeyMapping positive, KeyMapping negative) {
         return strength(positive) - strength(negative);
+    }
+
+    public static KeyMapping throttleKey() {
+        KeyMapping attack = Minecraft.getInstance().options.keyAttack;
+        // Explicit aircraft mappings take precedence over the default right trigger.
+        return controller.strength(KeyBindings.up) < 0 && controller.strength(attack) >= 0 ? attack : KeyBindings.up;
+    }
+
+    public static float throttle() {
+        Minecraft client = Minecraft.getInstance();
+        if (client.screen != null || !client.isWindowActive()
+            || KeyBindings.isPhysicalDown(KeyBindings.up) || KeyBindings.isPhysicalDown(KeyBindings.down)) {
+            return -1;
+        }
+        float value = controller.strength(throttleKey());
+        return Float.isFinite(value) && value >= 0 ? Mth.clamp(value, 0, 1) : -1;
+    }
+
+    public static boolean consumesAttack() {
+        Minecraft client = Minecraft.getInstance();
+        return client.player != null && client.player.getRootVehicle() instanceof AirplaneEntity airplane
+               && airplane.getControllingPassenger() == client.player && throttleKey() == client.options.keyAttack
+               && controller.strength(client.options.keyAttack) > 0 && !KeyBindings.isPhysicalDown(client.options.keyAttack);
     }
 
     public static float strength(KeyMapping key) {

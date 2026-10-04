@@ -40,7 +40,13 @@ public final class ControlifyGuide implements ControlifyEntrypoint {
                 context -> translation.equals(AircraftGuide.label(key, context.player()))));
         registry.registerFact(Fact.of(ResourceLocation.fromNamespaceAndPath("immersive_aircraft", name + "/fallback"),
                 context -> translation.equals(AircraftGuide.label(key, context.player()))
-                        && KeyBindings.getFallbackKey(key) != null && !hasOwnBinding(key, context)));
+                           && AircraftGuide.binding(key, context.player()) == key
+                           && KeyBindings.getFallbackKey(key) != null && !hasOwnBinding(key, context)));
+        if (key == KeyBindings.up && suffix.equals("/throttle")) {
+            registry.registerFact(Fact.of(ResourceLocation.fromNamespaceAndPath("immersive_aircraft", name + "/trigger"),
+                    context -> translation.equals(AircraftGuide.label(key, context.player()))
+                               && AircraftGuide.binding(key, context.player()) != key));
+        }
     }
 
     private static boolean hasOwnBinding(KeyMapping key, InGameCtx context) {

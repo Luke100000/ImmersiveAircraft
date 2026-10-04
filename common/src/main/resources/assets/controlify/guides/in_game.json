@@ -139,6 +139,12 @@
       "then": {"translate": "guide.immersive_aircraft.throttle_up"}
     },
     {
+      "for": "controlify:attack",
+      "where": "left",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_up/throttle/trigger"],
+      "then": {"translate": "guide.immersive_aircraft.throttle_up"}
+    },
+    {
       "for": "controlify:jump",
       "where": "right",
       "when": ["immersive_aircraft:key.immersive_aircraft.control_up/throttle/fallback"],

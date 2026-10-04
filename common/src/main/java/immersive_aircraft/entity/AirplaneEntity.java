@@ -1,5 +1,7 @@
 package immersive_aircraft.entity;
 
+import immersive_aircraft.client.AircraftInput;
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +13,8 @@ import org.joml.Vector3f;
  * Implements airplane like physics properties and accelerated towards
  */
 public abstract class AirplaneEntity extends AircraftEntity {
+    private float previousThrottle;
+
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world, canExplodeOnCrash);
     }
@@ -52,11 +56,21 @@ public abstract class AirplaneEntity extends AircraftEntity {
         super.updateController();
 
         // engine control
-        if (movementY != 0) {
-            setEngineTarget(Math.max(0.0f, Math.min(1.0f, getEngineTarget() + 0.1f * movementY)));
-            if (movementY < 0) {
-                setDeltaMovement(getDeltaMovement().scale(getBrakeFactor()));
-            }
+        float throttle = level().isClientSide ? AircraftInput.throttle() : -1;
+        float brake = Math.max(0, -movementY);
+        // An idle controller must not reset a throttle set with the keyboard.
+        if (throttle > 0 || throttle == 0 && previousThrottle > 0) {
+            brake = AircraftInput.strength(KeyBindings.down);
+            setEngineTarget(Math.max(0, throttle - brake));
+        } else if (movementY != 0) {
+            previousThrottle = 0;
+            setEngineTarget(Math.clamp(getEngineTarget() + 0.1f * movementY, 0.0f, 1.0f));
+        }
+        if (throttle >= 0) {
+            previousThrottle = throttle;
+        }
+        if (brake > 0) {
+            setDeltaMovement(getDeltaMovement().scale(Mth.lerp(brake, 1.0f, getBrakeFactor())));
         }
 
         // get the direction

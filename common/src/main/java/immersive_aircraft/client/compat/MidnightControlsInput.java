@@ -49,11 +49,27 @@ public final class MidnightControlsInput implements ControllerInput {
         while (bindings.hasNext()) {
             ButtonBinding binding = bindings.next();
             if (binding.asKeyBinding().orElse(null) == key && !binding.isNotBound()) {
-                ButtonState state = binding.isPressed() && binding.isAvailable() ? ButtonState.REPEAT : ButtonState.NONE;
-                value = Math.max(value, InputManager.getBindingValue(binding, state));
+                value = Math.max(value, bindingValue(binding));
             }
         }
         return value;
+    }
+
+    private static float bindingValue(ButtonBinding binding) {
+        if (!binding.isAvailable()) return 0;
+        for (int button : binding.getButton()) {
+            int axis = button % 500 - 100;
+            if (axis == GLFW.GLFW_GAMEPAD_AXIS_LEFT_TRIGGER || axis == GLFW.GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) {
+                if (!binding.isPressed() && (binding.getButton().length > 1 || InputManager.getBindingState(binding).isPressed())) return 0;
+                var controller = button >= 500 ? MidnightControlsConfig.getSecondController().orElse(null) : MidnightControlsConfig.getController();
+                if (controller == null || !controller.isGamepad()) return 0;
+                // MidnightControls 1.10 binarizes triggers and doesn't populate their BUTTON_VALUES.
+                float value = (controller.getState().axes(axis) + 1) * 0.5f;
+                return value <= MidnightControlsConfig.triggerDeadZone ? 0 : value;
+            }
+            if (ButtonBinding.isAxis(button)) break;
+        }
+        return InputManager.getBindingValue(binding, binding.isPressed() ? ButtonState.REPEAT : ButtonState.NONE);
     }
 
     private static ButtonBinding getBinding(KeyMapping key) {
@@ -72,7 +88,7 @@ public final class MidnightControlsInput implements ControllerInput {
         for (KeyMapping key : AircraftGuide.HINT_ORDER) {
             String label = AircraftGuide.label(key, client.player);
             if (label == null) continue;
-            ButtonBinding binding = getBinding(key);
+            ButtonBinding binding = getBinding(AircraftGuide.binding(key, client.player));
             KeyMapping fallback = KeyBindings.getFallbackKey(key);
             if (binding == null && fallback != null) {
                 binding = getBinding(fallback);

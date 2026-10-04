@@ -82,7 +82,7 @@ public final class ControllableInput implements ControllerInput {
             KeyMapping key = AircraftGuide.HINT_ORDER.get(order);
             String label = AircraftGuide.label(key, client.player);
             if (label == null) continue;
-            ButtonBinding binding = getBinding(key);
+            ButtonBinding binding = getBinding(AircraftGuide.binding(key, client.player));
             KeyMapping fallback = KeyBindings.getFallbackKey(key);
             if ((binding == null || binding.isUnbound()) && fallback != null) {
                 binding = getBinding(fallback);

@@ -1,6 +1,7 @@
 package immersive_aircraft.client.compat;
 
 import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.entity.AirplaneEntity;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
@@ -15,6 +16,10 @@ final class AircraftGuide {
             KeyBindings.up, KeyBindings.down, KeyBindings.pull, KeyBindings.push,
             KeyBindings.forward, KeyBindings.backward, KeyBindings.left, KeyBindings.right,
             KeyBindings.boost, KeyBindings.use, KeyBindings.dismount);
+
+    static KeyMapping binding(KeyMapping key, Player player) {
+        return key == KeyBindings.up && player.getRootVehicle() instanceof AirplaneEntity ? AircraftInput.throttleKey() : key;
+    }
 
     static String label(KeyMapping key, Player player) {
         if (!(player.getRootVehicle() instanceof VehicleEntity vehicle)) {
