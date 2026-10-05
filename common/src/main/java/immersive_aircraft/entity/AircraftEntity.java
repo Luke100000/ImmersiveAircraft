@@ -115,6 +115,10 @@ public abstract class AircraftEntity extends EngineVehicle {
         return getProperties().get(VehicleStat.LIFT);
     }
 
+    protected double getGlideAcceleration(Vec3 direction, double heightDifference) {
+        return heightDifference * getProperties().get(VehicleStat.GLIDE_FACTOR) * (1.0 - Math.abs(direction.y));
+    }
+
     @Override
     protected float getGroundDecay() {
         float gravity = Math.clamp((float) getGravity() / 0.04f, 0.0f, 1.0f);
@@ -142,7 +146,7 @@ public abstract class AircraftEntity extends EngineVehicle {
         // glide
         float diff = (float) (lastY - getY());
         if (lastY != 0.0 && getProperties().get(VehicleStat.GLIDE_FACTOR) > 0 && diff != 0.0) {
-            setDeltaMovement(getDeltaMovement().add(toVec3d(direction).scale(diff * getProperties().get(VehicleStat.GLIDE_FACTOR) * (1.0f - Math.abs(direction.y)))));
+            setDeltaMovement(getDeltaMovement().add(toVec3d(direction).scale(getGlideAcceleration(toVec3d(direction), diff))));
         }
         lastY = (float) getY();
 

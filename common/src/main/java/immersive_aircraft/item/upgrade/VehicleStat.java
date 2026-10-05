@@ -7,7 +7,6 @@ public record VehicleStat(String name, boolean positive, float defaultValue) {
     public static final Map<String, VehicleStat> STATS = new HashMap<>();
 
     public static final VehicleStat ENGINE_SPEED = register("engineSpeed", true);
-    public static final VehicleStat ENGINE_MAX_SPEED = register("engineMaxSpeed", true);
     public static final VehicleStat VERTICAL_SPEED = register("verticalSpeed", true);
     public static final VehicleStat YAW_SPEED = register("yawSpeed", true);
     public static final VehicleStat PITCH_SPEED = register("pitchSpeed", true);

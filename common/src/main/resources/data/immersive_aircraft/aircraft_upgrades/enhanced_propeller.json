@@ -1,4 +1,4 @@
 {
-  "engineMaxSpeed": 0.3,
+  "engineSpeed": 0.05,
   "friction": -0.75
 }

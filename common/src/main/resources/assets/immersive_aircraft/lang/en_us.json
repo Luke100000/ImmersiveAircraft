@@ -138,7 +138,6 @@
   "immersive_aircraft.slot.upgrade": "Upgrade slot",
 
   "immersive_aircraft.upgrade.enginespeed": "%s%% engine power",
-  "immersive_aircraft.upgrade.enginemaxspeed": "%s%% propeller speed",
   "immersive_aircraft.upgrade.friction": "%s%% air friction",
   "immersive_aircraft.upgrade.acceleration": "%s%% takeoff speed",
   "immersive_aircraft.upgrade.durability": "%s%% durability",

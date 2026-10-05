@@ -13,6 +13,9 @@ import org.joml.Vector3f;
  * Implements airplane like physics properties and accelerated towards
  */
 public abstract class AirplaneEntity extends AircraftEntity {
+    private static final float ENGINE_THRUST_SCALE = 1.25f;
+    private static final float ENGINE_SPEED_TO_MAX_SPEED = 500.0f;
+
     private float previousThrottle;
 
     public AirplaneEntity(EntityType<? extends AircraftEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -22,6 +25,13 @@ public abstract class AirplaneEntity extends AircraftEntity {
     @Override
     protected boolean useAirplaneControls() {
         return true;
+    }
+
+    @Override
+    protected double getGlideAcceleration(Vec3 direction, double heightDifference) {
+        // The descent-speed bonus must not grow beyond the acceleration supplied by gravity.
+        double limit = Math.max(0.0, getGravity()) * Math.abs(direction.y);
+        return Mth.clamp(super.getGlideAcceleration(direction, heightDifference), -limit, limit);
     }
 
     @Override
@@ -77,8 +87,9 @@ public abstract class AirplaneEntity extends AircraftEntity {
         Vector3f direction = getForwardDirection();
 
         // speed
-        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * getProperties().get(VehicleStat.ENGINE_SPEED));
-        float maxSpeed = getProperties().get(VehicleStat.ENGINE_MAX_SPEED);
+        float engineSpeed = getProperties().get(VehicleStat.ENGINE_SPEED);
+        float thrust = (float) (Math.pow(getEnginePower(), 2.0) * engineSpeed * ENGINE_THRUST_SCALE);
+        float maxSpeed = engineSpeed * ENGINE_SPEED_TO_MAX_SPEED;
         if (maxSpeed > 0.0f) {
             double forwardSpeed = Math.max(0.0, getDeltaMovement().dot(toVec3d(direction))) * 20.0;
             thrust *= (float) Mth.clamp((1.0 - forwardSpeed / maxSpeed) / 0.25, 0.0, 1.0);
