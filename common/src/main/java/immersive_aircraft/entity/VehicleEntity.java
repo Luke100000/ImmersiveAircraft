@@ -9,6 +9,7 @@ import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.client.MouseFlight;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.AutoEnterRules;
 import immersive_aircraft.config.Config;
@@ -547,10 +548,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         //controls
         Entity pilot = getPassengers().get(0);
         if (pilot instanceof Player player && player.isLocalPlayer()) {
-            setInputs(AircraftInput.axis(KeyBindings.left, KeyBindings.right),
+            setInputs(MouseFlight.yawInput(this, AircraftInput.axis(KeyBindings.left, KeyBindings.right)),
                     AircraftInput.axis(KeyBindings.up, KeyBindings.down),
-                    AircraftInput.axis(useAirplaneControls() ? KeyBindings.push : KeyBindings.forward,
-                            useAirplaneControls() ? KeyBindings.pull : KeyBindings.backward));
+                    MouseFlight.pitchInput(this, AircraftInput.axis(useAirplaneControls() ? KeyBindings.push : KeyBindings.forward,
+                            useAirplaneControls() ? KeyBindings.pull : KeyBindings.backward)));
         } else {
             setInputs(0, 0, 0);
         }
@@ -617,7 +618,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
                 passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
 
-                if (adaptPlayerRotation) {
+                if (adaptPlayerRotation && !(level().isClientSide && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this))) {
                     passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
                     passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
                 }
@@ -678,6 +679,12 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     public void copyEntityData(Entity entity) {
         entity.setYBodyRot(getYRot());
+
+        if (level().isClientSide && entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this)) {
+            entity.setYHeadRot(entity.getYRot());
+            return;
+        }
+
         float f = Mth.wrapDegrees(entity.getYRot() - getYRot());
         float g = Mth.clamp(f, -105.0f, 105.0f);
         entity.yRotO += g - f;

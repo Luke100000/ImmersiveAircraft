@@ -1,10 +1,12 @@
 package immersive_aircraft.mixin.client;
 
 import com.mojang.math.Axis;
+import immersive_aircraft.client.MouseFlight;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.Camera;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
@@ -17,13 +19,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin {
+    @Inject(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;move(FFF)V"))
+    private void immersiveAircraft$mouseFlightView(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
+        if (thirdPerson && entity instanceof Player player && player.isLocalPlayer()
+            && entity.getRootVehicle() instanceof VehicleEntity vehicle && MouseFlight.isPiloting(vehicle)) {
+            Camera camera = (Camera) (Object) this;
+            setRotation(camera.getYRot(), camera.getXRot() + MouseFlight.getCameraPitchOffset(camera, tickDelta));
+        }
+    }
+
     @Inject(method = "setup", at = @At("TAIL"))
     public void ia$setup(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
         if (thirdPerson && entity.getVehicle() instanceof VehicleEntity vehicle) {
             move(-getMaxZoom((float) vehicle.getZoom()), 0.0f, 0.0f);
         } else if (!thirdPerson && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
             Camera camera = (Camera) (Object) this;
-            if (vehicle.adaptPlayerRotation) {
+            if (entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(vehicle)) {
+                setRotation(camera.getYRot(), camera.getXRot() + MouseFlight.getCameraPitchOffset(camera, tickDelta));
+            } else if (vehicle.adaptPlayerRotation) {
                 setRotation(camera.getYRot(), camera.getXRot() + vehicle.getViewXRot(tickDelta));
                 Quaternionf rotation = camera.rotation().mul(Axis.ZP.rotationDegrees(-vehicle.getRoll(tickDelta)));
                 camera.getLookVector().set(0.0f, 0.0f, -1.0f).rotate(rotation);

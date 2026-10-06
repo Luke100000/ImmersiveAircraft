@@ -20,7 +20,7 @@ public class KeyBindings {
     private static final boolean useMultiKeys = Config.getInstance().useCustomKeybindSystem && Main.MOD_LOADER.equals("fabric");
 
     public static final KeyMapping left, right, forward, backward, up, down, pull, push;
-    public static final KeyMapping dismount, boost, use;
+    public static final KeyMapping dismount, boost, use, mouseControl, freeLook;
 
     static {
         Minecraft client = Minecraft.getInstance();
@@ -36,6 +36,8 @@ public class KeyBindings {
 
         dismount = newKey("dismount", GLFW.GLFW_KEY_R);
         boost = newKey("boost", GLFW.GLFW_KEY_B);
+        mouseControl = newKey("mouse_control", GLFW.GLFW_KEY_GRAVE_ACCENT);
+        freeLook = newKey("free_look", GLFW.GLFW_KEY_LEFT_ALT);
     }
 
     private static KeyMapping newControlKey(String name, int defaultKey, Supplier<KeyMapping> fallback) {

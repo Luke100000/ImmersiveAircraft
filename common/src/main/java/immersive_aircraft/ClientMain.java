@@ -2,6 +2,7 @@ package immersive_aircraft;
 
 import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.client.MouseFlight;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
@@ -47,7 +48,10 @@ public class ClientMain {
 
     public static void tick() {
         Minecraft client = Minecraft.getInstance();
+
         AircraftInput.init();
+
+        MouseFlight.tick();
 
         if (client.screen != null || client.player == null || !(client.player.getRootVehicle() instanceof VehicleEntity)) {
             consumeClick(KeyBindings.boost);
