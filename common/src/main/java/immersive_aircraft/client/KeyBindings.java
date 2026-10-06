@@ -19,7 +19,7 @@ public class KeyBindings {
     private static final Set<InputConstants.Key> physicalKeys = new HashSet<>();
     private static final boolean useMultiKeys = Config.getInstance().useCustomKeybindSystem && Main.MOD_LOADER.equals("fabric");
 
-    public static final KeyMapping left, right, forward, backward, up, down, pull, push;
+    public static final KeyMapping left, right, forward, backward, up, down, throttleUp, throttleDown, pull, push;
     public static final KeyMapping dismount, boost, use, mouseControl, freeLook;
 
     static {
@@ -30,6 +30,8 @@ public class KeyBindings {
         backward = newControlKey("control_backward", GLFW.GLFW_KEY_S, () -> client.options.keyDown);
         up = newControlKey("control_up", GLFW.GLFW_KEY_SPACE, () -> client.options.keyJump);
         down = newControlKey("control_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> client.options.keyShift);
+        throttleUp = newControlKey("control_throttle_up", GLFW.GLFW_KEY_SPACE, () -> client.options.keyJump);
+        throttleDown = newControlKey("control_throttle_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> client.options.keyShift);
         pull = newControlKey("control_pull", GLFW.GLFW_KEY_S, () -> client.options.keyDown);
         push = newControlKey("control_push", GLFW.GLFW_KEY_W, () -> client.options.keyUp);
         use = newControlKey("use", GLFW.GLFW_MOUSE_BUTTON_2, InputConstants.Type.MOUSE, () -> client.options.keyUse);

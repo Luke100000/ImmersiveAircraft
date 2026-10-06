@@ -13,12 +13,12 @@ import java.util.List;
 
 final class AircraftGuide {
     static final List<KeyMapping> HINT_ORDER = List.of(
-            KeyBindings.up, KeyBindings.down, KeyBindings.pull, KeyBindings.push,
+            KeyBindings.up, KeyBindings.down, KeyBindings.throttleUp, KeyBindings.throttleDown, KeyBindings.pull, KeyBindings.push,
             KeyBindings.forward, KeyBindings.backward, KeyBindings.left, KeyBindings.right,
             KeyBindings.boost, KeyBindings.use, KeyBindings.dismount);
 
     static KeyMapping binding(KeyMapping key, Player player) {
-        return key == KeyBindings.up && player.getRootVehicle() instanceof AirplaneEntity ? AircraftInput.throttleKey() : key;
+        return key == KeyBindings.throttleUp && player.getRootVehicle() instanceof AirplaneEntity ? AircraftInput.throttleKey() : key;
     }
 
     static String label(KeyMapping key, Player player) {
@@ -27,24 +27,18 @@ final class AircraftGuide {
         }
         if (key == KeyBindings.use) {
             return vehicle instanceof InventoryVehicleEntity inventory && player.getMainHandItem().isEmpty()
-                    && inventory.getWeapons().values().stream().flatMap(Collection::stream)
-                    .anyMatch(weapon -> vehicle.getGunner(weapon.getGunnerOffset()) == player)
+                   && inventory.getWeapons().values().stream().flatMap(Collection::stream)
+                           .anyMatch(weapon -> vehicle.getGunner(weapon.getGunnerOffset()) == player)
                     ? key.getName() : null;
         }
         if (key != KeyBindings.dismount && vehicle.getControllingPassenger() != player) {
             return null;
         }
         boolean airplane = vehicle instanceof AirplaneEntity;
-        if ((key == KeyBindings.push || key == KeyBindings.pull) && !airplane
-            || (key == KeyBindings.forward || key == KeyBindings.backward) && airplane
+        if ((key == KeyBindings.push || key == KeyBindings.pull || key == KeyBindings.throttleUp || key == KeyBindings.throttleDown) && !airplane
+            || (key == KeyBindings.forward || key == KeyBindings.backward || key == KeyBindings.up || key == KeyBindings.down) && airplane
             || key == KeyBindings.boost && !vehicle.canBoost()) {
             return null;
-        }
-        if (airplane && key == KeyBindings.up) {
-            return "guide.immersive_aircraft.throttle_up";
-        }
-        if (airplane && key == KeyBindings.down) {
-            return "guide.immersive_aircraft.throttle_down";
         }
         return key.getName();
     }

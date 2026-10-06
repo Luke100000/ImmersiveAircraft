@@ -523,7 +523,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
-                if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
+                if ((useAirplaneControls() ? KeyBindings.throttleDown : KeyBindings.down).isDown() && onGround() && getDeltaMovement().length() < 0.01) {
                     player.displayClientMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), true);
                 }
 
@@ -549,7 +549,8 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         Entity pilot = getPassengers().get(0);
         if (pilot instanceof Player player && player.isLocalPlayer()) {
             setInputs(MouseFlight.yawInput(this, AircraftInput.axis(KeyBindings.left, KeyBindings.right)),
-                    AircraftInput.axis(KeyBindings.up, KeyBindings.down),
+                    AircraftInput.axis(useAirplaneControls() ? KeyBindings.throttleUp : KeyBindings.up,
+                            useAirplaneControls() ? KeyBindings.throttleDown : KeyBindings.down),
                     MouseFlight.pitchInput(this, AircraftInput.axis(useAirplaneControls() ? KeyBindings.push : KeyBindings.forward,
                             useAirplaneControls() ? KeyBindings.pull : KeyBindings.backward)));
         } else {

@@ -1,7 +1,8 @@
-# TBD
+# 1.6.0
 
 * Added analog aircraft controls for Controlify, Controllable, and MidnightControls
 * Added toggleable mouse steering, hold-to-look controls, and steering indicators
+* Separated airplane throttle keybinds from vertical flight controls
 * Fixed first-person aircraft rendering with shaders
 * Improved render performance
 * Airplanes have a better lift mechanic (need a bit more runway, don't fall like a feather, ...)

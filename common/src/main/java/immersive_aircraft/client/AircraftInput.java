@@ -42,13 +42,13 @@ public final class AircraftInput {
     public static KeyMapping throttleKey() {
         KeyMapping attack = Minecraft.getInstance().options.keyAttack;
         // Explicit aircraft mappings take precedence over the default right trigger.
-        return controller.strength(KeyBindings.up) < 0 && controller.strength(attack) >= 0 ? attack : KeyBindings.up;
+        return controller.strength(KeyBindings.throttleUp) < 0 && controller.strength(attack) >= 0 ? attack : KeyBindings.throttleUp;
     }
 
     public static float throttle() {
         Minecraft client = Minecraft.getInstance();
         if (client.screen != null || !client.isWindowActive()
-            || KeyBindings.isPhysicalDown(KeyBindings.up) || KeyBindings.isPhysicalDown(KeyBindings.down)) {
+            || KeyBindings.isPhysicalDown(KeyBindings.throttleUp) || KeyBindings.isPhysicalDown(KeyBindings.throttleDown)) {
             return -1;
         }
         float value = controller.strength(throttleKey());

@@ -70,7 +70,7 @@ public abstract class AirplaneEntity extends AircraftEntity {
         float brake = Math.max(0, -movementY);
         // An idle controller must not reset a throttle set with the keyboard.
         if (throttle > 0 || throttle == 0 && previousThrottle > 0) {
-            brake = AircraftInput.strength(KeyBindings.down);
+            brake = AircraftInput.strength(KeyBindings.throttleDown);
             setEngineTarget(Math.max(0, throttle - brake));
         } else if (movementY != 0) {
             previousThrottle = 0;

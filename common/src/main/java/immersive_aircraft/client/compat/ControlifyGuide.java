@@ -18,11 +18,7 @@ public final class ControlifyGuide implements ControlifyEntrypoint {
     public void onControlifyPreInit(PreInitContext context) {
         GuideDomainRegistry<InGameCtx> registry = context.guideRegistries().inGame();
         for (KeyMapping key : KeyBindings.list) {
-            register(registry, key, "", key.getName());
-            if (key == KeyBindings.up || key == KeyBindings.down) {
-                register(registry, key, "/throttle", key == KeyBindings.up
-                        ? "guide.immersive_aircraft.throttle_up" : "guide.immersive_aircraft.throttle_down");
-            }
+            register(registry, key);
         }
     }
 
@@ -34,15 +30,16 @@ public final class ControlifyGuide implements ControlifyEntrypoint {
     public void onControllersDiscovered(ControlifyApi controlify) {
     }
 
-    private static void register(GuideDomainRegistry<InGameCtx> registry, KeyMapping key, String suffix, String translation) {
-        String name = key.getName().replace("multi_", "").replace("fallback_", "") + suffix;
+    private static void register(GuideDomainRegistry<InGameCtx> registry, KeyMapping key) {
+        String translation = key.getName();
+        String name = key.getName().replace("multi_", "").replace("fallback_", "");
         registry.registerFact(Fact.of(ResourceLocation.fromNamespaceAndPath("immersive_aircraft", name),
                 context -> translation.equals(AircraftGuide.label(key, context.player()))));
         registry.registerFact(Fact.of(ResourceLocation.fromNamespaceAndPath("immersive_aircraft", name + "/fallback"),
                 context -> translation.equals(AircraftGuide.label(key, context.player()))
                            && AircraftGuide.binding(key, context.player()) == key
                            && KeyBindings.getFallbackKey(key) != null && !hasOwnBinding(key, context)));
-        if (key == KeyBindings.up && suffix.equals("/throttle")) {
+        if (key == KeyBindings.throttleUp) {
             registry.registerFact(Fact.of(ResourceLocation.fromNamespaceAndPath("immersive_aircraft", name + "/trigger"),
                     context -> translation.equals(AircraftGuide.label(key, context.player()))
                                && AircraftGuide.binding(key, context.player()) != key));
