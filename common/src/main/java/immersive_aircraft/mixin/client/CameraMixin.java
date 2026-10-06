@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin {
-    @Inject(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;move(FFF)V"))
+    @Inject(method = "setup", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(F)F"))
     private void immersiveAircraft$mouseFlightView(BlockGetter area, Entity entity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
         if (thirdPerson && entity instanceof Player player && player.isLocalPlayer()
-            && entity.getRootVehicle() instanceof VehicleEntity vehicle && MouseFlight.isPiloting(vehicle)) {
+            && entity.getRootVehicle() instanceof VehicleEntity vehicle && MouseFlight.isEnabled(vehicle)) {
             Camera camera = (Camera) (Object) this;
             setRotation(camera.getYRot(), camera.getXRot() + MouseFlight.getCameraPitchOffset(camera, tickDelta));
         }
@@ -34,7 +34,7 @@ public abstract class CameraMixin {
             move(-getMaxZoom((float) vehicle.getZoom()), 0.0f, 0.0f);
         } else if (!thirdPerson && entity.getRootVehicle() instanceof VehicleEntity vehicle) {
             Camera camera = (Camera) (Object) this;
-            if (entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(vehicle)) {
+            if (entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(vehicle)) {
                 setRotation(camera.getYRot(), camera.getXRot() + MouseFlight.getCameraPitchOffset(camera, tickDelta));
             } else if (vehicle.adaptPlayerRotation) {
                 setRotation(camera.getYRot(), camera.getXRot() + vehicle.getViewXRot(tickDelta));

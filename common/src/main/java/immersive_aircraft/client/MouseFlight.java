@@ -52,11 +52,24 @@ public final class MouseFlight {
 
             enabled = !enabled;
             freeLooking = false;
+
+            Camera camera = client.gameRenderer.getMainCamera();
+            float tickDelta = camera.getPartialTickTime();
+            float yawOffset = aircraft.getViewYRot(tickDelta) - aircraft.getYRot();
+            float pitchOffset = client.options.getCameraType().isFirstPerson() ? aircraft.getViewXRot(tickDelta) : 0;
+            float viewOffset = getCameraPitchOffset(camera, tickDelta);
+            if (client.options.getCameraType().isMirrored()) {
+                viewOffset = -viewOffset;
+            }
+            float sign = enabled ? 1.0f : -1.0f;
+            setView(player, player.getYRot() + sign * yawOffset, player.getXRot() + sign * (pitchOffset - viewOffset));
+
             targetYaw = player.getYRot();
             targetPitch = player.getXRot();
 
             player.displayClientMessage(Component.translatable(enabled ? "immersive_aircraft.mouse_control_enabled" : "immersive_aircraft.mouse_control_disabled", KeyBindings.freeLook.getTranslatedKeyMessage()), true);
         }
+
         if (!enabled || !acceptsInput) {
             return;
         }
@@ -65,6 +78,7 @@ public final class MouseFlight {
         if (freeLooking && !looking) {
             setView(player, targetYaw, targetPitch);
         }
+
         freeLooking = looking;
         if (!freeLooking) {
             targetYaw = player.getYRot();
@@ -75,9 +89,9 @@ public final class MouseFlight {
     private static void setView(LocalPlayer player, float yaw, float pitch) {
         player.setYRot(yaw);
         player.yRotO = yaw;
-        player.setYHeadRot(yaw);
         player.setXRot(Mth.clamp(pitch, -90.0f, 90.0f));
         player.xRotO = player.getXRot();
+        aircraft.onPassengerTurned(player);
     }
 
     public static boolean isEnabled(VehicleEntity vehicle) {
@@ -88,8 +102,8 @@ public final class MouseFlight {
         return aircraft != null && aircraft == vehicle;
     }
 
-    public static boolean isPiloting() {
-        return aircraft != null;
+    public static boolean isEnabled() {
+        return enabled;
     }
 
     public static float getCameraPitchOffset(Camera camera, float tickDelta) {

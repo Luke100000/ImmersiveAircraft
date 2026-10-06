@@ -20,8 +20,11 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayer {
     @Inject(method = "getViewYRot", at = @At("HEAD"), cancellable = true)
     private void immersiveAircraft$mouseFlightYaw(float tickDelta, CallbackInfoReturnable<Float> cir) {
         if (getRootVehicle() instanceof VehicleEntity vehicle && MouseFlight.isPiloting(vehicle)) {
-            // Avoid passenger head interpolation issues.
-            cir.setReturnValue(getYRot());
+            float yaw = getYRot();
+            if (!MouseFlight.isEnabled(vehicle)) {
+                yaw += vehicle.getViewYRot(tickDelta) - vehicle.getYRot();
+            }
+            cir.setReturnValue(yaw);
         }
     }
 

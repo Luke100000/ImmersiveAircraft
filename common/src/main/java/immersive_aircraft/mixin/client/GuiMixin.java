@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GuiMixin {
     @ModifyExpressionValue(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/CameraType;isFirstPerson()Z"))
     private boolean immersiveAircraft$mouseFlightCrosshair(boolean firstPerson) {
-        return firstPerson || MouseFlight.isPiloting();
+        return firstPerson || MouseFlight.isEnabled();
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"))
     private void immersiveAircraft$moveCrosshair(GuiGraphics graphics, DeltaTracker delta, CallbackInfo ci) {
-        if (MouseFlight.isPiloting()) {
+        if (MouseFlight.isEnabled()) {
             graphics.pose().pushPose();
             graphics.pose().translate(0, graphics.guiHeight() * (MouseFlight.CROSSHAIR_HEIGHT - 0.5f), 0);
         }
@@ -28,7 +28,7 @@ public class GuiMixin {
 
     @Inject(method = "renderCrosshair", at = @At("RETURN"))
     private void immersiveAircraft$restoreCrosshair(GuiGraphics graphics, DeltaTracker delta, CallbackInfo ci) {
-        if (MouseFlight.isPiloting()) {
+        if (MouseFlight.isEnabled()) {
             graphics.pose().popPose();
         }
     }

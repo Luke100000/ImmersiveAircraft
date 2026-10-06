@@ -619,7 +619,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
                 passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
 
-                if (adaptPlayerRotation && !(level().isClientSide && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this))) {
+                if (adaptPlayerRotation && !(level().isClientSide && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(this))) {
                     passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
                     passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
                 }
@@ -682,7 +682,8 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         entity.setYBodyRot(getYRot());
 
         if (level().isClientSide && entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this)) {
-            entity.setYHeadRot(entity.getYRot());
+            float headYaw = Mth.clamp(Mth.wrapDegrees(entity.getYRot() - getYRot()), -85.0f, 85.0f);
+            entity.setYHeadRot(getYRot() + headYaw);
             return;
         }
 
