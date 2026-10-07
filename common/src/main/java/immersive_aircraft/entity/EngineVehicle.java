@@ -268,22 +268,25 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     private void refuel(int i) {
         List<SlotDescription> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER);
         while (fuel[i] <= TARGET_FUEL && i < slots.size()) {
-            ItemStack stack = getInventory().getItem(slots.get(i).index());
-            int time = Utils.getFuelTime(stack);
+            int slot = slots.get(i).index();
+            ItemStack stack = getInventory().getItem(slot);
+            int time = Utils.getItemFuelTime(stack);
             if (time > 0) {
-                fuel[i] += time;
                 ItemStack remainingItem = CobaltFuelRegistry.INSTANCE.getCraftingRemainingItem(stack);
                 stack.shrink(1);
-
-                if (getControllingPassenger() instanceof ServerPlayer player) {
-                    player.awardStat(AircraftStats.FUEL_BURNED, time);
-                }
-
                 if (stack.isEmpty()) {
-                    getInventory().setItem(slots.get(i).index(), remainingItem);
+                    getInventory().setItem(slot, remainingItem);
                 }
             } else {
+                time = CobaltFuelRegistry.INSTANCE.refuelFluid(getInventory(), slot);
+            }
+            if (time <= 0) {
                 break;
+            }
+            fuel[i] += time;
+
+            if (getControllingPassenger() instanceof ServerPlayer player) {
+                player.awardStat(AircraftStats.FUEL_BURNED, time);
             }
         }
     }
