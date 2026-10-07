@@ -9,6 +9,7 @@
 * Airplanes have a better lift mechanic (need a bit more runway, don't fall like a feather, ...)
 * Tuned airplane thrust and speed upgrades, with a slower Bamboo Hopper
 * Fixed laggy interpolation in multiplayer
+* Fixed banners not rendering correctly
 
 # 1.5.2
 
