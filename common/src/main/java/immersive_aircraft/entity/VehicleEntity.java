@@ -79,15 +79,8 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     protected static final EntityDataAccessor<Integer> BOOST = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
 
-    protected int interpolationSteps;
+    private final InterpolationHandler interpolation = new InterpolationHandler(this, 10);
     protected int lastTriedToExit;
-
-    protected double x;
-    protected double y;
-    protected double z;
-
-    protected double serverYRot;
-    protected double serverXRot;
 
     protected float movementX;
     protected float movementY;
@@ -392,13 +385,9 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         return !isRemoved();
     }
 
-    public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        serverYRot = yaw;
-        serverXRot = pitch;
-        this.interpolationSteps = 10;
+    @Override
+    public InterpolationHandler getInterpolation() {
+        return interpolation;
     }
 
     protected boolean useAirplaneControls() {
@@ -573,23 +562,11 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     private void handleClientSync() {
         if (isLocalInstanceAuthoritative()) {
-            interpolationSteps = 0;
+            interpolation.cancel();
             syncPacketPositionCodec(getX(), getY(), getZ());
+        } else {
+            interpolation.interpolate();
         }
-        if (interpolationSteps <= 0) {
-            return;
-        }
-        double interpolatedX = getX() + (x - getX()) / (double) interpolationSteps;
-        double interpolatedY = getY() + (y - getY()) / (double) interpolationSteps;
-        double interpolatedZ = getZ() + (z - getZ()) / (double) interpolationSteps;
-        double interpolatedYaw = Mth.wrapDegrees(serverYRot - (double) getYRot());
-        setYRot(getYRot() + (float) interpolatedYaw / (float) interpolationSteps);
-        setXRot(getXRot() + (float) (serverXRot - (double) getXRot()) / (float) interpolationSteps);
-
-        setPos(interpolatedX, interpolatedY, interpolatedZ);
-        setRot(getYRot(), getXRot());
-
-        --interpolationSteps;
     }
 
     protected void updateVelocity() {
