@@ -32,16 +32,20 @@ public class CobaltFuelRegistryImpl extends CobaltFuelRegistry {
 
     @Override
     public int getFluidFuelTime(ItemStack stack) {
-        return refuelFluid(ContainerItemContext.withConstant(stack), true);
+        return refuelFluid(stack.copy(), ContainerItemContext.withConstant(stack), true);
     }
 
     @Override
     public int refuelFluid(Container inventory, int slot) {
-        return refuelFluid(ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlot(slot)), false);
+        int time = refuelFluid(inventory.getItem(slot), ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlot(slot)), false);
+        if (time > 0) {
+            inventory.setChanged();
+        }
+        return time;
     }
 
-    private int refuelFluid(ContainerItemContext context, boolean simulate) {
-        Storage<FluidVariant> storage = context.find(FluidStorage.ITEM);
+    private int refuelFluid(ItemStack stack, ContainerItemContext context, boolean simulate) {
+        Storage<FluidVariant> storage = FluidStorage.ITEM.find(stack, context);
         if (storage == null) {
             return 0;
         }
