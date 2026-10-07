@@ -10,6 +10,7 @@
 * Tuned airplane thrust and speed upgrades, with a slower Bamboo Hopper
 * Fixed laggy interpolation in multiplayer
 * Fixed banners not rendering correctly
+* Fixed blur error
 
 # 1.5.2
 

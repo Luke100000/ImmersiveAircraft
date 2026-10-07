@@ -61,7 +61,6 @@ public class VehicleScreen extends AbstractContainerScreen<VehicleScreenHandler>
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
-        extractBackground(context, mouseX, mouseY, delta);
         drawCustomBackground(context);
 
         for (SlotDescription slot : menu.getVehicle().getInventoryDescription().getSlots()) {
