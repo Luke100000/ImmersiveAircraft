@@ -1,6 +1,7 @@
 package immersive_aircraft.mixin.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.client.MultiKeyMapping;
 import net.minecraft.client.KeyMapping;
 import org.spongepowered.asm.mixin.Final;
@@ -34,10 +35,21 @@ public class KeyMappingMixin {
 
     @Inject(method = "set(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V", at = @At("HEAD"))
     private static void immersiveAircraft$set(InputConstants.Key key, boolean pressed, CallbackInfo ci) {
+        KeyBindings.setPhysicalKey(key, pressed);
         List<MultiKeyMapping> keyBinding = MultiKeyMapping.KEY_TO_BINDING.get(key);
         if (keyBinding != null) {
             keyBinding.forEach(v -> v.setDown(pressed));
         }
+    }
+
+    @Inject(method = "releaseAll()V", at = @At("HEAD"))
+    private static void immersiveAircraft$releaseAll(CallbackInfo ci) {
+        KeyBindings.clearPhysicalKeys();
+    }
+
+    @Inject(method = "setAll()V", at = @At("TAIL"))
+    private static void immersiveAircraft$setAll(CallbackInfo ci) {
+        KeyBindings.refreshPhysicalKeys(ALL.values());
     }
 
     @Inject(method = "resetMapping()V", at = @At("HEAD"))

@@ -5,7 +5,9 @@ import com.mojang.math.Axis;
 import immersive_aircraft.AircraftStats;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
+import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
+import immersive_aircraft.client.MouseFlight;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.AutoEnterRules;
 import immersive_aircraft.config.Config;
@@ -399,13 +401,6 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         this.interpolationSteps = 10;
     }
 
-    private static float getMovementMultiplier(boolean positive, boolean negative) {
-        if (positive == negative) {
-            return 0.0f;
-        }
-        return positive ? 1.0f : -1.0f;
-    }
-
     protected boolean useAirplaneControls() {
         return false;
     }
@@ -541,7 +536,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     private void tickPilot() {
         for (Entity entity : getPassengers()) {
             if (entity instanceof Player player && player.isLocalPlayer()) {
-                if (KeyBindings.down.isDown() && onGround() && getDeltaMovement().length() < 0.01) {
+                if ((useAirplaneControls() ? KeyBindings.throttleDown : KeyBindings.down).isDown() && onGround() && getDeltaMovement().length() < 0.01) {
                     player.sendOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()));
                 }
 
@@ -566,18 +561,11 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         //controls
         Entity pilot = getPassengers().get(0);
         if (pilot instanceof Player player && player.isLocalPlayer()) {
-            setInputs(getMovementMultiplier(
-                            KeyBindings.left.isDown(),
-                            KeyBindings.right.isDown()
-                    ), getMovementMultiplier(
-                            KeyBindings.up.isDown(),
-                            KeyBindings.down.isDown()
-                    ),
-                    getMovementMultiplier(
-                            useAirplaneControls() ? KeyBindings.push.isDown() : KeyBindings.forward.isDown(),
-                            useAirplaneControls() ? KeyBindings.pull.isDown() : KeyBindings.backward.isDown()
-                    )
-            );
+            setInputs(MouseFlight.yawInput(this, AircraftInput.axis(KeyBindings.left, KeyBindings.right)),
+                    AircraftInput.axis(useAirplaneControls() ? KeyBindings.throttleUp : KeyBindings.up,
+                            useAirplaneControls() ? KeyBindings.throttleDown : KeyBindings.down),
+                    MouseFlight.pitchInput(this, AircraftInput.axis(useAirplaneControls() ? KeyBindings.push : KeyBindings.forward,
+                            useAirplaneControls() ? KeyBindings.pull : KeyBindings.backward)));
         } else {
             setInputs(0, 0, 0);
         }
@@ -643,7 +631,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
                 passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
 
-                if (adaptPlayerRotation) {
+                if (adaptPlayerRotation && !(level().isClientSide() && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(this))) {
                     passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
                     passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
                 }
@@ -704,6 +692,13 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     public void copyEntityData(Entity entity) {
         entity.setYBodyRot(getYRot());
+
+        if (level().isClientSide() && entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this)) {
+            float headYaw = Mth.clamp(Mth.wrapDegrees(entity.getYRot() - getYRot()), -85.0f, 85.0f);
+            entity.setYHeadRot(getYRot() + headYaw);
+            return;
+        }
+
         float f = Mth.wrapDegrees(entity.getYRot() - getYRot());
         float g = Mth.clamp(f, -105.0f, 105.0f);
         entity.yRotO += g - f;

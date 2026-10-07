@@ -67,12 +67,16 @@ dependencies {
         }
     }
 
+    additionalRuntimeClasspath "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
+
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 }
+
+apply from: rootProject.file("gradle/controller-dependencies.gradle")
 
 def generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     def replaceProperties = [

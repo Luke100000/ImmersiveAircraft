@@ -8,11 +8,11 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.AbstractClientPlayerMixin", "client.CameraMixin", "client.ClientPlayerEntityMixin",
+    "client.AbstractClientPlayerMixin", "client.AircraftControlsMixin", "client.CameraMixin", "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin", "client.ClientPlayNetworkHandlerMixin",
-    "client.EntityHitboxDebugRendererMixin", "client.GameRendererMixin", "client.GuiMixin",
+    "client.EntityHitboxDebugRendererMixin", "client.GameRendererMixin", "client.GameRendererAccessorMixin", "client.GuiMixin",
     "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
     "client.LivingEntityRenderStateMixin",
-    "client.PlayerEntityRendererMixin"
+    "client.PlayerEntityRendererMixin", "client.ControllableHintsMixin", "client.MidnightControlsHintsMixin"
   ]
 }

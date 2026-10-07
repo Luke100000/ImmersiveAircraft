@@ -30,20 +30,23 @@ public class OverlayRenderer {
 
     public int tk = 0;
 
-    public static int renderOverlay(GuiGraphicsExtractor context, float tickDelta, int barHeightOffset) {
+    static final Indicator[] INDICATORS = {
+            SpeedIndicator.INSTANCE, AltIndicator.INSTANCE, AzimuthIndicator.INSTANCE,
+            AttitudeIndicator.INSTANCE, VectorIndicator.INSTANCE, WarningIndicator.INSTANCE
+    };
+
+    public static void renderOverlay(GuiGraphicsExtractor context, float tickDelta, int barHeightOffset) {
         Minecraft client = Minecraft.getInstance();
         if (client.options.hideGui) {
-            return 0;
+            return;
         }
+        MouseFlight.render(context);
+
         if (client.gameMode != null && client.player != null) {
-            if (INSTANCE.tk == 60) INSTANCE.tk = 0;
-            if (Config.getInstance().showHotbarEngineGauge && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
-                INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
-            }
+            INSTANCE.tk = (INSTANCE.tk + 1) % 60;
             if (client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
                 if (aircraft.getProperties().get(VehicleStat.HUD) == 0 || aircraft.getProperties().get(VehicleStat.DIALS) == 0) {
-                    for (Indicator i : new Indicator[]{SpeedIndicator.INSTANCE, AltIndicator.INSTANCE, AzimuthIndicator.INSTANCE,
-                            AttitudeIndicator.INSTANCE, VectorIndicator.INSTANCE, WarningIndicator.INSTANCE})
+                    for (Indicator i : INDICATORS)
                         i.update(client, aircraft);
                     if (aircraft.getProperties().get(VehicleStat.HUD) == 0
                             && (aircraft instanceof BiplaneEntity || aircraft instanceof WarshipEntity)
@@ -53,14 +56,24 @@ public class OverlayRenderer {
                         INSTANCE.renderAircraftDials(client, context, tickDelta, barHeightOffset, aircraft);
                 }
             }
-            if (client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
-                INSTANCE.renderAircraftHealth(client, context, vehicle, barHeightOffset);
-                INSTANCE.tk++;
-                return 10;
-            }
-            INSTANCE.tk++;
         }
-        return 0;
+    }
+
+    public static void renderVehicleHealth(GuiGraphicsExtractor context, int barHeightOffset) {
+        Minecraft client = Minecraft.getInstance();
+        if (!client.options.hideGui && client.gameMode != null && client.player != null
+            && client.player.getRootVehicle() instanceof VehicleEntity vehicle) {
+            INSTANCE.renderAircraftHealth(client, context, vehicle, barHeightOffset);
+        }
+    }
+
+    public static void renderEngineGauge(GuiGraphicsExtractor context, float tickDelta) {
+        Minecraft client = Minecraft.getInstance();
+        if (!client.options.hideGui && client.gameMode != null && client.player != null
+            && Config.getInstance().showHotbarEngineGauge
+            && client.player.getRootVehicle() instanceof EngineVehicle aircraft) {
+            INSTANCE.renderAircraftGui(client, context, tickDelta, aircraft);
+        }
     }
 
     private void renderAircraftHealth(Minecraft minecraft, GuiGraphicsExtractor context, VehicleEntity vehicle, int barHeightOffset) {

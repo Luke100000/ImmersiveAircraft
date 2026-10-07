@@ -1,0 +1,220 @@
+{
+  "rules": [
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_left",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_left"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_left"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_left",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_left"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_left"}
+    },
+    {
+      "for": "controlify:strafe_left",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_left/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_left"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_right",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_right"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_right"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_right",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_right"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_right"}
+    },
+    {
+      "for": "controlify:strafe_right",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_right/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_right"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_forward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_forward"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_forward"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_forward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_forward"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_forward"}
+    },
+    {
+      "for": "controlify:walk_forward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_forward/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_forward"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_backward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_backward"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_backward"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_backward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_backward"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_backward"}
+    },
+    {
+      "for": "controlify:walk_backward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_backward/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_backward"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_push",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_push"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_push"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_push",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_push"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_push"}
+    },
+    {
+      "for": "controlify:walk_forward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_push/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_push"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_pull",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_pull"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_pull"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_pull",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_pull"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_pull"}
+    },
+    {
+      "for": "controlify:walk_backward",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_pull/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_pull"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_up",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_up"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_up"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_up",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_up"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_up"}
+    },
+    {
+      "for": "controlify:jump",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_up/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_up"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_throttle_up",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_up"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_throttle_up"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_throttle_up",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_up"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_throttle_up"}
+    },
+    {
+      "for": "controlify:attack",
+      "where": "left",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_up/trigger"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_throttle_up"}
+    },
+    {
+      "for": "controlify:jump",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_up/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_throttle_up"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_down",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_down"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_down"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_down",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_down"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_down"}
+    },
+    {
+      "for": "controlify:sneak",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_down/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_down"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_control_throttle_down",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_down"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_throttle_down"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_control_throttle_down",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_down"],
+      "then": {"translate": "key.immersive_aircraft.fallback_control_throttle_down"}
+    },
+    {
+      "for": "controlify:sneak",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.control_throttle_down/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_control_throttle_down"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.multi_use",
+      "where": "left",
+      "when": ["immersive_aircraft:key.immersive_aircraft.use"],
+      "then": {"translate": "key.immersive_aircraft.multi_use"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.fallback_use",
+      "where": "left",
+      "when": ["immersive_aircraft:key.immersive_aircraft.use"],
+      "then": {"translate": "key.immersive_aircraft.fallback_use"}
+    },
+    {
+      "for": "controlify:use",
+      "where": "left",
+      "when": ["immersive_aircraft:key.immersive_aircraft.use/fallback"],
+      "then": {"translate": "key.immersive_aircraft.multi_use"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.dismount",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.dismount"],
+      "then": {"translate": "key.immersive_aircraft.dismount"}
+    },
+    {
+      "for": "fabric-key-binding-api-v1:key.immersive_aircraft.boost",
+      "where": "right",
+      "when": ["immersive_aircraft:key.immersive_aircraft.boost"],
+      "then": {"translate": "key.immersive_aircraft.boost"}
+    }
+  ]
+}

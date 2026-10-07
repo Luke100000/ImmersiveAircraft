@@ -13,7 +13,7 @@ public final class VehicleCameraTransform {
 
     public static void apply(PoseStack poseStack, float partialTicks, Entity entity, VehicleEntity vehicle, float cameraXRot, float cameraYRot) {
         // rotate camera
-        if (vehicle.adaptPlayerRotation) {
+        if (vehicle.adaptPlayerRotation && !MouseFlight.isEnabled(vehicle)) {
             poseStack.mulPose(Axis.ZP.rotationDegrees(vehicle.getRoll(partialTicks)));
             poseStack.mulPose(Axis.XP.rotationDegrees(vehicle.getViewXRot(partialTicks)));
         }

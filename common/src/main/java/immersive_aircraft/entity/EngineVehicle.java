@@ -3,6 +3,7 @@ package immersive_aircraft.entity;
 import immersive_aircraft.AircraftStats;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
@@ -257,21 +258,26 @@ public abstract class EngineVehicle extends InventoryVehicleEntity {
     private void refuel(int i) {
         List<SlotDescription> slots = getInventoryDescription().getSlots(VehicleInventoryDescription.BOILER);
         while (fuel[i] <= TARGET_FUEL && i < slots.size()) {
-            ItemStack stack = getInventory().getItem(slots.get(i).index());
-            int time = Utils.getFuelTime(stack);
+            int slot = slots.get(i).index();
+            ItemStack stack = getInventory().getItem(slot);
+            int time = Utils.getItemFuelTime(stack);
             if (time > 0) {
-                fuel[i] += time;
                 var remainder = stack.getCraftingRemainder();
                 ItemStack remainingItem = remainder == null ? ItemStack.EMPTY : remainder.create();
                 stack.shrink(1);
-                if (getControllingPassenger() instanceof ServerPlayer player) {
-                    player.awardStat(AircraftStats.FUEL_BURNED, time);
-                }
                 if (stack.isEmpty()) {
-                    getInventory().setItem(slots.get(i).index(), remainingItem);
+                    getInventory().setItem(slot, remainingItem);
                 }
             } else {
+                time = CobaltFuelRegistry.INSTANCE.refuelFluid(getInventory(), slot);
+            }
+            if (time <= 0) {
                 break;
+            }
+            fuel[i] += time;
+
+            if (getControllingPassenger() instanceof ServerPlayer player) {
+                player.awardStat(AircraftStats.FUEL_BURNED, time);
             }
         }
     }

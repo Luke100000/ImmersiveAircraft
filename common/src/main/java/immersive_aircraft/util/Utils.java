@@ -15,6 +15,9 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.material.Fluid;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -53,6 +56,14 @@ public class Utils {
         if (fuel.isEmpty()) {
             return 0;
         }
+        int time = getItemFuelTime(fuel);
+        return time > 0 ? time : CobaltFuelRegistry.INSTANCE.getFluidFuelTime(fuel);
+    }
+
+    public static int getItemFuelTime(ItemStack fuel) {
+        if (fuel.isEmpty()) {
+            return 0;
+        }
 
         // Custom fuel
         Map<String, Integer> fuelList = Config.getInstance().fuelList;
@@ -70,6 +81,26 @@ public class Utils {
         }
 
         return 0;
+    }
+
+    public static int getFluidFuelTime(Fluid fluid) {
+        Map<String, Integer> fuels = Config.getInstance().fluidFuelList;
+
+        String identifier = BuiltInRegistries.FLUID.getKey(fluid).toString();
+        if (fuels.containsKey(identifier)) {
+            return fuels.get(identifier);
+        }
+
+        for (Map.Entry<String, Integer> entry : fuels.entrySet()) {
+            if (entry.getKey().startsWith("#")) {
+                ResourceLocation tag = ResourceLocation.tryParse(entry.getKey().substring(1));
+                if (tag != null && fluid.is(TagKey.create(BuiltInRegistries.FLUID.key(), tag))) {
+                    return entry.getValue();
+                }
+            }
+        }
+
+        return getItemFuelTime(new ItemStack(fluid.getBucket()));
     }
 
     public static boolean getBooleanElement(JsonObject object, String member, boolean defaultValue) {

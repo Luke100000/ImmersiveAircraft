@@ -142,6 +142,9 @@ public final class Config extends JsonConfig {
             "minecraft:blaze_powder", 1200
     );
 
+    // Fuel ticks per bucket (1000 mB), by fluid ID or #tag. Defaults to the bucket item's fuel value.
+    public Map<String, Integer> fluidFuelList = Map.of();
+
     public Map<String, Boolean> validDimensions = Map.of(
             "minecraft:overworld", true,
             "minecraft:the_nether", true,

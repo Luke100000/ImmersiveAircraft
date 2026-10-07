@@ -10,6 +10,9 @@ public class NeoForgeOverlayRenderer {
     @SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
         event.registerAbove(VanillaGuiLayers.FOOD_LEVEL, Main.locate("ia_overlay"),
-                (guiGraphics, deltaTracker) -> OverlayRenderer.renderOverlay(guiGraphics, deltaTracker.getGameTimeDeltaPartialTick(true), 0));
+                (graphics, delta) -> {
+                    OverlayRenderer.renderOverlay(graphics, delta.getGameTimeDeltaPartialTick(true), 49);
+                    OverlayRenderer.renderVehicleHealth(graphics, 49);
+                });
     }
 }

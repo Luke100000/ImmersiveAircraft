@@ -4,6 +4,7 @@ import immersive_aircraft.ClientMain;
 import immersive_aircraft.Main;
 import immersive_aircraft.Renderer;
 import immersive_aircraft.WeaponRendererRegistry;
+import immersive_aircraft.client.AircraftInput;
 import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.neoforge.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.neoforge.cobalt.registration.CobaltFuelRegistryImpl;
@@ -20,6 +21,7 @@ public final class ClientNeoForge {
     private static boolean firstLoad = true;
 
     public static void register(IEventBus modEventBus, NetworkHandlerImpl networkHandler) {
+        AircraftInput.registerDefaults();
         modEventBus.addListener(ClientNeoForge::data);
         modEventBus.addListener(ClientNeoForge::setup);
         modEventBus.addListener(ClientNeoForge::onKeyRegister);

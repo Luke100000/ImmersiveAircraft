@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "immersive_aircraft.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["GuiMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

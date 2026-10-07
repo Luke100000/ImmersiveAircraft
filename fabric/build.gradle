@@ -28,9 +28,10 @@ dependencies {
     implementation "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
     include "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
 
-    compileOnly "com.terraformersmc:modmenu:${mod_menu_version}"
+    compileOnly("com.terraformersmc:modmenu:${mod_menu_version}") { transitive false }
     compileOnly("me.shedaniel.cloth:cloth-config-fabric:${cloth_version}") {
         exclude(group: "net.fabricmc.fabric-api")
+        exclude(group: "me.shedaniel.cloth", module: "cloth-config")
     }
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
@@ -41,6 +42,8 @@ dependencies {
     runtimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 
 }
+
+apply from: rootProject.file("gradle/controller-dependencies.gradle")
 
 processResources {
     inputs.property "version", project.version

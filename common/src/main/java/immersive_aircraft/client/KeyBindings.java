@@ -3,60 +3,56 @@ package immersive_aircraft.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import immersive_aircraft.Main;
 import immersive_aircraft.config.Config;
+import immersive_aircraft.mixin.client.KeyMappingAccessorMixin;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class KeyBindings {
     public static final List<KeyMapping> list = new LinkedList<>();
     private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(Main.MOD_ID, "immersive_aircraft_tab"));
+    private static final Set<InputConstants.Key> physicalKeys = new HashSet<>();
+    private static final boolean useMultiKeys = Config.getInstance().useCustomKeybindSystem && Main.MOD_LOADER.equals("fabric");
 
-    public static final KeyMapping left, right, forward, backward, up, down, pull, push;
-    public static final KeyMapping dismount, boost, use;
+    public static final KeyMapping left, right, forward, backward, up, down, throttleUp, throttleDown, pull, push;
+    public static final KeyMapping dismount, boost, use, mouseControl, freeLook;
 
     static {
-        if (Config.getInstance().useCustomKeybindSystem && Main.MOD_LOADER.equals("fabric")) {
-            left = newMultiKey("multi_control_left", GLFW.GLFW_KEY_A);
-            right = newMultiKey("multi_control_right", GLFW.GLFW_KEY_D);
-            forward = newMultiKey("multi_control_forward", GLFW.GLFW_KEY_W);
-            backward = newMultiKey("multi_control_backward", GLFW.GLFW_KEY_S);
-            up = newMultiKey("multi_control_up", GLFW.GLFW_KEY_SPACE);
-            down = newMultiKey("multi_control_down", GLFW.GLFW_KEY_LEFT_SHIFT);
-            pull = newMultiKey("multi_control_pull", GLFW.GLFW_KEY_S);
-            push = newMultiKey("multi_control_push", GLFW.GLFW_KEY_W);
-
-            use = newMultiKey("multi_use", GLFW.GLFW_MOUSE_BUTTON_2, InputConstants.Type.MOUSE);
-        } else {
-            Minecraft client = Minecraft.getInstance();
-
-            left = newFallbackKey("fallback_control_left", () -> client.options.keyLeft);
-            right = newFallbackKey("fallback_control_right", () -> client.options.keyRight);
-            forward = newFallbackKey("fallback_control_forward", () -> client.options.keyUp);
-            backward = newFallbackKey("fallback_control_backward", () -> client.options.keyDown);
-            up = newFallbackKey("fallback_control_up", () -> client.options.keyJump);
-            down = newFallbackKey("fallback_control_down", () -> client.options.keyShift);
-            pull = newFallbackKey("fallback_control_pull", () -> client.options.keyDown);
-            push = newFallbackKey("fallback_control_push", () -> client.options.keyUp);
-
-            use = newFallbackKey("fallback_use", () -> client.options.keyUse);
-        }
+        Minecraft client = Minecraft.getInstance();
+        left = newControlKey("control_left", GLFW.GLFW_KEY_A, () -> client.options.keyLeft);
+        right = newControlKey("control_right", GLFW.GLFW_KEY_D, () -> client.options.keyRight);
+        forward = newControlKey("control_forward", GLFW.GLFW_KEY_W, () -> client.options.keyUp);
+        backward = newControlKey("control_backward", GLFW.GLFW_KEY_S, () -> client.options.keyDown);
+        up = newControlKey("control_up", GLFW.GLFW_KEY_SPACE, () -> client.options.keyJump);
+        down = newControlKey("control_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> client.options.keyShift);
+        throttleUp = newControlKey("control_throttle_up", GLFW.GLFW_KEY_SPACE, () -> client.options.keyJump);
+        throttleDown = newControlKey("control_throttle_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> client.options.keyShift);
+        pull = newControlKey("control_pull", GLFW.GLFW_KEY_S, () -> client.options.keyDown);
+        push = newControlKey("control_push", GLFW.GLFW_KEY_W, () -> client.options.keyUp);
+        use = newControlKey("use", GLFW.GLFW_MOUSE_BUTTON_2, InputConstants.Type.MOUSE, () -> client.options.keyUse);
 
         dismount = newKey("dismount", GLFW.GLFW_KEY_R);
         boost = newKey("boost", GLFW.GLFW_KEY_B);
+        mouseControl = newKey("mouse_control", GLFW.GLFW_KEY_GRAVE_ACCENT);
+        freeLook = newKey("free_look", GLFW.GLFW_KEY_LEFT_ALT);
     }
 
-    private static KeyMapping newFallbackKey(String name, Supplier<KeyMapping> fallback) {
-        KeyMapping key = new FallbackKeyMapping(
-                "key.immersive_aircraft." + name,
-                InputConstants.Type.KEYSYM,
-                fallback,
-                CATEGORY
-        );
+    private static KeyMapping newControlKey(String name, int defaultKey, Supplier<KeyMapping> fallback) {
+        return newControlKey(name, defaultKey, InputConstants.Type.KEYSYM, fallback);
+    }
+
+    private static KeyMapping newControlKey(String name, int defaultKey, InputConstants.Type type, Supplier<KeyMapping> fallback) {
+        String translationKey = "key.immersive_aircraft." + (useMultiKeys ? "multi_" : "fallback_") + name;
+        KeyMapping key = useMultiKeys
+                ? new MultiKeyMapping(translationKey, type, defaultKey, fallback, CATEGORY)
+                : new FallbackKeyMapping(translationKey, InputConstants.Type.KEYSYM, fallback, CATEGORY);
         list.add(key);
         return key;
     }
@@ -72,18 +68,53 @@ public class KeyBindings {
         return key;
     }
 
-    private static KeyMapping newMultiKey(String name, int defaultKey) {
-        return newMultiKey(name, defaultKey, InputConstants.Type.KEYSYM);
+    public static InputConstants.Key getBoundKey(KeyMapping key) {
+        if (key instanceof MultiKeyMapping multi) {
+            return multi.getBoundKey();
+        }
+        if (key instanceof FallbackKeyMapping fallback) {
+            return fallback.getBoundKey();
+        }
+        return ((KeyMappingAccessorMixin) key).getKey();
     }
 
-    private static KeyMapping newMultiKey(String name, int defaultKey, InputConstants.Type type) {
-        KeyMapping key = new MultiKeyMapping(
-                "key.immersive_aircraft." + name,
-                type,
-                defaultKey,
-                CATEGORY
-        );
-        list.add(key);
-        return key;
+    public static KeyMapping getFallbackKey(KeyMapping key) {
+        if (key instanceof MultiKeyMapping multi) {
+            return multi.getFallbackKey();
+        }
+        if (key instanceof FallbackKeyMapping fallback) {
+            return fallback.getFallbackKey();
+        }
+        return null;
+    }
+
+    public static boolean isPhysicalDown(KeyMapping key) {
+        return physicalKeys.contains(getBoundKey(key));
+    }
+
+    public static void setPhysicalKey(InputConstants.Key key, boolean pressed) {
+        if (pressed) {
+            physicalKeys.add(key);
+        } else {
+            physicalKeys.remove(key);
+        }
+    }
+
+    public static void clearPhysicalKeys() {
+        physicalKeys.clear();
+    }
+
+    public static void refreshPhysicalKeys(Iterable<KeyMapping> bindings) {
+        long window = Minecraft.getInstance().getWindow().getWindow();
+        for (KeyMapping binding : bindings) {
+            InputConstants.Key key = getBoundKey(binding);
+            if (key.getType() == InputConstants.Type.KEYSYM && !key.equals(InputConstants.UNKNOWN)) {
+                boolean pressed = InputConstants.isKeyDown(window, key.getValue());
+                setPhysicalKey(key, pressed);
+                if (binding instanceof MultiKeyMapping) {
+                    binding.setDown(pressed);
+                }
+            }
+        }
     }
 }
