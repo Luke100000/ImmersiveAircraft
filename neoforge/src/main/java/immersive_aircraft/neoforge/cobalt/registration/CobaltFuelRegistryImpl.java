@@ -3,12 +3,16 @@ package immersive_aircraft.neoforge.cobalt.registration;
 import immersive_aircraft.cobalt.registration.CobaltFuelRegistry;
 import immersive_aircraft.util.Utils;
 import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.FuelValues;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class CobaltFuelRegistryImpl extends CobaltFuelRegistry {
     private static volatile FuelValues fuelValues;
@@ -29,34 +33,31 @@ public class CobaltFuelRegistryImpl extends CobaltFuelRegistry {
 
     @Override
     public int getFluidFuelTime(ItemStack stack) {
-        return refuelFluid(stack.copy().getCapability(Capabilities.FluidHandler.ITEM), true);
+        return refuelFluid(new SimpleContainer(stack.copy()), 0, true);
     }
 
     @Override
     public int refuelFluid(Container inventory, int slot) {
-        IFluidHandlerItem handler = inventory.getItem(slot).copy().getCapability(Capabilities.FluidHandler.ITEM);
-        int time = refuelFluid(handler, false);
-        if (time > 0) {
-            inventory.setItem(slot, handler.getContainer());
-        }
-        return time;
+        return refuelFluid(inventory, slot, false);
     }
 
-    private int refuelFluid(IFluidHandlerItem handler, boolean simulate) {
+    private int refuelFluid(Container inventory, int slot, boolean simulate) {
+        ItemAccess access = ItemAccess.forHandlerIndex(VanillaContainerWrapper.of(inventory), slot);
+        ResourceHandler<FluidResource> handler = inventory.getItem(slot).getCapability(Capabilities.Fluid.ITEM, access);
         if (handler == null) {
             return 0;
         }
-        for (int tank = 0; tank < handler.getTanks(); tank++) {
-            FluidStack fluid = handler.getFluidInTank(tank);
+        for (int tank = 0; tank < handler.size(); tank++) {
+            FluidResource fluid = handler.getResource(tank);
             int time = fluid.isEmpty() ? 0 : Utils.getFluidFuelTime(fluid.getFluid());
             if (time > 0) {
-                FluidStack request = fluid.copyWithAmount(1000);
-                FluidStack drained = handler.drain(request, IFluidHandler.FluidAction.SIMULATE);
-                if (FluidStack.matches(drained, request)) {
-                    if (simulate || FluidStack.matches(handler.drain(request, IFluidHandler.FluidAction.EXECUTE), request)) {
+                try (Transaction transaction = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
+                    if (handler.extract(fluid, FluidType.BUCKET_VOLUME, transaction) == FluidType.BUCKET_VOLUME) {
+                        if (!simulate) {
+                            transaction.commit();
+                        }
                         return time;
                     }
-                    return 0;
                 }
             }
         }

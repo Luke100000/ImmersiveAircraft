@@ -67,8 +67,6 @@ dependencies {
         }
     }
 
-    additionalRuntimeClasspath "org.mariuszgromada.math:MathParser.org-mXparser:5.2.1"
-
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_version}"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"

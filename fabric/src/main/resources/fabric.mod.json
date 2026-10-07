@@ -53,6 +53,6 @@
   },
   "breaks": {
     "ad_astra": "<1.15.6",
-    "controlify": "<2.3.0"
+    "controlify": "<3.5.0"
   }
 }

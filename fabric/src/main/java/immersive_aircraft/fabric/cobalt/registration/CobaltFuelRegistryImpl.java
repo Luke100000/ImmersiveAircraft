@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ContainerStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.Container;
@@ -37,7 +37,7 @@ public class CobaltFuelRegistryImpl extends CobaltFuelRegistry {
 
     @Override
     public int refuelFluid(Container inventory, int slot) {
-        int time = refuelFluid(inventory.getItem(slot), ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory, null).getSlot(slot)), false);
+        int time = refuelFluid(inventory.getItem(slot), ContainerItemContext.ofSingleSlot(ContainerStorage.of(inventory, null).getSlot(slot)), false);
         if (time > 0) {
             inventory.setChanged();
         }

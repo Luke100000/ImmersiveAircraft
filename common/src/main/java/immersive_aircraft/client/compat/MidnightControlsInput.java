@@ -15,7 +15,7 @@ import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
@@ -78,7 +78,7 @@ public final class MidnightControlsInput implements ControllerInput {
                 .findFirst().orElse(null);
     }
 
-    public static boolean renderHints(GuiGraphics graphics) {
+    public static boolean renderHints(GuiGraphicsExtractor graphics) {
         Minecraft client = Minecraft.getInstance();
         if (MidnightControlsConfig.controlsMode != ControlsMode.CONTROLLER || client.screen != null
             || client.player == null || !(client.player.getRootVehicle() instanceof VehicleEntity)) return false;

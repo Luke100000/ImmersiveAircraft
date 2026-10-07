@@ -23,7 +23,7 @@ import java.util.Set;
 public class ControllableHintsMixin {
     @Shadow @Final private Map<Integer, Action> actions;
 
-    // Controllable 0.25.4 does not fire its GATHER_ACTIONS event.
+    // Controllable 0.26.0 does not fire its GATHER_ACTIONS event.
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Ljava/util/Map;forEach(Ljava/util/function/BiConsumer;)V"))
     private void immersiveAircraft$addHints(CallbackInfo ci, @Local Map<ButtonBinding, Action> actions) {
         ControllableInput.addHints(actions);

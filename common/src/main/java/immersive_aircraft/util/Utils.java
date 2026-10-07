@@ -15,7 +15,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import org.joml.Quaternionf;
@@ -93,7 +93,7 @@ public class Utils {
 
         for (Map.Entry<String, Integer> entry : fuels.entrySet()) {
             if (entry.getKey().startsWith("#")) {
-                ResourceLocation tag = ResourceLocation.tryParse(entry.getKey().substring(1));
+                Identifier tag = Identifier.tryParse(entry.getKey().substring(1));
                 if (tag != null && fluid.is(TagKey.create(BuiltInRegistries.FLUID.key(), tag))) {
                     return entry.getValue();
                 }

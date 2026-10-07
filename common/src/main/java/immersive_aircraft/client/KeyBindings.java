@@ -25,18 +25,17 @@ public class KeyBindings {
     public static final KeyMapping dismount, boost, use, mouseControl, freeLook;
 
     static {
-        Minecraft client = Minecraft.getInstance();
-        left = newControlKey("control_left", GLFW.GLFW_KEY_A, () -> client.options.keyLeft);
-        right = newControlKey("control_right", GLFW.GLFW_KEY_D, () -> client.options.keyRight);
-        forward = newControlKey("control_forward", GLFW.GLFW_KEY_W, () -> client.options.keyUp);
-        backward = newControlKey("control_backward", GLFW.GLFW_KEY_S, () -> client.options.keyDown);
-        up = newControlKey("control_up", GLFW.GLFW_KEY_SPACE, () -> client.options.keyJump);
-        down = newControlKey("control_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> client.options.keyShift);
-        throttleUp = newControlKey("control_throttle_up", GLFW.GLFW_KEY_SPACE, () -> client.options.keyJump);
-        throttleDown = newControlKey("control_throttle_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> client.options.keyShift);
-        pull = newControlKey("control_pull", GLFW.GLFW_KEY_S, () -> client.options.keyDown);
-        push = newControlKey("control_push", GLFW.GLFW_KEY_W, () -> client.options.keyUp);
-        use = newControlKey("use", GLFW.GLFW_MOUSE_BUTTON_2, InputConstants.Type.MOUSE, () -> client.options.keyUse);
+        left = newControlKey("control_left", GLFW.GLFW_KEY_A, () -> Minecraft.getInstance().options.keyLeft);
+        right = newControlKey("control_right", GLFW.GLFW_KEY_D, () -> Minecraft.getInstance().options.keyRight);
+        forward = newControlKey("control_forward", GLFW.GLFW_KEY_W, () -> Minecraft.getInstance().options.keyUp);
+        backward = newControlKey("control_backward", GLFW.GLFW_KEY_S, () -> Minecraft.getInstance().options.keyDown);
+        up = newControlKey("control_up", GLFW.GLFW_KEY_SPACE, () -> Minecraft.getInstance().options.keyJump);
+        down = newControlKey("control_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> Minecraft.getInstance().options.keyShift);
+        throttleUp = newControlKey("control_throttle_up", GLFW.GLFW_KEY_SPACE, () -> Minecraft.getInstance().options.keyJump);
+        throttleDown = newControlKey("control_throttle_down", GLFW.GLFW_KEY_LEFT_SHIFT, () -> Minecraft.getInstance().options.keyShift);
+        pull = newControlKey("control_pull", GLFW.GLFW_KEY_S, () -> Minecraft.getInstance().options.keyDown);
+        push = newControlKey("control_push", GLFW.GLFW_KEY_W, () -> Minecraft.getInstance().options.keyUp);
+        use = newControlKey("use", GLFW.GLFW_MOUSE_BUTTON_2, InputConstants.Type.MOUSE, () -> Minecraft.getInstance().options.keyUse);
 
         dismount = newKey("dismount", GLFW.GLFW_KEY_R);
         boost = newKey("boost", GLFW.GLFW_KEY_B);
@@ -105,7 +104,7 @@ public class KeyBindings {
     }
 
     public static void refreshPhysicalKeys(Iterable<KeyMapping> bindings) {
-        long window = Minecraft.getInstance().getWindow().getWindow();
+        var window = Minecraft.getInstance().getWindow();
         for (KeyMapping binding : bindings) {
             InputConstants.Key key = getBoundKey(binding);
             if (key.getType() == InputConstants.Type.KEYSYM && !key.equals(InputConstants.UNKNOWN)) {

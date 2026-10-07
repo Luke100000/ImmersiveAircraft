@@ -36,7 +36,7 @@ side = "BOTH"
 [[dependencies.immersive_aircraft]]
 modId = "controlify"
 type = "optional"
-versionRange = "[2.3.0,)"
+versionRange = "[3.5.0,)"
 ordering = "AFTER"
 side = "CLIENT"
 

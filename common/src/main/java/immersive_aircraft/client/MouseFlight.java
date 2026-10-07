@@ -1,19 +1,18 @@
 package immersive_aircraft.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import immersive_aircraft.Main;
 import immersive_aircraft.entity.AircraftEntity;
 import immersive_aircraft.entity.AirplaneEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.item.upgrade.VehicleStat;
-import immersive_aircraft.mixin.client.GameRendererAccessorMixin;
+import immersive_aircraft.mixin.client.CameraAccessorMixin;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
@@ -23,7 +22,7 @@ public final class MouseFlight {
 
     private static final float STEERING_ANGLE = 20.0f;
     private static final float LOOK_AHEAD_TICKS = 8.0f;
-    private static final ResourceLocation NOSE_CURSOR = Main.locate("hud/flight_nose");
+    private static final Identifier NOSE_CURSOR = Main.locate("hud/flight_nose");
 
     private static AircraftEntity aircraft;
     private static boolean enabled;
@@ -54,7 +53,7 @@ public final class MouseFlight {
             freeLooking = false;
 
             Camera camera = client.gameRenderer.getMainCamera();
-            float tickDelta = camera.getPartialTickTime();
+            float tickDelta = camera.getCameraEntityPartialTicks(client.getDeltaTracker());
             float yawOffset = aircraft.getViewYRot(tickDelta) - aircraft.getYRot();
             float pitchOffset = client.options.getCameraType().isFirstPerson() ? aircraft.getViewXRot(tickDelta) : 0;
             float viewOffset = getCameraPitchOffset(camera, tickDelta);
@@ -67,7 +66,7 @@ public final class MouseFlight {
             targetYaw = player.getYRot();
             targetPitch = player.getXRot();
 
-            player.displayClientMessage(Component.translatable(enabled ? "immersive_aircraft.mouse_control_enabled" : "immersive_aircraft.mouse_control_disabled", KeyBindings.freeLook.getTranslatedKeyMessage()), true);
+            player.sendOverlayMessage(Component.translatable(enabled ? "immersive_aircraft.mouse_control_enabled" : "immersive_aircraft.mouse_control_disabled", KeyBindings.freeLook.getTranslatedKeyMessage()));
         }
 
         if (!enabled || !acceptsInput) {
@@ -107,8 +106,7 @@ public final class MouseFlight {
     }
 
     public static float getCameraPitchOffset(Camera camera, float tickDelta) {
-        Minecraft client = Minecraft.getInstance();
-        double fov = ((GameRendererAccessorMixin) client.gameRenderer).immersiveAircraft$getFov(camera, tickDelta, true);
+        double fov = ((CameraAccessorMixin) camera).immersiveAircraft$calculateFov(tickDelta);
         return (float) (Math.atan((1.0 - 2.0 * CROSSHAIR_HEIGHT) * Math.tan(fov * Mth.DEG_TO_RAD * 0.5)) * Mth.RAD_TO_DEG);
     }
 
@@ -135,40 +133,35 @@ public final class MouseFlight {
         return Mth.clamp((error - input * speed * LOOK_AHEAD_TICKS) / STEERING_ANGLE, -1.0f, 1.0f);
     }
 
-    public static void render(GuiGraphics graphics) {
+    public static void render(GuiGraphicsExtractor graphics) {
         Minecraft client = Minecraft.getInstance();
         if (!enabled || aircraft == null || client.screen != null || client.options.hideGui) {
             return;
         }
         Camera camera = client.gameRenderer.getMainCamera();
-        float tickDelta = camera.getPartialTickTime();
-        double fov = ((GameRendererAccessorMixin) client.gameRenderer).immersiveAircraft$getFov(camera, tickDelta, true);
+        float tickDelta = camera.getCameraEntityPartialTicks(client.getDeltaTracker());
+        double fov = camera.getFov();
         float focalLength = (float) (graphics.guiHeight() / (2.0 * Math.tan(fov * Mth.DEG_TO_RAD * 0.5)));
         float pitch = aircraft instanceof AirplaneEntity ? aircraft.getViewXRot(tickDelta) : 0;
         drawDirection(graphics, camera, Vec3.directionFromRotation(pitch, aircraft.getViewYRot(tickDelta)), focalLength);
     }
 
-    private static void drawDirection(GuiGraphics graphics, Camera camera, Vec3 direction, float focalLength) {
+    private static void drawDirection(GuiGraphicsExtractor graphics, Camera camera, Vec3 direction, float focalLength) {
         Vector3f vector = direction.toVector3f();
-        float depth = vector.dot(camera.getLookVector());
+        float depth = vector.dot(camera.forwardVector());
         if (depth <= 0) {
             return;
         }
 
-        float x = graphics.guiWidth() * 0.5f - vector.dot(camera.getLeftVector()) * focalLength / depth;
-        float y = graphics.guiHeight() * 0.5f - vector.dot(camera.getUpVector()) * focalLength / depth;
+        float x = graphics.guiWidth() * 0.5f - vector.dot(camera.leftVector()) * focalLength / depth;
+        float y = graphics.guiHeight() * 0.5f - vector.dot(camera.upVector()) * focalLength / depth;
         if (x < 8 || y < 8 || x >= graphics.guiWidth() - 8 || y >= graphics.guiHeight() - 8) {
             return;
         }
 
-        graphics.flush();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        graphics.pose().pushPose();
-        graphics.pose().translate(x, y, 0);
-        graphics.blitSprite(NOSE_CURSOR, -4, -4, 9, 9);
-        graphics.pose().popPose();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableBlend();
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(x, y);
+        graphics.blitSprite(RenderPipelines.CROSSHAIR, NOSE_CURSOR, -4, -4, 9, 9);
+        graphics.pose().popMatrix();
     }
 }

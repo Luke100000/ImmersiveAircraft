@@ -16,13 +16,9 @@ import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class ControllableInput implements ControllerInput {
@@ -31,7 +27,7 @@ public final class ControllableInput implements ControllerInput {
     }
 
     public static void registerDefaults() {
-        InGameContext context = new InGameContext(ResourceLocation.fromNamespaceAndPath("immersive_aircraft", "boost")) {
+        InGameContext context = new InGameContext(Identifier.fromNamespaceAndPath("immersive_aircraft", "boost")) {
             @Override
             public int priority() {
                 // Boost handles L3 before Sprint; its handler falls through outside aircraft.
@@ -39,7 +35,7 @@ public final class ControllableInput implements ControllerInput {
             }
         };
         Controllable.getBindingRegistry().register(new ButtonBinding(Buttons.LEFT_THUMB_STICK,
-                KeyBindings.boost.getName(), KeyBindings.boost.getCategory(), context, OnPressHandler.create(input -> {
+                KeyBindings.boost.getName(), KeyBindings.boost.getCategory().id().toLanguageKey("key.category"), context, OnPressHandler.create(input -> {
                     if (input.player().filter(player -> player.getRootVehicle() instanceof VehicleEntity).isEmpty()
                             || Controllable.getBindingRegistry().getKeyAdapterByDescriptionKey(KeyBindings.boost.getName() + ".custom") != null) {
                         return Optional.empty();

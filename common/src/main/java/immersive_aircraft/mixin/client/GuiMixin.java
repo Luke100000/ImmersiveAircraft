@@ -22,27 +22,27 @@ public class GuiMixin {
         }
     }
 
-    @ModifyExpressionValue(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/CameraType;isFirstPerson()Z"))
+    @ModifyExpressionValue(method = "extractCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/CameraType;isFirstPerson()Z"))
     private boolean immersiveAircraft$mouseFlightCrosshair(boolean firstPerson) {
         return firstPerson || MouseFlight.isEnabled();
     }
 
-    @Inject(method = "renderCrosshair", at = @At("HEAD"))
+    @Inject(method = "extractCrosshair", at = @At("HEAD"))
     private void immersiveAircraft$moveCrosshair(GuiGraphicsExtractor graphics, DeltaTracker delta, CallbackInfo ci) {
         if (MouseFlight.isEnabled()) {
-            graphics.pose().pushPose();
-            graphics.pose().translate(0, graphics.guiHeight() * (MouseFlight.CROSSHAIR_HEIGHT - 0.5f), 0);
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(0, graphics.guiHeight() * (MouseFlight.CROSSHAIR_HEIGHT - 0.5f));
         }
     }
 
-    @Inject(method = "renderCrosshair", at = @At("RETURN"))
+    @Inject(method = "extractCrosshair", at = @At("RETURN"))
     private void immersiveAircraft$restoreCrosshair(GuiGraphicsExtractor graphics, DeltaTracker delta, CallbackInfo ci) {
         if (MouseFlight.isEnabled()) {
-            graphics.pose().popPose();
+            graphics.pose().popMatrix();
         }
     }
 
-    @Inject(method = "renderItemHotbar", at = @At("RETURN"))
+    @Inject(method = "extractItemHotbar", at = @At("RETURN"))
     private void immersiveAircraft$renderEngineGauge(GuiGraphicsExtractor graphics, DeltaTracker delta, CallbackInfo ci) {
         OverlayRenderer.renderEngineGauge(graphics, delta.getGameTimeDeltaPartialTick(false));
     }
