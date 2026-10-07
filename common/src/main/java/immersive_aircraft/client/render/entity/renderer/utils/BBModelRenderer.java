@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Pair;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.resources.bbmodel.*;
 import immersive_aircraft.util.Utils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -101,12 +102,13 @@ public class BBModelRenderer {
             VertexConsumer vertexConsumer = provider.getBuffer(source, cube, face);
             for (int i = 0; i < 4; i++) {
                 BBFace.BBVertex v = face.vertices[i];
-                vertexConsumer.addVertex(positionMatrix, v.x, v.y, v.z)
-                        .setColor(red, green, blue, alpha)
-                        .setUv(v.u, v.v)
-                        .setOverlay(OverlayTexture.NO_OVERLAY)
-                        .setLight(light)
-                        .setNormal(last, v.nx, v.ny, v.nz);
+                // Sprite-wrapped consumers can return their delegate from fluent calls.
+                vertexConsumer.addVertex(positionMatrix, v.x, v.y, v.z);
+                vertexConsumer.setColor(red, green, blue, alpha);
+                vertexConsumer.setUv(v.u, v.v);
+                vertexConsumer.setOverlay(OverlayTexture.NO_OVERLAY);
+                vertexConsumer.setLight(light);
+                vertexConsumer.setNormal(last, v.nx, v.ny, v.nz);
             }
         }
     }
@@ -119,7 +121,7 @@ public class BBModelRenderer {
         }
 
         // Render the base material
-        SpriteId baseSprite = isBanner ? Sheets.BANNER_BASE : Sheets.SHIELD_BASE;
+        SpriteId baseSprite = isBanner ? Sheets.BANNER_PATTERN_BASE : Sheets.SHIELD_PATTERN_BASE;
         renderBannerLayer(cube, matrixStack, vertexConsumers, light, baseColor, baseSprite);
 
         // And the patterns
@@ -139,7 +141,7 @@ public class BBModelRenderer {
         float blue = (colorValue & 0xFF) / 255.0f;
         renderFaces(cube, matrixStack, vertexConsumers, light,
                 red, green, blue, 1.0f,
-                (source, container, face) -> source.getBuffer(RenderTypes.bannerPattern(sprite.texture())));
+                (source, container, face) -> Minecraft.getInstance().getAtlasManager().get(sprite).wrap(source.getBuffer(sprite.renderType(RenderTypes::bannerPattern))));
     }
 
     public static void renderSailObject(BBMesh cube, PoseStack matrixStack, DeferredRenderBuffer vertexConsumerProvider, int light, float time, float red, float green, float blue, float alpha) {

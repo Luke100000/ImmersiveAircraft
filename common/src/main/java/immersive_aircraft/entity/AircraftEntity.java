@@ -107,13 +107,21 @@ public abstract class AircraftEntity extends EngineVehicle {
         Vec3 velocity = getDeltaMovement();
         double drag = Math.abs(direction.dot(velocity.normalize()));
         setDeltaMovement(velocity.normalize()
-                .lerp(direction, getProperties().get(VehicleStat.LIFT))
+                .lerp(direction, getLiftFactor(direction))
                 .scale(velocity.length() * (drag * getProperties().get(VehicleStat.FRICTION) + (1.0 - getProperties().get(VehicleStat.FRICTION)))));
+    }
+
+    protected float getLiftFactor(Vec3 direction) {
+        return getProperties().get(VehicleStat.LIFT);
+    }
+
+    protected double getGlideAcceleration(Vec3 direction, double heightDifference) {
+        return heightDifference * getProperties().get(VehicleStat.GLIDE_FACTOR) * (1.0 - Math.abs(direction.y));
     }
 
     @Override
     protected float getGroundDecay() {
-        float gravity = Math.min(1.0f, Math.max(0.0f, getVehicleGravity() / (-0.04f)));
+        float gravity = Math.clamp(getVehicleGravity() / -0.04f, 0.0f, 1.0f);
         float upgrade = Math.min(1.0f, getProperties().get(VehicleStat.ACCELERATION) * 0.5f);
         return (super.getGroundDecay() * gravity + (1.0f - gravity)) * (1.0f - upgrade) + upgrade;
     }
@@ -138,7 +146,7 @@ public abstract class AircraftEntity extends EngineVehicle {
         // glide
         float diff = (float) (lastY - getY());
         if (lastY != 0.0 && getProperties().get(VehicleStat.GLIDE_FACTOR) > 0 && diff != 0.0) {
-            setDeltaMovement(getDeltaMovement().add(toVec3d(direction).scale(diff * getProperties().get(VehicleStat.GLIDE_FACTOR) * (1.0f - Math.abs(direction.y)))));
+            setDeltaMovement(getDeltaMovement().add(toVec3d(direction).scale(getGlideAcceleration(toVec3d(direction), diff))));
         }
         lastY = (float) getY();
 

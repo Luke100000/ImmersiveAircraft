@@ -1,0 +1,38 @@
+def platform = project.name
+def controllers = [
+        controlify      : "maven.modrinth:controlify:${rootProject.controlify_version}",
+        controllable    : "curse.maven:controllable-317269:${rootProject.property("controllable_${platform}_version")}",
+        midnightcontrols: "maven.modrinth:midnightcontrols:${rootProject.midnightcontrols_version}-${platform}"
+]
+
+dependencies {
+    controllers.values().each { library ->
+        add("compileOnly", library) { transitive false }
+    }
+}
+
+def selected = rootProject.controller_mod
+if (selected != "none" && !controllers.containsKey(selected)) {
+    throw new GradleException("Unknown controller_mod '${selected}'; choose none or ${controllers.keySet().join(', ')}")
+}
+if (selected == "none") return
+
+// Keep controller test mods out of NeoForge's dedicated-server classpath.
+if (platform == "neoforge") {
+    sourceSets {
+        controllerTest {
+            runtimeClasspath += sourceSets.main.runtimeClasspath
+        }
+    }
+    neoForge.runs.client.sourceSet = sourceSets.controllerTest
+}
+def runtimeConfiguration = platform == "fabric" ? "runtimeOnly" : "controllerTestRuntimeOnly"
+
+dependencies {
+    add(runtimeConfiguration, controllers[selected]) { transitive false }
+    if (selected == "controlify") {
+        add(runtimeConfiguration, "maven.modrinth:yacl:${rootProject.yacl_version}-${platform}") { transitive false }
+    } else if (selected == "controllable") {
+        add(runtimeConfiguration, "curse.maven:framework-549225:${rootProject.property("framework_${platform}_version")}") { transitive false }
+    }
+}

@@ -1,12 +1,14 @@
 package immersive_aircraft.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import immersive_aircraft.client.MouseFlight;
 import immersive_aircraft.client.VehicleCameraTransform;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +30,9 @@ public abstract class CameraMixin {
 
     @Shadow
     protected abstract float getMaxZoom(float maxZoom);
+
+    @Shadow
+    protected abstract void setRotation(float yaw, float pitch);
 
     @Shadow
     protected abstract void move(float x, float y, float z);
@@ -52,10 +57,21 @@ public abstract class CameraMixin {
         throw new AssertionError();
     }
 
+    @Inject(method = "alignWithEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;getMaxZoom(F)F"))
+    private void immersiveAircraft$mouseFlightView(float tickDelta, CallbackInfo ci) {
+        if (isDetached() && entity instanceof Player player && player.isLocalPlayer()
+            && entity.getRootVehicle() instanceof VehicleEntity vehicle && MouseFlight.isEnabled(vehicle)) {
+            setRotation(yRot(), xRot() + MouseFlight.getCameraPitchOffset((Camera) (Object) this, tickDelta));
+        }
+    }
+
     @Inject(method = "alignWithEntity", at = @At("TAIL"))
     public void ia$alignWithEntity(float tickDelta, CallbackInfo ci) {
         if (isDetached() && entity != null && entity.getVehicle() instanceof VehicleEntity vehicle) {
             move(-getMaxZoom((float) vehicle.getZoom()), 0.0f, 0.0f);
+        } else if (!isDetached() && entity instanceof Player player && player.isLocalPlayer()
+                   && entity.getRootVehicle() instanceof VehicleEntity vehicle && MouseFlight.isEnabled(vehicle)) {
+            setRotation(yRot(), xRot() + MouseFlight.getCameraPitchOffset((Camera) (Object) this, tickDelta));
         }
     }
 

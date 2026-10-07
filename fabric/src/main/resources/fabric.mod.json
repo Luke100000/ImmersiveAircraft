@@ -22,6 +22,9 @@
     "client": [
       "immersive_aircraft.fabric.ClientFabric"
     ],
+    "controlify": [
+      "immersive_aircraft.client.compat.ControlifyGuide"
+    ],
     "modmenu": [
       "immersive_aircraft.config.ModMenuIntegration"
     ],
@@ -34,12 +37,22 @@
   },
   "accessWidener": "immersive_aircraft.accessWidener",
   "mixins": [
-    "immersive_aircraft.mixins.json"
+    "immersive_aircraft.mixins.json",
+    "immersive_aircraft.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.19.5",
     "minecraft": "26.2",
     "java": ">=25",
     "fabric-api": "*"
+  },
+  "suggests": {
+    "controlify": "*",
+    "controllable": "*",
+    "midnightcontrols": "*"
+  },
+  "breaks": {
+    "ad_astra": "<1.15.6",
+    "controlify": "<3.5.0"
   }
 }

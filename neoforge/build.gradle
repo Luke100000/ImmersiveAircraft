@@ -74,6 +74,8 @@ dependencies {
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 }
 
+apply from: rootProject.file("gradle/controller-dependencies.gradle")
+
 def generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     def replaceProperties = [
             minecraft_version_range: rootProject.minecraft_version_range,

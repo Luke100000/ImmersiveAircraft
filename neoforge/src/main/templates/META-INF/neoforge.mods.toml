@@ -32,3 +32,22 @@ type = "required"
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.immersive_aircraft]]
+modId = "controlify"
+type = "optional"
+versionRange = "[3.5.0,)"
+ordering = "AFTER"
+side = "CLIENT"
+
+[[dependencies.immersive_aircraft]]
+modId = "controllable"
+type = "optional"
+ordering = "AFTER"
+side = "CLIENT"
+
+[[dependencies.immersive_aircraft]]
+modId = "midnightcontrols"
+type = "optional"
+ordering = "AFTER"
+side = "CLIENT"

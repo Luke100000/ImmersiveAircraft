@@ -1,3 +1,17 @@
+# 1.6.0
+
+* Added analog aircraft controls for Controlify, Controllable, and MidnightControls
+* Added toggleable mouse steering, hold-to-look controls, and steering indicators
+* Separated airplane throttle keybinds from vertical flight controls
+* Added refueling from fluid containers, with configurable fluid IDs and tags
+* Fixed first-person aircraft rendering with shaders
+* Improved render performance
+* Airplanes have a better lift mechanic (need a bit more runway, don't fall like a feather, ...)
+* Tuned airplane thrust and speed upgrades, with a slower Bamboo Hopper
+* Fixed laggy interpolation in multiplayer
+* Fixed banners not rendering correctly
+* Fixed blur error
+
 # 1.5.2
 
 * Relaxed Fabric version
