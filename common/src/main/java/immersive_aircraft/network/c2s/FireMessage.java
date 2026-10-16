@@ -6,7 +6,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import org.joml.Vector3f;
 
 public class FireMessage extends Message {
@@ -52,7 +51,7 @@ public class FireMessage extends Message {
 
     @Override
     public void receiveServer(ServerPlayer e) {
-        if (e.getVehicle() instanceof InventoryVehicleEntity vehicle) {
+        if (e.getVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.canFireWeapon(e, slot, index)) {
             vehicle.fireWeapon(slot, index, direction);
         }
     }

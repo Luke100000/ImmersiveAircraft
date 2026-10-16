@@ -1,13 +1,11 @@
 package immersive_aircraft.network.c2s;
 
 import immersive_aircraft.cobalt.network.Message;
-import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 public class CommandMessage extends Message {
@@ -49,12 +47,15 @@ public class CommandMessage extends Message {
     public void receiveServer(ServerPlayer e) {
         if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
             if (key == Key.DISMOUNT) {
+                boolean wasPilot = vehicle.getControllingPassenger() == e;
                 e.stopRiding();
                 e.setJumping(false);
-                vehicle.chill();
-                vehicle.setDeltaMovement(fx, fy, fz);
+                if (wasPilot) {
+                    vehicle.chill();
+                    vehicle.setDeltaMovement(fx, fy, fz);
+                }
             } else if (key == Key.BOOST) {
-                if (vehicle.canBoost()) {
+                if (vehicle.getControllingPassenger() == e && vehicle.canBoost()) {
                     vehicle.boost();
                 }
             }

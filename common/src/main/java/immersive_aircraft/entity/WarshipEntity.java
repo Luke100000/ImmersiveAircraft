@@ -20,8 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 import org.joml.Math;
 
-import java.util.List;
-
 public class WarshipEntity extends AirshipEntity {
     private final HeavyCrossbow turret;
 
@@ -82,12 +80,7 @@ public class WarshipEntity extends AirshipEntity {
     }
 
     public Entity getTurretGunner() {
-        List<Entity> passengers = getPassengers();
-        if (passengers.size() >= 2) {
-            return passengers.get(1);
-        } else {
-            return null;
-        }
+        return getPassengerInSeat(1);
     }
 
     public boolean isTurretGunner(Entity entity) {
@@ -95,6 +88,8 @@ public class WarshipEntity extends AirshipEntity {
     }
 
     public void positionRider(@NotNull Entity passenger, @NotNull MoveFunction positionUpdater) {
+        if (!hasPassenger(passenger)) return;
+
         Matrix4f transform = getVehicleTransform();
 
         if (isTurretGunner(passenger)) {
@@ -179,6 +174,14 @@ public class WarshipEntity extends AirshipEntity {
         } else {
             super.clientFireWeapons(entity);
         }
+    }
+
+    @Override
+    public boolean canFireWeapon(Entity passenger, int slot, int index) {
+        if (isTurretGunner(passenger)) {
+            return slot == -1 && index == -1;
+        }
+        return slot != -1 && super.canFireWeapon(passenger, slot, index);
     }
 
     @Override

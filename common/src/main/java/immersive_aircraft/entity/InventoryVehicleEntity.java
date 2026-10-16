@@ -3,7 +3,6 @@ package immersive_aircraft.entity;
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.inventory.SparseSimpleInventory;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
@@ -156,9 +155,9 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (getHealth() >= 1.0) {
             if (!player.level().isClientSide && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
-                Entity primaryPassenger = getFirstPassenger();
+                Entity primaryPassenger = getPassengerInSeat(0);
                 if (primaryPassenger != null) {
-                    // Kick out the first passenger
+                    // Kick out the pilot
                     primaryPassenger.stopRiding();
                 } else {
                     // Open inventory instead
@@ -264,8 +263,7 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         }
 
         // Update gunner offsets
-        // The first weapon is assigned to the last passenger, the second to the second last, etc.
-        // If more weapons than passengers are available, the remaining weapons are assigned to the driver
+        // Weapons count backward from the final seat, with empty seats falling back to the pilot.
         int gunnerOffset = 0;
         for (List<Weapon> weapons : getWeapons().values()) {
             for (Weapon weapon : weapons) {
@@ -419,13 +417,19 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     public void clientFireWeapons(Entity entity) {
         for (List<Weapon> weapons : getWeapons().values()) {
-            int index = 0;
-            for (Weapon weapon : weapons) {
+            for (int index = 0; index < weapons.size(); index++) {
+                Weapon weapon = weapons.get(index);
                 if (getGunner(weapon.getGunnerOffset()) == entity) {
-                    weapon.clientFire(index++);
+                    weapon.clientFire(index);
                 }
             }
         }
+    }
+
+    public boolean canFireWeapon(Entity passenger, int slot, int index) {
+        List<Weapon> weapons = getWeapons().get(slot);
+        return hasPassenger(passenger) && weapons != null && index >= 0 && index < weapons.size()
+                && getGunner(weapons.get(index).getGunnerOffset()) == passenger;
     }
 
     public void fireWeapon(int slot, int index, Vector3f direction) {

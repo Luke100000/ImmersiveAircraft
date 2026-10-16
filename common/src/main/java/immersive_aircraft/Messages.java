@@ -16,6 +16,7 @@ public class Messages {
         NetworkHandler.registerMessage(Main.MOD_ID, CommandMessage.TYPE, CommandMessage.STREAM_CODEC);
         NetworkHandler.registerMessage(Main.MOD_ID, EnginePowerMessage.TYPE, EnginePowerMessage.STREAM_CODEC);
         NetworkHandler.registerMessage(Main.MOD_ID, FireMessage.TYPE, FireMessage.STREAM_CODEC);
+        NetworkHandler.registerMessage(Main.MOD_ID, SeatChangeMessage.TYPE, SeatChangeMessage.STREAM_CODEC);
         NetworkHandler.registerMessage(Main.MOD_ID, InventoryRequest.TYPE, InventoryRequest.STREAM_CODEC);
     }
 }

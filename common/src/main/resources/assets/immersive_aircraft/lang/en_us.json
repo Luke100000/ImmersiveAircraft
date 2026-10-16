@@ -33,6 +33,9 @@
   "guide.immersive_aircraft.throttle_up": "Throttle up",
   "guide.immersive_aircraft.throttle_down": "Throttle down",
 
+  "immersive_aircraft.seat_selected": "Seat %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 to change seats",
+
   "entity.immersive_aircraft.airship": "Airship",
   "entity.immersive_aircraft.cargo_airship": "Cargo Airship",
   "entity.immersive_aircraft.warship": "Warship",

@@ -31,12 +31,16 @@ public class ClientPlayNetworkHandlerMixin {
         boolean bl = entity.hasIndirectPassenger(minecraft.player);
         for (int i : packet.getPassengers()) {
             Entity entity2 = this.level.getEntity(i);
-            if (entity2 != null && (entity2 == minecraft.player || bl) && entity instanceof VehicleEntity) {
+            if (entity2 != null && (entity2 == minecraft.player || bl) && entity instanceof VehicleEntity vehicle) {
                 assert minecraft.player != null;
                 minecraft.player.yRotO = entity.getYRot();
                 minecraft.player.setYRot(entity.getYRot());
                 minecraft.player.setYHeadRot(entity.getYRot());
-                minecraft.gui.setOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), false);
+                Component message = Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage());
+                if (vehicle.getPassengerSpace() > 1) {
+                    message = message.copy().append(" - ").append(Component.translatable("immersive_aircraft.seat_controls"));
+                }
+                minecraft.gui.setOverlayMessage(message, false);
             }
         }
     }

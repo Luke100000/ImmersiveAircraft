@@ -29,6 +29,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -65,7 +66,9 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Abstract vehicle, which handles player input, collisions, passengers, and destruction
@@ -74,6 +77,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     public final ResourceLocation identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<CompoundTag> SEAT_ASSIGNMENTS = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.COMPOUND_TAG);
 
     protected final boolean canExplodeOnCrash;
 
@@ -110,6 +114,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     public boolean adaptPlayerRotation = true;
     private int drowning;
     private int inFireDamageCooldown;
+
+    private Entity previousPilot;
+    private int previousSeatCapacity = -1;
+    private boolean seatsNeedReconciliation;
 
     public float getRoll() {
         return roll;
@@ -161,7 +169,115 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     @Nullable
     public PassengerPositionDescriptor getPassengerPosition(Entity passenger) {
-        return getVehicleData().getPassengerPosition(getPassengers().size(), getPassengers().indexOf(passenger));
+        int layoutSize = 0;
+        for (Entity rider : getPassengers()) {
+            layoutSize = Math.max(layoutSize, getSeatIndex(rider) + 1);
+        }
+        return getVehicleData().getPassengerPosition(layoutSize, getSeatIndex(passenger));
+    }
+
+    public int getSeatIndex(Entity passenger) {
+        if (!hasPassenger(passenger)) return -1;
+
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS);
+        String key = passenger.getStringUUID();
+        if (!seats.contains(key, Tag.TAG_INT)) return -1;
+
+        int seat = seats.getInt(key);
+        return seat >= 0 && seat < getPassengerSpace() ? seat : -1;
+    }
+
+    @Nullable
+    public Entity getPassengerInSeat(int seatIndex) {
+        if (seatIndex < 0 || seatIndex >= getPassengerSpace()) return null;
+
+        for (Entity passenger : getPassengers()) {
+            if (getSeatIndex(passenger) == seatIndex) {
+                return passenger;
+            }
+        }
+        return null;
+    }
+
+    public boolean changeSeat(Player player, int targetSeat) {
+        if (level().isClientSide || player.getVehicle() != this || targetSeat < 0 || targetSeat >= getPassengerSpace()) {
+            return false;
+        }
+
+        int currentSeat = getSeatIndex(player);
+        if (currentSeat < 0 || currentSeat == targetSeat) return false;
+
+        Entity occupant = getPassengerInSeat(targetSeat);
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
+        seats.putInt(player.getStringUUID(), targetSeat);
+        if (occupant != null) {
+            seats.putInt(occupant.getStringUUID(), currentSeat);
+        }
+        entityData.set(SEAT_ASSIGNMENTS, seats);
+
+        player.displayClientMessage(Component.translatable("immersive_aircraft.seat_selected", targetSeat + 1), true);
+        if (occupant instanceof Player otherPlayer) {
+            otherPlayer.displayClientMessage(Component.translatable("immersive_aircraft.seat_selected", currentSeat + 1), true);
+        }
+        return true;
+    }
+
+    @Override
+    protected void addPassenger(@NotNull Entity passenger) {
+        super.addPassenger(passenger);
+        if (level().isClientSide || getSeatIndex(passenger) >= 0) return;
+
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
+        Set<Integer> occupiedSeats = new HashSet<>();
+        for (String key : seats.getAllKeys()) {
+            occupiedSeats.add(seats.getInt(key));
+        }
+
+        int firstSeat = passenger instanceof Player ? 0 : 1;
+        for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
+            if (!occupiedSeats.contains(seat)) {
+                seats.putInt(passenger.getStringUUID(), seat);
+                entityData.set(SEAT_ASSIGNMENTS, seats);
+                return;
+            }
+        }
+        seatsNeedReconciliation = true;
+    }
+
+    @Override
+    protected void removePassenger(@NotNull Entity passenger) {
+        super.removePassenger(passenger);
+
+        if (level().isClientSide) return;
+
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
+        seats.remove(passenger.getStringUUID());
+        entityData.set(SEAT_ASSIGNMENTS, seats);
+    }
+
+    private void reconcilePassengerSeats() {
+        CompoundTag seats = new CompoundTag();
+        Set<Integer> occupiedSeats = new HashSet<>();
+        for (Entity passenger : getPassengers()) {
+            int seat = getSeatIndex(passenger);
+            if (seat >= 0 && occupiedSeats.add(seat)) {
+                seats.putInt(passenger.getStringUUID(), seat);
+            }
+        }
+
+        for (Entity passenger : getPassengers()) {
+            String key = passenger.getStringUUID();
+            if (seats.contains(key, Tag.TAG_INT)) continue;
+
+            int firstSeat = passenger instanceof Player ? 0 : 1;
+            for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
+                if (occupiedSeats.add(seat)) {
+                    seats.putInt(key, seat);
+                    break;
+                }
+            }
+        }
+        entityData.set(SEAT_ASSIGNMENTS, seats);
     }
 
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -197,6 +313,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
         entityData.define(DATA_HEALTH, 1.0f);
         entityData.define(BOOST, 0);
+        entityData.define(SEAT_ASSIGNMENTS, new CompoundTag());
     }
 
     @Override
@@ -399,6 +516,21 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     @Override
     public void tick() {
+        if (!level().isClientSide && (seatsNeedReconciliation || previousSeatCapacity != getPassengerSpace())) {
+            reconcilePassengerSeats();
+            previousSeatCapacity = getPassengerSpace();
+            seatsNeedReconciliation = false;
+        }
+
+        Entity pilot = getControllingPassenger();
+        if (pilot != previousPilot) {
+            setInputs(0, 0, 0);
+            pressingInterpolatedX.reset(0);
+            pressingInterpolatedY.reset(0);
+            pressingInterpolatedZ.reset(0);
+            previousPilot = pilot;
+        }
+
         if (tickCount % 10 == 0) {
             secondLastX = lastX;
             secondLastY = lastY;
@@ -416,9 +548,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         }
 
         // pilot
-        if (!getPassengers().isEmpty()) {
-            tickPilot();
-        }
+        tickPilot();
 
         // wobble
         if (getHurtTime() > 0) {
@@ -463,7 +593,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             boolean bl = !level().isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
-                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && AutoEnterRules.canAutoEnter(entity.getType())) {
+                if (bl && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && AutoEnterRules.canAutoEnter(entity.getType())) {
                     entity.startRiding(this);
                 }
             }
@@ -542,7 +672,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
                     }
                 }
 
-                if (Main.debouncingGetter.is(Main.Key.BOOST) && canBoost()) {
+                if (Main.debouncingGetter.is(Main.Key.BOOST) && getControllingPassenger() == player && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));
                     Vec3 p = position();
                     level().playLocalSound(p.x(), p.y(), p.z(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 1.0f, 1.0f, true);
@@ -551,7 +681,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         }
 
         //controls
-        Entity pilot = getPassengers().get(0);
+        Entity pilot = getControllingPassenger();
         if (pilot instanceof Player player && player.isLocalPlayer()) {
             setInputs(MouseFlight.yawInput(this, AircraftInput.axis(KeyBindings.left, KeyBindings.right)),
                     AircraftInput.axis(useAirplaneControls() ? KeyBindings.throttleUp : KeyBindings.up,
@@ -704,10 +834,14 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     @Override
     protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
         tag.putFloat("VehicleHealth", getHealth());
+        tag.put("SeatAssignments", entityData.get(SEAT_ASSIGNMENTS).copy());
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        entityData.set(SEAT_ASSIGNMENTS, tag.getCompound("SeatAssignments").copy());
+        // Saved riders are attached after the vehicle's own NBT has been read.
+        seatsNeedReconciliation = true;
         if (tag.contains("VehicleHealth")) {
             setHealth(tag.getFloat("VehicleHealth"));
         }
@@ -818,23 +952,32 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     @Override
     protected boolean canAddPassenger(@NotNull Entity passenger) {
-        return getPassengers().size() < getPassengerSpace() && !isEyeInFluid(FluidTags.WATER);
+        if (getPassengers().size() >= getPassengerSpace() || isEyeInFluid(FluidTags.WATER)) {
+            return false;
+        }
+
+        int firstSeat = passenger instanceof Player ? 0 : 1;
+        for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
+            if (getPassengerInSeat(seat) == null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
-        if (getFirstPassenger() instanceof LivingEntity le) {
+        if (getPassengerInSeat(0) instanceof LivingEntity le) {
             return le;
-        } else {
-            return super.getControllingPassenger();
         }
+        return null;
     }
 
     @Nullable
     public Entity getGunner(int offset) {
-        List<Entity> passengers = getPassengers();
-        return passengers.isEmpty() ? null : passengers.get(Math.max(0, passengers.size() - 1 - offset));
+        Entity gunner = getPassengerInSeat(Math.max(0, getPassengerSpace() - 1 - offset));
+        return gunner != null ? gunner : getControllingPassenger();
     }
 
     public void setInputs(float x, float y, float z) {

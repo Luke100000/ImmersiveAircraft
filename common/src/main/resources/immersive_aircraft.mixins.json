@@ -14,7 +14,7 @@
     "client.ClientPlayerEntityMixin", "client.ClientPlayerInteractionManagerMixin",
     "client.ClientPlayNetworkHandlerMixin", "client.ControllableHintsMixin", "client.EntityRenderDispatcherMixin",
     "client.GameRendererAccessorMixin", "client.GuiMixin", "client.HumanoidModelMixin",
-    "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
-    "client.MidnightControlsHintsMixin", "client.PlayerEntityRendererMixin"
+    "client.KeyboardHandlerMixin", "client.KeyMappingAccessorMixin", "client.KeyMappingMixin",
+    "client.LivingEntityRendererMixin", "client.MidnightControlsHintsMixin", "client.PlayerEntityRendererMixin"
   ]
 }

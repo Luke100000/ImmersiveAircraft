@@ -1,6 +1,7 @@
 # 1.7.0
 
-* Added rotation and posture to passenger placement
+* You can now switch seats with ctrl + 0-9
+* Added rotation, camera offset, and posture to passenger placement
 
 # 1.6.0
 

@@ -6,7 +6,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 public class EnginePowerMessage extends Message {
     public static final StreamCodec<RegistryFriendlyByteBuf, EnginePowerMessage> STREAM_CODEC = StreamCodec.ofMember(EnginePowerMessage::encode, EnginePowerMessage::new);
@@ -33,7 +32,7 @@ public class EnginePowerMessage extends Message {
 
     @Override
     public void receiveServer(ServerPlayer e) {
-        if (e.getRootVehicle() instanceof EngineVehicle entity && entity.hasPassenger(e)) {
+        if (e.getVehicle() instanceof EngineVehicle entity && entity.getControllingPassenger() == e) {
             entity.setEngineTarget(engineTarget);
         }
     }

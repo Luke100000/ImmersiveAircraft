@@ -7,7 +7,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 public class CollisionMessage extends Message {
     public static final StreamCodec<RegistryFriendlyByteBuf, CollisionMessage> STREAM_CODEC = StreamCodec.ofMember(CollisionMessage::encode, CollisionMessage::new);
@@ -34,7 +33,7 @@ public class CollisionMessage extends Message {
 
     @Override
     public void receiveServer(ServerPlayer e) {
-        if (e.getRootVehicle() instanceof VehicleEntity vehicle && Config.getInstance().collisionDamage) {
+        if (e.getRootVehicle() instanceof VehicleEntity vehicle && vehicle.getControllingPassenger() == e && Config.getInstance().collisionDamage) {
             float appliedDamage = damage * Config.getInstance().collisionDamageMultiplier;
             vehicle.hurt(e.level().damageSources().fall(), appliedDamage);
             if (vehicle.isRemoved()) {
