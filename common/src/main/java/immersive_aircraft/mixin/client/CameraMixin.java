@@ -3,6 +3,7 @@ package immersive_aircraft.mixin.client;
 import com.mojang.math.Axis;
 import immersive_aircraft.client.MouseFlight;
 import immersive_aircraft.entity.VehicleEntity;
+import immersive_aircraft.entity.misc.PassengerPositionDescriptor;
 import net.minecraft.client.Camera;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -50,7 +51,22 @@ public abstract class CameraMixin {
                     vehicle.getViewXRot(tickDelta) * Mth.DEG_TO_RAD,
                     vehicle.getRoll(tickDelta) * Mth.DEG_TO_RAD
             );
-            Vector3f offset = new Vector3f(0.0f, eye, 0.0f).rotate(vehicleRotation);
+
+            Vector3f offset = new Vector3f(0.0f, eye, 0.0f);
+            PassengerPositionDescriptor passengerPosition = vehicle.getPassengerPosition(entity);
+            if (entity instanceof Player && passengerPosition != null) {
+                Quaternionf seatRotation = new Quaternionf().rotationYXZ(
+                        -passengerPosition.yaw(), passengerPosition.pitch(), passengerPosition.roll()
+                );
+                Vector3f seatOffset = new Vector3f(
+                        passengerPosition.cameraOffsetX(),
+                        passengerPosition.cameraOffsetY(),
+                        passengerPosition.cameraOffsetZ()
+                );
+                offset.add(seatOffset.rotate(seatRotation));
+            }
+
+            offset.rotate(vehicleRotation);
             setPosition(camera.getPosition().add(offset.x(), offset.y() - eye, offset.z()));
         }
     }

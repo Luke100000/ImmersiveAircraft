@@ -10,7 +10,8 @@ import java.util.Locale;
 public record PassengerPositionDescriptor(
         float x, float y, float z,
         float yaw, float pitch, float roll,
-        PassengerPosture posture
+        PassengerPosture posture,
+        float cameraOffsetX, float cameraOffsetY, float cameraOffsetZ
 ) {
     public static PassengerPositionDescriptor fromJson(JsonObject json) {
         float x = Utils.getFloatElement(json, "x");
@@ -25,7 +26,12 @@ public record PassengerPositionDescriptor(
                 ? PassengerPosture.valueOf(json.get("posture").getAsString().toUpperCase(Locale.ROOT))
                 : PassengerPosture.SEATED;
 
-        return new PassengerPositionDescriptor(x, y, z, yaw, pitch, roll, posture);
+        float cameraOffsetX = Utils.getFloatElement(json, "cameraOffsetX");
+        float cameraOffsetY = Utils.getFloatElement(json, "cameraOffsetY");
+        float cameraOffsetZ = Utils.getFloatElement(json, "cameraOffsetZ");
+
+        return new PassengerPositionDescriptor(x, y, z, yaw, pitch, roll, posture,
+                cameraOffsetX, cameraOffsetY, cameraOffsetZ);
     }
 
     public static PassengerPositionDescriptor decode(RegistryFriendlyByteBuf buffer) {
@@ -38,8 +44,11 @@ public record PassengerPositionDescriptor(
         float roll = buffer.readFloat();
 
         PassengerPosture posture = buffer.readEnum(PassengerPosture.class);
+        float cameraOffsetX = buffer.readFloat();
+        float cameraOffsetY = buffer.readFloat();
+        float cameraOffsetZ = buffer.readFloat();
 
-        return new PassengerPositionDescriptor(x, y, z, yaw, pitch, roll, posture);
+        return new PassengerPositionDescriptor(x, y, z, yaw, pitch, roll, posture, cameraOffsetX, cameraOffsetY, cameraOffsetZ);
     }
 
     public void encode(RegistryFriendlyByteBuf buffer) {
@@ -50,5 +59,8 @@ public record PassengerPositionDescriptor(
         buffer.writeFloat(pitch);
         buffer.writeFloat(roll);
         buffer.writeEnum(posture);
+        buffer.writeFloat(cameraOffsetX);
+        buffer.writeFloat(cameraOffsetY);
+        buffer.writeFloat(cameraOffsetZ);
     }
 }
