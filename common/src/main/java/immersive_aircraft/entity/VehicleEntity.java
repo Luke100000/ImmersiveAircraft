@@ -3,8 +3,8 @@ package immersive_aircraft.entity;
 import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
 import earth.terrarium.adastra.api.systems.GravityApi;
-import immersive_aircraft.CompatUtil;
 import immersive_aircraft.AircraftStats;
+import immersive_aircraft.CompatUtil;
 import immersive_aircraft.Main;
 import immersive_aircraft.Sounds;
 import immersive_aircraft.client.AircraftInput;
@@ -15,7 +15,7 @@ import immersive_aircraft.config.AutoEnterRules;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
-import immersive_aircraft.entity.misc.PositionDescriptor;
+import immersive_aircraft.entity.misc.PassengerPositionDescriptor;
 import immersive_aircraft.entity.misc.VehicleData;
 import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
@@ -157,6 +157,11 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     public int getPassengerSpace() {
         return getVehicleData().getPassengerPositions().size();
+    }
+
+    @Nullable
+    public PassengerPositionDescriptor getPassengerPosition(Entity passenger) {
+        return getVehicleData().getPassengerPosition(getPassengers().size(), getPassengers().indexOf(passenger));
     }
 
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -596,43 +601,35 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             return;
         }
 
+        PassengerPositionDescriptor passengerPosition = getPassengerPosition(passenger);
+        if (passengerPosition == null) return;
+
         Matrix4f transform = getVehicleTransform();
+        float x = passengerPosition.x();
+        float y = passengerPosition.y();
+        float z = passengerPosition.z();
 
-        int size = getPassengers().size() - 1;
-        List<List<PositionDescriptor>> positions = getVehicleData().getPassengerPositions();
-        if (size < positions.size()) {
-            int i = getPassengers().indexOf(passenger);
-            if (i >= 0 && i < positions.get(size).size()) {
-                PositionDescriptor positionDescriptor = positions.get(size).get(i);
+        // Passenger offset
+        Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
+        x -= (float) attachmentPoint.x;
+        y -= (float) attachmentPoint.y;
+        z -= (float) attachmentPoint.z;
 
-                float x = positionDescriptor.x();
-                float y = positionDescriptor.y();
-                float z = positionDescriptor.z();
+        Vector4f worldPosition = transformPosition(transform, x, y, z);
+        passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
 
-                // Passenger offset
-                Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
-                x -= (float) attachmentPoint.x;
-                y -= (float) attachmentPoint.y;
-                z -= (float) attachmentPoint.z;
+        if (adaptPlayerRotation && !(level().isClientSide && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(this))) {
+            passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
+            passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
+        }
 
-                Vector4f worldPosition = transformPosition(transform, x, y, z);
+        positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);
 
-                passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
-
-                if (adaptPlayerRotation && !(level().isClientSide && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(this))) {
-                    passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
-                    passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
-                }
-
-                positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);
-
-                copyEntityData(passenger);
-                if (passenger instanceof Animal animal && size > 1) {
-                    int angle = passenger.getId() % 2 == 0 ? 90 : 270;
-                    passenger.setYBodyRot(animal.yBodyRot + (float) angle);
-                    passenger.setYHeadRot(passenger.getYHeadRot() + (float) angle);
-                }
-            }
+        copyEntityData(passenger);
+        if (passenger instanceof Animal animal && getPassengers().size() > 2) {
+            int angle = passenger.getId() % 2 == 0 ? 90 : 270;
+            passenger.setYBodyRot(animal.yBodyRot + (float) angle);
+            passenger.setYHeadRot(passenger.getYHeadRot() + (float) angle);
         }
     }
 
@@ -679,7 +676,12 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     }
 
     public void copyEntityData(Entity entity) {
-        entity.setYBodyRot(getYRot());
+        PassengerPositionDescriptor passengerPosition = getPassengerPosition(entity);
+        float bodyYaw = passengerPosition == null ? 0.0f : passengerPosition.yaw() * Mth.RAD_TO_DEG;
+        entity.setYBodyRot(getYRot() + bodyYaw);
+
+        // A configured stance rotates the body without constraining the passenger's view.
+        if (bodyYaw != 0.0f) return;
 
         if (level().isClientSide && entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this)) {
             float headYaw = Mth.clamp(Mth.wrapDegrees(entity.getYRot() - getYRot()), -85.0f, 85.0f);

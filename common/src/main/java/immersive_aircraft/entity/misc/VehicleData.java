@@ -7,7 +7,7 @@ import immersive_aircraft.entity.inventory.slots.SlotDescription;
 import immersive_aircraft.item.upgrade.VehicleStat;
 import immersive_aircraft.util.Utils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -15,12 +15,13 @@ public class VehicleData {
     private final Map<VehicleStat, Float> properties = new HashMap<>();
     private final VehicleInventoryDescription inventoryDescription;
     private final Map<Integer, Map<WeaponMount.Type, List<WeaponMount>>> weaponMounts = new HashMap<>();
-    private final List<List<PositionDescriptor>> passengerPositions = new LinkedList<>();
+    private final List<List<PassengerPositionDescriptor>> passengerPositions;
     private final List<BoundingBoxDescriptor> boundingBoxes = new LinkedList<>();
     private final List<TrailDescriptor> trails = new LinkedList<>();
 
     public VehicleData() {
         inventoryDescription = new VehicleInventoryDescription();
+        passengerPositions = List.of();
     }
 
     public VehicleData(JsonObject json) {
@@ -53,14 +54,15 @@ public class VehicleData {
         });
 
         // Load passenger positions
+        List<List<PassengerPositionDescriptor>> layouts = new ArrayList<>();
         json.getAsJsonArray("passengerPositions").forEach(passengerPositionsSlotJson -> {
-            LinkedList<PositionDescriptor> positions = new LinkedList<>();
-            passengerPositions.add(positions);
+            List<PassengerPositionDescriptor> positions = new ArrayList<>();
             passengerPositionsSlotJson.getAsJsonArray().forEach(passengerPositionJson -> {
-                PositionDescriptor position = PositionDescriptor.fromJson(passengerPositionJson.getAsJsonObject());
-                positions.add((position));
+                positions.add(PassengerPositionDescriptor.fromJson(passengerPositionJson.getAsJsonObject()));
             });
+            layouts.add(List.copyOf(positions));
         });
+        passengerPositions = List.copyOf(layouts);
 
         // Load bounding boxes
         json.getAsJsonArray("boundingBoxes").forEach(e -> boundingBoxes.add(BoundingBoxDescriptor.fromJson(e.getAsJsonObject())));
@@ -102,14 +104,16 @@ public class VehicleData {
 
         // Load passenger positions
         int passengerPositionsCount = byteBuf.readInt();
+        List<List<PassengerPositionDescriptor>> layouts = new ArrayList<>();
         for (int i = 0; i < passengerPositionsCount; i++) {
             int positionsCount = byteBuf.readInt();
-            LinkedList<PositionDescriptor> positions = new LinkedList<>();
-            passengerPositions.add(positions);
+            List<PassengerPositionDescriptor> positions = new ArrayList<>();
             for (int j = 0; j < positionsCount; j++) {
-                positions.add(PositionDescriptor.decode(byteBuf));
+                positions.add(PassengerPositionDescriptor.decode(byteBuf));
             }
+            layouts.add(List.copyOf(positions));
         }
+        passengerPositions = List.copyOf(layouts);
 
         // Load bounding boxes
         int boundingBoxesCount = byteBuf.readInt();
@@ -187,8 +191,19 @@ public class VehicleData {
         return boundingBoxes;
     }
 
-    public List<List<PositionDescriptor>> getPassengerPositions() {
+    public List<List<PassengerPositionDescriptor>> getPassengerPositions() {
         return passengerPositions;
+    }
+
+    @Nullable
+    public PassengerPositionDescriptor getPassengerPosition(int passengerCount, int passengerIndex) {
+        int layout = passengerCount - 1;
+        if (layout < 0 || layout >= passengerPositions.size()) return null;
+
+        List<PassengerPositionDescriptor> positions = passengerPositions.get(layout);
+        if (passengerIndex < 0 || passengerIndex >= positions.size()) return null;
+
+        return positions.get(passengerIndex);
     }
 
     public List<TrailDescriptor> getTrails() {

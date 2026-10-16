@@ -1,3 +1,7 @@
+# 1.7.0
+
+* Added rotation and posture to passenger placement
+
 # 1.6.0
 
 * Added analog aircraft controls for Controlify, Controllable, and MidnightControls
