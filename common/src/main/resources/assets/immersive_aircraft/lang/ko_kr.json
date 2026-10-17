@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "무료 검토 (보류)",
   "guide.immersive_aircraft.throttle_up": "가속하기",
   "guide.immersive_aircraft.throttle_down": "가속 페달을 밟아 속도를 줄이다",
+  "immersive_aircraft.seat_selected": "좌석 %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9를 눌러 좌석을 변경하세요",
   "entity.immersive_aircraft.airship": "비행선",
   "entity.immersive_aircraft.cargo_airship": "화물 비행선",
   "entity.immersive_aircraft.warship": "워쉽",
