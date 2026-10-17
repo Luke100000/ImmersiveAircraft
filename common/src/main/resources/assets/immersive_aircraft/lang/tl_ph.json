@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Libreng pagtingin (hawak)",
   "guide.immersive_aircraft.throttle_up": "Pataasin ang throttle",
   "guide.immersive_aircraft.throttle_down": "Bawasan ang bilis",
+  "immersive_aircraft.seat_selected": "Ugupan %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 para magpalit ng upuan",
   "entity.immersive_aircraft.airship": "Hangin na Sasakyan",
   "entity.immersive_aircraft.cargo_airship": "Kargadong Hangin",
   "entity.immersive_aircraft.warship": "Bapor pandigma",
