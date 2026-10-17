@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "תקופת התנסות (החזקה)",
   "guide.immersive_aircraft.throttle_up": "להגביר את המהירות",
   "guide.immersive_aircraft.throttle_down": "להאט",
+  "immersive_aircraft.seat_selected": "מושב %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 כדי להחליף מקומות",
   "entity.immersive_aircraft.airship": "ספינת אוויר",
   "entity.immersive_aircraft.cargo_airship": "ספינת אוויר משא",
   "entity.immersive_aircraft.warship": "אוניית קרב",
