@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Fritt utseende (håll)",
   "guide.immersive_aircraft.throttle_up": "Trottel upp",
   "guide.immersive_aircraft.throttle_down": "Trottel ner",
+  "immersive_aircraft.seat_selected": "Sits %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 för att byta säte",
   "entity.immersive_aircraft.airship": "Luftskepp",
   "entity.immersive_aircraft.cargo_airship": "Luftskepp för last",
   "entity.immersive_aircraft.warship": "Krigsfartyg",
