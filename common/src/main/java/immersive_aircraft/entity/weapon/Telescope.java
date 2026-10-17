@@ -24,9 +24,9 @@ public class Telescope extends Weapon {
 
         lastFireTick--;
         if (lastFireTick == 0) {
-            Entity pilot = getEntity().getControllingPassenger();
-            if (pilot != null) {
-                pilot.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0f, 1.0f);
+            Entity operator = getOperator();
+            if (operator != null) {
+                operator.playSound(SoundEvents.SPYGLASS_STOP_USING, 1.0f, 1.0f);
             }
         }
     }
@@ -38,10 +38,10 @@ public class Telescope extends Weapon {
 
     @Override
     public void clientFire(int index) {
-        Entity pilot = getEntity().getControllingPassenger();
-        assert pilot != null;
+        Entity operator = getOperator();
+        if (operator == null) return;
         if (lastFireTick <= 0) {
-            pilot.playSound(SoundEvents.SPYGLASS_USE, 1.0f, 1.0f);
+            operator.playSound(SoundEvents.SPYGLASS_USE, 1.0f, 1.0f);
         }
         lastFireTick = 2;
     }

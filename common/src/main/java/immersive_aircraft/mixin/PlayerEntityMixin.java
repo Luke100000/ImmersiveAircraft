@@ -39,7 +39,7 @@ public abstract class PlayerEntityMixin extends Entity {
 
     @Inject(method = "isScoping()Z", at = @At("HEAD"), cancellable = true)
     void isScopingInjection(CallbackInfoReturnable<Boolean> cir) {
-        if (this.getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
+        if (this.getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping(this)) {
             cir.setReturnValue(true);
         }
     }

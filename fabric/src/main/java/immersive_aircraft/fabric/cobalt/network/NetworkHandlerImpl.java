@@ -2,7 +2,6 @@ package immersive_aircraft.fabric.cobalt.network;
 
 import immersive_aircraft.cobalt.network.Message;
 import immersive_aircraft.cobalt.network.NetworkHandler;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -39,15 +38,11 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
 
     @Override
     public void sendToPlayer(Message msg, ServerPlayer e) {
-        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), e.registryAccess());
-        msg.encode(buf);
         ServerPlayNetworking.send(e, msg);
     }
 
     @Override
     public void sendToTrackingPlayers(Message msg, Entity e) {
-        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), e.registryAccess());
-        msg.encode(buf);
         for (ServerPlayer player : PlayerLookup.tracking(e)) {
             ServerPlayNetworking.send(player, msg);
         }
@@ -66,12 +61,8 @@ public class NetworkHandlerImpl extends NetworkHandler.Impl {
         public static void sendToServer(Message msg) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null) {
-                RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.buffer(), player.registryAccess());
-                msg.encode(buf);
                 ClientPlayNetworking.send(msg);
             }
         }
     }
 }
-
-

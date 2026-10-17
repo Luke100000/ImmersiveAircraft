@@ -26,7 +26,12 @@ public class WarshipEntity extends AirshipEntity {
     public WarshipEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world);
 
-        turret = new HeavyCrossbow(this, new ItemStack(Items.HEAVY_CROSSBOW.get()), new WeaponMount(new Matrix4f(), false), -1, 5.0f, 0.0f);
+        turret = new HeavyCrossbow(this, new ItemStack(Items.HEAVY_CROSSBOW.get()), new WeaponMount(new Matrix4f(), false), -1, 5.0f, 0.0f) {
+            @Override
+            public Entity getOperator() {
+                return getTurretGunner();
+            }
+        };
     }
 
     public final InterpolatedFloat turretYaw = new InterpolatedFloat(5);
@@ -84,7 +89,7 @@ public class WarshipEntity extends AirshipEntity {
     }
 
     public boolean isTurretGunner(Entity entity) {
-        return getTurretGunner() == entity;
+        return entity != null && getTurretGunner() == entity;
     }
 
     public void positionRider(@NotNull Entity passenger, @NotNull MoveFunction positionUpdater) {

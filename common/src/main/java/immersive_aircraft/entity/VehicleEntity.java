@@ -233,15 +233,13 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             occupiedSeats.add(seats.getInt(key));
         }
 
-        int firstSeat = passenger instanceof Player ? 0 : 1;
-        for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
-            if (!occupiedSeats.contains(seat)) {
-                seats.putInt(passenger.getStringUUID(), seat);
-                entityData.set(SEAT_ASSIGNMENTS, seats);
-                return;
-            }
+        int seat = findFreeSeat(passenger, occupiedSeats);
+        if (seat >= 0) {
+            seats.putInt(passenger.getStringUUID(), seat);
+            entityData.set(SEAT_ASSIGNMENTS, seats);
+        } else {
+            seatsNeedReconciliation = true;
         }
-        seatsNeedReconciliation = true;
     }
 
     @Override
@@ -269,15 +267,23 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             String key = passenger.getStringUUID();
             if (seats.contains(key, Tag.TAG_INT)) continue;
 
-            int firstSeat = passenger instanceof Player ? 0 : 1;
-            for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
-                if (occupiedSeats.add(seat)) {
-                    seats.putInt(key, seat);
-                    break;
-                }
+            int seat = findFreeSeat(passenger, occupiedSeats);
+            if (seat >= 0) {
+                occupiedSeats.add(seat);
+                seats.putInt(key, seat);
             }
         }
         entityData.set(SEAT_ASSIGNMENTS, seats);
+    }
+
+    private int findFreeSeat(Entity passenger, Set<Integer> occupiedSeats) {
+        int firstSeat = passenger instanceof Player ? 0 : 1;
+        for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
+            if (!occupiedSeats.contains(seat)) {
+                return seat;
+            }
+        }
+        return getPassengerSpace() > 0 && !occupiedSeats.contains(0) ? 0 : -1;
     }
 
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
@@ -524,6 +530,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
         Entity pilot = getControllingPassenger();
         if (pilot != previousPilot) {
+            if (pilot instanceof Player player && player.isLocalPlayer() && interpolationSteps > 0) {
+                setPos(x, y, z);
+                setRot((float) serverYRot, (float) serverXRot);
+            }
             setInputs(0, 0, 0);
             pressingInterpolatedX.reset(0);
             pressingInterpolatedY.reset(0);
