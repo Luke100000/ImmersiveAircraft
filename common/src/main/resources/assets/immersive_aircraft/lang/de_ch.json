@@ -137,9 +137,9 @@
   "immersive_aircraft.upgrade.dials": "Mechanisches Armaturenbrett",
   "immersive_aircraft.upgrade.hud": "Elektronisches Dashboard",
   "immersive_aircraft.tooltip.inventory": "Enthält %s Artikel.",
-  "stat.immersive_aircraft.distance_total": "Distance Flown in Aircraft",
-  "stat.immersive_aircraft.time_in_aircraft": "Time in Aircraft",
-  "stat.immersive_aircraft.fuel_burned": "Fuel Burned in Aircraft",
-  "stat.immersive_aircraft.damage_received": "Damage Caused to Aircraft",
-  "stat.immersive_aircraft.crashes": "Crashed Aircraft"
+  "stat.immersive_aircraft.distance_total": "Mit dem Flugzeug zurückgelegte Strecke",
+  "stat.immersive_aircraft.time_in_aircraft": "Flugzeit",
+  "stat.immersive_aircraft.fuel_burned": "In Flugzeugen verbrauchter Treibstoff",
+  "stat.immersive_aircraft.damage_received": "An Flugzeugen verursachte Schäden",
+  "stat.immersive_aircraft.crashes": "Abgestürztes Flugzeug"
 }
