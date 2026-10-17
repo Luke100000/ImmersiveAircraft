@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Ingyenes megtekintés (visszatartás)",
   "guide.immersive_aircraft.throttle_up": "Gázt adni",
   "guide.immersive_aircraft.throttle_down": "Lassíts!",
+  "immersive_aircraft.seat_selected": "Ülés %s",
+  "immersive_aircraft.seat_controls": "A Ctrl + 1–9 billentyűkombinációval lehet helyet váltani",
   "entity.immersive_aircraft.airship": "Léghajó",
   "entity.immersive_aircraft.cargo_airship": "Teherszállító léghajó",
   "entity.immersive_aircraft.warship": "Hadihajó",
