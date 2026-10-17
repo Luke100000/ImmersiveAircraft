@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Vrye kyk (hou)",
   "guide.immersive_aircraft.throttle_up": "Gee meer gas",
   "guide.immersive_aircraft.throttle_down": "Gas terug",
+  "immersive_aircraft.seat_selected": "Sitplek %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 om sitplekke te verander",
   "entity.immersive_aircraft.airship": "Lugskip",
   "entity.immersive_aircraft.cargo_airship": "Lugskip Vrag",
   "entity.immersive_aircraft.warship": "Oorlogskip",
