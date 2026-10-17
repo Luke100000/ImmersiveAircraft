@@ -2,6 +2,7 @@
 
 * You can now switch seats with ctrl + 0-9
 * Added rotation, camera offset, and posture to passenger placement
+* Fixed healthbar conflict with other bars
 
 # 1.6.0
 
