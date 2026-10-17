@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Spectus liber (retentio)",
   "guide.immersive_aircraft.throttle_up": "Accelera",
   "guide.immersive_aircraft.throttle_down": "Minue cursum",
+  "immersive_aircraft.seat_selected": "Sedes %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 ad sedes mutandas",
   "entity.immersive_aircraft.airship": "Navis Aeris",
   "entity.immersive_aircraft.cargo_airship": "Cargo Aëronave",
   "entity.immersive_aircraft.warship": "Navi bellica",
