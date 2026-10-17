@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "नि:शुल्क अवलोकन (धारणा)",
   "guide.immersive_aircraft.throttle_up": "गैस बढ़ाओ",
   "guide.immersive_aircraft.throttle_down": "गति धीमी करो",
+  "immersive_aircraft.seat_selected": "सीट %s",
+  "immersive_aircraft.seat_controls": "सीट बदलने के लिए Ctrl + 1–9",
   "entity.immersive_aircraft.airship": "एयरशिप",
   "entity.immersive_aircraft.cargo_airship": "कार्गो एयरशिप",
   "entity.immersive_aircraft.warship": "युद्धपोत",
