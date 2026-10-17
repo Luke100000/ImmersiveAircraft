@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Gratis udseende (hold)",
   "guide.immersive_aircraft.throttle_up": "Gas op",
   "guide.immersive_aircraft.throttle_down": "Gas ned",
+  "immersive_aircraft.seat_selected": "Sæde %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 for at skifte sæder",
   "entity.immersive_aircraft.airship": "Luftskib",
   "entity.immersive_aircraft.cargo_airship": "Luftskib til fragt",
   "entity.immersive_aircraft.warship": "Krigsskib",
