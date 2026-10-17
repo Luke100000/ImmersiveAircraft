@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Fräie Bléck (Halen)",
   "guide.immersive_aircraft.throttle_up": "Gas op",
   "guide.immersive_aircraft.throttle_down": "Gas weg",
+  "immersive_aircraft.seat_selected": "Sëtz %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 fir d'Sëtzer ze wiesselen",
   "entity.immersive_aircraft.airship": "Luftschëff",
   "entity.immersive_aircraft.cargo_airship": "Cargo Airship",
   "entity.immersive_aircraft.warship": "Kriegsschëff",
