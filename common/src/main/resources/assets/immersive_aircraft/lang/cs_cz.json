@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Zdarma vzhled (prázdný)",
   "guide.immersive_aircraft.throttle_up": "Plyn nahoru",
   "guide.immersive_aircraft.throttle_down": "Plyn dolů",
+  "immersive_aircraft.seat_selected": "Sedadlo %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 pro změnu sedadel",
   "entity.immersive_aircraft.airship": "Vzducholoď",
   "entity.immersive_aircraft.cargo_airship": "Nákladní vzducholoď",
   "entity.immersive_aircraft.warship": "Válečná loď",
