@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "免費檢視（保留）",
   "guide.immersive_aircraft.throttle_up": "加大油門",
   "guide.immersive_aircraft.throttle_down": "減速",
+  "immersive_aircraft.seat_selected": "座位 %s",
+  "immersive_aircraft.seat_controls": "按下 Ctrl + 1–9 來更換座位",
   "entity.immersive_aircraft.airship": "飛艇",
   "entity.immersive_aircraft.cargo_airship": "貨運飛船",
   "entity.immersive_aircraft.warship": "軍艦",
