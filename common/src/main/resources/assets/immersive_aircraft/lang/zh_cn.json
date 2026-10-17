@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "免费外观 (保留)",
   "guide.immersive_aircraft.throttle_up": "向上平移",
   "guide.immersive_aircraft.throttle_down": "向下平移",
+  "immersive_aircraft.seat_selected": "座位 %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1-9 更改座位",
   "entity.immersive_aircraft.airship": "飞艇",
   "entity.immersive_aircraft.cargo_airship": "货运飞船",
   "entity.immersive_aircraft.warship": "战斗飞艇",
