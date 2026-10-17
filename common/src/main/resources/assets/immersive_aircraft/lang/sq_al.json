@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Shikim i lirë (mbajtje)",
   "guide.immersive_aircraft.throttle_up": "Rritni gazin",
   "guide.immersive_aircraft.throttle_down": "Ul gazin",
+  "immersive_aircraft.seat_selected": "Vend %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 për të ndryshuar vendet",
   "entity.immersive_aircraft.airship": "Anije ajrore",
   "entity.immersive_aircraft.cargo_airship": "Anije ngarkese ajrore",
   "entity.immersive_aircraft.warship": "Anije luftarake",

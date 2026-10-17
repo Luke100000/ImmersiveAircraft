@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Свободен поглед (задържане)",
   "guide.immersive_aircraft.throttle_up": "Увеличи газта",
   "guide.immersive_aircraft.throttle_down": "Намали скоростта",
+  "immersive_aircraft.seat_selected": "Седалка %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 за смяна на местата",
   "entity.immersive_aircraft.airship": "Дирижабъл",
   "entity.immersive_aircraft.cargo_airship": "Товарен дирижабъл",
   "entity.immersive_aircraft.warship": "Военен кораб",

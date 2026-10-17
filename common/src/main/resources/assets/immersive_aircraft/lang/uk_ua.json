@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Вільний вигляд (утримується)",
   "guide.immersive_aircraft.throttle_up": "Дросель вгору",
   "guide.immersive_aircraft.throttle_down": "Прогалин вниз",
+  "immersive_aircraft.seat_selected": "Місце %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 для зміни місць",
   "entity.immersive_aircraft.airship": "Дирижабль",
   "entity.immersive_aircraft.cargo_airship": "Вантажний дирижабль",
   "entity.immersive_aircraft.warship": "Військовий корабель",

@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Mira libre (sostido)",
   "guide.immersive_aircraft.throttle_up": "Acelera",
   "guide.immersive_aircraft.throttle_down": "Reduce a marcha",
+  "immersive_aircraft.seat_selected": "Asento %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 para cambiar de asento",
   "entity.immersive_aircraft.airship": "Dirixible",
   "entity.immersive_aircraft.cargo_airship": "Transporte Aerostático",
   "entity.immersive_aircraft.warship": "Buque de guerra",

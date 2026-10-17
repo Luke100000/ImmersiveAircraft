@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Pemeriksaan gratis (penahanan)",
   "guide.immersive_aircraft.throttle_up": "Tingkatkan kecepatan",
   "guide.immersive_aircraft.throttle_down": "Kurangi kecepatan",
+  "immersive_aircraft.seat_selected": "Kursi %s",
+  "immersive_aircraft.seat_controls": "Tekan Ctrl + 1–9 untuk mengganti tempat duduk",
   "entity.immersive_aircraft.airship": "Kapal Udara",
   "entity.immersive_aircraft.cargo_airship": "Kapal Udara Kargo",
   "entity.immersive_aircraft.warship": "Kapal perang",

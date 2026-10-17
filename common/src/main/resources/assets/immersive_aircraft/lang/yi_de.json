@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "פֿרײַער קוק (האַלטן)",
   "guide.immersive_aircraft.throttle_up": "גיב גאַז",
   "guide.immersive_aircraft.throttle_down": "פֿאַרלאַנגזאַם",
+  "immersive_aircraft.seat_selected": "זיצפּלאַץ %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 צו טוישן זיצן",
   "entity.immersive_aircraft.airship": "לופטשיף",
   "entity.immersive_aircraft.cargo_airship": "קאַרגו לופטשיף",
   "entity.immersive_aircraft.warship": "קראַפֿטשיף",

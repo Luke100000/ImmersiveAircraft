@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "இலவசப் பார்வை (பிடித்திருத்தல்)",
   "guide.immersive_aircraft.throttle_up": "வேகத்தைக் கூட்டு",
   "guide.immersive_aircraft.throttle_down": "வேகத்தைக் குறை",
+  "immersive_aircraft.seat_selected": "இருக்கை %s",
+  "immersive_aircraft.seat_controls": "இருக்கைகளை மாற்ற Ctrl + 1–9",
   "entity.immersive_aircraft.airship": "வானூர்தி",
   "entity.immersive_aircraft.cargo_airship": "கார்கோ ஏர்ஷிப்",
   "entity.immersive_aircraft.warship": "கப்பல்",

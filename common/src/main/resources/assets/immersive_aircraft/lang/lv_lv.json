@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Brīvā apskate (paturēšana)",
   "guide.immersive_aircraft.throttle_up": "Palielināt gāzes pedāļa spiedienu",
   "guide.immersive_aircraft.throttle_down": "Samazināt gāzes pedāli",
+  "immersive_aircraft.seat_selected": "Sēdeklis %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9, lai mainītu sēdvietas",
   "entity.immersive_aircraft.airship": "Dirižablis",
   "entity.immersive_aircraft.cargo_airship": "Kravas dirižablis",
   "entity.immersive_aircraft.warship": "Kara kuģis",

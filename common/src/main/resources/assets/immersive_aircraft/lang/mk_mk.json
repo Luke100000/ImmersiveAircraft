@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Бесплатен поглед (држи)",
   "guide.immersive_aircraft.throttle_up": "Забрзај",
   "guide.immersive_aircraft.throttle_down": "Забавувај",
+  "immersive_aircraft.seat_selected": "Седиште %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 за да ги промените седиштата",
   "entity.immersive_aircraft.airship": "Воздушен брод",
   "entity.immersive_aircraft.cargo_airship": "Краток товарен зракоплов",
   "entity.immersive_aircraft.warship": "Брод за војна",

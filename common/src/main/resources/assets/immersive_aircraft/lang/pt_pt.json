@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Aparência livre (seguro)",
   "guide.immersive_aircraft.throttle_up": "Suavizar para cima",
   "guide.immersive_aircraft.throttle_down": "Reduzir para baixo",
+  "immersive_aircraft.seat_selected": "Assento %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1-9 para mudar de lugar",
   "entity.immersive_aircraft.airship": "Aeronave",
   "entity.immersive_aircraft.cargo_airship": "Aeróstato de carga",
   "entity.immersive_aircraft.warship": "Navio de guerra",
