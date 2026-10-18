@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Golwg rydd (dal)",
   "guide.immersive_aircraft.throttle_up": "Mwy o sbîs",
   "guide.immersive_aircraft.throttle_down": "Lleihau'r cyflymder",
+  "immersive_aircraft.seat_selected": "Sedd %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 i newid seddi",
   "entity.immersive_aircraft.airship": "Awyren",
   "entity.immersive_aircraft.cargo_airship": "Carmen Awyr",
   "entity.immersive_aircraft.warship": "Llong ryfel",

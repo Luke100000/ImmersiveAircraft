@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Súil saor in aisce (coinnigh)",
   "guide.immersive_aircraft.throttle_up": "Méadaigh an luas",
   "guide.immersive_aircraft.throttle_down": "Laghdú go mór",
+  "immersive_aircraft.seat_selected": "Suíochán %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 chun suíocháin a athrú",
   "entity.immersive_aircraft.airship": "Aerlong",
   "entity.immersive_aircraft.cargo_airship": "Aerlong cargo",
   "entity.immersive_aircraft.warship": "Longbhrat",

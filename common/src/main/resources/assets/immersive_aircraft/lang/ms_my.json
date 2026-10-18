@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Lihat percuma (tahan)",
   "guide.immersive_aircraft.throttle_up": "Tingkatkan pendikit",
   "guide.immersive_aircraft.throttle_down": "Kurangkan kelajuan",
+  "immersive_aircraft.seat_selected": "Tempat duduk %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 untuk menukar tempat duduk",
   "entity.immersive_aircraft.airship": "Kapal udara",
   "entity.immersive_aircraft.cargo_airship": "Kapal Udara Barang",
   "entity.immersive_aircraft.warship": "Kapal perang",

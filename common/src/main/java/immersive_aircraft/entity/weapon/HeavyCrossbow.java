@@ -55,7 +55,7 @@ public class HeavyCrossbow extends BulletWeapon {
         ItemStack pickupStack = ammoStack == null ? new ItemStack(net.minecraft.world.item.Items.ARROW) : ammoStack;
         Arrow arrow = new Arrow(shooter.level(), position.x(), position.y(), position.z(), pickupStack, getStack());
         arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
-        arrow.setOwner(getEntity().getControllingPassenger());
+        arrow.setOwner(getOperator());
         arrow.shoot(direction.x(), direction.y() + 0.1f, direction.z(), getVelocity(), getInaccuracy());
         return arrow;
     }

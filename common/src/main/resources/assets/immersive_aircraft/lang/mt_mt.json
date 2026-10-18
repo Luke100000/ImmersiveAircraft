@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Ħarsa b'xejn (żomm)",
   "guide.immersive_aircraft.throttle_up": "Żid il-gass",
   "guide.immersive_aircraft.throttle_down": "Naqqas il-gass",
+  "immersive_aircraft.seat_selected": "Siġġu %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 biex tibdel is-siġġijiet",
   "entity.immersive_aircraft.airship": "Airship",
   "entity.immersive_aircraft.cargo_airship": "Cargo Airship",
   "entity.immersive_aircraft.warship": "Vapuri tal-gwerra",

@@ -1,10 +1,11 @@
 package immersive_aircraft.client.compat;
 
-import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.client.AircraftInput;
+import immersive_aircraft.client.KeyBindings;
 import immersive_aircraft.entity.AirplaneEntity;
 import immersive_aircraft.entity.InventoryVehicleEntity;
 import immersive_aircraft.entity.VehicleEntity;
+import immersive_aircraft.entity.WarshipEntity;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.entity.player.Player;
 
@@ -26,9 +27,14 @@ final class AircraftGuide {
             return null;
         }
         if (key == KeyBindings.use) {
-            return vehicle instanceof InventoryVehicleEntity inventory && player.getMainHandItem().isEmpty()
+            if (!player.getMainHandItem().isEmpty()) return null;
+            if (vehicle instanceof WarshipEntity warship && warship.isTurretGunner(player)) {
+                return key.getName();
+            }
+
+            return vehicle instanceof InventoryVehicleEntity inventory
                    && inventory.getWeapons().values().stream().flatMap(Collection::stream)
-                           .anyMatch(weapon -> vehicle.getGunner(weapon.getGunnerOffset()) == player)
+                           .anyMatch(weapon -> weapon.getOperator() == player)
                     ? key.getName() : null;
         }
         if (key != KeyBindings.dismount && vehicle.getControllingPassenger() != player) {

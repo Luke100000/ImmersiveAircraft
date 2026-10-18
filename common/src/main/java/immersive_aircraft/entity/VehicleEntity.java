@@ -13,10 +13,12 @@ import immersive_aircraft.config.AutoEnterRules;
 import immersive_aircraft.config.Config;
 import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
-import immersive_aircraft.entity.misc.PositionDescriptor;
+import immersive_aircraft.entity.misc.PassengerPositionDescriptor;
 import immersive_aircraft.entity.misc.VehicleData;
+import immersive_aircraft.entity.misc.VehicleDataSerializers;
 import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
+import immersive_aircraft.network.c2s.PilotInputMessage;
 import immersive_aircraft.resources.bbmodel.BBAnimationVariables;
 import immersive_aircraft.util.InterpolatedFloat;
 import net.minecraft.util.BlockUtil;
@@ -26,6 +28,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -33,6 +36,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -64,8 +68,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Abstract vehicle, which handles player input, collisions, passengers and destruction
@@ -74,6 +77,13 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     public final Identifier identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<CompoundTag> SEAT_ASSIGNMENTS = SynchedEntityData.defineId(VehicleEntity.class, VehicleDataSerializers.SEAT_ASSIGNMENTS);
+    private static final EntityDataAccessor<Float> PILOT_INPUT_X = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> PILOT_INPUT_Y = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> PILOT_INPUT_Z = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
+
+    private static final int PILOT_INPUT_SEND_INTERVAL = 10;
+    private static final int PILOT_INPUT_TIMEOUT = 30;
 
     protected final boolean canExplodeOnCrash;
 
@@ -85,6 +95,12 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     protected float movementX;
     protected float movementY;
     protected float movementZ;
+
+    private PilotInput localPilotInput = PilotInput.NONE;
+    private PilotInput lastSentPilotInput;
+    private int lastPilotInputSendTick;
+    private UUID inputPilot;
+    private long lastPilotInputReceiveTime;
 
     public final InterpolatedFloat pressingInterpolatedX;
     public final InterpolatedFloat pressingInterpolatedY;
@@ -103,6 +119,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     public boolean adaptPlayerRotation = true;
     private int drowning;
     private int inFireDamageCooldown;
+
+    private Entity previousPilot;
+    private int previousSeatCapacity = -1;
+    private boolean seatsNeedReconciliation;
 
     public float getRoll() {
         return roll;
@@ -152,6 +172,131 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         return getVehicleData().getPassengerPositions().size();
     }
 
+    @Nullable
+    public PassengerPositionDescriptor getPassengerPosition(Entity passenger) {
+        int layoutSize = 0;
+        for (Entity rider : getPassengers()) {
+            layoutSize = Math.max(layoutSize, getSeatIndex(rider) + 1);
+        }
+        return getVehicleData().getPassengerPosition(layoutSize, getSeatIndex(passenger));
+    }
+
+    public int getSeatIndex(Entity passenger) {
+        if (!hasPassenger(passenger)) return -1;
+
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS);
+        String key = passenger.getStringUUID();
+        int seat = seats.getIntOr(key, -1);
+        return seat >= 0 && seat < getPassengerSpace() ? seat : -1;
+    }
+
+    @Nullable
+    public Entity getPassengerInSeat(int seatIndex) {
+        if (seatIndex < 0 || seatIndex >= getPassengerSpace()) return null;
+
+        for (Entity passenger : getPassengers()) {
+            if (getSeatIndex(passenger) == seatIndex) {
+                return passenger;
+            }
+        }
+        return null;
+    }
+
+    public boolean changeSeat(Player player, int targetSeat) {
+        if (level().isClientSide() || player.getVehicle() != this || targetSeat < 0 || targetSeat >= getPassengerSpace()) {
+            return false;
+        }
+
+        int currentSeat = getSeatIndex(player);
+        if (currentSeat < 0 || currentSeat == targetSeat) return false;
+
+        Entity occupant = getPassengerInSeat(targetSeat);
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
+        seats.putInt(player.getStringUUID(), targetSeat);
+        if (occupant != null) {
+            seats.putInt(occupant.getStringUUID(), currentSeat);
+        }
+        entityData.set(SEAT_ASSIGNMENTS, seats);
+
+        validatePilotInput();
+
+        player.sendOverlayMessage(Component.translatable("immersive_aircraft.seat_selected", targetSeat + 1));
+        if (occupant instanceof Player otherPlayer) {
+            otherPlayer.sendOverlayMessage(Component.translatable("immersive_aircraft.seat_selected", currentSeat + 1));
+        }
+        return true;
+    }
+
+    @Override
+    protected void addPassenger(@NotNull Entity passenger) {
+        super.addPassenger(passenger);
+        if (level().isClientSide() || getSeatIndex(passenger) >= 0) return;
+
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
+        Set<Integer> occupiedSeats = new HashSet<>();
+        for (String key : seats.keySet()) {
+            occupiedSeats.add(seats.getIntOr(key, -1));
+        }
+
+        int seat = findFreeSeat(passenger, occupiedSeats);
+        if (seat >= 0) {
+            seats.putInt(passenger.getStringUUID(), seat);
+            entityData.set(SEAT_ASSIGNMENTS, seats);
+        } else {
+            seatsNeedReconciliation = true;
+        }
+    }
+
+    @Override
+    protected void removePassenger(@NotNull Entity passenger) {
+        super.removePassenger(passenger);
+
+        if (passenger instanceof Player player && player.isLocalPlayer()) {
+            localPilotInput = PilotInput.NONE;
+            lastSentPilotInput = null;
+        }
+
+        if (level().isClientSide()) return;
+
+        CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
+        seats.remove(passenger.getStringUUID());
+        entityData.set(SEAT_ASSIGNMENTS, seats);
+        validatePilotInput();
+    }
+
+    private void reconcilePassengerSeats() {
+        CompoundTag seats = new CompoundTag();
+        Set<Integer> occupiedSeats = new HashSet<>();
+        for (Entity passenger : getPassengers()) {
+            int seat = getSeatIndex(passenger);
+            if (seat >= 0 && occupiedSeats.add(seat)) {
+                seats.putInt(passenger.getStringUUID(), seat);
+            }
+        }
+
+        for (Entity passenger : getPassengers()) {
+            String key = passenger.getStringUUID();
+            if (seats.getInt(key).isPresent()) continue;
+
+            int seat = findFreeSeat(passenger, occupiedSeats);
+            if (seat >= 0) {
+                occupiedSeats.add(seat);
+                seats.putInt(key, seat);
+            }
+        }
+        entityData.set(SEAT_ASSIGNMENTS, seats);
+    }
+
+    private int findFreeSeat(Entity passenger, Set<Integer> occupiedSeats) {
+        int firstSeat = passenger instanceof Player ? 0 : 1;
+        for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
+            if (!occupiedSeats.contains(seat)) {
+                return seat;
+            }
+        }
+        return getPassengerSpace() > 0 && !occupiedSeats.contains(0) ? 0 : -1;
+    }
+
     public VehicleEntity(EntityType<? extends VehicleEntity> entityType, Level world, boolean canExplodeOnCrash) {
         super(entityType, world);
 
@@ -193,6 +338,10 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
         entityData.define(DATA_HEALTH, 1.0f);
         entityData.define(BOOST, 0);
+        entityData.define(SEAT_ASSIGNMENTS, new CompoundTag());
+        entityData.define(PILOT_INPUT_X, 0.0f);
+        entityData.define(PILOT_INPUT_Y, 0.0f);
+        entityData.define(PILOT_INPUT_Z, 0.0f);
     }
 
     @Override
@@ -396,6 +545,30 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     @Override
     public void tick() {
+        if (!level().isClientSide() && (seatsNeedReconciliation || previousSeatCapacity != getPassengerSpace())) {
+            reconcilePassengerSeats();
+            previousSeatCapacity = getPassengerSpace();
+            seatsNeedReconciliation = false;
+        }
+
+        Entity pilot = getControllingPassenger();
+        if (!level().isClientSide()) {
+            validatePilotInput();
+        }
+
+        if (pilot != previousPilot) {
+            if (pilot instanceof Player player && player.isLocalPlayer() && interpolation.hasActiveInterpolation()) {
+                setPos(interpolation.position());
+                setRot(interpolation.yRot(), interpolation.xRot());
+                interpolation.cancel();
+            }
+            setInputs(0, 0, 0);
+            pressingInterpolatedX.reset(0);
+            pressingInterpolatedY.reset(0);
+            pressingInterpolatedZ.reset(0);
+            previousPilot = pilot;
+        }
+
         if (tickCount % 10 == 0) {
             secondLastX = lastX;
             secondLastY = lastY;
@@ -413,9 +586,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         }
 
         // pilot
-        if (!getPassengers().isEmpty()) {
-            tickPilot();
-        }
+        tickPilot();
 
         // wobble
         if (getHurtTime() > 0) {
@@ -460,7 +631,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             boolean bl = !level().isClientSide() && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (entity.hasPassenger(this)) continue;
-                if (bl && getPassengers().size() < (getPassengerSpace() - 1) && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && AutoEnterRules.canAutoEnter(entity.getType())) {
+                if (bl && !entity.isPassenger() && entity.getBbWidth() < getBbWidth() && entity instanceof LivingEntity && AutoEnterRules.canAutoEnter(entity.getType())) {
                     entity.startRiding(this);
                 }
             }
@@ -539,7 +710,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
                     }
                 }
 
-                if (Main.debouncingGetter.is(Main.Key.BOOST) && canBoost()) {
+                if (Main.debouncingGetter.is(Main.Key.BOOST) && getControllingPassenger() == player && canBoost()) {
                     NetworkHandler.sendToServer(new CommandMessage(CommandMessage.Key.BOOST, getDeltaMovement()));
                     Vec3 p = position();
                     level().playLocalSound(p.x(), p.y(), p.z(), SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.NEUTRAL, 1.0f, 1.0f, true);
@@ -548,15 +719,25 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
         }
 
         //controls
-        Entity pilot = getPassengers().get(0);
+        Entity pilot = getControllingPassenger();
         if (pilot instanceof Player player && player.isLocalPlayer()) {
             setInputs(MouseFlight.yawInput(this, AircraftInput.axis(KeyBindings.left, KeyBindings.right)),
                     AircraftInput.axis(useAirplaneControls() ? KeyBindings.throttleUp : KeyBindings.up,
                             useAirplaneControls() ? KeyBindings.throttleDown : KeyBindings.down),
                     MouseFlight.pitchInput(this, AircraftInput.axis(useAirplaneControls() ? KeyBindings.push : KeyBindings.forward,
                             useAirplaneControls() ? KeyBindings.pull : KeyBindings.backward)));
+
+            localPilotInput = new PilotInput(movementX, movementY, movementZ);
+            if (lastSentPilotInput == null || !localPilotInput.equals(lastSentPilotInput)
+                || tickCount - lastPilotInputSendTick >= PILOT_INPUT_SEND_INTERVAL) {
+                NetworkHandler.sendToServer(new PilotInputMessage(getId(), localPilotInput.x(), localPilotInput.y(), localPilotInput.z()));
+                lastSentPilotInput = localPilotInput;
+                lastPilotInputSendTick = tickCount;
+            }
         } else {
             setInputs(0, 0, 0);
+            localPilotInput = PilotInput.NONE;
+            lastSentPilotInput = null;
         }
     }
 
@@ -585,43 +766,35 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             return;
         }
 
+        PassengerPositionDescriptor passengerPosition = getPassengerPosition(passenger);
+        if (passengerPosition == null) return;
+
         Matrix4f transform = getVehicleTransform();
+        float x = passengerPosition.x();
+        float y = passengerPosition.y();
+        float z = passengerPosition.z();
 
-        int size = getPassengers().size() - 1;
-        List<List<PositionDescriptor>> positions = getVehicleData().getPassengerPositions();
-        if (size < positions.size()) {
-            int i = getPassengers().indexOf(passenger);
-            if (i >= 0 && i < positions.get(size).size()) {
-                PositionDescriptor positionDescriptor = positions.get(size).get(i);
+        // Passenger offset
+        Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
+        x -= (float) attachmentPoint.x;
+        y -= (float) attachmentPoint.y;
+        z -= (float) attachmentPoint.z;
 
-                float x = positionDescriptor.x();
-                float y = positionDescriptor.y();
-                float z = positionDescriptor.z();
+        Vector4f worldPosition = transformPosition(transform, x, y, z);
+        passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
 
-                // Passenger offset
-                Vec3 attachmentPoint = passenger.getVehicleAttachmentPoint(this);
-                x -= (float) attachmentPoint.x;
-                y -= (float) attachmentPoint.y;
-                z -= (float) attachmentPoint.z;
+        if (adaptPlayerRotation && !(level().isClientSide() && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(this))) {
+            passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
+            passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
+        }
 
-                Vector4f worldPosition = transformPosition(transform, x, y, z);
+        positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);
 
-                passenger.setPos(worldPosition.x, worldPosition.y, worldPosition.z);
-
-                if (adaptPlayerRotation && !(level().isClientSide() && passenger instanceof Player player && player.isLocalPlayer() && MouseFlight.isEnabled(this))) {
-                    passenger.setYRot(passenger.getYRot() + (getYRot() - yRotO));
-                    passenger.setYHeadRot(passenger.getYHeadRot() + (getYRot() - yRotO));
-                }
-
-                positionUpdater.accept(passenger, worldPosition.x, worldPosition.y, worldPosition.z);
-
-                copyEntityData(passenger);
-                if (passenger instanceof Animal animal && size > 1) {
-                    int angle = passenger.getId() % 2 == 0 ? 90 : 270;
-                    passenger.setYBodyRot(animal.yBodyRot + (float) angle);
-                    passenger.setYHeadRot(passenger.getYHeadRot() + (float) angle);
-                }
-            }
+        copyEntityData(passenger);
+        if (passenger instanceof Animal animal && getPassengers().size() > 2) {
+            int angle = passenger.getId() % 2 == 0 ? 90 : 270;
+            passenger.setYBodyRot(animal.yBodyRot + (float) angle);
+            passenger.setYHeadRot(passenger.getYHeadRot() + (float) angle);
         }
     }
 
@@ -668,7 +841,12 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     }
 
     public void copyEntityData(Entity entity) {
-        entity.setYBodyRot(getYRot());
+        PassengerPositionDescriptor passengerPosition = getPassengerPosition(entity);
+        float bodyYaw = passengerPosition == null ? 0.0f : passengerPosition.yaw() * Mth.RAD_TO_DEG;
+        entity.setYBodyRot(getYRot() + bodyYaw);
+
+        // A configured stance rotates the body without constraining the passenger's view.
+        if (bodyYaw != 0.0f) return;
 
         if (level().isClientSide() && entity instanceof Player player && player.isLocalPlayer() && MouseFlight.isPiloting(this)) {
             float headYaw = Mth.clamp(Mth.wrapDegrees(entity.getYRot() - getYRot()), -85.0f, 85.0f);
@@ -691,11 +869,15 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     @Override
     protected void addAdditionalSaveData(@NotNull ValueOutput output) {
         output.putFloat("VehicleHealth", getHealth());
+        output.store("SeatAssignments", CompoundTag.CODEC, entityData.get(SEAT_ASSIGNMENTS));
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull ValueInput input) {
         setHealth(input.getFloatOr("VehicleHealth", 1.0f));
+        entityData.set(SEAT_ASSIGNMENTS, input.read("SeatAssignments", CompoundTag.CODEC).orElseGet(CompoundTag::new));
+        // Saved riders are attached after the vehicle's own NBT has been read.
+        seatsNeedReconciliation = true;
     }
 
     protected void addItemTag(ItemStack stack) {
@@ -808,29 +990,83 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     @Override
     protected boolean canAddPassenger(@NotNull Entity passenger) {
-        return getPassengers().size() < getPassengerSpace() && !isEyeInFluid(FluidTags.WATER);
+        if (getPassengers().size() >= getPassengerSpace() || isEyeInFluid(FluidTags.WATER)) {
+            return false;
+        }
+
+        int firstSeat = passenger instanceof Player ? 0 : 1;
+        for (int seat = firstSeat; seat < getPassengerSpace(); seat++) {
+            if (getPassengerInSeat(seat) == null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
-        if (getFirstPassenger() instanceof LivingEntity le) {
+        if (getPassengerInSeat(0) instanceof LivingEntity le) {
             return le;
-        } else {
-            return super.getControllingPassenger();
         }
+        return null;
     }
 
     @Nullable
     public Entity getGunner(int offset) {
-        List<Entity> passengers = getPassengers();
-        return passengers.isEmpty() ? null : passengers.get(Math.max(0, passengers.size() - 1 - offset));
+        Entity gunner = getPassengerInSeat(Math.max(0, getPassengerSpace() - 1 - offset));
+        return gunner != null ? gunner : getControllingPassenger();
     }
 
     public void setInputs(float x, float y, float z) {
         this.movementX = x;
         this.movementY = y;
         this.movementZ = z;
+    }
+
+    /**
+     * Returns immediate sampled controls for the local pilot, otherwise the server's synchronized controls.
+     * Server reads validate pilot ownership and expiry even before this vehicle's tick runs.
+     */
+    public PilotInput getPilotInput() {
+        if (level().isClientSide()) {
+            if (getControllingPassenger() instanceof Player player && player.isLocalPlayer()) {
+                return localPilotInput;
+            }
+        } else {
+            validatePilotInput();
+            if (inputPilot == null) return PilotInput.NONE;
+        }
+
+        return new PilotInput(entityData.get(PILOT_INPUT_X), entityData.get(PILOT_INPUT_Y), entityData.get(PILOT_INPUT_Z));
+    }
+
+    public void receivePilotInput(ServerPlayer player, float x, float y, float z) {
+        if (level().isClientSide() || player.getVehicle() != this || getControllingPassenger() != player
+            || player.isRemoved() || !player.isAlive() || player.hasDisconnected()
+            || !Float.isFinite(x) || !Float.isFinite(y) || !Float.isFinite(z)) {
+            return;
+        }
+
+        inputPilot = player.getUUID();
+        lastPilotInputReceiveTime = level().getGameTime();
+        entityData.set(PILOT_INPUT_X, Mth.clamp(x, -1.0f, 1.0f));
+        entityData.set(PILOT_INPUT_Y, Mth.clamp(y, -1.0f, 1.0f));
+        entityData.set(PILOT_INPUT_Z, Mth.clamp(z, -1.0f, 1.0f));
+    }
+
+    private void validatePilotInput() {
+        if (inputPilot == null) return;
+
+        // Bind input to the current pilot rather than the pilot observed on the previous vehicle tick.
+        if (!(getControllingPassenger() instanceof ServerPlayer player) || !inputPilot.equals(player.getUUID())
+            || player.getVehicle() != this || player.isRemoved() || !player.isAlive() || player.hasDisconnected()
+            || level().getGameTime() - lastPilotInputReceiveTime >= PILOT_INPUT_TIMEOUT) {
+            inputPilot = null;
+            entityData.set(PILOT_INPUT_X, 0.0f);
+            entityData.set(PILOT_INPUT_Y, 0.0f);
+            entityData.set(PILOT_INPUT_Z, 0.0f);
+        }
     }
 
     public boolean canTurnOnEngine(Entity pilot) {

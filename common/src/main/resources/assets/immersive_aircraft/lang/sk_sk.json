@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Voľný pohľad (podržať)",
   "guide.immersive_aircraft.throttle_up": "Zvýšiť otáčky",
   "guide.immersive_aircraft.throttle_down": "Znížiť otáčky",
+  "immersive_aircraft.seat_selected": "Sedadlo %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 na zmenu sedadiel",
   "entity.immersive_aircraft.airship": "Vzducholoď",
   "entity.immersive_aircraft.cargo_airship": "Nákladná vzducholoď",
   "entity.immersive_aircraft.warship": "Vojnová loď",

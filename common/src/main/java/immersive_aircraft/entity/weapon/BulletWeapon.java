@@ -82,6 +82,9 @@ public abstract class BulletWeapon extends Weapon {
     }
 
     protected boolean spentAmmo(Map<String, Integer> ammunition, int amount) {
+        Entity operator = getOperator();
+        boolean creative = operator instanceof Player player && player.isCreative();
+
         if (ammo < amount && getEntity() instanceof InventoryVehicleEntity vehicle) {
             for (int i = 0; i < vehicle.getInventory().getContainerSize(); i++) {
                 ItemStack stack = vehicle.getInventory().getItem(i);
@@ -90,7 +93,7 @@ public abstract class BulletWeapon extends Weapon {
                 if (ammunition.containsKey(key)) {
                     ammoStack = stack.copyWithCount(1);
 
-                    if (!getEntity().isPilotCreative()) {
+                    if (!creative) {
                         ammo += ammunition.get(key);
                         stack.shrink(1);
                     }
@@ -99,12 +102,12 @@ public abstract class BulletWeapon extends Weapon {
             }
         }
 
-        if (getEntity().isPilotCreative()) {
+        if (creative) {
             return true;
         }
 
         if (ammo <= 0) {
-            if (getEntity().getControllingPassenger() instanceof Player player) {
+            if (operator instanceof Player player) {
                 player.sendOverlayMessage(Component.translatable("immersive_aircraft.out_of_ammo"));
             }
             return false;

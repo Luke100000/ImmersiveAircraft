@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Apariencia gratuita (espera)",
   "guide.immersive_aircraft.throttle_up": "Empuñadura",
   "guide.immersive_aircraft.throttle_down": "Empuñadura",
+  "immersive_aircraft.seat_selected": "Comer %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 para cambiar de asiento",
   "entity.immersive_aircraft.airship": "Dirigible",
   "entity.immersive_aircraft.cargo_airship": "Dirigible de carga",
   "entity.immersive_aircraft.warship": "Buque de guerra",

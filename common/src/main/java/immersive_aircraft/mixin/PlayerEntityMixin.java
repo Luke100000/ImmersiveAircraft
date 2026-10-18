@@ -1,7 +1,9 @@
 package immersive_aircraft.mixin;
 
 import immersive_aircraft.entity.InventoryVehicleEntity;
+import immersive_aircraft.entity.PassengerPosture;
 import immersive_aircraft.entity.VehicleEntity;
+import immersive_aircraft.entity.misc.PassengerPositionDescriptor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -10,7 +12,7 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Player.class, priority = 1100)
@@ -26,16 +28,18 @@ public abstract class PlayerEntityMixin extends Entity {
         }
     }
 
-    @Inject(method = "updatePlayerPose()V", at = @At("TAIL"))
-    void updatePostInjection(CallbackInfo ci) {
-        if (getRootVehicle() instanceof VehicleEntity) {
-            this.setPose(Pose.STANDING);
+    @ModifyArg(method = "updatePlayerPose()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setPose(Lnet/minecraft/world/entity/Pose;)V"))
+    private Pose updatePassengerPose(Pose pose) {
+        if (getVehicle() instanceof VehicleEntity vehicle && (pose == Pose.STANDING || pose == Pose.CROUCHING)) {
+            PassengerPositionDescriptor position = vehicle.getPassengerPosition(this);
+            return position != null && position.posture() == PassengerPosture.CROUCHING ? Pose.CROUCHING : Pose.STANDING;
         }
+        return pose;
     }
 
     @Inject(method = "isScoping()Z", at = @At("HEAD"), cancellable = true)
     void isScopingInjection(CallbackInfoReturnable<Boolean> cir) {
-        if (this.getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
+        if (this.getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping(this)) {
             cir.setReturnValue(true);
         }
     }

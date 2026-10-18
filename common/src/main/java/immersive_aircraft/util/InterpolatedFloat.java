@@ -32,6 +32,13 @@ public class InterpolatedFloat {
         this.steps = 1.0f / steps;
     }
 
+    public void reset(float value) {
+        this.value = value;
+        last = value;
+        valueSmooth = value;
+        lastSmooth = value;
+    }
+
     public float get(float tickDelta) {
         return last + tickDelta * (value - last);
     }

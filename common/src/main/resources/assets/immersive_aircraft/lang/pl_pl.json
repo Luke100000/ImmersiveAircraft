@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Darmowy wygląd (przytrzymaj)",
   "guide.immersive_aircraft.throttle_up": "Przepustnica w górę",
   "guide.immersive_aircraft.throttle_down": "Przepustnica w dół",
+  "immersive_aircraft.seat_selected": "Siedzisz %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 do zmiany siedzeń",
   "entity.immersive_aircraft.airship": "Sterowiec",
   "entity.immersive_aircraft.cargo_airship": "Sterowiec towarowy",
   "entity.immersive_aircraft.warship": "Okręt Wojenny",

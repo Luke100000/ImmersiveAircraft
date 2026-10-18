@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Frei aussehen (halten)",
   "guide.immersive_aircraft.throttle_up": "Rottle hoch",
   "guide.immersive_aircraft.throttle_down": "Drosseln",
+  "immersive_aircraft.seat_selected": "Sitz %s",
+  "immersive_aircraft.seat_controls": "Strg + 1–9, um Sitze zu wechseln",
   "entity.immersive_aircraft.airship": "Luftschiff",
   "entity.immersive_aircraft.cargo_airship": "Frachtluftschiff",
   "entity.immersive_aircraft.warship": "Kriegsschiff",

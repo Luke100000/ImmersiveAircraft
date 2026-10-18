@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Thời gian xem xét miễn phí (giữ lại)",
   "guide.immersive_aircraft.throttle_up": "Tăng ga",
   "guide.immersive_aircraft.throttle_down": "Giảm ga",
+  "immersive_aircraft.seat_selected": "Chỗ ngồi %s",
+  "immersive_aircraft.seat_controls": "Nhấn Ctrl + 1–9 để đổi chỗ ngồi",
   "entity.immersive_aircraft.airship": "Tàu bay",
   "entity.immersive_aircraft.cargo_airship": "Tàu bay vận tải",
   "entity.immersive_aircraft.warship": "Tàu chiến",

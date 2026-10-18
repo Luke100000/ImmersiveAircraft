@@ -22,15 +22,18 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 import org.joml.*;
 
-import java.util.List;
-
 public class WarshipEntity extends AirshipEntity {
     private final HeavyCrossbow turret;
 
     public WarshipEntity(EntityType<? extends AircraftEntity> entityType, Level world) {
         super(entityType, world);
 
-        turret = new HeavyCrossbow(this, new ItemStack(Items.HEAVY_CROSSBOW.get()), new WeaponMount(new Matrix4f(), false), -1, 5.0f, 0.0f);
+        turret = new HeavyCrossbow(this, new ItemStack(Items.HEAVY_CROSSBOW.get()), new WeaponMount(new Matrix4f(), false), -1, 5.0f, 0.0f) {
+            @Override
+            public Entity getOperator() {
+                return getTurretGunner();
+            }
+        };
     }
 
     public final InterpolatedFloat turretYaw = new InterpolatedFloat(5);
@@ -84,19 +87,16 @@ public class WarshipEntity extends AirshipEntity {
     }
 
     public Entity getTurretGunner() {
-        List<Entity> passengers = getPassengers();
-        if (passengers.size() >= 2) {
-            return passengers.get(1);
-        } else {
-            return null;
-        }
+        return getPassengerInSeat(1);
     }
 
     public boolean isTurretGunner(Entity entity) {
-        return getTurretGunner() == entity;
+        return entity != null && getTurretGunner() == entity;
     }
 
     public void positionRider(@NotNull Entity passenger, @NotNull MoveFunction positionUpdater) {
+        if (!hasPassenger(passenger)) return;
+
         Matrix4f transform = getVehicleTransform();
 
         if (isTurretGunner(passenger)) {
@@ -181,6 +181,14 @@ public class WarshipEntity extends AirshipEntity {
         } else {
             super.clientFireWeapons(entity);
         }
+    }
+
+    @Override
+    public boolean canFireWeapon(Entity passenger, int slot, int index) {
+        if (isTurretGunner(passenger)) {
+            return slot == -1 && index == -1;
+        }
+        return slot != -1 && super.canFireWeapon(passenger, slot, index);
     }
 
     @Override

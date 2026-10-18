@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "ดูฟรี (ถือไว้)",
   "guide.immersive_aircraft.throttle_up": "เร่งความเร็ว",
   "guide.immersive_aircraft.throttle_down": "ลดความเร็ว",
+  "immersive_aircraft.seat_selected": "ที่นั่ง %s",
+  "immersive_aircraft.seat_controls": "กด Ctrl + 1–9 เพื่อเปลี่ยนที่นั่ง",
   "entity.immersive_aircraft.airship": "เรือเหาะ",
   "entity.immersive_aircraft.cargo_airship": "เรือบรรทุกสินค้าทางอากาศ",
   "entity.immersive_aircraft.warship": "เรือรบ",

@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Vapaa ulkoasu (pitkin)",
   "guide.immersive_aircraft.throttle_up": "Throttle up",
   "guide.immersive_aircraft.throttle_down": "Throttle alas",
+  "immersive_aircraft.seat_selected": "Istuin %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 istuinten vaihtamiseksi",
   "entity.immersive_aircraft.airship": "Ilmalaiva",
   "entity.immersive_aircraft.cargo_airship": "Rahtilentolaiva",
   "entity.immersive_aircraft.warship": "Sota-alus",

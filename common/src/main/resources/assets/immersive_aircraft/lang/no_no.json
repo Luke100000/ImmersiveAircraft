@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Gratis utseende (holder)",
   "guide.immersive_aircraft.throttle_up": "Sett opp",
   "guide.immersive_aircraft.throttle_down": "Nedgang",
+  "immersive_aircraft.seat_selected": "Setelisens %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 for å endre seter",
   "entity.immersive_aircraft.airship": "Luftskip",
   "entity.immersive_aircraft.cargo_airship": "Lasteluftskip",
   "entity.immersive_aircraft.warship": "Krigsskip",

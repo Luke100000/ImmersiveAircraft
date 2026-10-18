@@ -3,7 +3,6 @@ package immersive_aircraft.entity;
 import immersive_aircraft.WeaponRegistry;
 import immersive_aircraft.cobalt.network.NetworkHandler;
 import immersive_aircraft.config.Config;
-import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.inventory.SparseSimpleInventory;
 import immersive_aircraft.entity.inventory.VehicleInventoryDescription;
 import immersive_aircraft.entity.inventory.slots.SlotDescription;
@@ -152,9 +151,9 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     public InteractionResult interact(Player player, InteractionHand hand, Vec3 hitPos) {
         if (getHealth() >= 1.0) {
             if (!player.level().isClientSide() && player.isSecondaryUseActive() && !isPassengerOfSameVehicle(player)) {
-                Entity primaryPassenger = getFirstPassenger();
+                Entity primaryPassenger = getPassengerInSeat(0);
                 if (primaryPassenger != null) {
-                    // Kick out the first passenger
+                    // Kick out the pilot
                     primaryPassenger.stopRiding();
                 } else {
                     // Open inventory instead
@@ -239,13 +238,14 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
         getInventory().tick(this);
 
         // Check and recreate weapon slots
+        int gunnerOffset = 0;
         for (SlotDescription slot : getInventoryDescription().getSlots(VehicleInventoryDescription.WEAPON)) {
             ItemStack weaponItemStack = getSlot(slot.index()).get();
             List<Weapon> weapon = weapons.get(slot.index());
 
             if (weaponItemStack.isEmpty() && weapon != null) {
                 weapons.remove(slot.index());
-            } else if (!weaponItemStack.isEmpty() && (weapon == null || weapon.get(0).getStack() != weaponItemStack)) {
+            } else if (!weaponItemStack.isEmpty() && (weapon == null || weapon.isEmpty() || weapon.get(0).getStack() != weaponItemStack)) {
                 WeaponRegistry.WeaponConstructor constructor = WeaponRegistry.get(weaponItemStack);
                 if (constructor != null) {
                     List<WeaponMount> weaponMounts = getWeaponMounts(slot.index());
@@ -256,15 +256,13 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
                     this.weapons.put(slot.index(), weapons);
                 }
             }
-        }
 
-        // Update gunner offsets
-        // The first weapon is assigned to the last passenger, the second to the second last, etc.
-        // If more weapons than passengers are available, the remaining weapons are assigned to the driver
-        int gunnerOffset = 0;
-        for (List<Weapon> weapons : getWeapons().values()) {
-            for (Weapon weapon : weapons) {
-                weapon.setGunnerOffset(gunnerOffset);
+            // Slot order is shared by server and clients, including slots not synchronized yet.
+            List<Weapon> mountedWeapons = weapons.get(slot.index());
+            if (mountedWeapons != null) {
+                for (Weapon mountedWeapon : mountedWeapons) {
+                    mountedWeapon.setGunnerOffset(gunnerOffset);
+                }
             }
             gunnerOffset++;
         }
@@ -341,10 +339,14 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
     }
 
     public boolean isScoping() {
+        return isScoping(null);
+    }
+
+    public boolean isScoping(@Nullable Entity passenger) {
         Collection<List<Weapon>> values = getWeapons().values();
         for (List<Weapon> weapons : values) {
             for (Weapon weapon : weapons) {
-                if (weapon instanceof Telescope telescope && telescope.isScoping()) {
+                if (weapon instanceof Telescope telescope && telescope.isScoping() && (passenger == null || weapon.getOperator() == passenger)) {
                     return true;
                 }
             }
@@ -414,13 +416,19 @@ public abstract class InventoryVehicleEntity extends DyeableVehicleEntity implem
 
     public void clientFireWeapons(Entity entity) {
         for (List<Weapon> weapons : getWeapons().values()) {
-            int index = 0;
-            for (Weapon weapon : weapons) {
-                if (getGunner(weapon.getGunnerOffset()) == entity) {
-                    weapon.clientFire(index++);
+            for (int index = 0; index < weapons.size(); index++) {
+                Weapon weapon = weapons.get(index);
+                if (weapon.getOperator() == entity) {
+                    weapon.clientFire(index);
                 }
             }
         }
+    }
+
+    public boolean canFireWeapon(Entity passenger, int slot, int index) {
+        List<Weapon> weapons = getWeapons().get(slot);
+        return hasPassenger(passenger) && weapons != null && index >= 0 && index < weapons.size()
+               && weapons.get(index).getOperator() == passenger;
     }
 
     public void fireWeapon(int slot, int index, Vector3f direction) {

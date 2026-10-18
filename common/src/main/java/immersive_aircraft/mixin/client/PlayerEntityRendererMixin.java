@@ -1,10 +1,11 @@
 package immersive_aircraft.mixin.client;
 
+import immersive_aircraft.entity.PassengerPosture;
 import immersive_aircraft.entity.VehicleEntity;
+import immersive_aircraft.entity.misc.PassengerPositionDescriptor;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.world.entity.Avatar;
-import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,8 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityRendererMixin {
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("TAIL"))
     private void setModelPose(Avatar player, AvatarRenderState state, float tickDelta, CallbackInfo ci) {
-        if (player instanceof Entity entity && entity.getRootVehicle() instanceof VehicleEntity) {
-            state.isCrouching = false;
+        if (player.getVehicle() instanceof VehicleEntity vehicle) {
+            PassengerPositionDescriptor position = vehicle.getPassengerPosition(player);
+            state.isCrouching = position != null && position.posture() == PassengerPosture.CROUCHING;
         }
     }
 }

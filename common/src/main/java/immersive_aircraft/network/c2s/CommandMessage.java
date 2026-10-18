@@ -40,12 +40,15 @@ public class CommandMessage extends Message {
     public void receive(Player e) {
         if (e.getRootVehicle() instanceof VehicleEntity vehicle) {
             if (key == Key.DISMOUNT) {
+                boolean wasPilot = vehicle.getControllingPassenger() == e;
                 e.stopRiding();
                 e.setJumping(false);
-                vehicle.chill();
-                vehicle.setDeltaMovement(fx, fy, fz);
+                if (wasPilot) {
+                    vehicle.chill();
+                    vehicle.setDeltaMovement(fx, fy, fz);
+                }
             } else if (key == Key.BOOST) {
-                if (vehicle.canBoost()) {
+                if (vehicle.getControllingPassenger() == e && vehicle.canBoost()) {
                     vehicle.boost();
                 }
             }

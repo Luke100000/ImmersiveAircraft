@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Vista liura (tenir)",
   "guide.immersive_aircraft.throttle_up": "Accelerar",
   "guide.immersive_aircraft.throttle_down": "Redusir la velocitat",
+  "immersive_aircraft.seat_selected": "Seient %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 per cambiar de plaça",
   "entity.immersive_aircraft.airship": "Aeriáu",
   "entity.immersive_aircraft.cargo_airship": "Ballon de carga",
   "entity.immersive_aircraft.warship": "Vaissèl de guèrra",

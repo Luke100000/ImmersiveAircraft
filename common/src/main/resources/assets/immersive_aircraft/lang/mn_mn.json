@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Үнэгүй харах (барьж байх)",
   "guide.immersive_aircraft.throttle_up": "Хурдыг нэм",
   "guide.immersive_aircraft.throttle_down": "Хурдыг бууруулах",
+  "immersive_aircraft.seat_selected": "Суудал %s",
+  "immersive_aircraft.seat_controls": "Суудлыг солихын тулд Ctrl + 1–9",
   "entity.immersive_aircraft.airship": "Агаарын хөлөг",
   "entity.immersive_aircraft.cargo_airship": "Караго агаарын хөлөг",
   "entity.immersive_aircraft.warship": "Дайруп",

@@ -11,7 +11,7 @@
     "client.AbstractClientPlayerMixin", "client.AircraftControlsMixin", "client.CameraAccessorMixin", "client.CameraMixin", "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin", "client.ClientPlayNetworkHandlerMixin",
     "client.EntityHitboxDebugRendererMixin", "client.GameRendererMixin", "client.GuiMixin",
-    "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
+    "client.HumanoidModelMixin", "client.KeyboardHandlerMixin", "client.KeyMappingAccessorMixin", "client.KeyMappingMixin", "client.LivingEntityRendererMixin",
     "client.LivingEntityRenderStateMixin",
     "client.PlayerEntityRendererMixin", "client.ControllableHintsMixin", "client.MidnightControlsHintsMixin"
   ]

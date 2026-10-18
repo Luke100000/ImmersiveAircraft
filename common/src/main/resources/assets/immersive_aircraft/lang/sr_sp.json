@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Слободан поглед (држите)",
   "guide.immersive_aircraft.throttle_up": "Повећајте гас",
   "guide.immersive_aircraft.throttle_down": "Спусти гас",
+  "immersive_aircraft.seat_selected": "Седиште %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 за промену седишта",
   "entity.immersive_aircraft.airship": "Ваздушни брод",
   "entity.immersive_aircraft.cargo_airship": "Теретни транспортни брод",
   "entity.immersive_aircraft.warship": "Ратни брод",
