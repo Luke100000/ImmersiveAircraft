@@ -23,7 +23,7 @@ public class EnginePowerMessage extends Message {
 
     @Override
     public void receive(Player e) {
-        if (e.getRootVehicle() instanceof EngineVehicle entity && entity.hasPassenger(e)) {
+        if (e.getVehicle() instanceof EngineVehicle entity && entity.getControllingPassenger() == e) {
             entity.setEngineTarget(engineTarget);
         }
     }

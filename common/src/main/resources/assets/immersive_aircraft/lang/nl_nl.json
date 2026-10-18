@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Vrije look (capd)",
   "guide.immersive_aircraft.throttle_up": "Gooi omhoog",
   "guide.immersive_aircraft.throttle_down": "Gooi omlaag",
+  "immersive_aircraft.seat_selected": "Zitplaats %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1 - 9 om van plaatsen te veranderen",
   "entity.immersive_aircraft.airship": "Luchtschip",
   "entity.immersive_aircraft.cargo_airship": "Vracht Luchtschip",
   "entity.immersive_aircraft.warship": "Oorlogsschip",

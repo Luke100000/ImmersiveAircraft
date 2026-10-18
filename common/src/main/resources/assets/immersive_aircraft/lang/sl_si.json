@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Prosti pogled (zadržanje)",
   "guide.immersive_aircraft.throttle_up": "Povečaj plin",
   "guide.immersive_aircraft.throttle_down": "Zmanjšaj plin",
+  "immersive_aircraft.seat_selected": "Sedež %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 za zamenjavo sedežev",
   "entity.immersive_aircraft.airship": "Zračna ladja",
   "entity.immersive_aircraft.cargo_airship": "Tovorna zračna ladja",
   "entity.immersive_aircraft.warship": "Vojna ladja",

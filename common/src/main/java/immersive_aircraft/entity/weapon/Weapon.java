@@ -1,9 +1,11 @@
 package immersive_aircraft.entity.weapon;
 
-import org.joml.Vector3f;
 import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.entity.misc.WeaponMount;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 public abstract class Weapon {
     private final VehicleEntity entity;
@@ -41,6 +43,11 @@ public abstract class Weapon {
 
     public void setGunnerOffset(int gunnerOffset) {
         this.gunnerOffset = gunnerOffset;
+    }
+
+    @Nullable
+    public Entity getOperator() {
+        return entity.getGunner(gunnerOffset);
     }
 
     public abstract void tick();

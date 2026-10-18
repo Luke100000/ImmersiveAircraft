@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,24 +20,33 @@ public class ClientPlayNetworkHandlerMixin {
     @Shadow
     private ClientLevel level;
 
-    // Makes sure the dismount text reflects the actual keybinding
+    @Unique
+    private boolean immersiveAircraft$wasPassenger;
+
+    @Inject(method = "handleSetEntityPassengersPacket", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;ejectPassengers()V"))
+    private void immersiveAircraft$rememberPassenger(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
+        Entity vehicle = level.getEntity(packet.getVehicle());
+        Minecraft client = Minecraft.getInstance();
+        immersiveAircraft$wasPassenger = client.player != null && vehicle != null && vehicle.hasIndirectPassenger(client.player);
+    }
+
     @Inject(method = "handleSetEntityPassengersPacket(Lnet/minecraft/network/protocol/game/ClientboundSetPassengersPacket;)V", at = @At("TAIL"))
     public void onEntityPassengersSetInject(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
-        Entity entity = this.level.getEntity(packet.getVehicle());
-        if (entity == null) {
+        Minecraft client = Minecraft.getInstance();
+        if (client.player == null || immersiveAircraft$wasPassenger
+                || !(level.getEntity(packet.getVehicle()) instanceof VehicleEntity vehicle)
+                || !vehicle.hasIndirectPassenger(client.player)) {
             return;
         }
-        Minecraft minecraft = Minecraft.getInstance();
-        boolean bl = entity.hasIndirectPassenger(minecraft.player);
-        for (int i : packet.getPassengers()) {
-            Entity entity2 = this.level.getEntity(i);
-            if (entity2 != null && (entity2 == minecraft.player || bl) && entity instanceof VehicleEntity) {
-                assert minecraft.player != null;
-                minecraft.player.yRotO = entity.getYRot();
-                minecraft.player.setYRot(entity.getYRot());
-                minecraft.player.setYHeadRot(entity.getYRot());
-                minecraft.gui.setOverlayMessage(Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage()), false);
-            }
+
+        client.player.yRotO = vehicle.getYRot();
+        client.player.setYRot(vehicle.getYRot());
+        client.player.setYHeadRot(vehicle.getYRot());
+
+        Component message = Component.translatable("mount.onboard", KeyBindings.dismount.getTranslatedKeyMessage());
+        if (vehicle.getPassengerSpace() > 1) {
+            message = message.copy().append(" - ").append(Component.translatable("immersive_aircraft.seat_controls"));
         }
+        client.gui.setOverlayMessage(message, false);
     }
 }

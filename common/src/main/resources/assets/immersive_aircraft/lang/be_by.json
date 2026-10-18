@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Вольны погляд (трымаць)",
   "guide.immersive_aircraft.throttle_up": "Павялічце газ",
   "guide.immersive_aircraft.throttle_down": "Знізіць хуткасць",
+  "immersive_aircraft.seat_selected": "Месца %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 для змены месцаў",
   "entity.immersive_aircraft.airship": "Аэрастан",
   "entity.immersive_aircraft.cargo_airship": "Грузавы паветраны судно",
   "entity.immersive_aircraft.warship": "Карабель",

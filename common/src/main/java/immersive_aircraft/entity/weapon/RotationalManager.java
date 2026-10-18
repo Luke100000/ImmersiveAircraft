@@ -52,7 +52,7 @@ public class RotationalManager {
         lastRoll = roll;
     }
 
-    public Matrix3f getCamera(VehicleEntity vehicle, Entity pilot) {
+    public Matrix3f getCamera(VehicleEntity vehicle, Entity operator) {
         Matrix3f camera = new Matrix3f();
 
         if (vehicle.adaptPlayerRotation && Main.firstPersonGetter.isFirstPerson()) {
@@ -60,8 +60,8 @@ public class RotationalManager {
             camera.rotate(Axis.XP.rotationDegrees(vehicle.getXRot()));
         }
 
-        camera.rotate(Axis.XP.rotationDegrees(pilot.getXRot()));
-        camera.rotate(Axis.YP.rotationDegrees(pilot.getYRot() + 180.0f));
+        camera.rotate(Axis.XP.rotationDegrees(operator.getXRot()));
+        camera.rotate(Axis.YP.rotationDegrees(operator.getYRot() + 180.0f));
 
         return camera;
     }
@@ -92,10 +92,10 @@ public class RotationalManager {
     }
 
     public Vector3f screenToGlobal(VehicleEntity vehicle, Vector3f normal) {
-        Entity pilot = vehicle.getGunner(weapon.getGunnerOffset());
+        Entity operator = weapon.getOperator();
 
-        if (pilot != null) {
-            Matrix3f camera = getCamera(vehicle, pilot);
+        if (operator != null) {
+            Matrix3f camera = getCamera(vehicle, operator);
             camera.invert();
             normal.mul(camera);
         }

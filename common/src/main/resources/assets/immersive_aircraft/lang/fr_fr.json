@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Apparence libre (maintenue)",
   "guide.immersive_aircraft.throttle_up": "Gaz vers le haut",
   "guide.immersive_aircraft.throttle_down": "Gaz vers le bas",
+  "immersive_aircraft.seat_selected": "Siège %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 pour changer de siège",
   "entity.immersive_aircraft.airship": "Dirigeable",
   "entity.immersive_aircraft.cargo_airship": "Dirigeable cargo",
   "entity.immersive_aircraft.warship": "Dirigeable de guerre",

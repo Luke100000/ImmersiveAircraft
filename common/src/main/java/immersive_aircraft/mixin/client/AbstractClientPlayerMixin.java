@@ -19,7 +19,7 @@ public abstract class AbstractClientPlayerMixin extends Player {
 
     @Inject(method = "getFieldOfViewModifier(ZF)F", at = @At("HEAD"), cancellable = true)
     public void ia$getFieldOfViewModifier(CallbackInfoReturnable<Float> cir) {
-        if (getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping()) {
+        if (getRootVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping(this)) {
             cir.setReturnValue(0.05f);
         }
     }

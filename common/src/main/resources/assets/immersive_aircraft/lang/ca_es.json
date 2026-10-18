@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Mirada lliure (agafar)",
   "guide.immersive_aircraft.throttle_up": "Accelera",
   "guide.immersive_aircraft.throttle_down": "Redueix la marxa",
+  "immersive_aircraft.seat_selected": "Seu %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 per canviar seients",
   "entity.immersive_aircraft.airship": "Aeri",
   "entity.immersive_aircraft.cargo_airship": "Aeronau de càrrega",
   "entity.immersive_aircraft.warship": "Naval",

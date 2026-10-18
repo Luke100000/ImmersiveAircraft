@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Ազատ դիտում (պահել)",
   "guide.immersive_aircraft.throttle_up": "Արագացրու",
   "guide.immersive_aircraft.throttle_down": "Փակեք գազը",
+  "immersive_aircraft.seat_selected": "Նստատեղ %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9՝ նստատեղերը փոխելու համար",
   "entity.immersive_aircraft.airship": "Աերոստատի",
   "entity.immersive_aircraft.cargo_airship": "Քարագոծեր օդանավ",
   "entity.immersive_aircraft.warship": "Հրաձիգ",

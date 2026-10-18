@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "フリールック（ホールド）",
   "guide.immersive_aircraft.throttle_up": "スロットルアップ",
   "guide.immersive_aircraft.throttle_down": "スロットルダウン",
+  "immersive_aircraft.seat_selected": "座席 %s",
+  "immersive_aircraft.seat_controls": "シートを変更するにはCtrl + 1–9を押します。",
   "entity.immersive_aircraft.airship": "飛行船",
   "entity.immersive_aircraft.cargo_airship": "貨物飛行船",
   "entity.immersive_aircraft.warship": "飛行艦",

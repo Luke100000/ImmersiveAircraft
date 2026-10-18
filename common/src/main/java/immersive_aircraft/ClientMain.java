@@ -84,18 +84,18 @@ public class ClientMain {
             }
         }
 
-        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
-            // Switch to first person when scoping
-            if (vehicle.isScoping() != isZooming) {
-                isZooming = vehicle.isScoping();
-                if (isZooming) {
-                    perspectiveBeforeZoom = client.options.getCameraType();
-                    client.options.setCameraType(CameraType.FIRST_PERSON);
-                } else {
-                    client.options.setCameraType(perspectiveBeforeZoom);
-                }
+        boolean scoping = client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle && vehicle.isScoping(client.player);
+        if (scoping != isZooming) {
+            isZooming = scoping;
+            if (isZooming) {
+                perspectiveBeforeZoom = client.options.getCameraType();
+                client.options.setCameraType(CameraType.FIRST_PERSON);
+            } else {
+                client.options.setCameraType(perspectiveBeforeZoom);
             }
+        }
 
+        if (client.player != null && client.player.getVehicle() instanceof InventoryVehicleEntity vehicle) {
             // Fire weapons when in a vehicle
             activeTicks++;
 

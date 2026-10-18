@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Aspectul liber (gol)",
   "guide.immersive_aircraft.throttle_up": "Ridicare în sus",
   "guide.immersive_aircraft.throttle_down": "Ridicare în jos",
+  "immersive_aircraft.seat_selected": "Locul %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1-9 pentru schimbarea scaunelor",
   "entity.immersive_aircraft.airship": "Aeronava",
   "entity.immersive_aircraft.cargo_airship": "Nava de transport aerian de marfă",
   "entity.immersive_aircraft.warship": "Navă de război",

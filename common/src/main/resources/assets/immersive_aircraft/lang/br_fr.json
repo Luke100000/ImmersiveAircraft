@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Sell dieub (dalc'h)",
   "guide.immersive_aircraft.throttle_up": "Gwellaat an efedusted",
   "guide.immersive_aircraft.throttle_down": "Gorrekaat",
+  "immersive_aircraft.seat_selected": "Plaz %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 evit cheñch sez",
   "entity.immersive_aircraft.airship": "Aeron",
   "entity.immersive_aircraft.cargo_airship": "Aerochaj cargo",
   "entity.immersive_aircraft.warship": "Kersker",

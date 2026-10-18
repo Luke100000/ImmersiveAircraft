@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Тегін қарау (ұстау)",
   "guide.immersive_aircraft.throttle_up": "Газды барынша басыңыз",
   "guide.immersive_aircraft.throttle_down": "Жылдамдықты төмендетіңіз",
+  "immersive_aircraft.seat_selected": "Орын %s",
+  "immersive_aircraft.seat_controls": "Орын ауыстыру үшін Ctrl + 1–9",
   "entity.immersive_aircraft.airship": "Аэрошар",
   "entity.immersive_aircraft.cargo_airship": "Жүк дирижаблі",
   "entity.immersive_aircraft.warship": "Соғыс кемесі",

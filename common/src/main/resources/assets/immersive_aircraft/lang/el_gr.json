@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Δωρεάν εμφάνιση (κρατά)",
   "guide.immersive_aircraft.throttle_up": "Διάταξη φιάλης",
   "guide.immersive_aircraft.throttle_down": "Σβήσιμο φιάλης",
+  "immersive_aircraft.seat_selected": "Θέση %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1-9 για την αλλαγή καθισμάτων",
   "entity.immersive_aircraft.airship": "Αερόπλοιο",
   "entity.immersive_aircraft.cargo_airship": "Αερόπλοιο με φορτίο",
   "entity.immersive_aircraft.warship": "Πολεμικό πλοίο",

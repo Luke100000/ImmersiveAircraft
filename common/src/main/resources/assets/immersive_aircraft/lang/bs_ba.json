@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Besplatan pogled (držanje)",
   "guide.immersive_aircraft.throttle_up": "Pojačaj gas",
   "guide.immersive_aircraft.throttle_down": "Smanji gas",
+  "immersive_aircraft.seat_selected": "Sjedalo %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 za promjenu sjedišta",
   "entity.immersive_aircraft.airship": "Zračni brod",
   "entity.immersive_aircraft.cargo_airship": "Teretni zrakoplov",
   "entity.immersive_aircraft.warship": "Ratni brod",

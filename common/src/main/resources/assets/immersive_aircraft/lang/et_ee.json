@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Vaba vaatlus (hoidmine)",
   "guide.immersive_aircraft.throttle_up": "Gaasi juurde",
   "guide.immersive_aircraft.throttle_down": "Vähenda gaasi",
+  "immersive_aircraft.seat_selected": "Iste %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 kohtade vahetamiseks",
   "entity.immersive_aircraft.airship": "Õhulaev",
   "entity.immersive_aircraft.cargo_airship": "Kaubalennuk",
   "entity.immersive_aircraft.warship": "Sõjalaev",

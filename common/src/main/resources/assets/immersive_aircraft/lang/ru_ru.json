@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Свободный внешний вид (удерживаемый)",
   "guide.immersive_aircraft.throttle_up": "Ускорить вверх",
   "guide.immersive_aircraft.throttle_down": "Поворот вниз",
+  "immersive_aircraft.seat_selected": "Сиденье %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9, чтобы изменить места",
   "entity.immersive_aircraft.airship": "Дирижабль",
   "entity.immersive_aircraft.cargo_airship": "Грузовой дирижабль",
   "entity.immersive_aircraft.warship": "Военный дирижабль",

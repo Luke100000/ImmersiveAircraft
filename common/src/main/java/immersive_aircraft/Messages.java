@@ -15,7 +15,9 @@ public class Messages {
         NetworkHandler.registerServerbound("collision", CollisionMessage.class, CollisionMessage::new);
         NetworkHandler.registerServerbound("command", CommandMessage.class, CommandMessage::new);
         NetworkHandler.registerServerbound("engine_power", EnginePowerMessage.class, EnginePowerMessage::new);
+        NetworkHandler.registerServerbound("pilot_input", PilotInputMessage.class, PilotInputMessage::new);
         NetworkHandler.registerServerbound("fire", FireMessage.class, FireMessage::new);
+        NetworkHandler.registerServerbound("change_seat", SeatChangeMessage.class, SeatChangeMessage::new);
         NetworkHandler.registerServerbound("inventory", RequestInventory.class, RequestInventory::new);
     }
 }

@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "უფასო შეხედვა (დაჭერა)",
   "guide.immersive_aircraft.throttle_up": "გაზის მიცემა",
   "guide.immersive_aircraft.throttle_down": "დაამუხრუჭე",
+  "immersive_aircraft.seat_selected": "სავარძელი %s",
+  "immersive_aircraft.seat_controls": "Ctrl + 1–9 ადგილების შესაცვლელად",
   "entity.immersive_aircraft.airship": "ჰაერიანი ხომალდი",
   "entity.immersive_aircraft.cargo_airship": "ტვირთის საჰაერო ხომალდი",
   "entity.immersive_aircraft.warship": "მომხდარი გემი",

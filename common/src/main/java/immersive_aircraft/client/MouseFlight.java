@@ -38,6 +38,9 @@ public final class MouseFlight {
                                  && vehicle.adaptPlayerRotation && vehicle.getControllingPassenger() == player ? vehicle : null;
 
         if (current != aircraft) {
+            if (enabled && player != null && player.getRootVehicle() == aircraft) {
+                setEnabled(player, false);
+            }
             enabled = false;
             freeLooking = false;
             aircraft = current;
@@ -49,22 +52,7 @@ public final class MouseFlight {
                 continue;
             }
 
-            enabled = !enabled;
-            freeLooking = false;
-
-            Camera camera = client.gameRenderer.getMainCamera();
-            float tickDelta = camera.getCameraEntityPartialTicks(client.getDeltaTracker());
-            float yawOffset = aircraft.getViewYRot(tickDelta) - aircraft.getYRot();
-            float pitchOffset = client.options.getCameraType().isFirstPerson() ? aircraft.getViewXRot(tickDelta) : 0;
-            float viewOffset = getCameraPitchOffset(camera, tickDelta);
-            if (client.options.getCameraType().isMirrored()) {
-                viewOffset = -viewOffset;
-            }
-            float sign = enabled ? 1.0f : -1.0f;
-            setView(player, player.getYRot() + sign * yawOffset, player.getXRot() + sign * (pitchOffset - viewOffset));
-
-            targetYaw = player.getYRot();
-            targetPitch = player.getXRot();
+            setEnabled(player, !enabled);
 
             player.sendOverlayMessage(Component.translatable(enabled ? "immersive_aircraft.mouse_control_enabled" : "immersive_aircraft.mouse_control_disabled", KeyBindings.freeLook.getTranslatedKeyMessage()));
         }
@@ -83,6 +71,26 @@ public final class MouseFlight {
             targetYaw = player.getYRot();
             targetPitch = player.getXRot();
         }
+    }
+
+    private static void setEnabled(LocalPlayer player, boolean value) {
+        Minecraft client = Minecraft.getInstance();
+        enabled = value;
+        freeLooking = false;
+
+        Camera camera = client.gameRenderer.getMainCamera();
+        float tickDelta = camera.getCameraEntityPartialTicks(client.getDeltaTracker());
+        float yawOffset = aircraft.getViewYRot(tickDelta) - aircraft.getYRot();
+        float pitchOffset = client.options.getCameraType().isFirstPerson() ? aircraft.getViewXRot(tickDelta) : 0;
+        float viewOffset = getCameraPitchOffset(camera, tickDelta);
+        if (client.options.getCameraType().isMirrored()) {
+            viewOffset = -viewOffset;
+        }
+        float sign = enabled ? 1.0f : -1.0f;
+        setView(player, player.getYRot() + sign * yawOffset, player.getXRot() + sign * (pitchOffset - viewOffset));
+
+        targetYaw = player.getYRot();
+        targetPitch = player.getXRot();
     }
 
     private static void setView(LocalPlayer player, float yaw, float pitch) {

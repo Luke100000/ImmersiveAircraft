@@ -28,6 +28,8 @@
   "key.immersive_aircraft.free_look": "Бушлай карау (тоткарлау)",
   "guide.immersive_aircraft.throttle_up": "Акчалны арттырыгыз",
   "guide.immersive_aircraft.throttle_down": "Газны киметегез",
+  "immersive_aircraft.seat_selected": "Урын %s",
+  "immersive_aircraft.seat_controls": "Урыннарны алыштыру өчен Ctrl + 1–9",
   "entity.immersive_aircraft.airship": "Аэростат",
   "entity.immersive_aircraft.cargo_airship": "Йөк зоеҗо",
   "entity.immersive_aircraft.warship": "Корабль",
