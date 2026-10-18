@@ -5,6 +5,7 @@ import immersive_aircraft.entity.VehicleEntity;
 import immersive_aircraft.network.c2s.SeatChangeMessage;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -18,9 +19,10 @@ public class KeyboardHandlerMixin {
     private int immersiveAircraft$seatKeys;
 
     @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true)
-    private void immersiveAircraft$selectSeat(long window, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
+    private void immersiveAircraft$selectSeat(long window, int action, KeyEvent event, CallbackInfo ci) {
         Minecraft client = Minecraft.getInstance();
-        if (window != client.getWindow().getWindow() || key < GLFW.GLFW_KEY_1 || key > GLFW.GLFW_KEY_9) return;
+        int key = event.key();
+        if (window != client.getWindow().handle() || key < GLFW.GLFW_KEY_1 || key > GLFW.GLFW_KEY_9) return;
 
         int seat = key - GLFW.GLFW_KEY_1;
         int mask = 1 << seat;
@@ -36,7 +38,7 @@ public class KeyboardHandlerMixin {
         }
 
         immersiveAircraft$seatKeys &= ~mask;
-        if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0 || !client.isWindowActive() || client.screen != null
+        if ((event.modifiers() & GLFW.GLFW_MOD_CONTROL) == 0 || !client.isWindowActive() || client.screen != null
             || client.player == null || !(client.player.getVehicle() instanceof VehicleEntity vehicle)) return;
 
         immersiveAircraft$seatKeys |= mask;

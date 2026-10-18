@@ -3,7 +3,7 @@ package immersive_aircraft.entity.misc;
 import com.google.gson.JsonObject;
 import immersive_aircraft.entity.PassengerPosture;
 import immersive_aircraft.util.Utils;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.Locale;
 
@@ -34,7 +34,7 @@ public record PassengerPositionDescriptor(
                 cameraOffsetX, cameraOffsetY, cameraOffsetZ);
     }
 
-    public static PassengerPositionDescriptor decode(RegistryFriendlyByteBuf buffer) {
+    public static PassengerPositionDescriptor decode(FriendlyByteBuf buffer) {
         float x = buffer.readFloat();
         float y = buffer.readFloat();
         float z = buffer.readFloat();
@@ -51,7 +51,7 @@ public record PassengerPositionDescriptor(
         return new PassengerPositionDescriptor(x, y, z, yaw, pitch, roll, posture, cameraOffsetX, cameraOffsetY, cameraOffsetZ);
     }
 
-    public void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeFloat(x);
         buffer.writeFloat(y);
         buffer.writeFloat(z);

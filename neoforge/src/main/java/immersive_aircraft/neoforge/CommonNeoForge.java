@@ -1,6 +1,7 @@
 package immersive_aircraft.neoforge;
 
 import immersive_aircraft.*;
+import immersive_aircraft.entity.misc.VehicleDataSerializers;
 import immersive_aircraft.neoforge.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.neoforge.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.neoforge.cobalt.registration.RegistrationImpl;
@@ -12,6 +13,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -43,6 +45,8 @@ public final class CommonNeoForge {
 
     private static void onRegister(RegisterEvent event) {
         event.register(Registries.CUSTOM_STAT, helper -> AircraftStats.bootstrap());
+        event.register(NeoForgeRegistries.Keys.ENTITY_DATA_SERIALIZERS,
+                helper -> helper.register(Main.locate("seat_assignments"), VehicleDataSerializers.SEAT_ASSIGNMENTS));
     }
 
     public static final DeferredRegister<CreativeModeTab> DEF_REG = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Main.MOD_ID);

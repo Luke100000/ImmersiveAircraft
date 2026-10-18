@@ -2,14 +2,16 @@ package immersive_aircraft.fabric;
 
 import immersive_aircraft.*;
 import immersive_aircraft.cobalt.network.NetworkHandler;
+import immersive_aircraft.entity.misc.VehicleDataSerializers;
 import immersive_aircraft.fabric.cobalt.network.NetworkHandlerImpl;
 import immersive_aircraft.fabric.cobalt.registration.CobaltFuelRegistryImpl;
 import immersive_aircraft.fabric.cobalt.registration.RegistrationImpl;
 import immersive_aircraft.network.s2c.AircraftDataMessage;
 import immersive_aircraft.network.s2c.VehicleUpgradesMessage;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityDataRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,6 +29,8 @@ public final class CommonFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        FabricEntityDataRegistry.register(Main.locate("seat_assignments"), VehicleDataSerializers.SEAT_ASSIGNMENTS);
+
         AircraftStats.bootstrap();
         Items.bootstrap();
         Sounds.bootstrap();

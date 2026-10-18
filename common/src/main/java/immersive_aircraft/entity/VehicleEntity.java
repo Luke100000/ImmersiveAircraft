@@ -15,6 +15,7 @@ import immersive_aircraft.data.VehicleDataLoader;
 import immersive_aircraft.entity.misc.BoundingBoxDescriptor;
 import immersive_aircraft.entity.misc.PassengerPositionDescriptor;
 import immersive_aircraft.entity.misc.VehicleData;
+import immersive_aircraft.entity.misc.VehicleDataSerializers;
 import immersive_aircraft.network.c2s.CollisionMessage;
 import immersive_aircraft.network.c2s.CommandMessage;
 import immersive_aircraft.network.c2s.PilotInputMessage;
@@ -28,7 +29,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -57,6 +57,8 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -75,7 +77,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     public final Identifier identifier;
 
     private static final EntityDataAccessor<Float> DATA_HEALTH = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<CompoundTag> SEAT_ASSIGNMENTS = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.COMPOUND_TAG);
+    private static final EntityDataAccessor<CompoundTag> SEAT_ASSIGNMENTS = SynchedEntityData.defineId(VehicleEntity.class, VehicleDataSerializers.SEAT_ASSIGNMENTS);
     private static final EntityDataAccessor<Float> PILOT_INPUT_X = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> PILOT_INPUT_Y = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> PILOT_INPUT_Z = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.FLOAT);
@@ -184,9 +186,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
         CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS);
         String key = passenger.getStringUUID();
-        if (!seats.contains(key, Tag.TAG_INT)) return -1;
-
-        int seat = seats.getInt(key);
+        int seat = seats.getIntOr(key, -1);
         return seat >= 0 && seat < getPassengerSpace() ? seat : -1;
     }
 
@@ -203,7 +203,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     }
 
     public boolean changeSeat(Player player, int targetSeat) {
-        if (level().isClientSide || player.getVehicle() != this || targetSeat < 0 || targetSeat >= getPassengerSpace()) {
+        if (level().isClientSide() || player.getVehicle() != this || targetSeat < 0 || targetSeat >= getPassengerSpace()) {
             return false;
         }
 
@@ -220,9 +220,9 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
         validatePilotInput();
 
-        player.displayClientMessage(Component.translatable("immersive_aircraft.seat_selected", targetSeat + 1), true);
+        player.sendOverlayMessage(Component.translatable("immersive_aircraft.seat_selected", targetSeat + 1));
         if (occupant instanceof Player otherPlayer) {
-            otherPlayer.displayClientMessage(Component.translatable("immersive_aircraft.seat_selected", currentSeat + 1), true);
+            otherPlayer.sendOverlayMessage(Component.translatable("immersive_aircraft.seat_selected", currentSeat + 1));
         }
         return true;
     }
@@ -230,12 +230,12 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     @Override
     protected void addPassenger(@NotNull Entity passenger) {
         super.addPassenger(passenger);
-        if (level().isClientSide || getSeatIndex(passenger) >= 0) return;
+        if (level().isClientSide() || getSeatIndex(passenger) >= 0) return;
 
         CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
         Set<Integer> occupiedSeats = new HashSet<>();
-        for (String key : seats.getAllKeys()) {
-            occupiedSeats.add(seats.getInt(key));
+        for (String key : seats.keySet()) {
+            occupiedSeats.add(seats.getIntOr(key, -1));
         }
 
         int seat = findFreeSeat(passenger, occupiedSeats);
@@ -256,7 +256,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
             lastSentPilotInput = null;
         }
 
-        if (level().isClientSide) return;
+        if (level().isClientSide()) return;
 
         CompoundTag seats = entityData.get(SEAT_ASSIGNMENTS).copy();
         seats.remove(passenger.getStringUUID());
@@ -276,7 +276,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
         for (Entity passenger : getPassengers()) {
             String key = passenger.getStringUUID();
-            if (seats.contains(key, Tag.TAG_INT)) continue;
+            if (seats.getInt(key).isPresent()) continue;
 
             int seat = findFreeSeat(passenger, occupiedSeats);
             if (seat >= 0) {
@@ -545,21 +545,22 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
 
     @Override
     public void tick() {
-        if (!level().isClientSide && (seatsNeedReconciliation || previousSeatCapacity != getPassengerSpace())) {
+        if (!level().isClientSide() && (seatsNeedReconciliation || previousSeatCapacity != getPassengerSpace())) {
             reconcilePassengerSeats();
             previousSeatCapacity = getPassengerSpace();
             seatsNeedReconciliation = false;
         }
 
         Entity pilot = getControllingPassenger();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             validatePilotInput();
         }
 
         if (pilot != previousPilot) {
-            if (pilot instanceof Player player && player.isLocalPlayer() && interpolationSteps > 0) {
-                setPos(x, y, z);
-                setRot((float) serverYRot, (float) serverXRot);
+            if (pilot instanceof Player player && player.isLocalPlayer() && interpolation.hasActiveInterpolation()) {
+                setPos(interpolation.position());
+                setRot(interpolation.yRot(), interpolation.xRot());
+                interpolation.cancel();
             }
             setInputs(0, 0, 0);
             pressingInterpolatedX.reset(0);
@@ -866,19 +867,17 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     }
 
     @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        tag.putFloat("VehicleHealth", getHealth());
-        tag.put("SeatAssignments", entityData.get(SEAT_ASSIGNMENTS).copy());
+    protected void addAdditionalSaveData(@NotNull ValueOutput output) {
+        output.putFloat("VehicleHealth", getHealth());
+        output.store("SeatAssignments", CompoundTag.CODEC, entityData.get(SEAT_ASSIGNMENTS));
     }
 
     @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        entityData.set(SEAT_ASSIGNMENTS, tag.getCompound("SeatAssignments").copy());
+    protected void readAdditionalSaveData(@NotNull ValueInput input) {
+        setHealth(input.getFloatOr("VehicleHealth", 1.0f));
+        entityData.set(SEAT_ASSIGNMENTS, input.read("SeatAssignments", CompoundTag.CODEC).orElseGet(CompoundTag::new));
         // Saved riders are attached after the vehicle's own NBT has been read.
         seatsNeedReconciliation = true;
-        if (tag.contains("VehicleHealth")) {
-            setHealth(tag.getFloat("VehicleHealth"));
-        }
     }
 
     protected void addItemTag(ItemStack stack) {
@@ -1030,7 +1029,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
      * Server reads validate pilot ownership and expiry even before this vehicle's tick runs.
      */
     public PilotInput getPilotInput() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (getControllingPassenger() instanceof Player player && player.isLocalPlayer()) {
                 return localPilotInput;
             }
@@ -1043,7 +1042,7 @@ public class VehicleEntity extends net.minecraft.world.entity.vehicle.VehicleEnt
     }
 
     public void receivePilotInput(ServerPlayer player, float x, float y, float z) {
-        if (level().isClientSide || player.getVehicle() != this || getControllingPassenger() != player
+        if (level().isClientSide() || player.getVehicle() != this || getControllingPassenger() != player
             || player.isRemoved() || !player.isAlive() || player.hasDisconnected()
             || !Float.isFinite(x) || !Float.isFinite(y) || !Float.isFinite(z)) {
             return;
